@@ -25,4 +25,7 @@ line-length = 95
 target-version = ['py39', 'py310', 'py311', 'py312', 'py313']
 
 [project.entry-points."cmake.root"]
-"uproot-custom" = "uproot_custom/share"
+uproot-custom = "uproot_custom.share.cmake"
+
+[project.entry-points.pkg_config]
+uproot-custom = "uproot_custom.share.pkgconfig"

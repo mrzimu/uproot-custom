@@ -18,19 +18,3 @@ set(PYBIND11_NEWPYTHON ON)
 find_package(pybind11 REQUIRED)
 
 add_subdirectory(src/cpp)
-
-write_basic_package_version_file(
-    uproot-customConfigVersion.cmake
-    VERSION ${PROJECT_VERSION}
-    COMPATIBILITY SameMajorVersion
-)
-configure_package_config_file(
-    cmake/uproot-customConfig.cmake.in
-    uproot-customConfig.cmake
-    INSTALL_DESTINATION ${SKBUILD_PROJECT_NAME}/cmake/uproot-custom
-)
-install(FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/uproot-customConfigVersion.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/uproot-customConfig.cmake
-    DESTINATION ${SKBUILD_PROJECT_NAME}/cmake/uproot-custom
-)
