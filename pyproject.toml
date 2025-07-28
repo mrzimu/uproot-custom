@@ -23,3 +23,6 @@ write_to = "src/uproot_custom/_version.py"
 exclude = "/(build|dist|env|.git|.tox|.eggs|.venv)/"
 line-length = 95
 target-version = ['py39', 'py310', 'py311', 'py312', 'py313']
+
+[project.entry-points."cmake.root"]
+"uproot-custom" = "uproot_custom/share"
