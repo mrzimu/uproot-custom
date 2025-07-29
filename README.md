@@ -48,6 +48,23 @@ readers obtain the results from their sub-readers recursively, then the top read
 
 Since embedding arrays together into `awkward` array in C++ is not straightforward, we left this task to Python. After the C++ reader returns the result, we can reconstruct the data into `awkward` array according to the information tree.
 
+## Predefined readers
+
+`uproot-custom` provides some predefined readers for common ROOT classes:
+
+| Reader             | Description |
+|--------------------|-------------|
+| BasicTypeReader<T> | Reads basic types like `int`, `float`, `double`, etc. |
+| TObjectReader      | Skip `TObject` header when reading classes that inherit from `TObject`. |
+| TStringReader      | Reads `TString` |
+| STLSeqReader       | Reads `std::vector`, `std::array`, etc. |
+| STLMapReader       | Reads `std::map`, `std::unordered_map`, etc. |
+| STLStringReader    | Reads `std::string` |
+| TArrayReader<T>    | Reads `TArray` types like `TArrayI`, `TArrayF`, `TArrayD`, etc. |
+| ObjectReader       | Reads custom classes that inherit from `TObject`. |
+| CArrayReader       | Reads C-style arrays like `int[]` |
+| EmptyReader        | A reader that does nothing. Some branches may not have any data, and the information of the corresponding class will not be stored in the ROOT file. In this case, `EmptyReader` is used to skip the branch. |
+
 ## Implement your own `Reader`
 
 ### Full example

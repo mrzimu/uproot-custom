@@ -250,6 +250,9 @@ class BasicTypeReader(BaseReader):
     def reconstruct_array(cls, raw_data, tree_config):
         if tree_config["reader"] is not cls:
             return None
+
+        if tree_config["ctype"] == "bool":
+            raw_data = raw_data.astype(np.bool_)
         return ak.contents.NumpyArray(raw_data)
 
 
