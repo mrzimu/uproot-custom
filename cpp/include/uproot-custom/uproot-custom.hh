@@ -37,6 +37,22 @@ namespace uproot {
     const int32_t kMapOffset = 2; // first 2 map entries are taken by null obj and self obj
 
     class BinaryBuffer {
+
+        enum EStatusBits {
+            kCanDelete = 1ULL << 0, ///< if object in a list can be deleted
+            // 2 is taken by TDataMember
+            kMustCleanup  = 1ULL << 3, ///< if object destructor must call RecursiveRemove()
+            kIsReferenced = 1ULL << 4, ///< if object is referenced by a TRef or TRefArray
+            kHasUUID      = 1ULL << 5, ///< if object has a TUUID (its fUniqueID=UUIDNumber)
+            kCannotPick   = 1ULL << 6, ///< if object in a pad cannot be picked
+            // 7 is taken by TAxis and TClass.
+            kNoContextMenu = 1ULL << 8, ///< if object does not want context menu
+            // 9, 10 are taken by TH1, TF1, TAxis and a few others
+            // 12 is taken by TAxis
+            kInvalidObject = 1ULL
+                             << 13 ///< if object ctor succeeded but object should not be used
+        };
+
       public:
         BinaryBuffer( py::array_t<uint8_t> data, py::array_t<uint32_t> offsets )
             : m_data( static_cast<uint8_t*>( data.request().ptr ) )
@@ -80,6 +96,32 @@ namespace uproot {
             auto fTag = read<uint32_t>();
             if ( fTag == kNewClassTag ) return read_null_terminated_string();
             else return std::string();
+        }
+
+        template <typename T>
+        void skip() {
+            m_cursor += sizeof( T );
+        }
+
+        void skip_fNBytes() { read_fNBytes(); } // need to check the mask
+        void skip_fVersion() { skip<int16_t>(); }
+        void skip_null_terminated_string() {
+            while ( *m_cursor != 0 ) { m_cursor++; }
+            m_cursor++;
+        }
+
+        void skip_obj_header() {
+            skip_fNBytes();
+            auto fTag = read<uint32_t>();
+            if ( fTag == kNewClassTag ) skip_null_terminated_string();
+        }
+
+        void skip_TObject() {
+            // TODO: CanIgnoreTObjectStreamer() ?
+            skip_fVersion();
+            skip<uint32_t>(); // fUniqueID
+            auto fBits = read<uint32_t>();
+            if ( fBits & ( kIsReferenced ) ) skip<uint16_t>(); // pidf
         }
 
         const uint8_t* get_cursor() const { return m_cursor; }
@@ -136,14 +178,10 @@ namespace uproot {
 
     template <typename Sequence>
     inline py::array_t<typename Sequence::value_type> make_array( Sequence&& seq ) {
-        auto size                         = seq.size();
-        auto data                         = seq.data();
-        std::unique_ptr<Sequence> seq_ptr = std::make_unique<Sequence>( std::move( seq ) );
-        auto capsule                      = py::capsule( seq_ptr.get(), []( void* p ) {
-            std::unique_ptr<Sequence>( reinterpret_cast<Sequence*>( p ) );
-        } );
-        seq_ptr.release();
-        return py::array( size, data, capsule );
+        py::array_t<typename Sequence::value_type> arr( seq.size() );
+        auto arr_ptr = arr.mutable_data();
+        std::copy( seq.begin(), seq.end(), arr_ptr );
+        return arr;
     }
 
 } // namespace uproot

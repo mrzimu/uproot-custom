@@ -63,33 +63,13 @@ namespace uproot {
     */
 
     class TObjectReader {
-        enum EStatusBits {
-            kCanDelete = 1ULL << 0, ///< if object in a list can be deleted
-            // 2 is taken by TDataMember
-            kMustCleanup  = 1ULL << 3, ///< if object destructor must call RecursiveRemove()
-            kIsReferenced = 1ULL << 4, ///< if object is referenced by a TRef or TRefArray
-            kHasUUID      = 1ULL << 5, ///< if object has a TUUID (its fUniqueID=UUIDNumber)
-            kCannotPick   = 1ULL << 6, ///< if object in a pad cannot be picked
-            // 7 is taken by TAxis and TClass.
-            kNoContextMenu = 1ULL << 8, ///< if object does not want context menu
-            // 9, 10 are taken by TH1, TF1, TAxis and a few others
-            // 12 is taken by TAxis
-            kInvalidObject = 1ULL
-                             << 13 ///< if object ctor succeeded but object should not be used
-        };
 
       public:
         TObjectReader( std::string name ) : m_name( name ) {}
 
         const std::string name() const { return m_name; }
 
-        void read( BinaryBuffer& buffer ) {
-            // TODO: CanIgnoreTObjectStreamer() ?
-            buffer.read_fVersion();
-            auto fUniqueID = buffer.read<uint32_t>();
-            auto fBits     = buffer.read<uint32_t>();
-            if ( fBits & kIsReferenced ) auto pidf = buffer.read<uint16_t>();
-        }
+        void read( BinaryBuffer& buffer ) { buffer.skip_TObject(); }
 
         py::object data() const { return py::none(); }
 
