@@ -1,7 +1,0 @@
-prefix=${pcfiledir}/../../
-includedir=${prefix}/include
-
-Name: uproot-custom
-Description: Custom Interpretation for uproot
-Version: 0.1.0
-Cflags: -I${includedir}

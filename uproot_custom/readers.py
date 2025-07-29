@@ -175,10 +175,12 @@ class BasicTypeReader(BaseReader):
         "short": "i2",
         "int": "i4",
         "long": "i8",
+        "long long": "i8",
         "unsigned char": "u1",
         "unsigned short": "u2",
         "unsigned int": "u4",
         "unsigned long": "u8",
+        "unsigned long long": "u8",
         "float": "f",
         "double": "d",
         # cstdint
@@ -238,7 +240,7 @@ class BasicTypeReader(BaseReader):
 
     @classmethod
     def get_cpp_reader(cls, tree_config: dict):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         ctype = tree_config["ctype"]
@@ -246,7 +248,7 @@ class BasicTypeReader(BaseReader):
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
         return ak.contents.NumpyArray(raw_data)
 
@@ -310,7 +312,7 @@ class STLSeqReader(BaseReader):
 
     @classmethod
     def get_cpp_reader(cls, tree_config: dict):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         element_cpp_reader = get_cpp_reader(tree_config["element_reader"])
@@ -323,7 +325,7 @@ class STLSeqReader(BaseReader):
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         offsets, element_raw_data = raw_data
@@ -397,7 +399,7 @@ class STLMapReader(BaseReader):
 
     @classmethod
     def get_cpp_reader(cls, tree_config: dict):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         key_cpp_reader = get_cpp_reader(tree_config["key_reader"])
@@ -412,7 +414,7 @@ class STLMapReader(BaseReader):
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         key_tree_config = tree_config["key_reader"]
@@ -453,7 +455,7 @@ class STLStringReader(BaseReader):
 
     @classmethod
     def get_cpp_reader(cls, tree_config: dict):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         return _cpp.STLStringReader(
@@ -463,7 +465,7 @@ class STLStringReader(BaseReader):
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         offsets, data = raw_data
@@ -511,7 +513,7 @@ class TArrayReader(BaseReader):
 
     @classmethod
     def get_cpp_reader(cls, tree_config: dict):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         ctype = tree_config["ctype"]
@@ -527,7 +529,7 @@ class TArrayReader(BaseReader):
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         offsets, data = raw_data
@@ -560,14 +562,14 @@ class TStringReader(BaseReader):
 
     @classmethod
     def get_cpp_reader(cls, tree_config: dict):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         return _cpp.TStringReader(tree_config["name"])
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         offsets, data = raw_data
@@ -607,7 +609,7 @@ class TObjectReader(BaseReader):
 
     @classmethod
     def get_cpp_reader(cls, tree_config: dict):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         return _cpp.TObjectReader(tree_config["name"])
@@ -699,7 +701,7 @@ class CArrayReader(BaseReader):
     @classmethod
     def get_cpp_reader(cls, tree_config: dict):
         reader_type = tree_config["reader"]
-        if reader_type != cls:
+        if reader_type is not cls:
             return None
 
         element_reader = get_cpp_reader(tree_config["element_reader"])
@@ -713,7 +715,7 @@ class CArrayReader(BaseReader):
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         element_tree_config = tree_config["element_reader"]
@@ -767,7 +769,7 @@ class ObjectReader(BaseReader):
 
     @classmethod
     def get_cpp_reader(cls, tree_config: dict):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         sub_readers = [get_cpp_reader(s) for s in tree_config["sub_readers"]]
@@ -775,7 +777,7 @@ class ObjectReader(BaseReader):
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         sub_tree_configs = tree_config["sub_readers"]
@@ -813,14 +815,14 @@ class EmptyReader(BaseReader):
 
     @classmethod
     def get_cpp_reader(cls, tree_config: dict):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         return _cpp.EmptyReader(tree_config["name"])
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         return awkward.contents.EmptyArray()

@@ -1,7 +1,7 @@
 include(${CMAKE_CURRENT_LIST_DIR}/uproot-customConfigVersion.cmake)
 
 find_path(UPROOT_CUSTOM_INCLUDE_DIR
-    NAMES uproot-custom.hh
+    NAMES uproot-custom/uproot-custom.hh
     HINTS ${CMAKE_CURRENT_LIST_DIR}/../../include
 )
 

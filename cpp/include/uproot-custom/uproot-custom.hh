@@ -1,0 +1,149 @@
+#pragma once
+
+#include "proxy.h"
+#include <cstdint>
+#include <memory>
+#include <pybind11/cast.h>
+#include <pybind11/detail/common.h>
+#include <pybind11/numpy.h>
+#include <pybind11/pybind11.h>
+#include <pybind11/pytypes.h>
+#include <pybind11/stl.h>
+#include <string>
+#include <unistd.h>
+
+#if defined( _MSC_VER )
+#    include <stdlib.h>
+#    define bswap16( x ) _byteswap_ushort( x )
+#    define bswap32( x ) _byteswap_ulong( x )
+#    define bswap64( x ) _byteswap_uint64( x )
+#elif defined( __GNUC__ ) || defined( __clang__ )
+#    define bswap16( x ) __builtin_bswap16( x )
+#    define bswap32( x ) __builtin_bswap32( x )
+#    define bswap64( x ) __builtin_bswap64( x )
+#else
+#    error "Unsupported compiler!"
+#endif
+
+namespace uproot {
+    namespace py = pybind11;
+
+    const uint32_t kNewClassTag    = 0xFFFFFFFF;
+    const uint32_t kClassMask      = 0x80000000; // OR the class index with this
+    const uint32_t kByteCountMask  = 0x40000000; // OR the byte count with this
+    const uint32_t kMaxMapCount    = 0x3FFFFFFE; // last valid fMapCount and byte count
+    const uint16_t kByteCountVMask = 0x4000;     // OR the version byte count with this
+    const uint16_t kMaxVersion     = 0x3FFF;     // highest possible version number
+    const int32_t kMapOffset = 2; // first 2 map entries are taken by null obj and self obj
+
+    class BinaryBuffer {
+      public:
+        BinaryBuffer( py::array_t<uint8_t> data, py::array_t<uint32_t> offsets )
+            : m_data( static_cast<uint8_t*>( data.request().ptr ) )
+            , m_offsets( static_cast<uint32_t*>( offsets.request().ptr ) )
+            , m_entries( offsets.request().size - 1 )
+            , m_cursor( static_cast<uint8_t*>( data.request().ptr ) ) {}
+
+        template <typename T>
+        inline const T read() {
+            const T value = *reinterpret_cast<const T*>( m_cursor );
+            m_cursor += sizeof( T );
+
+            switch ( sizeof( T ) )
+            {
+            case 1: return value; // no byte swap needed for 1 byte
+            case 2: return (const T)bswap16( (uint16_t)value );
+            case 4: return (const T)bswap32( (uint32_t)value );
+            case 8: return (const T)bswap64( (uint64_t)value );
+            default: throw std::runtime_error( "Unsupported type size for read operation" );
+            }
+        }
+
+        const int16_t read_fVersion() { return read<int16_t>(); }
+
+        const uint32_t read_fNBytes() {
+            auto byte_count = read<uint32_t>();
+            if ( !( byte_count & kByteCountMask ) )
+                throw std::runtime_error( "Invalid byte count" );
+            return byte_count & ~kByteCountMask;
+        }
+
+        const std::string read_null_terminated_string() {
+            auto start = m_cursor;
+            while ( *m_cursor != 0 ) { m_cursor++; }
+            m_cursor++;
+            return std::string( start, m_cursor );
+        }
+
+        const std::string read_obj_header() {
+            read_fNBytes();
+            auto fTag = read<uint32_t>();
+            if ( fTag == kNewClassTag ) return read_null_terminated_string();
+            else return std::string();
+        }
+
+        const uint8_t* get_cursor() const { return m_cursor; }
+        const uint64_t entries() const { return m_entries; }
+
+      private:
+        uint8_t* m_cursor;
+        const uint64_t m_entries;
+        const uint8_t* m_data;
+        const uint32_t* m_offsets;
+    };
+
+    /*
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    */
+
+    PRO_DEF_MEM_DISPATCH( MemRead, read );
+    PRO_DEF_MEM_DISPATCH( MemData, data );
+    PRO_DEF_MEM_DISPATCH( MemName, name );
+
+    struct _IElementReader : pro::facade_builder                                  //
+                             ::add_convention<MemRead, void( BinaryBuffer& )>     //
+                             ::add_convention<MemData, py::object() const>        //
+                             ::add_convention<MemName, const std::string() const> //
+                             ::support_copy<pro::constraint_level::nontrivial>    //
+                             ::build {};                                          //
+
+    using IElementReader = pro::proxy<_IElementReader>;
+
+    /*
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    */
+
+    template <typename ReaderType, typename... Args>
+    IElementReader CreateReader( Args... args ) {
+        return pro::make_proxy_shared<_IElementReader, ReaderType>(
+            std::forward<Args>( args )... );
+    }
+
+    template <typename ReaderType, typename... Args>
+    void register_reader( py::module& m, const char* name ) {
+        m.def( name, &CreateReader<ReaderType, std::string, Args...> );
+    }
+
+    /*
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    */
+
+    template <typename Sequence>
+    inline py::array_t<typename Sequence::value_type> make_array( Sequence&& seq ) {
+        auto size                         = seq.size();
+        auto data                         = seq.data();
+        std::unique_ptr<Sequence> seq_ptr = std::make_unique<Sequence>( std::move( seq ) );
+        auto capsule                      = py::capsule( seq_ptr.get(), []( void* p ) {
+            std::unique_ptr<Sequence>( reinterpret_cast<Sequence*>( p ) );
+        } );
+        seq_ptr.release();
+        return py::array( size, data, capsule );
+    }
+
+} // namespace uproot
