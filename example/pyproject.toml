@@ -13,7 +13,7 @@ version = "0.1.0"
 wheel.packages = ["my_reader"]
 build-dir = "build/{wheel_tag}"
 cmake.source-dir = "cpp"
-cmake.build-type = "Debug" # Change to "Release" for production builds
+cmake.build-type = "Release" # Release/Debug
 
 [tool.black]
 exclude = "/(build|dist|env|.git|.tox|.eggs|.venv)/"

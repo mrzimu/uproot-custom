@@ -5,7 +5,6 @@ if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.27)
 endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_CXX_STANDARD 20)
 set(PYBIND11_NEWPYTHON ON)
 
 project(${SKBUILD_PROJECT_NAME}
@@ -26,27 +25,28 @@ target_include_directories(_cpp
 )
 
 # Install targets and configuration files
+if(DEFINED SKBUILD_PROJECT_NAME)
+    include(CMakePackageConfigHelpers)
+    write_basic_package_version_file(
+        uproot-customConfigVersion.cmake
+        VERSION ${PROJECT_VERSION}
+        COMPATIBILITY SameMajorVersion
+    )
 
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file(
-    uproot-customConfigVersion.cmake
-    VERSION ${PROJECT_VERSION}
-    COMPATIBILITY SameMajorVersion
-)
+    install(
+        TARGETS _cpp
+        LIBRARY DESTINATION ${SKBUILD_PROJECT_NAME}
+    )
 
-install(
-    TARGETS _cpp
-    LIBRARY DESTINATION ${SKBUILD_PROJECT_NAME}
-)
+    install( # header files
+        DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include
+        DESTINATION ${SKBUILD_PROJECT_NAME}
+    )
 
-install( # header files
-    DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include
-    DESTINATION ${SKBUILD_PROJECT_NAME}
-)
-
-install( # CMake configuration files
-    FILES
-        ${CMAKE_CURRENT_LIST_DIR}/share/cmake/uproot-customConfig.cmake
-        ${CMAKE_CURRENT_BINARY_DIR}/uproot-customConfigVersion.cmake
-    DESTINATION ${SKBUILD_PROJECT_NAME}/share/cmake/
-)
+    install( # CMake configuration files
+        FILES
+            ${CMAKE_CURRENT_LIST_DIR}/share/cmake/uproot-customConfig.cmake
+            ${CMAKE_CURRENT_BINARY_DIR}/uproot-customConfigVersion.cmake
+        DESTINATION ${SKBUILD_PROJECT_NAME}/share/cmake/
+    )
+endif()

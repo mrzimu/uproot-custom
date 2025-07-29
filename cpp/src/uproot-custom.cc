@@ -4,11 +4,11 @@
 
 #include "uproot-custom/uproot-custom.hh"
 
-#ifdef PRINT_DEBUG_INFO
+#ifdef UPROOT_DEBUG
 #    define PRINT_BUFFER( buffer )                                                            \
         {                                                                                     \
             std::cout << "[DEBUG] ";                                                          \
-            for ( int i = 0; i < 40; i++ )                                                    \
+            for ( int i = 0; i < 80; i++ )                                                    \
             { std::cout << (int)( buffer.get_cursor()[i] ) << " "; }                          \
             std::cout << std::endl;                                                           \
         }
@@ -25,34 +25,30 @@
 namespace uproot {
 
     template <typename T>
-    class BasicTypeReader {
+    class BasicTypeReader : public IElementReader {
       public:
-        BasicTypeReader( std::string name ) : m_name( name ), m_data() {}
+        BasicTypeReader( std::string name ) : IElementReader( name ), m_data() {}
 
-        const std::string name() const { return m_name; }
+        void read( BinaryBuffer& buffer ) override { m_data.push_back( buffer.read<T>() ); }
 
-        void read( BinaryBuffer& buffer ) { m_data.push_back( buffer.read<T>() ); }
-
-        py::object data() const { return make_array( std::move( m_data ) ); }
+        py::object data() const override { return make_array( std::move( m_data ) ); }
 
       private:
-        std::string m_name;
         std::vector<T> m_data;
     };
 
     template <>
-    class BasicTypeReader<bool> {
+    class BasicTypeReader<bool> : public IElementReader {
       public:
-        BasicTypeReader( std::string name ) : m_name( name ), m_data() {}
+        BasicTypeReader( std::string name ) : IElementReader( name ), m_data() {}
 
-        const std::string name() const { return m_name; }
+        void read( BinaryBuffer& buffer ) override {
+            m_data.push_back( buffer.read<uint8_t>() != 0 );
+        }
 
-        void read( BinaryBuffer& buffer ) { m_data.push_back( buffer.read<uint8_t>() != 0 ); }
-
-        py::object data() const { return make_array( std::move( m_data ) ); }
+        py::object data() const override { return make_array( std::move( m_data ) ); }
 
       private:
-        std::string m_name;
         std::vector<uint8_t> m_data;
     };
 
@@ -62,19 +58,16 @@ namespace uproot {
     -----------------------------------------------------------------------------
     */
 
-    class TObjectReader {
+    class TObjectReader : public IElementReader {
 
       public:
-        TObjectReader( std::string name ) : m_name( name ) {}
+        TObjectReader( std::string name ) : IElementReader( name ) {}
 
-        const std::string name() const { return m_name; }
+        void read( BinaryBuffer& buffer ) override { buffer.skip_TObject(); }
 
-        void read( BinaryBuffer& buffer ) { buffer.skip_TObject(); }
-
-        py::object data() const { return py::none(); }
+        py::object data() const override { return py::none(); }
 
       private:
-        const std::string m_name;
     };
 
     /*
@@ -83,13 +76,12 @@ namespace uproot {
     -----------------------------------------------------------------------------
     */
 
-    class TStringReader {
+    class TStringReader : public IElementReader {
       public:
-        TStringReader( std::string name ) : m_name( name ), m_data(), m_offsets( { 0 } ) {}
+        TStringReader( std::string name )
+            : IElementReader( name ), m_data(), m_offsets( { 0 } ) {}
 
-        const std::string name() const { return m_name; }
-
-        void read( BinaryBuffer& buffer ) {
+        void read( BinaryBuffer& buffer ) override {
             uint32_t fSize = buffer.read<uint8_t>();
             if ( fSize == 255 ) fSize = buffer.read<uint32_t>();
 
@@ -97,15 +89,13 @@ namespace uproot {
             m_offsets.push_back( m_data.size() );
         }
 
-        py::object data() const {
+        py::object data() const override {
             auto offsets_array = make_array( std::move( m_offsets ) );
             auto data_array    = make_array( std::move( m_data ) );
             return py::make_tuple( offsets_array, data_array );
         }
 
       private:
-        const std::string m_name;
-
         std::vector<uint8_t> m_data;
         std::vector<uint32_t> m_offsets;
     };
@@ -116,17 +106,15 @@ namespace uproot {
     -----------------------------------------------------------------------------
     */
 
-    class STLSeqReader {
+    class STLSeqReader : public IElementReader {
       public:
-        STLSeqReader( std::string name, bool with_header, IElementReader element_reader )
-            : m_name( name )
+        STLSeqReader( std::string name, bool with_header, SharedReader element_reader )
+            : IElementReader( name )
             , m_with_header( with_header )
             , m_element_reader( element_reader )
             , m_offsets( { 0 } ) {}
 
-        const std::string name() const { return m_name; }
-
-        void read( BinaryBuffer& buffer ) {
+        void read( BinaryBuffer& buffer ) override {
             if ( m_with_header )
             {
                 buffer.read_fNBytes();
@@ -138,48 +126,54 @@ namespace uproot {
             for ( auto i = 0; i < fSize; i++ ) m_element_reader->read( buffer );
         }
 
-        py::object data() const {
+        py::object data() const override {
             auto offsets_array = make_array( std::move( m_offsets ) );
             auto elements_data = m_element_reader->data();
             return py::make_tuple( offsets_array, elements_data );
         }
 
       private:
-        const std::string m_name;
         const bool m_with_header;
-        IElementReader m_element_reader;
+        SharedReader m_element_reader;
         std::vector<uint32_t> m_offsets;
     };
 
-    class STLMapReader {
+    class STLMapReader : public IElementReader {
       public:
-        STLMapReader( std::string name, bool with_header, IElementReader key_reader,
-                      IElementReader value_reader )
-            : m_name( name )
+        STLMapReader( std::string name, bool with_header, SharedReader key_reader,
+                      SharedReader value_reader )
+            : IElementReader( name )
             , m_with_header( with_header )
             , m_offsets( { 0 } )
             , m_key_reader( key_reader )
             , m_value_reader( value_reader ) {}
 
-        const std::string name() const { return m_name; }
-
-        void read( BinaryBuffer& buffer ) {
+        void read( BinaryBuffer& buffer ) override {
             if ( m_with_header )
             {
                 buffer.read_fNBytes();
-                buffer.read_fVersion();
+                buffer.skip( 8 );
             }
 
             auto fSize = buffer.read<uint32_t>();
             m_offsets.push_back( m_offsets.back() + fSize );
-            for ( auto i = 0; i < fSize; i++ )
+
+            if ( m_with_header )
             {
-                m_key_reader->read( buffer );
-                m_value_reader->read( buffer );
+                for ( auto i = 0; i < fSize; i++ ) m_key_reader->read( buffer );
+                for ( auto i = 0; i < fSize; i++ ) m_value_reader->read( buffer );
+            }
+            else
+            {
+                for ( auto i = 0; i < fSize; i++ )
+                {
+                    m_key_reader->read( buffer );
+                    m_value_reader->read( buffer );
+                }
             }
         }
 
-        py::object data() const {
+        py::object data() const override {
             auto offsets_array     = make_array( std::move( m_offsets ) );
             py::object keys_data   = m_key_reader->data();
             py::object values_data = m_value_reader->data();
@@ -187,22 +181,22 @@ namespace uproot {
         }
 
       private:
-        const std::string m_name;
         const bool m_with_header;
 
         std::vector<uint32_t> m_offsets;
-        IElementReader m_key_reader;
-        IElementReader m_value_reader;
+        SharedReader m_key_reader;
+        SharedReader m_value_reader;
     };
 
-    class STLStringReader {
+    class STLStringReader : public IElementReader {
       public:
         STLStringReader( std::string name, bool with_header )
-            : m_name( name ), m_with_header( with_header ), m_offsets( { 0 } ), m_data() {}
+            : IElementReader( name )
+            , m_with_header( with_header )
+            , m_offsets( { 0 } )
+            , m_data() {}
 
-        const std::string name() const { return m_name; }
-
-        void read( BinaryBuffer& buffer ) {
+        void read( BinaryBuffer& buffer ) override {
             if ( m_with_header )
             {
                 buffer.read_fNBytes();
@@ -216,7 +210,7 @@ namespace uproot {
             for ( int i = 0; i < fSize; i++ ) { m_data.push_back( buffer.read<uint8_t>() ); }
         }
 
-        py::object data() const {
+        py::object data() const override {
             auto offsets_array = make_array( std::move( m_offsets ) );
             auto data_array    = make_array( std::move( m_data ) );
 
@@ -224,7 +218,6 @@ namespace uproot {
         }
 
       private:
-        const std::string m_name;
         const bool m_with_header;
 
         std::vector<uint32_t> m_offsets;
@@ -238,27 +231,24 @@ namespace uproot {
     */
 
     template <typename T>
-    class TArrayReader {
+    class TArrayReader : public IElementReader {
       public:
-        TArrayReader( std::string name ) : m_name( name ), m_offsets( { 0 } ), m_data() {}
+        TArrayReader( std::string name )
+            : IElementReader( name ), m_offsets( { 0 } ), m_data() {}
 
-        const std::string name() const { return m_name; }
-
-        void read( BinaryBuffer& buffer ) {
+        void read( BinaryBuffer& buffer ) override {
             auto fSize = buffer.read<uint32_t>();
             m_offsets.push_back( m_offsets.back() + fSize );
             for ( auto i = 0; i < fSize; i++ ) { m_data.push_back( buffer.read<T>() ); }
         }
 
-        py::object data() const {
+        py::object data() const override {
             auto offsets_array = make_array( std::move( m_offsets ) );
             auto data_array    = make_array( std::move( m_data ) );
             return py::make_tuple( offsets_array, data_array );
         }
 
       private:
-        const std::string m_name;
-
         std::vector<uint32_t> m_offsets;
         std::vector<T> m_data;
     };
@@ -269,15 +259,13 @@ namespace uproot {
     -----------------------------------------------------------------------------
     */
 
-    class ObjectReader {
+    class ObjectReader : public IElementReader {
       public:
-        ObjectReader( std::string name, std::vector<IElementReader> element_readers )
-            : m_name( name ), m_element_readers( element_readers ) {}
+        ObjectReader( std::string name, std::vector<SharedReader> element_readers )
+            : IElementReader( name ), m_element_readers( element_readers ) {}
 
-        const std::string name() const { return m_name; }
-
-        void read( BinaryBuffer& buffer ) {
-#ifdef PRINT_DEBUG_INFO
+        void read( BinaryBuffer& buffer ) override {
+#ifdef UPROOT_DEBUG
             std::cout << "BaseObjectReader " << m_name << "::read(): " << std::endl;
             for ( int i = 0; i < 40; i++ ) std::cout << (int)buffer.get_cursor()[i] << " ";
             std::cout << std::endl << std::endl;
@@ -286,7 +274,7 @@ namespace uproot {
             buffer.read_fVersion();
             for ( auto& reader : m_element_readers )
             {
-#ifdef PRINT_DEBUG_INFO
+#ifdef UPROOT_DEBUG
                 std::cout << "BaseObjectReader " << m_name << ": " << reader->name() << ":"
                           << std::endl;
                 for ( int i = 0; i < 40; i++ ) std::cout << (int)buffer.get_cursor()[i] << " ";
@@ -296,15 +284,14 @@ namespace uproot {
             }
         }
 
-        py::object data() const {
+        py::object data() const override {
             py::list res;
             for ( auto& reader : m_element_readers ) { res.append( reader->data() ); }
             return res;
         }
 
       private:
-        const std::string m_name;
-        std::vector<IElementReader> m_element_readers;
+        std::vector<SharedReader> m_element_readers;
     };
 
     /*
@@ -313,18 +300,16 @@ namespace uproot {
     -----------------------------------------------------------------------------
     */
 
-    class CArrayReader {
+    class CArrayReader : public IElementReader {
       public:
-        CArrayReader( std::string name, bool is_obj, uint32_t flat_size,
-                      IElementReader element_reader )
-            : m_name( name )
+        CArrayReader( std::string name, bool is_obj, const uint32_t flat_size,
+                      SharedReader element_reader )
+            : IElementReader( name )
             , m_is_obj( is_obj )
             , m_flat_size( flat_size )
             , m_element_reader( element_reader ) {}
 
-        const std::string name() const { return m_name; }
-
-        void read( BinaryBuffer& buffer ) {
+        void read( BinaryBuffer& buffer ) override {
             if ( m_is_obj )
             {
                 buffer.read_fNBytes();
@@ -333,14 +318,12 @@ namespace uproot {
             for ( auto i = 0; i < m_flat_size; i++ ) m_element_reader->read( buffer );
         }
 
-        py::object data() const { return m_element_reader->data(); }
+        py::object data() const override { return m_element_reader->data(); }
 
       private:
-        const std::string m_name;
-
         bool m_is_obj;
-        uint32_t m_flat_size;
-        IElementReader m_element_reader;
+        const uint32_t m_flat_size;
+        SharedReader m_element_reader;
     };
 
     /*
@@ -349,17 +332,12 @@ namespace uproot {
     -----------------------------------------------------------------------------
     */
 
-    class EmptyReader {
+    class EmptyReader : public IElementReader {
       public:
-        EmptyReader( std::string name ) : m_name( name ) {}
+        EmptyReader( std::string name ) : IElementReader( name ) {}
 
-        const std::string name() const { return m_name; }
-
-        void read( BinaryBuffer& ) {}
-        py::object data() const { return py::none(); }
-
-      private:
-        const std::string m_name;
+        void read( BinaryBuffer& ) override {}
+        py::object data() const override { return py::none(); }
     };
 
     /*
@@ -369,15 +347,13 @@ namespace uproot {
     */
 
     py::object py_read_data( py::array_t<uint8_t> data, py::array_t<uint32_t> offsets,
-                             IElementReader reader ) {
+                             SharedReader reader ) {
         BinaryBuffer buffer( data, offsets );
-        // py::gil_scoped_release release;
         for ( auto i_evt = 0; i_evt < buffer.entries(); i_evt++ ) { reader->read( buffer ); }
-        // py::gil_scoped_acquire acquire;
         return reader->data();
     }
 
-    std::string get_reader_name( IElementReader reader ) { return reader->name(); }
+    std::string get_reader_name( SharedReader reader ) { return reader->name(); }
 
     PYBIND11_MODULE( _cpp, m ) {
         m.doc() = "C++ module for uproot-custom";
@@ -388,7 +364,7 @@ namespace uproot {
         m.def( "get_reader_name", &get_reader_name, "Get the name of the reader",
                py::arg( "reader" ) );
 
-        py::class_<IElementReader>( m, "IElementReader" );
+        py::class_<IElementReader, SharedReader>( m, "IElementReader" );
 
         // Basic type readers
         register_reader<BasicTypeReader<uint8_t>>( m, "UInt8Reader" );
@@ -404,9 +380,8 @@ namespace uproot {
         register_reader<BasicTypeReader<bool>>( m, "BoolReader" );
 
         // STL readers
-        register_reader<STLSeqReader, bool, IElementReader>( m, "STLSeqReader" );
-        register_reader<STLMapReader, bool, IElementReader, IElementReader>( m,
-                                                                             "STLMapReader" );
+        register_reader<STLSeqReader, bool, SharedReader>( m, "STLSeqReader" );
+        register_reader<STLMapReader, bool, SharedReader, SharedReader>( m, "STLMapReader" );
         register_reader<STLStringReader, bool>( m, "STLStringReader" );
 
         // TArrayReader
@@ -420,8 +395,8 @@ namespace uproot {
         // Other readers
         register_reader<TStringReader>( m, "TStringReader" );
         register_reader<TObjectReader>( m, "TObjectReader" );
-        register_reader<ObjectReader, std::vector<IElementReader>>( m, "ObjectReader" );
-        register_reader<CArrayReader, bool, uint32_t, IElementReader>( m, "CArrayReader" );
+        register_reader<ObjectReader, std::vector<SharedReader>>( m, "ObjectReader" );
+        register_reader<CArrayReader, bool, uint32_t, SharedReader>( m, "CArrayReader" );
         register_reader<EmptyReader>( m, "EmptyReader" );
     }
 

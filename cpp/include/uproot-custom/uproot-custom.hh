@@ -1,6 +1,5 @@
 #pragma once
 
-#include "proxy.h"
 #include <cstdint>
 #include <memory>
 #include <pybind11/cast.h>
@@ -27,6 +26,7 @@
 
 namespace uproot {
     namespace py = pybind11;
+    using std::shared_ptr;
 
     const uint32_t kNewClassTag    = 0xFFFFFFFF;
     const uint32_t kClassMask      = 0x80000000; // OR the class index with this
@@ -98,13 +98,10 @@ namespace uproot {
             else return std::string();
         }
 
-        template <typename T>
-        void skip() {
-            m_cursor += sizeof( T );
-        }
+        void skip( const size_t n ) { m_cursor += n; }
 
         void skip_fNBytes() { read_fNBytes(); } // need to check the mask
-        void skip_fVersion() { skip<int16_t>(); }
+        void skip_fVersion() { skip( 2 ); }
         void skip_null_terminated_string() {
             while ( *m_cursor != 0 ) { m_cursor++; }
             m_cursor++;
@@ -119,9 +116,9 @@ namespace uproot {
         void skip_TObject() {
             // TODO: CanIgnoreTObjectStreamer() ?
             skip_fVersion();
-            skip<uint32_t>(); // fUniqueID
+            skip( 4 ); // fUniqueID
             auto fBits = read<uint32_t>();
-            if ( fBits & ( kIsReferenced ) ) skip<uint16_t>(); // pidf
+            if ( fBits & ( kIsReferenced ) ) skip( 2 ); // pidf
         }
 
         const uint8_t* get_cursor() const { return m_cursor; }
@@ -140,18 +137,21 @@ namespace uproot {
     -----------------------------------------------------------------------------
     */
 
-    PRO_DEF_MEM_DISPATCH( MemRead, read );
-    PRO_DEF_MEM_DISPATCH( MemData, data );
-    PRO_DEF_MEM_DISPATCH( MemName, name );
+    class IElementReader {
+      protected:
+        const std::string m_name;
 
-    struct _IElementReader : pro::facade_builder                                  //
-                             ::add_convention<MemRead, void( BinaryBuffer& )>     //
-                             ::add_convention<MemData, py::object() const>        //
-                             ::add_convention<MemName, const std::string() const> //
-                             ::support_copy<pro::constraint_level::nontrivial>    //
-                             ::build {};                                          //
+      public:
+        IElementReader( std::string name ) : m_name( name ) {}
+        virtual ~IElementReader() = default;
 
-    using IElementReader = pro::proxy<_IElementReader>;
+        virtual const std::string name() const { return m_name; }
+
+        virtual void read( BinaryBuffer& buffer ) = 0;
+        virtual py::object data() const           = 0;
+    };
+
+    using SharedReader = shared_ptr<IElementReader>;
 
     /*
     -----------------------------------------------------------------------------
@@ -160,14 +160,14 @@ namespace uproot {
     */
 
     template <typename ReaderType, typename... Args>
-    IElementReader CreateReader( Args... args ) {
-        return pro::make_proxy_shared<_IElementReader, ReaderType>(
-            std::forward<Args>( args )... );
+    shared_ptr<ReaderType> CreateReader( Args... args ) {
+        return std::make_shared<ReaderType>( std::forward<Args>( args )... );
     }
 
     template <typename ReaderType, typename... Args>
     void register_reader( py::module& m, const char* name ) {
-        m.def( name, &CreateReader<ReaderType, std::string, Args...> );
+        py::class_<ReaderType, shared_ptr<ReaderType>, IElementReader>( m, name ).def(
+            py::init( &CreateReader<ReaderType, std::string, Args...> ) );
     }
 
     /*
