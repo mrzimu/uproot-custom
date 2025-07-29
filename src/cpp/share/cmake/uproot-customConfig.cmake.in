@@ -1,7 +1,0 @@
-find_path(UPROOT_CUSTOM_INCLUDE_DIR
-    NAMES uproot-custom.hh
-    HINTS ${CMAKE_CURRENT_LIST_DIR}/../include
-)
-
-add_library(uproot-custom INTERFACE)
-target_include_directories(uproot-custom INTERFACE ${UPROOT_CUSTOM_INCLUDE_DIR})

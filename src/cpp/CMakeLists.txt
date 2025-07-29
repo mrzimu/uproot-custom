@@ -15,15 +15,9 @@ write_basic_package_version_file(
     COMPATIBILITY SameMajorVersion
 )
 
-configure_package_config_file(
-    share/cmake/uproot-customConfig.cmake.in
-    uproot-customConfig.cmake
-    INSTALL_DESTINATION ${SKBUILD_PROJECT_NAME}/share/cmake/
-)
-
 install(FILES
+    ${CMAKE_CURRENT_LIST_DIR}/share/cmake/uproot-customConfig.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/uproot-customConfigVersion.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/uproot-customConfig.cmake
     DESTINATION ${SKBUILD_PROJECT_NAME}/share/cmake/
 )
 

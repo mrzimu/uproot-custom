@@ -9,15 +9,28 @@
 #include <pybind11/numpy.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/pytypes.h>
+#include <pybind11/stl.h>
 #include <string>
 #include <unistd.h>
 #include <vector>
 
 #ifdef PRINT_DEBUG_INFO
-#    include <iostream>
-#endif
+#    define PRINT_BUFFER( buffer )                                                            \
+        {                                                                                     \
+            std::cout << "[DEBUG] ";                                                          \
+            for ( int i = 0; i < 40; i++ )                                                    \
+            { std::cout << (int)( buffer.get_cursor()[i] ) << " "; }                          \
+            std::cout << std::endl;                                                           \
+        }
 
-namespace py = pybind11;
+#    define PRINT_MSG( msg )                                                                  \
+        { std::cout << "[DEBUG] " << msg << std::endl; }
+
+#    include <iostream>
+#else
+#    define PRINT_BUFFER( buffer )
+#    define PRINT_MSG( msg )
+#endif
 
 #if defined( _MSC_VER )
 #    include <stdlib.h>
@@ -31,6 +44,8 @@ namespace py = pybind11;
 #else
 #    error "Unsupported compiler!"
 #endif
+
+namespace py = pybind11;
 
 const uint32_t kNewClassTag    = 0xFFFFFFFF;
 const uint32_t kClassMask      = 0x80000000; // OR the class index with this
@@ -70,6 +85,20 @@ class BinaryBuffer {
         if ( !( byte_count & kByteCountMask ) )
             throw std::runtime_error( "Invalid byte count" );
         return byte_count & ~kByteCountMask;
+    }
+
+    const std::string read_null_terminated_string() {
+        auto start = m_cursor;
+        while ( *m_cursor != 0 ) { m_cursor++; }
+        m_cursor++;
+        return std::string( start, m_cursor );
+    }
+
+    const std::string read_obj_header() {
+        read_fNBytes();
+        auto fTag = read<uint32_t>();
+        if ( fTag == kNewClassTag ) return read_null_terminated_string();
+        else return std::string();
     }
 
     const uint8_t* get_cursor() const { return m_cursor; }
@@ -230,7 +259,7 @@ class TStringReader {
         uint32_t fSize = buffer.read<uint8_t>();
         if ( fSize == 255 ) fSize = buffer.read<uint32_t>();
 
-        for ( int i = 0; i < fSize; i++ ) { m_data.push_back( buffer.read<char>() ); }
+        for ( int i = 0; i < fSize; i++ ) { m_data.push_back( buffer.read<uint8_t>() ); }
         m_offsets.push_back( m_data.size() );
     }
 
@@ -243,7 +272,7 @@ class TStringReader {
   private:
     const std::string m_name;
 
-    std::vector<char> m_data;
+    std::vector<uint8_t> m_data;
     std::vector<uint32_t> m_offsets;
 };
 
@@ -350,7 +379,7 @@ class STLStringReader {
         if ( fSize == 255 ) fSize = buffer.read<uint32_t>();
 
         m_offsets.push_back( m_offsets.back() + fSize );
-        for ( int i = 0; i < fSize; i++ ) { m_data.push_back( buffer.read<char>() ); }
+        for ( int i = 0; i < fSize; i++ ) { m_data.push_back( buffer.read<uint8_t>() ); }
     }
 
     py::object data() const {
@@ -365,7 +394,7 @@ class STLStringReader {
     const bool m_with_header;
 
     std::vector<uint32_t> m_offsets;
-    std::vector<char> m_data;
+    std::vector<uint8_t> m_data;
 };
 
 /*

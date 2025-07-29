@@ -6,9 +6,9 @@
 py::object py_read_data( py::array_t<uint8_t> data, py::array_t<uint32_t> offsets,
                          IElementReader reader ) {
     BinaryBuffer buffer( data, offsets );
-    py::gil_scoped_release release;
+    // py::gil_scoped_release release;
     for ( auto i_evt = 0; i_evt < buffer.entries(); i_evt++ ) { reader->read( buffer ); }
-    py::gil_scoped_acquire acquire;
+    // py::gil_scoped_acquire acquire;
     return reader->data();
 }
 
