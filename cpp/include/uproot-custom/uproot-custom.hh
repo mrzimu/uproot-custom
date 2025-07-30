@@ -61,17 +61,44 @@ namespace uproot {
             , m_cursor( static_cast<uint8_t*>( data.request().ptr ) ) {}
 
         template <typename T>
-        inline const T read() {
-            const T value = *reinterpret_cast<const T*>( m_cursor );
-            m_cursor += sizeof( T );
+        const T read() {
+            constexpr auto size = sizeof( T );
 
-            switch ( sizeof( T ) )
+            switch ( size )
             {
-            case 1: return value; // no byte swap needed for 1 byte
-            case 2: return (const T)bswap16( (uint16_t)value );
-            case 4: return (const T)bswap32( (uint32_t)value );
-            case 8: return (const T)bswap64( (uint64_t)value );
-            default: throw std::runtime_error( "Unsupported type size for read operation" );
+            case 1: return *reinterpret_cast<const T*>( m_cursor++ );
+            case 2: {
+                union {
+                    T value;
+                    uint16_t bits;
+                } val;
+                val.value = *reinterpret_cast<const T*>( m_cursor );
+                m_cursor += size;
+                val.bits = bswap16( val.bits );
+                return val.value;
+            }
+            case 4: {
+                union {
+                    T value;
+                    uint32_t bits;
+                } val;
+                val.value = *reinterpret_cast<const T*>( m_cursor );
+                m_cursor += size;
+                val.bits = bswap32( val.bits );
+                return val.value;
+            }
+            case 8: {
+                union {
+                    T value;
+                    uint64_t bits;
+                } val;
+                val.value = *reinterpret_cast<const T*>( m_cursor );
+                m_cursor += size;
+                val.bits = bswap64( val.bits );
+                return val.value;
+            }
+            default:
+                throw std::runtime_error( "Unsupported type size: " + std::to_string( size ) );
             }
         }
 
@@ -128,7 +155,7 @@ namespace uproot {
         uint8_t* m_cursor;
         const uint64_t m_entries;
         const uint8_t* m_data;
-        const uint32_t* m_offsets;
+        const uint32_t* m_offsets; // by the time, this is not used
     };
 
     /*
@@ -176,12 +203,16 @@ namespace uproot {
     -----------------------------------------------------------------------------
     */
 
-    template <typename Sequence>
-    inline py::array_t<typename Sequence::value_type> make_array( Sequence&& seq ) {
-        py::array_t<typename Sequence::value_type> arr( seq.size() );
-        auto arr_ptr = arr.mutable_data();
-        std::copy( seq.begin(), seq.end(), arr_ptr );
-        return arr;
+    template <typename T>
+    inline py::array_t<T> make_array( shared_ptr<std::vector<T>> seq ) {
+        auto size = seq->size();
+        auto data = seq->data();
+
+        auto capsule = py::capsule( new auto( seq ), []( void* p ) {
+            delete reinterpret_cast<std::shared_ptr<std::vector<T>>*>( p );
+        } );
+
+        return py::array_t<T>( size, data, capsule );
     }
 
 } // namespace uproot

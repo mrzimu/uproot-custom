@@ -14,6 +14,33 @@ def regularize_object_path(object_path: str) -> str:
     return re.sub(r";[0-9]+", r"", object_path)
 
 
+_title_has_dims = re.compile(r"^([^\[\]]*)(\[[^\[\]]+\])+")
+_item_dim_pattern = re.compile(r"\[([1-9][0-9]*)\]")
+_item_any_pattern = re.compile(r"\[(.*)\]")
+
+
+def get_dims_from_branch(
+    branch: uproot.behaviors.TBranch.TBranch,
+) -> tuple[tuple[int, ...], bool]:
+    leaf = branch.member("fLeaves")[0]
+    title = leaf.member("fTitle")
+
+    dims, is_jagged = (), False
+
+    m = _title_has_dims.match(title)
+    if m is not None:
+        dims = tuple(int(x) for x in re.findall(_item_dim_pattern, title))
+        if dims == () and leaf.member("fLen") > 1:
+            dims = (leaf.member("fLen"),)
+
+        if any(
+            _item_dim_pattern.match(x) is None for x in re.findall(_item_any_pattern, title)
+        ):
+            is_jagged = True
+
+    return dims, is_jagged
+
+
 class AsCustom(uproot.interpretation.Interpretation):
     target_branches: set[str] = set()
 
@@ -73,7 +100,12 @@ class AsCustom(uproot.interpretation.Interpretation):
         """
         The name of the type of the interpretation.
         """
-        return self._branch.streamer.typename
+        dims, is_jagged = get_dims_from_branch(self._branch)
+        typename = self._branch.streamer.typename
+        if dims:
+            for i in dims:
+                typename += f"[{i}]"
+        return typename
 
     @property
     def cache_key(self) -> str:
@@ -136,7 +168,7 @@ class AsCustom(uproot.interpretation.Interpretation):
         return read_branch(
             data,
             byte_offsets,
-            branch.streamer.typename,
+            branch.streamer.all_members,
             self.all_streamer_info,
             full_branch_path,
         )

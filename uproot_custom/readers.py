@@ -92,30 +92,19 @@ def reconstruct_array(
     raise ValueError(f"Unknown reader type: {tree_config['reader']} for {tree_config['name']}")
 
 
-def get_tree_config_from_type_name(
-    type_name: str,
-    all_streamer_info: dict,
-    item_path: str = "",
-):
-    return gen_tree_config(
-        {
-            "fName": type_name,
-            "fTypeName": type_name,
-        },
-        all_streamer_info,
-        item_path,
-    )
-
-
 def read_branch(
     data: np.ndarray[np.uint8],
     offsets: np.ndarray,
-    type_name: str,
+    cls_streamer_info: dict,
     all_streamer_info: dict[str, list[dict]],
     item_path: str = "",
 ):
-    tree_config = get_tree_config_from_type_name(type_name, all_streamer_info, item_path)
+    tree_config = gen_tree_config(cls_streamer_info, all_streamer_info, item_path)
     reader = get_cpp_reader(tree_config)
+
+    if offsets is None:
+        nbyte = cls_streamer_info["fSize"]
+        offsets = np.arange(data.size // nbyte + 1, dtype=np.uint32) * nbyte
     raw_data = _cpp.read_data(data, offsets, reader)
 
     return reconstruct_array(raw_data, tree_config)

@@ -23,33 +23,37 @@
 #endif
 
 namespace uproot {
+    template <typename T>
+    using SharedVector = std::shared_ptr<std::vector<T>>;
 
     template <typename T>
     class BasicTypeReader : public IElementReader {
       public:
-        BasicTypeReader( std::string name ) : IElementReader( name ), m_data() {}
+        BasicTypeReader( std::string name )
+            : IElementReader( name ), m_data( std::make_shared<std::vector<T>>() ) {}
 
-        void read( BinaryBuffer& buffer ) override { m_data.push_back( buffer.read<T>() ); }
+        void read( BinaryBuffer& buffer ) override { m_data->push_back( buffer.read<T>() ); }
 
-        py::object data() const override { return make_array( std::move( m_data ) ); }
+        py::object data() const override { return make_array( m_data ); }
 
       private:
-        std::vector<T> m_data;
+        SharedVector<T> m_data;
     };
 
     template <>
     class BasicTypeReader<bool> : public IElementReader {
       public:
-        BasicTypeReader( std::string name ) : IElementReader( name ), m_data() {}
+        BasicTypeReader( std::string name )
+            : IElementReader( name ), m_data( std::make_shared<std::vector<uint8_t>>() ) {}
 
         void read( BinaryBuffer& buffer ) override {
-            m_data.push_back( buffer.read<uint8_t>() != 0 );
+            m_data->push_back( buffer.read<uint8_t>() != 0 );
         }
 
-        py::object data() const override { return make_array( std::move( m_data ) ); }
+        py::object data() const override { return make_array( m_data ); }
 
       private:
-        std::vector<uint8_t> m_data;
+        SharedVector<uint8_t> m_data;
     };
 
     /*
@@ -79,25 +83,27 @@ namespace uproot {
     class TStringReader : public IElementReader {
       public:
         TStringReader( std::string name )
-            : IElementReader( name ), m_data(), m_offsets( { 0 } ) {}
+            : IElementReader( name )
+            , m_data( std::make_shared<std::vector<uint8_t>>() )
+            , m_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) ) {}
 
         void read( BinaryBuffer& buffer ) override {
             uint32_t fSize = buffer.read<uint8_t>();
             if ( fSize == 255 ) fSize = buffer.read<uint32_t>();
 
-            for ( int i = 0; i < fSize; i++ ) { m_data.push_back( buffer.read<uint8_t>() ); }
-            m_offsets.push_back( m_data.size() );
+            for ( int i = 0; i < fSize; i++ ) { m_data->push_back( buffer.read<uint8_t>() ); }
+            m_offsets->push_back( m_data->size() );
         }
 
         py::object data() const override {
-            auto offsets_array = make_array( std::move( m_offsets ) );
-            auto data_array    = make_array( std::move( m_data ) );
+            auto offsets_array = make_array( m_offsets );
+            auto data_array    = make_array( m_data );
             return py::make_tuple( offsets_array, data_array );
         }
 
       private:
-        std::vector<uint8_t> m_data;
-        std::vector<uint32_t> m_offsets;
+        SharedVector<uint8_t> m_data;
+        SharedVector<uint32_t> m_offsets;
     };
 
     /*
@@ -112,7 +118,7 @@ namespace uproot {
             : IElementReader( name )
             , m_with_header( with_header )
             , m_element_reader( element_reader )
-            , m_offsets( { 0 } ) {}
+            , m_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) ) {}
 
         void read( BinaryBuffer& buffer ) override {
             if ( m_with_header )
@@ -122,12 +128,12 @@ namespace uproot {
             }
 
             auto fSize = buffer.read<uint32_t>();
-            m_offsets.push_back( m_offsets.back() + fSize );
+            m_offsets->push_back( m_offsets->back() + fSize );
             for ( auto i = 0; i < fSize; i++ ) m_element_reader->read( buffer );
         }
 
         py::object data() const override {
-            auto offsets_array = make_array( std::move( m_offsets ) );
+            auto offsets_array = make_array( m_offsets );
             auto elements_data = m_element_reader->data();
             return py::make_tuple( offsets_array, elements_data );
         }
@@ -135,7 +141,7 @@ namespace uproot {
       private:
         const bool m_with_header;
         SharedReader m_element_reader;
-        std::vector<uint32_t> m_offsets;
+        SharedVector<uint32_t> m_offsets;
     };
 
     class STLMapReader : public IElementReader {
@@ -144,7 +150,7 @@ namespace uproot {
                       SharedReader value_reader )
             : IElementReader( name )
             , m_with_header( with_header )
-            , m_offsets( { 0 } )
+            , m_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) )
             , m_key_reader( key_reader )
             , m_value_reader( value_reader ) {}
 
@@ -156,7 +162,7 @@ namespace uproot {
             }
 
             auto fSize = buffer.read<uint32_t>();
-            m_offsets.push_back( m_offsets.back() + fSize );
+            m_offsets->push_back( m_offsets->back() + fSize );
 
             if ( m_with_header )
             {
@@ -174,7 +180,7 @@ namespace uproot {
         }
 
         py::object data() const override {
-            auto offsets_array     = make_array( std::move( m_offsets ) );
+            auto offsets_array     = make_array( m_offsets );
             py::object keys_data   = m_key_reader->data();
             py::object values_data = m_value_reader->data();
             return py::make_tuple( offsets_array, keys_data, values_data );
@@ -183,7 +189,7 @@ namespace uproot {
       private:
         const bool m_with_header;
 
-        std::vector<uint32_t> m_offsets;
+        SharedVector<uint32_t> m_offsets;
         SharedReader m_key_reader;
         SharedReader m_value_reader;
     };
@@ -193,8 +199,8 @@ namespace uproot {
         STLStringReader( std::string name, bool with_header )
             : IElementReader( name )
             , m_with_header( with_header )
-            , m_offsets( { 0 } )
-            , m_data() {}
+            , m_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) )
+            , m_data( std::make_shared<std::vector<uint8_t>>() ) {}
 
         void read( BinaryBuffer& buffer ) override {
             if ( m_with_header )
@@ -206,13 +212,13 @@ namespace uproot {
             uint32_t fSize = buffer.read<uint8_t>();
             if ( fSize == 255 ) fSize = buffer.read<uint32_t>();
 
-            m_offsets.push_back( m_offsets.back() + fSize );
-            for ( int i = 0; i < fSize; i++ ) { m_data.push_back( buffer.read<uint8_t>() ); }
+            m_offsets->push_back( m_offsets->back() + fSize );
+            for ( int i = 0; i < fSize; i++ ) { m_data->push_back( buffer.read<uint8_t>() ); }
         }
 
         py::object data() const override {
-            auto offsets_array = make_array( std::move( m_offsets ) );
-            auto data_array    = make_array( std::move( m_data ) );
+            auto offsets_array = make_array( m_offsets );
+            auto data_array    = make_array( m_data );
 
             return py::make_tuple( offsets_array, data_array );
         }
@@ -220,8 +226,8 @@ namespace uproot {
       private:
         const bool m_with_header;
 
-        std::vector<uint32_t> m_offsets;
-        std::vector<uint8_t> m_data;
+        SharedVector<uint32_t> m_offsets;
+        SharedVector<uint8_t> m_data;
     };
 
     /*
@@ -234,23 +240,25 @@ namespace uproot {
     class TArrayReader : public IElementReader {
       public:
         TArrayReader( std::string name )
-            : IElementReader( name ), m_offsets( { 0 } ), m_data() {}
+            : IElementReader( name )
+            , m_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) )
+            , m_data( std::make_shared<std::vector<T>>() ) {}
 
         void read( BinaryBuffer& buffer ) override {
             auto fSize = buffer.read<uint32_t>();
-            m_offsets.push_back( m_offsets.back() + fSize );
-            for ( auto i = 0; i < fSize; i++ ) { m_data.push_back( buffer.read<T>() ); }
+            m_offsets->push_back( m_offsets->back() + fSize );
+            for ( auto i = 0; i < fSize; i++ ) { m_data->push_back( buffer.read<T>() ); }
         }
 
         py::object data() const override {
-            auto offsets_array = make_array( std::move( m_offsets ) );
-            auto data_array    = make_array( std::move( m_data ) );
+            auto offsets_array = make_array( m_offsets );
+            auto data_array    = make_array( m_data );
             return py::make_tuple( offsets_array, data_array );
         }
 
       private:
-        std::vector<uint32_t> m_offsets;
-        std::vector<T> m_data;
+        SharedVector<uint32_t> m_offsets;
+        SharedVector<T> m_data;
     };
 
     /*
@@ -353,18 +361,14 @@ namespace uproot {
         return reader->data();
     }
 
-    std::string get_reader_name( SharedReader reader ) { return reader->name(); }
-
     PYBIND11_MODULE( _cpp, m ) {
         m.doc() = "C++ module for uproot-custom";
 
         m.def( "read_data", &py_read_data, "Read data from a binary buffer", py::arg( "data" ),
                py::arg( "offsets" ), py::arg( "reader" ) );
 
-        m.def( "get_reader_name", &get_reader_name, "Get the name of the reader",
-               py::arg( "reader" ) );
-
-        py::class_<IElementReader, SharedReader>( m, "IElementReader" );
+        py::class_<IElementReader, SharedReader>( m, "IElementReader" )
+            .def( "name", &IElementReader::name, "Get the name of the reader" );
 
         // Basic type readers
         register_reader<BasicTypeReader<uint8_t>>( m, "UInt8Reader" );
