@@ -55,7 +55,13 @@ def gen_tree_config(
         dict: Reader configuration.
     """
     fName = cls_streamer_info["fName"]
-    top_type_name = get_top_type_name(cls_streamer_info["fTypeName"])
+
+    top_type_name = (
+        get_top_type_name(cls_streamer_info["fTypeName"])
+        if "fTypeName" in cls_streamer_info
+        else None
+    )
+
     item_path = fName if item_path == "" else f"{item_path}.{fName}"
 
     for reader in sorted(registered_readers, key=lambda x: x.priority(), reverse=True):
@@ -121,7 +127,6 @@ class BaseReader:
     @classmethod
     def gen_tree_config(
         cls,
-        top_type_name: str,
         cls_streamer_info: dict,
         all_streamer_info: dict,
         item_path: str = "",
