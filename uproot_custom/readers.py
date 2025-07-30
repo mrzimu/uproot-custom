@@ -10,7 +10,7 @@ import numpy as np
 
 from . import _cpp
 
-readers: set[type["BaseReader"]] = set()
+registered_readers: set[type["BaseReader"]] = set()
 
 
 def get_top_type_name(type_name: str) -> str:
@@ -55,38 +55,42 @@ def gen_tree_config(
         dict: Reader configuration.
     """
     fName = cls_streamer_info["fName"]
+
+    top_type_name = (
+        get_top_type_name(cls_streamer_info["fTypeName"])
+        if "fTypeName" in cls_streamer_info
+        else None
+    )
+
     item_path = fName if item_path == "" else f"{item_path}.{fName}"
 
-    for reader in sorted(readers, key=lambda x: x.priority()):
-        top_type_name = get_top_type_name(cls_streamer_info["fTypeName"])
-        reader_config = reader.gen_tree_config(
+    for reader in sorted(registered_readers, key=lambda x: x.priority(), reverse=True):
+        tree_config = reader.gen_tree_config(
             top_type_name,
             cls_streamer_info,
             all_streamer_info,
             item_path,
         )
-        if reader_config is not None:
-            return reader_config
+        if tree_config is not None:
+            return tree_config
 
     raise ValueError(f"Unknown type: {cls_streamer_info['fTypeName']} for {item_path}")
 
 
-def get_cpp_reader(reader_config: dict):
-    for reader in sorted(readers, key=lambda x: x.priority()):
-        cpp_reader = reader.get_cpp_reader(reader_config)
+def get_cpp_reader(tree_config: dict):
+    for reader in sorted(registered_readers, key=lambda x: x.priority(), reverse=True):
+        cpp_reader = reader.get_cpp_reader(tree_config)
         if cpp_reader is not None:
             return cpp_reader
 
-    raise ValueError(
-        f"Unknown reader type: {reader_config['reader']} for {reader_config['name']}"
-    )
+    raise ValueError(f"Unknown reader type: {tree_config['reader']} for {tree_config['name']}")
 
 
 def reconstruct_array(
     raw_data: Union[np.ndarray, tuple, list, None],
     tree_config: dict,
 ) -> Union[ak.Array, None]:
-    for reader in sorted(readers, key=lambda x: x.priority(), reverse=True):
+    for reader in sorted(registered_readers, key=lambda x: x.priority(), reverse=True):
         data = reader.reconstruct_array(raw_data, tree_config)
         if data is not None:
             return data
@@ -94,33 +98,22 @@ def reconstruct_array(
     raise ValueError(f"Unknown reader type: {tree_config['reader']} for {tree_config['name']}")
 
 
-def get_reader_config_from_type_name(
-    type_name: str,
-    all_streamer_info: dict,
-    item_path: str = "",
-):
-    return gen_tree_config(
-        {
-            "fName": type_name,
-            "fTypeName": type_name,
-        },
-        all_streamer_info,
-        item_path,
-    )
-
-
 def read_branch(
     data: np.ndarray[np.uint8],
     offsets: np.ndarray,
-    type_name: str,
+    cls_streamer_info: dict,
     all_streamer_info: dict[str, list[dict]],
     item_path: str = "",
 ):
-    reader_config = get_reader_config_from_type_name(type_name, all_streamer_info, item_path)
-    reader = get_cpp_reader(reader_config)
+    tree_config = gen_tree_config(cls_streamer_info, all_streamer_info, item_path)
+    reader = get_cpp_reader(tree_config)
+
+    if offsets is None:
+        nbyte = cls_streamer_info["fSize"]
+        offsets = np.arange(data.size // nbyte + 1, dtype=np.uint32) * nbyte
     raw_data = _cpp.read_data(data, offsets, reader)
 
-    return reconstruct_array(raw_data, reader_config)
+    return reconstruct_array(raw_data, tree_config)
 
 
 class BaseReader:
@@ -129,12 +122,11 @@ class BaseReader:
         """
         Return the priority of the reader. Readers with higher priority will be called first.
         """
-        return 0
+        return 10
 
     @classmethod
     def gen_tree_config(
         cls,
-        top_type_name: str,
         cls_streamer_info: dict,
         all_streamer_info: dict,
         item_path: str = "",
@@ -142,10 +134,10 @@ class BaseReader:
         raise NotImplementedError("This method should be implemented in subclasses.")
 
     @classmethod
-    def get_cpp_reader(cls, reader_config: dict) -> Union["BaseReader", None]:
+    def get_cpp_reader(cls, tree_config: dict) -> Union["BaseReader", None]:
         """
         Args:
-            reader_config (dict): The configuration dictionary for the reader.
+            tree_config (dict): The configuration dictionary for the reader.
 
         Returns:
             BaseReader: An instance of the appropriate reader class.
@@ -156,13 +148,13 @@ class BaseReader:
     def reconstruct_array(
         cls,
         raw_data: Union[np.ndarray, tuple, list, None],
-        reader_config: dict,
+        tree_config: dict,
     ) -> Union[ak.Array, None]:
         """
         Args:
             raw_data (Union[np.ndarray, tuple, list, None]): The raw data to be
                 recovered.
-            reader_config (dict): The configuration dictionary for the reader.
+            tree_config (dict): The configuration dictionary for the reader.
 
         Returns:
             ak.Array: The recovered data as an ak array.
@@ -177,10 +169,12 @@ class BasicTypeReader(BaseReader):
         "short": "i2",
         "int": "i4",
         "long": "i8",
+        "long long": "i8",
         "unsigned char": "u1",
         "unsigned short": "u2",
         "unsigned int": "u4",
         "unsigned long": "u8",
+        "unsigned long long": "u8",
         "float": "f",
         "double": "d",
         # cstdint
@@ -239,17 +233,20 @@ class BasicTypeReader(BaseReader):
             return None
 
     @classmethod
-    def get_cpp_reader(cls, reader_config: dict):
-        if reader_config["reader"] != cls:
+    def get_cpp_reader(cls, tree_config: dict):
+        if tree_config["reader"] is not cls:
             return None
 
-        ctype = reader_config["ctype"]
-        return cls.cpp_reader_map[ctype](reader_config["name"])
+        ctype = tree_config["ctype"]
+        return cls.cpp_reader_map[ctype](tree_config["name"])
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
+
+        if tree_config["ctype"] == "bool":
+            raw_data = raw_data.astype(np.bool_)
         return ak.contents.NumpyArray(raw_data)
 
 
@@ -294,7 +291,7 @@ class STLSeqReader(BaseReader):
             "fTypeName": element_type,
         }
 
-        element_reader_config = gen_tree_config(
+        element_tree_config = gen_tree_config(
             element_info,
             all_streamer_info,
             item_path,
@@ -302,30 +299,30 @@ class STLSeqReader(BaseReader):
 
         top_element_type = get_top_type_name(element_type)
         if top_element_type in stl_typenames:
-            element_reader_config["is_top"] = False
+            element_tree_config["is_top"] = False
 
         return {
             "reader": cls,
             "name": fName,
-            "element_reader": element_reader_config,
+            "element_reader": element_tree_config,
         }
 
     @classmethod
-    def get_cpp_reader(cls, reader_config: dict):
-        if reader_config["reader"] != cls:
+    def get_cpp_reader(cls, tree_config: dict):
+        if tree_config["reader"] is not cls:
             return None
 
-        element_cpp_reader = get_cpp_reader(reader_config["element_reader"])
-        is_top = reader_config.get("is_top", True)
+        element_cpp_reader = get_cpp_reader(tree_config["element_reader"])
+        is_top = tree_config.get("is_top", True)
         return _cpp.STLSeqReader(
-            reader_config["name"],
+            tree_config["name"],
             is_top,
             element_cpp_reader,
         )
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         offsets, element_raw_data = raw_data
@@ -399,7 +396,7 @@ class STLMapReader(BaseReader):
 
     @classmethod
     def get_cpp_reader(cls, tree_config: dict):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         key_cpp_reader = get_cpp_reader(tree_config["key_reader"])
@@ -414,7 +411,7 @@ class STLMapReader(BaseReader):
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         key_tree_config = tree_config["key_reader"]
@@ -455,7 +452,7 @@ class STLStringReader(BaseReader):
 
     @classmethod
     def get_cpp_reader(cls, tree_config: dict):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         return _cpp.STLStringReader(
@@ -465,7 +462,7 @@ class STLStringReader(BaseReader):
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         offsets, data = raw_data
@@ -513,7 +510,7 @@ class TArrayReader(BaseReader):
 
     @classmethod
     def get_cpp_reader(cls, tree_config: dict):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         ctype = tree_config["ctype"]
@@ -529,7 +526,7 @@ class TArrayReader(BaseReader):
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         offsets, data = raw_data
@@ -562,14 +559,14 @@ class TStringReader(BaseReader):
 
     @classmethod
     def get_cpp_reader(cls, tree_config: dict):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         return _cpp.TStringReader(tree_config["name"])
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         offsets, data = raw_data
@@ -609,7 +606,7 @@ class TObjectReader(BaseReader):
 
     @classmethod
     def get_cpp_reader(cls, tree_config: dict):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         return _cpp.TObjectReader(tree_config["name"])
@@ -626,7 +623,7 @@ class CArrayReader(BaseReader):
 
     @classmethod
     def priority(cls):
-        return 10  # This reader should be called first
+        return 20  # This reader should be called first
 
     @classmethod
     def gen_tree_config(
@@ -701,7 +698,7 @@ class CArrayReader(BaseReader):
     @classmethod
     def get_cpp_reader(cls, tree_config: dict):
         reader_type = tree_config["reader"]
-        if reader_type != cls:
+        if reader_type is not cls:
             return None
 
         element_reader = get_cpp_reader(tree_config["element_reader"])
@@ -715,7 +712,7 @@ class CArrayReader(BaseReader):
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         element_tree_config = tree_config["element_reader"]
@@ -769,7 +766,7 @@ class ObjectReader(BaseReader):
 
     @classmethod
     def get_cpp_reader(cls, tree_config: dict):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         sub_readers = [get_cpp_reader(s) for s in tree_config["sub_readers"]]
@@ -777,7 +774,7 @@ class ObjectReader(BaseReader):
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         sub_tree_configs = tree_config["sub_readers"]
@@ -815,20 +812,20 @@ class EmptyReader(BaseReader):
 
     @classmethod
     def get_cpp_reader(cls, tree_config: dict):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         return _cpp.EmptyReader(tree_config["name"])
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
-        if tree_config["reader"] != cls:
+        if tree_config["reader"] is not cls:
             return None
 
         return awkward.contents.EmptyArray()
 
 
-readers |= {
+registered_readers |= {
     BasicTypeReader,
     STLSeqReader,
     STLMapReader,

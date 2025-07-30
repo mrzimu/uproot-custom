@@ -4,7 +4,23 @@ import uproot.interpretation.identify
 
 from .AsBinary import AsBinary
 from .AsCustom import AsCustom, regularize_object_path
-from .readers import BaseReader
+from .readers import (
+    BaseReader,
+    BasicTypeReader,
+    CArrayReader,
+    EmptyReader,
+    ObjectReader,
+    STLMapReader,
+    STLSeqReader,
+    STLStringReader,
+    TArrayReader,
+    TObjectReader,
+    TStringReader,
+    gen_tree_config,
+    get_cpp_reader,
+    reconstruct_array,
+    registered_readers,
+)
 
 ##########################################################################################
 #                                       Wrappers

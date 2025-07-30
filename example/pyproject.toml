@@ -1,0 +1,21 @@
+[build-system]
+requires = ["scikit-build-core>=0.11", "pybind11>=2.10.0", "uproot-custom"]
+# requires = ["scikit-build-core>=0.11", "pybind11>=2.10.0", "uproot-custom @ file://path/to/uproot-custom-wheel-file.whl"] # Use this line if you need to use local `uproot-custom`.
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "my-reader"
+requires-python = ">=3.9"
+dependencies = ["uproot-custom"]
+version = "0.1.0"
+
+[tool.scikit-build]
+wheel.packages = ["my_reader"]
+build-dir = "build/{wheel_tag}"
+cmake.source-dir = "cpp"
+cmake.build-type = "Release" # Release/Debug
+
+[tool.black]
+exclude = "/(build|dist|env|.git|.tox|.eggs|.venv)/"
+line-length = 95
+target-version = ['py39', 'py310', 'py311', 'py312', 'py313']
