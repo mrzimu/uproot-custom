@@ -23,7 +23,8 @@ def get_top_type_name(type_name: str) -> str:
 def gen_tree_config(
     cls_streamer_info: dict,
     all_streamer_info: dict,
-    item_path: str = "",
+    item_path: str,
+    called_from_top: bool = False,
 ) -> dict:
     """
     Generate reader configuration for a class streamer information.
@@ -62,7 +63,8 @@ def gen_tree_config(
         else None
     )
 
-    item_path = fName if item_path == "" else f"{item_path}.{fName}"
+    if not called_from_top:
+        item_path = f"{item_path}.{fName}"
 
     for reader in sorted(registered_readers, key=lambda x: x.priority(), reverse=True):
         tree_config = reader.gen_tree_config(
