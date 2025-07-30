@@ -107,7 +107,12 @@ def read_branch(
     all_streamer_info: dict[str, list[dict]],
     item_path: str = "",
 ):
-    tree_config = gen_tree_config(cls_streamer_info, all_streamer_info, item_path)
+    tree_config = gen_tree_config(
+        cls_streamer_info,
+        all_streamer_info,
+        item_path,
+        called_from_top=True,
+    )
     reader = get_cpp_reader(tree_config)
 
     if offsets is None:
