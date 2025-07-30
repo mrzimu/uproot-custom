@@ -23,7 +23,7 @@ def get_top_type_name(type_name: str) -> str:
 def gen_tree_config(
     cls_streamer_info: dict,
     all_streamer_info: dict,
-    item_path: str,
+    item_path: str = "",
     called_from_top: bool = False,
 ) -> dict:
     """
