@@ -116,8 +116,7 @@ Make sure you have `GCC>13.1`/`Clang>=16.0.0`/`MSVC>=19.31`, `cmake` installed o
 
 For a custom `Reader`, a C++ part and a Python part are both required.
 
-For C++ part, the constructor must receive a `std::string name` parameter at first position, and these methods must be implemented:
-- `const std::string& name() const`: Return the name of the reader.
+For C++ part, the constructor must inherit from `IElementReader`, and these methods must be implemented:
 - `void read(BinaryBuffer& buffer)`: Read data from the binary buffer.
 - `py::object data() const`: Return the data as a Python object. You can return anything defined in `pybind11`, such as `py::tuple`, `py::list`, `py::array_t`, etc.
 
@@ -135,14 +134,15 @@ For Python part, the class must inherit from `uproot_custom.BaseReader` and impl
 
     ```cpp
     #include "uproot-custom/uproot-custom.hh"
+    using namespace uproot;
 
-    class MyReader {
+    class MyReader : public IElementReader {
         public:
             // Must at least receive a name
-            MyReader( std::string name ) : m_name(name) {}
+            MyReader( std::string name )
+                : IElementReader(name), m_data( std::make_shared<std::vector<int>>() ) {}
 
             // Implement these methods
-            const std::string& name() const { return m_name; }
             void read( BinaryBuffer& buffer ) {
                 // Read data from the buffer
                 // Implement your reading logic here
@@ -150,11 +150,12 @@ For Python part, the class must inherit from `uproot_custom.BaseReader` and impl
 
             py::object data() const {
                 // Return the data as a Python object
-                // Implement your data conversion logic here
+                return make_array( m_data );
             }
 
         private:
             const std::string m_name;
+            std::shared_ptr<std::vector<int>> m_data; // Example data member
     };
     ```
 
@@ -166,7 +167,7 @@ For Python part, the class must inherit from `uproot_custom.BaseReader` and impl
     }
     ```
 
-    if the constructor requires more parameters, register it like this:
+    if the constructor requires more parameters, register it with the constructor signature (except the name):
 
     ```cpp
     // Constructor signature:
@@ -179,7 +180,7 @@ For Python part, the class must inherit from `uproot_custom.BaseReader` and impl
     ```
 
 > [!IMPORTANT]
-> In C++, `IElementReader` is the interface for reading data members of a class. You can receieve `IElementReader` as sub-readers, but you cannot inherit from it directly. You should just implement the required methods in your own class.
+> Use `std::shared_ptr` for data members in your reader class, as `uproot-custom` will manage the memory of the data members. This is important to avoid memory leaks and ensure proper cleanup.
 
 3. Create a `CMakeLists.txt` file in `cpp` directory:
 
@@ -207,7 +208,6 @@ For Python part, the class must inherit from `uproot_custom.BaseReader` and impl
         # Add other source files here if needed
     )
 
-    target_include_directories(my_reader_cpp PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
     target_link_libraries(my_reader_cpp PRIVATE uproot-custom)
 
     if(DEFINED SKBUILD_PROJECT_NAME)
