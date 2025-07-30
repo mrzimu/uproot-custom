@@ -26,6 +26,9 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
+optional-dependencies = { "dev" = ["pytest"] }
+urls = { "Repository" = "https://github.com/mrzimu/uproot-custom" }
+
 [tool.scikit-build]
 build-dir = "build/{wheel_tag}"
 metadata.version.provider = "scikit_build_core.metadata.setuptools_scm"
