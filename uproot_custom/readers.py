@@ -8,7 +8,7 @@ import awkward.contents
 import awkward.index
 import numpy as np
 
-from . import _cpp
+import uproot_custom.cpp
 
 registered_readers: set[type["BaseReader"]] = set()
 
@@ -118,7 +118,7 @@ def read_branch(
     if offsets is None:
         nbyte = cls_streamer_info["fSize"]
         offsets = np.arange(data.size // nbyte + 1, dtype=np.uint32) * nbyte
-    raw_data = _cpp.read_data(data, offsets, reader)
+    raw_data = uproot_custom.cpp.read_data(data, offsets, reader)
 
     return reconstruct_array(raw_data, tree_config)
 
@@ -208,17 +208,17 @@ class BasicTypeReader(BaseReader):
     }
 
     cpp_reader_map = {
-        "bool": _cpp.BoolReader,
-        "i1": _cpp.Int8Reader,
-        "i2": _cpp.Int16Reader,
-        "i4": _cpp.Int32Reader,
-        "i8": _cpp.Int64Reader,
-        "u1": _cpp.UInt8Reader,
-        "u2": _cpp.UInt16Reader,
-        "u4": _cpp.UInt32Reader,
-        "u8": _cpp.UInt64Reader,
-        "f": _cpp.FloatReader,
-        "d": _cpp.DoubleReader,
+        "bool": uproot_custom.cpp.BoolReader,
+        "i1": uproot_custom.cpp.Int8Reader,
+        "i2": uproot_custom.cpp.Int16Reader,
+        "i4": uproot_custom.cpp.Int32Reader,
+        "i8": uproot_custom.cpp.Int64Reader,
+        "u1": uproot_custom.cpp.UInt8Reader,
+        "u2": uproot_custom.cpp.UInt16Reader,
+        "u4": uproot_custom.cpp.UInt32Reader,
+        "u8": uproot_custom.cpp.UInt64Reader,
+        "f": uproot_custom.cpp.FloatReader,
+        "d": uproot_custom.cpp.DoubleReader,
     }
 
     @classmethod
@@ -321,7 +321,7 @@ class STLSeqReader(BaseReader):
 
         element_cpp_reader = get_cpp_reader(tree_config["element_reader"])
         is_top = tree_config.get("is_top", True)
-        return _cpp.STLSeqReader(
+        return uproot_custom.cpp.STLSeqReader(
             tree_config["name"],
             is_top,
             element_cpp_reader,
@@ -409,7 +409,7 @@ class STLMapReader(BaseReader):
         key_cpp_reader = get_cpp_reader(tree_config["key_reader"])
         val_cpp_reader = get_cpp_reader(tree_config["val_reader"])
         is_top = tree_config.get("is_top", True)
-        return _cpp.STLMapReader(
+        return uproot_custom.cpp.STLMapReader(
             tree_config["name"],
             is_top,
             key_cpp_reader,
@@ -462,7 +462,7 @@ class STLStringReader(BaseReader):
         if tree_config["reader"] is not cls:
             return None
 
-        return _cpp.STLStringReader(
+        return uproot_custom.cpp.STLStringReader(
             tree_config["name"],
             tree_config.get("is_top", True),
         )
@@ -523,12 +523,12 @@ class TArrayReader(BaseReader):
         ctype = tree_config["ctype"]
 
         return {
-            "i1": _cpp.TArrayCReader,
-            "i2": _cpp.TArraySReader,
-            "i4": _cpp.TArrayIReader,
-            "i8": _cpp.TArrayLReader,
-            "f": _cpp.TArrayFReader,
-            "d": _cpp.TArrayDReader,
+            "i1": uproot_custom.cpp.TArrayCReader,
+            "i2": uproot_custom.cpp.TArraySReader,
+            "i4": uproot_custom.cpp.TArrayIReader,
+            "i8": uproot_custom.cpp.TArrayLReader,
+            "f": uproot_custom.cpp.TArrayFReader,
+            "d": uproot_custom.cpp.TArrayDReader,
         }[ctype](tree_config["name"])
 
     @classmethod
@@ -569,7 +569,7 @@ class TStringReader(BaseReader):
         if tree_config["reader"] is not cls:
             return None
 
-        return _cpp.TStringReader(tree_config["name"])
+        return uproot_custom.cpp.TStringReader(tree_config["name"])
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
@@ -616,7 +616,7 @@ class TObjectReader(BaseReader):
         if tree_config["reader"] is not cls:
             return None
 
-        return _cpp.TObjectReader(tree_config["name"])
+        return uproot_custom.cpp.TObjectReader(tree_config["name"])
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
@@ -710,7 +710,7 @@ class CArrayReader(BaseReader):
 
         element_reader = get_cpp_reader(tree_config["element_reader"])
 
-        return _cpp.CArrayReader(
+        return uproot_custom.cpp.CArrayReader(
             tree_config["name"],
             tree_config["is_obj"],
             tree_config["flat_size"],
@@ -777,7 +777,7 @@ class ObjectReader(BaseReader):
             return None
 
         sub_readers = [get_cpp_reader(s) for s in tree_config["sub_readers"]]
-        return _cpp.ObjectReader(tree_config["name"], sub_readers)
+        return uproot_custom.cpp.ObjectReader(tree_config["name"], sub_readers)
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
@@ -822,7 +822,7 @@ class EmptyReader(BaseReader):
         if tree_config["reader"] is not cls:
             return None
 
-        return _cpp.EmptyReader(tree_config["name"])
+        return uproot_custom.cpp.EmptyReader(tree_config["name"])
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
