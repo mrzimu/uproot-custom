@@ -16,11 +16,11 @@ find_package(pybind11 REQUIRED)
 
 # Add the uproot-custom module
 
-pybind11_add_module(_cpp
+pybind11_add_module(cpp
     src/uproot-custom.cc
 )
 
-target_include_directories(_cpp
+target_include_directories(cpp
     PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
@@ -34,8 +34,8 @@ if(DEFINED SKBUILD_PROJECT_NAME)
     )
 
     install(
-        TARGETS _cpp
-        LIBRARY DESTINATION ${SKBUILD_PROJECT_NAME}
+        TARGETS cpp
+        LIBRARY DESTINATION ${SKBUILD_PROJECT_NAME}/
     )
 
     install( # header files

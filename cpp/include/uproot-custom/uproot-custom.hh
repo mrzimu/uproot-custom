@@ -24,6 +24,8 @@
 #    error "Unsupported compiler!"
 #endif
 
+#define IMPORT_UPROOT_CUSTOM_CPP pybind11::module_::import( "uproot_custom.cpp" );
+
 namespace uproot {
     namespace py = pybind11;
     using std::shared_ptr;

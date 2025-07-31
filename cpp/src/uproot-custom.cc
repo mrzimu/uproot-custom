@@ -361,7 +361,7 @@ namespace uproot {
         return reader->data();
     }
 
-    PYBIND11_MODULE( _cpp, m ) {
+    PYBIND11_MODULE( cpp, m ) {
         m.doc() = "C++ module for uproot-custom";
 
         m.def( "read_data", &py_read_data, "Read data from a binary buffer", py::arg( "data" ),
