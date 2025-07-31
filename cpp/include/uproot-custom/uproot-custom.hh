@@ -164,7 +164,7 @@ namespace uproot {
     -----------------------------------------------------------------------------
     */
 
-    class IElementReader {
+    class PYBIND11_EXPORT IElementReader {
       protected:
         const std::string m_name;
 
