@@ -27,7 +27,7 @@ def test_downstream_build(tmpdir: Path):
 
     pyproject_toml = (
         Path(__file__).parent / "test_downstream_build_pyproject.toml"
-    ).read_text()
+    ).read_text(encoding="utf-8")
 
     pyproject_toml = pyproject_toml.replace("@wheel-path@", str(wheel_path))
 
