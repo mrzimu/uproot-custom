@@ -35,7 +35,7 @@ classifiers = [
     "Topic :: Utilities",
 ]
 
-optional-dependencies = { "dev" = ["pytest"] }
+optional-dependencies = { "dev" = ["pytest", "build"] }
 urls = { "Homepage" = "https://github.com/mrzimu/uproot-custom" }
 
 [tool.scikit-build]
@@ -56,12 +56,3 @@ target-version = ['py39', 'py310', 'py311', 'py312', 'py313']
 
 [project.entry-points."cmake.root"]
 uproot-custom = "uproot_custom.share.cmake"
-
-[tool.cibuildwheel]
-before-all = "uname -a"
-
-test-requires = "pytest"
-before-test = "pip install ."
-test-command = ["pytest {package}/tests"]
-
-build = ["cp*-manylinux_x86_64"]
