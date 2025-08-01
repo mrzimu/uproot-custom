@@ -9,7 +9,6 @@
 #include <pybind11/pytypes.h>
 #include <pybind11/stl.h>
 #include <string>
-#include <unistd.h>
 
 #if defined( _MSC_VER )
 #    include <stdlib.h>
