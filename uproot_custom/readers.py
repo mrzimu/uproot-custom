@@ -810,7 +810,7 @@ class BaseObjectReader(BaseReader):
             return None
 
         sub_readers = [get_cpp_reader(s) for s in tree_config["sub_readers"]]
-        return uproot_custom.cpp.ObjectReader(tree_config["name"], sub_readers)
+        return uproot_custom.cpp.BaseObjectReader(tree_config["name"], sub_readers)
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
