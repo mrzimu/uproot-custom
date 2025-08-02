@@ -61,7 +61,7 @@ uproot-custom = "uproot_custom.share.cmake"
 before-all = "uname -a"
 
 # Test
-test-requires = "pytest"
+test-requires = ["pytest", "build"]
 before-test = "pip install .[dev]"
 test-command = ["pytest {package}/tests"]
 
