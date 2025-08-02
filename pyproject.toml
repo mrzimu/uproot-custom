@@ -62,7 +62,7 @@ before-all = "uname -a"
 
 # Test
 test-requires = "pytest"
-before-test = "pip install ."
+before-test = "pip install .[dev]"
 test-command = ["pytest {package}/tests"]
 
 build = ["cp*-manylinux_x86_64", "cp*-macosx_arm64", "cp*-win_amd64"]
