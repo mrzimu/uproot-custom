@@ -7,7 +7,7 @@ import uproot
 import uproot.behaviors.TBranch
 import uproot.interpretation
 
-from .readers import read_branch
+from uproot_custom.readers import read_branch
 
 
 def regularize_object_path(object_path: str) -> str:
