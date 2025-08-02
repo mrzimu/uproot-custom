@@ -65,13 +65,40 @@ namespace uproot {
     class TObjectReader : public IElementReader {
 
       public:
-        TObjectReader( std::string name ) : IElementReader( name ) {}
+        TObjectReader( std::string name )
+            : IElementReader( name )
+            , m_unique_id( std::make_shared<std::vector<int32_t>>() )
+            , m_bits( std::make_shared<std::vector<uint32_t>>() )
+            , m_pidf( std::make_shared<std::vector<uint16_t>>() )
+            , m_pidf_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) ) {}
 
-        void read( BinaryBuffer& buffer ) override { buffer.skip_TObject(); }
+        void read( BinaryBuffer& buffer ) override {
+            buffer.skip_fVersion();
 
-        py::object data() const override { return py::none(); }
+            m_unique_id->push_back( buffer.read<int32_t>() );
+
+            auto fBits = buffer.read<uint32_t>();
+            m_bits->push_back( fBits );
+
+            if ( fBits & ( BinaryBuffer::kIsReferenced ) )
+            { m_pidf->push_back( buffer.read<uint16_t>() ); }
+
+            m_pidf_offsets->push_back( m_pidf->size() );
+        }
+
+        py::object data() const override {
+            auto unique_id_array = make_array( m_unique_id );
+            auto bits_array      = make_array( m_bits );
+            auto pidf_array      = make_array( m_pidf );
+            auto pidf_offsets    = make_array( m_pidf_offsets );
+            return py::make_tuple( unique_id_array, bits_array, pidf_array, pidf_offsets );
+        }
 
       private:
+        SharedVector<int32_t> m_unique_id;
+        SharedVector<uint32_t> m_bits;
+        SharedVector<uint16_t> m_pidf;
+        SharedVector<uint32_t> m_pidf_offsets;
     };
 
     /*
@@ -267,9 +294,9 @@ namespace uproot {
     -----------------------------------------------------------------------------
     */
 
-    class ObjectReader : public IElementReader {
+    class BaseObjectReader : public IElementReader {
       public:
-        ObjectReader( std::string name, std::vector<SharedReader> element_readers )
+        BaseObjectReader( std::string name, std::vector<SharedReader> element_readers )
             : IElementReader( name ), m_element_readers( element_readers ) {}
 
         void read( BinaryBuffer& buffer ) override {
@@ -290,6 +317,37 @@ namespace uproot {
 #endif
                 reader->read( buffer );
             }
+        }
+
+        py::object data() const override {
+            py::list res;
+            for ( auto& reader : m_element_readers ) { res.append( reader->data() ); }
+            return res;
+        }
+
+      private:
+        std::vector<SharedReader> m_element_readers;
+    };
+
+    /*
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    */
+
+    class ObjectHeaderReader : public IElementReader {
+      public:
+        ObjectHeaderReader( std::string name, std::vector<SharedReader> element_readers )
+            : IElementReader( name ), m_element_readers( element_readers ) {}
+
+        void read( BinaryBuffer& buffer ) override {
+            buffer.read_fNBytes();
+            auto fTag = buffer.read<int32_t>();
+            if ( fTag == -1 ) buffer.read_null_terminated_string();
+
+            buffer.skip_fNBytes();
+            buffer.skip_fVersion();
+            for ( auto& reader : m_element_readers ) { reader->read( buffer ); }
         }
 
         py::object data() const override {
@@ -399,7 +457,9 @@ namespace uproot {
         // Other readers
         register_reader<TStringReader>( m, "TStringReader" );
         register_reader<TObjectReader>( m, "TObjectReader" );
-        register_reader<ObjectReader, std::vector<SharedReader>>( m, "ObjectReader" );
+        register_reader<BaseObjectReader, std::vector<SharedReader>>( m, "BaseObjectReader" );
+        register_reader<ObjectHeaderReader, std::vector<SharedReader>>( m,
+                                                                        "ObjectHeaderReader" );
         register_reader<CArrayReader, bool, uint32_t, SharedReader>( m, "CArrayReader" );
         register_reader<EmptyReader>( m, "EmptyReader" );
     }

@@ -277,7 +277,7 @@ class STLSeqReader(BaseReader):
         type_name = (
             type_name.replace("std::", "").replace("< ", "<").replace(" >", ">").strip()
         )
-        return re.match(r"^(vector|array)<(.*)>$", type_name).group(2)
+        return re.match(r"^(vector|array|list)<(.*)>$", type_name).group(2)
 
     @classmethod
     def gen_tree_config(
@@ -287,7 +287,7 @@ class STLSeqReader(BaseReader):
         all_streamer_info,
         item_path,
     ):
-        if top_type_name not in ["vector", "array"]:
+        if top_type_name not in ["vector", "array", "list"]:
             return None
 
         fName = cls_streamer_info["fName"]
@@ -306,7 +306,7 @@ class STLSeqReader(BaseReader):
 
         top_element_type = get_top_type_name(element_type)
         if top_element_type in stl_typenames:
-            element_tree_config["is_top"] = False
+            element_tree_config["with_header"] = False
 
         return {
             "reader": cls,
@@ -320,10 +320,10 @@ class STLSeqReader(BaseReader):
             return None
 
         element_cpp_reader = get_cpp_reader(tree_config["element_reader"])
-        is_top = tree_config.get("is_top", True)
+        with_header = tree_config.get("with_header", True)
         return uproot_custom.cpp.STLSeqReader(
             tree_config["name"],
-            is_top,
+            with_header,
             element_cpp_reader,
         )
 
@@ -388,11 +388,11 @@ class STLMapReader(BaseReader):
 
         key_tree_config = gen_tree_config(key_info, all_streamer_info, item_path)
         if get_top_type_name(key_type_name) in stl_typenames:
-            key_tree_config["is_top"] = False
+            key_tree_config["with_header"] = False
 
         val_tree_config = gen_tree_config(val_info, all_streamer_info, item_path)
         if get_top_type_name(val_type_name) in stl_typenames:
-            val_tree_config["is_top"] = False
+            val_tree_config["with_header"] = False
 
         return {
             "reader": cls,
@@ -408,10 +408,10 @@ class STLMapReader(BaseReader):
 
         key_cpp_reader = get_cpp_reader(tree_config["key_reader"])
         val_cpp_reader = get_cpp_reader(tree_config["val_reader"])
-        is_top = tree_config.get("is_top", True)
+        with_header = tree_config.get("with_header", True)
         return uproot_custom.cpp.STLMapReader(
             tree_config["name"],
-            is_top,
+            with_header,
             key_cpp_reader,
             val_cpp_reader,
         )
@@ -464,7 +464,7 @@ class STLStringReader(BaseReader):
 
         return uproot_custom.cpp.STLStringReader(
             tree_config["name"],
-            tree_config.get("is_top", True),
+            tree_config.get("with_header", True),
         )
 
     @classmethod
@@ -620,7 +620,22 @@ class TObjectReader(BaseReader):
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
-        return None
+        if tree_config["reader"] is not cls:
+            return None
+
+        unique_ids, bits, pidf, pidf_offsets = raw_data
+
+        return awkward.contents.RecordArray(
+            [
+                awkward.contents.NumpyArray(unique_ids),
+                awkward.contents.NumpyArray(bits),
+                awkward.contents.ListOffsetArray(
+                    awkward.index.Index64(pidf_offsets),
+                    awkward.contents.NumpyArray(pidf),
+                ),
+            ],
+            ["fUniqueID", "fBits", "pidf"],
+        )
 
 
 class CArrayReader(BaseReader):
@@ -688,7 +703,7 @@ class CArrayReader(BaseReader):
 
         # STL
         elif top_type_name in stl_typenames:
-            element_tree_config["is_top"] = False
+            element_tree_config["with_header"] = False
             return {
                 "reader": cls,
                 "name": fName,
@@ -738,7 +753,7 @@ class CArrayReader(BaseReader):
         return element_data
 
 
-class ObjectReader(BaseReader):
+class BaseObjectReader(BaseReader):
     """
     It has fNBytes(uint32), fVersion(uint16) at the beginning.
     """
@@ -789,11 +804,59 @@ class ObjectReader(BaseReader):
         arr_dict = {}
         for s_cfg, s_data in zip(sub_tree_configs, raw_data):
             s_name = s_cfg["name"]
-            s_reader_type = s_cfg["reader"]
+            arr_dict[s_name] = reconstruct_array(s_data, s_cfg)
 
-            if s_reader_type == TObjectReader:
-                continue
+        return awkward.contents.RecordArray(
+            [arr_dict[k] for k in arr_dict],
+            [k for k in arr_dict],
+        )
 
+
+class ObjectHeaderReader(BaseReader):
+    """
+    This class read an object starting with an object header.
+    """
+
+    @classmethod
+    def priority(cls):
+        return 0  # should be called last
+
+    @classmethod
+    def gen_tree_config(
+        cls,
+        top_type_name,
+        cls_streamer_info,
+        all_streamer_info,
+        item_path,
+    ):
+        sub_streamers: list = all_streamer_info[top_type_name]
+        sub_tree_configs = [
+            gen_tree_config(s, all_streamer_info, item_path) for s in sub_streamers
+        ]
+        return {
+            "reader": cls,
+            "name": top_type_name,
+            "sub_readers": sub_tree_configs,
+        }
+
+    @classmethod
+    def get_cpp_reader(cls, tree_config: dict):
+        if tree_config["reader"] is not cls:
+            return None
+
+        sub_readers = [get_cpp_reader(s) for s in tree_config["sub_readers"]]
+        return uproot_custom.cpp.ObjectHeaderReader(tree_config["name"], sub_readers)
+
+    @classmethod
+    def reconstruct_array(cls, raw_data, tree_config):
+        if tree_config["reader"] is not cls:
+            return None
+
+        sub_tree_configs = tree_config["sub_readers"]
+
+        arr_dict = {}
+        for s_cfg, s_data in zip(sub_tree_configs, raw_data):
+            s_name = s_cfg["name"]
             arr_dict[s_name] = reconstruct_array(s_data, s_cfg)
 
         return awkward.contents.RecordArray(
@@ -841,6 +904,7 @@ registered_readers |= {
     TStringReader,
     TObjectReader,
     CArrayReader,
-    ObjectReader,
+    BaseObjectReader,
+    ObjectHeaderReader,
     EmptyReader,
 }
