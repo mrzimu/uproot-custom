@@ -11,7 +11,8 @@ class OverrideStreamerReader(BaseReader):
         top_type_name: str,
         cls_streamer_info: dict,
         all_streamer_info: dict,
-        item_path: str = "",
+        item_path: str,
+        called_from_top: bool,
     ):
         fName = cls_streamer_info["fName"]
         if fName != "TOverrideStreamer":

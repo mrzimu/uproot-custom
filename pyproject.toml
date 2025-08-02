@@ -7,7 +7,7 @@ name = "uproot-custom"
 authors = [{ name = "Mingrun Li", email = "mrli@ihep.ac.cn" }]
 description = "uproot extension for reading custom classes"
 requires-python = ">=3.9, <3.14"
-dependencies = ["uproot>=5.0"]
+dependencies = ["uproot>=5.0", "numpy", "awkward"]
 readme = "README.md"
 dynamic = ["version"]
 classifiers = [
@@ -45,6 +45,7 @@ sdist.exclude = ["tools"]
 sdist.include = ["uproot_custom/_version.py"]
 wheel.packages = ["uproot_custom"]
 cmake.source-dir = "cpp"
+cmake.build-type = "Release"
 
 [tool.setuptools_scm]
 write_to = "uproot_custom/_version.py"

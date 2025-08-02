@@ -5,5 +5,5 @@
 // #  pragma link off all functions;
 
 #    pragma link C++ class TOverrideStreamer - ;
-
+#    pragma link C++ class TComplicatedSTL + ;
 #endif
