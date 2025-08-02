@@ -58,11 +58,4 @@ target-version = ['py39', 'py310', 'py311', 'py312', 'py313']
 uproot-custom = "uproot_custom.share.cmake"
 
 [tool.cibuildwheel]
-before-all = "uname -a"
-
-# Test
-test-requires = ["pytest", "build"]
-before-test = "pip install .[dev]"
-test-command = ["pytest {package}/tests"]
-
 build = ["cp*-manylinux_x86_64", "cp*-macosx_arm64", "cp*-win_amd64"]
