@@ -5,11 +5,12 @@ import uproot.interpretation.identify
 from uproot_custom.AsBinary import AsBinary
 from uproot_custom.AsCustom import AsCustom, regularize_object_path
 from uproot_custom.readers import (
+    BaseObjectReader,
     BaseReader,
     BasicTypeReader,
     CArrayReader,
     EmptyReader,
-    ObjectReader,
+    ObjectHeaderReader,
     STLMapReader,
     STLSeqReader,
     STLStringReader,

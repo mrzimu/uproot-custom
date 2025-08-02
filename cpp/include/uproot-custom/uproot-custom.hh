@@ -38,7 +38,7 @@ namespace uproot {
     const int32_t kMapOffset = 2; // first 2 map entries are taken by null obj and self obj
 
     class BinaryBuffer {
-
+      public:
         enum EStatusBits {
             kCanDelete = 1ULL << 0, ///< if object in a list can be deleted
             // 2 is taken by TDataMember
@@ -54,7 +54,6 @@ namespace uproot {
                              << 13 ///< if object ctor succeeded but object should not be used
         };
 
-      public:
         BinaryBuffer( py::array_t<uint8_t> data, py::array_t<uint32_t> offsets )
             : m_data( static_cast<uint8_t*>( data.request().ptr ) )
             , m_offsets( static_cast<uint32_t*>( offsets.request().ptr ) )

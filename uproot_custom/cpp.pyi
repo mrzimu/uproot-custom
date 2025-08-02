@@ -83,7 +83,14 @@ class TStringReader(IElementReader):
 class TObjectReader(IElementReader):
     def __init__(self, name: str) -> None: ...
 
-class ObjectReader(IElementReader):
+class BaseObjectReader(IElementReader):
+    def __init__(
+        self,
+        name: str,
+        element_readers: list[IElementReader],
+    ) -> None: ...
+
+class ObjectHeaderReader(IElementReader):
     def __init__(
         self,
         name: str,
