@@ -376,12 +376,23 @@ namespace uproot {
             , m_element_reader( element_reader ) {}
 
         void read( BinaryBuffer& buffer ) override {
+            PRINT_MSG( "CArrayReader::read() for " + m_name +
+                       " with flat_size = " + std::to_string( m_flat_size ) +
+                       ", is_obj = " + std::to_string( m_is_obj ) );
+            PRINT_BUFFER( buffer );
             if ( m_is_obj )
             {
                 buffer.read_fNBytes();
                 buffer.read_fVersion();
             }
-            for ( auto i = 0; i < m_flat_size; i++ ) m_element_reader->read( buffer );
+            for ( auto i = 0; i < m_flat_size; i++ )
+            {
+                PRINT_MSG( "CArrayReader::read() reading element " + std::to_string( i ) );
+                PRINT_BUFFER( buffer );
+                m_element_reader->read( buffer );
+            }
+            PRINT_MSG( "" );
+            PRINT_MSG( "" );
         }
 
         py::object data() const override { return m_element_reader->data(); }

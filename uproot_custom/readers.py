@@ -72,6 +72,7 @@ def gen_tree_config(
             cls_streamer_info,
             all_streamer_info,
             item_path,
+            called_from_top=called_from_top,
         )
         if tree_config is not None:
             return tree_config
@@ -137,6 +138,7 @@ class BaseReader:
         cls_streamer_info: dict,
         all_streamer_info: dict,
         item_path: str = "",
+        called_from_top: bool = False,
     ) -> dict:
         raise NotImplementedError("This method should be implemented in subclasses.")
 
@@ -228,6 +230,7 @@ class BasicTypeReader(BaseReader):
         cls_streamer_info,
         all_streamer_info,
         item_path,
+        called_from_top,
     ):
         if top_type_name in BasicTypeReader.typenames:
             ctype = BasicTypeReader.typenames[top_type_name]
@@ -263,6 +266,9 @@ stl_typenames = {
     "map",
     "unordered_map",
     "string",
+    "list",
+    "set",
+    "unordered_set",
 }
 
 
@@ -277,7 +283,7 @@ class STLSeqReader(BaseReader):
         type_name = (
             type_name.replace("std::", "").replace("< ", "<").replace(" >", ">").strip()
         )
-        return re.match(r"^(vector|array|list)<(.*)>$", type_name).group(2)
+        return re.match(r"^(vector|array|list|set|unordered_set)<(.*)>$", type_name).group(2)
 
     @classmethod
     def gen_tree_config(
@@ -286,8 +292,9 @@ class STLSeqReader(BaseReader):
         cls_streamer_info,
         all_streamer_info,
         item_path,
+        called_from_top,
     ):
-        if top_type_name not in ["vector", "array", "list"]:
+        if top_type_name not in ["vector", "array", "list", "set", "unordered_set"]:
             return None
 
         fName = cls_streamer_info["fName"]
@@ -368,6 +375,7 @@ class STLMapReader(BaseReader):
         cls_streamer_info,
         all_streamer_info,
         item_path,
+        called_from_top,
     ):
         if top_type_name not in ["map", "unordered_map", "multimap"]:
             return None
@@ -448,6 +456,7 @@ class STLStringReader(BaseReader):
         cls_streamer_info,
         all_streamer_info,
         item_path,
+        called_from_top,
     ):
         if top_type_name != "string":
             return None
@@ -455,6 +464,7 @@ class STLStringReader(BaseReader):
         return {
             "reader": cls,
             "name": cls_streamer_info["fName"],
+            "with_header": not called_from_top,
         }
 
     @classmethod
@@ -504,6 +514,7 @@ class TArrayReader(BaseReader):
         cls_streamer_info,
         all_streamer_info,
         item_path,
+        called_from_top,
     ):
         if top_type_name not in cls.typenames:
             return None
@@ -555,6 +566,7 @@ class TStringReader(BaseReader):
         cls_streamer_info,
         all_streamer_info,
         item_path,
+        called_from_top,
     ):
         if top_type_name != "TString":
             return None
@@ -598,6 +610,7 @@ class TObjectReader(BaseReader):
         cls_streamer_info,
         all_streamer_info,
         item_path,
+        called_from_top,
     ):
         if top_type_name != "BASE":
             return None
@@ -654,6 +667,7 @@ class CArrayReader(BaseReader):
         cls_streamer_info,
         all_streamer_info,
         item_path,
+        called_from_top,
     ):
         if cls_streamer_info.get("fArrayDim", 0) == 0:
             return None
@@ -704,10 +718,13 @@ class CArrayReader(BaseReader):
         # STL
         elif top_type_name in stl_typenames:
             element_tree_config["with_header"] = False
+            is_obj = not called_from_top
+            if cls_streamer_info.get("fType", 0) == 500:
+                is_obj = True
             return {
                 "reader": cls,
                 "name": fName,
-                "is_obj": True,
+                "is_obj": is_obj,
                 "flat_size": flat_size,
                 "element_reader": element_tree_config,
                 "fMaxIndex": fMaxIndex,
@@ -765,6 +782,7 @@ class BaseObjectReader(BaseReader):
         cls_streamer_info,
         all_streamer_info,
         item_path,
+        called_from_top,
     ):
         if top_type_name != "BASE":
             return None
@@ -828,6 +846,7 @@ class ObjectHeaderReader(BaseReader):
         cls_streamer_info,
         all_streamer_info,
         item_path,
+        called_from_top,
     ):
         sub_streamers: list = all_streamer_info[top_type_name]
         sub_tree_configs = [
@@ -877,6 +896,7 @@ class EmptyReader(BaseReader):
         cls_streamer_info,
         all_streamer_info,
         item_path,
+        called_from_top,
     ):
         return None
 
