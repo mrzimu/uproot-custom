@@ -69,7 +69,7 @@ Since embedding arrays together into `awkward` array in C++ is not straightforwa
 
 ### Full example
 
-A complete example of how to impolement your own readers is available in the `example` directory of this repository.
+A complete example of how to impolement your own readers is available in the [`example`](https://github.com/mrzimu/uproot-custom/tree/main/example) directory. You can also refer to the [Python part](https://github.com/mrzimu/uproot-custom/tree/main/uproot_custom/readers.py) and [C++ part](https://github.com/mrzimu/uproot-custom/tree/main/cpp/src/uproot-custom.cc) of predefined readers for implementation details.
 
 ### Pre-requisites
 
@@ -111,6 +111,9 @@ Make sure you have `GCC>13.1`/`Clang>=16.0.0`/`MSVC>=19.31`, `cmake` installed o
     ```
 
     you can change the `name`, `version`, and other fields as you like.
+
+    > [!WARNING]
+    > If you are releasing the project, specify concrete major and minor versions of `uproot-custom` to ensure the header files are compatible. For example, use `uproot-custom~=1.2` instead of `uproot-custom>=1.2` (may not be compatible with future versions).
 
 ### Reader interface
 
