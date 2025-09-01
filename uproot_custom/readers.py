@@ -603,6 +603,9 @@ class TObjectReader(BaseReader):
     It will not record any data.
     """
 
+    # Whether keep TObject data.
+    keep_data_itempaths: set[str] = set()
+
     @classmethod
     def gen_tree_config(
         cls,
@@ -622,6 +625,7 @@ class TObjectReader(BaseReader):
         return {
             "reader": cls,
             "name": cls_streamer_info["fName"],
+            "keep_data": item_path in cls.keep_data_itempaths,
         }
 
     @classmethod
@@ -629,11 +633,17 @@ class TObjectReader(BaseReader):
         if tree_config["reader"] is not cls:
             return None
 
-        return uproot_custom.cpp.TObjectReader(tree_config["name"])
+        return uproot_custom.cpp.TObjectReader(
+            tree_config["name"],
+            tree_config["keep_data"],
+        )
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
         if tree_config["reader"] is not cls:
+            return None
+
+        if not tree_config["keep_data"]:
             return None
 
         unique_ids, bits, pidf, pidf_offsets = raw_data
@@ -821,6 +831,9 @@ class BaseObjectReader(BaseReader):
 
         arr_dict = {}
         for s_cfg, s_data in zip(sub_tree_configs, raw_data):
+            if s_cfg["reader"] == TObjectReader and not s_cfg["keep_data"]:
+                continue
+
             s_name = s_cfg["name"]
             arr_dict[s_name] = reconstruct_array(s_data, s_cfg)
 
@@ -875,6 +888,9 @@ class ObjectHeaderReader(BaseReader):
 
         arr_dict = {}
         for s_cfg, s_data in zip(sub_tree_configs, raw_data):
+            if s_cfg["reader"] == TObjectReader and not s_cfg["keep_data"]:
+                continue
+
             s_name = s_cfg["name"]
             arr_dict[s_name] = reconstruct_array(s_data, s_cfg)
 
