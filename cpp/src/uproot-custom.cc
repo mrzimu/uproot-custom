@@ -65,8 +65,9 @@ namespace uproot {
     class TObjectReader : public IElementReader {
 
       public:
-        TObjectReader( std::string name )
+        TObjectReader( std::string name, bool keep_data )
             : IElementReader( name )
+            , m_keep_data( keep_data )
             , m_unique_id( std::make_shared<std::vector<int32_t>>() )
             , m_bits( std::make_shared<std::vector<uint32_t>>() )
             , m_pidf( std::make_shared<std::vector<uint16_t>>() )
@@ -75,18 +76,26 @@ namespace uproot {
         void read( BinaryBuffer& buffer ) override {
             buffer.skip_fVersion();
 
-            m_unique_id->push_back( buffer.read<int32_t>() );
-
-            auto fBits = buffer.read<uint32_t>();
-            m_bits->push_back( fBits );
+            auto fUniqueID = buffer.read<int32_t>();
+            auto fBits     = buffer.read<uint32_t>();
 
             if ( fBits & ( BinaryBuffer::kIsReferenced ) )
-            { m_pidf->push_back( buffer.read<uint16_t>() ); }
+            {
+                if ( m_keep_data ) m_pidf->push_back( buffer.read<uint16_t>() );
+                else buffer.skip( 2 );
+            }
 
-            m_pidf_offsets->push_back( m_pidf->size() );
+            if ( m_keep_data )
+            {
+                m_unique_id->push_back( fUniqueID );
+                m_bits->push_back( fBits );
+                m_pidf_offsets->push_back( m_pidf->size() );
+            }
         }
 
         py::object data() const override {
+            if ( !m_keep_data ) return py::none();
+
             auto unique_id_array = make_array( m_unique_id );
             auto bits_array      = make_array( m_bits );
             auto pidf_array      = make_array( m_pidf );
@@ -95,6 +104,7 @@ namespace uproot {
         }
 
       private:
+        const bool m_keep_data;
         SharedVector<int32_t> m_unique_id;
         SharedVector<uint32_t> m_bits;
         SharedVector<uint16_t> m_pidf;
@@ -467,7 +477,7 @@ namespace uproot {
 
         // Other readers
         register_reader<TStringReader>( m, "TStringReader" );
-        register_reader<TObjectReader>( m, "TObjectReader" );
+        register_reader<TObjectReader, bool>( m, "TObjectReader" );
         register_reader<BaseObjectReader, std::vector<SharedReader>>( m, "BaseObjectReader" );
         register_reader<ObjectHeaderReader, std::vector<SharedReader>>( m,
                                                                         "ObjectHeaderReader" );

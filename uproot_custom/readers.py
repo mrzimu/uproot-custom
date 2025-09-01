@@ -603,6 +603,9 @@ class TObjectReader(BaseReader):
     It will not record any data.
     """
 
+    # Whether keep TObject data. If False, it will not read any data.
+    keep_data: bool = False
+
     @classmethod
     def gen_tree_config(
         cls,
@@ -622,6 +625,7 @@ class TObjectReader(BaseReader):
         return {
             "reader": cls,
             "name": cls_streamer_info["fName"],
+            "keep_data": cls.keep_data,
         }
 
     @classmethod
@@ -629,11 +633,17 @@ class TObjectReader(BaseReader):
         if tree_config["reader"] is not cls:
             return None
 
-        return uproot_custom.cpp.TObjectReader(tree_config["name"])
+        return uproot_custom.cpp.TObjectReader(
+            tree_config["name"],
+            tree_config.get("keep_data", cls.keep_data),
+        )
 
     @classmethod
     def reconstruct_array(cls, raw_data, tree_config):
         if tree_config["reader"] is not cls:
+            return None
+
+        if not tree_config.get("keep_data", cls.keep_data):
             return None
 
         unique_ids, bits, pidf, pidf_offsets = raw_data
