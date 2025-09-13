@@ -18,8 +18,6 @@ class AsCustom(uproot.interpretation.Interpretation):
         branch: uproot.behaviors.TBranch.TBranch,
         context: dict,
         simplify: bool,
-        name: str = None,
-        typename: str = None,
     ):
         """
         Args:
@@ -36,7 +34,7 @@ class AsCustom(uproot.interpretation.Interpretation):
         self._branch = branch
         self._context = context
         self._simplify = simplify
-        self._typename = typename
+        self._typename = None
 
         # simplify streamer information
         self.all_streamer_info: dict[str, list[dict]] = {}
