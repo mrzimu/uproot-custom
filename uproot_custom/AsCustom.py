@@ -1,44 +1,13 @@
 from __future__ import annotations
 
-import re
-
+import awkward as ak
 import numpy as np
 import uproot
 import uproot.behaviors.TBranch
 import uproot.interpretation
 
 from uproot_custom.readers import read_branch
-
-
-def regularize_object_path(object_path: str) -> str:
-    return re.sub(r";[0-9]+", r"", object_path)
-
-
-_title_has_dims = re.compile(r"^([^\[\]]*)(\[[^\[\]]+\])+")
-_item_dim_pattern = re.compile(r"\[([1-9][0-9]*)\]")
-_item_any_pattern = re.compile(r"\[(.*)\]")
-
-
-def get_dims_from_branch(
-    branch: uproot.behaviors.TBranch.TBranch,
-) -> tuple[tuple[int, ...], bool]:
-    leaf = branch.member("fLeaves")[0]
-    title = leaf.member("fTitle")
-
-    dims, is_jagged = (), False
-
-    m = _title_has_dims.match(title)
-    if m is not None:
-        dims = tuple(int(x) for x in re.findall(_item_dim_pattern, title))
-        if dims == () and leaf.member("fLen") > 1:
-            dims = (leaf.member("fLen"),)
-
-        if any(
-            _item_dim_pattern.match(x) is None for x in re.findall(_item_any_pattern, title)
-        ):
-            is_jagged = True
-
-    return dims, is_jagged
+from uproot_custom.utils import get_dims_from_branch, regularize_object_path
 
 
 class AsCustom(uproot.interpretation.Interpretation):
@@ -65,6 +34,7 @@ class AsCustom(uproot.interpretation.Interpretation):
         self._branch = branch
         self._context = context
         self._simplify = simplify
+        self._typename = None
 
         # simplify streamer information
         self.all_streamer_info: dict[str, list[dict]] = {}
@@ -100,12 +70,14 @@ class AsCustom(uproot.interpretation.Interpretation):
         """
         The name of the type of the interpretation.
         """
-        dims, is_jagged = get_dims_from_branch(self._branch)
-        typename = self._branch.streamer.typename
-        if dims:
-            for i in dims:
-                typename += f"[{i}]"
-        return typename
+        if self._typename is None:
+            dims, is_jagged = get_dims_from_branch(self._branch)
+            typename = self._branch.streamer.typename
+            if dims:
+                for i in dims:
+                    typename += f"[{i}]"
+            self._typename = typename
+        return self._typename
 
     @property
     def cache_key(self) -> str:
@@ -133,9 +105,6 @@ class AsCustom(uproot.interpretation.Interpretation):
         """
         Concatenate the arrays from the baskets and return the final array.
         """
-
-        awkward = uproot.extras.awkward()
-
         basket_entry_starts = np.array(entry_offsets[:-1])
         basket_entry_stops = np.array(entry_offsets[1:])
 
@@ -143,7 +112,7 @@ class AsCustom(uproot.interpretation.Interpretation):
         basket_end_idx = np.where(basket_entry_stops >= entry_stop)[0].min()
 
         arr_to_concat = [basket_arrays[i] for i in range(basket_start_idx, basket_end_idx + 1)]
-        tot_array = awkward.concatenate(arr_to_concat)
+        tot_array = ak.concatenate(arr_to_concat)
 
         relative_entry_start = entry_start - basket_entry_starts[basket_start_idx]
         relative_entry_stop = entry_stop - basket_entry_starts[basket_start_idx]
@@ -165,10 +134,18 @@ class AsCustom(uproot.interpretation.Interpretation):
 
         full_branch_path = regularize_object_path(branch.object_path)
 
+        if branch.streamer is None:
+            cls_streamer_info = {
+                "fName": branch.name,
+                "fTypeName": self.typename,
+            }
+        else:
+            cls_streamer_info = branch.streamer.all_members
+
         return read_branch(
             data,
             byte_offsets,
-            branch.streamer.all_members,
+            cls_streamer_info,
             self.all_streamer_info,
             full_branch_path,
         )

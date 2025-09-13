@@ -18,7 +18,7 @@ int main() {
     {
         ovrd_steamer    = TOverrideStreamer( i );
         complicated_stl = TComplicatedSTL();
-        complicated_stl.fill();
+
         t.Fill();
     }
 

@@ -3,7 +3,8 @@ import uproot.behaviors.TBranch
 import uproot.interpretation.identify
 
 from uproot_custom.AsBinary import AsBinary
-from uproot_custom.AsCustom import AsCustom, regularize_object_path
+from uproot_custom.AsCustom import AsCustom
+from uproot_custom.AsGroupedMap import AsGroupedMap
 from uproot_custom.readers import (
     BaseObjectReader,
     BaseReader,
@@ -22,11 +23,11 @@ from uproot_custom.readers import (
     reconstruct_array,
     registered_readers,
 )
+from uproot_custom.utils import regularize_object_path
 
 ##########################################################################################
 #                                       Wrappers
 ##########################################################################################
-_is_TBranchElement_branches_wrapped = False
 _is_uproot_interpretation_of_wrapped = False
 
 _uproot_interpretation_of = uproot.interpretation.identify.interpretation_of
@@ -37,6 +38,9 @@ def custom_interpretation_of(
 ) -> uproot.interpretation.Interpretation:
     if not hasattr(branch, "parent"):
         return _uproot_interpretation_of(branch, context, simplify)
+
+    if AsGroupedMap.match_branch(branch, context, simplify):
+        return AsGroupedMap(branch, context, simplify)
 
     if AsCustom.match_branch(branch, context, simplify):
         return AsCustom(branch, context, simplify)

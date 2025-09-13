@@ -32,8 +32,34 @@ class AsBinary(uproot.interpretation.Interpretation):
         library,
         interp_options,
     ):
-        counts = byte_offsets[1:] - byte_offsets[:-1]
-        return awkward.unflatten(data, counts)
+        if byte_offsets is not None:
+            counts = byte_offsets[1:] - byte_offsets[:-1]
+        else:
+            counts = None
+
+        if library.name == "ak":
+            awkward = uproot.extras.awkward()
+            if counts is not None:
+                return awkward.unflatten(data, counts)
+            else:
+                fSize = branch.streamer.member("fSize")
+                return awkward.from_numpy(data.reshape(-1, fSize))
+
+        elif library.name == "np":
+            if counts is not None:
+                assert (
+                    numpy.unique(counts[1:] - counts[:-1]).size == 1
+                ), "The byte offsets must be uniform for NumPy arrays."
+
+                bytes_per_event = counts[0]
+                return data.reshape(-1, bytes_per_event)
+            else:
+                fSize = branch.streamer.member("fSize")
+                return data.reshape(-1, fSize).view(">u1")
+        else:
+            raise ValueError(
+                f"Unsupported library: {library.name}, can only use 'ak' or 'np'."
+            )
 
     def final_array(
         self,
@@ -53,10 +79,17 @@ class AsBinary(uproot.interpretation.Interpretation):
 
         arr_to_concat = [basket_arrays[i] for i in range(basket_start_idx, basket_end_idx + 1)]
 
-        awkward = uproot.extras.awkward()
-        tot_array = awkward.concatenate(arr_to_concat)
-
         relative_entry_start = entry_start - basket_entry_starts[basket_start_idx]
         relative_entry_stop = entry_stop - basket_entry_starts[basket_start_idx]
 
-        return tot_array[relative_entry_start:relative_entry_stop]
+        if library.name == "ak":
+            awkward = uproot.extras.awkward()
+            return awkward.concatenate(arr_to_concat)[relative_entry_start:relative_entry_stop]
+
+        elif library.name == "np":
+            return numpy.concatenate(arr_to_concat)[relative_entry_start:relative_entry_stop]
+
+        else:
+            raise ValueError(
+                f"Unsupported library: {library.name}, can only use 'ak' or 'np'."
+            )

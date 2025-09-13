@@ -378,39 +378,98 @@ namespace uproot {
 
     class CArrayReader : public IElementReader {
       public:
-        CArrayReader( std::string name, bool is_obj, const uint32_t flat_size,
+        CArrayReader( std::string name, bool is_obj, bool is_stdmap, const int64_t flat_size,
                       SharedReader element_reader )
             : IElementReader( name )
             , m_is_obj( is_obj )
+            , m_is_stdmap( is_stdmap )
             , m_flat_size( flat_size )
+            , m_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) )
             , m_element_reader( element_reader ) {}
 
         void read( BinaryBuffer& buffer ) override {
+
             PRINT_MSG( "CArrayReader::read() for " + m_name +
                        " with flat_size = " + std::to_string( m_flat_size ) +
                        ", is_obj = " + std::to_string( m_is_obj ) );
             PRINT_BUFFER( buffer );
-            if ( m_is_obj )
+
+            if ( m_flat_size > 0 )
             {
-                buffer.read_fNBytes();
-                buffer.read_fVersion();
+                if ( m_is_obj )
+                {
+                    buffer.read_fNBytes();
+                    buffer.read_fVersion();
+                    if ( m_is_stdmap ) buffer.skip( 6 );
+                }
+
+                for ( auto i = 0; i < m_flat_size; i++ )
+                {
+                    PRINT_MSG( "CArrayReader::read() reading element " + std::to_string( i ) );
+                    PRINT_BUFFER( buffer );
+                    m_element_reader->read( buffer );
+                }
+                PRINT_MSG( "" );
+                PRINT_MSG( "" );
             }
-            for ( auto i = 0; i < m_flat_size; i++ )
+
+            else
             {
-                PRINT_MSG( "CArrayReader::read() reading element " + std::to_string( i ) );
-                PRINT_BUFFER( buffer );
-                m_element_reader->read( buffer );
+                // get end-position
+                auto n_entries     = buffer.entries();
+                auto start_pos     = buffer.get_data();
+                auto entry_offsets = buffer.get_offsets();
+                auto cursor_pos    = buffer.get_cursor();
+                auto entry_end = std::find_if( entry_offsets, entry_offsets + n_entries + 1,
+                                               [start_pos, cursor_pos]( uint32_t offset ) {
+                                                   return start_pos + offset > cursor_pos;
+                                               } );
+
+                PRINT_MSG( "CArrayReader::read() cursor_pos = " +
+                           std::to_string( cursor_pos - start_pos ) +
+                           "entry_end = " + std::to_string( *entry_end ) );
+
+                if ( m_is_obj )
+                {
+                    buffer.read_fNBytes();
+                    buffer.read_fVersion();
+                    // if ( m_is_stdmap ) buffer.skip( 6 ); // Even std::map has no 6 bytes here.
+                }
+
+                uint32_t count = 0;
+                while ( buffer.get_cursor() < start_pos + *entry_end )
+                {
+
+                    PRINT_MSG( "CArrayReader::read() reading element " +
+                               std::to_string( count ) );
+                    PRINT_BUFFER( buffer );
+                    m_element_reader->read( buffer );
+                    count += 1;
+                }
+
+                PRINT_MSG( "" );
+                PRINT_MSG( "" );
+
+                m_offsets->push_back( m_offsets->back() + count );
             }
-            PRINT_MSG( "" );
-            PRINT_MSG( "" );
         }
 
-        py::object data() const override { return m_element_reader->data(); }
+        py::object data() const override {
+            if ( m_flat_size > 0 ) return m_element_reader->data();
+            else
+            {
+                auto offsets_array = make_array( m_offsets );
+                auto elements_data = m_element_reader->data();
+                return py::make_tuple( offsets_array, elements_data );
+            }
+        }
 
       private:
         bool m_is_obj;
-        const uint32_t m_flat_size;
+        bool m_is_stdmap;
+        const int64_t m_flat_size;
         SharedReader m_element_reader;
+        SharedVector<uint32_t> m_offsets;
     };
 
     /*
@@ -481,7 +540,7 @@ namespace uproot {
         register_reader<BaseObjectReader, std::vector<SharedReader>>( m, "BaseObjectReader" );
         register_reader<ObjectHeaderReader, std::vector<SharedReader>>( m,
                                                                         "ObjectHeaderReader" );
-        register_reader<CArrayReader, bool, uint32_t, SharedReader>( m, "CArrayReader" );
+        register_reader<CArrayReader, bool, bool, int64_t, SharedReader>( m, "CArrayReader" );
         register_reader<EmptyReader>( m, "EmptyReader" );
     }
 
