@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import re
 from typing import Union
 
 import awkward as ak
@@ -9,15 +8,13 @@ import awkward.index
 import numpy as np
 
 import uproot_custom.cpp
+from uproot_custom.utils import (
+    get_map_key_val_typenames,
+    get_sequence_element_typename,
+    get_top_type_name,
+)
 
 registered_readers: set[type["BaseReader"]] = set()
-
-
-def get_top_type_name(type_name: str) -> str:
-    if type_name.endswith("*"):
-        type_name = type_name[:-1].strip()
-    type_name = type_name.replace("std::", "").strip()
-    return type_name.split("<")[0]
 
 
 def gen_tree_config(
@@ -273,18 +270,6 @@ stl_typenames = {
 
 
 class STLSeqReader(BaseReader):
-    @staticmethod
-    def get_sequence_element_typename(type_name: str) -> str:
-        """
-        Get the element type name of a vector type.
-
-        e.g. vector<vector<int>> -> vector<int>
-        """
-        type_name = (
-            type_name.replace("std::", "").replace("< ", "<").replace(" >", ">").strip()
-        )
-        return re.match(r"^(vector|array|list|set|unordered_set)<(.*)>$", type_name).group(2)
-
     @classmethod
     def gen_tree_config(
         cls,
@@ -299,7 +284,7 @@ class STLSeqReader(BaseReader):
 
         fName = cls_streamer_info["fName"]
         fTypeName = cls_streamer_info["fTypeName"]
-        element_type = cls.get_sequence_element_typename(fTypeName)
+        element_type = get_sequence_element_typename(fTypeName)
         element_info = {
             "fName": fName,
             "fTypeName": element_type,
@@ -356,18 +341,6 @@ class STLMapReader(BaseReader):
     This class reads std::map from a binary parser.
     """
 
-    @staticmethod
-    def get_map_key_val_typenames(type_name: str) -> tuple[str, str]:
-        """
-        Get the key and value type names of a map type.
-
-        e.g. map<int, vector<int>> -> (int, vector<int>)
-        """
-        type_name = (
-            type_name.replace("std::", "").replace("< ", "<").replace(" >", ">").strip()
-        )
-        return re.match(r"^(map|unordered_map|multimap)<(.*),(.*)>$", type_name).groups()[1:3]
-
     @classmethod
     def gen_tree_config(
         cls,
@@ -381,7 +354,7 @@ class STLMapReader(BaseReader):
             return None
 
         fTypeName = cls_streamer_info["fTypeName"]
-        key_type_name, val_type_name = cls.get_map_key_val_typenames(fTypeName)
+        key_type_name, val_type_name = get_map_key_val_typenames(fTypeName)
 
         fName = cls_streamer_info["fName"]
         key_info = {
@@ -679,30 +652,37 @@ class CArrayReader(BaseReader):
         item_path,
         called_from_top,
     ):
-        if cls_streamer_info.get("fArrayDim", 0) == 0:
+        fTypeName = cls_streamer_info.get("fTypeName", "")
+        if not fTypeName.endswith("[]") and cls_streamer_info.get("fArrayDim", 0) == 0:
             return None
 
         fName = cls_streamer_info["fName"]
-        fTypeName = cls_streamer_info["fTypeName"]
-        fArrayDim = cls_streamer_info["fArrayDim"]
-        fMaxIndex = cls_streamer_info["fMaxIndex"]
+
+        if fTypeName.endswith("[]"):
+            fArrayDim = -1
+            fMaxIndex = -1
+            flat_size = -1
+        else:
+            fArrayDim = cls_streamer_info["fArrayDim"]
+            fMaxIndex = cls_streamer_info["fMaxIndex"]
+            flat_size = np.prod(fMaxIndex[:fArrayDim])
 
         element_streamer_info = cls_streamer_info.copy()
         element_streamer_info["fArrayDim"] = 0
+        while fTypeName.endswith("[]"):
+            fTypeName = fTypeName[:-2]
+        element_streamer_info["fTypeName"] = fTypeName
 
         element_tree_config = gen_tree_config(
             element_streamer_info,
             all_streamer_info,
         )
 
-        flat_size = np.prod(fMaxIndex[:fArrayDim])
-        assert flat_size > 0, f"flatten_size should be greater than 0, but got {flat_size}"
+        assert flat_size != 0, f"flatten_size should cannot be 0."
 
         # c-type number or TArray
-        if (
-            top_type_name in BasicTypeReader.typenames
-            or top_type_name in TArrayReader.typenames
-        ):
+        top_type_name = get_top_type_name(fTypeName)
+        if top_type_name in BasicTypeReader.typenames or fTypeName in TArrayReader.typenames:
             return {
                 "reader": cls,
                 "name": fName,
@@ -728,13 +708,27 @@ class CArrayReader(BaseReader):
         # STL
         elif top_type_name in stl_typenames:
             element_tree_config["with_header"] = False
+
             is_obj = not called_from_top
             if cls_streamer_info.get("fType", 0) == 500:
                 is_obj = True
+
+            # when is a ragged array, vector/map will have a reader
+            element_reader = element_tree_config.get("reader", None)
+            if (
+                flat_size < 0
+                and element_reader is not None
+                and element_reader != BasicTypeReader
+            ):
+                is_obj = True
+
+            is_stdmap = top_type_name in ["map", "unordered_map", "multimap"]
+
             return {
                 "reader": cls,
                 "name": fName,
                 "is_obj": is_obj,
+                "is_stdmap": is_stdmap,
                 "flat_size": flat_size,
                 "element_reader": element_tree_config,
                 "fMaxIndex": fMaxIndex,
@@ -755,6 +749,7 @@ class CArrayReader(BaseReader):
         return uproot_custom.cpp.CArrayReader(
             tree_config["name"],
             tree_config["is_obj"],
+            tree_config.get("is_stdmap", False),
             tree_config["flat_size"],
             element_reader,
         )
@@ -765,19 +760,33 @@ class CArrayReader(BaseReader):
             return None
 
         element_tree_config = tree_config["element_reader"]
-        fMaxIndex = tree_config["fMaxIndex"]
-        fArrayDim = tree_config["fArrayDim"]
-        shape = [fMaxIndex[i] for i in range(fArrayDim)]
+        flat_size = tree_config["flat_size"]
 
-        element_data = reconstruct_array(
-            raw_data,
-            element_tree_config,
-        )
+        if flat_size > 0:
+            fMaxIndex = tree_config["fMaxIndex"]
+            fArrayDim = tree_config["fArrayDim"]
+            shape = [fMaxIndex[i] for i in range(fArrayDim)]
 
-        for s in shape[::-1]:
-            element_data = awkward.contents.RegularArray(element_data, int(s))
+            element_data = reconstruct_array(
+                raw_data,
+                element_tree_config,
+            )
 
-        return element_data
+            for s in shape[::-1]:
+                element_data = awkward.contents.RegularArray(element_data, int(s))
+
+            return element_data
+
+        else:  # ragged array
+            offsets, element_raw_data = raw_data
+            element_data = reconstruct_array(
+                element_raw_data,
+                element_tree_config,
+            )
+            return ak.contents.ListOffsetArray(
+                ak.index.Index64(offsets),
+                element_data,
+            )
 
 
 class BaseObjectReader(BaseReader):

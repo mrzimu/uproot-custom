@@ -148,7 +148,9 @@ namespace uproot {
             if ( fBits & ( kIsReferenced ) ) skip( 2 ); // pidf
         }
 
+        const uint8_t* get_data() const { return m_data; }
         const uint8_t* get_cursor() const { return m_cursor; }
+        const uint32_t* get_offsets() const { return m_offsets; }
         const uint64_t entries() const { return m_entries; }
 
       private:
