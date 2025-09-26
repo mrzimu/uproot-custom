@@ -981,6 +981,23 @@ class BaseObjectFactory(BaseFactory):
     """
 
     @classmethod
+    def parse_tree_config(cls, tree_config):
+        """
+        Combine NBytesVersionFactory and GroupFactory to read base-object.
+        """
+        name = tree_config["name"]
+        sub_configs = tree_config["sub_configs"]
+        return {
+            "factory": NBytesVersionFactory,
+            "name": name,
+            "element_config": {
+                "factory": GroupFactory,
+                "name": name,
+                "sub_configs": sub_configs,
+            },
+        }
+
+    @classmethod
     def gen_tree_config(
         cls,
         top_type_name,
@@ -1012,40 +1029,15 @@ class BaseObjectFactory(BaseFactory):
         if tree_config["factory"] is not cls:
             return None
 
-        name = tree_config["name"]
-        sub_configs = tree_config["sub_configs"]
-
-        # Combine NBytesVersionFactory and GroupFactory
-        return build_cpp_reader(
-            {
-                "factory": NBytesVersionFactory,
-                "name": name,
-                "element_config": {
-                    "factory": GroupFactory,
-                    "name": name,
-                    "sub_configs": sub_configs,
-                },
-            }
-        )
+        return build_cpp_reader(cls.parse_tree_config(tree_config))
 
     @classmethod
     def reconstruct_array(cls, tree_config, raw_data):
         if tree_config["factory"] is not cls:
             return None
 
-        name = tree_config["name"]
-        sub_configs = tree_config["sub_configs"]
-
         return reconstruct_array(
-            {
-                "factory": NBytesVersionFactory,
-                "name": name,
-                "element_config": {
-                    "factory": GroupFactory,
-                    "name": name,
-                    "sub_configs": sub_configs,
-                },
-            },
+            cls.parse_tree_config(tree_config),
             raw_data,
         )
 
