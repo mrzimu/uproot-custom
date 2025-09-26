@@ -1,6 +1,6 @@
-from uproot_custom import registered_readers, AsCustom, AsGroupedMap
+from uproot_custom import registered_factories, AsCustom, AsGroupedMap
 
-from .OverrideStreamerReader import OverrideStreamerReader
+from .OverrideStreamerFactory import OverrideStreamerFactory
 
 AsCustom.target_branches |= {
     "/my_tree:override_streamer",
@@ -21,4 +21,4 @@ AsGroupedMap.target_branches |= {
     "/my_tree:complicated_stl/m_map_vec_list_set_int/m_map_vec_list_set_int.second",
 }
 
-registered_readers.add(OverrideStreamerReader)
+registered_factories.add(OverrideStreamerFactory)

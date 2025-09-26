@@ -1,5 +1,8 @@
 #include <pybind11/gil.h>
 #include <pybind11/pybind11.h>
+#include <pybind11/pytypes.h>
+#include <sstream>
+#include <stdexcept>
 #include <vector>
 
 #include "uproot-custom/uproot-custom.hh"
@@ -304,6 +307,65 @@ namespace uproot {
     -----------------------------------------------------------------------------
     */
 
+    class NBytesVersionReader : public IElementReader {
+      private:
+        SharedReader m_element_reader;
+
+      public:
+        NBytesVersionReader( std::string name, SharedReader element_reader )
+            : IElementReader( name ), m_element_reader( element_reader ) {}
+
+        void read( BinaryBuffer& buffer ) override {
+            auto fNBytes  = buffer.read_fNBytes();
+            auto fVersion = buffer.read_fVersion();
+
+            auto start_pos = buffer.get_cursor();
+            m_element_reader->read( buffer );
+            auto end_pos = buffer.get_cursor();
+
+            if ( end_pos - start_pos != fNBytes - 2 ) // -2 for fVersion
+            {
+                std::stringstream msg;
+                msg << "Invalid read length for " << m_element_reader->name() << "! Expect "
+                    << fNBytes - 2 << ", got " << end_pos - start_pos;
+                throw std::runtime_error( msg.str() );
+            }
+        }
+
+        py::object data() const override { return m_element_reader->data(); }
+    };
+
+    /*
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    */
+
+    class GroupReader : public IElementReader {
+      private:
+        std::vector<SharedReader> m_element_readers;
+
+      public:
+        GroupReader( std::string name, std::vector<SharedReader> element_readers )
+            : IElementReader( name ), m_element_readers( element_readers ) {}
+
+        void read( BinaryBuffer& buffer ) override {
+            for ( auto& reader : m_element_readers ) reader->read( buffer );
+        }
+
+        py::object data() const override {
+            py::list res;
+            for ( auto& reader : m_element_readers ) { res.append( reader->data() ); }
+            return res;
+        }
+    };
+
+    /*
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    */
+
     class BaseObjectReader : public IElementReader {
       public:
         BaseObjectReader( std::string name, std::vector<SharedReader> element_readers )
@@ -346,28 +408,38 @@ namespace uproot {
     */
 
     class ObjectHeaderReader : public IElementReader {
+      private:
+        SharedReader m_element_reader;
+
       public:
-        ObjectHeaderReader( std::string name, std::vector<SharedReader> element_readers )
-            : IElementReader( name ), m_element_readers( element_readers ) {}
+        ObjectHeaderReader( std::string name, SharedReader element_reader )
+            : IElementReader( name ), m_element_reader( element_reader ) {}
 
         void read( BinaryBuffer& buffer ) override {
-            buffer.read_fNBytes();
-            auto fTag = buffer.read<int32_t>();
-            if ( fTag == -1 ) buffer.read_null_terminated_string();
+            auto nbytes = buffer.read_fNBytes();
+            auto fTag   = buffer.read<int32_t>();
+            nbytes -= 4; // -4 for fTag
 
-            buffer.skip_fNBytes();
-            buffer.skip_fVersion();
-            for ( auto& reader : m_element_readers ) { reader->read( buffer ); }
+            if ( fTag == -1 )
+            {
+                auto fTypename = buffer.read_null_terminated_string();
+                nbytes -= fTypename.size() + 1; // -size -1 for fTypename and null terminator}
+            }
+
+            auto start_pos = buffer.get_cursor();
+            m_element_reader->read( buffer );
+            auto end_pos = buffer.get_cursor();
+
+            if ( end_pos - start_pos != nbytes )
+            {
+                std::stringstream msg;
+                msg << "Invalid read length for " << m_element_reader->name() << "! Expect "
+                    << nbytes << ", got " << end_pos - start_pos;
+                throw std::runtime_error( msg.str() );
+            }
         }
 
-        py::object data() const override {
-            py::list res;
-            for ( auto& reader : m_element_readers ) { res.append( reader->data() ); }
-            return res;
-        }
-
-      private:
-        std::vector<SharedReader> m_element_readers;
+        py::object data() const override { return m_element_reader->data(); }
     };
 
     /*
@@ -433,7 +505,8 @@ namespace uproot {
                 {
                     buffer.read_fNBytes();
                     buffer.read_fVersion();
-                    // if ( m_is_stdmap ) buffer.skip( 6 ); // Even std::map has no 6 bytes here.
+                    // if ( m_is_stdmap ) buffer.skip( 6 ); // Even std::map has no 6 bytes
+                    // here.
                 }
 
                 uint32_t count = 0;
@@ -537,9 +610,10 @@ namespace uproot {
         // Other readers
         register_reader<TStringReader>( m, "TStringReader" );
         register_reader<TObjectReader, bool>( m, "TObjectReader" );
+        register_reader<NBytesVersionReader, SharedReader>( m, "NBytesVersionReader" );
+        register_reader<GroupReader, std::vector<SharedReader>>( m, "GroupReader" );
         register_reader<BaseObjectReader, std::vector<SharedReader>>( m, "BaseObjectReader" );
-        register_reader<ObjectHeaderReader, std::vector<SharedReader>>( m,
-                                                                        "ObjectHeaderReader" );
+        register_reader<ObjectHeaderReader, SharedReader>( m, "ObjectHeaderReader" );
         register_reader<CArrayReader, bool, bool, int64_t, SharedReader>( m, "CArrayReader" );
         register_reader<EmptyReader>( m, "EmptyReader" );
     }

@@ -6,7 +6,7 @@ import uproot
 import uproot.behaviors.TBranch
 import uproot.interpretation
 
-from uproot_custom.readers import read_branch
+from uproot_custom.factories import read_branch
 from uproot_custom.utils import get_dims_from_branch, regularize_object_path
 
 
