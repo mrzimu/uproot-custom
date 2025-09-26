@@ -88,21 +88,28 @@ class TStringReader(IElementReader):
 class TObjectReader(IElementReader):
     def __init__(self, name: str) -> None: ...
 
-class BaseObjectReader(IElementReader):
+class NBytesVersionReader(IElementReader):
     def __init__(
         self,
         name: str,
-        element_readers: list[IElementReader],
+        element_reader: IElementReader,
+    ) -> None: ...
+
+class GroupReader(IElementReader):
+    def __init__(
+        self,
+        name: str,
+        sub_readers: list[IElementReader],
     ) -> None: ...
 
 class ObjectHeaderReader(IElementReader):
     def __init__(
         self,
         name: str,
-        element_readers: list[IElementReader],
+        element_reader: IElementReader,
     ) -> None: ...
 
-class CArrayReader(IElementReader):
+class CStyleArrayReader(IElementReader):
     def __init__(
         self,
         name: str,

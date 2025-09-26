@@ -612,7 +612,6 @@ namespace uproot {
         register_reader<TObjectReader, bool>( m, "TObjectReader" );
         register_reader<NBytesVersionReader, SharedReader>( m, "NBytesVersionReader" );
         register_reader<GroupReader, std::vector<SharedReader>>( m, "GroupReader" );
-        register_reader<BaseObjectReader, std::vector<SharedReader>>( m, "BaseObjectReader" );
         register_reader<ObjectHeaderReader, SharedReader>( m, "ObjectHeaderReader" );
         register_reader<CStyleArrayReader, bool, bool, int64_t, SharedReader>( m, "CStyleArrayReader" );
         register_reader<EmptyReader>( m, "EmptyReader" );
