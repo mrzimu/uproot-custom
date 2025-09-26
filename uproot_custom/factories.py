@@ -825,7 +825,7 @@ class CStyleArrayFactory(BaseFactory):
 
         element_reader = build_cpp_reader(tree_config["element_config"])
 
-        return uproot_custom.cpp.CArrayReader(
+        return uproot_custom.cpp.CStyleArrayReader(
             tree_config["name"],
             tree_config["is_obj"],
             tree_config.get("is_stl_mapping", False),

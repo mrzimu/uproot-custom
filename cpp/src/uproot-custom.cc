@@ -448,9 +448,9 @@ namespace uproot {
     -----------------------------------------------------------------------------
     */
 
-    class CArrayReader : public IElementReader {
+    class CStyleArrayReader : public IElementReader {
       public:
-        CArrayReader( std::string name, bool is_obj, bool is_stdmap, const int64_t flat_size,
+        CStyleArrayReader( std::string name, bool is_obj, bool is_stdmap, const int64_t flat_size,
                       SharedReader element_reader )
             : IElementReader( name )
             , m_is_obj( is_obj )
@@ -614,7 +614,7 @@ namespace uproot {
         register_reader<GroupReader, std::vector<SharedReader>>( m, "GroupReader" );
         register_reader<BaseObjectReader, std::vector<SharedReader>>( m, "BaseObjectReader" );
         register_reader<ObjectHeaderReader, SharedReader>( m, "ObjectHeaderReader" );
-        register_reader<CArrayReader, bool, bool, int64_t, SharedReader>( m, "CArrayReader" );
+        register_reader<CStyleArrayReader, bool, bool, int64_t, SharedReader>( m, "CStyleArrayReader" );
         register_reader<EmptyReader>( m, "EmptyReader" );
     }
 
