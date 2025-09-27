@@ -2,8 +2,6 @@ from __future__ import annotations
 
 import uproot
 import uproot.behaviors.TBranch
-import uproot.behaviors.TBranchElement
-import uproot.interpretation
 
 from uproot_custom.AsCustom import AsCustom
 from uproot_custom.utils import get_map_key_val_typenames
