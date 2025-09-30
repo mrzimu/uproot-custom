@@ -1,13 +1,15 @@
 #pragma once
 
-#include <cstdint>
-#include <memory>
 #include <pybind11/cast.h>
 #include <pybind11/detail/common.h>
 #include <pybind11/numpy.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/pytypes.h>
 #include <pybind11/stl.h>
+
+#include <cstdint>
+#include <iostream>
+#include <memory>
 #include <string>
 
 #if defined( _MSC_VER )
@@ -153,6 +155,11 @@ namespace uproot {
         const uint32_t* get_offsets() const { return m_offsets; }
         const uint64_t entries() const { return m_entries; }
 
+        void debug_print( const size_t n = 100 ) {
+            for ( size_t i = 0; i < n; i++ ) { std::cout << (int)*( m_cursor + i ) << " "; }
+            std::cout << std::endl;
+        }
+
       private:
         uint8_t* m_cursor;
         const uint64_t m_entries;
@@ -177,7 +184,23 @@ namespace uproot {
         virtual const std::string name() const { return m_name; }
 
         virtual void read( BinaryBuffer& buffer ) = 0;
-        virtual py::object data() const           = 0;
+
+        virtual uint32_t read( BinaryBuffer& buffer, const int64_t count ) {
+            for ( int32_t i = 0; i < count; i++ ) { read( buffer ); }
+            return count;
+        }
+
+        virtual uint32_t read( BinaryBuffer& buffer, const uint8_t* end_pos ) {
+            uint32_t cur_count = 0;
+            while ( buffer.get_cursor() < end_pos )
+            {
+                read( buffer );
+                cur_count++;
+            }
+            return cur_count;
+        }
+
+        virtual py::object data() const = 0;
     };
 
     using SharedReader = shared_ptr<IElementReader>;

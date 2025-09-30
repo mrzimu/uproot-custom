@@ -73,6 +73,10 @@ class AsCustom(uproot.interpretation.Interpretation):
         if self._typename is None:
             dims, is_jagged = get_dims_from_branch(self._branch)
             typename = self._branch.streamer.typename
+
+            if is_jagged:
+                typename += "[]"
+
             if dims:
                 for i in dims:
                     typename += f"[{i}]"
@@ -143,6 +147,7 @@ class AsCustom(uproot.interpretation.Interpretation):
             cls_streamer_info = branch.streamer.all_members
 
         return read_branch(
+            branch,
             data,
             byte_offsets,
             cls_streamer_info,

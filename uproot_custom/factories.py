@@ -1,14 +1,17 @@
 from __future__ import annotations
 
+import re
 from typing import Any, Union
 
 import awkward as ak
 import awkward.contents
 import awkward.index
 import numpy as np
+import uproot
 
 import uproot_custom.cpp
 from uproot_custom.utils import (
+    get_dims_from_branch,
     get_map_key_val_typenames,
     get_sequence_element_typename,
     get_top_type_name,
@@ -85,6 +88,7 @@ def reconstruct_array(
 
 
 def read_branch(
+    branch: uproot.TBranch,
     data: np.ndarray[np.uint8],
     offsets: np.ndarray,
     cur_streamer_info: dict,
@@ -96,6 +100,7 @@ def read_branch(
         all_streamer_info,
         item_path,
         called_from_top=True,
+        branch=branch,
     )
     reader = build_cpp_reader(tree_config)
 
@@ -198,6 +203,11 @@ class BasicTypeFactory(BaseFactory):
         "int": "i4",
         "long": "i8",
         "long long": "i8",
+        "signed char": "i1",
+        "signed short": "i2",
+        "signed int": "i4",
+        "signed long": "i8",
+        "signed long long": "i8",
         "unsigned char": "u1",
         "unsigned short": "u2",
         "unsigned int": "u4",
@@ -226,6 +236,20 @@ class BasicTypeFactory(BaseFactory):
         "ULong_t": "u8",
         "Float_t": "f",
         "Double_t": "d",
+    }
+
+    ftypes = {
+        1: "i1",
+        2: "i2",
+        3: "i4",
+        4: "i8",
+        5: "f",
+        8: "d",
+        11: "u1",
+        12: "u2",
+        13: "u4",
+        14: "u8",
+        18: "bool",
     }
 
     cpp_reader_map = {
@@ -259,15 +283,18 @@ class BasicTypeFactory(BaseFactory):
         - `name`: fName
         - `ctype`: Concrete basic type (`bool`, `[i,u]`x`[1,2,4,8]`, `f`, `d`)
         """
-        if top_type_name in cls.typenames:
-            ctype = cls.typenames[top_type_name]
-            return {
-                "factory": cls,
-                "name": cur_streamer_info["fName"],
-                "ctype": ctype,
-            }
-        else:
+        ctype = cls.ftypes.get(cur_streamer_info.get("fType", -1), None)
+        if ctype is None:
+            ctype = cls.typenames.get(top_type_name, None)
+
+        if ctype is None:
             return None
+
+        return {
+            "factory": cls,
+            "name": cur_streamer_info["fName"],
+            "ctype": ctype,
+        }
 
     @classmethod
     def build_cpp_reader(cls, tree_config: dict):
@@ -294,12 +321,16 @@ class BasicTypeFactory(BaseFactory):
 stl_typenames = {
     "vector",
     "array",
-    "map",
-    "unordered_map",
     "string",
     "list",
     "set",
+    "multiset",
     "unordered_set",
+    "unordered_multiset",
+    "map",
+    "multimap",
+    "unordered_map",
+    "unordered_multimap",
 }
 
 
@@ -313,7 +344,9 @@ class STLSeqFactory(BaseFactory):
         "array",
         "list",
         "set",
+        "multiset",
         "unordered_set",
+        "unordered_multiset",
     ]
 
     @classmethod
@@ -357,6 +390,7 @@ class STLSeqFactory(BaseFactory):
         return {
             "factory": cls,
             "name": fName,
+            "with_header": True,
             "element_config": elemeng_config,
         }
 
@@ -366,10 +400,10 @@ class STLSeqFactory(BaseFactory):
             return None
 
         element_cpp_reader = build_cpp_reader(tree_config["element_config"])
-        with_header = tree_config.get("with_header", True)
+
         return uproot_custom.cpp.STLSeqReader(
             tree_config["name"],
-            with_header,
+            tree_config.get("with_header", True),
             element_cpp_reader,
         )
 
@@ -395,7 +429,7 @@ class STLMapFactory(BaseFactory):
     This class reads mapping-like STL containers.
     """
 
-    target_types = ["map", "unordered_map", "multimap"]
+    target_types = ["map", "unordered_map", "multimap", "unordered_multimap"]
 
     @classmethod
     def gen_tree_config(
@@ -433,16 +467,12 @@ class STLMapFactory(BaseFactory):
         }
 
         key_config = gen_tree_config(key_info, all_streamer_info, item_path)
-        if get_top_type_name(key_type_name) in stl_typenames:
-            key_config["with_header"] = False
-
         val_config = gen_tree_config(val_info, all_streamer_info, item_path)
-        if get_top_type_name(val_type_name) in stl_typenames:
-            val_config["with_header"] = False
 
         return {
             "factory": cls,
             "name": fName,
+            "with_header": True,
             "key_config": key_config,
             "val_config": val_config,
         }
@@ -452,12 +482,21 @@ class STLMapFactory(BaseFactory):
         if tree_config["factory"] is not cls:
             return None
 
+        key_config = tree_config["key_config"]
+        val_config = tree_config["val_config"]
+        is_obj_wise = tree_config.get("is_obj_wise", False)
+
+        if is_obj_wise:
+            key_config["with_header"] = False
+            val_config["with_header"] = False
+
         key_cpp_reader = build_cpp_reader(tree_config["key_config"])
         val_cpp_reader = build_cpp_reader(tree_config["val_config"])
-        with_header = tree_config.get("with_header", True)
+
         return uproot_custom.cpp.STLMapReader(
             tree_config["name"],
-            with_header,
+            tree_config.get("with_header", True),
+            is_obj_wise,
             key_cpp_reader,
             val_cpp_reader,
         )
@@ -499,11 +538,10 @@ class STLStringFactory(BaseFactory):
         if top_type_name != "string":
             return None
 
-        called_from_top = kwargs.get("called_from_top", False)
         return {
             "factory": cls,
             "name": cur_streamer_info["fName"],
-            "with_header": not called_from_top,
+            "with_header": True,
         }
 
     @classmethod
@@ -542,6 +580,7 @@ class TArrayFactory(BaseFactory):
         "TArrayS": "i2",
         "TArrayI": "i4",
         "TArrayL": "i8",
+        "TArrayL64": "i8",
         "TArrayF": "f",
         "TArrayD": "d",
     }
@@ -732,18 +771,25 @@ class CStyleArrayFactory(BaseFactory):
         **kwargs,
     ):
         fTypeName = cur_streamer_info.get("fTypeName", "")
+        dims = ()
+        if kwargs.get("called_from_top", False):
+            branch = kwargs["branch"]
+            dims, is_jagged = get_dims_from_branch(branch)
+            if is_jagged and not fTypeName.endswith("[]"):
+                fTypeName += "[]"
+
         if not fTypeName.endswith("[]") and cur_streamer_info.get("fArrayDim", 0) == 0:
             return None
 
         fName = cur_streamer_info["fName"]
+        fArrayDim = cur_streamer_info.get("fArrayDim", None)
+        fMaxIndex = cur_streamer_info.get("fMaxIndex", None)
 
         if fTypeName.endswith("[]"):
-            fArrayDim = -1
-            fMaxIndex = -1
             flat_size = -1
         else:
-            fArrayDim = cur_streamer_info["fArrayDim"]
-            fMaxIndex = cur_streamer_info["fMaxIndex"]
+            assert fArrayDim is not None, f"fArrayDim cannot be None for {item_path}."
+            assert fMaxIndex is not None, f"fMaxIndex cannot be None for {item_path}."
             flat_size = np.prod(fMaxIndex[:fArrayDim])
 
         element_streamer_info = cur_streamer_info.copy()
@@ -759,63 +805,32 @@ class CStyleArrayFactory(BaseFactory):
 
         assert flat_size != 0, f"flatten_size cannot be 0."
 
-        # c-type number or TArray
+        res = {
+            "factory": cls,
+            "name": fName,
+            "element_config": element_config,
+            "flat_size": flat_size,
+            "fMaxIndex": fMaxIndex,
+            "fArrayDim": fArrayDim,
+        }
+
         top_type_name = get_top_type_name(fTypeName)
-        if top_type_name in BasicTypeFactory.typenames or fTypeName in TArrayFactory.typenames:
-            return {
-                "factory": cls,
+        if fArrayDim != 0 and top_type_name == "TString":
+            res = {
+                "factory": NBytesVersionFactory,
                 "name": fName,
-                "is_obj": False,
-                "element_config": element_config,
-                "flat_size": flat_size,
-                "fMaxIndex": fMaxIndex,
-                "fArrayDim": fArrayDim,
+                "element_config": res,
             }
 
-        # TSTring
-        elif top_type_name == "TString":
-            return {
-                "factory": cls,
-                "name": fName,
-                "is_obj": True,
-                "element_config": element_config,
-                "flat_size": flat_size,
-                "fMaxIndex": fMaxIndex,
-                "fArrayDim": fArrayDim,
-            }
-
-        # STL
-        elif top_type_name in stl_typenames:
+        # When stored in std::array
+        # [1] There is no header for vector and map.
+        # [2] Map is object-wise serialized.
+        # By so far, we use fType==82 to identify std::array.
+        if top_type_name in stl_typenames and cur_streamer_info.get("fType", -1) == 82:
             element_config["with_header"] = False
+            element_config["is_obj_wise"] = True
 
-            is_obj = not kwargs.get("called_from_top", False)
-            if cur_streamer_info.get("fType", 0) == 500:
-                is_obj = True
-
-            # when is a ragged array, vector/map will have a factory
-            element_factory = element_config.get("factory", None)
-            if (
-                flat_size < 0
-                and element_factory is not None
-                and element_factory is not BasicTypeFactory
-            ):
-                is_obj = True
-
-            is_stl_mapping = top_type_name in STLMapFactory.target_types
-
-            return {
-                "factory": cls,
-                "name": fName,
-                "is_obj": is_obj,
-                "is_stl_mapping": is_stl_mapping,
-                "flat_size": flat_size,
-                "element_config": element_config,
-                "fMaxIndex": fMaxIndex,
-                "fArrayDim": fArrayDim,
-            }
-
-        else:
-            raise ValueError(f"Unknown type: {top_type_name} for C-style array: {fTypeName}")
+        return res
 
     @classmethod
     def build_cpp_reader(cls, tree_config: dict):
@@ -827,8 +842,6 @@ class CStyleArrayFactory(BaseFactory):
 
         return uproot_custom.cpp.CStyleArrayReader(
             tree_config["name"],
-            tree_config["is_obj"],
-            tree_config.get("is_stl_mapping", False),
             tree_config["flat_size"],
             element_reader,
         )
@@ -841,31 +854,37 @@ class CStyleArrayFactory(BaseFactory):
         element_config = tree_config["element_config"]
         flat_size = tree_config["flat_size"]
 
-        if flat_size > 0:
-            fMaxIndex = tree_config["fMaxIndex"]
-            fArrayDim = tree_config["fArrayDim"]
-            shape = [fMaxIndex[i] for i in range(fArrayDim)]
+        if flat_size < 0:
+            element_raw_data = raw_data[1]
+        else:
+            element_raw_data = raw_data
 
-            element_data = reconstruct_array(
-                element_config,
-                raw_data,
-            )
+        element_data = reconstruct_array(
+            element_config,
+            element_raw_data,
+        )
+
+        fMaxIndex = tree_config["fMaxIndex"]
+        fArrayDim = tree_config["fArrayDim"]
+
+        if fArrayDim is not None and fMaxIndex is not None:
+            shape = [fMaxIndex[i] for i in range(fArrayDim)]
 
             for s in shape[::-1]:
                 element_data = awkward.contents.RegularArray(element_data, int(s))
+        else:
+            shape = ()
 
-            return element_data
-
-        else:  # ragged array
-            offsets, element_raw_data = raw_data
-            element_data = reconstruct_array(
-                element_config,
-                element_raw_data,
-            )
+        if flat_size < 0:
+            offsets = raw_data[0]
+            for s in shape:
+                offsets = offsets / s
             return ak.contents.ListOffsetArray(
                 ak.index.Index64(offsets),
                 element_data,
             )
+        else:
+            return element_data
 
 
 class NBytesVersionFactory(BaseFactory):
@@ -1042,6 +1061,65 @@ class BaseObjectFactory(BaseFactory):
         )
 
 
+class AnyClassFactory(BaseFactory):
+    """
+    This class tries to read any class object that is not handled by other factories.
+    """
+
+    @staticmethod
+    def parse_tree_config(tree_config: dict) -> dict:
+        name = tree_config["name"]
+        sub_configs = tree_config["sub_configs"]
+        return {
+            "factory": NBytesVersionFactory,
+            "name": name,
+            "element_config": {
+                "factory": GroupFactory,
+                "name": name,
+                "sub_configs": sub_configs,
+            },
+        }
+
+    @classmethod
+    def priority(cls):
+        return 0  # This reader should be called last
+
+    @classmethod
+    def gen_tree_config(
+        cls,
+        top_type_name,
+        cur_streamer_info,
+        all_streamer_info,
+        item_path,
+        **kwargs,
+    ):
+        sub_streamers: list = all_streamer_info[top_type_name]
+        sub_configs = [gen_tree_config(s, all_streamer_info, item_path) for s in sub_streamers]
+
+        return {
+            "factory": cls,
+            "name": top_type_name,
+            "sub_configs": sub_configs,
+        }
+
+    @classmethod
+    def build_cpp_reader(cls, tree_config):
+        if tree_config["factory"] is not cls:
+            return None
+
+        return build_cpp_reader(cls.parse_tree_config(tree_config))
+
+    @classmethod
+    def reconstruct_array(cls, tree_config, raw_data):
+        if tree_config["factory"] is not cls:
+            return None
+
+        return reconstruct_array(
+            cls.parse_tree_config(tree_config),
+            raw_data,
+        )
+
+
 class ObjectHeaderFactory(BaseFactory):
     """
     This class reads object header:
@@ -1052,10 +1130,6 @@ class ObjectHeaderFactory(BaseFactory):
     If will be called automatically if no other factory matches.
     Also, it can be manually used to read object header.
     """
-
-    @classmethod
-    def priority(cls):
-        return 0  # should be called last
 
     @classmethod
     def gen_tree_config(
@@ -1072,18 +1146,7 @@ class ObjectHeaderFactory(BaseFactory):
         - `name`: top_type_name
         - `element_config`: Configuration of the element factory/reader.
         """
-        sub_streamers: list = all_streamer_info[top_type_name]
-        sub_configs = [gen_tree_config(s, all_streamer_info, item_path) for s in sub_streamers]
-
-        return {
-            "factory": cls,
-            "name": top_type_name,
-            "element_config": {
-                "factory": GroupFactory,
-                "name": top_type_name,
-                "sub_configs": sub_configs,
-            },
-        }
+        return None
 
     @classmethod
     def build_cpp_reader(cls, tree_config):
@@ -1138,6 +1201,7 @@ registered_factories |= {
     NBytesVersionFactory,
     GroupFactory,
     BaseObjectFactory,
+    AnyClassFactory,
     ObjectHeaderFactory,
     EmptyFactory,
 }

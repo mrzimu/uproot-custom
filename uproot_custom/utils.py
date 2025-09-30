@@ -50,7 +50,30 @@ def get_sequence_element_typename(type_name: str) -> str:
     e.g. vector<vector<int>> -> vector<int>
     """
     type_name = type_name.replace("std::", "").replace("< ", "<").replace(" >", ">").strip()
-    return re.match(r"^(vector|array|list|set|unordered_set)<(.*)>$", type_name).group(2)
+
+    lt_idx = -1
+    gt_idx = -1
+    stack_level = 0
+
+    for i, c in enumerate(type_name):
+        if c == "<":
+            stack_level += 1
+            if stack_level == 1:
+                lt_idx = i
+
+        if c == ">":
+            stack_level -= 1
+            if stack_level == 0:
+                gt_idx = i
+                break
+
+    if lt_idx == -1 or gt_idx == -1:
+        raise ValueError(f"Invalid sequence type name: {type_name}")
+
+    if gt_idx != len(type_name) - 1:
+        raise ValueError(f"Invalid sequence type name: {type_name}")
+
+    return type_name[lt_idx + 1 : gt_idx]
 
 
 def get_map_key_val_typenames(type_name: str) -> tuple[str, str]:
@@ -60,4 +83,34 @@ def get_map_key_val_typenames(type_name: str) -> tuple[str, str]:
     e.g. map<int, vector<int>> -> (int, vector<int>)
     """
     type_name = type_name.replace("std::", "").replace("< ", "<").replace(" >", ">").strip()
-    return re.match(r"^(map|unordered_map|multimap)<(.*),(.*)>$", type_name).groups()[1:3]
+
+    lt_idx = -1
+    gt_idx = -1
+    split_idx = -1
+    stack_level = 0
+
+    for i, c in enumerate(type_name):
+        if c == "<":
+            stack_level += 1
+            if stack_level == 1:
+                lt_idx = i
+
+        if c == "," and stack_level == 1:
+            split_idx = i
+
+        if c == ">":
+            stack_level -= 1
+            if stack_level == 0:
+                gt_idx = i
+                break
+
+    if lt_idx == -1 or gt_idx == -1 or split_idx == -1:
+        raise ValueError(f"Invalid map type name: {type_name}")
+
+    if gt_idx != len(type_name) - 1:
+        raise ValueError(f"Invalid map type name: {type_name}")
+
+    key_type = type_name[lt_idx + 1 : split_idx].strip()
+    val_type = type_name[split_idx + 1 : gt_idx].strip()
+
+    return key_type, val_type

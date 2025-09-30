@@ -18,22 +18,24 @@ class AsGroupedMap(AsCustom):
     ):
         AsCustom.__init__(self, branch, context, simplify)
 
-        # 1:vector, 2:list, 3:deque, 4:map, 5:set, 6:multimap, 7:multiset, 12:unordered_map
+        # 1:vector, 2:list, 3:deque, 4:map, 5:set, 6:multimap
+        # 7:multiset, 12:unordered_map, 13: unordered_multimap
         stl_type = branch.parent.streamer.stl_type
         assert stl_type in (
             4,
             6,
             12,
+            13,
         ), f"Only map and multimap are supported for STL grouped branches, but got {stl_type}."
 
         key_type_name, val_type_name = get_map_key_val_typenames(
             branch.parent.streamer.typename
         )
 
-        if branch == branch.parent.branches[0]:
+        if branch is branch.parent.branches[0]:
             self._typename = key_type_name + "[]"
 
-        elif branch == branch.parent.branches[1]:
+        elif branch is branch.parent.branches[1]:
             self._typename = val_type_name + "[]"
 
         else:
