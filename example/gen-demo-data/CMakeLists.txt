@@ -23,8 +23,20 @@ target_link_libraries(gen-data
 )
 
 ROOT_GENERATE_DICTIONARY(MyRootDict
-        ${CMAKE_CURRENT_LIST_DIR}/include/TOverrideStreamer.hh
+        ${CMAKE_CURRENT_LIST_DIR}/include/TBasicTypes.hh
+        ${CMAKE_CURRENT_LIST_DIR}/include/TCStyleArray.hh
         ${CMAKE_CURRENT_LIST_DIR}/include/TComplicatedSTL.hh
+        ${CMAKE_CURRENT_LIST_DIR}/include/TObjInObjArray.hh
+        ${CMAKE_CURRENT_LIST_DIR}/include/TOverrideStreamer.hh
+        ${CMAKE_CURRENT_LIST_DIR}/include/TRootObjects.hh
+        ${CMAKE_CURRENT_LIST_DIR}/include/TSTLArray.hh
+        ${CMAKE_CURRENT_LIST_DIR}/include/TSTLMap.hh
+        ${CMAKE_CURRENT_LIST_DIR}/include/TSTLSequence.hh
+        ${CMAKE_CURRENT_LIST_DIR}/include/TSTLString.hh
+        ${CMAKE_CURRENT_LIST_DIR}/include/TSimpleObject.hh
+        ${CMAKE_CURRENT_LIST_DIR}/include/TSTLSeqWithObj.hh
+        ${CMAKE_CURRENT_LIST_DIR}/include/TSTLMapWithObj.hh
+        ${CMAKE_CURRENT_LIST_DIR}/include/TNestedSTL.hh
     LINKDEF ${CMAKE_CURRENT_LIST_DIR}/include/LinkDef.h
     MODULE gen-data
 )

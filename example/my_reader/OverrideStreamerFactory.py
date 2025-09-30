@@ -12,7 +12,7 @@ class OverrideStreamerFactory(BaseFactory):
         cls_streamer_info: dict,
         all_streamer_info: dict,
         item_path: str,
-        called_from_top: bool,
+        **kwargs,
     ):
         fName = cls_streamer_info["fName"]
         if fName != "TOverrideStreamer":

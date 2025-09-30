@@ -1,4 +1,5 @@
-#include <iostream>
+#include <cstdint>
+#include <memory>
 #include <vector>
 
 #include "uproot-custom/uproot-custom.hh"
@@ -43,6 +44,40 @@ class OverrideStreamerReader : public IElementReader {
     std::shared_ptr<std::vector<double>> m_data_doubles;
 };
 
+class TObjArrayReader : public IElementReader {
+  private:
+    SharedReader m_element_reader;
+    std::shared_ptr<std::vector<uint32_t>> m_offsets;
+
+  public:
+    TObjArrayReader( std::string name, SharedReader element_reader )
+        : IElementReader( name )
+        , m_element_reader( element_reader )
+        , m_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) ) {}
+
+    void read( BinaryBuffer& buffer ) override final {
+        buffer.skip_fNBytes();
+        buffer.skip_fVersion();
+        buffer.skip_fVersion();
+        buffer.skip( 4 ); // fUniqueID
+        buffer.skip( 4 ); // fBits
+
+        buffer.skip( 1 ); // fName
+        auto fSize = buffer.read<uint32_t>();
+        buffer.skip( 4 ); // fLowerBound
+
+        m_offsets->push_back( m_offsets->back() + fSize );
+        m_element_reader->read( buffer, fSize );
+    }
+
+    py::object data() const override final {
+        auto offsets_array      = make_array( m_offsets );
+        py::object element_data = m_element_reader->data();
+        return py::make_tuple( offsets_array, element_data );
+    }
+};
+
 PYBIND11_MODULE( my_reader_cpp, m ) {
     register_reader<OverrideStreamerReader>( m, "OverrideStreamerReader" );
+    register_reader<TObjArrayReader, SharedReader>( m, "TObjArrayReader" );
 }
