@@ -41,6 +41,19 @@ optional-dependencies = { "dev" = [
     "dask[complete]",
     "dask-awkward",
     "build",
+], "docs" = [
+    "sphinx>=8.2",
+    "sphinx-book-theme",
+    "myst_parser",
+    "sphinx-design",
+    "sphinx-copybutton",
+    "sphinxext-rediraffe",
+    "sphinxext-opengraph",
+    "sphinx-tippy",
+    "sphinx-togglebutton",
+    "sphinxcontrib-mermaid",
+    "sphinx-autobuild",
+    "sphinx-intl",
 ] }
 
 urls = { "Homepage" = "https://github.com/mrzimu/uproot-custom" }
@@ -67,3 +80,7 @@ uproot-custom = "uproot_custom.share.cmake"
 
 [tool.cibuildwheel]
 build = ["cp*-manylinux_x86_64", "cp*-macosx_arm64", "cp*-win_amd64"]
+
+[tool.sphinx]
+source-dir = "docs"
+build-dir = "build"
