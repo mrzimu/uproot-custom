@@ -1,4 +1,5 @@
 import pytest
+import uproot
 
 import uproot_custom
 
@@ -36,5 +37,20 @@ uproot_custom.AsGroupedMap.target_branches |= set(as_grouped_map_branches)
         for i in as_grouped_map_branches
     ],
 )
-def test_AsGroupedMap(f_test_data, sub_branch_path):
+def test_AsGroupedMap_array(f_test_data, sub_branch_path):
     f_test_data[sub_branch_path].array()
+
+
+@pytest.mark.parametrize(
+    "sub_branch_path",
+    [
+        (
+            pytest.param(i, marks=pytest.mark.xfail)
+            if i == "/my_tree:nested_stl/m_map_vec_obj/m_map_vec_obj.second"
+            else i
+        )
+        for i in as_grouped_map_branches
+    ],
+)
+def test_AsGroupedMap_dask(test_data_path, sub_branch_path):
+    uproot.dask({test_data_path: sub_branch_path}).compute()

@@ -1,8 +1,59 @@
 import pytest
 
 import uproot_custom
+import uproot
 
 test_branches = [
+    "/my_tree:basic_types/m_bool",
+    "/my_tree:basic_types/m_char",
+    "/my_tree:basic_types/m_schar",
+    "/my_tree:basic_types/m_uchar",
+    "/my_tree:basic_types/m_short",
+    "/my_tree:basic_types/m_sshort",
+    "/my_tree:basic_types/m_ushort",
+    "/my_tree:basic_types/m_int",
+    "/my_tree:basic_types/m_sint",
+    "/my_tree:basic_types/m_uint",
+    "/my_tree:basic_types/m_long",
+    "/my_tree:basic_types/m_slong",
+    "/my_tree:basic_types/m_ulong",
+    "/my_tree:basic_types/m_llong",
+    "/my_tree:basic_types/m_sllong",
+    "/my_tree:basic_types/m_ullong",
+    "/my_tree:basic_types/m_float",
+    "/my_tree:basic_types/m_double",
+    "/my_tree:basic_types/m_ldouble",
+    "/my_tree:basic_types/m_int8",
+    "/my_tree:basic_types/m_uint8",
+    "/my_tree:basic_types/m_int16",
+    "/my_tree:basic_types/m_uint16",
+    "/my_tree:basic_types/m_int32",
+    "/my_tree:basic_types/m_uint32",
+    "/my_tree:basic_types/m_int64",
+    "/my_tree:basic_types/m_uint64",
+    "/my_tree:basic_types/m_rt_bool",
+    "/my_tree:basic_types/m_rt_char",
+    "/my_tree:basic_types/m_rt_uchar",
+    "/my_tree:basic_types/m_rt_short",
+    "/my_tree:basic_types/m_rt_ushort",
+    "/my_tree:basic_types/m_rt_int",
+    "/my_tree:basic_types/m_rt_uint",
+    "/my_tree:basic_types/m_rt_long",
+    "/my_tree:basic_types/m_rt_ulong",
+    "/my_tree:basic_types/m_rt_llong",
+    "/my_tree:basic_types/m_rt_ullong",
+    "/my_tree:basic_types/m_rt_float",
+    "/my_tree:basic_types/m_rt_double",
+    "/my_tree:basic_types/m_rt_ldouble",
+    "/my_tree:stl_string/m_str",
+    "/my_tree:stl_sequence/m_vec_double",
+    "/my_tree:stl_sequence/m_set_double",
+    "/my_tree:stl_sequence/m_list_double",
+    "/my_tree:stl_sequence/m_uset_double",
+    "/my_tree:stl_sequence/m_mset_double",
+    "/my_tree:stl_sequence/m_umset_double",
+    "/my_tree:stl_sequence/m_vec_str",
+    "/my_tree:stl_sequence/m_vec_tstr",
     "/my_tree:stl_map/m_map_int_double/m_map_int_double.first",
     "/my_tree:stl_map/m_map_int_double/m_map_int_double.second",
     "/my_tree:stl_map/m_umap_int_double/m_umap_int_double.first",
@@ -13,6 +64,33 @@ test_branches = [
     "/my_tree:stl_map/m_ummap_int_double/m_ummap_int_double.second",
     "/my_tree:stl_map/m_map_str_tstr/m_map_str_tstr.first",
     "/my_tree:stl_map/m_map_str_tstr/m_map_str_tstr.second",
+    "/my_tree:root_objects/m_TString",
+    "/my_tree:root_objects/m_TArrayC",
+    "/my_tree:root_objects/m_TArrayD",
+    "/my_tree:root_objects/m_TArrayF",
+    "/my_tree:root_objects/m_TArrayI",
+    "/my_tree:root_objects/m_TArrayL",
+    "/my_tree:root_objects/m_TArrayL64",
+    "/my_tree:root_objects/m_TArrayS",
+    "/my_tree:cstyle_array/m_bool[3]",
+    "/my_tree:cstyle_array/m_schar[3]",
+    "/my_tree:cstyle_array/m_int[2][3][4]",
+    "/my_tree:cstyle_array/m_str[3]",
+    "/my_tree:cstyle_array/m_vec_double[3]",
+    "/my_tree:cstyle_array/m_map_int_double[3]",
+    "/my_tree:cstyle_array/m_map_str_str[3]",
+    "/my_tree:cstyle_array/m_tstr[3]",
+    "/my_tree:cstyle_array/m_tarr_int[3]",
+    "/my_tree:cstyle_array/m_simple_obj[3]",
+    "/my_tree:stl_array/m_arr_bool[3]",
+    "/my_tree:stl_array/m_arr_schar[3]",
+    "/my_tree:stl_array/m_arr_int[3]",
+    "/my_tree:stl_array/m_arr_str[3]",
+    "/my_tree:stl_array/m_arr_vec_int[3]",
+    "/my_tree:stl_array/m_arr_map_int_double[3]",
+    "/my_tree:stl_array/m_arr_map_str_str[3]",
+    "/my_tree:stl_array/m_arr_tstr[3]",
+    "/my_tree:stl_array/m_arr_tarr_int[3]",
     "/my_tree:stl_seq_with_obj/m_vec_basic_types/m_vec_basic_types.m_bool",
     "/my_tree:stl_seq_with_obj/m_vec_basic_types/m_vec_basic_types.m_char",
     "/my_tree:stl_seq_with_obj/m_vec_basic_types/m_vec_basic_types.m_schar",
@@ -207,5 +285,15 @@ uproot_custom.AsCustom.target_branches |= set(test_branches)
 
 
 @pytest.mark.parametrize("sub_branch_path", test_branches)
-def test_AsCustom(f_test_data, sub_branch_path):
+def test_AsCustom_array(f_test_data, sub_branch_path):
     f_test_data[sub_branch_path].array()
+
+
+@pytest.mark.parametrize("sub_branch_path", test_branches)
+def test_AsCustom_dask(test_data_path, sub_branch_path):
+    """
+    # TODO: At the moment, a bug in `uproot` prevents directly
+    reading a whole branch or tree with `dask`. This is irrelevant
+    to `uproot-custom` but should be fixed in `uproot` in the future.
+    """
+    uproot.dask({test_data_path: sub_branch_path}).compute()

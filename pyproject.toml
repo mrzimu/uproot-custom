@@ -35,7 +35,7 @@ classifiers = [
     "Topic :: Utilities",
 ]
 
-optional-dependencies = { "dev" = ["pytest", "build"] }
+optional-dependencies = { "dev" = ["pytest", "pytest-xdist", "build"] }
 urls = { "Homepage" = "https://github.com/mrzimu/uproot-custom" }
 
 [tool.scikit-build]
