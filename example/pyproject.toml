@@ -1,12 +1,12 @@
 [build-system]
-requires = ["scikit-build-core>=0.11", "pybind11>=2.10.0", "uproot-custom"]
+requires = ["scikit-build-core>=0.11", "pybind11>=2.10.0", "uproot-custom==2.0.*"]
 # requires = ["scikit-build-core>=0.11", "pybind11>=2.10.0", "uproot-custom @ file://path/to/uproot-custom-wheel-file.whl"] # Use this line if you need to use local `uproot-custom`.
 build-backend = "scikit_build_core.build"
 
 [project]
 name = "my-reader"
 requires-python = ">=3.9"
-dependencies = ["uproot-custom"]
+dependencies = ["uproot-custom==2.0.*"]
 version = "0.1.0"
 
 [tool.scikit-build]

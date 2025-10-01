@@ -21,6 +21,7 @@ from uproot_custom.factories import (
     TObjectFactory,
     TStringFactory,
     build_cpp_reader,
+    gen_awkward_form,
     gen_tree_config,
     reconstruct_array,
     registered_factories,

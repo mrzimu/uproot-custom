@@ -74,7 +74,7 @@ namespace uproot {
         SharedVector<int32_t> m_unique_id;
         SharedVector<uint32_t> m_bits;
         SharedVector<uint16_t> m_pidf;
-        SharedVector<uint32_t> m_pidf_offsets;
+        SharedVector<int64_t> m_pidf_offsets;
 
       public:
         TObjectReader( std::string name, bool keep_data )
@@ -83,7 +83,7 @@ namespace uproot {
             , m_unique_id( std::make_shared<std::vector<int32_t>>() )
             , m_bits( std::make_shared<std::vector<uint32_t>>() )
             , m_pidf( std::make_shared<std::vector<uint16_t>>() )
-            , m_pidf_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) ) {}
+            , m_pidf_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) ) {}
 
         void read( BinaryBuffer& buffer ) override {
             buffer.skip_fVersion();
@@ -125,13 +125,13 @@ namespace uproot {
     class TStringReader : public IElementReader {
       private:
         SharedVector<uint8_t> m_data;
-        SharedVector<uint32_t> m_offsets;
+        SharedVector<int64_t> m_offsets;
 
       public:
         TStringReader( std::string name )
             : IElementReader( name )
             , m_data( std::make_shared<std::vector<uint8_t>>() )
-            , m_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) ) {}
+            , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) ) {}
 
         void read( BinaryBuffer& buffer ) override {
             uint32_t fSize = buffer.read<uint8_t>();
@@ -158,14 +158,14 @@ namespace uproot {
       private:
         const bool m_with_header;
         SharedReader m_element_reader;
-        SharedVector<uint32_t> m_offsets;
+        SharedVector<int64_t> m_offsets;
 
       public:
         STLSeqReader( std::string name, bool with_header, SharedReader element_reader )
             : IElementReader( name )
             , m_with_header( with_header )
             , m_element_reader( element_reader )
-            , m_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) ) {}
+            , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) ) {}
 
         void read_body( BinaryBuffer& buffer ) {
             auto fSize = buffer.read<uint32_t>();
@@ -240,7 +240,7 @@ namespace uproot {
       private:
         const bool m_with_header;
         const bool m_is_obj_wise;
-        SharedVector<uint32_t> m_offsets;
+        SharedVector<int64_t> m_offsets;
         SharedReader m_key_reader;
         SharedReader m_value_reader;
 
@@ -250,7 +250,7 @@ namespace uproot {
             : IElementReader( name )
             , m_with_header( with_header )
             , m_is_obj_wise( is_obj_wise )
-            , m_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) )
+            , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) )
             , m_key_reader( key_reader )
             , m_value_reader( value_reader ) {}
 
@@ -340,14 +340,14 @@ namespace uproot {
     class STLStringReader : public IElementReader {
       private:
         const bool m_with_header;
-        SharedVector<uint32_t> m_offsets;
+        SharedVector<int64_t> m_offsets;
         SharedVector<uint8_t> m_data;
 
       public:
         STLStringReader( std::string name, bool with_header )
             : IElementReader( name )
             , m_with_header( with_header )
-            , m_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) )
+            , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) )
             , m_data( std::make_shared<std::vector<uint8_t>>() ) {}
 
         void read_body( BinaryBuffer& buffer ) {
@@ -433,13 +433,13 @@ namespace uproot {
     template <typename T>
     class TArrayReader : public IElementReader {
       private:
-        SharedVector<uint32_t> m_offsets;
+        SharedVector<int64_t> m_offsets;
         SharedVector<T> m_data;
 
       public:
         TArrayReader( std::string name )
             : IElementReader( name )
-            , m_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) )
+            , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) )
             , m_data( std::make_shared<std::vector<T>>() ) {}
 
         void read( BinaryBuffer& buffer ) override {
@@ -567,7 +567,7 @@ namespace uproot {
     class CStyleArrayReader : public IElementReader {
       private:
         const int64_t m_flat_size;
-        SharedVector<uint32_t> m_offsets;
+        SharedVector<int64_t> m_offsets;
         SharedReader m_element_reader;
 
       public:
@@ -575,7 +575,7 @@ namespace uproot {
                            SharedReader element_reader )
             : IElementReader( name )
             , m_flat_size( flat_size )
-            , m_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) )
+            , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) )
             , m_element_reader( element_reader ) {}
 
         void read( BinaryBuffer& buffer ) override {

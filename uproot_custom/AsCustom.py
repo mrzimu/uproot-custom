@@ -6,7 +6,7 @@ import uproot
 import uproot.behaviors.TBranch
 import uproot.interpretation
 
-from uproot_custom.factories import read_branch
+from uproot_custom.factories import read_branch, read_branch_awkward_form
 from uproot_custom.utils import get_dims_from_branch, regularize_object_path
 
 
@@ -135,21 +135,50 @@ class AsCustom(uproot.interpretation.Interpretation):
         interp_options,
     ):
         assert library.name == "ak", "Only awkward arrays are supported"
+        assert branch is self._branch, "Branch mismatch"
 
-        full_branch_path = regularize_object_path(branch.object_path)
+        full_branch_path = regularize_object_path(self._branch.object_path)
 
-        if branch.streamer is None:
+        if self._branch.streamer is None:
             cls_streamer_info = {
-                "fName": branch.name,
+                "fName": self._branch.name,
                 "fTypeName": self.typename,
             }
         else:
-            cls_streamer_info = branch.streamer.all_members
+            cls_streamer_info = self._branch.streamer.all_members
 
         return read_branch(
-            branch,
+            self._branch,
             data,
             byte_offsets,
+            cls_streamer_info,
+            self.all_streamer_info,
+            full_branch_path,
+        )
+
+    def awkward_form(
+        self,
+        file,
+        context=None,
+        index_format="i64",
+        header=False,
+        tobject_header=False,
+        breadcrumbs=(),
+    ):
+        assert file is self._branch.file, "File mismatch"
+
+        full_branch_path = regularize_object_path(self._branch.object_path)
+
+        if self._branch.streamer is None:
+            cls_streamer_info = {
+                "fName": self._branch.name,
+                "fTypeName": self.typename,
+            }
+        else:
+            cls_streamer_info = self._branch.streamer.all_members
+
+        return read_branch_awkward_form(
+            self._branch,
             cls_streamer_info,
             self.all_streamer_info,
             full_branch_path,

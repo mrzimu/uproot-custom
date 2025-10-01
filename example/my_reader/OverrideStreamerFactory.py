@@ -1,7 +1,9 @@
+import awkward.contents
+import awkward.forms
+
 from uproot_custom import BaseFactory
 
 from . import my_reader_cpp as _cpp
-import awkward.contents
 
 
 class OverrideStreamerFactory(BaseFactory):
@@ -41,6 +43,19 @@ class OverrideStreamerFactory(BaseFactory):
             [
                 awkward.contents.NumpyArray(int_array),
                 awkward.contents.NumpyArray(double_array),
+            ],
+            ["m_int", "m_double"],
+        )
+
+    @classmethod
+    def gen_awkward_form(cls, tree_config):
+        if tree_config["factory"] is not cls:
+            return None
+
+        return awkward.forms.RecordForm(
+            [
+                awkward.forms.NumpyForm("int32"),
+                awkward.forms.NumpyForm("float64"),
             ],
             ["m_int", "m_double"],
         )
