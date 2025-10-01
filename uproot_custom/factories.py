@@ -5,6 +5,7 @@ from typing import Any, Union
 
 import awkward as ak
 import awkward.contents
+import awkward.forms
 import awkward.index
 import numpy as np
 import uproot
@@ -87,6 +88,17 @@ def reconstruct_array(
     )
 
 
+def gen_awkward_form(tree_config: dict) -> awkward.forms.Form:
+    for reader in sorted(registered_factories, key=lambda x: x.priority(), reverse=True):
+        form = reader.gen_awkward_form(tree_config)
+        if form is not None:
+            return form
+
+    raise ValueError(
+        f"Unknown factory type: {tree_config['factory']} for {tree_config['name']}"
+    )
+
+
 def read_branch(
     branch: uproot.TBranch,
     data: np.ndarray[np.uint8],
@@ -110,6 +122,22 @@ def read_branch(
     raw_data = uproot_custom.cpp.read_data(data, offsets, reader)
 
     return reconstruct_array(tree_config, raw_data)
+
+
+def read_branch_awkward_form(
+    branch: uproot.TBranch,
+    cur_streamer_info: dict,
+    all_streamer_info: dict[str, list[dict]],
+    item_path: str = "",
+):
+    tree_config = gen_tree_config(
+        cur_streamer_info,
+        all_streamer_info,
+        item_path,
+        called_from_top=True,
+        branch=branch,
+    )
+    return gen_awkward_form(tree_config)
 
 
 class BaseFactory:
@@ -194,6 +222,23 @@ class BaseFactory:
         """
         return None
 
+    @classmethod
+    def gen_awkward_form(
+        cls,
+        tree_config: dict,
+    ) -> Union[None, awkward.forms.Form]:
+        """
+        Generate awkward form with tree configuration. This method will
+        only be called when reading files with `dask`.
+
+        Args:
+            tree_config (dict): Tree configuration of current item.
+
+        Returns:
+            awkward.forms.Form: Awkward form of current item.
+        """
+        return None
+
 
 class BasicTypeFactory(BaseFactory):
     typenames = {
@@ -266,6 +311,20 @@ class BasicTypeFactory(BaseFactory):
         "d": uproot_custom.cpp.DoubleReader,
     }
 
+    ctype_primitive_map = {
+        "bool": "bool",
+        "i1": "int8",
+        "i2": "int16",
+        "i4": "int32",
+        "i8": "int64",
+        "u1": "uint8",
+        "u2": "uint16",
+        "u4": "uint32",
+        "u8": "uint64",
+        "f": "float32",
+        "d": "float64",
+    }
+
     @classmethod
     def gen_tree_config(
         cls,
@@ -316,6 +375,14 @@ class BasicTypeFactory(BaseFactory):
         if tree_config["ctype"] == "bool":
             raw_data = raw_data.astype(np.bool_)
         return ak.contents.NumpyArray(raw_data)
+
+    @classmethod
+    def gen_awkward_form(cls, tree_config: dict):
+        if tree_config["factory"] is not cls:
+            return None
+
+        ctype = tree_config["ctype"]
+        return ak.forms.NumpyForm(cls.ctype_primitive_map[ctype])
 
 
 stl_typenames = {
@@ -423,6 +490,17 @@ class STLSeqFactory(BaseFactory):
             element_data,
         )
 
+    @classmethod
+    def gen_awkward_form(cls, tree_config: dict):
+        if tree_config["factory"] is not cls:
+            return None
+
+        element_form = gen_awkward_form(tree_config["element_config"])
+        return ak.forms.ListOffsetForm(
+            "i64",
+            element_form,
+        )
+
 
 class STLMapFactory(BaseFactory):
     """
@@ -520,6 +598,21 @@ class STLMapFactory(BaseFactory):
             ),
         )
 
+    @classmethod
+    def gen_awkward_form(cls, tree_config: dict):
+        if tree_config["factory"] is not cls:
+            return None
+
+        key_form = gen_awkward_form(tree_config["key_config"])
+        val_form = gen_awkward_form(tree_config["val_config"])
+        return ak.forms.ListOffsetForm(
+            "i64",
+            ak.forms.RecordForm(
+                [key_form, val_form],
+                [tree_config["key_config"]["name"], tree_config["val_config"]["name"]],
+            ),
+        )
+
 
 class STLStringFactory(BaseFactory):
     """
@@ -563,6 +656,17 @@ class STLStringFactory(BaseFactory):
         return awkward.contents.ListOffsetArray(
             awkward.index.Index64(offsets),
             awkward.contents.NumpyArray(data, parameters={"__array__": "char"}),
+            parameters={"__array__": "string"},
+        )
+
+    @classmethod
+    def gen_awkward_form(cls, tree_config: dict):
+        if tree_config["factory"] is not cls:
+            return None
+
+        return ak.forms.ListOffsetForm(
+            "i64",
+            ak.forms.NumpyForm("uint8", parameters={"__array__": "char"}),
             parameters={"__array__": "string"},
         )
 
@@ -637,6 +741,17 @@ class TArrayFactory(BaseFactory):
             awkward.contents.NumpyArray(data),
         )
 
+    @classmethod
+    def gen_awkward_form(cls, tree_config: dict):
+        if tree_config["factory"] is not cls:
+            return None
+
+        ctype = tree_config["ctype"]
+        return ak.forms.ListOffsetForm(
+            "i64",
+            ak.forms.NumpyForm(BasicTypeFactory.ctype_primitive_map[ctype]),
+        )
+
 
 class TStringFactory(BaseFactory):
     """
@@ -676,6 +791,17 @@ class TStringFactory(BaseFactory):
         return awkward.contents.ListOffsetArray(
             awkward.index.Index64(offsets),
             awkward.contents.NumpyArray(data, parameters={"__array__": "char"}),
+            parameters={"__array__": "string"},
+        )
+
+    @classmethod
+    def gen_awkward_form(cls, tree_config: dict):
+        if tree_config["factory"] is not cls:
+            return None
+
+        return ak.forms.ListOffsetForm(
+            "i64",
+            ak.forms.NumpyForm("uint8", parameters={"__array__": "char"}),
             parameters={"__array__": "string"},
         )
 
@@ -746,6 +872,26 @@ class TObjectFactory(BaseFactory):
                 awkward.contents.ListOffsetArray(
                     awkward.index.Index64(pidf_offsets),
                     awkward.contents.NumpyArray(pidf),
+                ),
+            ],
+            ["fUniqueID", "fBits", "pidf"],
+        )
+
+    @classmethod
+    def gen_awkward_form(cls, tree_config: dict):
+        if tree_config["factory"] is not cls:
+            return None
+
+        if not tree_config["keep_data"]:
+            return ak.forms.EmptyForm()
+
+        return ak.forms.RecordForm(
+            [
+                ak.forms.NumpyForm("int32"),  # fUniqueID
+                ak.forms.NumpyForm("uint32"),  # fBits
+                ak.forms.ListOffsetForm(
+                    "i64",
+                    ak.forms.NumpyForm("uint16"),  # pidf
                 ),
             ],
             ["fUniqueID", "fBits", "pidf"],
@@ -886,6 +1032,31 @@ class CStyleArrayFactory(BaseFactory):
         else:
             return element_data
 
+    @classmethod
+    def gen_awkward_form(cls, tree_config: dict):
+        if tree_config["factory"] is not cls:
+            return None
+
+        element_form = gen_awkward_form(tree_config["element_config"])
+        flat_size = tree_config["flat_size"]
+
+        fMaxIndex = tree_config["fMaxIndex"]
+        fArrayDim = tree_config["fArrayDim"]
+
+        if fArrayDim is not None and fMaxIndex is not None:
+            shape = [fMaxIndex[i] for i in range(fArrayDim)]
+
+            for s in shape[::-1]:
+                element_form = ak.forms.RegularForm(element_form, int(s))
+
+        if flat_size < 0:
+            return ak.forms.ListOffsetForm(
+                "i64",
+                element_form,
+            )
+        else:
+            return element_form
+
 
 class NBytesVersionFactory(BaseFactory):
     """
@@ -940,6 +1111,14 @@ class NBytesVersionFactory(BaseFactory):
         element_config = tree_config["element_config"]
         return reconstruct_array(element_config, raw_data)
 
+    @classmethod
+    def gen_awkward_form(cls, tree_config: dict):
+        if tree_config["factory"] is not cls:
+            return None
+
+        element_config = tree_config["element_config"]
+        return gen_awkward_form(element_config)
+
 
 class GroupFactory(BaseFactory):
     """
@@ -991,6 +1170,24 @@ class GroupFactory(BaseFactory):
             sub_contents.append(reconstruct_array(s_cfg, s_data))
 
         return awkward.contents.RecordArray(sub_contents, sub_fields)
+
+    @classmethod
+    def gen_awkward_form(cls, tree_config: dict):
+        if tree_config["factory"] is not cls:
+            return None
+
+        sub_configs = tree_config["sub_configs"]
+
+        sub_fields = []
+        sub_contents = []
+        for s_cfg in sub_configs:
+            if s_cfg["factory"] is TObjectFactory and not s_cfg["keep_data"]:
+                continue
+
+            sub_fields.append(s_cfg["name"])
+            sub_contents.append(gen_awkward_form(s_cfg))
+
+        return ak.forms.RecordForm(sub_contents, sub_fields)
 
 
 class BaseObjectFactory(BaseFactory):
@@ -1060,6 +1257,13 @@ class BaseObjectFactory(BaseFactory):
             raw_data,
         )
 
+    @classmethod
+    def gen_awkward_form(cls, tree_config: dict):
+        if tree_config["factory"] is not cls:
+            return None
+
+        return gen_awkward_form(cls.parse_tree_config(tree_config))
+
 
 class AnyClassFactory(BaseFactory):
     """
@@ -1119,6 +1323,13 @@ class AnyClassFactory(BaseFactory):
             raw_data,
         )
 
+    @classmethod
+    def gen_awkward_form(cls, tree_config: dict):
+        if tree_config["factory"] is not cls:
+            return None
+
+        return gen_awkward_form(cls.parse_tree_config(tree_config))
+
 
 class ObjectHeaderFactory(BaseFactory):
     """
@@ -1168,6 +1379,14 @@ class ObjectHeaderFactory(BaseFactory):
         element_config = tree_config["element_config"]
         return reconstruct_array(element_config, raw_data)
 
+    @classmethod
+    def gen_awkward_form(cls, tree_config: dict):
+        if tree_config["factory"] is not cls:
+            return None
+
+        element_config = tree_config["element_config"]
+        return gen_awkward_form(element_config)
+
 
 class EmptyFactory(BaseFactory):
     """
@@ -1187,6 +1406,13 @@ class EmptyFactory(BaseFactory):
             return None
 
         return awkward.contents.EmptyArray()
+
+    @classmethod
+    def gen_awkward_form(cls, tree_config: dict):
+        if tree_config["factory"] is not cls:
+            return None
+
+        return ak.forms.EmptyForm()
 
 
 registered_factories |= {
