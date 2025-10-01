@@ -34,6 +34,9 @@ namespace uproot {
 
     template <typename T>
     class BasicTypeReader : public IElementReader {
+      private:
+        SharedVector<T> m_data;
+
       public:
         BasicTypeReader( std::string name )
             : IElementReader( name ), m_data( std::make_shared<std::vector<T>>() ) {}
@@ -41,13 +44,13 @@ namespace uproot {
         void read( BinaryBuffer& buffer ) override { m_data->push_back( buffer.read<T>() ); }
 
         py::object data() const override { return make_array( m_data ); }
-
-      private:
-        SharedVector<T> m_data;
     };
 
     template <>
     class BasicTypeReader<bool> : public IElementReader {
+      private:
+        SharedVector<uint8_t> m_data;
+
       public:
         BasicTypeReader( std::string name )
             : IElementReader( name ), m_data( std::make_shared<std::vector<uint8_t>>() ) {}
@@ -57,9 +60,6 @@ namespace uproot {
         }
 
         py::object data() const override { return make_array( m_data ); }
-
-      private:
-        SharedVector<uint8_t> m_data;
     };
 
     /*
@@ -69,6 +69,12 @@ namespace uproot {
     */
 
     class TObjectReader : public IElementReader {
+      private:
+        const bool m_keep_data;
+        SharedVector<int32_t> m_unique_id;
+        SharedVector<uint32_t> m_bits;
+        SharedVector<uint16_t> m_pidf;
+        SharedVector<uint32_t> m_pidf_offsets;
 
       public:
         TObjectReader( std::string name, bool keep_data )
@@ -108,13 +114,6 @@ namespace uproot {
             auto pidf_offsets    = make_array( m_pidf_offsets );
             return py::make_tuple( unique_id_array, bits_array, pidf_array, pidf_offsets );
         }
-
-      private:
-        const bool m_keep_data;
-        SharedVector<int32_t> m_unique_id;
-        SharedVector<uint32_t> m_bits;
-        SharedVector<uint16_t> m_pidf;
-        SharedVector<uint32_t> m_pidf_offsets;
     };
 
     /*
@@ -124,6 +123,10 @@ namespace uproot {
     */
 
     class TStringReader : public IElementReader {
+      private:
+        SharedVector<uint8_t> m_data;
+        SharedVector<uint32_t> m_offsets;
+
       public:
         TStringReader( std::string name )
             : IElementReader( name )
@@ -143,10 +146,6 @@ namespace uproot {
             auto data_array    = make_array( m_data );
             return py::make_tuple( offsets_array, data_array );
         }
-
-      private:
-        SharedVector<uint8_t> m_data;
-        SharedVector<uint32_t> m_offsets;
     };
 
     /*
@@ -156,6 +155,11 @@ namespace uproot {
     */
 
     class STLSeqReader : public IElementReader {
+      private:
+        const bool m_with_header;
+        SharedReader m_element_reader;
+        SharedVector<uint32_t> m_offsets;
+
       public:
         STLSeqReader( std::string name, bool with_header, SharedReader element_reader )
             : IElementReader( name )
@@ -230,14 +234,16 @@ namespace uproot {
             auto elements_data = m_element_reader->data();
             return py::make_tuple( offsets_array, elements_data );
         }
-
-      private:
-        const bool m_with_header;
-        SharedReader m_element_reader;
-        SharedVector<uint32_t> m_offsets;
     };
 
     class STLMapReader : public IElementReader {
+      private:
+        const bool m_with_header;
+        const bool m_is_obj_wise;
+        SharedVector<uint32_t> m_offsets;
+        SharedReader m_key_reader;
+        SharedReader m_value_reader;
+
       public:
         STLMapReader( std::string name, bool with_header, bool is_obj_wise,
                       SharedReader key_reader, SharedReader value_reader )
@@ -329,16 +335,14 @@ namespace uproot {
             py::object values_data = m_value_reader->data();
             return py::make_tuple( offsets_array, keys_data, values_data );
         }
-
-      private:
-        const bool m_with_header;
-        const bool m_is_obj_wise;
-        SharedVector<uint32_t> m_offsets;
-        SharedReader m_key_reader;
-        SharedReader m_value_reader;
     };
 
     class STLStringReader : public IElementReader {
+      private:
+        const bool m_with_header;
+        SharedVector<uint32_t> m_offsets;
+        SharedVector<uint8_t> m_data;
+
       public:
         STLStringReader( std::string name, bool with_header )
             : IElementReader( name )
@@ -418,11 +422,6 @@ namespace uproot {
 
             return py::make_tuple( offsets_array, data_array );
         }
-
-      private:
-        const bool m_with_header;
-        SharedVector<uint32_t> m_offsets;
-        SharedVector<uint8_t> m_data;
     };
 
     /*
@@ -433,6 +432,10 @@ namespace uproot {
 
     template <typename T>
     class TArrayReader : public IElementReader {
+      private:
+        SharedVector<uint32_t> m_offsets;
+        SharedVector<T> m_data;
+
       public:
         TArrayReader( std::string name )
             : IElementReader( name )
@@ -450,10 +453,6 @@ namespace uproot {
             auto data_array    = make_array( m_data );
             return py::make_tuple( offsets_array, data_array );
         }
-
-      private:
-        SharedVector<uint32_t> m_offsets;
-        SharedVector<T> m_data;
     };
 
     /*
@@ -566,6 +565,11 @@ namespace uproot {
     */
 
     class CStyleArrayReader : public IElementReader {
+      private:
+        const int64_t m_flat_size;
+        SharedVector<uint32_t> m_offsets;
+        SharedReader m_element_reader;
+
       public:
         CStyleArrayReader( std::string name, const int64_t flat_size,
                            SharedReader element_reader )
@@ -616,11 +620,6 @@ namespace uproot {
                 return py::make_tuple( offsets_array, elements_data );
             }
         }
-
-      private:
-        const int64_t m_flat_size;
-        SharedVector<uint32_t> m_offsets;
-        SharedReader m_element_reader;
     };
 
     /*
