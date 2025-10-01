@@ -1,10 +1,7 @@
 import glob
-import re
 import shutil
 import subprocess
 from pathlib import Path
-
-import pytest
 
 
 def test_downstream_build(tmpdir: Path):
