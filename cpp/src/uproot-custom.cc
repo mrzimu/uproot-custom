@@ -1,4 +1,6 @@
 #include <cstdint>
+#include <cstdio>
+#include <cstdlib>
 #include <pybind11/gil.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/pytypes.h>
@@ -7,23 +9,24 @@
 
 #include "uproot-custom/uproot-custom.hh"
 
+template <typename... Args>
+void debug_printf( const char* msg, Args... args ) {
+    bool do_print = getenv( "UPROOT_DEBUG" );
 #ifdef UPROOT_DEBUG
-#    define PRINT_BUFFER( buffer )                                                            \
-        {                                                                                     \
-            std::cout << "[DEBUG] ";                                                          \
-            for ( int i = 0; i < 80; i++ )                                                    \
-            { std::cout << (int)( buffer.get_cursor()[i] ) << " "; }                          \
-            std::cout << std::endl;                                                           \
-        }
-
-#    define PRINT_MSG( msg )                                                                  \
-        { std::cout << "[DEBUG] " << msg << std::endl; }
-
-#    include <iostream>
-#else
-#    define PRINT_BUFFER( buffer )
-#    define PRINT_MSG( msg )
+    do_print = true;
 #endif
+    if ( !do_print ) return;
+    printf( msg, std::forward<Args>( args )... );
+}
+
+void debug_printf( uproot::BinaryBuffer& buffer ) {
+    bool do_print = getenv( "UPROOT_DEBUG" );
+#ifdef UPROOT_DEBUG
+    do_print = true;
+#endif
+    if ( !do_print ) return;
+    buffer.debug_print();
+}
 
 namespace uproot {
     template <typename T>
@@ -503,43 +506,11 @@ namespace uproot {
             : IElementReader( name ), m_element_readers( element_readers ) {}
 
         void read( BinaryBuffer& buffer ) override {
-            for ( auto& reader : m_element_readers ) reader->read( buffer );
-        }
-
-        py::object data() const override {
-            py::list res;
-            for ( auto& reader : m_element_readers ) { res.append( reader->data() ); }
-            return res;
-        }
-    };
-
-    /*
-    -----------------------------------------------------------------------------
-    -----------------------------------------------------------------------------
-    -----------------------------------------------------------------------------
-    */
-
-    class BaseObjectReader : public IElementReader {
-      public:
-        BaseObjectReader( std::string name, std::vector<SharedReader> element_readers )
-            : IElementReader( name ), m_element_readers( element_readers ) {}
-
-        void read( BinaryBuffer& buffer ) override {
-#ifdef UPROOT_DEBUG
-            std::cout << "BaseObjectReader " << m_name << "::read(): " << std::endl;
-            for ( int i = 0; i < 40; i++ ) std::cout << (int)buffer.get_cursor()[i] << " ";
-            std::cout << std::endl << std::endl;
-#endif
-            buffer.read_fNBytes();
-            buffer.read_fVersion();
             for ( auto& reader : m_element_readers )
             {
-#ifdef UPROOT_DEBUG
-                std::cout << "BaseObjectReader " << m_name << ": " << reader->name() << ":"
-                          << std::endl;
-                for ( int i = 0; i < 40; i++ ) std::cout << (int)buffer.get_cursor()[i] << " ";
-                std::cout << std::endl << std::endl;
-#endif
+                debug_printf( "GroupReader %s: reading %s\n", m_name.c_str(),
+                              reader->name().c_str() );
+                debug_printf( buffer );
                 reader->read( buffer );
             }
         }
@@ -549,9 +520,6 @@ namespace uproot {
             for ( auto& reader : m_element_readers ) { res.append( reader->data() ); }
             return res;
         }
-
-      private:
-        std::vector<SharedReader> m_element_readers;
     };
 
     /*
@@ -607,17 +575,11 @@ namespace uproot {
             , m_element_reader( element_reader ) {}
 
         void read( BinaryBuffer& buffer ) override {
+            debug_printf( "CStyleArrayReader(%s) with flat_size %ld\n", m_name.c_str(),
+                          m_flat_size );
+            debug_printf( buffer );
 
-            PRINT_MSG( "CStyleArrayReader::read() for " + m_name +
-                       " with flat_size = " + std::to_string( m_flat_size ) +
-                       ", is_obj = " + std::to_string( m_is_obj ) );
-            PRINT_BUFFER( buffer );
-            if ( m_flat_size > 0 )
-            {
-                m_element_reader->read( buffer, m_flat_size );
-                PRINT_MSG( "" );
-                PRINT_MSG( "" );
-            }
+            if ( m_flat_size > 0 ) { m_element_reader->read( buffer, m_flat_size ); }
             else
             {
                 // get end-position
@@ -632,6 +594,8 @@ namespace uproot {
                 auto end_pos   = start_pos + *entry_end;
                 uint32_t count = m_element_reader->read( buffer, end_pos );
                 m_offsets->push_back( m_offsets->back() + count );
+                debug_printf( "CStyleArrayReader(%s) read %d elements\n", m_name.c_str(),
+                              count );
             }
         }
 
