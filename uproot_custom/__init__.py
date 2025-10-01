@@ -5,23 +5,25 @@ import uproot.interpretation.identify
 from uproot_custom.AsBinary import AsBinary
 from uproot_custom.AsCustom import AsCustom
 from uproot_custom.AsGroupedMap import AsGroupedMap
-from uproot_custom.readers import (
-    BaseObjectReader,
-    BaseReader,
-    BasicTypeReader,
-    CArrayReader,
-    EmptyReader,
-    ObjectHeaderReader,
-    STLMapReader,
-    STLSeqReader,
-    STLStringReader,
-    TArrayReader,
-    TObjectReader,
-    TStringReader,
+from uproot_custom.factories import (
+    BaseFactory,
+    BaseObjectFactory,
+    BasicTypeFactory,
+    CStyleArrayFactory,
+    EmptyFactory,
+    GroupFactory,
+    NBytesVersionFactory,
+    ObjectHeaderFactory,
+    STLMapFactory,
+    STLSeqFactory,
+    STLStringFactory,
+    TArrayFactory,
+    TObjectFactory,
+    TStringFactory,
+    build_cpp_reader,
     gen_tree_config,
-    get_cpp_reader,
     reconstruct_array,
-    registered_readers,
+    registered_factories,
 )
 from uproot_custom.utils import regularize_object_path
 

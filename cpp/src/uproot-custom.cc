@@ -1,26 +1,32 @@
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
 #include <pybind11/gil.h>
 #include <pybind11/pybind11.h>
+#include <pybind11/pytypes.h>
+#include <stdexcept>
 #include <vector>
 
 #include "uproot-custom/uproot-custom.hh"
 
+template <typename... Args>
+void debug_printf( const char* msg, Args... args ) {
+    bool do_print = getenv( "UPROOT_DEBUG" );
 #ifdef UPROOT_DEBUG
-#    define PRINT_BUFFER( buffer )                                                            \
-        {                                                                                     \
-            std::cout << "[DEBUG] ";                                                          \
-            for ( int i = 0; i < 80; i++ )                                                    \
-            { std::cout << (int)( buffer.get_cursor()[i] ) << " "; }                          \
-            std::cout << std::endl;                                                           \
-        }
-
-#    define PRINT_MSG( msg )                                                                  \
-        { std::cout << "[DEBUG] " << msg << std::endl; }
-
-#    include <iostream>
-#else
-#    define PRINT_BUFFER( buffer )
-#    define PRINT_MSG( msg )
+    do_print = true;
 #endif
+    if ( !do_print ) return;
+    printf( msg, std::forward<Args>( args )... );
+}
+
+void debug_printf( uproot::BinaryBuffer& buffer ) {
+    bool do_print = getenv( "UPROOT_DEBUG" );
+#ifdef UPROOT_DEBUG
+    do_print = true;
+#endif
+    if ( !do_print ) return;
+    buffer.debug_print();
+}
 
 namespace uproot {
     template <typename T>
@@ -28,6 +34,9 @@ namespace uproot {
 
     template <typename T>
     class BasicTypeReader : public IElementReader {
+      private:
+        SharedVector<T> m_data;
+
       public:
         BasicTypeReader( std::string name )
             : IElementReader( name ), m_data( std::make_shared<std::vector<T>>() ) {}
@@ -35,13 +44,13 @@ namespace uproot {
         void read( BinaryBuffer& buffer ) override { m_data->push_back( buffer.read<T>() ); }
 
         py::object data() const override { return make_array( m_data ); }
-
-      private:
-        SharedVector<T> m_data;
     };
 
     template <>
     class BasicTypeReader<bool> : public IElementReader {
+      private:
+        SharedVector<uint8_t> m_data;
+
       public:
         BasicTypeReader( std::string name )
             : IElementReader( name ), m_data( std::make_shared<std::vector<uint8_t>>() ) {}
@@ -51,9 +60,6 @@ namespace uproot {
         }
 
         py::object data() const override { return make_array( m_data ); }
-
-      private:
-        SharedVector<uint8_t> m_data;
     };
 
     /*
@@ -63,6 +69,12 @@ namespace uproot {
     */
 
     class TObjectReader : public IElementReader {
+      private:
+        const bool m_keep_data;
+        SharedVector<int32_t> m_unique_id;
+        SharedVector<uint32_t> m_bits;
+        SharedVector<uint16_t> m_pidf;
+        SharedVector<uint32_t> m_pidf_offsets;
 
       public:
         TObjectReader( std::string name, bool keep_data )
@@ -102,13 +114,6 @@ namespace uproot {
             auto pidf_offsets    = make_array( m_pidf_offsets );
             return py::make_tuple( unique_id_array, bits_array, pidf_array, pidf_offsets );
         }
-
-      private:
-        const bool m_keep_data;
-        SharedVector<int32_t> m_unique_id;
-        SharedVector<uint32_t> m_bits;
-        SharedVector<uint16_t> m_pidf;
-        SharedVector<uint32_t> m_pidf_offsets;
     };
 
     /*
@@ -118,6 +123,10 @@ namespace uproot {
     */
 
     class TStringReader : public IElementReader {
+      private:
+        SharedVector<uint8_t> m_data;
+        SharedVector<uint32_t> m_offsets;
+
       public:
         TStringReader( std::string name )
             : IElementReader( name )
@@ -137,10 +146,6 @@ namespace uproot {
             auto data_array    = make_array( m_data );
             return py::make_tuple( offsets_array, data_array );
         }
-
-      private:
-        SharedVector<uint8_t> m_data;
-        SharedVector<uint32_t> m_offsets;
     };
 
     /*
@@ -150,6 +155,11 @@ namespace uproot {
     */
 
     class STLSeqReader : public IElementReader {
+      private:
+        const bool m_with_header;
+        SharedReader m_element_reader;
+        SharedVector<uint32_t> m_offsets;
+
       public:
         STLSeqReader( std::string name, bool with_header, SharedReader element_reader )
             : IElementReader( name )
@@ -157,16 +167,66 @@ namespace uproot {
             , m_element_reader( element_reader )
             , m_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) ) {}
 
-        void read( BinaryBuffer& buffer ) override {
-            if ( m_with_header )
-            {
-                buffer.read_fNBytes();
-                buffer.read_fVersion();
-            }
-
+        void read_body( BinaryBuffer& buffer ) {
             auto fSize = buffer.read<uint32_t>();
             m_offsets->push_back( m_offsets->back() + fSize );
-            for ( auto i = 0; i < fSize; i++ ) m_element_reader->read( buffer );
+            m_element_reader->read( buffer, fSize );
+        }
+
+        void read( BinaryBuffer& buffer ) override {
+            buffer.read_fNBytes();
+            buffer.read_fVersion();
+            read_body( buffer );
+        }
+
+        uint32_t read( BinaryBuffer& buffer, const int64_t count ) override {
+            if ( count == 0 ) return 0;
+            else if ( count < 0 )
+            {
+                if ( !m_with_header )
+                    throw std::runtime_error( "STLSeqReader::read with negative count only "
+                                              "supported when with_header is true!" );
+
+                auto fNBytes  = buffer.read_fNBytes();
+                auto fVersion = buffer.read_fVersion();
+                auto end_pos  = buffer.get_cursor() + fNBytes - 2; //
+
+                uint32_t cur_count = 0;
+                while ( buffer.get_cursor() < end_pos )
+                {
+                    read_body( buffer );
+                    cur_count++;
+                }
+                return cur_count;
+            }
+            else
+            {
+                if ( m_with_header )
+                {
+                    buffer.read_fNBytes();
+                    buffer.read_fVersion();
+                }
+
+                for ( auto i = 0; i < count; i++ ) { read_body( buffer ); }
+                return count;
+            }
+        }
+
+        uint32_t read( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
+            if ( buffer.get_cursor() == end_pos ) return 0;
+            if ( m_with_header )
+            {
+                auto fNBytes  = buffer.read_fNBytes();
+                auto fVersion = buffer.read_fVersion();
+            }
+
+            uint32_t cur_count = 0;
+            while ( buffer.get_cursor() < end_pos )
+            {
+                read_body( buffer );
+                cur_count++;
+            }
+            return cur_count;
         }
 
         py::object data() const override {
@@ -174,39 +234,31 @@ namespace uproot {
             auto elements_data = m_element_reader->data();
             return py::make_tuple( offsets_array, elements_data );
         }
-
-      private:
-        const bool m_with_header;
-        SharedReader m_element_reader;
-        SharedVector<uint32_t> m_offsets;
     };
 
     class STLMapReader : public IElementReader {
+      private:
+        const bool m_with_header;
+        const bool m_is_obj_wise;
+        SharedVector<uint32_t> m_offsets;
+        SharedReader m_key_reader;
+        SharedReader m_value_reader;
+
       public:
-        STLMapReader( std::string name, bool with_header, SharedReader key_reader,
-                      SharedReader value_reader )
+        STLMapReader( std::string name, bool with_header, bool is_obj_wise,
+                      SharedReader key_reader, SharedReader value_reader )
             : IElementReader( name )
             , m_with_header( with_header )
+            , m_is_obj_wise( is_obj_wise )
             , m_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) )
             , m_key_reader( key_reader )
             , m_value_reader( value_reader ) {}
 
-        void read( BinaryBuffer& buffer ) override {
-            if ( m_with_header )
-            {
-                buffer.read_fNBytes();
-                buffer.skip( 8 );
-            }
-
+        void read_body( BinaryBuffer& buffer ) {
             auto fSize = buffer.read<uint32_t>();
             m_offsets->push_back( m_offsets->back() + fSize );
 
-            if ( m_with_header )
-            {
-                for ( auto i = 0; i < fSize; i++ ) m_key_reader->read( buffer );
-                for ( auto i = 0; i < fSize; i++ ) m_value_reader->read( buffer );
-            }
-            else
+            if ( m_is_obj_wise )
             {
                 for ( auto i = 0; i < fSize; i++ )
                 {
@@ -214,6 +266,67 @@ namespace uproot {
                     m_value_reader->read( buffer );
                 }
             }
+            else
+            {
+                m_key_reader->read( buffer, fSize );
+                m_value_reader->read( buffer, fSize );
+            }
+        }
+
+        void read( BinaryBuffer& buffer ) override {
+            buffer.read_fNBytes();
+            buffer.skip( 8 );
+            read_body( buffer );
+        }
+
+        uint32_t read( BinaryBuffer& buffer, const int64_t count ) override {
+            if ( count == 0 ) return 0;
+            else if ( count < 0 )
+            {
+                if ( !m_with_header )
+                    throw std::runtime_error( "STLMapReader::read with negative count only "
+                                              "supported when with_header is true!" );
+
+                auto fNBytes = buffer.read_fNBytes();
+                buffer.skip( 8 );
+                auto end_pos = buffer.get_cursor() + fNBytes - 8;
+
+                uint32_t cur_count = 0;
+                while ( buffer.get_cursor() < end_pos )
+                {
+                    read_body( buffer );
+                    cur_count++;
+                }
+                return cur_count;
+            }
+            else
+            {
+                if ( m_with_header )
+                {
+                    auto fNBytes = buffer.read_fNBytes();
+                    buffer.skip( 8 ); // skip 8 bytes
+                }
+
+                for ( auto i = 0; i < count; i++ ) { read_body( buffer ); }
+                return count;
+            }
+        }
+
+        uint32_t read( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
+            if ( buffer.get_cursor() == end_pos ) return 0;
+            if ( m_with_header )
+            {
+                buffer.read_fNBytes();
+                buffer.skip( 8 ); // skip 8 bytes
+            }
+
+            uint32_t cur_count = 0;
+            while ( buffer.get_cursor() < end_pos )
+            {
+                read_body( buffer );
+                cur_count++;
+            }
+            return cur_count;
         }
 
         py::object data() const override {
@@ -222,16 +335,14 @@ namespace uproot {
             py::object values_data = m_value_reader->data();
             return py::make_tuple( offsets_array, keys_data, values_data );
         }
-
-      private:
-        const bool m_with_header;
-
-        SharedVector<uint32_t> m_offsets;
-        SharedReader m_key_reader;
-        SharedReader m_value_reader;
     };
 
     class STLStringReader : public IElementReader {
+      private:
+        const bool m_with_header;
+        SharedVector<uint32_t> m_offsets;
+        SharedVector<uint8_t> m_data;
+
       public:
         STLStringReader( std::string name, bool with_header )
             : IElementReader( name )
@@ -239,18 +350,70 @@ namespace uproot {
             , m_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) )
             , m_data( std::make_shared<std::vector<uint8_t>>() ) {}
 
+        void read_body( BinaryBuffer& buffer ) {
+            uint32_t fSize = buffer.read<uint8_t>();
+            if ( fSize == 255 ) fSize = buffer.read<uint32_t>();
+
+            m_offsets->push_back( m_offsets->back() + fSize );
+            for ( int i = 0; i < fSize; i++ ) { m_data->push_back( buffer.read<uint8_t>() ); }
+        }
+
         void read( BinaryBuffer& buffer ) override {
             if ( m_with_header )
             {
                 buffer.read_fNBytes();
                 buffer.read_fVersion();
             }
+            read_body( buffer );
+        }
 
-            uint32_t fSize = buffer.read<uint8_t>();
-            if ( fSize == 255 ) fSize = buffer.read<uint32_t>();
+        uint32_t read( BinaryBuffer& buffer, const int64_t count ) override {
+            if ( count == 0 ) return 0;
+            else if ( count < 0 )
+            {
+                if ( !m_with_header )
+                    throw std::runtime_error( "STLStringReader::read with negative count only "
+                                              "supported when with_header is true!" );
+                auto fNBytes  = buffer.read_fNBytes();
+                auto fVersion = buffer.read_fVersion();
 
-            m_offsets->push_back( m_offsets->back() + fSize );
-            for ( int i = 0; i < fSize; i++ ) { m_data->push_back( buffer.read<uint8_t>() ); }
+                auto end_pos       = buffer.get_cursor() + fNBytes - 2; // -2 for fVersion
+                uint32_t cur_count = 0;
+                while ( buffer.get_cursor() < end_pos )
+                {
+                    read_body( buffer );
+                    cur_count++;
+                }
+                return cur_count;
+            }
+            else
+            {
+                if ( m_with_header )
+                {
+                    auto fNBytes  = buffer.read_fNBytes();
+                    auto fVersion = buffer.read_fVersion();
+                }
+
+                for ( auto i = 0; i < count; i++ ) { read_body( buffer ); }
+                return count;
+            }
+        }
+
+        uint32_t read( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
+            if ( buffer.get_cursor() == end_pos ) return 0;
+            if ( m_with_header )
+            {
+                buffer.read_fNBytes();
+                buffer.read_fVersion();
+            }
+
+            int32_t cur_count = 0;
+            while ( buffer.get_cursor() < end_pos )
+            {
+                read_body( buffer );
+                cur_count++;
+            }
+            return cur_count;
         }
 
         py::object data() const override {
@@ -259,12 +422,6 @@ namespace uproot {
 
             return py::make_tuple( offsets_array, data_array );
         }
-
-      private:
-        const bool m_with_header;
-
-        SharedVector<uint32_t> m_offsets;
-        SharedVector<uint8_t> m_data;
     };
 
     /*
@@ -275,6 +432,10 @@ namespace uproot {
 
     template <typename T>
     class TArrayReader : public IElementReader {
+      private:
+        SharedVector<uint32_t> m_offsets;
+        SharedVector<T> m_data;
+
       public:
         TArrayReader( std::string name )
             : IElementReader( name )
@@ -292,10 +453,6 @@ namespace uproot {
             auto data_array    = make_array( m_data );
             return py::make_tuple( offsets_array, data_array );
         }
-
-      private:
-        SharedVector<uint32_t> m_offsets;
-        SharedVector<T> m_data;
     };
 
     /*
@@ -304,27 +461,55 @@ namespace uproot {
     -----------------------------------------------------------------------------
     */
 
-    class BaseObjectReader : public IElementReader {
+    class NBytesVersionReader : public IElementReader {
+      private:
+        SharedReader m_element_reader;
+
       public:
-        BaseObjectReader( std::string name, std::vector<SharedReader> element_readers )
+        NBytesVersionReader( std::string name, SharedReader element_reader )
+            : IElementReader( name ), m_element_reader( element_reader ) {}
+
+        void read( BinaryBuffer& buffer ) override {
+            auto fNBytes  = buffer.read_fNBytes();
+            auto fVersion = buffer.read_fVersion();
+
+            auto start_pos = buffer.get_cursor();
+            auto end_pos   = buffer.get_cursor() + fNBytes - 2; // -2 for fVersion
+            m_element_reader->read( buffer );
+
+            if ( end_pos - start_pos != fNBytes - 2 ) // -2 for fVersion
+            {
+                std::stringstream msg;
+                msg << "NBytesVersionReader: Invalid read length for "
+                    << m_element_reader->name() << "! Expect " << fNBytes - 2 << ", got "
+                    << end_pos - start_pos;
+                throw std::runtime_error( msg.str() );
+            }
+        }
+
+        py::object data() const override { return m_element_reader->data(); }
+    };
+
+    /*
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    */
+
+    class GroupReader : public IElementReader {
+      private:
+        std::vector<SharedReader> m_element_readers;
+
+      public:
+        GroupReader( std::string name, std::vector<SharedReader> element_readers )
             : IElementReader( name ), m_element_readers( element_readers ) {}
 
         void read( BinaryBuffer& buffer ) override {
-#ifdef UPROOT_DEBUG
-            std::cout << "BaseObjectReader " << m_name << "::read(): " << std::endl;
-            for ( int i = 0; i < 40; i++ ) std::cout << (int)buffer.get_cursor()[i] << " ";
-            std::cout << std::endl << std::endl;
-#endif
-            buffer.read_fNBytes();
-            buffer.read_fVersion();
             for ( auto& reader : m_element_readers )
             {
-#ifdef UPROOT_DEBUG
-                std::cout << "BaseObjectReader " << m_name << ": " << reader->name() << ":"
-                          << std::endl;
-                for ( int i = 0; i < 40; i++ ) std::cout << (int)buffer.get_cursor()[i] << " ";
-                std::cout << std::endl << std::endl;
-#endif
+                debug_printf( "GroupReader %s: reading %s\n", m_name.c_str(),
+                              reader->name().c_str() );
+                debug_printf( buffer );
                 reader->read( buffer );
             }
         }
@@ -334,9 +519,6 @@ namespace uproot {
             for ( auto& reader : m_element_readers ) { res.append( reader->data() ); }
             return res;
         }
-
-      private:
-        std::vector<SharedReader> m_element_readers;
     };
 
     /*
@@ -346,28 +528,34 @@ namespace uproot {
     */
 
     class ObjectHeaderReader : public IElementReader {
+      private:
+        SharedReader m_element_reader;
+
       public:
-        ObjectHeaderReader( std::string name, std::vector<SharedReader> element_readers )
-            : IElementReader( name ), m_element_readers( element_readers ) {}
+        ObjectHeaderReader( std::string name, SharedReader element_reader )
+            : IElementReader( name ), m_element_reader( element_reader ) {}
 
         void read( BinaryBuffer& buffer ) override {
-            buffer.read_fNBytes();
+            auto nbytes  = buffer.read_fNBytes();
+            auto end_pos = buffer.get_cursor() + nbytes;
+
             auto fTag = buffer.read<int32_t>();
-            if ( fTag == -1 ) buffer.read_null_terminated_string();
+            if ( fTag == -1 ) { auto fTypename = buffer.read_null_terminated_string(); }
 
-            buffer.skip_fNBytes();
-            buffer.skip_fVersion();
-            for ( auto& reader : m_element_readers ) { reader->read( buffer ); }
+            auto start_pos = buffer.get_cursor();
+            m_element_reader->read( buffer );
+
+            if ( buffer.get_cursor() != end_pos )
+            {
+                std::stringstream msg;
+                msg << "ObjectHeaderReader: Invalid read length for "
+                    << m_element_reader->name() << "! Expect " << end_pos - start_pos
+                    << ", got " << buffer.get_cursor() - start_pos;
+                throw std::runtime_error( msg.str() );
+            }
         }
 
-        py::object data() const override {
-            py::list res;
-            for ( auto& reader : m_element_readers ) { res.append( reader->data() ); }
-            return res;
-        }
-
-      private:
-        std::vector<SharedReader> m_element_readers;
+        py::object data() const override { return m_element_reader->data(); }
     };
 
     /*
@@ -376,43 +564,26 @@ namespace uproot {
     -----------------------------------------------------------------------------
     */
 
-    class CArrayReader : public IElementReader {
+    class CStyleArrayReader : public IElementReader {
+      private:
+        const int64_t m_flat_size;
+        SharedVector<uint32_t> m_offsets;
+        SharedReader m_element_reader;
+
       public:
-        CArrayReader( std::string name, bool is_obj, bool is_stdmap, const int64_t flat_size,
-                      SharedReader element_reader )
+        CStyleArrayReader( std::string name, const int64_t flat_size,
+                           SharedReader element_reader )
             : IElementReader( name )
-            , m_is_obj( is_obj )
-            , m_is_stdmap( is_stdmap )
             , m_flat_size( flat_size )
             , m_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) )
             , m_element_reader( element_reader ) {}
 
         void read( BinaryBuffer& buffer ) override {
+            debug_printf( "CStyleArrayReader(%s) with flat_size %ld\n", m_name.c_str(),
+                          m_flat_size );
+            debug_printf( buffer );
 
-            PRINT_MSG( "CArrayReader::read() for " + m_name +
-                       " with flat_size = " + std::to_string( m_flat_size ) +
-                       ", is_obj = " + std::to_string( m_is_obj ) );
-            PRINT_BUFFER( buffer );
-
-            if ( m_flat_size > 0 )
-            {
-                if ( m_is_obj )
-                {
-                    buffer.read_fNBytes();
-                    buffer.read_fVersion();
-                    if ( m_is_stdmap ) buffer.skip( 6 );
-                }
-
-                for ( auto i = 0; i < m_flat_size; i++ )
-                {
-                    PRINT_MSG( "CArrayReader::read() reading element " + std::to_string( i ) );
-                    PRINT_BUFFER( buffer );
-                    m_element_reader->read( buffer );
-                }
-                PRINT_MSG( "" );
-                PRINT_MSG( "" );
-            }
-
+            if ( m_flat_size > 0 ) { m_element_reader->read( buffer, m_flat_size ); }
             else
             {
                 // get end-position
@@ -424,34 +595,20 @@ namespace uproot {
                                                [start_pos, cursor_pos]( uint32_t offset ) {
                                                    return start_pos + offset > cursor_pos;
                                                } );
-
-                PRINT_MSG( "CArrayReader::read() cursor_pos = " +
-                           std::to_string( cursor_pos - start_pos ) +
-                           "entry_end = " + std::to_string( *entry_end ) );
-
-                if ( m_is_obj )
-                {
-                    buffer.read_fNBytes();
-                    buffer.read_fVersion();
-                    // if ( m_is_stdmap ) buffer.skip( 6 ); // Even std::map has no 6 bytes here.
-                }
-
-                uint32_t count = 0;
-                while ( buffer.get_cursor() < start_pos + *entry_end )
-                {
-
-                    PRINT_MSG( "CArrayReader::read() reading element " +
-                               std::to_string( count ) );
-                    PRINT_BUFFER( buffer );
-                    m_element_reader->read( buffer );
-                    count += 1;
-                }
-
-                PRINT_MSG( "" );
-                PRINT_MSG( "" );
-
+                auto end_pos   = start_pos + *entry_end;
+                uint32_t count = m_element_reader->read( buffer, end_pos );
                 m_offsets->push_back( m_offsets->back() + count );
+                debug_printf( "CStyleArrayReader(%s) read %d elements\n", m_name.c_str(),
+                              count );
             }
+        }
+
+        uint32_t read( BinaryBuffer& buffer, const int64_t count ) override {
+            throw std::runtime_error( "CStyleArrayReader::read with count not supported!" );
+        }
+
+        uint32_t read( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
+            throw std::runtime_error( "CStyleArrayReader::read with end_pos not supported!" );
         }
 
         py::object data() const override {
@@ -463,13 +620,6 @@ namespace uproot {
                 return py::make_tuple( offsets_array, elements_data );
             }
         }
-
-      private:
-        bool m_is_obj;
-        bool m_is_stdmap;
-        const int64_t m_flat_size;
-        SharedReader m_element_reader;
-        SharedVector<uint32_t> m_offsets;
     };
 
     /*
@@ -495,7 +645,23 @@ namespace uproot {
     py::object py_read_data( py::array_t<uint8_t> data, py::array_t<uint32_t> offsets,
                              SharedReader reader ) {
         BinaryBuffer buffer( data, offsets );
-        for ( auto i_evt = 0; i_evt < buffer.entries(); i_evt++ ) { reader->read( buffer ); }
+        for ( auto i_evt = 0; i_evt < buffer.entries(); i_evt++ )
+        {
+            auto start_pos = buffer.get_cursor();
+            reader->read( buffer );
+            auto end_pos = buffer.get_cursor();
+
+            if ( end_pos - start_pos !=
+                 buffer.get_offsets()[i_evt + 1] - buffer.get_offsets()[i_evt] )
+            {
+                std::stringstream msg;
+                msg << "py_read_data: Invalid read length for " << reader->name()
+                    << " at event " << i_evt << "! Expect "
+                    << buffer.get_offsets()[i_evt + 1] - buffer.get_offsets()[i_evt]
+                    << ", got " << end_pos - start_pos;
+                throw std::runtime_error( msg.str() );
+            }
+        }
         return reader->data();
     }
 
@@ -523,7 +689,8 @@ namespace uproot {
 
         // STL readers
         register_reader<STLSeqReader, bool, SharedReader>( m, "STLSeqReader" );
-        register_reader<STLMapReader, bool, SharedReader, SharedReader>( m, "STLMapReader" );
+        register_reader<STLMapReader, bool, bool, SharedReader, SharedReader>(
+            m, "STLMapReader" );
         register_reader<STLStringReader, bool>( m, "STLStringReader" );
 
         // TArrayReader
@@ -537,10 +704,10 @@ namespace uproot {
         // Other readers
         register_reader<TStringReader>( m, "TStringReader" );
         register_reader<TObjectReader, bool>( m, "TObjectReader" );
-        register_reader<BaseObjectReader, std::vector<SharedReader>>( m, "BaseObjectReader" );
-        register_reader<ObjectHeaderReader, std::vector<SharedReader>>( m,
-                                                                        "ObjectHeaderReader" );
-        register_reader<CArrayReader, bool, bool, int64_t, SharedReader>( m, "CArrayReader" );
+        register_reader<NBytesVersionReader, SharedReader>( m, "NBytesVersionReader" );
+        register_reader<GroupReader, std::vector<SharedReader>>( m, "GroupReader" );
+        register_reader<ObjectHeaderReader, SharedReader>( m, "ObjectHeaderReader" );
+        register_reader<CStyleArrayReader, int64_t, SharedReader>( m, "CStyleArrayReader" );
         register_reader<EmptyReader>( m, "EmptyReader" );
     }
 

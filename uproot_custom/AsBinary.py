@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import awkward
 import numpy
 import uproot
 import uproot.extras
