@@ -1,8 +1,10 @@
 import awkward.contents
 import awkward.index
+
 from uproot_custom import (
     BaseObjectFactory,
     build_cpp_reader,
+    gen_awkward_form,
     gen_tree_config,
     reconstruct_array,
 )
@@ -80,4 +82,17 @@ class TObjArrayFactory(BaseObjectFactory):
         return awkward.contents.ListOffsetArray(
             awkward.index.Index64(offsets),
             element_data,
+        )
+
+    @classmethod
+    def gen_awkward_form(cls, tree_config):
+        if tree_config["factory"] != cls:
+            return None
+
+        element_config = tree_config["element_config"]
+        element_form = gen_awkward_form(element_config)
+
+        return awkward.forms.ListOffsetForm(
+            "i64",
+            element_form,
         )

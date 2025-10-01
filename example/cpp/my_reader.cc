@@ -47,13 +47,13 @@ class OverrideStreamerReader : public IElementReader {
 class TObjArrayReader : public IElementReader {
   private:
     SharedReader m_element_reader;
-    std::shared_ptr<std::vector<uint32_t>> m_offsets;
+    std::shared_ptr<std::vector<int64_t>> m_offsets;
 
   public:
     TObjArrayReader( std::string name, SharedReader element_reader )
         : IElementReader( name )
         , m_element_reader( element_reader )
-        , m_offsets( std::make_shared<std::vector<uint32_t>>( 1, 0 ) ) {}
+        , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) ) {}
 
     void read( BinaryBuffer& buffer ) override final {
         buffer.skip_fNBytes();
