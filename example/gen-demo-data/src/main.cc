@@ -14,6 +14,7 @@
 #include "TSTLSeqWithObj.hh"
 #include "TSTLSequence.hh"
 #include "TSTLString.hh"
+#include "TSimpleObject.hh"
 
 int main() {
     TFile f( "demo-data.root", "RECREATE" );
@@ -49,6 +50,9 @@ int main() {
     TNestedSTL nested_stl;
     t.Branch( "nested_stl", &nested_stl );
 
+    TSimpleObject simple_obj;
+    t.Branch( "simple_obj", &simple_obj );
+
     TOverrideStreamer override_streamer;
     t.Branch( "override_streamer", &override_streamer );
 
@@ -70,6 +74,7 @@ int main() {
         stl_seq_with_obj = TSTLSeqWithObj();
         stl_map_with_obj = TSTLMapWithObj();
         nested_stl       = TNestedSTL();
+        simple_obj       = TSimpleObject();
 
         override_streamer  = TOverrideStreamer( i );
         complicated_stl    = TComplicatedSTL();

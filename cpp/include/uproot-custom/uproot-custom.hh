@@ -10,6 +10,7 @@
 #include <cstdint>
 #include <iostream>
 #include <memory>
+#include <sstream>
 #include <string>
 
 #if defined( _MSC_VER )
@@ -38,6 +39,8 @@ namespace uproot {
     const uint16_t kByteCountVMask = 0x4000;     // OR the version byte count with this
     const uint16_t kMaxVersion     = 0x3FFF;     // highest possible version number
     const int32_t kMapOffset = 2; // first 2 map entries are taken by null obj and self obj
+
+    const uint16_t kStreamedMemberWise = 1 << 14; // streamed member-wise mask
 
     class BinaryBuffer {
       public:
@@ -184,13 +187,14 @@ namespace uproot {
         virtual const std::string name() const { return m_name; }
 
         virtual void read( BinaryBuffer& buffer ) = 0;
+        virtual py::object data() const           = 0;
 
-        virtual uint32_t read( BinaryBuffer& buffer, const int64_t count ) {
+        virtual uint32_t read_many( BinaryBuffer& buffer, const int64_t count ) {
             for ( int32_t i = 0; i < count; i++ ) { read( buffer ); }
             return count;
         }
 
-        virtual uint32_t read( BinaryBuffer& buffer, const uint8_t* end_pos ) {
+        virtual uint32_t read_until( BinaryBuffer& buffer, const uint8_t* end_pos ) {
             uint32_t cur_count = 0;
             while ( buffer.get_cursor() < end_pos )
             {
@@ -200,7 +204,15 @@ namespace uproot {
             return cur_count;
         }
 
-        virtual py::object data() const = 0;
+        virtual uint32_t read_many_memberwise( BinaryBuffer& buffer, const int64_t count ) {
+            if ( count < 0 )
+            {
+                std::stringstream msg;
+                msg << name() << "::read_many_memberwise with negative count: " << count;
+                throw std::runtime_error( msg.str() );
+            }
+            return read_many( buffer, count );
+        }
     };
 
     using SharedReader = shared_ptr<IElementReader>;

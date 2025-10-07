@@ -87,7 +87,6 @@ namespace uproot {
 
         void read( BinaryBuffer& buffer ) override {
             buffer.skip_fVersion();
-
             auto fUniqueID = buffer.read<int32_t>();
             auto fBits     = buffer.read<uint32_t>();
 
@@ -124,12 +123,14 @@ namespace uproot {
 
     class TStringReader : public IElementReader {
       private:
+        const bool m_with_header;
         SharedVector<uint8_t> m_data;
         SharedVector<int64_t> m_offsets;
 
       public:
-        TStringReader( std::string name )
+        TStringReader( std::string name, bool with_header )
             : IElementReader( name )
+            , m_with_header( with_header )
             , m_data( std::make_shared<std::vector<uint8_t>>() )
             , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) ) {}
 
@@ -139,6 +140,41 @@ namespace uproot {
 
             for ( int i = 0; i < fSize; i++ ) { m_data->push_back( buffer.read<uint8_t>() ); }
             m_offsets->push_back( m_data->size() );
+        }
+
+        uint32_t read_many( BinaryBuffer& buffer, const int64_t count ) override {
+            if ( count < 0 )
+                throw std::runtime_error(
+                    "TStringReader::read_many with negative count not supported!" );
+
+            if ( count == 0 ) return 0;
+
+            if ( m_with_header )
+            {
+                auto fNBytes  = buffer.read_fNBytes();
+                auto fVersion = buffer.read_fVersion();
+            }
+
+            for ( auto i = 0; i < count; i++ ) { read( buffer ); }
+            return count;
+        }
+
+        uint32_t read_until( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
+            if ( buffer.get_cursor() == end_pos ) return 0;
+
+            if ( m_with_header )
+            {
+                auto fNBytes  = buffer.read_fNBytes();
+                auto fVersion = buffer.read_fVersion();
+            }
+
+            uint32_t cur_count = 0;
+            while ( buffer.get_cursor() < end_pos )
+            {
+                read( buffer );
+                cur_count++;
+            }
+            return cur_count;
         }
 
         py::object data() const override {
@@ -157,29 +193,50 @@ namespace uproot {
     class STLSeqReader : public IElementReader {
       private:
         const bool m_with_header;
+        const int m_objwise_or_memberwise{ -1 }; // -1: auto, 0: obj-wise, 1: member-wise
         SharedReader m_element_reader;
         SharedVector<int64_t> m_offsets;
 
       public:
-        STLSeqReader( std::string name, bool with_header, SharedReader element_reader )
+        STLSeqReader( std::string name, bool with_header, int objwise_or_memberwise,
+                      SharedReader element_reader )
             : IElementReader( name )
             , m_with_header( with_header )
+            , m_objwise_or_memberwise( objwise_or_memberwise )
             , m_element_reader( element_reader )
             , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) ) {}
 
-        void read_body( BinaryBuffer& buffer ) {
+        void check_objwise_memberwise( const bool is_memberwise ) {
+            if ( m_objwise_or_memberwise == 0 && is_memberwise )
+                throw std::runtime_error( "STLSeqReader(" + name() +
+                                          "): Expect obj-wise, got member-wise!" );
+            if ( m_objwise_or_memberwise == 1 && !is_memberwise )
+                throw std::runtime_error( "STLSeqReader(" + name() +
+                                          "): Expect member-wise, got obj-wise!" );
+        }
+
+        void read_body( BinaryBuffer& buffer, bool is_memberwise ) {
             auto fSize = buffer.read<uint32_t>();
             m_offsets->push_back( m_offsets->back() + fSize );
-            m_element_reader->read( buffer, fSize );
+
+            debug_printf( "STLSeqReader(%s): reading body, is_memberwise=%d, fSize=%d\n",
+                          m_name.c_str(), is_memberwise, fSize );
+            debug_printf( buffer );
+
+            if ( is_memberwise ) m_element_reader->read_many_memberwise( buffer, fSize );
+            else m_element_reader->read_many( buffer, fSize );
         }
 
         void read( BinaryBuffer& buffer ) override {
             buffer.read_fNBytes();
-            buffer.read_fVersion();
-            read_body( buffer );
+            auto fVersion      = buffer.read_fVersion();
+            bool is_memberwise = fVersion & kStreamedMemberWise;
+            check_objwise_memberwise( is_memberwise );
+            if ( is_memberwise ) buffer.skip( 2 );
+            read_body( buffer, is_memberwise );
         }
 
-        uint32_t read( BinaryBuffer& buffer, const int64_t count ) override {
+        uint32_t read_many( BinaryBuffer& buffer, const int64_t count ) override {
             if ( count == 0 ) return 0;
             else if ( count < 0 )
             {
@@ -187,43 +244,54 @@ namespace uproot {
                     throw std::runtime_error( "STLSeqReader::read with negative count only "
                                               "supported when with_header is true!" );
 
-                auto fNBytes  = buffer.read_fNBytes();
-                auto fVersion = buffer.read_fVersion();
-                auto end_pos  = buffer.get_cursor() + fNBytes - 2; //
+                auto fNBytes       = buffer.read_fNBytes();
+                auto fVersion      = buffer.read_fVersion();
+                bool is_memberwise = fVersion & kStreamedMemberWise;
+                check_objwise_memberwise( is_memberwise );
+                if ( is_memberwise ) buffer.skip( 2 );
+                auto end_pos = buffer.get_cursor() + fNBytes - 2; //
 
                 uint32_t cur_count = 0;
                 while ( buffer.get_cursor() < end_pos )
                 {
-                    read_body( buffer );
+                    read_body( buffer, is_memberwise );
                     cur_count++;
                 }
                 return cur_count;
             }
             else
             {
+                bool is_memberwise = m_objwise_or_memberwise == 1;
                 if ( m_with_header )
                 {
                     buffer.read_fNBytes();
-                    buffer.read_fVersion();
+                    auto fVersion = buffer.read_fVersion();
+                    is_memberwise = fVersion & kStreamedMemberWise;
+                    check_objwise_memberwise( is_memberwise );
                 }
+                if ( is_memberwise ) buffer.skip( 2 );
 
-                for ( auto i = 0; i < count; i++ ) { read_body( buffer ); }
+                for ( auto i = 0; i < count; i++ ) { read_body( buffer, is_memberwise ); }
                 return count;
             }
         }
 
-        uint32_t read( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
+        uint32_t read_until( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
             if ( buffer.get_cursor() == end_pos ) return 0;
+            bool is_memberwise = m_objwise_or_memberwise == 1;
             if ( m_with_header )
             {
                 auto fNBytes  = buffer.read_fNBytes();
                 auto fVersion = buffer.read_fVersion();
+                is_memberwise = fVersion & kStreamedMemberWise;
+                check_objwise_memberwise( is_memberwise );
             }
+            if ( is_memberwise ) buffer.skip( 2 );
 
             uint32_t cur_count = 0;
             while ( buffer.get_cursor() < end_pos )
             {
-                read_body( buffer );
+                read_body( buffer, is_memberwise );
                 cur_count++;
             }
             return cur_count;
@@ -239,26 +307,40 @@ namespace uproot {
     class STLMapReader : public IElementReader {
       private:
         const bool m_with_header;
-        const bool m_is_obj_wise;
+        const int m_objwise_or_memberwise{ -1 }; // -1: auto, 0: obj-wise, 1: member-wise
         SharedVector<int64_t> m_offsets;
         SharedReader m_key_reader;
         SharedReader m_value_reader;
 
       public:
-        STLMapReader( std::string name, bool with_header, bool is_obj_wise,
+        STLMapReader( std::string name, bool with_header, int objwise_or_memberwise,
                       SharedReader key_reader, SharedReader value_reader )
             : IElementReader( name )
             , m_with_header( with_header )
-            , m_is_obj_wise( is_obj_wise )
+            , m_objwise_or_memberwise( objwise_or_memberwise )
             , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) )
             , m_key_reader( key_reader )
             , m_value_reader( value_reader ) {}
 
-        void read_body( BinaryBuffer& buffer ) {
+        void check_objwise_memberwise( const bool is_memberwise ) {
+            if ( m_objwise_or_memberwise == 0 && is_memberwise )
+                throw std::runtime_error( "STLMapReader(" + name() +
+                                          "): Expect obj-wise, got member-wise!" );
+            if ( m_objwise_or_memberwise == 1 && !is_memberwise )
+                throw std::runtime_error( "STLMapReader(" + name() +
+                                          "): Expect member-wise, got obj-wise!" );
+        }
+
+        void read_body( BinaryBuffer& buffer, bool is_memberwise ) {
             auto fSize = buffer.read<uint32_t>();
             m_offsets->push_back( m_offsets->back() + fSize );
 
-            if ( m_is_obj_wise )
+            if ( is_memberwise )
+            {
+                m_key_reader->read_many( buffer, fSize );
+                m_value_reader->read_many( buffer, fSize );
+            }
+            else
             {
                 for ( auto i = 0; i < fSize; i++ )
                 {
@@ -266,20 +348,19 @@ namespace uproot {
                     m_value_reader->read( buffer );
                 }
             }
-            else
-            {
-                m_key_reader->read( buffer, fSize );
-                m_value_reader->read( buffer, fSize );
-            }
         }
 
         void read( BinaryBuffer& buffer ) override {
             buffer.read_fNBytes();
-            buffer.skip( 8 );
-            read_body( buffer );
+            auto fVersion = buffer.read_fVersion();
+            buffer.skip( 6 );
+
+            bool is_memberwise = fVersion & kStreamedMemberWise;
+            check_objwise_memberwise( is_memberwise );
+            read_body( buffer, is_memberwise );
         }
 
-        uint32_t read( BinaryBuffer& buffer, const int64_t count ) override {
+        uint32_t read_many( BinaryBuffer& buffer, const int64_t count ) override {
             if ( count == 0 ) return 0;
             else if ( count < 0 )
             {
@@ -287,46 +368,75 @@ namespace uproot {
                     throw std::runtime_error( "STLMapReader::read with negative count only "
                                               "supported when with_header is true!" );
 
-                auto fNBytes = buffer.read_fNBytes();
-                buffer.skip( 8 );
+                auto fNBytes  = buffer.read_fNBytes();
+                auto fVersion = buffer.read_fVersion();
+                buffer.skip( 6 );
+                bool is_memberwise = fVersion & kStreamedMemberWise;
+                check_objwise_memberwise( is_memberwise );
+
                 auto end_pos = buffer.get_cursor() + fNBytes - 8;
 
                 uint32_t cur_count = 0;
                 while ( buffer.get_cursor() < end_pos )
                 {
-                    read_body( buffer );
+                    read_body( buffer, is_memberwise );
                     cur_count++;
                 }
                 return cur_count;
             }
             else
             {
+                bool is_memberwise = m_objwise_or_memberwise == 1;
                 if ( m_with_header )
                 {
-                    auto fNBytes = buffer.read_fNBytes();
-                    buffer.skip( 8 ); // skip 8 bytes
+                    auto fNBytes  = buffer.read_fNBytes();
+                    auto fVersion = buffer.read_fVersion();
+                    buffer.skip( 6 ); // skip 6 bytes
+
+                    is_memberwise = fVersion & kStreamedMemberWise;
+                    check_objwise_memberwise( is_memberwise );
                 }
 
-                for ( auto i = 0; i < count; i++ ) { read_body( buffer ); }
+                for ( auto i = 0; i < count; i++ ) { read_body( buffer, is_memberwise ); }
                 return count;
             }
         }
 
-        uint32_t read( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
+        uint32_t read_until( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
             if ( buffer.get_cursor() == end_pos ) return 0;
+
+            bool is_memberwise = m_objwise_or_memberwise == 1;
             if ( m_with_header )
             {
                 buffer.read_fNBytes();
-                buffer.skip( 8 ); // skip 8 bytes
+                auto fVersion = buffer.read_fVersion();
+                buffer.skip( 6 ); // skip 6 bytes
+
+                is_memberwise = fVersion & kStreamedMemberWise;
+                check_objwise_memberwise( is_memberwise );
             }
 
             uint32_t cur_count = 0;
             while ( buffer.get_cursor() < end_pos )
             {
-                read_body( buffer );
+                read_body( buffer, is_memberwise );
                 cur_count++;
             }
             return cur_count;
+        }
+
+        virtual uint32_t read_many_memberwise( BinaryBuffer& buffer,
+                                               const int64_t count ) override {
+            if ( count < 0 )
+            {
+                std::stringstream msg;
+                msg << name() << "::read_many_memberwise with negative count: " << count;
+                throw std::runtime_error( msg.str() );
+            }
+
+            bool is_memberwise = true;
+            check_objwise_memberwise( is_memberwise );
+            return read_many( buffer, count );
         }
 
         py::object data() const override {
@@ -367,7 +477,7 @@ namespace uproot {
             read_body( buffer );
         }
 
-        uint32_t read( BinaryBuffer& buffer, const int64_t count ) override {
+        uint32_t read_many( BinaryBuffer& buffer, const int64_t count ) override {
             if ( count == 0 ) return 0;
             else if ( count < 0 )
             {
@@ -399,7 +509,7 @@ namespace uproot {
             }
         }
 
-        uint32_t read( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
+        uint32_t read_until( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
             if ( buffer.get_cursor() == end_pos ) return 0;
             if ( m_with_header )
             {
@@ -460,42 +570,6 @@ namespace uproot {
     -----------------------------------------------------------------------------
     -----------------------------------------------------------------------------
     */
-
-    class NBytesVersionReader : public IElementReader {
-      private:
-        SharedReader m_element_reader;
-
-      public:
-        NBytesVersionReader( std::string name, SharedReader element_reader )
-            : IElementReader( name ), m_element_reader( element_reader ) {}
-
-        void read( BinaryBuffer& buffer ) override {
-            auto fNBytes  = buffer.read_fNBytes();
-            auto fVersion = buffer.read_fVersion();
-
-            auto start_pos = buffer.get_cursor();
-            auto end_pos   = buffer.get_cursor() + fNBytes - 2; // -2 for fVersion
-            m_element_reader->read( buffer );
-
-            if ( end_pos - start_pos != fNBytes - 2 ) // -2 for fVersion
-            {
-                std::stringstream msg;
-                msg << "NBytesVersionReader: Invalid read length for "
-                    << m_element_reader->name() << "! Expect " << fNBytes - 2 << ", got "
-                    << end_pos - start_pos;
-                throw std::runtime_error( msg.str() );
-            }
-        }
-
-        py::object data() const override { return m_element_reader->data(); }
-    };
-
-    /*
-    -----------------------------------------------------------------------------
-    -----------------------------------------------------------------------------
-    -----------------------------------------------------------------------------
-    */
-
     class GroupReader : public IElementReader {
       private:
         std::vector<SharedReader> m_element_readers;
@@ -512,6 +586,87 @@ namespace uproot {
                 debug_printf( buffer );
                 reader->read( buffer );
             }
+        }
+
+        uint32_t read_many_memberwise( BinaryBuffer& buffer, const int64_t count ) override {
+            if ( count < 0 )
+            {
+                std::stringstream msg;
+                msg << name() << "::read_many_memberwise with negative count: " << count;
+                throw std::runtime_error( msg.str() );
+            }
+
+            for ( auto& reader : m_element_readers )
+            {
+                debug_printf( "GroupReader %s: reading %s\n", m_name.c_str(),
+                              reader->name().c_str() );
+                debug_printf( buffer );
+                reader->read_many( buffer, count );
+            }
+            return count;
+        }
+
+        py::object data() const override {
+            py::list res;
+            for ( auto& reader : m_element_readers ) { res.append( reader->data() ); }
+            return res;
+        }
+    };
+
+    /*
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    */
+    class AnyClassReader : public IElementReader {
+      private:
+        std::vector<SharedReader> m_element_readers;
+
+      public:
+        AnyClassReader( std::string name, std::vector<SharedReader> element_readers )
+            : IElementReader( name ), m_element_readers( element_readers ) {}
+
+        void read( BinaryBuffer& buffer ) override {
+            auto fNBytes  = buffer.read_fNBytes();
+            auto fVersion = buffer.read_fVersion();
+
+            auto start_pos = buffer.get_cursor();
+            auto end_pos   = buffer.get_cursor() + fNBytes - 2; // -2 for fVersion
+
+            for ( auto& reader : m_element_readers )
+            {
+                debug_printf( "AnyClassReader %s: reading %s\n", m_name.c_str(),
+                              reader->name().c_str() );
+                debug_printf( buffer );
+                reader->read( buffer );
+            }
+
+            if ( buffer.get_cursor() != end_pos )
+            {
+                std::stringstream msg;
+                msg << "AnyClassReader: Invalid read length for " << name() << "! Expect "
+                    << end_pos - start_pos << ", got " << buffer.get_cursor() - start_pos;
+                throw std::runtime_error( msg.str() );
+            }
+        }
+
+        uint32_t read_many_memberwise( BinaryBuffer& buffer, const int64_t count ) override {
+            if ( count < 0 )
+            {
+                std::stringstream msg;
+                msg << name() << "::read_many_memberwise with negative count: " << count;
+                throw std::runtime_error( msg.str() );
+            }
+
+            for ( auto& reader : m_element_readers )
+            {
+                debug_printf( "AnyClassReader %s: reading memberwise %s\n", m_name.c_str(),
+                              reader->name().c_str() );
+                debug_printf( buffer );
+                reader->read_many( buffer, count );
+            }
+
+            return count;
         }
 
         py::object data() const override {
@@ -583,7 +738,7 @@ namespace uproot {
                           m_flat_size );
             debug_printf( buffer );
 
-            if ( m_flat_size > 0 ) { m_element_reader->read( buffer, m_flat_size ); }
+            if ( m_flat_size > 0 ) { m_element_reader->read_many( buffer, m_flat_size ); }
             else
             {
                 // get end-position
@@ -596,18 +751,34 @@ namespace uproot {
                                                    return start_pos + offset > cursor_pos;
                                                } );
                 auto end_pos   = start_pos + *entry_end;
-                uint32_t count = m_element_reader->read( buffer, end_pos );
+                uint32_t count = m_element_reader->read_until( buffer, end_pos );
                 m_offsets->push_back( m_offsets->back() + count );
                 debug_printf( "CStyleArrayReader(%s) read %d elements\n", m_name.c_str(),
                               count );
             }
         }
 
-        uint32_t read( BinaryBuffer& buffer, const int64_t count ) override {
-            throw std::runtime_error( "CStyleArrayReader::read with count not supported!" );
+        uint32_t read_many( BinaryBuffer& buffer, const int64_t count ) override {
+            if ( m_flat_size < 0 )
+            {
+                std::stringstream msg;
+                msg << name() << "::read_many only supported when flat_size > 0!";
+                throw std::runtime_error( msg.str() );
+            }
+            if ( count < 0 )
+            {
+                std::stringstream msg;
+                msg << name() << "::read_many with negative count: " << count;
+                throw std::runtime_error( msg.str() );
+            }
+
+            for ( auto i = 0; i < count; i++ )
+                m_element_reader->read_many( buffer, m_flat_size );
+
+            return count;
         }
 
-        uint32_t read( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
+        uint32_t read_until( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
             throw std::runtime_error( "CStyleArrayReader::read with end_pos not supported!" );
         }
 
@@ -688,9 +859,9 @@ namespace uproot {
         register_reader<BasicTypeReader<bool>>( m, "BoolReader" );
 
         // STL readers
-        register_reader<STLSeqReader, bool, SharedReader>( m, "STLSeqReader" );
-        register_reader<STLMapReader, bool, bool, SharedReader, SharedReader>(
-            m, "STLMapReader" );
+        register_reader<STLSeqReader, bool, int, SharedReader>( m, "STLSeqReader" );
+        register_reader<STLMapReader, bool, int, SharedReader, SharedReader>( m,
+                                                                              "STLMapReader" );
         register_reader<STLStringReader, bool>( m, "STLStringReader" );
 
         // TArrayReader
@@ -702,10 +873,10 @@ namespace uproot {
         register_reader<TArrayReader<double>>( m, "TArrayDReader" );
 
         // Other readers
-        register_reader<TStringReader>( m, "TStringReader" );
+        register_reader<TStringReader, bool>( m, "TStringReader" );
         register_reader<TObjectReader, bool>( m, "TObjectReader" );
-        register_reader<NBytesVersionReader, SharedReader>( m, "NBytesVersionReader" );
         register_reader<GroupReader, std::vector<SharedReader>>( m, "GroupReader" );
+        register_reader<AnyClassReader, std::vector<SharedReader>>( m, "AnyClassReader" );
         register_reader<ObjectHeaderReader, SharedReader>( m, "ObjectHeaderReader" );
         register_reader<CStyleArrayReader, int64_t, SharedReader>( m, "CStyleArrayReader" );
         register_reader<EmptyReader>( m, "EmptyReader" );
