@@ -6,13 +6,13 @@ from uproot_custom.AsBinary import AsBinary
 from uproot_custom.AsCustom import AsCustom
 from uproot_custom.AsGroupedMap import AsGroupedMap
 from uproot_custom.factories import (
+    AnyClassFactory,
     BaseFactory,
     BaseObjectFactory,
     BasicTypeFactory,
     CStyleArrayFactory,
     EmptyFactory,
     GroupFactory,
-    NBytesVersionFactory,
     ObjectHeaderFactory,
     STLMapFactory,
     STLSeqFactory,

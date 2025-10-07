@@ -458,6 +458,7 @@ class STLSeqFactory(BaseFactory):
             "factory": cls,
             "name": fName,
             "with_header": True,
+            "objwise_or_memberwise": -1,
             "element_config": elemeng_config,
         }
 
@@ -471,6 +472,7 @@ class STLSeqFactory(BaseFactory):
         return uproot_custom.cpp.STLSeqReader(
             tree_config["name"],
             tree_config.get("with_header", True),
+            tree_config.get("objwise_or_memberwise", -1),
             element_cpp_reader,
         )
 
@@ -551,6 +553,7 @@ class STLMapFactory(BaseFactory):
             "factory": cls,
             "name": fName,
             "with_header": True,
+            "objwise_or_memberwise": -1,
             "key_config": key_config,
             "val_config": val_config,
         }
@@ -562,7 +565,7 @@ class STLMapFactory(BaseFactory):
 
         key_config = tree_config["key_config"]
         val_config = tree_config["val_config"]
-        is_obj_wise = tree_config.get("is_obj_wise", False)
+        is_obj_wise = tree_config.get("objwise_or_memberwise", -1) == 0
 
         if is_obj_wise:
             key_config["with_header"] = False
@@ -574,7 +577,7 @@ class STLMapFactory(BaseFactory):
         return uproot_custom.cpp.STLMapReader(
             tree_config["name"],
             tree_config.get("with_header", True),
-            is_obj_wise,
+            tree_config.get("objwise_or_memberwise", -1),
             key_cpp_reader,
             val_cpp_reader,
         )
@@ -675,8 +678,8 @@ class TArrayFactory(BaseFactory):
     """
     This class reads TArray from a binary paerser.
 
-    TArray includes TArrayC, TArrayS, TArrayI, TArrayL, TArrayF, and TArrayD.
-    Corresponding ctype is u1, u2, i4, i8, f, and d.
+    TArray includes TArrayC, TArrayS, TArrayI, TArrayL, TArrayL64, TArrayF, and TArrayD.
+    Corresponding ctype is u1, u2, i4, i8, i8, f, and d.
     """
 
     typenames = {
@@ -773,6 +776,7 @@ class TStringFactory(BaseFactory):
         return {
             "factory": cls,
             "name": cur_streamer_info["fName"],
+            "with_header": False,
         }
 
     @classmethod
@@ -780,7 +784,10 @@ class TStringFactory(BaseFactory):
         if tree_config["factory"] is not cls:
             return None
 
-        return uproot_custom.cpp.TStringReader(tree_config["name"])
+        return uproot_custom.cpp.TStringReader(
+            tree_config["name"],
+            tree_config.get("with_header", False),
+        )
 
     @classmethod
     def reconstruct_array(cls, tree_config, raw_data):
@@ -949,6 +956,11 @@ class CStyleArrayFactory(BaseFactory):
             all_streamer_info,
         )
 
+        # When TString is stored in C-style or std array, it has a "fNByte+fVersion" header.
+        top_type_name = get_top_type_name(fTypeName)
+        if fArrayDim != 0 and top_type_name == "TString":
+            element_config["with_header"] = True
+
         assert flat_size != 0, f"flatten_size cannot be 0."
 
         res = {
@@ -960,21 +972,15 @@ class CStyleArrayFactory(BaseFactory):
             "fArrayDim": fArrayDim,
         }
 
-        top_type_name = get_top_type_name(fTypeName)
-        if fArrayDim != 0 and top_type_name == "TString":
-            res = {
-                "factory": NBytesVersionFactory,
-                "name": fName,
-                "element_config": res,
-            }
-
         # When stored in std::array
         # [1] There is no header for vector and map.
         # [2] Map is object-wise serialized.
         # By so far, we use fType==82 to identify std::array.
         if top_type_name in stl_typenames and cur_streamer_info.get("fType", -1) == 82:
             element_config["with_header"] = False
-            element_config["is_obj_wise"] = True
+            element_config["objwise_or_memberwise"] = (
+                0  # -1: auto, 0: obj-wise, 1: member-wise
+            )
 
         return res
 
@@ -1058,68 +1064,6 @@ class CStyleArrayFactory(BaseFactory):
             return element_form
 
 
-class NBytesVersionFactory(BaseFactory):
-    """
-    Reads fNBytes, fVersion and check fNBytes. This factory
-    and corresponding reader will not return anything. If
-    you need information about fNBytes and fVersion, you
-    should read them by yourself.
-
-    This factory can only be created by other factory. It
-    will never match items.
-    """
-
-    @classmethod
-    def gen_tree_config(
-        cls,
-        top_type_name,
-        cur_streamer_info,
-        all_streamer_info,
-        item_path,
-        **kwargs,
-    ):
-        """
-        Never match items. If one needs to use this factory,
-        create configuration like:
-
-        - `factory`: `NBytesVersionFactory`
-        - `name`: Name of the factory
-        - `element_config`: Tree configuration of its element.
-        """
-        return None
-
-    @classmethod
-    def build_cpp_reader(cls, tree_config):
-        if tree_config["factory"] is not cls:
-            return None
-
-        element_config = tree_config["element_config"]
-        element_reader = build_cpp_reader(element_config)
-        return uproot_custom.cpp.NBytesVersionReader(
-            tree_config["name"],
-            element_reader,
-        )
-
-    @classmethod
-    def reconstruct_array(cls, tree_config, raw_data):
-        """
-        Directly return its reconstructed element array.
-        """
-        if tree_config["factory"] is not cls:
-            return None
-
-        element_config = tree_config["element_config"]
-        return reconstruct_array(element_config, raw_data)
-
-    @classmethod
-    def gen_awkward_form(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
-
-        element_config = tree_config["element_config"]
-        return gen_awkward_form(element_config)
-
-
 class GroupFactory(BaseFactory):
     """
     This factory groups differernt factory together. You can use
@@ -1190,28 +1134,11 @@ class GroupFactory(BaseFactory):
         return ak.forms.RecordForm(sub_contents, sub_fields)
 
 
-class BaseObjectFactory(BaseFactory):
+class BaseObjectFactory(GroupFactory):
     """
     This class reads base-object of an object. The base object has
     fNBytes(uint32), fVersion(uint16) at the beginning.
     """
-
-    @classmethod
-    def parse_tree_config(cls, tree_config):
-        """
-        Combine NBytesVersionFactory and GroupFactory to read base-object.
-        """
-        name = tree_config["name"]
-        sub_configs = tree_config["sub_configs"]
-        return {
-            "factory": NBytesVersionFactory,
-            "name": name,
-            "element_config": {
-                "factory": GroupFactory,
-                "name": name,
-                "sub_configs": sub_configs,
-            },
-        }
 
     @classmethod
     def gen_tree_config(
@@ -1245,44 +1172,15 @@ class BaseObjectFactory(BaseFactory):
         if tree_config["factory"] is not cls:
             return None
 
-        return build_cpp_reader(cls.parse_tree_config(tree_config))
+        sub_readers = [build_cpp_reader(s) for s in tree_config["sub_configs"]]
 
-    @classmethod
-    def reconstruct_array(cls, tree_config, raw_data):
-        if tree_config["factory"] is not cls:
-            return None
-
-        return reconstruct_array(
-            cls.parse_tree_config(tree_config),
-            raw_data,
-        )
-
-    @classmethod
-    def gen_awkward_form(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
-
-        return gen_awkward_form(cls.parse_tree_config(tree_config))
+        return uproot_custom.cpp.AnyClassReader(tree_config["name"], sub_readers)
 
 
-class AnyClassFactory(BaseFactory):
+class AnyClassFactory(GroupFactory):
     """
     This class tries to read any class object that is not handled by other factories.
     """
-
-    @staticmethod
-    def parse_tree_config(tree_config: dict) -> dict:
-        name = tree_config["name"]
-        sub_configs = tree_config["sub_configs"]
-        return {
-            "factory": NBytesVersionFactory,
-            "name": name,
-            "element_config": {
-                "factory": GroupFactory,
-                "name": name,
-                "sub_configs": sub_configs,
-            },
-        }
 
     @classmethod
     def priority(cls):
@@ -1311,24 +1209,9 @@ class AnyClassFactory(BaseFactory):
         if tree_config["factory"] is not cls:
             return None
 
-        return build_cpp_reader(cls.parse_tree_config(tree_config))
+        sub_readers = [build_cpp_reader(s) for s in tree_config["sub_configs"]]
 
-    @classmethod
-    def reconstruct_array(cls, tree_config, raw_data):
-        if tree_config["factory"] is not cls:
-            return None
-
-        return reconstruct_array(
-            cls.parse_tree_config(tree_config),
-            raw_data,
-        )
-
-    @classmethod
-    def gen_awkward_form(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
-
-        return gen_awkward_form(cls.parse_tree_config(tree_config))
+        return uproot_custom.cpp.AnyClassReader(tree_config["name"], sub_readers)
 
 
 class ObjectHeaderFactory(BaseFactory):
@@ -1424,7 +1307,6 @@ registered_factories |= {
     TStringFactory,
     TObjectFactory,
     CStyleArrayFactory,
-    NBytesVersionFactory,
     GroupFactory,
     BaseObjectFactory,
     AnyClassFactory,

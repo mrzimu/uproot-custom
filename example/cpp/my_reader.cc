@@ -67,7 +67,7 @@ class TObjArrayReader : public IElementReader {
         buffer.skip( 4 ); // fLowerBound
 
         m_offsets->push_back( m_offsets->back() + fSize );
-        m_element_reader->read( buffer, fSize );
+        m_element_reader->read_many( buffer, fSize );
     }
 
     py::object data() const override final {

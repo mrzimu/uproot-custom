@@ -45,6 +45,7 @@ class STLSeqReader(IElementReader):
         self,
         name: str,
         with_header: bool,
+        objwise_or_memberwise: int,
         element_reader: IElementReader,
     ) -> None: ...
 
@@ -53,6 +54,7 @@ class STLMapReader(IElementReader):
         self,
         name: str,
         with_header: bool,
+        objwise_or_memberwise: int,
         key_reader: IElementReader,
         value_reader: IElementReader,
     ) -> None: ...
@@ -88,14 +90,14 @@ class TStringReader(IElementReader):
 class TObjectReader(IElementReader):
     def __init__(self, name: str) -> None: ...
 
-class NBytesVersionReader(IElementReader):
+class GroupReader(IElementReader):
     def __init__(
         self,
         name: str,
-        element_reader: IElementReader,
+        sub_readers: list[IElementReader],
     ) -> None: ...
 
-class GroupReader(IElementReader):
+class AnyClassReader(IElementReader):
     def __init__(
         self,
         name: str,
