@@ -240,7 +240,7 @@ class BaseFactory:
         return None
 
 
-class BasicTypeFactory(BaseFactory):
+class PrimitiveFactory(BaseFactory):
     typenames = {
         "bool": "bool",
         "char": "i1",
@@ -335,12 +335,12 @@ class BasicTypeFactory(BaseFactory):
         **kwargs,
     ):
         """
-        Return when `top_type_name` is basic type.
+        Return when `top_type_name` is primitive type.
         The configuration contains:
 
         - `factory`: cls
         - `name`: fName
-        - `ctype`: Concrete basic type (`bool`, `[i,u]`x`[1,2,4,8]`, `f`, `d`)
+        - `ctype`: Concrete primitive type (`bool`, `[i,u]`x`[1,2,4,8]`, `f`, `d`)
         """
         ctype = cls.ftypes.get(cur_streamer_info.get("fType", -1), None)
         if ctype is None:
@@ -705,7 +705,7 @@ class TArrayFactory(BaseFactory):
         The configuration contains:
         - reader: cls
         - name: fName
-        - ctype: Concrete basic type (`i1`, `i2`, `i4`, `i8`, `f`, `d`)
+        - ctype: Concrete primitive type (`i1`, `i2`, `i4`, `i8`, `f`, `d`)
         """
         if top_type_name not in cls.typenames:
             return None
@@ -752,7 +752,7 @@ class TArrayFactory(BaseFactory):
         ctype = tree_config["ctype"]
         return ak.forms.ListOffsetForm(
             "i64",
-            ak.forms.NumpyForm(BasicTypeFactory.ctype_primitive_map[ctype]),
+            ak.forms.NumpyForm(PrimitiveFactory.ctype_primitive_map[ctype]),
         )
 
 
@@ -954,6 +954,7 @@ class CStyleArrayFactory(BaseFactory):
         element_config = gen_tree_config(
             element_streamer_info,
             all_streamer_info,
+            item_path=item_path,
         )
 
         # When TString is stored in C-style or std array, it has a "fNByte+fVersion" header.
@@ -1299,7 +1300,7 @@ class EmptyFactory(BaseFactory):
 
 
 registered_factories |= {
-    BasicTypeFactory,
+    PrimitiveFactory,
     STLSeqFactory,
     STLMapFactory,
     STLStringFactory,

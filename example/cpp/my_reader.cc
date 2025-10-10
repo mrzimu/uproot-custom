@@ -58,11 +58,8 @@ class TObjArrayReader : public IElementReader {
     void read( BinaryBuffer& buffer ) override final {
         buffer.skip_fNBytes();
         buffer.skip_fVersion();
-        buffer.skip_fVersion();
-        buffer.skip( 4 ); // fUniqueID
-        buffer.skip( 4 ); // fBits
-
-        buffer.skip( 1 ); // fName
+        buffer.skip_TObject();
+        buffer.read_TString(); // fName
         auto fSize = buffer.read<uint32_t>();
         buffer.skip( 4 ); // fLowerBound
 
@@ -78,6 +75,6 @@ class TObjArrayReader : public IElementReader {
 };
 
 PYBIND11_MODULE( my_reader_cpp, m ) {
-    register_reader<OverrideStreamerReader>( m, "OverrideStreamerReader" );
-    register_reader<TObjArrayReader, SharedReader>( m, "TObjArrayReader" );
+    declare_reader<OverrideStreamerReader, std::string>( m, "OverrideStreamerReader" );
+    declare_reader<TObjArrayReader, std::string, SharedReader>( m, "TObjArrayReader" );
 }

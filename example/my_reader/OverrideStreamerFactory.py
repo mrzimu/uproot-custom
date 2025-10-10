@@ -11,12 +11,13 @@ class OverrideStreamerFactory(BaseFactory):
     def gen_tree_config(
         cls,
         base_top_type: str,
-        cls_streamer_info: dict,
+        cur_streamer_info: dict,
         all_streamer_info: dict,
         item_path: str,
+        called_from_top: bool = False,
         **kwargs,
     ):
-        fName = cls_streamer_info["fName"]
+        fName = cur_streamer_info["fName"]
         if fName != "TOverrideStreamer":
             return None
 

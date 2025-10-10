@@ -1,4 +1,5 @@
 import awkward.contents
+import awkward.forms
 import awkward.index
 
 from uproot_custom import (
@@ -25,6 +26,7 @@ class TObjArrayFactory(BaseObjectFactory):
         cur_streamer_info: dict,
         all_streamer_info: dict,
         item_path: str,
+        called_from_top: bool = False,
         **kwargs,
     ):
         if top_type_name != "TObjArray":

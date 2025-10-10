@@ -229,9 +229,9 @@ namespace uproot {
     }
 
     template <typename ReaderType, typename... Args>
-    void register_reader( py::module& m, const char* name ) {
+    void declare_reader( py::module& m, const char* name ) {
         py::class_<ReaderType, shared_ptr<ReaderType>, IElementReader>( m, name ).def(
-            py::init( &CreateReader<ReaderType, std::string, Args...> ) );
+            py::init( &CreateReader<ReaderType, Args...> ) );
     }
 
     /*

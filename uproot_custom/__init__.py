@@ -9,7 +9,7 @@ from uproot_custom.factories import (
     AnyClassFactory,
     BaseFactory,
     BaseObjectFactory,
-    BasicTypeFactory,
+    PrimitiveFactory,
     CStyleArrayFactory,
     EmptyFactory,
     GroupFactory,
