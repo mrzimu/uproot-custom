@@ -8,7 +8,7 @@ from uproot_custom import (
 )
 from uproot_custom.factories import AnyClassFactory, ObjectHeaderFactory
 
-from . import my_reader_cpp as _cpp
+from .my_reader_cpp import TObjArrayReader
 
 
 class TObjArrayFactory(Factory):
@@ -58,14 +58,14 @@ class TObjArrayFactory(Factory):
 
     def build_cpp_reader(self):
         element_reader = self.element_factory.build_cpp_reader()
-        return _cpp.TObjArrayReader(self.name, element_reader)
+        return TObjArrayReader(self.name, element_reader)
 
     def make_awkward_content(self, raw_data):
         offsets, element_raw_data = raw_data
-        element_data = self.element_factory.make_awkward_content(element_raw_data)
+        element_content = self.element_factory.make_awkward_content(element_raw_data)
         return awkward.contents.ListOffsetArray(
             awkward.index.Index64(offsets),
-            element_data,
+            element_content,
         )
 
     def make_awkward_form(self):

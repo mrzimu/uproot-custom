@@ -48,7 +48,9 @@ def build_factory(
     if not kwargs.get("called_from_top", False):
         item_path = f"{item_path}.{fName}"
 
-    for factory_class in sorted(registered_factories, key=lambda x: x.priority(), reverse=True):
+    for factory_class in sorted(
+        registered_factories, key=lambda x: x.priority(), reverse=True
+    ):
         factory_instance = factory_class.build_factory(
             top_type_name,
             cur_streamer_info,
@@ -402,10 +404,10 @@ class STLSeqFactory(Factory):
 
     def make_awkward_content(self, raw_data):
         offsets, element_raw_data = raw_data
-        element_data = self.element_factory.make_awkward_content(element_raw_data)
+        element_content = self.element_factory.make_awkward_content(element_raw_data)
         return ak.contents.ListOffsetArray(
             ak.index.Index64(offsets),
-            element_data,
+            element_content,
         )
 
     def make_awkward_form(self):
@@ -497,13 +499,13 @@ class STLMapFactory(Factory):
 
     def make_awkward_content(self, raw_data):
         offsets, key_raw_data, val_raw_data = raw_data
-        key_data = self.key_factory.make_awkward_content(key_raw_data)
-        val_data = self.val_factory.make_awkward_content(val_raw_data)
+        key_content = self.key_factory.make_awkward_content(key_raw_data)
+        val_content = self.val_factory.make_awkward_content(val_raw_data)
 
         return ak.contents.ListOffsetArray(
             ak.index.Index64(offsets),
             ak.contents.RecordArray(
-                [key_data, val_data],
+                [key_content, val_content],
                 [self.key_factory.name, self.val_factory.name],
             ),
         )
@@ -596,10 +598,7 @@ class TArrayFactory(Factory):
         **kwargs,
     ):
         """
-        The configuration contains:
-        - reader: cls
-        - name: fName
-        - ctype: Concrete primitive type (`i1`, `i2`, `i4`, `i8`, `f`, `d`)
+        Return when `top_type_name` is in `cls.typenames`.
         """
         if top_type_name not in cls.typenames:
             return None

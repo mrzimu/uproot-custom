@@ -3,7 +3,7 @@ import awkward.forms
 
 from uproot_custom import Factory
 
-from . import my_reader_cpp as _cpp
+from .my_reader_cpp import OverrideStreamerReader
 
 
 class OverrideStreamerFactory(Factory):
@@ -23,7 +23,7 @@ class OverrideStreamerFactory(Factory):
         return cls(fName)
 
     def build_cpp_reader(self):
-        return _cpp.OverrideStreamerReader(self.name)
+        return OverrideStreamerReader(self.name)
 
     def make_awkward_content(self, raw_data):
         int_array, double_array = raw_data
