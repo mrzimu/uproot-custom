@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-import re
-from typing import Any, Union
+from typing import Any, Literal, Union
 
 import awkward as ak
 import awkward.contents
@@ -18,17 +17,17 @@ from uproot_custom.utils import (
     get_top_type_name,
 )
 
-registered_factories: set[type["BaseFactory"]] = set()
+registered_factories: set[type["Factory"]] = set()
 
 
-def gen_tree_config(
+def build_factory(
     cur_streamer_info: dict,
     all_streamer_info: dict,
     item_path: str = "",
     **kwargs,
-) -> dict:
+) -> "Factory":
     """
-    Generate reader configuration with a given streamer information.
+    Generate factory with a given streamer information.
 
     Args:
         cur_streamer_info (dict): Streamer information of current item.
@@ -36,7 +35,7 @@ def gen_tree_config(
         item_path (str): Path to the item.
 
     Returns:
-        dict: Reader configuration.
+        An instance of `Factory`.
     """
     fName = cur_streamer_info["fName"]
 
@@ -49,54 +48,18 @@ def gen_tree_config(
     if not kwargs.get("called_from_top", False):
         item_path = f"{item_path}.{fName}"
 
-    for reader in sorted(registered_factories, key=lambda x: x.priority(), reverse=True):
-        tree_config = reader.gen_tree_config(
+    for factory_class in sorted(registered_factories, key=lambda x: x.priority(), reverse=True):
+        factory_instance = factory_class.build_factory(
             top_type_name,
             cur_streamer_info,
             all_streamer_info,
             item_path,
             **kwargs,
         )
-        if tree_config is not None:
-            return tree_config
+        if factory_instance is not None:
+            return factory_instance
 
     raise ValueError(f"Unknown type: {cur_streamer_info['fTypeName']} for {item_path}")
-
-
-def build_cpp_reader(tree_config: dict):
-    for reader in sorted(registered_factories, key=lambda x: x.priority(), reverse=True):
-        cpp_reader = reader.build_cpp_reader(tree_config)
-        if cpp_reader is not None:
-            return cpp_reader
-
-    raise ValueError(
-        f"Unknown factory type: {tree_config['factory']} for {tree_config['name']}"
-    )
-
-
-def reconstruct_array(
-    tree_config: dict,
-    raw_data: Union[np.ndarray, tuple, list, None],
-) -> Union[ak.Array, None]:
-    for reader in sorted(registered_factories, key=lambda x: x.priority(), reverse=True):
-        data = reader.reconstruct_array(tree_config, raw_data)
-        if data is not None:
-            return data
-
-    raise ValueError(
-        f"Unknown factory type: {tree_config['factory']} for {tree_config['name']}"
-    )
-
-
-def gen_awkward_form(tree_config: dict) -> awkward.forms.Form:
-    for reader in sorted(registered_factories, key=lambda x: x.priority(), reverse=True):
-        form = reader.gen_awkward_form(tree_config)
-        if form is not None:
-            return form
-
-    raise ValueError(
-        f"Unknown factory type: {tree_config['factory']} for {tree_config['name']}"
-    )
 
 
 def read_branch(
@@ -107,21 +70,21 @@ def read_branch(
     all_streamer_info: dict[str, list[dict]],
     item_path: str = "",
 ):
-    tree_config = gen_tree_config(
+    factory = build_factory(
         cur_streamer_info,
         all_streamer_info,
         item_path,
         called_from_top=True,
         branch=branch,
     )
-    reader = build_cpp_reader(tree_config)
+    reader = factory.build_cpp_reader()
 
     if offsets is None:
         nbyte = cur_streamer_info["fSize"]
         offsets = np.arange(data.size // nbyte + 1, dtype=np.uint32) * nbyte
     raw_data = uproot_custom.cpp.read_data(data, offsets, reader)
 
-    return reconstruct_array(tree_config, raw_data)
+    return factory.make_awkward_content(raw_data)
 
 
 def read_branch_awkward_form(
@@ -130,17 +93,17 @@ def read_branch_awkward_form(
     all_streamer_info: dict[str, list[dict]],
     item_path: str = "",
 ):
-    tree_config = gen_tree_config(
+    factory = build_factory(
         cur_streamer_info,
         all_streamer_info,
         item_path,
         called_from_top=True,
         branch=branch,
     )
-    return gen_awkward_form(tree_config)
+    return factory.make_awkward_form()
 
 
-class BaseFactory:
+class Factory:
     """
     Base class of reader factories. Reader factory is in charge of
     generating reader configuration tree, build an combine C++ reader
@@ -157,16 +120,16 @@ class BaseFactory:
         return 10
 
     @classmethod
-    def gen_tree_config(
+    def build_factory(
         cls,
         top_type_name: str,
         cur_streamer_info: dict,
         all_streamer_info: dict,
         item_path: str,
         **kwargs,
-    ) -> Union[None, dict]:
+    ) -> Union[None, Factory]:
         """
-        Return tree configuration when current item matches this factory,
+        Return an instance of this factory when current item matches this factory,
         otherwise return `None`.
 
         Args:
@@ -186,61 +149,44 @@ class BaseFactory:
         """
         return None
 
-    @classmethod
-    def build_cpp_reader(
-        cls,
-        tree_config: dict,
-    ) -> Union[None, uproot_custom.cpp.IElementReader]:
-        """
-        Read `tree_config`, build concrete C++ reader when current item matches
-        this factory, otherwise return `None`.
+    def __init__(self, name: str):
+        self.name = name
 
-        Args:
-            tree_config (dict): Tree configuration of current item.
+    def build_cpp_reader(self) -> uproot_custom.cpp.IElementReader:
+        """
+        Build concrete C++ reader.
 
         Returns:
-            When current item matches this factory, return corresponding C++ reader,
-            otherwise return `None`.
+            An instance of `uproot_custom.cpp.IElementReader`.
         """
-        return None
+        raise NotImplementedError("build_cpp_reader not implemented.")
 
-    @classmethod
-    def reconstruct_array(
-        cls,
-        tree_config: dict,
+    def make_awkward_content(
+        self,
         raw_data: Any,
-    ) -> Union[awkward.contents.Content]:
+    ) -> awkward.contents.Content:
         """
         Reconstruct awkward contents with raw data returned from the C++ reader.
 
         Args:
-            tree_config (dict): Tree configuration of current item.
             raw_data: Data returned from C++ reader.
 
         Returns:
             awkward.contents.Content: Awkward content to build corresponding array.
         """
-        return None
+        raise NotImplementedError("reconstruct_array not implemented.")
 
-    @classmethod
-    def gen_awkward_form(
-        cls,
-        tree_config: dict,
-    ) -> Union[None, awkward.forms.Form]:
+    def make_awkward_form(self) -> awkward.forms.Form:
         """
-        Generate awkward form with tree configuration. This method will
-        only be called when reading files with `dask`.
-
-        Args:
-            tree_config (dict): Tree configuration of current item.
+        Generate awkward form with tree configuration.
 
         Returns:
             awkward.forms.Form: Awkward form of current item.
         """
-        return None
+        raise NotImplementedError("gen_awkward_form not implemented.")
 
 
-class PrimitiveFactory(BaseFactory):
+class PrimitiveFactory(Factory):
     typenames = {
         "bool": "bool",
         "char": "i1",
@@ -326,7 +272,7 @@ class PrimitiveFactory(BaseFactory):
     }
 
     @classmethod
-    def gen_tree_config(
+    def build_factory(
         cls,
         top_type_name,
         cur_streamer_info,
@@ -336,11 +282,6 @@ class PrimitiveFactory(BaseFactory):
     ):
         """
         Return when `top_type_name` is primitive type.
-        The configuration contains:
-
-        - `factory`: cls
-        - `name`: fName
-        - `ctype`: Concrete primitive type (`bool`, `[i,u]`x`[1,2,4,8]`, `f`, `d`)
         """
         ctype = cls.ftypes.get(cur_streamer_info.get("fType", -1), None)
         if ctype is None:
@@ -349,40 +290,22 @@ class PrimitiveFactory(BaseFactory):
         if ctype is None:
             return None
 
-        return {
-            "factory": cls,
-            "name": cur_streamer_info["fName"],
-            "ctype": ctype,
-        }
+        return cls(name=cur_streamer_info["fName"], ctype=ctype)
 
-    @classmethod
-    def build_cpp_reader(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
+    def __init__(self, name: str, ctype: str):
+        self.name = name
+        self.ctype = ctype
 
-        ctype = tree_config["ctype"]
-        return cls.cpp_reader_map[ctype](tree_config["name"])
+    def build_cpp_reader(self):
+        return self.cpp_reader_map[self.ctype](self.name)
 
-    @classmethod
-    def reconstruct_array(
-        cls,
-        tree_config: dict,
-        raw_data: np.ndarray,
-    ):
-        if tree_config["factory"] is not cls:
-            return None
-
-        if tree_config["ctype"] == "bool":
+    def make_awkward_content(self, raw_data: np.ndarray):
+        if self.ctype == "bool":
             raw_data = raw_data.astype(np.bool_)
         return ak.contents.NumpyArray(raw_data)
 
-    @classmethod
-    def gen_awkward_form(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
-
-        ctype = tree_config["ctype"]
-        return ak.forms.NumpyForm(cls.ctype_primitive_map[ctype])
+    def make_awkward_form(self):
+        return ak.forms.NumpyForm(self.ctype_primitive_map[self.ctype])
 
 
 stl_typenames = {
@@ -401,7 +324,7 @@ stl_typenames = {
 }
 
 
-class STLSeqFactory(BaseFactory):
+class STLSeqFactory(Factory):
     """
     This factory reads sequence-like STL containers.
     """
@@ -417,7 +340,7 @@ class STLSeqFactory(BaseFactory):
     ]
 
     @classmethod
-    def gen_tree_config(
+    def build_factory(
         cls,
         top_type_name,
         cur_streamer_info,
@@ -427,11 +350,6 @@ class STLSeqFactory(BaseFactory):
     ):
         """
         Return when `top_type_name` is in `cls.target_types`.
-        The returned configuration contains:
-
-        - `factory`: cls
-        - `name`: fName
-        - `element_config`: Configuration of current container's element reader.
         """
         if top_type_name not in cls.target_types:
             return None
@@ -444,67 +362,61 @@ class STLSeqFactory(BaseFactory):
             "fTypeName": element_type,
         }
 
-        elemeng_config = gen_tree_config(
+        element_factory = build_factory(
             element_info,
             all_streamer_info,
             item_path,
         )
 
-        top_element_type = get_top_type_name(element_type)
-        if top_element_type in stl_typenames:
-            elemeng_config["with_header"] = False
+        if isinstance(element_factory, (STLSeqFactory, STLMapFactory, STLStringFactory)):
+            element_factory.with_header = False
 
-        return {
-            "factory": cls,
-            "name": fName,
-            "with_header": True,
-            "objwise_or_memberwise": -1,
-            "element_config": elemeng_config,
-        }
+        return cls(
+            name=fName,
+            with_header=True,
+            objwise_or_memberwise=-1,
+            element_factory=element_factory,
+        )
 
-    @classmethod
-    def build_cpp_reader(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
+    def __init__(
+        self,
+        name: str,
+        with_header: bool,
+        objwise_or_memberwise: Literal[-1, 0, 1],
+        element_factory: Factory,
+    ):
+        self.name = name
+        self.with_header = with_header
+        self.objwise_or_memberwise = objwise_or_memberwise
+        self.element_factory = element_factory
 
-        element_cpp_reader = build_cpp_reader(tree_config["element_config"])
+    def build_cpp_reader(self):
+        element_cpp_reader = self.element_factory.build_cpp_reader()
 
         return uproot_custom.cpp.STLSeqReader(
-            tree_config["name"],
-            tree_config.get("with_header", True),
-            tree_config.get("objwise_or_memberwise", -1),
+            self.name,
+            self.with_header,
+            self.objwise_or_memberwise,
             element_cpp_reader,
         )
 
-    @classmethod
-    def reconstruct_array(cls, tree_config, raw_data):
-        if tree_config["factory"] is not cls:
-            return None
-
+    def make_awkward_content(self, raw_data):
         offsets, element_raw_data = raw_data
-        element_data = reconstruct_array(
-            tree_config["element_config"],
-            element_raw_data,
-        )
-
+        element_data = self.element_factory.make_awkward_content(element_raw_data)
         return ak.contents.ListOffsetArray(
             ak.index.Index64(offsets),
             element_data,
         )
 
-    @classmethod
-    def gen_awkward_form(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
-
-        element_form = gen_awkward_form(tree_config["element_config"])
+    def make_awkward_form(self):
+        element_form = self.element_factory.make_awkward_form()
         return ak.forms.ListOffsetForm(
             "i64",
             element_form,
         )
 
 
-class STLMapFactory(BaseFactory):
+class STLMapFactory(Factory):
     """
     This class reads mapping-like STL containers.
     """
@@ -512,7 +424,7 @@ class STLMapFactory(BaseFactory):
     target_types = ["map", "unordered_map", "multimap", "unordered_multimap"]
 
     @classmethod
-    def gen_tree_config(
+    def build_factory(
         cls,
         top_type_name,
         cur_streamer_info,
@@ -522,12 +434,6 @@ class STLMapFactory(BaseFactory):
     ):
         """
         Return when `top_type_name` is in `cls.target_types`.
-        The returned configuration contains:
-
-        - `factory`: cls
-        - `name`: fName
-        - `key_config`: Configuration of current container's key reader.
-        - `val_config`: Configuration of current container's value reader.
         """
         if top_type_name not in cls.target_types:
             return None
@@ -546,84 +452,81 @@ class STLMapFactory(BaseFactory):
             "fTypeName": val_type_name,
         }
 
-        key_config = gen_tree_config(key_info, all_streamer_info, item_path)
-        val_config = gen_tree_config(val_info, all_streamer_info, item_path)
+        key_factory = build_factory(key_info, all_streamer_info, item_path)
+        val_factory = build_factory(val_info, all_streamer_info, item_path)
 
-        return {
-            "factory": cls,
-            "name": fName,
-            "with_header": True,
-            "objwise_or_memberwise": -1,
-            "key_config": key_config,
-            "val_config": val_config,
-        }
+        return cls(
+            name=fName,
+            with_header=True,
+            objwise_or_memberwise=-1,
+            key_factory=key_factory,
+            val_factory=val_factory,
+        )
 
-    @classmethod
-    def build_cpp_reader(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
+    def __init__(
+        self,
+        name: str,
+        with_header: bool,
+        objwise_or_memberwise: Literal[-1, 0, 1],
+        key_factory: Factory,
+        val_factory: Factory,
+    ):
+        self.name = name
+        self.with_header = with_header
+        self.objwise_or_memberwise = objwise_or_memberwise
+        self.key_factory = key_factory
+        self.val_factory = val_factory
 
-        key_config = tree_config["key_config"]
-        val_config = tree_config["val_config"]
-        is_obj_wise = tree_config.get("objwise_or_memberwise", -1) == 0
+    def build_cpp_reader(self):
+        is_obj_wise = self.objwise_or_memberwise == 0
 
         if is_obj_wise:
-            key_config["with_header"] = False
-            val_config["with_header"] = False
+            self.key_factory.with_header = False
+            self.val_factory.with_header = False
 
-        key_cpp_reader = build_cpp_reader(tree_config["key_config"])
-        val_cpp_reader = build_cpp_reader(tree_config["val_config"])
+        key_cpp_reader = self.key_factory.build_cpp_reader()
+        val_cpp_reader = self.val_factory.build_cpp_reader()
 
         return uproot_custom.cpp.STLMapReader(
-            tree_config["name"],
-            tree_config.get("with_header", True),
-            tree_config.get("objwise_or_memberwise", -1),
+            self.name,
+            self.with_header,
+            self.objwise_or_memberwise,
             key_cpp_reader,
             val_cpp_reader,
         )
 
-    @classmethod
-    def reconstruct_array(cls, tree_config, raw_data):
-        if tree_config["factory"] is not cls:
-            return None
-
-        key_config = tree_config["key_config"]
-        val_config = tree_config["val_config"]
+    def make_awkward_content(self, raw_data):
         offsets, key_raw_data, val_raw_data = raw_data
-        key_data = reconstruct_array(key_config, key_raw_data)
-        val_data = reconstruct_array(val_config, val_raw_data)
+        key_data = self.key_factory.make_awkward_content(key_raw_data)
+        val_data = self.val_factory.make_awkward_content(val_raw_data)
 
         return ak.contents.ListOffsetArray(
             ak.index.Index64(offsets),
             ak.contents.RecordArray(
                 [key_data, val_data],
-                [key_config["name"], val_config["name"]],
+                [self.key_factory.name, self.val_factory.name],
             ),
         )
 
-    @classmethod
-    def gen_awkward_form(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
-
-        key_form = gen_awkward_form(tree_config["key_config"])
-        val_form = gen_awkward_form(tree_config["val_config"])
+    def make_awkward_form(self):
+        key_form = self.key_factory.make_awkward_form()
+        val_form = self.val_factory.make_awkward_form()
         return ak.forms.ListOffsetForm(
             "i64",
             ak.forms.RecordForm(
                 [key_form, val_form],
-                [tree_config["key_config"]["name"], tree_config["val_config"]["name"]],
+                [self.key_factory.name, self.val_factory.name],
             ),
         )
 
 
-class STLStringFactory(BaseFactory):
+class STLStringFactory(Factory):
     """
     This class reads std::string.
     """
 
     @classmethod
-    def gen_tree_config(
+    def build_factory(
         cls,
         top_type_name,
         cur_streamer_info,
@@ -634,27 +537,22 @@ class STLStringFactory(BaseFactory):
         if top_type_name != "string":
             return None
 
-        return {
-            "factory": cls,
-            "name": cur_streamer_info["fName"],
-            "with_header": True,
-        }
-
-    @classmethod
-    def build_cpp_reader(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
-
-        return uproot_custom.cpp.STLStringReader(
-            tree_config["name"],
-            tree_config.get("with_header", True),
+        return cls(
+            name=cur_streamer_info["fName"],
+            with_header=True,
         )
 
-    @classmethod
-    def reconstruct_array(cls, tree_config, raw_data):
-        if tree_config["factory"] is not cls:
-            return None
+    def __init__(self, name: str, with_header: bool):
+        self.name = name
+        self.with_header = with_header
 
+    def build_cpp_reader(self):
+        return uproot_custom.cpp.STLStringReader(
+            self.name,
+            self.with_header,
+        )
+
+    def make_awkward_content(self, raw_data):
         offsets, data = raw_data
         return awkward.contents.ListOffsetArray(
             awkward.index.Index64(offsets),
@@ -662,11 +560,7 @@ class STLStringFactory(BaseFactory):
             parameters={"__array__": "string"},
         )
 
-    @classmethod
-    def gen_awkward_form(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
-
+    def make_awkward_form(self):
         return ak.forms.ListOffsetForm(
             "i64",
             ak.forms.NumpyForm("uint8", parameters={"__array__": "char"}),
@@ -674,7 +568,7 @@ class STLStringFactory(BaseFactory):
         )
 
 
-class TArrayFactory(BaseFactory):
+class TArrayFactory(Factory):
     """
     This class reads TArray from a binary paerser.
 
@@ -693,7 +587,7 @@ class TArrayFactory(BaseFactory):
     }
 
     @classmethod
-    def gen_tree_config(
+    def build_factory(
         cls,
         top_type_name,
         cur_streamer_info,
@@ -711,19 +605,13 @@ class TArrayFactory(BaseFactory):
             return None
 
         ctype = cls.typenames[top_type_name]
-        return {
-            "factory": cls,
-            "name": cur_streamer_info["fName"],
-            "ctype": ctype,
-        }
+        return cls(name=cur_streamer_info["fName"], ctype=ctype)
 
-    @classmethod
-    def build_cpp_reader(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
+    def __init__(self, name: str, ctype: str):
+        super().__init__(name)
+        self.ctype = ctype
 
-        ctype = tree_config["ctype"]
-
+    def build_cpp_reader(self):
         return {
             "i1": uproot_custom.cpp.TArrayCReader,
             "i2": uproot_custom.cpp.TArraySReader,
@@ -731,38 +619,29 @@ class TArrayFactory(BaseFactory):
             "i8": uproot_custom.cpp.TArrayLReader,
             "f": uproot_custom.cpp.TArrayFReader,
             "d": uproot_custom.cpp.TArrayDReader,
-        }[ctype](tree_config["name"])
+        }[self.ctype](self.name)
 
-    @classmethod
-    def reconstruct_array(cls, tree_config, raw_data):
-        if tree_config["factory"] is not cls:
-            return None
-
+    def make_awkward_content(self, raw_data):
         offsets, data = raw_data
         return awkward.contents.ListOffsetArray(
             awkward.index.Index64(offsets),
             awkward.contents.NumpyArray(data),
         )
 
-    @classmethod
-    def gen_awkward_form(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
-
-        ctype = tree_config["ctype"]
+    def make_awkward_form(self):
         return ak.forms.ListOffsetForm(
             "i64",
-            ak.forms.NumpyForm(PrimitiveFactory.ctype_primitive_map[ctype]),
+            ak.forms.NumpyForm(PrimitiveFactory.ctype_primitive_map[self.ctype]),
         )
 
 
-class TStringFactory(BaseFactory):
+class TStringFactory(Factory):
     """
     This class reads TString from a binary parser.
     """
 
     @classmethod
-    def gen_tree_config(
+    def build_factory(
         cls,
         top_type_name,
         cur_streamer_info,
@@ -773,27 +652,19 @@ class TStringFactory(BaseFactory):
         if top_type_name != "TString":
             return None
 
-        return {
-            "factory": cls,
-            "name": cur_streamer_info["fName"],
-            "with_header": False,
-        }
-
-    @classmethod
-    def build_cpp_reader(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
-
-        return uproot_custom.cpp.TStringReader(
-            tree_config["name"],
-            tree_config.get("with_header", False),
+        return cls(
+            name=cur_streamer_info["fName"],
+            with_header=False,
         )
 
-    @classmethod
-    def reconstruct_array(cls, tree_config, raw_data):
-        if tree_config["factory"] is not cls:
-            return None
+    def __init__(self, name: str, with_header: bool):
+        super().__init__(name)
+        self.with_header = with_header
 
+    def build_cpp_reader(self):
+        return uproot_custom.cpp.TStringReader(self.name, self.with_header)
+
+    def make_awkward_content(self, raw_data):
         offsets, data = raw_data
         return awkward.contents.ListOffsetArray(
             awkward.index.Index64(offsets),
@@ -801,11 +672,7 @@ class TStringFactory(BaseFactory):
             parameters={"__array__": "string"},
         )
 
-    @classmethod
-    def gen_awkward_form(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
-
+    def make_awkward_form(self):
         return ak.forms.ListOffsetForm(
             "i64",
             ak.forms.NumpyForm("uint8", parameters={"__array__": "char"}),
@@ -813,7 +680,7 @@ class TStringFactory(BaseFactory):
         )
 
 
-class TObjectFactory(BaseFactory):
+class TObjectFactory(Factory):
     """
     This class reads base TObject from a binary parser.
     You should skip reconstructing array when this factory
@@ -825,7 +692,7 @@ class TObjectFactory(BaseFactory):
     keep_data_itempaths: set[str] = set()
 
     @classmethod
-    def gen_tree_config(
+    def build_factory(
         cls,
         top_type_name,
         cur_streamer_info,
@@ -846,32 +713,26 @@ class TObjectFactory(BaseFactory):
         if fType != 66:
             return None
 
-        return {
-            "factory": cls,
-            "name": cur_streamer_info["fName"],
-            "keep_data": item_path in cls.keep_data_itempaths,
-        }
-
-    @classmethod
-    def build_cpp_reader(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
-
-        return uproot_custom.cpp.TObjectReader(
-            tree_config["name"],
-            tree_config["keep_data"],
+        return cls(
+            name=cur_streamer_info["fName"],
+            keep_data=item_path in cls.keep_data_itempaths,
         )
 
-    @classmethod
-    def reconstruct_array(cls, tree_config, raw_data):
-        if tree_config["factory"] is not cls:
-            return None
+    def __init__(self, name: str, keep_data: bool):
+        super().__init__(name)
+        self.keep_data = keep_data
 
-        if not tree_config["keep_data"]:
-            return None
+    def build_cpp_reader(self):
+        return uproot_custom.cpp.TObjectReader(
+            self.name,
+            self.keep_data,
+        )
+
+    def make_awkward_content(self, raw_data):
+        if not self.keep_data:
+            return awkward.contents.EmptyArray()
 
         unique_ids, bits, pidf, pidf_offsets = raw_data
-
         return awkward.contents.RecordArray(
             [
                 awkward.contents.NumpyArray(unique_ids),
@@ -884,12 +745,8 @@ class TObjectFactory(BaseFactory):
             ["fUniqueID", "fBits", "pidf"],
         )
 
-    @classmethod
-    def gen_awkward_form(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
-
-        if not tree_config["keep_data"]:
+    def make_awkward_form(self):
+        if not self.keep_data:
             return ak.forms.EmptyForm()
 
         return ak.forms.RecordForm(
@@ -905,7 +762,7 @@ class TObjectFactory(BaseFactory):
         )
 
 
-class CStyleArrayFactory(BaseFactory):
+class CStyleArrayFactory(Factory):
     """
     This class reads a C-style array from a binary parser.
     """
@@ -915,7 +772,7 @@ class CStyleArrayFactory(BaseFactory):
         return 20  # This reader should be called first
 
     @classmethod
-    def gen_tree_config(
+    def build_factory(
         cls,
         top_type_name,
         cur_streamer_info,
@@ -951,112 +808,101 @@ class CStyleArrayFactory(BaseFactory):
             fTypeName = fTypeName[:-2]
         element_streamer_info["fTypeName"] = fTypeName
 
-        element_config = gen_tree_config(
+        element_factory = build_factory(
             element_streamer_info,
             all_streamer_info,
             item_path=item_path,
         )
 
         # When TString is stored in C-style or std array, it has a "fNByte+fVersion" header.
-        top_type_name = get_top_type_name(fTypeName)
-        if fArrayDim != 0 and top_type_name == "TString":
-            element_config["with_header"] = True
+        if isinstance(element_factory, TStringFactory) and fArrayDim != 0:
+            element_factory.with_header = True
 
         assert flat_size != 0, f"flatten_size cannot be 0."
-
-        res = {
-            "factory": cls,
-            "name": fName,
-            "element_config": element_config,
-            "flat_size": flat_size,
-            "fMaxIndex": fMaxIndex,
-            "fArrayDim": fArrayDim,
-        }
 
         # When stored in std::array
         # [1] There is no header for vector and map.
         # [2] Map is object-wise serialized.
         # By so far, we use fType==82 to identify std::array.
-        if top_type_name in stl_typenames and cur_streamer_info.get("fType", -1) == 82:
-            element_config["with_header"] = False
-            element_config["objwise_or_memberwise"] = (
-                0  # -1: auto, 0: obj-wise, 1: member-wise
+        if (
+            isinstance(
+                element_factory,
+                (
+                    STLSeqFactory,
+                    STLMapFactory,
+                    STLStringFactory,
+                ),
             )
+            and cur_streamer_info.get("fType", -1) == 82
+        ):
+            element_factory.with_header = False
+            element_factory.objwise_or_memberwise = 0  # -1: auto, 0: obj-wise, 1: member-wise
 
-        return res
+        return cls(
+            name=fName,
+            element_factory=element_factory,
+            flat_size=flat_size,
+            fMaxIndex=fMaxIndex,
+            fArrayDim=fArrayDim,
+        )
 
-    @classmethod
-    def build_cpp_reader(cls, tree_config: dict):
-        reader_type = tree_config["factory"]
-        if reader_type is not cls:
-            return None
+    def __init__(
+        self,
+        name: str,
+        element_factory: Factory,
+        flat_size: int,
+        fMaxIndex: int,
+        fArrayDim: np.ndarray,
+    ):
+        super().__init__(name)
+        self.element_factory = element_factory
+        self.flat_size = flat_size
+        self.fMaxIndex = fMaxIndex
+        self.fArrayDim = fArrayDim
 
-        element_reader = build_cpp_reader(tree_config["element_config"])
-
+    def build_cpp_reader(self):
+        element_reader = self.element_factory.build_cpp_reader()
         return uproot_custom.cpp.CStyleArrayReader(
-            tree_config["name"],
-            tree_config["flat_size"],
+            self.name,
+            self.flat_size,
             element_reader,
         )
 
-    @classmethod
-    def reconstruct_array(cls, tree_config, raw_data):
-        if tree_config["factory"] is not cls:
-            return None
-
-        element_config = tree_config["element_config"]
-        flat_size = tree_config["flat_size"]
-
-        if flat_size < 0:
+    def make_awkward_content(self, raw_data):
+        if self.flat_size < 0:
             element_raw_data = raw_data[1]
         else:
             element_raw_data = raw_data
 
-        element_data = reconstruct_array(
-            element_config,
-            element_raw_data,
-        )
+        element_content = self.element_factory.make_awkward_content(element_raw_data)
 
-        fMaxIndex = tree_config["fMaxIndex"]
-        fArrayDim = tree_config["fArrayDim"]
-
-        if fArrayDim is not None and fMaxIndex is not None:
-            shape = [fMaxIndex[i] for i in range(fArrayDim)]
-
+        if self.fArrayDim is not None and self.fMaxIndex is not None:
+            shape = [self.fMaxIndex[i] for i in range(self.fArrayDim)]
             for s in shape[::-1]:
-                element_data = awkward.contents.RegularArray(element_data, int(s))
+                element_content = awkward.contents.RegularArray(element_content, int(s))
         else:
             shape = ()
 
-        if flat_size < 0:
+        if self.flat_size < 0:
             offsets = raw_data[0]
             for s in shape:
                 offsets = offsets / s
+
             return ak.contents.ListOffsetArray(
                 ak.index.Index64(offsets),
-                element_data,
+                element_content,
             )
         else:
-            return element_data
+            return element_content
 
-    @classmethod
-    def gen_awkward_form(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
-
-        element_form = gen_awkward_form(tree_config["element_config"])
-        flat_size = tree_config["flat_size"]
-
-        fMaxIndex = tree_config["fMaxIndex"]
-        fArrayDim = tree_config["fArrayDim"]
-
-        if fArrayDim is not None and fMaxIndex is not None:
-            shape = [fMaxIndex[i] for i in range(fArrayDim)]
-
+    def make_awkward_form(self):
+        element_form = self.element_factory.make_awkward_form()
+        if self.fArrayDim is not None and self.fMaxIndex is not None:
+            shape = [self.fMaxIndex[i] for i in range(self.fArrayDim)]
             for s in shape[::-1]:
                 element_form = ak.forms.RegularForm(element_form, int(s))
 
-        if flat_size < 0:
+        if self.flat_size < 0:
             return ak.forms.ListOffsetForm(
                 "i64",
                 element_form,
@@ -1065,14 +911,14 @@ class CStyleArrayFactory(BaseFactory):
             return element_form
 
 
-class GroupFactory(BaseFactory):
+class GroupFactory(Factory):
     """
     This factory groups differernt factory together. You can use
     this factory to read specific format of data as you like.
     """
 
     @classmethod
-    def gen_tree_config(
+    def build_factory(
         cls,
         top_type_name,
         cur_streamer_info,
@@ -1082,55 +928,43 @@ class GroupFactory(BaseFactory):
     ):
         """
         Never match items. If one needs to use this factory,
-        create configuration like:
-
-        - `factory`: `GroupFactory`
-        - `name`: Name of the factory
-        - `sub_configs`: List of configurations of sub-readers.
+        instatiate it directly.
         """
         return None
 
-    @classmethod
-    def build_cpp_reader(cls, tree_config):
-        if tree_config["factory"] is not cls:
-            return None
+    def __init__(self, name: str, sub_factories: list[Factory]):
+        super().__init__(name)
+        self.sub_factories = sub_factories
 
-        sub_readers = [build_cpp_reader(s) for s in tree_config["sub_configs"]]
-        return uproot_custom.cpp.GroupReader(tree_config["name"], sub_readers)
+    def build_cpp_reader(self):
+        sub_readers = [s.build_cpp_reader() for s in self.sub_factories]
+        return uproot_custom.cpp.GroupReader(self.name, sub_readers)
 
-    @classmethod
-    def reconstruct_array(cls, tree_config, raw_data):
-        if tree_config["factory"] is not cls:
-            return None
-
-        sub_configs = tree_config["sub_configs"]
+    def make_awkward_content(self, raw_data):
+        sub_configs = self.sub_factories
 
         sub_fields = []
         sub_contents = []
-        for s_cfg, s_data in zip(sub_configs, raw_data):
-            if s_cfg["factory"] is TObjectFactory and not s_cfg["keep_data"]:
+        for s_fac, s_data in zip(sub_configs, raw_data):
+            if isinstance(s_fac, TObjectFactory) and not s_fac.keep_data:
                 continue
 
-            sub_fields.append(s_cfg["name"])
-            sub_contents.append(reconstruct_array(s_cfg, s_data))
+            sub_fields.append(s_fac.name)
+            sub_contents.append(s_fac.make_awkward_content(s_data))
 
         return awkward.contents.RecordArray(sub_contents, sub_fields)
 
-    @classmethod
-    def gen_awkward_form(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
-
-        sub_configs = tree_config["sub_configs"]
+    def make_awkward_form(self):
+        sub_configs = self.sub_factories
 
         sub_fields = []
         sub_contents = []
-        for s_cfg in sub_configs:
-            if s_cfg["factory"] is TObjectFactory and not s_cfg["keep_data"]:
+        for s_fac in sub_configs:
+            if isinstance(s_fac, TObjectFactory) and not s_fac.keep_data:
                 continue
 
-            sub_fields.append(s_cfg["name"])
-            sub_contents.append(gen_awkward_form(s_cfg))
+            sub_fields.append(s_fac.name)
+            sub_contents.append(s_fac.make_awkward_form())
 
         return ak.forms.RecordForm(sub_contents, sub_fields)
 
@@ -1142,7 +976,7 @@ class BaseObjectFactory(GroupFactory):
     """
 
     @classmethod
-    def gen_tree_config(
+    def build_factory(
         cls,
         top_type_name,
         cls_streamer_info,
@@ -1158,24 +992,14 @@ class BaseObjectFactory(GroupFactory):
             return None
 
         fName = cls_streamer_info["fName"]
-        sub_streamers: list = all_streamer_info[fName]
+        sub_streamers: list[dict] = all_streamer_info[fName]
+        sub_factories = [build_factory(s, all_streamer_info, item_path) for s in sub_streamers]
 
-        sub_configs = [gen_tree_config(s, all_streamer_info, item_path) for s in sub_streamers]
+        return cls(name=fName, sub_factories=sub_factories)
 
-        return {
-            "factory": cls,
-            "name": fName,
-            "sub_configs": sub_configs,
-        }
-
-    @classmethod
-    def build_cpp_reader(cls, tree_config):
-        if tree_config["factory"] is not cls:
-            return None
-
-        sub_readers = [build_cpp_reader(s) for s in tree_config["sub_configs"]]
-
-        return uproot_custom.cpp.AnyClassReader(tree_config["name"], sub_readers)
+    def build_cpp_reader(self):
+        sub_readers = [s.build_cpp_reader() for s in self.sub_factories]
+        return uproot_custom.cpp.AnyClassReader(self.name, sub_readers)
 
 
 class AnyClassFactory(GroupFactory):
@@ -1188,7 +1012,7 @@ class AnyClassFactory(GroupFactory):
         return 0  # This reader should be called last
 
     @classmethod
-    def gen_tree_config(
+    def build_factory(
         cls,
         top_type_name,
         cur_streamer_info,
@@ -1197,25 +1021,15 @@ class AnyClassFactory(GroupFactory):
         **kwargs,
     ):
         sub_streamers: list = all_streamer_info[top_type_name]
-        sub_configs = [gen_tree_config(s, all_streamer_info, item_path) for s in sub_streamers]
+        sub_factories = [build_factory(s, all_streamer_info, item_path) for s in sub_streamers]
+        return cls(name=top_type_name, sub_factories=sub_factories)
 
-        return {
-            "factory": cls,
-            "name": top_type_name,
-            "sub_configs": sub_configs,
-        }
-
-    @classmethod
-    def build_cpp_reader(cls, tree_config):
-        if tree_config["factory"] is not cls:
-            return None
-
-        sub_readers = [build_cpp_reader(s) for s in tree_config["sub_configs"]]
-
-        return uproot_custom.cpp.AnyClassReader(tree_config["name"], sub_readers)
+    def build_cpp_reader(self):
+        sub_readers = [s.build_cpp_reader() for s in self.sub_factories]
+        return uproot_custom.cpp.AnyClassReader(self.name, sub_readers)
 
 
-class ObjectHeaderFactory(BaseFactory):
+class ObjectHeaderFactory(Factory):
     """
     This class reads object header:
     1. fNBytes
@@ -1227,7 +1041,7 @@ class ObjectHeaderFactory(BaseFactory):
     """
 
     @classmethod
-    def gen_tree_config(
+    def build_factory(
         cls,
         top_type_name,
         cur_streamer_info,
@@ -1236,66 +1050,53 @@ class ObjectHeaderFactory(BaseFactory):
         **kwargs,
     ):
         """
-        This factory will always match items. The returned configuration contains:
-        - `factory`: cls
-        - `name`: top_type_name
-        - `element_config`: Configuration of the element factory/reader.
+        This factory will always match items. If one needs to use this factory,
+        instatiate it directly.
         """
         return None
 
-    @classmethod
-    def build_cpp_reader(cls, tree_config):
-        if tree_config["factory"] is not cls:
-            return None
+    def __init__(self, name: str, element_factory: Factory):
+        super().__init__(name)
+        self.element_factory = element_factory
 
-        element_config = tree_config["element_config"]
-        element_reader = build_cpp_reader(element_config)
-        return uproot_custom.cpp.ObjectHeaderReader(
-            tree_config["name"],
-            element_reader,
-        )
+    def build_cpp_reader(self):
+        element_reader = self.element_factory.build_cpp_reader()
+        return uproot_custom.cpp.ObjectHeaderReader(self.name, element_reader)
 
-    @classmethod
-    def reconstruct_array(cls, tree_config, raw_data):
-        if tree_config["factory"] is not cls:
-            return None
+    def make_awkward_content(self, raw_data):
+        return self.element_factory.make_awkward_content(raw_data)
 
-        element_config = tree_config["element_config"]
-        return reconstruct_array(element_config, raw_data)
-
-    @classmethod
-    def gen_awkward_form(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
-
-        element_config = tree_config["element_config"]
-        return gen_awkward_form(element_config)
+    def make_awkward_form(self):
+        return self.element_factory.make_awkward_form()
 
 
-class EmptyFactory(BaseFactory):
+class EmptyFactory(Factory):
     """
     This factory does nothing. It's just a place holder.
     """
 
     @classmethod
-    def build_cpp_reader(cls, tree_config):
-        if tree_config["factory"] is not cls:
-            return None
+    def build_factory(
+        cls,
+        top_type_name,
+        cur_streamer_info,
+        all_streamer_info,
+        item_path,
+        **kwargs,
+    ):
+        """
+        This factory will never match items. If one needs to use this factory,
+        instatiate it directly.
+        """
+        return None
 
-        return uproot_custom.cpp.EmptyReader(tree_config["name"])
+    def build_cpp_reader(self):
+        return uproot_custom.cpp.EmptyReader(self.name)
 
-    @classmethod
-    def reconstruct_array(cls, tree_config, raw_data):
-        if tree_config["factory"] is not cls:
-            return None
-
+    def make_awkward_content(self, raw_data):
         return awkward.contents.EmptyArray()
 
-    @classmethod
-    def gen_awkward_form(cls, tree_config: dict):
-        if tree_config["factory"] is not cls:
-            return None
-
+    def make_awkward_form(self):
         return ak.forms.EmptyForm()
 
 

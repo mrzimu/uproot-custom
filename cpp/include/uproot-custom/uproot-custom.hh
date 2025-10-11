@@ -130,6 +130,14 @@ namespace uproot {
             else return std::string();
         }
 
+        const std::string read_TString() {
+            uint32_t length = read<uint8_t>();
+            if ( length == 255 ) length = read<uint32_t>();
+            auto start = m_cursor;
+            m_cursor += length;
+            return std::string( start, m_cursor );
+        }
+
         void skip( const size_t n ) { m_cursor += n; }
 
         void skip_fNBytes() { read_fNBytes(); } // need to check the mask

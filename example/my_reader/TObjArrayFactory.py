@@ -3,30 +3,26 @@ import awkward.forms
 import awkward.index
 
 from uproot_custom import (
-    BaseObjectFactory,
-    build_cpp_reader,
-    gen_awkward_form,
-    gen_tree_config,
-    reconstruct_array,
+    Factory,
+    build_factory,
 )
 from uproot_custom.factories import AnyClassFactory, ObjectHeaderFactory
 
 from . import my_reader_cpp as _cpp
 
 
-class TObjArrayFactory(BaseObjectFactory):
+class TObjArrayFactory(Factory):
     @classmethod
     def priority(cls):
         return 50
 
     @classmethod
-    def gen_tree_config(
+    def build_factory(
         cls,
         top_type_name: str,
         cur_streamer_info: dict,
         all_streamer_info: dict,
         item_path: str,
-        called_from_top: bool = False,
         **kwargs,
     ):
         if top_type_name != "TObjArray":
@@ -35,65 +31,45 @@ class TObjArrayFactory(BaseObjectFactory):
         item_path = item_path.replace(".TObjArray*", "")
         obj_typename = "TObjInObjArray"
 
-        sub_configs = []
+        sub_factories = []
         for s in all_streamer_info[obj_typename]:
-            sub_configs.append(
-                gen_tree_config(
+            sub_factories.append(
+                build_factory(
                     cur_streamer_info=s,
                     all_streamer_info=all_streamer_info,
                     item_path=f"{item_path}.{obj_typename}",
                 )
             )
 
-        return {
-            "factory": cls,
-            "name": cur_streamer_info["fName"],
-            "element_config": {
-                "factory": ObjectHeaderFactory,
-                "name": obj_typename,
-                "element_config": {
-                    "factory": AnyClassFactory,
-                    "name": obj_typename,
-                    "sub_configs": sub_configs,
-                },
-            },
-        }
-
-    @classmethod
-    def build_cpp_reader(cls, reader_config: dict):
-        if reader_config["factory"] != cls:
-            return None
-
-        element_config = reader_config["element_config"]
-        element_reader = build_cpp_reader(element_config)
-
-        return _cpp.TObjArrayReader(reader_config["name"], element_reader)
-
-    @classmethod
-    def reconstruct_array(cls, tree_config: dict, raw_data):
-        if tree_config["factory"] != cls:
-            return None
-
-        offsets, element_raw_data = raw_data
-        element_config = tree_config["element_config"]
-        element_data = reconstruct_array(
-            element_config,
-            element_raw_data,
+        return cls(
+            name=cur_streamer_info["fName"],
+            element_factory=ObjectHeaderFactory(
+                name=obj_typename,
+                element_factory=AnyClassFactory(
+                    name=obj_typename,
+                    sub_factories=sub_factories,
+                ),
+            ),
         )
 
+    def __init__(self, name: str, element_factory: Factory):
+        super().__init__(name)
+        self.element_factory = element_factory
+
+    def build_cpp_reader(self):
+        element_reader = self.element_factory.build_cpp_reader()
+        return _cpp.TObjArrayReader(self.name, element_reader)
+
+    def make_awkward_content(self, raw_data):
+        offsets, element_raw_data = raw_data
+        element_data = self.element_factory.make_awkward_content(element_raw_data)
         return awkward.contents.ListOffsetArray(
             awkward.index.Index64(offsets),
             element_data,
         )
 
-    @classmethod
-    def gen_awkward_form(cls, tree_config):
-        if tree_config["factory"] != cls:
-            return None
-
-        element_config = tree_config["element_config"]
-        element_form = gen_awkward_form(element_config)
-
+    def make_awkward_form(self):
+        element_form = self.element_factory.make_awkward_form()
         return awkward.forms.ListOffsetForm(
             "i64",
             element_form,
