@@ -7,9 +7,9 @@ from uproot_custom.AsCustom import AsCustom
 from uproot_custom.AsGroupedMap import AsGroupedMap
 from uproot_custom.factories import (
     AnyClassFactory,
-    BaseFactory,
+    Factory,
     BaseObjectFactory,
-    BasicTypeFactory,
+    PrimitiveFactory,
     CStyleArrayFactory,
     EmptyFactory,
     GroupFactory,
@@ -20,10 +20,7 @@ from uproot_custom.factories import (
     TArrayFactory,
     TObjectFactory,
     TStringFactory,
-    build_cpp_reader,
-    gen_awkward_form,
-    gen_tree_config,
-    reconstruct_array,
+    build_factory,
     registered_factories,
 )
 from uproot_custom.utils import regularize_object_path

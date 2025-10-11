@@ -21,7 +21,7 @@ Then you can run the example script:
 python3 read-data.py
 ```
 
-For dask example, you need to install `dask` and `dask-awkward` first:
+For dask example, you need to install `dask` and `dask-awkward`:
 
 ```bash
 # install dask and dask-awkward
@@ -30,6 +30,9 @@ pip install "dask[complete] dask-awkward"
 # run the dask example
 python3 dask-read-data.py
 ```
+
+> [!NOTE]
+> If the example breaks, you may need to uninstall the `uproot-custom` package first, then directly install the example package (which will also install `uproot-custom` as a dependency).
 
 ## Use local `uproot-custom` package
 

@@ -9,37 +9,23 @@
 
 #include "uproot-custom/uproot-custom.hh"
 
-template <typename... Args>
-void debug_printf( const char* msg, Args... args ) {
-    bool do_print = getenv( "UPROOT_DEBUG" );
-#ifdef UPROOT_DEBUG
-    do_print = true;
-#endif
-    if ( !do_print ) return;
-    printf( msg, std::forward<Args>( args )... );
-}
-
-void debug_printf( uproot::BinaryBuffer& buffer ) {
-    bool do_print = getenv( "UPROOT_DEBUG" );
-#ifdef UPROOT_DEBUG
-    do_print = true;
-#endif
-    if ( !do_print ) return;
-    buffer.debug_print();
-}
-
 namespace uproot {
-    template <typename T>
-    using SharedVector = std::shared_ptr<std::vector<T>>;
+    using std::shared_ptr;
+    using std::string;
+    using std::stringstream;
+    using std::vector;
 
     template <typename T>
-    class BasicTypeReader : public IElementReader {
+    using SharedVector = shared_ptr<vector<T>>;
+
+    template <typename T>
+    class PrimitiveReader : public IElementReader {
       private:
         SharedVector<T> m_data;
 
       public:
-        BasicTypeReader( std::string name )
-            : IElementReader( name ), m_data( std::make_shared<std::vector<T>>() ) {}
+        PrimitiveReader( string name )
+            : IElementReader( name ), m_data( std::make_shared<vector<T>>() ) {}
 
         void read( BinaryBuffer& buffer ) override { m_data->push_back( buffer.read<T>() ); }
 
@@ -47,13 +33,13 @@ namespace uproot {
     };
 
     template <>
-    class BasicTypeReader<bool> : public IElementReader {
+    class PrimitiveReader<bool> : public IElementReader {
       private:
         SharedVector<uint8_t> m_data;
 
       public:
-        BasicTypeReader( std::string name )
-            : IElementReader( name ), m_data( std::make_shared<std::vector<uint8_t>>() ) {}
+        PrimitiveReader( string name )
+            : IElementReader( name ), m_data( std::make_shared<vector<uint8_t>>() ) {}
 
         void read( BinaryBuffer& buffer ) override {
             m_data->push_back( buffer.read<uint8_t>() != 0 );
@@ -77,13 +63,13 @@ namespace uproot {
         SharedVector<int64_t> m_pidf_offsets;
 
       public:
-        TObjectReader( std::string name, bool keep_data )
+        TObjectReader( string name, bool keep_data )
             : IElementReader( name )
             , m_keep_data( keep_data )
-            , m_unique_id( std::make_shared<std::vector<int32_t>>() )
-            , m_bits( std::make_shared<std::vector<uint32_t>>() )
-            , m_pidf( std::make_shared<std::vector<uint16_t>>() )
-            , m_pidf_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) ) {}
+            , m_unique_id( std::make_shared<vector<int32_t>>() )
+            , m_bits( std::make_shared<vector<uint32_t>>() )
+            , m_pidf( std::make_shared<vector<uint16_t>>() )
+            , m_pidf_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) ) {}
 
         void read( BinaryBuffer& buffer ) override {
             buffer.skip_fVersion();
@@ -128,11 +114,11 @@ namespace uproot {
         SharedVector<int64_t> m_offsets;
 
       public:
-        TStringReader( std::string name, bool with_header )
+        TStringReader( string name, bool with_header )
             : IElementReader( name )
             , m_with_header( with_header )
-            , m_data( std::make_shared<std::vector<uint8_t>>() )
-            , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) ) {}
+            , m_data( std::make_shared<vector<uint8_t>>() )
+            , m_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) ) {}
 
         void read( BinaryBuffer& buffer ) override {
             uint32_t fSize = buffer.read<uint8_t>();
@@ -198,13 +184,13 @@ namespace uproot {
         SharedVector<int64_t> m_offsets;
 
       public:
-        STLSeqReader( std::string name, bool with_header, int objwise_or_memberwise,
+        STLSeqReader( string name, bool with_header, int objwise_or_memberwise,
                       SharedReader element_reader )
             : IElementReader( name )
             , m_with_header( with_header )
             , m_objwise_or_memberwise( objwise_or_memberwise )
             , m_element_reader( element_reader )
-            , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) ) {}
+            , m_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) ) {}
 
         void check_objwise_memberwise( const bool is_memberwise ) {
             if ( m_objwise_or_memberwise == 0 && is_memberwise )
@@ -313,12 +299,12 @@ namespace uproot {
         SharedReader m_value_reader;
 
       public:
-        STLMapReader( std::string name, bool with_header, int objwise_or_memberwise,
+        STLMapReader( string name, bool with_header, int objwise_or_memberwise,
                       SharedReader key_reader, SharedReader value_reader )
             : IElementReader( name )
             , m_with_header( with_header )
             , m_objwise_or_memberwise( objwise_or_memberwise )
-            , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) )
+            , m_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) )
             , m_key_reader( key_reader )
             , m_value_reader( value_reader ) {}
 
@@ -429,7 +415,7 @@ namespace uproot {
                                                const int64_t count ) override {
             if ( count < 0 )
             {
-                std::stringstream msg;
+                stringstream msg;
                 msg << name() << "::read_many_memberwise with negative count: " << count;
                 throw std::runtime_error( msg.str() );
             }
@@ -454,11 +440,11 @@ namespace uproot {
         SharedVector<uint8_t> m_data;
 
       public:
-        STLStringReader( std::string name, bool with_header )
+        STLStringReader( string name, bool with_header )
             : IElementReader( name )
             , m_with_header( with_header )
-            , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) )
-            , m_data( std::make_shared<std::vector<uint8_t>>() ) {}
+            , m_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) )
+            , m_data( std::make_shared<vector<uint8_t>>() ) {}
 
         void read_body( BinaryBuffer& buffer ) {
             uint32_t fSize = buffer.read<uint8_t>();
@@ -547,10 +533,10 @@ namespace uproot {
         SharedVector<T> m_data;
 
       public:
-        TArrayReader( std::string name )
+        TArrayReader( string name )
             : IElementReader( name )
-            , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) )
-            , m_data( std::make_shared<std::vector<T>>() ) {}
+            , m_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) )
+            , m_data( std::make_shared<vector<T>>() ) {}
 
         void read( BinaryBuffer& buffer ) override {
             auto fSize = buffer.read<uint32_t>();
@@ -572,10 +558,10 @@ namespace uproot {
     */
     class GroupReader : public IElementReader {
       private:
-        std::vector<SharedReader> m_element_readers;
+        vector<SharedReader> m_element_readers;
 
       public:
-        GroupReader( std::string name, std::vector<SharedReader> element_readers )
+        GroupReader( string name, vector<SharedReader> element_readers )
             : IElementReader( name ), m_element_readers( element_readers ) {}
 
         void read( BinaryBuffer& buffer ) override {
@@ -591,7 +577,7 @@ namespace uproot {
         uint32_t read_many_memberwise( BinaryBuffer& buffer, const int64_t count ) override {
             if ( count < 0 )
             {
-                std::stringstream msg;
+                stringstream msg;
                 msg << name() << "::read_many_memberwise with negative count: " << count;
                 throw std::runtime_error( msg.str() );
             }
@@ -620,10 +606,10 @@ namespace uproot {
     */
     class AnyClassReader : public IElementReader {
       private:
-        std::vector<SharedReader> m_element_readers;
+        vector<SharedReader> m_element_readers;
 
       public:
-        AnyClassReader( std::string name, std::vector<SharedReader> element_readers )
+        AnyClassReader( string name, vector<SharedReader> element_readers )
             : IElementReader( name ), m_element_readers( element_readers ) {}
 
         void read( BinaryBuffer& buffer ) override {
@@ -643,7 +629,7 @@ namespace uproot {
 
             if ( buffer.get_cursor() != end_pos )
             {
-                std::stringstream msg;
+                stringstream msg;
                 msg << "AnyClassReader: Invalid read length for " << name() << "! Expect "
                     << end_pos - start_pos << ", got " << buffer.get_cursor() - start_pos;
                 throw std::runtime_error( msg.str() );
@@ -653,7 +639,7 @@ namespace uproot {
         uint32_t read_many_memberwise( BinaryBuffer& buffer, const int64_t count ) override {
             if ( count < 0 )
             {
-                std::stringstream msg;
+                stringstream msg;
                 msg << name() << "::read_many_memberwise with negative count: " << count;
                 throw std::runtime_error( msg.str() );
             }
@@ -687,7 +673,7 @@ namespace uproot {
         SharedReader m_element_reader;
 
       public:
-        ObjectHeaderReader( std::string name, SharedReader element_reader )
+        ObjectHeaderReader( string name, SharedReader element_reader )
             : IElementReader( name ), m_element_reader( element_reader ) {}
 
         void read( BinaryBuffer& buffer ) override {
@@ -702,7 +688,7 @@ namespace uproot {
 
             if ( buffer.get_cursor() != end_pos )
             {
-                std::stringstream msg;
+                stringstream msg;
                 msg << "ObjectHeaderReader: Invalid read length for "
                     << m_element_reader->name() << "! Expect " << end_pos - start_pos
                     << ", got " << buffer.get_cursor() - start_pos;
@@ -726,11 +712,10 @@ namespace uproot {
         SharedReader m_element_reader;
 
       public:
-        CStyleArrayReader( std::string name, const int64_t flat_size,
-                           SharedReader element_reader )
+        CStyleArrayReader( string name, const int64_t flat_size, SharedReader element_reader )
             : IElementReader( name )
             , m_flat_size( flat_size )
-            , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) )
+            , m_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) )
             , m_element_reader( element_reader ) {}
 
         void read( BinaryBuffer& buffer ) override {
@@ -761,13 +746,13 @@ namespace uproot {
         uint32_t read_many( BinaryBuffer& buffer, const int64_t count ) override {
             if ( m_flat_size < 0 )
             {
-                std::stringstream msg;
+                stringstream msg;
                 msg << name() << "::read_many only supported when flat_size > 0!";
                 throw std::runtime_error( msg.str() );
             }
             if ( count < 0 )
             {
-                std::stringstream msg;
+                stringstream msg;
                 msg << name() << "::read_many with negative count: " << count;
                 throw std::runtime_error( msg.str() );
             }
@@ -801,7 +786,7 @@ namespace uproot {
 
     class EmptyReader : public IElementReader {
       public:
-        EmptyReader( std::string name ) : IElementReader( name ) {}
+        EmptyReader( string name ) : IElementReader( name ) {}
 
         void read( BinaryBuffer& ) override {}
         py::object data() const override { return py::none(); }
@@ -825,7 +810,7 @@ namespace uproot {
             if ( end_pos - start_pos !=
                  buffer.get_offsets()[i_evt + 1] - buffer.get_offsets()[i_evt] )
             {
-                std::stringstream msg;
+                stringstream msg;
                 msg << "py_read_data: Invalid read length for " << reader->name()
                     << " at event " << i_evt << "! Expect "
                     << buffer.get_offsets()[i_evt + 1] - buffer.get_offsets()[i_evt]
@@ -846,40 +831,41 @@ namespace uproot {
             .def( "name", &IElementReader::name, "Get the name of the reader" );
 
         // Basic type readers
-        register_reader<BasicTypeReader<uint8_t>>( m, "UInt8Reader" );
-        register_reader<BasicTypeReader<uint16_t>>( m, "UInt16Reader" );
-        register_reader<BasicTypeReader<uint32_t>>( m, "UInt32Reader" );
-        register_reader<BasicTypeReader<uint64_t>>( m, "UInt64Reader" );
-        register_reader<BasicTypeReader<int8_t>>( m, "Int8Reader" );
-        register_reader<BasicTypeReader<int16_t>>( m, "Int16Reader" );
-        register_reader<BasicTypeReader<int32_t>>( m, "Int32Reader" );
-        register_reader<BasicTypeReader<int64_t>>( m, "Int64Reader" );
-        register_reader<BasicTypeReader<float>>( m, "FloatReader" );
-        register_reader<BasicTypeReader<double>>( m, "DoubleReader" );
-        register_reader<BasicTypeReader<bool>>( m, "BoolReader" );
+        declare_reader<PrimitiveReader<uint8_t>, string>( m, "UInt8Reader" );
+        declare_reader<PrimitiveReader<uint16_t>, string>( m, "UInt16Reader" );
+        declare_reader<PrimitiveReader<uint32_t>, string>( m, "UInt32Reader" );
+        declare_reader<PrimitiveReader<uint64_t>, string>( m, "UInt64Reader" );
+        declare_reader<PrimitiveReader<int8_t>, string>( m, "Int8Reader" );
+        declare_reader<PrimitiveReader<int16_t>, string>( m, "Int16Reader" );
+        declare_reader<PrimitiveReader<int32_t>, string>( m, "Int32Reader" );
+        declare_reader<PrimitiveReader<int64_t>, string>( m, "Int64Reader" );
+        declare_reader<PrimitiveReader<float>, string>( m, "FloatReader" );
+        declare_reader<PrimitiveReader<double>, string>( m, "DoubleReader" );
+        declare_reader<PrimitiveReader<bool>, string>( m, "BoolReader" );
 
         // STL readers
-        register_reader<STLSeqReader, bool, int, SharedReader>( m, "STLSeqReader" );
-        register_reader<STLMapReader, bool, int, SharedReader, SharedReader>( m,
-                                                                              "STLMapReader" );
-        register_reader<STLStringReader, bool>( m, "STLStringReader" );
+        declare_reader<STLSeqReader, string, bool, int, SharedReader>( m, "STLSeqReader" );
+        declare_reader<STLMapReader, string, bool, int, SharedReader, SharedReader>(
+            m, "STLMapReader" );
+        declare_reader<STLStringReader, string, bool>( m, "STLStringReader" );
 
         // TArrayReader
-        register_reader<TArrayReader<int8_t>>( m, "TArrayCReader" );
-        register_reader<TArrayReader<int16_t>>( m, "TArraySReader" );
-        register_reader<TArrayReader<int32_t>>( m, "TArrayIReader" );
-        register_reader<TArrayReader<int64_t>>( m, "TArrayLReader" );
-        register_reader<TArrayReader<float>>( m, "TArrayFReader" );
-        register_reader<TArrayReader<double>>( m, "TArrayDReader" );
+        declare_reader<TArrayReader<int8_t>, string>( m, "TArrayCReader" );
+        declare_reader<TArrayReader<int16_t>, string>( m, "TArraySReader" );
+        declare_reader<TArrayReader<int32_t>, string>( m, "TArrayIReader" );
+        declare_reader<TArrayReader<int64_t>, string>( m, "TArrayLReader" );
+        declare_reader<TArrayReader<float>, string>( m, "TArrayFReader" );
+        declare_reader<TArrayReader<double>, string>( m, "TArrayDReader" );
 
         // Other readers
-        register_reader<TStringReader, bool>( m, "TStringReader" );
-        register_reader<TObjectReader, bool>( m, "TObjectReader" );
-        register_reader<GroupReader, std::vector<SharedReader>>( m, "GroupReader" );
-        register_reader<AnyClassReader, std::vector<SharedReader>>( m, "AnyClassReader" );
-        register_reader<ObjectHeaderReader, SharedReader>( m, "ObjectHeaderReader" );
-        register_reader<CStyleArrayReader, int64_t, SharedReader>( m, "CStyleArrayReader" );
-        register_reader<EmptyReader>( m, "EmptyReader" );
+        declare_reader<TStringReader, string, bool>( m, "TStringReader" );
+        declare_reader<TObjectReader, string, bool>( m, "TObjectReader" );
+        declare_reader<GroupReader, string, vector<SharedReader>>( m, "GroupReader" );
+        declare_reader<AnyClassReader, string, vector<SharedReader>>( m, "AnyClassReader" );
+        declare_reader<ObjectHeaderReader, string, SharedReader>( m, "ObjectHeaderReader" );
+        declare_reader<CStyleArrayReader, string, int64_t, SharedReader>(
+            m, "CStyleArrayReader" );
+        declare_reader<EmptyReader, string>( m, "EmptyReader" );
     }
 
 } // namespace uproot

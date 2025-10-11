@@ -4,7 +4,7 @@ This is a prototype repository of an extension that allows `uproot` to read cust
 
 `uproot` can already read some custom classes directly. However, in some cases, custom classes are too complex for `uproot` to read, such as when their `Streamer` methods are overridden or some specific data members are not supported by `uproot`.
 
-This extension privides a `Reader` interface and allows you to read such custom classes by providing  your own `Reader`. The `Reader` interface defines how to read the data members of a class from the binary stream.
+This extension privides a `Reader` interface and allows you to read such custom classes by providing your own `Reader`. The `Reader` interface defines how to read the data members of a class from the binary stream.
 
 ## Design overview
 

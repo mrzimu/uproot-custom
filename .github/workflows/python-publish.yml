@@ -19,6 +19,11 @@ jobs:
   build-wheels:
     uses: ./.github/workflows/build-wheels.yml
 
+  deploy-docs:
+    uses: ./.github/workflows/deploy-docs.yml
+    needs:
+      - pypi-publish
+
   pypi-publish:
     runs-on: ubuntu-latest
     needs:
