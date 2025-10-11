@@ -5,6 +5,11 @@ import uproot
 
 
 @pytest.fixture(scope="session")
+def base_dir_path():
+    yield Path(__file__).parent.parent
+
+
+@pytest.fixture(scope="session")
 def test_data_path():
     yield Path(__file__).parent / "test-data.root"
 
