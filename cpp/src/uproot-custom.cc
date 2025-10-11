@@ -9,25 +9,6 @@
 
 #include "uproot-custom/uproot-custom.hh"
 
-template <typename... Args>
-void debug_printf( const char* msg, Args... args ) {
-    bool do_print = getenv( "UPROOT_DEBUG" );
-#ifdef UPROOT_DEBUG
-    do_print = true;
-#endif
-    if ( !do_print ) return;
-    printf( msg, std::forward<Args>( args )... );
-}
-
-void debug_printf( uproot::BinaryBuffer& buffer ) {
-    bool do_print = getenv( "UPROOT_DEBUG" );
-#ifdef UPROOT_DEBUG
-    do_print = true;
-#endif
-    if ( !do_print ) return;
-    buffer.debug_print();
-}
-
 namespace uproot {
     using std::shared_ptr;
     using std::string;

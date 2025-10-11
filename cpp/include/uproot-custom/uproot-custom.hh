@@ -166,7 +166,7 @@ namespace uproot {
         const uint32_t* get_offsets() const { return m_offsets; }
         const uint64_t entries() const { return m_entries; }
 
-        void debug_print( const size_t n = 100 ) {
+        void debug_print( const size_t n = 100 ) const {
             for ( size_t i = 0; i < n; i++ ) { std::cout << (int)*( m_cursor + i ) << " "; }
             std::cout << std::endl;
         }
@@ -258,6 +258,31 @@ namespace uproot {
         } );
 
         return py::array_t<T>( size, data, capsule );
+    }
+
+    /*
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    */
+
+    template <typename... Args>
+    inline void debug_printf( const char* msg, Args... args ) {
+        bool do_print = getenv( "UPROOT_DEBUG" );
+#ifdef UPROOT_DEBUG
+        do_print = true;
+#endif
+        if ( !do_print ) return;
+        printf( msg, std::forward<Args>( args )... );
+    }
+
+    inline void debug_printf( uproot::BinaryBuffer& buffer, const size_t n = 100 ) {
+        bool do_print = getenv( "UPROOT_DEBUG" );
+#ifdef UPROOT_DEBUG
+        do_print = true;
+#endif
+        if ( !do_print ) return;
+        buffer.debug_print( n );
     }
 
 } // namespace uproot
