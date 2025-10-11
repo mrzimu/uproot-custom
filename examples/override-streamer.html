@@ -1,0 +1,750 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Example 1: Streamer method is overridden &#8212; uproot-custom</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/override-streamer';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Example 2: Read TObjArray with unique known type" href="read-tobjarray.html" />
+    <link rel="prev" title="Get started" href="../get-started.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">uproot-custom</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../get-started.html">Get started</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Example 1: <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method is overridden</a></li>
+<li class="toctree-l1"><a class="reference internal" href="read-tobjarray.html">Example 2: Read <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> with unique known type</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Architecture</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../architecture/streamer-info.html">Streamer information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture/binary-data.html">Binary data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture/bootstrap.html">Bootstrap of custom classes reading in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture/reader-and-factory.html">Reader and factory interface</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../binary-format.html">Binary format of common classes</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/examples/override-streamer.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Example 1: Streamer method is overridden</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-check-the-binary-data">Step 1: Check the binary data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-implement-c-reader-to-read-binary-data">Step 2: Implement C++ <code class="docutils literal notranslate"><span class="pre">reader</span></code> to read binary data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-implement-python-factory">Step 3: Implement Python <code class="docutils literal notranslate"><span class="pre">factory</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-build-factory">Implement <code class="docutils literal notranslate"><span class="pre">build_factory</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-build-cpp-reader">Implement <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-make-awkward-content">Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-implement-make-awkward-form">(Optional) Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-register-target-branch-and-the-factory">Step 4: Register target branch and the <code class="docutils literal notranslate"><span class="pre">factory</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-read-data-with-uproot">Step 5: Read data with <code class="docutils literal notranslate"><span class="pre">uproot</span></code></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="example-1-streamer-method-is-overridden">
+<h1>Example 1: <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method is overridden<a class="headerlink" href="#example-1-streamer-method-is-overridden" title="Link to this heading">#</a></h1>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>A full example can be found in the <code class="docutils literal notranslate"><span class="pre">example</span></code> directory of <a class="reference external" href="https://github.com/mrzimu/uproot-custom/tree/main/example">this repo</a>.</p>
+</div>
+<p>We define a demo class <code class="docutils literal notranslate"><span class="pre">TOverrideStreamer</span></code> whose <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method is overridden to show how to read such classes using <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code>.</p>
+<p>There are 2 member variables in <code class="docutils literal notranslate"><span class="pre">TOverrideStreamer</span></code>: <code class="docutils literal notranslate"><span class="pre">m_int</span></code> and <code class="docutils literal notranslate"><span class="pre">m_double</span></code>:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">TOverrideStreamer.hh</span></code></span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma once</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;TObject.h&gt;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TOverrideStreamer</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">TObject</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="n">TOverrideStreamer</span><span class="p">(</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="n">TObject</span><span class="p">(),</span><span class="w"> </span><span class="n">m_int</span><span class="p">(</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="n">m_double</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">3.14</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="w">  </span><span class="k">private</span><span class="o">:</span>
+<span class="hll"><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">m_int</span><span class="p">{</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">};</span>
+</span><span class="hll"><span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">m_double</span><span class="p">{</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="p">};</span>
+</span>
+<span class="w">    </span><span class="n">ClassDef</span><span class="p">(</span><span class="w"> </span><span class="n">TOverrideStreamer</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<p>We add a mask in the <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method to demonstrate how to handle special logic in overridden <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> methods:</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">TOverrideStreamer.cc</span></code></span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;TBuffer.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;TObject.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;TOverrideStreamer.hh&quot;</span>
+
+<span class="n">ClassImp</span><span class="p">(</span><span class="w"> </span><span class="n">TOverrideStreamer</span><span class="w"> </span><span class="p">);</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">TOverrideStreamer::Streamer</span><span class="p">(</span><span class="w"> </span><span class="n">TBuffer</span><span class="o">&amp;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">IsReading</span><span class="p">()</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">TObject</span><span class="o">::</span><span class="n">Streamer</span><span class="p">(</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">);</span><span class="w"> </span><span class="c1">// Call base class Streamer</span>
+
+<span class="w">        </span><span class="n">b</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">m_int</span><span class="p">;</span>
+
+<span class="hll"><span class="w">        </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mask</span><span class="p">;</span>
+</span><span class="hll"><span class="w">        </span><span class="n">b</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">mask</span><span class="p">;</span><span class="w"> </span><span class="c1">// We additionally read a mask</span>
+</span><span class="hll"><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mh">0x12345678</span><span class="w"> </span><span class="p">)</span>
+</span><span class="hll"><span class="w">        </span><span class="p">{</span>
+</span><span class="hll"><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Error: Unexpected mask value: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">hex</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">dec</span>
+</span><span class="hll"><span class="w">                      </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span><span class="hll"><span class="w">            </span><span class="k">return</span><span class="p">;</span>
+</span><span class="hll"><span class="w">        </span><span class="p">}</span>
+</span>
+<span class="w">        </span><span class="n">b</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">m_double</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">TObject</span><span class="o">::</span><span class="n">Streamer</span><span class="p">(</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">);</span><span class="w"> </span><span class="c1">// Call base class Streamer</span>
+<span class="w">        </span><span class="n">b</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">m_int</span><span class="p">;</span>
+<span class="hll"><span class="w">        </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x12345678</span><span class="p">;</span><span class="w"> </span><span class="c1">// Example mask</span>
+</span><span class="hll"><span class="w">        </span><span class="n">b</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">mask</span><span class="p">;</span><span class="w">                      </span><span class="c1">// Write the mask</span>
+</span><span class="w">        </span><span class="n">b</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">m_double</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<section id="step-1-check-the-binary-data">
+<h2>Step 1: Check the binary data<a class="headerlink" href="#step-1-check-the-binary-data" title="Link to this heading">#</a></h2>
+<p>Before implementing the <code class="docutils literal notranslate"><span class="pre">reader</span></code> and <code class="docutils literal notranslate"><span class="pre">factory</span></code>, we should check the binary data of <code class="docutils literal notranslate"><span class="pre">TOverrideStreamer</span></code> to understand how the data is stored in the ROOT file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">uc</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">br</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;demo_data.root&quot;</span><span class="p">)[</span><span class="s2">&quot;my_tree:override_streamer&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bin_arr</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">interpretation</span><span class="o">=</span><span class="n">uc</span><span class="o">.</span><span class="n">AsBinary</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evt0</span> <span class="o">=</span> <span class="n">bin_arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evt0</span>
+<span class="go">array([  0,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,</span>
+<span class="go">         0,  18,  52,  86, 120,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">      dtype=uint8)</span>
+</pre></div>
+</div>
+<p>Referring to the <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method above, we can see that the binary data contains:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">TObject</span></code> content (10 bytes, <code class="docutils literal notranslate"><span class="pre">0,</span>&#160;&#160; <span class="pre">1,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">m_int</span></code> (4 bytes, <code class="docutils literal notranslate"><span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0</span></code>, which is 0)</p></li>
+<li><p>mask (4 bytes, <code class="docutils literal notranslate"><span class="pre">18,</span>&#160; <span class="pre">52,</span>&#160; <span class="pre">86,</span> <span class="pre">120</span></code>, which is <code class="docutils literal notranslate"><span class="pre">0x12345678</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">m_double</span></code> (8 bytes, <code class="docutils literal notranslate"><span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0</span></code>, which is 0.0)</p></li>
+</ul>
+<p>These bytes are the data your <code class="docutils literal notranslate"><span class="pre">reader</span></code> needs to read.</p>
+</section>
+<section id="step-2-implement-c-reader-to-read-binary-data">
+<h2>Step 2: Implement C++ <code class="docutils literal notranslate"><span class="pre">reader</span></code> to read binary data<a class="headerlink" href="#step-2-implement-c-reader-to-read-binary-data" title="Link to this heading">#</a></h2>
+<p>We can implement a <code class="docutils literal notranslate"><span class="pre">reader</span></code> named <code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code> to do this:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdint&gt;</span>
+<span class="linenos"> 2</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span>
+<span class="linenos"> 3</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;uproot-custom/uproot-custom.hh&quot;</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">uproot</span><span class="p">;</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="k">class</span><span class="w"> </span><span class="nc">OverrideStreamerReader</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">IElementReader</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">10</span><span class="w">  </span><span class="k">public</span><span class="o">:</span>
+<span class="linenos">11</span><span class="w">    </span><span class="n">OverrideStreamerReader</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">)</span>
+<span class="linenos">12</span><span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="n">IElementReader</span><span class="p">(</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">)</span>
+<span class="linenos">13</span><span class="w">        </span><span class="p">,</span><span class="w"> </span><span class="n">m_data_ints</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">)</span>
+<span class="linenos">14</span><span class="w">        </span><span class="p">,</span><span class="w"> </span><span class="n">m_data_doubles</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="linenos">15</span>
+<span class="hll"><span class="linenos">16</span><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="w"> </span><span class="n">BinaryBuffer</span><span class="o">&amp;</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span class="hll"><span class="linenos">17</span><span class="w">        </span><span class="c1">// Skip TObject header</span>
+</span><span class="hll"><span class="linenos">18</span><span class="w">        </span><span class="n">buffer</span><span class="p">.</span><span class="n">skip_TObject</span><span class="p">();</span>
+</span><span class="hll"><span class="linenos">19</span>
+</span><span class="hll"><span class="linenos">20</span><span class="w">        </span><span class="c1">// Read integer value</span>
+</span><span class="hll"><span class="linenos">21</span><span class="w">        </span><span class="n">m_data_ints</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">);</span>
+</span><span class="hll"><span class="linenos">22</span>
+</span><span class="hll"><span class="linenos">23</span><span class="w">        </span><span class="c1">// Read a custom added mask value</span>
+</span><span class="hll"><span class="linenos">24</span><span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">();</span>
+</span><span class="hll"><span class="linenos">25</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mh">0x12345678</span><span class="w"> </span><span class="p">)</span>
+</span><span class="hll"><span class="linenos">26</span><span class="w">        </span><span class="p">{</span>
+</span><span class="hll"><span class="linenos">27</span><span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="w"> </span><span class="s">&quot;Error: Unexpected mask value: &quot;</span><span class="w"> </span><span class="o">+</span>
+</span><span class="hll"><span class="linenos">28</span><span class="w">                                      </span><span class="n">std</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">);</span>
+</span><span class="hll"><span class="linenos">29</span><span class="w">        </span><span class="p">}</span>
+</span><span class="hll"><span class="linenos">30</span>
+</span><span class="hll"><span class="linenos">31</span><span class="w">        </span><span class="c1">// Read double value</span>
+</span><span class="hll"><span class="linenos">32</span><span class="w">        </span><span class="n">m_data_doubles</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">);</span>
+</span><span class="hll"><span class="linenos">33</span><span class="w">    </span><span class="p">}</span>
+</span><span class="linenos">34</span>
+<span class="linenos">35</span><span class="w">    </span><span class="n">py</span><span class="o">::</span><span class="n">object</span><span class="w"> </span><span class="n">data</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">36</span><span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">int_array</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">make_array</span><span class="p">(</span><span class="w"> </span><span class="n">m_data_ints</span><span class="w"> </span><span class="p">);</span>
+<span class="linenos">37</span><span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">double_array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_array</span><span class="p">(</span><span class="w"> </span><span class="n">m_data_doubles</span><span class="w"> </span><span class="p">);</span>
+<span class="linenos">38</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">py</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="w"> </span><span class="n">int_array</span><span class="p">,</span><span class="w"> </span><span class="n">double_array</span><span class="w"> </span><span class="p">);</span>
+<span class="linenos">39</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">40</span>
+<span class="linenos">41</span><span class="w">  </span><span class="k">private</span><span class="o">:</span>
+<span class="linenos">42</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">m_name</span><span class="p">;</span>
+<span class="linenos">43</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">m_data_ints</span><span class="p">;</span>
+<span class="linenos">44</span><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">m_data_doubles</span><span class="p">;</span>
+<span class="linenos">45</span><span class="p">};</span>
+<span class="linenos">46</span>
+<span class="linenos">47</span><span class="c1">// Declare the reader</span>
+<span class="linenos">48</span><span class="n">PYBIND11_MODULE</span><span class="p">(</span><span class="w"> </span><span class="n">my_reader_cpp</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">49</span><span class="w">    </span><span class="n">declare_reader</span><span class="o">&lt;</span><span class="n">OverrideStreamerReader</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;OverrideStreamerReader&quot;</span><span class="w"> </span><span class="p">);</span>
+<span class="linenos">50</span><span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>In the <code class="docutils literal notranslate"><span class="pre">read</span></code> method, we skip the <code class="docutils literal notranslate"><span class="pre">TObject</span></code> header, then read the member variables and the mask according to the logic in the <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method.</p></li>
+</ul>
+<ul class="simple" id="override-streamer-2-np">
+<li><p>In the <code class="docutils literal notranslate"><span class="pre">data</span></code> method, we return a <code class="docutils literal notranslate"><span class="pre">py::tuple</span></code> containing 2 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays: one for <code class="docutils literal notranslate"><span class="pre">m_int</span></code> and the other for <code class="docutils literal notranslate"><span class="pre">m_double</span></code>.</p></li>
+<li><p>Finally we declare the <code class="docutils literal notranslate"><span class="pre">reader</span></code> in the <code class="docutils literal notranslate"><span class="pre">PYBIND11_MODULE</span></code>, so that it can be used in Python.</p></li>
+</ul>
+</section>
+<section id="step-3-implement-python-factory">
+<h2>Step 3: Implement Python <code class="docutils literal notranslate"><span class="pre">factory</span></code><a class="headerlink" href="#step-3-implement-python-factory" title="Link to this heading">#</a></h2>
+<p>To use our <code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code> and reconstruct the final <code class="docutils literal notranslate"><span class="pre">awkward</span></code> array, we need to implement a corresponding <code class="docutils literal notranslate"><span class="pre">factory</span></code>. We can implement a <code class="docutils literal notranslate"><span class="pre">factory</span></code> named <code class="docutils literal notranslate"><span class="pre">OverrideStreamerFactory</span></code> to do this.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">factory</span></code> requires at least 3 methods: <code class="docutils literal notranslate"><span class="pre">build_factory</span></code>, <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code> and <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code>. An optional method <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code> can be implemented to enable <code class="docutils literal notranslate"><span class="pre">dask</span></code> functionality.</p>
+<p>First, import necessary modules:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">awkward.contents</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">awkward.forms</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">Factory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.my_reader_cpp</span><span class="w"> </span><span class="kn">import</span> <span class="n">OverrideStreamerReader</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">my_reader_cpp</span></code> is the compiled C++ module containing our <code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code>.</p>
+<section id="implement-build-factory">
+<h3>Implement <code class="docutils literal notranslate"><span class="pre">build_factory</span></code><a class="headerlink" href="#implement-build-factory" title="Link to this heading">#</a></h3>
+<p>We can make an assumpion that the <code class="docutils literal notranslate"><span class="pre">fName</span></code> of the <code class="docutils literal notranslate"><span class="pre">TStreamerInfo</span></code> is <code class="docutils literal notranslate"><span class="pre">TOverrideStreamer</span></code> for our class. If the <code class="docutils literal notranslate"><span class="pre">fName</span></code> matches, we return a tree config dictionary containing the <code class="docutils literal notranslate"><span class="pre">factory</span></code> and the <code class="docutils literal notranslate"><span class="pre">name</span></code> of the corresponding <code class="docutils literal notranslate"><span class="pre">reader</span></code>. Otherwise, we return <code class="docutils literal notranslate"><span class="pre">None</span></code> to let other factories have a chance to handle current class.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">OverrideStreamerFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">fName</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">fName</span> <span class="o">!=</span> <span class="s2">&quot;TOverrideStreamer&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">fName</span><span class="p">)</span> <span class="c1"># Factory takes `name: str` as constructor argument</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>In production, you may want use <code class="docutils literal notranslate"><span class="pre">item_path</span></code> to make a more accurate identification of whether the current class is the one you want to handle:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">OverrideStreamerFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">item_path</span> <span class="o">!=</span> <span class="s2">&quot;/my_tree:override_streamer&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">fName</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="implement-build-cpp-reader">
+<h3>Implement <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code><a class="headerlink" href="#implement-build-cpp-reader" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code> to create an instance of <code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">OverrideStreamerReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="implement-make-awkward-content">
+<h3>Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code><a class="headerlink" href="#implement-make-awkward-content" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code> to construct <code class="docutils literal notranslate"><span class="pre">awkward</span></code> contents from the raw data returned by the <code class="docutils literal notranslate"><span class="pre">reader</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
+    <span class="n">int_array</span><span class="p">,</span> <span class="n">double_array</span> <span class="o">=</span> <span class="n">raw_data</span>
+
+    <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">RecordArray</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">NumpyArray</span><span class="p">(</span><span class="n">int_array</span><span class="p">),</span>
+            <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">NumpyArray</span><span class="p">(</span><span class="n">double_array</span><span class="p">),</span>
+        <span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;m_int&quot;</span><span class="p">,</span> <span class="s2">&quot;m_double&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">raw_data</span></code> is the object returned by the <code class="docutils literal notranslate"><span class="pre">data</span></code> method of the <code class="docutils literal notranslate"><span class="pre">reader</span></code>. In our example, it is a <code class="docutils literal notranslate"><span class="pre">py::tuple</span></code> containing 2 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays, as illustrated <a class="reference internal" href="#override-streamer-2-np"><span class="std std-ref">above</span></a>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Refer to <a class="reference external" href="https://awkward-array.org/doc/main/user-guide/how-to-create-constructors.html"><code class="docutils literal notranslate"><span class="pre">awkward</span></code> direct constructors</a> for more details about <code class="docutils literal notranslate"><span class="pre">awkward</span></code> contents.</p>
+</div>
+</section>
+<section id="optional-implement-make-awkward-form">
+<h3>(Optional) Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code><a class="headerlink" href="#optional-implement-make-awkward-form" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code> method is optional, but it is easy to implement, since the <code class="docutils literal notranslate"><span class="pre">awkward.forms</span></code> is similar to <code class="docutils literal notranslate"><span class="pre">awkward.contents</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">RecordForm</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">),</span>
+            <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="s2">&quot;float64&quot;</span><span class="p">),</span>
+        <span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;m_int&quot;</span><span class="p">,</span> <span class="s2">&quot;m_double&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Refer to <a class="reference external" href="https://awkward-array.org/doc/main/reference/generated/ak.forms.Form.html">awkward forms</a> for more details about <code class="docutils literal notranslate"><span class="pre">awkward</span></code> forms.</p>
+</div>
+</section>
+</section>
+<section id="step-4-register-target-branch-and-the-factory">
+<h2>Step 4: Register target branch and the <code class="docutils literal notranslate"><span class="pre">factory</span></code><a class="headerlink" href="#step-4-register-target-branch-and-the-factory" title="Link to this heading">#</a></h2>
+<p>Finally, we need to register the branch we want to read with <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code>, and also register the <code class="docutils literal notranslate"><span class="pre">OverrideStreamerFactory</span></code> so that it can be used by <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code>.</p>
+<p>We can do this by adding the following code in the <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> of your package:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">registered_factories</span><span class="p">,</span> <span class="n">AsCustom</span>
+
+<span class="n">AsCustom</span><span class="o">.</span><span class="n">target_branches</span> <span class="o">|=</span> <span class="p">{</span>
+    <span class="s2">&quot;/my_tree:override_streamer&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">registered_factories</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">OverrideStreamerFactory</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="step-5-read-data-with-uproot">
+<h2>Step 5: Read data with <code class="docutils literal notranslate"><span class="pre">uproot</span></code><a class="headerlink" href="#step-5-read-data-with-uproot" title="Link to this heading">#</a></h2>
+<p>Now we can read the data using <code class="docutils literal notranslate"><span class="pre">uproot</span></code> as usual:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;demo_data.root&quot;</span><span class="p">)[</span><span class="s2">&quot;my_tree:override_streamer&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">array</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../get-started.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Get started</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="read-tobjarray.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Example 2: Read <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> with unique known type</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-check-the-binary-data">Step 1: Check the binary data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-implement-c-reader-to-read-binary-data">Step 2: Implement C++ <code class="docutils literal notranslate"><span class="pre">reader</span></code> to read binary data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-implement-python-factory">Step 3: Implement Python <code class="docutils literal notranslate"><span class="pre">factory</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-build-factory">Implement <code class="docutils literal notranslate"><span class="pre">build_factory</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-build-cpp-reader">Implement <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-make-awkward-content">Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-implement-make-awkward-form">(Optional) Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-register-target-branch-and-the-factory">Step 4: Register target branch and the <code class="docutils literal notranslate"><span class="pre">factory</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-read-data-with-uproot">Step 5: Read data with <code class="docutils literal notranslate"><span class="pre">uproot</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mingrun Li
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Mingrun Li.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

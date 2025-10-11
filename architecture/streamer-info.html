@@ -1,0 +1,726 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Streamer information &#8212; uproot-custom</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'architecture/streamer-info';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Binary data" href="binary-data.html" />
+    <link rel="prev" title="Example 2: Read TObjArray with unique known type" href="../examples/read-tobjarray.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">uproot-custom</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../get-started.html">Get started</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../examples/override-streamer.html">Example 1: <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method is overridden</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/read-tobjarray.html">Example 2: Read <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> with unique known type</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Architecture</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Streamer information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="binary-data.html">Binary data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bootstrap.html">Bootstrap of custom classes reading in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="reader-and-factory.html">Reader and factory interface</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../binary-format.html">Binary format of common classes</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/architecture/streamer-info.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Streamer information</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information-in-uproot">Streamer information in <code class="docutils literal notranslate"><span class="pre">uproot</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information-in-uproot-custom">Streamer information in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="streamer-information">
+<h1>Streamer information<a class="headerlink" href="#streamer-information" title="Link to this heading">#</a></h1>
+<p>When storing custom classes in <code class="docutils literal notranslate"><span class="pre">ROOT</span></code>, <code class="docutils literal notranslate"><span class="pre">ROOT</span></code> stores the class’s streamer information in the file. The streamer information contains the class’s data members and their types. When reading the class from file, <code class="docutils literal notranslate"><span class="pre">ROOT</span></code> reads the streamer information first, then reads the binary data according to the streamer information.</p>
+<p>Before continuing, we define a demo custom class <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code> and <code class="docutils literal notranslate"><span class="pre">TCstyleArray</span></code> in C++. <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code> contains various data members of different types, <code class="docutils literal notranslate"><span class="pre">TCStyleArray</span></code> contains an c-style array of <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code>:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">Definition of <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code></span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TSimpleObject</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">TObject</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="c1">// --------- Simple types ---------</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">m_int</span><span class="p">{</span><span class="w"> </span><span class="mi">32</span><span class="w"> </span><span class="p">};</span>
+
+<span class="w">    </span><span class="c1">// --------- Simple STL ---------</span>
+<span class="w">    </span><span class="n">string</span><span class="w"> </span><span class="n">m_str</span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Hello, ROOT!&quot;</span><span class="w"> </span><span class="p">};</span>
+
+<span class="w">    </span><span class="c1">// std::array</span>
+<span class="w">    </span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_arr_int</span><span class="p">{</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">101</span><span class="p">,</span><span class="w"> </span><span class="mi">102</span><span class="p">,</span><span class="w"> </span><span class="mi">103</span><span class="p">,</span><span class="w"> </span><span class="mi">104</span><span class="w"> </span><span class="p">};</span>
+
+<span class="w">    </span><span class="c1">// Sequence like containers</span>
+<span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_vec_double</span><span class="p">{</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0</span><span class="w"> </span><span class="p">};</span>
+
+<span class="w">    </span><span class="c1">// Mapping like containers</span>
+<span class="w">    </span><span class="n">map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_map_int_double</span><span class="p">{</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">};</span>
+<span class="w">    </span><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">TString</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_map_str_str</span><span class="p">{</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Apple&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;B&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Banana&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Cat&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">};</span>
+
+<span class="w">    </span><span class="c1">// --------- ROOT objects ---------</span>
+<span class="w">    </span><span class="n">TString</span><span class="w"> </span><span class="n">m_tstr</span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Hello, ROOT!&quot;</span><span class="w"> </span><span class="p">};</span>
+<span class="w">    </span><span class="n">TArrayI</span><span class="w"> </span><span class="n">m_tarr_int</span><span class="p">{</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">};</span>
+
+<span class="w">  </span><span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="n">TSimpleObject</span><span class="p">()</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">TObject</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Fill TArrayI</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">m_tarr_int</span><span class="p">.</span><span class="n">GetSize</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">m_tarr_int</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">ClassDef</span><span class="p">(</span><span class="w"> </span><span class="n">TSimpleObject</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">Definition of <code class="docutils literal notranslate"><span class="pre">TCStyleArray</span></code></span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TCStyleArray</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">TObject</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="n">TSimpleObject</span><span class="w"> </span><span class="n">m_simple_obj</span><span class="p">[</span><span class="mi">3</span><span class="p">]{</span><span class="w"> </span><span class="n">TSimpleObject</span><span class="p">(),</span><span class="w"> </span><span class="n">TSimpleObject</span><span class="p">(),</span><span class="w"> </span><span class="n">TSimpleObject</span><span class="p">()</span><span class="w"> </span><span class="p">};</span>
+
+<span class="w">    </span><span class="n">ClassDef</span><span class="p">(</span><span class="w"> </span><span class="n">TCStyleArray</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<p>In the following sections, we will use <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code> and <code class="docutils literal notranslate"><span class="pre">TCStyleArray</span></code> as an example to illustrate how <code class="docutils literal notranslate"><span class="pre">ROOT</span></code> stores custom classes.</p>
+<section id="streamer-information-in-uproot">
+<h2>Streamer information in <code class="docutils literal notranslate"><span class="pre">uproot</span></code><a class="headerlink" href="#streamer-information-in-uproot" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">uproot</span></code> can read the streamer information stored in the file. To obtain all streamer information, you can use:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;file.root&quot;</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">streamers</span>
+</pre></div>
+</div>
+<p>You can see plenty of streamers in the output:</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">Output</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">{&#39;TNamed&#39;: {1: &lt;TStreamerInfo for TNamed version 1 at 0x74083a52a840&gt;},</span>
+<span class="go"> &#39;TObject&#39;: {1: &lt;TStreamerInfo for TObject version 1 at 0x74083a52b140&gt;},</span>
+<span class="go"> &#39;TList&#39;: {5: &lt;TStreamerInfo for TList version 5 at 0x74083a52bbf0&gt;},</span>
+<span class="go"> &#39;TSeqCollection&#39;: {0: &lt;TStreamerInfo for TSeqCollection version 0 at 0x74083a538380&gt;},</span>
+<span class="go"> ...}</span>
+</pre></div>
+</div>
+</div>
+<p>As long as the <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code> is stored in the file, you can find its streamer information:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">streamers</span><span class="p">[</span><span class="s2">&quot;TSimpleObject&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">Output</span><a class="headerlink" href="#id4" title="Link to this code">#</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">{1: &lt;TStreamerInfo for TSimpleObject version 1 at 0x74083a5833b0&gt;}</span>
+</pre></div>
+</div>
+</div>
+<p>The key <code class="docutils literal notranslate"><span class="pre">1</span></code> is the version number of <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code>, the value is corresponding <code class="docutils literal notranslate"><span class="pre">TStreamerInfo</span></code> object.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>You can find all <code class="docutils literal notranslate"><span class="pre">uproot</span></code> streamer information classes in <a class="reference external" href="https://uproot.readthedocs.io/en/latest/uproot.streamers.html">the documentation</a>.</p>
+</div>
+<p>Using <code class="docutils literal notranslate"><span class="pre">show</span></code> method you can print the streamer information:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">streamer</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">streamers</span><span class="p">[</span><span class="s2">&quot;TSimpleObject&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">streamer</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">Output</span><a class="headerlink" href="#id5" title="Link to this code">#</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">TSimpleObject (v1): TObject (v1)</span>
+<span class="go">    m_int: int (TStreamerBasicType)</span>
+<span class="go">    m_str: string (TStreamerSTLstring)</span>
+<span class="go">    m_arr_int: int (TStreamerBasicType)</span>
+<span class="go">    m_vec_double: vector&lt;double&gt; (TStreamerSTL)</span>
+<span class="go">    m_map_int_double: map&lt;int,double&gt; (TStreamerSTL)</span>
+<span class="go">    m_map_str_str: map&lt;string,TString&gt; (TStreamerSTL)</span>
+<span class="go">    m_tstr: TString (TStreamerString)</span>
+<span class="go">    m_tarr_int: TArrayI (TStreamerObjectAny)</span>
+</pre></div>
+</div>
+</div>
+<p>Using <code class="docutils literal notranslate"><span class="pre">all_members</span></code> attribute, you can see full details of the streamer information:</p>
+<div class="highlight-python notranslate" id="simple-obj-streamer-info"><div class="highlight"><pre><span></span><span class="n">streamer</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">streamers</span><span class="p">[</span><span class="s2">&quot;TSimpleObject&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">streamer</span><span class="o">.</span><span class="n">all_members</span>
+</pre></div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">Output</span><a class="headerlink" href="#id6" title="Link to this code">#</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">{&#39;@fUniqueID&#39;: 0,</span>
+<span class="go"> &#39;@fBits&#39;: 16842752,</span>
+<span class="go"> &#39;fName&#39;: &#39;TSimpleObject&#39;,</span>
+<span class="go"> &#39;fTitle&#39;: &#39;&#39;,</span>
+<span class="go"> &#39;fCheckSum&#39;: 2574715488,</span>
+<span class="go"> &#39;fClassVersion&#39;: 1,</span>
+<span class="go"> &#39;fElements&#39;: &lt;TObjArray of 9 items at 0x74083a583b90&gt;}</span>
+</pre></div>
+</div>
+</div>
+<p>Print <code class="docutils literal notranslate"><span class="pre">all_members</span></code> of <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code>’s data members:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">all_members</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">streamer</span><span class="o">.</span><span class="n">elements</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id7">
+<span id="all-streamer-info-output"></span><div class="code-block-caption"><span class="caption-text">Output</span><a class="headerlink" href="#id7" title="Link to this code">#</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">[{&#39;@fUniqueID&#39;: 0,</span>
+<span class="go">  &#39;@fBits&#39;: 16777216,</span>
+<span class="go">  &#39;fName&#39;: &#39;TObject&#39;,</span>
+<span class="go">  &#39;fTitle&#39;: &#39;Basic ROOT object&#39;,</span>
+<span class="go">  &#39;fType&#39;: 66,</span>
+<span class="go">  &#39;fSize&#39;: 0,</span>
+<span class="go">  &#39;fArrayLength&#39;: 0,</span>
+<span class="go">  &#39;fArrayDim&#39;: 0,</span>
+<span class="go">  &#39;fMaxIndex&#39;: array([          0, -1877229523,           0,           0,           0],</span>
+<span class="go">        dtype=&#39;&gt;i4&#39;),</span>
+<span class="go">  &#39;fTypeName&#39;: &#39;BASE&#39;,</span>
+<span class="go">  &#39;fBaseVersion&#39;: 1},</span>
+<span class="go"> {&#39;@fUniqueID&#39;: 0,</span>
+<span class="go">  &#39;@fBits&#39;: 16777216,</span>
+<span class="go">  &#39;fName&#39;: &#39;m_int&#39;,</span>
+<span class="go">  &#39;fTitle&#39;: &#39;&#39;,</span>
+<span class="go">  &#39;fType&#39;: 3,</span>
+<span class="go">  &#39;fSize&#39;: 4,</span>
+<span class="go">  &#39;fArrayLength&#39;: 0,</span>
+<span class="go">  &#39;fArrayDim&#39;: 0,</span>
+<span class="go">  &#39;fMaxIndex&#39;: array([0, 0, 0, 0, 0], dtype=&#39;&gt;i4&#39;),</span>
+<span class="go">  &#39;fTypeName&#39;: &#39;int&#39;},</span>
+<span class="go"> {&#39;@fUniqueID&#39;: 0,</span>
+<span class="go">  &#39;@fBits&#39;: 16777216,</span>
+<span class="go">  &#39;fName&#39;: &#39;m_str&#39;,</span>
+<span class="go">  &#39;fTitle&#39;: &#39;&#39;,</span>
+<span class="go">  &#39;fType&#39;: 500,</span>
+<span class="go">  &#39;fSize&#39;: 32,</span>
+<span class="go">  &#39;fArrayLength&#39;: 0,</span>
+<span class="go">  &#39;fArrayDim&#39;: 0,</span>
+<span class="go">  &#39;fMaxIndex&#39;: array([0, 0, 0, 0, 0], dtype=&#39;&gt;i4&#39;),</span>
+<span class="go">  &#39;fTypeName&#39;: &#39;string&#39;,</span>
+<span class="go">  &#39;fSTLtype&#39;: 365,</span>
+<span class="go">  &#39;fCtype&#39;: 365},</span>
+<span class="go"> {&#39;@fUniqueID&#39;: 0,</span>
+<span class="go">  &#39;@fBits&#39;: 16777216,</span>
+<span class="go">  &#39;fName&#39;: &#39;m_arr_int&#39;,</span>
+<span class="go">  &#39;fTitle&#39;: &#39;&#39;,</span>
+<span class="go">  &#39;fType&#39;: 3,</span>
+<span class="go">  &#39;fSize&#39;: 20,</span>
+<span class="go">  &#39;fArrayLength&#39;: 5,</span>
+<span class="go">  &#39;fArrayDim&#39;: 1,</span>
+<span class="go">  &#39;fMaxIndex&#39;: array([5, 0, 0, 0, 0], dtype=&#39;&gt;i4&#39;),</span>
+<span class="go">  &#39;fTypeName&#39;: &#39;int&#39;},</span>
+<span class="go"> {&#39;@fUniqueID&#39;: 0,</span>
+<span class="go">  &#39;@fBits&#39;: 16777216,</span>
+<span class="go">  &#39;fName&#39;: &#39;m_vec_double&#39;,</span>
+<span class="go">  &#39;fTitle&#39;: &#39;&#39;,</span>
+<span class="go">  &#39;fType&#39;: 500,</span>
+<span class="go">  &#39;fSize&#39;: 24,</span>
+<span class="go">  &#39;fArrayLength&#39;: 0,</span>
+<span class="go">  &#39;fArrayDim&#39;: 0,</span>
+<span class="go">  &#39;fMaxIndex&#39;: array([0, 0, 0, 0, 0], dtype=&#39;&gt;i4&#39;),</span>
+<span class="go">  &#39;fTypeName&#39;: &#39;vector&lt;double&gt;&#39;,</span>
+<span class="go">  &#39;fSTLtype&#39;: 1,</span>
+<span class="go">  &#39;fCtype&#39;: 8},</span>
+<span class="go"> {&#39;@fUniqueID&#39;: 0,</span>
+<span class="go">  &#39;@fBits&#39;: 16777216,</span>
+<span class="go">  &#39;fName&#39;: &#39;m_map_int_double&#39;,</span>
+<span class="go">  &#39;fTitle&#39;: &#39;&#39;,</span>
+<span class="go">  &#39;fType&#39;: 500,</span>
+<span class="go">  &#39;fSize&#39;: 48,</span>
+<span class="go">  &#39;fArrayLength&#39;: 0,</span>
+<span class="go">  &#39;fArrayDim&#39;: 0,</span>
+<span class="go">  &#39;fMaxIndex&#39;: array([0, 0, 0, 0, 0], dtype=&#39;&gt;i4&#39;),</span>
+<span class="go">  &#39;fTypeName&#39;: &#39;map&lt;int,double&gt;&#39;,</span>
+<span class="go">  &#39;fSTLtype&#39;: 4,</span>
+<span class="go">  &#39;fCtype&#39;: 61},</span>
+<span class="go"> {&#39;@fUniqueID&#39;: 0,</span>
+<span class="go">  &#39;@fBits&#39;: 16777216,</span>
+<span class="go">  &#39;fName&#39;: &#39;m_map_str_str&#39;,</span>
+<span class="go">  &#39;fTitle&#39;: &#39;&#39;,</span>
+<span class="go">  &#39;fType&#39;: 500,</span>
+<span class="go">  &#39;fSize&#39;: 48,</span>
+<span class="go">  &#39;fArrayLength&#39;: 0,</span>
+<span class="go">  &#39;fArrayDim&#39;: 0,</span>
+<span class="go">  &#39;fMaxIndex&#39;: array([0, 0, 0, 0, 0], dtype=&#39;&gt;i4&#39;),</span>
+<span class="go">  &#39;fTypeName&#39;: &#39;map&lt;string,TString&gt;&#39;,</span>
+<span class="go">  &#39;fSTLtype&#39;: 4,</span>
+<span class="go">  &#39;fCtype&#39;: 61},</span>
+<span class="go"> {&#39;@fUniqueID&#39;: 0,</span>
+<span class="go">  &#39;@fBits&#39;: 16777216,</span>
+<span class="go">  &#39;fName&#39;: &#39;m_tstr&#39;,</span>
+<span class="go">  &#39;fTitle&#39;: &#39;&#39;,</span>
+<span class="go">  &#39;fType&#39;: 65,</span>
+<span class="go">  &#39;fSize&#39;: 24,</span>
+<span class="go">  &#39;fArrayLength&#39;: 0,</span>
+<span class="go">  &#39;fArrayDim&#39;: 0,</span>
+<span class="go">  &#39;fMaxIndex&#39;: array([0, 0, 0, 0, 0], dtype=&#39;&gt;i4&#39;),</span>
+<span class="go">  &#39;fTypeName&#39;: &#39;TString&#39;},</span>
+<span class="go"> {&#39;@fUniqueID&#39;: 0,</span>
+<span class="go">  &#39;@fBits&#39;: 16777216,</span>
+<span class="go">  &#39;fName&#39;: &#39;m_tarr_int&#39;,</span>
+<span class="go">  &#39;fTitle&#39;: &#39;&#39;,</span>
+<span class="go">  &#39;fType&#39;: 62,</span>
+<span class="go">  &#39;fSize&#39;: 24,</span>
+<span class="go">  &#39;fArrayLength&#39;: 0,</span>
+<span class="go">  &#39;fArrayDim&#39;: 0,</span>
+<span class="go">  &#39;fMaxIndex&#39;: array([0, 0, 0, 0, 0], dtype=&#39;&gt;i4&#39;),</span>
+<span class="go">  &#39;fTypeName&#39;: &#39;TArrayI&#39;}]</span>
+</pre></div>
+</div>
+</div>
+<p>This list of <code class="docutils literal notranslate"><span class="pre">all_members</span></code> corresponds to the data members defined in <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code>. Each data member is represented by a dictionary containing its attributes, such as <code class="docutils literal notranslate"><span class="pre">fName</span></code>, <code class="docutils literal notranslate"><span class="pre">fType</span></code>, <code class="docutils literal notranslate"><span class="pre">fSize</span></code>, <code class="docutils literal notranslate"><span class="pre">fArrayLength</span></code>, and <code class="docutils literal notranslate"><span class="pre">fTypeName</span></code>.</p>
+<p>A brief description of some important attributes is given in the table below:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fName</span></code></p></td>
+<td><p>Name of the data member</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fType</span></code></p></td>
+<td><p>Type code of the data member</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fTypeName</span></code></p></td>
+<td><p>Type name of the data member</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fArrayDim</span></code></p></td>
+<td><p>Number of dimensions if the data member is an array</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fMaxIndex</span></code></p></td>
+<td><p>Maximum index of the <code class="docutils literal notranslate"><span class="pre">fArrayDim</span></code> if the data member is an array</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference external" href="https://root.cern/doc/v636/streamerinfo.html">ROOT streamer info page</a> provides some explanations of the attributes in <code class="docutils literal notranslate"><span class="pre">all_members</span></code>. But the page seems not updated for a long time, some details are missing.</p>
+</div>
+</section>
+<section id="streamer-information-in-uproot-custom">
+<h2>Streamer information in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code><a class="headerlink" href="#streamer-information-in-uproot-custom" title="Link to this heading">#</a></h2>
+<p>The streamer information in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> will be passed to <code class="docutils literal notranslate"><span class="pre">factory</span></code> to handle data members. To simplify the usage of streamer information, <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> rearranges the streamer information into a more convenient format: A dictionary of class names to the list of their data members’ streamer information.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>You can find the concrete format of the rearranged streamer information in <a class="reference internal" href="reader-and-factory.html#method-build-factory"><span class="std std-ref">factory interface page</span></a>.</p>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../examples/read-tobjarray.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Example 2: Read <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> with unique known type</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="binary-data.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Binary data</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information-in-uproot">Streamer information in <code class="docutils literal notranslate"><span class="pre">uproot</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information-in-uproot-custom">Streamer information in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mingrun Li
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Mingrun Li.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

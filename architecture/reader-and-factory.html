@@ -1,0 +1,857 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Reader and factory interface &#8212; uproot-custom</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'architecture/reader-and-factory';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Binary format of common classes" href="../binary-format.html" />
+    <link rel="prev" title="Bootstrap of custom classes reading in uproot-custom" href="bootstrap.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">uproot-custom</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../get-started.html">Get started</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../examples/override-streamer.html">Example 1: <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method is overridden</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/read-tobjarray.html">Example 2: Read <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> with unique known type</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Architecture</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="streamer-info.html">Streamer information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="binary-data.html">Binary data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bootstrap.html">Bootstrap of custom classes reading in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Reader and factory interface</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../binary-format.html">Binary format of common classes</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/architecture/reader-and-factory.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Reader and factory interface</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reader-interface">Reader interface</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#base-class-ielementreader">Base class: <code class="docutils literal notranslate"><span class="pre">IElementReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#binarybuffer-class"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer</span></code> class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accept-sub-readers">Accept sub-<code class="docutils literal notranslate"><span class="pre">reader</span></code>s</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transform-std-vector-to-numpy-array-without-copying">Transform <code class="docutils literal notranslate"><span class="pre">std::vector</span></code> to <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array without copying</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#declaring-reader-to-python">Declaring <code class="docutils literal notranslate"><span class="pre">reader</span></code> to Python</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-message">Debugging message</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#factory-interface">Factory interface</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructor">Constructor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#class-method-build-factory">Class method <code class="docutils literal notranslate"><span class="pre">build_factory</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-build-cpp-reader">Method <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-make-awkward-content">Method <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-make-awkward-form">Method <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-reader-and-factory">Example of reader and factory</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="reader-and-factory-interface">
+<h1>Reader and factory interface<a class="headerlink" href="#reader-and-factory-interface" title="Link to this heading">#</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> uses a <code class="docutils literal notranslate"><span class="pre">reader</span></code>/<code class="docutils literal notranslate"><span class="pre">factory</span></code> mechanism to balance performance and flexibility. <code class="docutils literal notranslate"><span class="pre">reader</span></code>s are implemented in C++, do the actual reading from binary stream. <code class="docutils literal notranslate"><span class="pre">factory</span></code>s are implemented in Python, manage <code class="docutils literal notranslate"><span class="pre">reader</span></code>s, and reconstruct the final <code class="docutils literal notranslate"><span class="pre">awkward</span></code> array.</p>
+<section id="reader-interface">
+<h2>Reader interface<a class="headerlink" href="#reader-interface" title="Link to this heading">#</a></h2>
+<section id="base-class-ielementreader">
+<h3>Base class: <code class="docutils literal notranslate"><span class="pre">IElementReader</span></code><a class="headerlink" href="#base-class-ielementreader" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">reader</span></code> in C++ should derive from the <code class="docutils literal notranslate"><span class="pre">IElementReader</span></code> interface, which has two pure virtual methods:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">read</span></code>: called by parent <code class="docutils literal notranslate"><span class="pre">reader</span></code> to read data from the binary stream.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code>: called after reading is done, to return the read-out data in <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays or any Python nested containers filled with <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays.</p></li>
+</ul>
+<p>There are extra 3 virtual methods that can be overridden to handle special cases:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">read_many</span></code>: called when reading multiple elements in one go, such as reading c-style arrays. Some classes may have only one header with multiple elements following it. In this case, <code class="docutils literal notranslate"><span class="pre">read_many</span></code> can be overridden to read handle such case.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">read_until</span></code>: called when reading elements until a certain position in the binary stream.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">read_many_memberwise</span></code>: called when reading multiple elements in a member-wise fashion. “Member-wise” means that the first member of all elements are read first, then the second member of all elements are read, and so on. This is used when reading STL containers in some specific cases.</p></li>
+</ul>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">IElementReader</span></code></span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">class</span><span class="w"> </span><span class="nc">IElementReader</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 2</span><span class="w">  </span><span class="k">protected</span><span class="o">:</span>
+<span class="linenos"> 3</span><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">m_name</span><span class="p">;</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="k">public</span><span class="o">:</span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="n">IElementReader</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">m_name</span><span class="p">(</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="o">~</span><span class="n">IElementReader</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">default</span><span class="p">;</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="nf">name</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">m_name</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="linenos">10</span>
+<span class="hll"><span class="linenos">11</span><span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="w"> </span><span class="n">BinaryBuffer</span><span class="o">&amp;</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span class="hll"><span class="linenos">12</span><span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="n">py</span><span class="o">::</span><span class="n">object</span><span class="w"> </span><span class="nf">data</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span class="linenos">13</span>
+<span class="linenos">14</span><span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="nf">read_many</span><span class="p">(</span><span class="w"> </span><span class="n">BinaryBuffer</span><span class="o">&amp;</span><span class="w"> </span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int64_t</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">15</span><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">count</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="linenos">16</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<span class="linenos">17</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="nf">read_until</span><span class="p">(</span><span class="w"> </span><span class="n">BinaryBuffer</span><span class="o">&amp;</span><span class="w"> </span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="o">*</span><span class="w"> </span><span class="n">end_pos</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">20</span><span class="w">        </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">cur_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">21</span><span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">get_cursor</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">end_pos</span><span class="w"> </span><span class="p">)</span>
+<span class="linenos">22</span><span class="w">        </span><span class="p">{</span>
+<span class="linenos">23</span><span class="w">            </span><span class="n">read</span><span class="p">(</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="p">);</span>
+<span class="linenos">24</span><span class="w">            </span><span class="n">cur_count</span><span class="o">++</span><span class="p">;</span>
+<span class="linenos">25</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">26</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">cur_count</span><span class="p">;</span>
+<span class="linenos">27</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">28</span>
+<span class="linenos">29</span><span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="nf">read_many_memberwise</span><span class="p">(</span><span class="w"> </span><span class="n">BinaryBuffer</span><span class="o">&amp;</span><span class="w"> </span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int64_t</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">30</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span>
+<span class="linenos">31</span><span class="w">        </span><span class="p">{</span>
+<span class="linenos">32</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">stringstream</span><span class="w"> </span><span class="n">msg</span><span class="p">;</span>
+<span class="linenos">33</span><span class="w">            </span><span class="n">msg</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">name</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;::read_many_memberwise with negative count: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<span class="linenos">34</span><span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="w"> </span><span class="n">msg</span><span class="p">.</span><span class="n">str</span><span class="p">()</span><span class="w"> </span><span class="p">);</span>
+<span class="linenos">35</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">36</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">read_many</span><span class="p">(</span><span class="w"> </span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="p">);</span>
+<span class="linenos">37</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">38</span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>A <code class="docutils literal notranslate"><span class="pre">std::string</span> <span class="pre">name</span></code> is required for each <code class="docutils literal notranslate"><span class="pre">reader</span></code>, which is used to print debug information.</p></li>
+<li><p>Several extended virtual methods are also provided. These methods will be called when reading c-style arrays or STL containers.</p></li>
+</ul>
+</div>
+</section>
+<section id="binarybuffer-class">
+<h3><code class="docutils literal notranslate"><span class="pre">BinaryBuffer</span></code> class<a class="headerlink" href="#binarybuffer-class" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">BinaryBuffer</span></code> is a helper class to read binary data from a <code class="docutils literal notranslate"><span class="pre">uint8_t*</span></code> buffer. It provides methods to read basic types, skip bytes, and handle <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code>+<code class="docutils literal notranslate"><span class="pre">fVersion</span></code> header.</p>
+<p>Reading methods include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">T</span> <span class="pre">read&lt;T&gt;()</span></code>: Read a value of type <code class="docutils literal notranslate"><span class="pre">T</span></code> from the buffer, and advance the cursor.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">int16_t</span> <span class="pre">read_fVersion()</span></code>: Equivalent to <code class="docutils literal notranslate"><span class="pre">read&lt;int16_t&gt;()</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">uint32_t</span> <span class="pre">read_fNBytes()</span></code>: Read <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> from the buffer, check the mask, and return the actual number of bytes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">std::string</span> <span class="pre">read_null_terminated_string()</span></code>: Read a null-terminated string from the buffer.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">std::string</span> <span class="pre">read_obj_header()</span></code>: Read the object header from the buffer, return the object’s name if present. Can be used when <code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader</span></code> is not used.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">std::string</span> <span class="pre">read_TString()</span></code>: Read a <code class="docutils literal notranslate"><span class="pre">TString</span></code> from the buffer</p></li>
+</ul>
+<p>Skipping methods include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">skip(const</span> <span class="pre">size_t</span> <span class="pre">nbytes)</span></code>: Skip <code class="docutils literal notranslate"><span class="pre">nbytes</span></code> bytes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">skip_fVersion()</span></code>: Skip the <code class="docutils literal notranslate"><span class="pre">fVersion</span></code> (2 bytes).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">skip_fNBytes()</span></code>: Equivalent to <code class="docutils literal notranslate"><span class="pre">read_fNBytes()</span></code>, will check the mask.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">skip_null_terminated_string()</span></code>: Skip a null-terminated string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">skip_obj_header()</span></code>: Skip the object header.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">skip_TObject()</span></code>: Skip a <code class="docutils literal notranslate"><span class="pre">TObject</span></code>.</p></li>
+</ul>
+<p>Other methods include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">uint8_t*</span> <span class="pre">get_data()</span> <span class="pre">const</span></code>: Get the start of the data buffer.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">uint8_t*</span> <span class="pre">get_cursor()</span> <span class="pre">const</span></code>: Get the current cursor position.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">uint32_t*</span> <span class="pre">get_offsets()</span> <span class="pre">const</span></code>: Get the entry offsets of the data buffer.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">uint64_t*</span> <span class="pre">entries()</span> <span class="pre">const</span></code>: Get the number of entries of the data buffer.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">debug_print(</span> <span class="pre">const</span> <span class="pre">size_t</span> <span class="pre">n</span> <span class="pre">=</span> <span class="pre">100</span> <span class="pre">)</span> <span class="pre">const</span></code>: Print the next <code class="docutils literal notranslate"><span class="pre">n</span></code> bytes from the current cursor for debugging.</p></li>
+</ul>
+</section>
+<section id="accept-sub-readers">
+<h3>Accept sub-<code class="docutils literal notranslate"><span class="pre">reader</span></code>s<a class="headerlink" href="#accept-sub-readers" title="Link to this heading">#</a></h3>
+<p>When reading nested classes, a <code class="docutils literal notranslate"><span class="pre">reader</span></code> may require sub-<code class="docutils literal notranslate"><span class="pre">reader</span></code>s to read the nested data members. For example, <code class="docutils literal notranslate"><span class="pre">STLSeqReader</span></code> needs a sub-<code class="docutils literal notranslate"><span class="pre">reader</span></code> to read the element type of the STL sequence, such as <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">float</span></code>, or a custom class. In this case, the sub-<code class="docutils literal notranslate"><span class="pre">reader</span></code> can be passed to the constructor of the parent <code class="docutils literal notranslate"><span class="pre">reader</span></code>.</p>
+<p>In the constructor, the sub-<code class="docutils literal notranslate"><span class="pre">reader</span></code> should be passed as a <code class="docutils literal notranslate"><span class="pre">std::shared_ptr&lt;IElementReader&gt;</span></code>. This is because other <code class="docutils literal notranslate"><span class="pre">readers</span></code> are constructed in Python, so the ownership of the <code class="docutils literal notranslate"><span class="pre">reader</span></code> should be shared between C++ and Python.</p>
+<p><code class="docutils literal notranslate"><span class="pre">uproot-custom.hh</span></code> already define a type alias <code class="docutils literal notranslate"><span class="pre">using</span> <span class="pre">SharedReader</span> <span class="pre">=</span> <span class="pre">shared_ptr&lt;IElementReader&gt;;</span></code> for convenience.</p>
+</section>
+<section id="transform-std-vector-to-numpy-array-without-copying">
+<h3>Transform <code class="docutils literal notranslate"><span class="pre">std::vector</span></code> to <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array without copying<a class="headerlink" href="#transform-std-vector-to-numpy-array-without-copying" title="Link to this heading">#</a></h3>
+<p>When returning data in <code class="docutils literal notranslate"><span class="pre">data</span></code> method, <code class="docutils literal notranslate"><span class="pre">reader</span></code> can use <code class="docutils literal notranslate"><span class="pre">make_array</span></code> helper function to transform <code class="docutils literal notranslate"><span class="pre">std::shared_ptr&lt;std::vector&lt;T&gt;&gt;</span></code> to <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array without copying:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+<span class="n">data</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">data</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">data</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+
+<span class="n">py</span><span class="o">::</span><span class="n">array_t</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">np_array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_array</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="declaring-reader-to-python">
+<h3>Declaring <code class="docutils literal notranslate"><span class="pre">reader</span></code> to Python<a class="headerlink" href="#declaring-reader-to-python" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> uses <code class="docutils literal notranslate"><span class="pre">pybind11</span></code> to declare C++ <code class="docutils literal notranslate"><span class="pre">reader</span></code>s to Python. A helper function <code class="docutils literal notranslate"><span class="pre">declare_reader</span></code> is provided to simplify the declaration. When implementing your own <code class="docutils literal notranslate"><span class="pre">reader</span></code>, you should declare it to Python like this:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">PYBIND11_MODULE</span><span class="p">(</span><span class="w"> </span><span class="n">my_cpp_reader</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">declare_reader</span><span class="o">&lt;</span><span class="n">MyReaderClass</span><span class="p">,</span><span class="w"> </span><span class="n">constructor_arg1_type</span><span class="p">,</span><span class="w"> </span><span class="n">constructor_arg2_type</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;MyReaderClass&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">constructor_argN_type</span></code> are the types of the constructor arguments of your <code class="docutils literal notranslate"><span class="pre">reader</span></code>. If your <code class="docutils literal notranslate"><span class="pre">reader</span></code> has no constructor arguments, you can omit them.</p></li>
+<li><p>The second argument of <code class="docutils literal notranslate"><span class="pre">declare_reader</span></code> is the name of your <code class="docutils literal notranslate"><span class="pre">reader</span></code> in Python. In this example, it is <code class="docutils literal notranslate"><span class="pre">&quot;MyReaderClass&quot;</span></code>.</p></li>
+</ul>
+<p>Then you can import <code class="docutils literal notranslate"><span class="pre">MyReaderClass</span></code> in Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">my_cpp_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyReaderClass</span>
+</pre></div>
+</div>
+</section>
+<section id="debugging-message">
+<h3>Debugging message<a class="headerlink" href="#debugging-message" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> provides a <code class="docutils literal notranslate"><span class="pre">debug_print</span></code> method to print debugging message. The print will only be performed when <code class="docutils literal notranslate"><span class="pre">UPROOT_DEBUG</span></code> macro is defined, or <code class="docutils literal notranslate"><span class="pre">UPROOT_DEBUG</span></code> environment variable is set:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Will print &quot;The reader name is Bob&quot;</span>
+<span class="n">debug_print</span><span class="p">(</span><span class="s">&quot;The reader name is %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bob&quot;</span><span class="p">);</span>
+
+<span class="c1">// Call buffer.debug_print(50), print next 50 bytes from current cursor</span>
+<span class="n">debug_print</span><span class="p">(</span><span class="w"> </span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="factory-interface">
+<h2>Factory interface<a class="headerlink" href="#factory-interface" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">factory</span></code> in Python should derive from the <code class="docutils literal notranslate"><span class="pre">BaseFactory</span></code> interface, which has four methods to be implemented:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">build_factory</span></code>: Match the data member and instantiate the <code class="docutils literal notranslate"><span class="pre">factory</span></code> if matched, otherwise return <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code>: Called to create the C++ <code class="docutils literal notranslate"><span class="pre">reader</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code>: Called to reconstruct the final <code class="docutils literal notranslate"><span class="pre">awkward</span></code> content with the raw data read by the C++ <code class="docutils literal notranslate"><span class="pre">reader</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code>: Called to generate the <code class="docutils literal notranslate"><span class="pre">awkward</span></code> form.</p></li>
+</ul>
+<p>To select the appropriate <code class="docutils literal notranslate"><span class="pre">factory</span></code> for a data member, <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> loops over all registered <code class="docutils literal notranslate"><span class="pre">factory</span></code> classes, and calls their <code class="docutils literal notranslate"><span class="pre">build_factory</span></code> method. The first non-<code class="docutils literal notranslate"><span class="pre">None</span></code> return value will be used.</p>
+<section id="constructor">
+<h3>Constructor<a class="headerlink" href="#constructor" title="Link to this heading">#</a></h3>
+<p>The constructor of <code class="docutils literal notranslate"><span class="pre">factory</span></code> should receive all necessary parameters for the <code class="docutils literal notranslate"><span class="pre">factory</span></code> to build C++ reader, make <code class="docutils literal notranslate"><span class="pre">awkward</span></code> content and form. The constructor should at least receive a <code class="docutils literal notranslate"><span class="pre">name</span></code> parameter, which is usually the <code class="docutils literal notranslate"><span class="pre">fName</span></code> in the <code class="docutils literal notranslate"><span class="pre">streamer</span> <span class="pre">info</span></code>.</p>
+</section>
+<section id="class-method-build-factory">
+<span id="method-build-factory"></span><h3>Class method <code class="docutils literal notranslate"><span class="pre">build_factory</span></code><a class="headerlink" href="#class-method-build-factory" title="Link to this heading">#</a></h3>
+<p>This method is called when instatiating factories. It should be a class method.</p>
+<p>It receives following parameters:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">top_type_name:</span> <span class="pre">str</span></code>: The top-level type name of current data member.</p>
+<p>Any <code class="docutils literal notranslate"><span class="pre">std::</span></code> prefixes will be stripped. For example, for <code class="docutils literal notranslate"><span class="pre">std::vector&lt;std::map&lt;int,</span> <span class="pre">float&gt;&gt;</span></code>, the <code class="docutils literal notranslate"><span class="pre">top_type_name</span></code> is <code class="docutils literal notranslate"><span class="pre">vector</span></code>.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cur_streamer_info:</span> <span class="pre">dict</span></code>: The streamer info <code class="docutils literal notranslate"><span class="pre">dict</span></code> of the current data member.</p>
+<p><code class="docutils literal notranslate"><span class="pre">factory</span> </code> can use this information to decide whether it can handle this node, and to generate the configuration <code class="docutils literal notranslate"><span class="pre">dict</span></code>.</p>
+<p>An example of <code class="docutils literal notranslate"><span class="pre">cur_streamer_info</span></code> is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;@fUniqueID&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="s1">&#39;@fBits&#39;</span><span class="p">:</span> <span class="mi">16777216</span><span class="p">,</span>
+<span class="s1">&#39;fName&#39;</span><span class="p">:</span> <span class="s1">&#39;m_int&#39;</span><span class="p">,</span>
+<span class="s1">&#39;fTitle&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+<span class="s1">&#39;fType&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+<span class="s1">&#39;fSize&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+<span class="s1">&#39;fArrayLength&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="s1">&#39;fArrayDim&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="s1">&#39;fMaxIndex&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;&gt;i4&#39;</span><span class="p">),</span>
+<span class="s1">&#39;fTypeName&#39;</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>For other type of data members, such as STL containers or nested classes, some other attributes may be present.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">all_streamer_info:</span> <span class="pre">dict</span></code>: A <code class="docutils literal notranslate"><span class="pre">dict</span></code> mapping all available streamer names to their members’ streamer info <code class="docutils literal notranslate"><span class="pre">dict</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">factory</span></code> can use this information to look up the streamer info of any nested classes.</p>
+<p>For example, you can retrieve the streamer information of <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code> like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">all_streamer_info</span><span class="p">[</span><span class="s2">&quot;TSimpleObject&quot;</span><span class="p">]</span>
+<span class="go">[{&#39;@fUniqueID&#39;: 0,</span>
+<span class="go">&#39;@fBits&#39;: 16777216,</span>
+<span class="go">&#39;fName&#39;: &#39;TObject&#39;,</span>
+<span class="go">&#39;fTitle&#39;: &#39;Basic ROOT object&#39;,</span>
+<span class="go">&#39;fType&#39;: 66,</span>
+<span class="go">&#39;fSize&#39;: 0,</span>
+<span class="go">&#39;fArrayLength&#39;: 0,</span>
+<span class="go">&#39;fArrayDim&#39;: 0,</span>
+<span class="go">&#39;fMaxIndex&#39;: array([          0, -1877229523,           0,           0,           0],</span>
+<span class="go">        dtype=&#39;&gt;i4&#39;),</span>
+<span class="go">&#39;fTypeName&#39;: &#39;BASE&#39;,</span>
+<span class="go">&#39;fBaseVersion&#39;: 1},</span>
+<span class="go">{&#39;@fUniqueID&#39;: 0,</span>
+<span class="go">&#39;@fBits&#39;: 16777216,</span>
+<span class="go">&#39;fName&#39;: &#39;m_int&#39;,</span>
+<span class="go">&#39;fTitle&#39;: &#39;&#39;,</span>
+<span class="go">&#39;fType&#39;: 3,</span>
+<span class="go">&#39;fSize&#39;: 4,</span>
+<span class="go">&#39;fArrayLength&#39;: 0,</span>
+<span class="go">&#39;fArrayDim&#39;: 0,</span>
+<span class="go">&#39;fMaxIndex&#39;: array([0, 0, 0, 0, 0], dtype=&#39;&gt;i4&#39;),</span>
+<span class="go">&#39;fTypeName&#39;: &#39;int&#39;},</span>
+<span class="go">...</span>
+<span class="go">]</span>
+</pre></div>
+</div>
+<p>And use it to build sub-factories for nested data members:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sub_factories</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">all_streamer_info</span><span class="p">[</span><span class="s2">&quot;TSimpleObject&quot;</span><span class="p">]:</span>
+    <span class="n">sub_fac</span> <span class="o">=</span> <span class="n">build_factory</span><span class="p">(</span><span class="n">member</span><span class="p">)</span>
+    <span class="n">sub_factories</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub_fac</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">item_path:</span> <span class="pre">str</span></code>: The absolute path from the root node to the current data member.</p>
+<p>It is useful when some special handling is needed for certain nodes.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>: Any extra keyword arguments that might be needed.</p></li>
+</ul>
+<p>When current data member is not suitable for the <code class="docutils literal notranslate"><span class="pre">factory</span></code>, it should return <code class="docutils literal notranslate"><span class="pre">None</span></code>, so that <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> will try next <code class="docutils literal notranslate"><span class="pre">factory</span></code>, until one return an instance of itself.</p>
+<p>When current data member is suitable for the <code class="docutils literal notranslate"><span class="pre">factory</span></code>, it should return an instance of itself, with all necessary parameters passed to the constructor.</p>
+</section>
+<section id="method-build-cpp-reader">
+<h3>Method <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code><a class="headerlink" href="#method-build-cpp-reader" title="Link to this heading">#</a></h3>
+<p>This method is called to instatiate the C++ reader. For non-bottom-level factories, it should also instatiate sub-readers for nested data members and combine them together to the parent reader.</p>
+</section>
+<section id="method-make-awkward-content">
+<h3>Method <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code><a class="headerlink" href="#method-make-awkward-content" title="Link to this heading">#</a></h3>
+<p>This method is called to construct <code class="docutils literal notranslate"><span class="pre">awkward</span></code> content with given raw data read by the C++ <code class="docutils literal notranslate"><span class="pre">reader</span></code>.</p>
+<p>It receives following parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">raw_data:</span> <span class="pre">Any</span></code>: The raw data read by the C++ <code class="docutils literal notranslate"><span class="pre">reader</span></code>, returned by its <code class="docutils literal notranslate"><span class="pre">data</span></code> method.</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">factory</span></code> should return <code class="docutils literal notranslate"><span class="pre">awkward.contents.Content</span></code> object.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Refer to <a class="reference external" href="https://awkward-array.org/doc/main/user-guide/how-to-create-constructors.html"><code class="docutils literal notranslate"><span class="pre">awkward</span></code> direct constructors</a> for more details about <code class="docutils literal notranslate"><span class="pre">awkward</span></code> contents.</p>
+</div>
+</section>
+<section id="method-make-awkward-form">
+<h3>Method <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code><a class="headerlink" href="#method-make-awkward-form" title="Link to this heading">#</a></h3>
+<p>This method is called when building the <code class="docutils literal notranslate"><span class="pre">awkward</span></code> forms.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">factory</span></code> should return an <code class="docutils literal notranslate"><span class="pre">awkward.forms.Form</span></code> object.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Refer to <a class="reference external" href="https://awkward-array.org/doc/main/reference/generated/ak.forms.Form.html">awkward forms</a> for more details about <code class="docutils literal notranslate"><span class="pre">awkward</span></code> forms.</p>
+</div>
+</section>
+</section>
+<section id="example-of-reader-and-factory">
+<h2>Example of reader and factory<a class="headerlink" href="#example-of-reader-and-factory" title="Link to this heading">#</a></h2>
+<p>Take the <code class="docutils literal notranslate"><span class="pre">TArrayReader</span></code> and <code class="docutils literal notranslate"><span class="pre">TArrayFactory</span></code> as an example. This pair of <code class="docutils literal notranslate"><span class="pre">reader</span></code> and <code class="docutils literal notranslate"><span class="pre">factory</span></code> handles <code class="docutils literal notranslate"><span class="pre">TArray</span></code> nodes in the data tree.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TArrayReader</span></code>:</p>
+<ul class="simple">
+<li><p>Reads <code class="docutils literal notranslate"><span class="pre">fSize</span></code>, then reads <code class="docutils literal notranslate"><span class="pre">fSize</span></code> number of <code class="docutils literal notranslate"><span class="pre">T</span></code> elements from the binary stream in its <code class="docutils literal notranslate"><span class="pre">read</span></code> method.</p></li>
+<li><p>The read-out data is stored in two vectors: <code class="docutils literal notranslate"><span class="pre">m_offsets</span></code> and <code class="docutils literal notranslate"><span class="pre">m_data</span></code></p></li>
+<li><p>These two vectors are converted to <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays and returned in its <code class="docutils literal notranslate"><span class="pre">data</span></code> method, which is called after reading is done.</p></li>
+</ul>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">TArrayReader</span></code></span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TArrayReader</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">IElementReader</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="n">SharedVector</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_offsets</span><span class="p">;</span>
+<span class="w">    </span><span class="n">SharedVector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_data</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">public</span><span class="o">:</span>
+<span class="w">    </span><span class="n">TArrayReader</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="n">IElementReader</span><span class="p">(</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="p">,</span><span class="w"> </span><span class="n">m_offsets</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="p">,</span><span class="w"> </span><span class="n">m_data</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="w"> </span><span class="n">BinaryBuffer</span><span class="o">&amp;</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">fSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">        </span><span class="n">m_offsets</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="w"> </span><span class="n">m_offsets</span><span class="o">-&gt;</span><span class="n">back</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fSize</span><span class="w"> </span><span class="p">);</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">fSize</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">m_data</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">py</span><span class="o">::</span><span class="n">object</span><span class="w"> </span><span class="n">data</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">offsets_array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_array</span><span class="p">(</span><span class="w"> </span><span class="n">m_offsets</span><span class="w"> </span><span class="p">);</span>
+<span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">data_array</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">make_array</span><span class="p">(</span><span class="w"> </span><span class="n">m_data</span><span class="w"> </span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">py</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="w"> </span><span class="n">offsets_array</span><span class="p">,</span><span class="w"> </span><span class="n">data_array</span><span class="w"> </span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<hr class="docutils" />
+<p>In <code class="docutils literal notranslate"><span class="pre">TArrayFactory</span></code>,</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">build_factory</span></code> method matches the data member and instantiates the <code class="docutils literal notranslate"><span class="pre">TArrayFactory</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code> method creates the C++ <code class="docutils literal notranslate"><span class="pre">TArrayReader</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code> method constructs the <code class="docutils literal notranslate"><span class="pre">awkward</span></code> content with the raw data returned by <code class="docutils literal notranslate"><span class="pre">TArrayReader</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code> method generates the corresponding <code class="docutils literal notranslate"><span class="pre">awkward</span></code> form.</p></li>
+</ul>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">TArrayFactory</span></code></span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TArrayFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class reads TArray from a binary paerser.</span>
+
+<span class="sd">    TArray includes TArrayC, TArrayS, TArrayI, TArrayL, TArrayL64, TArrayF, and TArrayD.</span>
+<span class="sd">    Corresponding ctype is u1, u2, i4, i8, i8, f, and d.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">typenames</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;TArrayC&quot;</span><span class="p">:</span> <span class="s2">&quot;i1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TArrayS&quot;</span><span class="p">:</span> <span class="s2">&quot;i2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TArrayI&quot;</span><span class="p">:</span> <span class="s2">&quot;i4&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TArrayL&quot;</span><span class="p">:</span> <span class="s2">&quot;i8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TArrayL64&quot;</span><span class="p">:</span> <span class="s2">&quot;i8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TArrayF&quot;</span><span class="p">:</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TArrayD&quot;</span><span class="p">:</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return when `top_type_name` is in `cls.typenames`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">top_type_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">typenames</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">ctype</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">typenames</span><span class="p">[</span><span class="n">top_type_name</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">],</span> <span class="n">ctype</span><span class="o">=</span><span class="n">ctype</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ctype</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ctype</span> <span class="o">=</span> <span class="n">ctype</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;i1&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayCReader</span><span class="p">,</span>
+            <span class="s2">&quot;i2&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArraySReader</span><span class="p">,</span>
+            <span class="s2">&quot;i4&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayIReader</span><span class="p">,</span>
+            <span class="s2">&quot;i8&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayLReader</span><span class="p">,</span>
+            <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayFReader</span><span class="p">,</span>
+            <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayDReader</span><span class="p">,</span>
+        <span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">ctype</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
+        <span class="n">offsets</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">raw_data</span>
+        <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">ListOffsetArray</span><span class="p">(</span>
+            <span class="n">awkward</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">Index64</span><span class="p">(</span><span class="n">offsets</span><span class="p">),</span>
+            <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">NumpyArray</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">ListOffsetForm</span><span class="p">(</span>
+            <span class="s2">&quot;i64&quot;</span><span class="p">,</span>
+            <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="n">PrimitiveFactory</span><span class="o">.</span><span class="n">ctype_primitive_map</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ctype</span><span class="p">]),</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="bootstrap.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Bootstrap of custom classes reading in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../binary-format.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Binary format of common classes</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reader-interface">Reader interface</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#base-class-ielementreader">Base class: <code class="docutils literal notranslate"><span class="pre">IElementReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#binarybuffer-class"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer</span></code> class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accept-sub-readers">Accept sub-<code class="docutils literal notranslate"><span class="pre">reader</span></code>s</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transform-std-vector-to-numpy-array-without-copying">Transform <code class="docutils literal notranslate"><span class="pre">std::vector</span></code> to <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array without copying</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#declaring-reader-to-python">Declaring <code class="docutils literal notranslate"><span class="pre">reader</span></code> to Python</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-message">Debugging message</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#factory-interface">Factory interface</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructor">Constructor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#class-method-build-factory">Class method <code class="docutils literal notranslate"><span class="pre">build_factory</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-build-cpp-reader">Method <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-make-awkward-content">Method <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-make-awkward-form">Method <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-reader-and-factory">Example of reader and factory</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mingrun Li
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Mingrun Li.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
