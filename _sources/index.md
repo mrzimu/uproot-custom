@@ -4,7 +4,7 @@
 
 ## When to use `uproot-custom`
 
-`uproot-custom` aims to handle cases that custom classes are too complex for `uproot` to read, such as when their `Streamer` methods are overridden or some specific data members are not supported by `uproot`.
+`uproot-custom` aims to handle cases custom classes are too complex for `uproot` to read, such as when their `Streamer` methods are overridden or some specific data members are not supported by `uproot`.
 
 ## How `uproot-custom` works
 
