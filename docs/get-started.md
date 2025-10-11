@@ -1,95 +1,175 @@
 # Get started
 
-## Predefined reading rules
+`uproot-custom` has already defined several built-in readers and factories. You can firstly try them to see if they can handle your reading task.
 
-If your custom class is just too complex for `uproot` to read, you can try to use the predefined reading rules provided by `uproot-custom`.
+## Use built-in factories
 
-`uproot-custom` needs to know which branch you want to read. You need to firstly obtain the branch path of your custom class in the `TTree`.
+### Step 1: Obtain the object-path of branches
 
-```python
-import uproot
-import uproot_custom
-
-file = uproot.open("my_file.root")
-branch = file["path/to/my-branch"]
-print(uproot_custom.regularize_object_path(branch.object_path))
-```
-
-This will print the regularized path of the branch, like `/tree:path/to/my-branch`. You can then register this path to `uproot_custom.AsCustom`:
+To let `uproot-custom` read specific branches, you need to obtain the regularized `object-path` of the branches:
 
 ```python
 import uproot
-import uproot_custom
+import uproot_custom as uc
 
-# Register the branch path obtained above
-uproot_custom.AsCustom.target_branches.add("/tree:path/to/my-branch")
+# Open a ROOT file and get the object-path of a branch
+f = uproot.open("file.root")
+obj_path = f["my_tree/my_branch"].object_path
 
-file = uproot.open("my_file.root")
-branch = file["path/to/my-branch"]
-branch.show()
-array = branch.array()
+regularized_obj_path = uc.regularize_object_path(obj_path)
+print(regularized_obj_path)
+```
+```{code-block} console
+---
+caption: Output
+---
+/my_tree:my_branch
 ```
 
-In `branch.show()`, you should be able to see the interpretation becomes to `AsCustom(...)`, which means `uproot-custom` will try to read this branch with the predefined reading rules. In `branch.array()`, you should get an `awkward` array containing the data of your custom class.
+### Step 2: Register the branch to `uproot-custom` and read
 
-```{note}
-Sometimes `ROOT` will decompose a custom class into multiple branches. You need to obtain paths of all branches that you want to read.
-```
-
-## Customized reading rules
-
-If the predefined reading rules cannot handle your custom class, you can implement your own `Reader` to read it. Before continuing, you should take a view at [basic concepts](concepts).
-
-[The example project](https://github.com/mrzimu/uproot-custom/tree/main/example) provides a good entry point to start.
-
-```{note}
-Customizing reading rules requires a C++ compiler and `CMake` installed on your system.
-```
-
-### Step 1: Create your Python project
-
-<!-- TODO: Attach an example project in release -->
-
-Copy the example project to your local machine.
-
-(get-started-custom-step2)=
-### Step 2: Implement C++ part of your reader
-
-Enter to `<your-project>/cpp` directory, define C++ part of your own reader:
-
-- Inherits from `uproot::IElementReader`.
-
-- `void read( uproot::BinaryBuffer& buffer )` reads data from the binary stream. You should implement your reading logics here and store data into the `std::vector`.
-
-- `pybind11::object data() const` returns the data you've stored in the `std::vector`. You should transfer them into numpy array via `uproot::make_array` function.
-
-### Step 3: Implement Python part of your reader
-
-Enter to `<your-project>/my_reader` directory, define Python part of your own reader: 
-
-- Inherits from `uproot_custom.BaseReader`.
-
-- `gen_tree_config` identifies whether current node in the data tree is suitable for your reader.
-
-- `get_cpp_reader` reads node configuration generated in `gen_tree_config` and creates your C++ reader [defined above](#get-started-custom-step2).
-
-- `reconstruct_array` reconstructs raw data returned from your C++ reader. Usually C++ reader only return `list`, `tuple` and numpy array. You should transform these data into an awkward array in this method.
-
-```{tip}
-You can refer to [predefined readers](https://github.com/mrzimu/uproot-custom/tree/main/uproot_custom/readers.py) for more details about how to implement your own reader.
-```
-
-### Step 4: Register your reader to `uproot_custom.AsCustom`
-
-To let `uproot_custom.AsCustom` knows your reader, add these lines:
+Record the content of `regularized_obj_path` above. In the next time, you can register the branch to `uproot-custom` **before opening the file**:
 
 ```python
-import uproot_custom
-from xxx import MyReader # xxx refers to your project
+import uproot
+import uproot_custom as uc
 
-uproot_custom.registered_readers.add(MyReader)
+uc.AsCustom.target_branches.add("/my_tree:my_branch")
 ```
 
-### Step 5: Register the target branch
+You can print the branch with `show` method:
 
-Follows steps in [](#predefined-reading-rules) to register the branch you want to read.
+```python
+f["my_tree"].show()
+```
+
+As long as the registration is successful, the interpretation of `my_branch` should be `AsCustom`.
+
+````{tip}
+`uc.AsCustom.target_branches` is a `set`, you can add multiple branches like this:
+
+```python
+uc.AsCustom.target_branches |= {"/my_tree:branch1", "/my_tree:branch2"}
+```
+````
+
+Now you can read the branch as using `uproot`:
+
+```python
+arr = f["my_tree/my_branch"].array() # will be read by uproot-custom
+```
+
+### Example
+
+When storing a c-style array `std::vector<double>[3]` into a custom class like:
+
+```{code-block} cpp
+---
+caption: Class definition
+---
+class TCStyleArray : public TObject {
+public:
+  std::vector<double> m_vec_double[3]{ { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
+}
+```
+
+```{code-block} cpp
+---
+caption: Write to `TTree`
+---
+TTree t("my_tree", "my_tree");
+
+TCStyleArray obj;
+t.Branch("cstyle_array", &obj);
+
+for (int i = 0; i < 10; i++) {
+  obj = TCStyleArray();
+  t.Fill();
+}
+```
+
+Reading the branch with `uproot-custom`/`uproot` will lead to different results:
+
+```{note}
+At the time this document is written, the latest version of `uproot` is `5.6.6`.
+```
+
+`````{tab-set}
+````{tab-item} uproot-custom
+`uproot-custom` can handle this case with the built-in factories:
+
+```python
+import uproot
+import uproot_custom as uc
+
+# register the branch to uproot-custom
+uc.AsCustom.target_branches.add("/my_tree:cstyle_array/m_vec_double[3]")
+
+# open the file and read the branch as usual
+f = uproot.open("file.root")
+f["my_tree/cstyle_array/m_vec_double[3]"].array()
+```
+```{code-block} console
+---
+caption: Output
+---
+[[[[1, 2, 3], [4, 5, 6], [7, 8, 9]]],
+ [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]],
+ [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]],
+ [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]],
+ [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]],
+ [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]],
+ [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]],
+ [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]],
+ [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]],
+ [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]]]
+-------------------------------------
+backend: cpu
+nbytes: 1.1 kB
+type: 10 * var * 3 * var * float64
+```
+
+Use `show` method to inspect the branch:
+
+```python
+f["my_tree/cstyle_array/m_vec_double[3]"].show()
+```
+```{code-block} console
+---
+caption: Output
+---
+name                 | typename                 | interpretation                
+---------------------+--------------------------+-------------------------------
+m_vec_double[3]      | vector<double>[][3]      | AsCustom(vector<double>[][3]) 
+```
+
+Note that the interpretation is `AsCustom(vector<double>[][3])`, which means `uproot-custom` is used to read this branch.
+
+````
+````{tab-item} uproot
+Read the branch with `uproot`:
+
+```python
+import uproot
+f = uproot.open("file.root")
+f["my_tree/cstyle_array/m_vec_double[3]"].array()
+```
+
+It will throw `DeserializationError`:
+
+```{code-block} console
+---
+caption: Output
+---
+DeserializationError: expected 90 bytes but cursor moved by 34 bytes (through std::vector<double>)
+in file file.root
+in object /my_tree;1
+```
+````
+`````
+
+## Customize `factory` and `reader`
+
+If the built-in factories cannot handle the reading task, you need to implement your own `factory` and/or `reader`. This requires some knowledge of `ROOT`'s streaming mechanism and `uproot-custom`'s design.
+
+You can start from reading examples for a quick overview. For a deeper understanding of the design, read the architecture documents.
