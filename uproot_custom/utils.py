@@ -11,7 +11,7 @@ def regularize_object_path(object_path: str) -> str:
 
 _title_has_dims = re.compile(r"^([^\[\]]*)(\[[^\[\]]+\])+")
 _item_dim_pattern = re.compile(r"\[([1-9][0-9]*)\]")
-_item_any_pattern = re.compile(r"\[(.*)\]")
+_item_any_pattern = re.compile(r"(\[.*\])")
 
 
 def get_dims_from_branch(

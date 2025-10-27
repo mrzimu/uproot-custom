@@ -11,7 +11,7 @@ project(${SKBUILD_PROJECT_NAME}
     VERSION ${SKBUILD_PROJECT_VERSION}
     LANGUAGES CXX
 )
-    
+
 set(PYBIND11_NEWPYTHON ON)
 find_package(pybind11 REQUIRED)
 find_package(uproot-custom REQUIRED)
