@@ -4,13 +4,13 @@ import awkward as ak
 import numpy as np
 import uproot
 import uproot.behaviors.TBranch
-import uproot.interpretation
+import uproot.interpretation.custom
 
 from uproot_custom.factories import read_branch, read_branch_awkward_form
 from uproot_custom.utils import get_dims_from_branch, regularize_object_path
 
 
-class AsCustom(uproot.interpretation.Interpretation):
+class AsCustom(uproot.interpretation.custom.CustomInterpretation):
     target_branches: set[str] = set()
 
     def __init__(
