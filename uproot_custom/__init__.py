@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import uproot
 
 from uproot_custom.AsCustom import AsCustom
