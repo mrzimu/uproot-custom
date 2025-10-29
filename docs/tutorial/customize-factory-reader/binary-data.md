@@ -54,14 +54,15 @@ m_simple_obj[3]      | TSimpleObject[][3]       | AsObjects(AsArray(False, False
 
 This case is more common when you are trying to use `uproot-custom`.
 
+(obtain-binary-data)=
 ## Obtain branch binary data
 
-You can obtain the raw binary data of a branch using `AsBinary` interpretation:
+You can obtain the raw binary data of a branch using `uproot.interpretations.custom.AsBinary` interpretation:
 
 ```python
-import uproot_custom as uc
+from uproot.interpretations.custom import AsBinary
 
-raw_binary = f["my_tree/cstyle_array/m_simple_obj[3]"].array(interpretation=uc.AsBinary())
+raw_binary = f["my_tree/cstyle_array/m_simple_obj[3]"].array(interpretation=AsBinary())
 
 # Get binary data of entry 0
 raw_binary[0].to_numpy()
@@ -76,11 +77,11 @@ array([ 64,   0,   0, 223,   0,   1,   0,   1,   0,   0,   0,   0,   0,
         ...], dtype=uint8)
 ```
 
-This array is the raw binary data of the first entry of the branch `m_simple_obj[3]`, and it is the data what `reader`s will read.
+This array is the raw binary data of the first entry of the branch `m_simple_obj[3]`, and it is the data what readers will read.
 
 ## Understand the binary data
 
-Binary data is stored as `uint8_t`. In this section, we will explain how to understand the binary data.
+Binary data is stored as `uint8_t`. In this section, we will explain how to understand the binary data obtained above.
 
 ```{note}
 The streaming rules are summarized by myself. They may not be complete or accurate. If you find any mistakes, you are welcome to submit an issue or a PR to correct me!
@@ -141,4 +142,4 @@ void read( BinaryBuffer& buffer ) override {
 
 The second data member is `m_int`, which is an `int32_t`. Correspondingly, the next 4 bytes `0, 0, 0, 32` is the value of `m_int`, which is `32`. The third is `m_str`, which is a `std::string` (`fNBytes`+`fVersion`+`fSize`+contents). Similarly, as long as we follow the streamer information, we can understand the binary data step by step.
 
-[](binary-format) gives a summary of the binary format of some common classes. It is helpful when you want to implement your own `reader`/`factory`.
+[](../../reference/binary-format) gives a summary of the binary format of some common classes. It is helpful when you want to implement your own `reader`/`factory`.

@@ -1,10 +1,8 @@
-# Get started
+# Use built-in factories
 
 `uproot-custom` has already defined several built-in readers and factories. You can firstly try them to see if they can handle your reading task.
 
-## Use built-in factories
-
-### Step 1: Obtain the object-path of branches
+## Step 1: Obtain the object-path of branches
 
 To let `uproot-custom` read specific branches, you need to obtain the regularized `object-path` of the branches:
 
@@ -26,7 +24,7 @@ caption: Output
 /my_tree:my_branch
 ```
 
-### Step 2: Register the branch to `uproot-custom` and read
+## Step 2: Register the branch to `uproot-custom` and read
 
 Record the content of `regularized_obj_path` above. In the next time, you can register the branch to `uproot-custom` **before opening the file**:
 
@@ -59,7 +57,7 @@ Now you can read the branch as using `uproot`:
 arr = f["my_tree/my_branch"].array() # will be read by uproot-custom
 ```
 
-### Example
+## Example
 
 When storing a c-style array `std::vector<double>[3]` into a custom class like:
 
@@ -167,9 +165,3 @@ in object /my_tree;1
 ```
 ````
 `````
-
-## Customize `factory` and `reader`
-
-If the built-in factories cannot handle the reading task, you need to implement your own `factory` and/or `reader`. This requires some knowledge of `ROOT`'s streaming mechanism and `uproot-custom`'s design.
-
-You can start from reading examples for a quick overview. For a deeper understanding of the design, read the architecture documents.

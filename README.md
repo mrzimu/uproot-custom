@@ -10,6 +10,29 @@
 
 `uproot-custom` uses a `reader`/`factory` mechanism to read classes:
 
+```mermaid
+flowchart TD
+    subgraph py["Python field"]
+        direction TB
+        AsCustom --> fac["Factory (Primitive, STLVector, TString, ...)"]
+        fac["Factory (Primitive, STLVector, TString, ...)"] -- Optional --> form(["construct awkward forms"])
+        fac --> build_reader(["build corresponding C++ reader"])
+        fac --> build_ak(["construct awkward arrays"])
+    end
+
+    user_fac["User's Factory"] -. Register .-> fac
+
+    subgraph cpp["C++ field"]
+        direction TB
+        build_reader --> reader["C++ Reader"]
+        reader --> read_bin(["read binary data"])
+        read_bin --> ret_data(["return data"])
+    end
+
+    ret_data --> raw_data[("tuple, list, numpy arrays, ...")]
+    raw_data --> build_ak
+```
+
 - `reader` is a C++ class that implements the logic to read data from binary buffers.
 - `factory` is a Python class that creates, combines `reader`s, and post-processes the data read by `reader`s.
 
