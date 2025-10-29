@@ -63,6 +63,7 @@ caption: Reference
 ---
 reference/version-requirements
 reference/binary-format
+reference/api
 ```
 
 ```{toctree}

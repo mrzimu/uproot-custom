@@ -20,4 +20,4 @@ This table summarizes the required `pybind11` versions for each `uproot-custom` 
 
 | uproot-custom | pybind11 |
 | :-----------: | :------: |
-| `2.0.*`       | `3.0.*`  |
+| `2.0`         | `3.0`    |
