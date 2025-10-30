@@ -1,5 +1,9 @@
 [build-system]
-requires = ["scikit-build-core>=0.11", "pybind11>=2.10.0", "uproot-custom @ file://@wheel-path@"]
+requires = [
+    "scikit-build-core>=0.11",
+    "pybind11==3.0.*",
+    "uproot-custom @ file://@wheel-path@",
+]
 build-backend = "scikit_build_core.build"
 
 [project]
