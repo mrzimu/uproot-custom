@@ -1,5 +1,0 @@
-uproot_custom.cpp module
-=================
-
-.. autodoxygenfile:: uproot-custom.cc
-    :project: auto
