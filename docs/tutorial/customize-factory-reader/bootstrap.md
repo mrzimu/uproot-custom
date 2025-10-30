@@ -3,10 +3,10 @@
 When reading a `TBranch` with `uproot-custom`, the following steps are performed:
 
 1. `uproot-custom` reads the streamer information (which contains information about data members and their types) of the branch.
-2. `factory`s recursively create a tree-like configuration according to the streamer information.
-3. `factory`s create and combine `reader`s according to the configuration generated in step 2.
-4. The combined `reader` reads the binary data and returns raw `numpy` arrays.
-5. `factory`s reconstruct raw `numpy` arrays to the final `awkward` array according to the configuration.
+2. `factory`s recursively instantiate themselves and combine together into a tree-like structure according to the streamer information.
+3. `factory`s recursively create and combine `reader`s .
+4. The combined `reader` reads the binary data and return results back to `factory`.
+5. `factory`s recursively convert raw `numpy` arrays to `awkward` contents, and combine them into final `awkward` array.
 
 ## Build factory instances
 
@@ -24,7 +24,7 @@ For example, the streamer information of `TSimpleObject` is as follows (as illus
  'fElements': <TObjArray of 9 items at 0x74083a583b90>}
 ```
 
-The `AsCustom` interpretation calls `uproot_custom.factories.build_factory` method to build the factory for `TSimpleObject`. `uproot_custom.factories.build_factory` loops over all registered `factory`s, calls each `factory`'s `build_factory` method. If the `factory` recognizes the streamer information, it returns an instance of itself for the current node, otherwise it returns `None`.
+The `AsCustom` interpretation calls `uproot_custom.factories.build_factory` method to build the factory for `TSimpleObject`. `uproot_custom.factories.build_factory` loops over all registered factories, calls each factory's `build_factory` method. If the factory recognizes the streamer information, it returns an instance of itself for the current node, otherwise it returns `None`.
 
 ```{code-block} python
 ---
@@ -92,7 +92,7 @@ According to the [full streamer information of `TSimpleObject`'s data members](a
 {
     "factory": uproot_custom.factories.AnyClassFactory,
     "name": "TSimpleObject",
-    "sub_configs": [
+    "sub_factories": [
         {
             "factory": uproot_custom.factories.TObjectFactory,
             "name": "TObject",
@@ -181,7 +181,7 @@ Note that when `"factory"` is `STLSeqFactory` or `STLMapFactory`, there is `"ele
 
 ## Build C++ readers
 
-Once the factory instance is constructed, `AsCustom` interpretation calls `Factory.build_cpp_reader` method to build C++ `reader`s according to the configuration tree. The top-level factory calls its sub-factories to build sub-readers, then combines them together to the top-level `reader`. This is also done recursively, until the bottom-level factories build `reader`s that can directly read binary data to `numpy` arrays. 
+Once the factory instance is constructed, `AsCustom` interpretation calls `Factory.build_cpp_reader` method to build C++ readers recursively. The top-level factory calls its sub-factories to build sub-readers, then combines them together to the top-level reader.
 
 In `AnyClassFactory.build_cpp_reader` method, `AnyClassFactory` loops over the `sub_factories` attribute, and calls their `build_cpp_reader` method to build the C++ `reader` of each data member. Finally, it combines all sub-reader together to an `AnyClassReader`:
 

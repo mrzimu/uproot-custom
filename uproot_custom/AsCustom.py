@@ -5,6 +5,7 @@ import numpy as np
 import uproot
 import uproot.behaviors.TBranch
 import uproot.interpretation.custom
+from uproot.behaviors.TBranch import _branch_clean_name, _branch_clean_parent_name
 
 from uproot_custom.factories import read_branch, read_branch_awkward_form
 from uproot_custom.utils import get_dims_from_branch, regularize_object_path
@@ -35,6 +36,29 @@ class AsCustom(uproot.interpretation.custom.CustomInterpretation):
         self._context = context
         self._simplify = simplify
         self._typename = None
+
+        # try to fix streamer, due to a reverted PR https://github.com/scikit-hep/uproot5/pull/1505
+        if branch.streamer is None:
+            clean_name = _branch_clean_name.match(branch.name).group(2)
+            fParentName = branch.member("fParentName", none_if_missing=True)
+            fClassName = branch.member("fClassName", none_if_missing=True)
+
+            if fParentName is not None and fParentName != "":
+                matches = branch._file.streamers.get(fParentName.replace(" ", ""))
+
+                if matches is not None:
+                    streamerinfo = matches[max(matches)]
+
+                    for element in streamerinfo.walk_members(branch._file.streamers):
+                        if element.name == clean_name and (
+                            fClassName is None
+                            or fClassName == ""
+                            or element.parent is None
+                            or element.parent.name == ""
+                            or element.parent.name == fClassName.replace(" ", "")
+                        ):
+                            branch._streamer = element
+                            break
 
         # simplify streamer information
         self.all_streamer_info: dict[str, list[dict]] = {}
