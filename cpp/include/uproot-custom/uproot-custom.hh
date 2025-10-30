@@ -280,19 +280,19 @@ namespace uproot {
     /**
      * @brief Interface for element readers. All element readers must inherit from this class.
      */
-    class IElementReader {
+    class IReader {
       protected:
         const std::string m_name; ///< name of the reader
 
       public:
         /**
-         * @brief Construct a new IElementReader object.
+         * @brief Construct a new IReader object.
          *
          * @param name Name of the reader.
          */
-        IElementReader( std::string name ) : m_name( name ) {}
+        IReader( std::string name ) : m_name( name ) {}
 
-        virtual ~IElementReader() = default;
+        virtual ~IReader() = default;
 
         /**
          * @brief Get the name of the reader.
@@ -376,11 +376,11 @@ namespace uproot {
     };
 
     /**
-     * @brief Shortcut for shared pointer to IElementReader.
+     * @brief Shortcut for shared pointer to IReader.
      * @note When a reader requires another reader as a member, it must use
-     * `std::shared_ptr<IElementReader>` to properly handle lifetime management.
+     * `std::shared_ptr<IReader>` to properly handle lifetime management.
      */
-    using SharedReader = shared_ptr<IElementReader>;
+    using SharedReader = shared_ptr<IReader>;
 
     /*
     -----------------------------------------------------------------------------
@@ -414,7 +414,7 @@ namespace uproot {
      */
     template <typename ReaderType, typename... Args>
     void declare_reader( py::module& m, const char* name ) {
-        py::class_<ReaderType, shared_ptr<ReaderType>, IElementReader>( m, name ).def(
+        py::class_<ReaderType, shared_ptr<ReaderType>, IReader>( m, name ).def(
             py::init( &CreateReader<ReaderType, Args...> ) );
     }
 

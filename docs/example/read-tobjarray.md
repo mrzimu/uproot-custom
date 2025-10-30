@@ -210,14 +210,14 @@ The `TObjArrayFactory`/`TObjArrayReader` should be implemented by ourselves. Not
 Our `TObjArrayReader` can be implemented as follows:
 
 ```{code-block} cpp
-class TObjArrayReader : public IElementReader {
+class TObjArrayReader : public IReader {
   private:
     SharedReader m_element_reader;
     std::shared_ptr<std::vector<int64_t>> m_offsets;
 
   public:
     TObjArrayReader( std::string name, SharedReader element_reader )
-        : IElementReader( name )
+        : IReader( name )
         , m_element_reader( element_reader )
         , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) ) {}
 
@@ -254,7 +254,7 @@ PYBIND11_MODULE( my_reader_cpp, m ) {
 - Finally, we declare the `TObjArrayReader` in the `my_reader_cpp` module.
 
 ```{important}
-You should always use `IElementReader::read_many` method to read multiple objects in one go, since some classes (e.g. `std::vector`) may have "1 header + multiple objects" structure.
+You should always use `IReader::read_many` method to read multiple objects in one go, since some classes (e.g. `std::vector`) may have "1 header + multiple objects" structure.
 ```
 
 ## Step 3: Implement Python `factory`
