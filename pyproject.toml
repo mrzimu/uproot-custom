@@ -1,5 +1,5 @@
 [build-system]
-requires = ["scikit-build-core", "pybind11>=2.10.0"]
+requires = ["scikit-build-core", "pybind11==3.0.*"]
 build-backend = "scikit_build_core.build"
 
 [project]
@@ -54,6 +54,7 @@ optional-dependencies = { "dev" = [
     "sphinxcontrib-mermaid",
     "sphinx-autobuild",
     "sphinx-intl",
+    "breathe",
 ] }
 
 urls = { "Homepage" = "https://github.com/mrzimu/uproot-custom" }
@@ -73,7 +74,7 @@ write_to = "uproot_custom/_version.py"
 [tool.black]
 exclude = "/(build|dist|env|.git|.tox|.eggs|.venv)/"
 line-length = 95
-target-version = ['py39', 'py310', 'py311', 'py312', 'py313']
+target-version = ["py39", "py310", "py311", "py312", "py313"]
 
 [project.entry-points."cmake.root"]
 uproot-custom = "uproot_custom.share.cmake"
