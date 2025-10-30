@@ -9,7 +9,7 @@
 If the version of `pybind11` differs between the one used to build `uproot-custom` and the one used to build user's C++ readers, an exception like below may be raised when importing the user's C++ extension module:
 
 ```
-ImportError: generic_type: type "xxx" referenced unknown base type "uproot::IElementReader"
+ImportError: generic_type: type "xxx" referenced unknown base type "uproot::IReader"
 ```
 
 To avoid this issue, every versions of `uproot-custom` requires users to build their C++ readers with the same minor version of `pybind11` as the one used to build `uproot-custom`. Users are expected to specify the exact version of `pybind11` manually in their `pyproject.toml` file.

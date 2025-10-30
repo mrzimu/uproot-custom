@@ -154,12 +154,12 @@ class Factory:
     def __init__(self, name: str):
         self.name = name
 
-    def build_cpp_reader(self) -> uproot_custom.cpp.IElementReader:
+    def build_cpp_reader(self) -> uproot_custom.cpp.IReader:
         """
         Build concrete C++ reader.
 
         Returns:
-            An instance of `uproot_custom.cpp.IElementReader`.
+            An instance of `uproot_custom.cpp.IReader`.
         """
         raise NotImplementedError("build_cpp_reader not implemented.")
 

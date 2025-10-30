@@ -24,7 +24,7 @@ namespace uproot {
      * @tparam T Primitive type
      */
     template <typename T>
-    class PrimitiveReader : public IElementReader {
+    class PrimitiveReader : public IReader {
       private:
         SharedVector<T> m_data; ///< Store the read data
 
@@ -35,7 +35,7 @@ namespace uproot {
          * @param name Name of the reader
          */
         PrimitiveReader( string name )
-            : IElementReader( name ), m_data( std::make_shared<vector<T>>() ) {}
+            : IReader( name ), m_data( std::make_shared<vector<T>>() ) {}
 
         /**
          * @brief Read a value from the buffer and store it. Only reads one value at a time.
@@ -56,13 +56,13 @@ namespace uproot {
      * @brief Specialization of PrimitiveReader for bool type. Bools are stored as uint8_t.
      */
     template <>
-    class PrimitiveReader<bool> : public IElementReader {
+    class PrimitiveReader<bool> : public IReader {
       private:
         SharedVector<uint8_t> m_data; ///< Store the read data as uint8_t
 
       public:
         PrimitiveReader( string name )
-            : IElementReader( name ), m_data( std::make_shared<vector<uint8_t>>() ) {}
+            : IReader( name ), m_data( std::make_shared<vector<uint8_t>>() ) {}
 
         /**
          * @brief Read a uint8_t from the buffer and store it as bool
@@ -90,7 +90,7 @@ namespace uproot {
     /**
      * @brief Reader for TObject.
      */
-    class TObjectReader : public IElementReader {
+    class TObjectReader : public IReader {
       private:
         const bool m_keep_data;               ///< Whether to keep the read data
         SharedVector<int32_t> m_unique_id;    ///< Store fUniqueID values
@@ -106,7 +106,7 @@ namespace uproot {
          * @param keep_data Whether to keep the read data
          */
         TObjectReader( string name, bool keep_data )
-            : IElementReader( name )
+            : IReader( name )
             , m_keep_data( keep_data )
             , m_unique_id( std::make_shared<vector<int32_t>>() )
             , m_bits( std::make_shared<vector<uint32_t>>() )
@@ -166,7 +166,7 @@ namespace uproot {
     /**
      * @brief Reader for TString.
      */
-    class TStringReader : public IElementReader {
+    class TStringReader : public IReader {
       private:
         const bool m_with_header;     ///< Whether the TString has a `fNBytes+fVersion` header
         SharedVector<uint8_t> m_data; ///< Store the string data
@@ -180,7 +180,7 @@ namespace uproot {
          * @param with_header Whether the TString has a `fNBytes+fVersion` header.
          */
         TStringReader( string name, bool with_header )
-            : IElementReader( name )
+            : IReader( name )
             , m_with_header( with_header )
             , m_data( std::make_shared<vector<uint8_t>>() )
             , m_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) ) {}
@@ -274,7 +274,7 @@ namespace uproot {
     /**
      * @brief Reader for STL sequence types (e.g., std::vector, std::list).
      */
-    class STLSeqReader : public IElementReader {
+    class STLSeqReader : public IReader {
       private:
         const bool m_with_header; ///< Whether the sequence has a `fNBytes+fVersion` header.
         const int m_objwise_or_memberwise{ -1 }; ///< -1: auto, 0: obj-wise, 1: member-wise
@@ -293,7 +293,7 @@ namespace uproot {
          */
         STLSeqReader( string name, bool with_header, int objwise_or_memberwise,
                       SharedReader element_reader )
-            : IElementReader( name )
+            : IReader( name )
             , m_with_header( with_header )
             , m_objwise_or_memberwise( objwise_or_memberwise )
             , m_element_reader( element_reader )
@@ -442,7 +442,7 @@ namespace uproot {
     /**
      * @brief Reader for STL map types (e.g., std::map, std::unordered_map).
      */
-    class STLMapReader : public IElementReader {
+    class STLMapReader : public IReader {
       private:
         const bool m_with_header; ///< Whether the map has a `fNBytes+fVersion` header.
         const int m_objwise_or_memberwise{ -1 }; ///< -1: auto, 0: obj-wise, 1: member-wise
@@ -463,7 +463,7 @@ namespace uproot {
          */
         STLMapReader( string name, bool with_header, int objwise_or_memberwise,
                       SharedReader key_reader, SharedReader value_reader )
-            : IElementReader( name )
+            : IReader( name )
             , m_with_header( with_header )
             , m_objwise_or_memberwise( objwise_or_memberwise )
             , m_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) )
@@ -652,7 +652,7 @@ namespace uproot {
     /**
      * @brief Reader for STL string (std::string).
      */
-    class STLStringReader : public IElementReader {
+    class STLStringReader : public IReader {
       private:
         const bool m_with_header; ///< Whether the string has a `fNBytes+fVersion` header.
         SharedVector<int64_t> m_offsets; ///< Store the offsets for each string.
@@ -666,7 +666,7 @@ namespace uproot {
          * @param with_header Whether the string has a `fNBytes+fVersion` header.
          */
         STLStringReader( string name, bool with_header )
-            : IElementReader( name )
+            : IReader( name )
             , m_with_header( with_header )
             , m_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) )
             , m_data( std::make_shared<vector<uint8_t>>() ) {}
@@ -793,7 +793,7 @@ namespace uproot {
      * @tparam T Element type of the TArray.
      */
     template <typename T>
-    class TArrayReader : public IElementReader {
+    class TArrayReader : public IReader {
       private:
         SharedVector<int64_t> m_offsets; ///< Store the offsets for each TArray.
         SharedVector<T> m_data;          ///< Store the TArray data.
@@ -805,7 +805,7 @@ namespace uproot {
          * @param name Name of the reader.
          */
         TArrayReader( string name )
-            : IElementReader( name )
+            : IReader( name )
             , m_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) )
             , m_data( std::make_shared<vector<T>>() ) {}
 
@@ -843,7 +843,7 @@ namespace uproot {
     /**
      * @brief This reader groups multiple readers together and reads them sequentially.
      */
-    class GroupReader : public IElementReader {
+    class GroupReader : public IReader {
       private:
         vector<SharedReader> m_element_readers; ///< The grouped element readers.
 
@@ -856,7 +856,7 @@ namespace uproot {
          * of readers.
          */
         GroupReader( string name, vector<SharedReader> element_readers )
-            : IElementReader( name ), m_element_readers( element_readers ) {}
+            : IReader( name ), m_element_readers( element_readers ) {}
 
         /**
          * @brief Read all grouped elements from the buffer sequentially.
@@ -875,7 +875,7 @@ namespace uproot {
 
         /**
          * @brief Read multiple grouped elements from the buffer sequentially in member-wise
-         * mode. This method calls @ref IElementReader::read_many() of each grouped
+         * mode. This method calls @ref IReader::read_many() of each grouped
          * reader.
          *
          * @param buffer The binary buffer to read from.
@@ -923,7 +923,7 @@ namespace uproot {
      * @brief Reader for composed class types. Similar to @ref GroupReader, but reads a
      * `fNBytes+fVersion` header before reading the grouped elements.
      */
-    class AnyClassReader : public IElementReader {
+    class AnyClassReader : public IReader {
       private:
         vector<SharedReader> m_element_readers; ///< The element readers for the Any class.
 
@@ -936,7 +936,7 @@ namespace uproot {
          * be a list of readers.
          */
         AnyClassReader( string name, vector<SharedReader> element_readers )
-            : IElementReader( name ), m_element_readers( element_readers ) {}
+            : IReader( name ), m_element_readers( element_readers ) {}
 
         /**
          * @brief Read the object from the buffer. First reads the `fNBytes+fVersion`
@@ -970,7 +970,7 @@ namespace uproot {
 
         /**
          * @brief Read multiple objects from the buffer in member-wise mode. This method
-         * calls @ref IElementReader::read_many() of each element reader sequentially.
+         * calls @ref IReader::read_many() of each element reader sequentially.
          *
          * @param buffer The binary buffer to read from.
          * @param count Number of objects to read.
@@ -1017,7 +1017,7 @@ namespace uproot {
     /**
      * @brief Wrapper reader for object headers.
      */
-    class ObjectHeaderReader : public IElementReader {
+    class ObjectHeaderReader : public IReader {
       private:
         SharedReader m_element_reader; ///< Reader for the object content.
 
@@ -1029,7 +1029,7 @@ namespace uproot {
          * @param element_reader Reader for the object content.
          */
         ObjectHeaderReader( string name, SharedReader element_reader )
-            : IElementReader( name ), m_element_reader( element_reader ) {}
+            : IReader( name ), m_element_reader( element_reader ) {}
 
         /**
          * @brief Read the object header from the buffer, then delegate to @ref
@@ -1075,7 +1075,7 @@ namespace uproot {
     /**
      * @brief Reader for C-style arrays and std::array.
      */
-    class CStyleArrayReader : public IElementReader {
+    class CStyleArrayReader : public IReader {
       private:
         const int64_t m_flat_size; ///< Flatten size of the array. If negative, means variable
                                    ///< size.
@@ -1092,14 +1092,14 @@ namespace uproot {
          * @param element_reader Reader for the array elements.
          */
         CStyleArrayReader( string name, const int64_t flat_size, SharedReader element_reader )
-            : IElementReader( name )
+            : IReader( name )
             , m_flat_size( flat_size )
             , m_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) )
             , m_element_reader( element_reader ) {}
 
         /**
          * @brief Read the array from the buffer. If @ref m_flat_size is positive, calls @ref
-         * IElementReader::read_many() function of @ref m_element_reader. Otherwise, reads
+         * IReader::read_many() function of @ref m_element_reader. Otherwise, reads
          * until the end of the current entry in the buffer.
          *
          * @param buffer The binary buffer to read from.
@@ -1197,14 +1197,14 @@ namespace uproot {
     /**
      * @brief Reader that does nothing and returns None.
      */
-    class EmptyReader : public IElementReader {
+    class EmptyReader : public IReader {
       public:
         /**
          * @brief Construct a new EmptyReader object.
          *
          * @param name Name of the reader.
          */
-        EmptyReader( string name ) : IElementReader( name ) {}
+        EmptyReader( string name ) : IReader( name ) {}
 
         /**
          * @brief Do nothing.
@@ -1260,8 +1260,8 @@ namespace uproot {
         m.def( "read_data", &py_read_data, "Read data from a binary buffer", py::arg( "data" ),
                py::arg( "offsets" ), py::arg( "reader" ) );
 
-        py::class_<IElementReader, SharedReader>( m, "IElementReader" )
-            .def( "name", &IElementReader::name, "Get the name of the reader" );
+        py::class_<IReader, SharedReader>( m, "IReader" )
+            .def( "name", &IReader::name, "Get the name of the reader" );
 
         // Basic type readers
         declare_reader<PrimitiveReader<uint8_t>, string>( m, "UInt8Reader" );

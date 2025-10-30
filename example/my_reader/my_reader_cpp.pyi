@@ -1,11 +1,11 @@
-from uproot_custom.cpp import IElementReader
+from uproot_custom.cpp import IReader
 
-class OverrideStreamerReader(IElementReader):
+class OverrideStreamerReader(IReader):
     def __init__(self, name: str): ...
 
-class TObjArrayReader(IElementReader):
+class TObjArrayReader(IReader):
     def __init__(
         self,
         name: str,
-        element_reader: IElementReader,
+        element_reader: IReader,
     ): ...

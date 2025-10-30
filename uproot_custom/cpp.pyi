@@ -5,124 +5,124 @@ import numpy as np
 class BinaryParser:
     def __init__(self): ...
 
-class IElementReader:
+class IReader:
     def read(self, bparser: BinaryParser): ...
     def data(self): ...
 
-class UInt8Reader(IElementReader):
+class UInt8Reader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class UInt16Reader(IElementReader):
+class UInt16Reader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class UInt32Reader(IElementReader):
+class UInt32Reader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class UInt64Reader(IElementReader):
+class UInt64Reader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class Int8Reader(IElementReader):
+class Int8Reader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class Int16Reader(IElementReader):
+class Int16Reader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class Int32Reader(IElementReader):
+class Int32Reader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class Int64Reader(IElementReader):
+class Int64Reader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class BoolReader(IElementReader):
+class BoolReader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class DoubleReader(IElementReader):
+class DoubleReader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class FloatReader(IElementReader):
+class FloatReader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class STLSeqReader(IElementReader):
+class STLSeqReader(IReader):
     def __init__(
         self,
         name: str,
         with_header: bool,
         objwise_or_memberwise: int,
-        element_reader: IElementReader,
+        element_reader: IReader,
     ) -> None: ...
 
-class STLMapReader(IElementReader):
+class STLMapReader(IReader):
     def __init__(
         self,
         name: str,
         with_header: bool,
         objwise_or_memberwise: int,
-        key_reader: IElementReader,
-        value_reader: IElementReader,
+        key_reader: IReader,
+        value_reader: IReader,
     ) -> None: ...
 
-class STLStringReader(IElementReader):
+class STLStringReader(IReader):
     def __init__(
         self,
         name: str,
         with_header: bool,
     ) -> None: ...
 
-class TArrayCReader(IElementReader):
+class TArrayCReader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class TArraySReader(IElementReader):
+class TArraySReader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class TArrayIReader(IElementReader):
+class TArrayIReader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class TArrayLReader(IElementReader):
+class TArrayLReader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class TArrayFReader(IElementReader):
+class TArrayFReader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class TArrayDReader(IElementReader):
+class TArrayDReader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class TStringReader(IElementReader):
+class TStringReader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class TObjectReader(IElementReader):
+class TObjectReader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class GroupReader(IElementReader):
+class GroupReader(IReader):
     def __init__(
         self,
         name: str,
-        sub_readers: list[IElementReader],
+        sub_readers: list[IReader],
     ) -> None: ...
 
-class AnyClassReader(IElementReader):
+class AnyClassReader(IReader):
     def __init__(
         self,
         name: str,
-        sub_readers: list[IElementReader],
+        sub_readers: list[IReader],
     ) -> None: ...
 
-class ObjectHeaderReader(IElementReader):
+class ObjectHeaderReader(IReader):
     def __init__(
         self,
         name: str,
-        element_reader: IElementReader,
+        element_reader: IReader,
     ) -> None: ...
 
-class CStyleArrayReader(IElementReader):
+class CStyleArrayReader(IReader):
     def __init__(
         self,
         name: str,
         is_obj: bool,
         flat_size: int,
-        element_reader: IElementReader,
+        element_reader: IReader,
     ) -> None: ...
 
-class EmptyReader(IElementReader):
+class EmptyReader(IReader):
     def __init__(self, name: str) -> None: ...
 
-def read_data(data: np.ndarray, offsets: np.ndarray, reader: IElementReader): ...
+def read_data(data: np.ndarray, offsets: np.ndarray, reader: IReader): ...
