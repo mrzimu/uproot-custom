@@ -6,7 +6,7 @@ on:
 
 jobs:
     run-pytest:
-        uses: ./.github/workflows/run-pytest.yml
+        uses: ./.github/workflows/test-package.yml
 
     build-wheels:
         needs: run-pytest

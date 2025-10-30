@@ -1,9 +1,8 @@
 import pytest
 
 import uproot_custom
-import uproot
 
-test_branches = [
+test_branches = {
     "/my_tree:basic_types/m_bool",
     "/my_tree:basic_types/m_char",
     "/my_tree:basic_types/m_schar",
@@ -285,6 +284,12 @@ test_branches = [
     "/my_tree:nested_stl/m_map_vec_obj/m_map_vec_obj.second",
     "/my_tree:nested_stl/m_map_vec_str/m_map_vec_str.first",
     "/my_tree:nested_stl/m_map_vec_str/m_map_vec_str.second",
+    "/my_tree:complicated_stl/m_vec_uset_int",
+    "/my_tree:complicated_stl/m_carr_vec_int[5]",
+    "/my_tree:complicated_stl/m_carr_map_int_double[5]",
+    "/my_tree:complicated_stl/m_carr_str[5]",
+    "/my_tree:complicated_stl/m_arr_vec_int[5]",
+    "/my_tree:complicated_stl/m_arr_str[5]",
     "/my_tree:complicated_stl/m_map_vec_int/m_map_vec_int.first",
     "/my_tree:complicated_stl/m_map_vec_int/m_map_vec_int.second",
     "/my_tree:complicated_stl/m_umap_list_int/m_umap_list_int.first",
@@ -295,21 +300,16 @@ test_branches = [
     "/my_tree:complicated_stl/m_umap_uset_int/m_umap_uset_int.second",
     "/my_tree:complicated_stl/m_map_vec_list_set_int/m_map_vec_list_set_int.first",
     "/my_tree:complicated_stl/m_map_vec_list_set_int/m_map_vec_list_set_int.second",
-]
+}
 
-uproot_custom.AsCustom.target_branches |= set(test_branches)
-
-
-@pytest.mark.parametrize("sub_branch_path", test_branches)
-def test_AsCustom_array(f_test_data, sub_branch_path):
-    f_test_data[sub_branch_path].array()
+uproot_custom.AsCustom.target_branches |= test_branches
 
 
 @pytest.mark.parametrize("sub_branch_path", test_branches)
-def test_AsCustom_dask(test_data_path, sub_branch_path):
-    """
-    # TODO: At the moment, a bug in `uproot` prevents directly
-    reading a whole branch or tree with `dask`. This is irrelevant
-    to `uproot-custom` but should be fixed in `uproot` in the future.
-    """
-    uproot.dask({test_data_path: sub_branch_path}).compute()
+def test_AsCustom_arrays(f_test_data, sub_branch_path):
+    f_test_data[sub_branch_path].arrays()
+
+
+@pytest.mark.parametrize("sub_branch_path", test_branches)
+def test_AsCustom_virtual(f_test_data, sub_branch_path):
+    f_test_data[sub_branch_path].arrays(virtual=True)
