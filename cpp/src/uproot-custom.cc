@@ -116,7 +116,8 @@ namespace uproot {
         /**
          * @brief Read a TObject from the buffer. A TObject contains `fVersion` (int16_t),
          * `fUniqueID` (int32_t), `fBits` (uint32_t). If `fBits & kIsReferenced`, then a `pidf`
-         * (uint16_t) follows. @n If @ref m_keep_data is true, the read data will be stored.
+         * (uint16_t) follows. If @ref m_keep_data is true, the read data
+         * will be stored.
          *
          * @param buffer The binary buffer to read from
          */
