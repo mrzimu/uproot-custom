@@ -117,10 +117,10 @@ emphasize-lines: 16-33
 
 using namespace uproot;
 
-class OverrideStreamerReader : public IElementReader {
+class OverrideStreamerReader : public IReader {
   public:
     OverrideStreamerReader( std::string name )
-        : IElementReader( name )
+        : IReader( name )
         , m_data_ints( std::make_shared<std::vector<int>>() )
         , m_data_doubles( std::make_shared<std::vector<double>>() ) {}
 

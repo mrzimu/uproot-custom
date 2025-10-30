@@ -564,14 +564,14 @@ document.write(`
 <section id="step-2-implement-c-reader-to-read-binary-data">
 <h2>Step 2: Implement C++ <code class="docutils literal notranslate"><span class="pre">reader</span></code> to read binary data<a class="headerlink" href="#step-2-implement-c-reader-to-read-binary-data" title="Link to this heading">#</a></h2>
 <p>Our <code class="docutils literal notranslate"><span class="pre">TObjArrayReader</span></code> can be implemented as follows:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TObjArrayReader</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">IElementReader</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TObjArrayReader</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">IReader</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">private</span><span class="o">:</span>
 <span class="w">    </span><span class="n">SharedReader</span><span class="w"> </span><span class="n">m_element_reader</span><span class="p">;</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">m_offsets</span><span class="p">;</span>
 
 <span class="w">  </span><span class="k">public</span><span class="o">:</span>
 <span class="w">    </span><span class="n">TObjArrayReader</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">SharedReader</span><span class="w"> </span><span class="n">element_reader</span><span class="w"> </span><span class="p">)</span>
-<span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="n">IElementReader</span><span class="p">(</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">)</span>
+<span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="n">IReader</span><span class="p">(</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">)</span>
 <span class="w">        </span><span class="p">,</span><span class="w"> </span><span class="n">m_element_reader</span><span class="p">(</span><span class="w"> </span><span class="n">element_reader</span><span class="w"> </span><span class="p">)</span>
 <span class="w">        </span><span class="p">,</span><span class="w"> </span><span class="n">m_offsets</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
 
@@ -607,7 +607,7 @@ document.write(`
 </ul>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>You should always use <code class="docutils literal notranslate"><span class="pre">IElementReader::read_many</span></code> method to read multiple objects in one go, since some classes (e.g. <code class="docutils literal notranslate"><span class="pre">std::vector</span></code>) may have “1 header + multiple objects” structure.</p>
+<p>You should always use <code class="docutils literal notranslate"><span class="pre">IReader::read_many</span></code> method to read multiple objects in one go, since some classes (e.g. <code class="docutils literal notranslate"><span class="pre">std::vector</span></code>) may have “1 header + multiple objects” structure.</p>
 </div>
 </section>
 <section id="step-3-implement-python-factory">

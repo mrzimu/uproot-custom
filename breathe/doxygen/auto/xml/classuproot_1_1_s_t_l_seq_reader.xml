@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="classuproot_1_1_s_t_l_seq_reader" kind="class" language="C++" prot="public">
     <compoundname>uproot::STLSeqReader</compoundname>
-    <basecompoundref refid="classuproot_1_1_i_element_reader" prot="public" virt="non-virtual">uproot::IElementReader</basecompoundref>
+    <basecompoundref refid="classuproot_1_1_i_reader" prot="public" virt="non-virtual">uproot::IReader</basecompoundref>
     <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classuproot_1_1_s_t_l_seq_reader_1a8a504e4891324e0770d0819a7b5d1b08" prot="private" static="no" mutable="no">
         <type><ref refid="classuproot_1_1_s_t_l_seq_reader_1a73cc29d3a12261fad519bf8261d7befe" kindref="member">const</ref> <ref refid="classuproot_1_1_s_t_l_seq_reader_1a73cc29d3a12261fad519bf8261d7befe" kindref="member">bool</ref></type>
@@ -208,7 +208,7 @@
         <argsstring>(BinaryBuffer &amp;buffer) override</argsstring>
         <name>read</name>
         <qualifiedname>uproot::STLSeqReader::read</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_element_reader_1aa8792622949d1198850dbcc2cae7f88b">read</reimplements>
+        <reimplements refid="classuproot_1_1_i_reader_1af7b6cdf7293548710230ee82ff9706d8">read</reimplements>
         <param>
           <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
           <declname>buffer</declname>
@@ -238,7 +238,7 @@
         <argsstring>(BinaryBuffer &amp;buffer, const int64_t count) override</argsstring>
         <name>read_many</name>
         <qualifiedname>uproot::STLSeqReader::read_many</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_element_reader_1ab26faa8e12220b0284d8d04dbe9f467a">read_many</reimplements>
+        <reimplements refid="classuproot_1_1_i_reader_1a0f59056370968271e27813bd0722eae4">read_many</reimplements>
         <param>
           <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
           <declname>buffer</declname>
@@ -282,7 +282,7 @@
         <argsstring>(BinaryBuffer &amp;buffer, const uint8_t *end_pos) override</argsstring>
         <name>read_until</name>
         <qualifiedname>uproot::STLSeqReader::read_until</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_element_reader_1a487799ff1530dd3d5e59e74ddd92df50">read_until</reimplements>
+        <reimplements refid="classuproot_1_1_i_reader_1ab72b33c05c4e76a3f658b735f0068d66">read_until</reimplements>
         <param>
           <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
           <declname>buffer</declname>
@@ -326,7 +326,7 @@
         <argsstring>() const override</argsstring>
         <name>data</name>
         <qualifiedname>uproot::STLSeqReader::data</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_element_reader_1a9427a78526ae5ebe09237422c5fa0067">data</reimplements>
+        <reimplements refid="classuproot_1_1_i_reader_1acd7126fde99fad7d3f497aaee23ae118">data</reimplements>
         <briefdescription>
 <para>Get the data read by the reader. This should be called after the whole reading process. </para>
         </briefdescription>
@@ -347,8 +347,8 @@
     </detaileddescription>
     <inheritancegraph>
       <node id="2">
-        <label>uproot::IElementReader</label>
-        <link refid="classuproot_1_1_i_element_reader"/>
+        <label>uproot::IReader</label>
+        <link refid="classuproot_1_1_i_reader"/>
       </node>
       <node id="1">
         <label>uproot::STLSeqReader</label>
@@ -359,8 +359,8 @@
     </inheritancegraph>
     <collaborationgraph>
       <node id="2">
-        <label>uproot::IElementReader</label>
-        <link refid="classuproot_1_1_i_element_reader"/>
+        <label>uproot::IReader</label>
+        <link refid="classuproot_1_1_i_reader"/>
       </node>
       <node id="1">
         <label>uproot::STLSeqReader</label>
@@ -373,20 +373,20 @@
     <listofallmembers>
       <member refid="classuproot_1_1_s_t_l_seq_reader_1ac386c9ece7c9299e8a5673e2b8e310a3" prot="public" virt="non-virtual"><scope>uproot::STLSeqReader</scope><name>check_objwise_memberwise</name></member>
       <member refid="classuproot_1_1_s_t_l_seq_reader_1aa62fd58b0996d5f7ec36754f762dea4c" prot="public" virt="virtual"><scope>uproot::STLSeqReader</scope><name>data</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1a9b25d0fa08a042fbb3d7e0a2b6a88e2c" prot="public" virt="non-virtual"><scope>uproot::STLSeqReader</scope><name>IElementReader</name></member>
+      <member refid="classuproot_1_1_i_reader_1aed13e9c0926be8e89422cf49efdcc752" prot="public" virt="non-virtual"><scope>uproot::STLSeqReader</scope><name>IReader</name></member>
       <member refid="classuproot_1_1_s_t_l_seq_reader_1a746efee2e7be099bf0f2f5edf41aea11" prot="private" virt="non-virtual"><scope>uproot::STLSeqReader</scope><name>m_element_reader</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1aef43764302e9e3816906e4e06065ad23" prot="protected" virt="non-virtual"><scope>uproot::STLSeqReader</scope><name>m_name</name></member>
+      <member refid="classuproot_1_1_i_reader_1aae3ebcf2974166ec9eb868528759dbc9" prot="protected" virt="non-virtual"><scope>uproot::STLSeqReader</scope><name>m_name</name></member>
       <member refid="classuproot_1_1_s_t_l_seq_reader_1aac6e93897168dff885cd4ebdc21c5095" prot="private" virt="non-virtual"><scope>uproot::STLSeqReader</scope><name>m_objwise_or_memberwise</name></member>
       <member refid="classuproot_1_1_s_t_l_seq_reader_1abad7c3ce55a325c61005161c5b86578d" prot="private" virt="non-virtual"><scope>uproot::STLSeqReader</scope><name>m_offsets</name></member>
       <member refid="classuproot_1_1_s_t_l_seq_reader_1a8a504e4891324e0770d0819a7b5d1b08" prot="private" virt="non-virtual"><scope>uproot::STLSeqReader</scope><name>m_with_header</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1a3233db4feddc686ba0cc649e49f9899c" prot="public" virt="virtual"><scope>uproot::STLSeqReader</scope><name>name</name></member>
+      <member refid="classuproot_1_1_i_reader_1a94ec0db0c0012df8317add7519a0c299" prot="public" virt="virtual"><scope>uproot::STLSeqReader</scope><name>name</name></member>
       <member refid="classuproot_1_1_s_t_l_seq_reader_1a73cc29d3a12261fad519bf8261d7befe" prot="public" virt="virtual"><scope>uproot::STLSeqReader</scope><name>read</name></member>
       <member refid="classuproot_1_1_s_t_l_seq_reader_1a0ea19f37703df0ce987add7a6fd8fbb9" prot="public" virt="non-virtual"><scope>uproot::STLSeqReader</scope><name>read_body</name></member>
       <member refid="classuproot_1_1_s_t_l_seq_reader_1ab1ee392bd024724f9fe45c59880b0ca3" prot="public" virt="virtual"><scope>uproot::STLSeqReader</scope><name>read_many</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1ac9b523e94e8a88e05f45fcb61e883386" prot="public" virt="virtual"><scope>uproot::STLSeqReader</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot_1_1_i_reader_1a4d01c9b32bed762117e148e997b2fb25" prot="public" virt="virtual"><scope>uproot::STLSeqReader</scope><name>read_many_memberwise</name></member>
       <member refid="classuproot_1_1_s_t_l_seq_reader_1a862c178e643dd799d5aa5e150433aab9" prot="public" virt="virtual"><scope>uproot::STLSeqReader</scope><name>read_until</name></member>
       <member refid="classuproot_1_1_s_t_l_seq_reader_1ab9055c568aa137b763c9f52190ab9a80" prot="public" virt="non-virtual"><scope>uproot::STLSeqReader</scope><name>STLSeqReader</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1a1d89f076421cb0612201abac621d4fa4" prot="public" virt="virtual"><scope>uproot::STLSeqReader</scope><name>~IElementReader</name></member>
+      <member refid="classuproot_1_1_i_reader_1a0e010e1426c196808a4ac5f4723637cc" prot="public" virt="virtual"><scope>uproot::STLSeqReader</scope><name>~IReader</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

@@ -7,7 +7,7 @@
     <innerclass refid="classuproot_1_1_c_style_array_reader" prot="public">uproot::CStyleArrayReader</innerclass>
     <innerclass refid="classuproot_1_1_empty_reader" prot="public">uproot::EmptyReader</innerclass>
     <innerclass refid="classuproot_1_1_group_reader" prot="public">uproot::GroupReader</innerclass>
-    <innerclass refid="classuproot_1_1_i_element_reader" prot="public">uproot::IElementReader</innerclass>
+    <innerclass refid="classuproot_1_1_i_reader" prot="public">uproot::IReader</innerclass>
     <innerclass refid="classuproot_1_1_object_header_reader" prot="public">uproot::ObjectHeaderReader</innerclass>
     <innerclass refid="classuproot_1_1_primitive_reader" prot="public">uproot::PrimitiveReader</innerclass>
     <innerclass refid="classuproot_1_1_primitive_reader_3_01bool_01_4" prot="public">uproot::PrimitiveReader&lt; bool &gt;</innerclass>
@@ -18,23 +18,40 @@
     <innerclass refid="classuproot_1_1_t_object_reader" prot="public">uproot::TObjectReader</innerclass>
     <innerclass refid="classuproot_1_1_t_string_reader" prot="public">uproot::TStringReader</innerclass>
     <sectiondef kind="typedef">
-      <memberdef kind="typedef" id="uproot-custom_8hh_1a7ba0d2f918b4b98a3804f49d86a1e916" prot="public" static="no">
-        <type>shared_ptr&lt; <ref refid="classuproot_1_1_i_element_reader" kindref="compound">IElementReader</ref> &gt;</type>
-        <definition>using uproot::SharedReader = typedef shared_ptr&lt;IElementReader&gt;</definition>
+      <memberdef kind="typedef" id="uproot-custom_8hh_1afd7c737977e42677a5925b515109b673" prot="public" static="no">
+        <type><ref refid="classuproot_1_1_i_reader" kindref="compound">IReader</ref></type>
+        <definition>using uproot::IElementReader = typedef IReader</definition>
+        <argsstring></argsstring>
+        <name>IElementReader</name>
+        <qualifiedname>uproot::IElementReader</qualifiedname>
+        <briefdescription>
+<para>Deprecated alias for <ref refid="classuproot_1_1_i_reader" kindref="compound">IReader</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000001"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use <ref refid="classuproot_1_1_i_reader" kindref="compound">IReader</ref> instead. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="382" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="uproot-custom_8hh_1a34831c4dca741b4dc14b07339ff379e7" prot="public" static="no">
+        <type>shared_ptr&lt; <ref refid="classuproot_1_1_i_reader" kindref="compound">IReader</ref> &gt;</type>
+        <definition>using uproot::SharedReader = typedef shared_ptr&lt;IReader&gt;</definition>
         <argsstring></argsstring>
         <name>SharedReader</name>
         <qualifiedname>uproot::SharedReader</qualifiedname>
         <briefdescription>
-<para>Shortcut for shared pointer to <ref refid="classuproot_1_1_i_element_reader" kindref="compound">IElementReader</ref>. </para>
+<para>Shortcut for shared pointer to <ref refid="classuproot_1_1_i_reader" kindref="compound">IReader</ref>. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="note"><para>When a reader requires another reader as a member, it must use <computeroutput>std::shared_ptr&lt;<ref refid="classuproot_1_1_i_element_reader" kindref="compound">IElementReader</ref>&gt;</computeroutput> to properly handle lifetime management. </para>
+<para><simplesect kind="note"><para>When a reader requires another reader as a member, it must use <computeroutput>std::shared_ptr&lt;<ref refid="classuproot_1_1_i_reader" kindref="compound">IReader</ref>&gt;</computeroutput> to properly handle lifetime management. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="383" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="383" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="390" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="390" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="uproot-custom_8cc_1a161347aaa1050bb50c0609fb61a7e935" prot="public" static="no">
         <templateparamlist>
@@ -235,7 +252,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="401" column="16" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="401" bodyend="403"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="408" column="16" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="408" bodyend="410"/>
       </memberdef>
       <memberdef kind="function" id="uproot-custom_8hh_1adb84887bf6ef9f160a90c6fc7c32a591" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -303,7 +320,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="416" column="10" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="416" bodyend="419"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="423" column="10" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="423" bodyend="426"/>
       </memberdef>
       <memberdef kind="function" id="uproot-custom_8hh_1a8d651da24e026f25854373f8c8057b07" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <templateparamlist>
@@ -348,7 +365,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="436" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="436" bodyend="445"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="443" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="443" bodyend="452"/>
       </memberdef>
       <memberdef kind="function" id="uproot-custom_8hh_1a84d544a757ae5608b1e28e766f638584" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <templateparamlist>
@@ -405,7 +422,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="462" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="462" bodyend="469"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="469" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="469" bodyend="476"/>
       </memberdef>
       <memberdef kind="function" id="uproot-custom_8hh_1a95fe378fbb5f2b33e677a4388d99c7d5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
@@ -447,7 +464,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="479" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="479" bodyend="486"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="486" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="486" bodyend="493"/>
       </memberdef>
       <memberdef kind="function" id="uproot-custom_8cc_1a634d8fb778c8b0daeb8b8940cc299a3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>py::object</type>

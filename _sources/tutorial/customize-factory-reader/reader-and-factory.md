@@ -4,9 +4,9 @@
 
 ## Reader interface
 
-### Base class: `IElementReader`
+### Base class: `IReader`
 
-`reader` in C++ should derive from the `IElementReader` interface, which has two pure virtual methods:
+`reader` in C++ should derive from the `IReader` interface, which has two pure virtual methods:
 
 - `read`: called by parent `reader` to read data from the binary stream.
 - `data`: called after reading is done, to return the read-out data in `numpy` arrays or any Python nested containers filled with `numpy` arrays.
@@ -21,17 +21,17 @@ There are extra 3 virtual methods that can be overridden to handle special cases
 
 ```{code-block} cpp
 ---
-caption: `IElementReader`
+caption: `IReader`
 lineno-start: 1
 emphasize-lines: 11-12
 ---
-class IElementReader {
+class IReader {
   protected:
     const std::string m_name;
 
   public:
-    IElementReader( std::string name ) : m_name( name ) {}
-    virtual ~IElementReader() = default;
+    IReader( std::string name ) : m_name( name ) {}
+    virtual ~IReader() = default;
 
     virtual const std::string name() const { return m_name; }
 
@@ -102,9 +102,9 @@ Other methods include:
 
 When reading nested classes, a `reader` may require sub-`reader`s to read the nested data members. For example, `STLSeqReader` needs a sub-`reader` to read the element type of the STL sequence, such as `int`, `float`, or a custom class. In this case, the sub-`reader` can be passed to the constructor of the parent `reader`.
 
-In the constructor, the sub-`reader` should be passed as a `std::shared_ptr<IElementReader>`. This is because other `readers` are constructed in Python, so the ownership of the `reader` should be shared between C++ and Python.
+In the constructor, the sub-`reader` should be passed as a `std::shared_ptr<IReader>`. This is because other `readers` are constructed in Python, so the ownership of the `reader` should be shared between C++ and Python.
 
-`uproot-custom.hh` already define a type alias `using SharedReader = shared_ptr<IElementReader>;` for convenience.
+`uproot-custom.hh` already define a type alias `using SharedReader = shared_ptr<IReader>;` for convenience.
 
 
 ### Transform `std::vector` to `numpy` array without copying
@@ -293,14 +293,14 @@ The `TArrayReader`:
 caption: `TArrayReader`
 ---
 template <typename T>
-class TArrayReader : public IElementReader {
+class TArrayReader : public IReader {
     private:
     SharedVector<int64_t> m_offsets;
     SharedVector<T> m_data;
 
     public:
     TArrayReader( std::string name )
-        : IElementReader( name )
+        : IReader( name )
         , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) )
         , m_data( std::make_shared<std::vector<T>>() ) {}
 

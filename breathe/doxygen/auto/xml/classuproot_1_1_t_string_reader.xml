@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="classuproot_1_1_t_string_reader" kind="class" language="C++" prot="public">
     <compoundname>uproot::TStringReader</compoundname>
-    <basecompoundref refid="classuproot_1_1_i_element_reader" prot="public" virt="non-virtual">uproot::IElementReader</basecompoundref>
+    <basecompoundref refid="classuproot_1_1_i_reader" prot="public" virt="non-virtual">uproot::IReader</basecompoundref>
     <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classuproot_1_1_t_string_reader_1aa39abf7205fb1c9e899503efe2381fee" prot="private" static="no" mutable="no">
         <type><ref refid="classuproot_1_1_t_string_reader_1adba2e5ff041d5e4f230ebec83e8b1d86" kindref="member">const</ref> <ref refid="classuproot_1_1_t_string_reader_1adba2e5ff041d5e4f230ebec83e8b1d86" kindref="member">bool</ref></type>
@@ -98,7 +98,7 @@
         <argsstring>(BinaryBuffer &amp;buffer) override</argsstring>
         <name>read</name>
         <qualifiedname>uproot::TStringReader::read</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_element_reader_1aa8792622949d1198850dbcc2cae7f88b">read</reimplements>
+        <reimplements refid="classuproot_1_1_i_reader_1af7b6cdf7293548710230ee82ff9706d8">read</reimplements>
         <param>
           <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
           <declname>buffer</declname>
@@ -128,7 +128,7 @@
         <argsstring>(BinaryBuffer &amp;buffer, const int64_t count) override</argsstring>
         <name>read_many</name>
         <qualifiedname>uproot::TStringReader::read_many</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_element_reader_1ab26faa8e12220b0284d8d04dbe9f467a">read_many</reimplements>
+        <reimplements refid="classuproot_1_1_i_reader_1a0f59056370968271e27813bd0722eae4">read_many</reimplements>
         <param>
           <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
           <declname>buffer</declname>
@@ -172,7 +172,7 @@
         <argsstring>(BinaryBuffer &amp;buffer, const uint8_t *end_pos) override</argsstring>
         <name>read_until</name>
         <qualifiedname>uproot::TStringReader::read_until</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_element_reader_1a487799ff1530dd3d5e59e74ddd92df50">read_until</reimplements>
+        <reimplements refid="classuproot_1_1_i_reader_1ab72b33c05c4e76a3f658b735f0068d66">read_until</reimplements>
         <param>
           <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
           <declname>buffer</declname>
@@ -216,7 +216,7 @@
         <argsstring>() const override</argsstring>
         <name>data</name>
         <qualifiedname>uproot::TStringReader::data</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_element_reader_1a9427a78526ae5ebe09237422c5fa0067">data</reimplements>
+        <reimplements refid="classuproot_1_1_i_reader_1acd7126fde99fad7d3f497aaee23ae118">data</reimplements>
         <briefdescription>
 <para>Get the data read by the reader. This should be called after the whole reading process. </para>
         </briefdescription>
@@ -237,8 +237,8 @@
     </detaileddescription>
     <inheritancegraph>
       <node id="2">
-        <label>uproot::IElementReader</label>
-        <link refid="classuproot_1_1_i_element_reader"/>
+        <label>uproot::IReader</label>
+        <link refid="classuproot_1_1_i_reader"/>
       </node>
       <node id="1">
         <label>uproot::TStringReader</label>
@@ -249,8 +249,8 @@
     </inheritancegraph>
     <collaborationgraph>
       <node id="2">
-        <label>uproot::IElementReader</label>
-        <link refid="classuproot_1_1_i_element_reader"/>
+        <label>uproot::IReader</label>
+        <link refid="classuproot_1_1_i_reader"/>
       </node>
       <node id="1">
         <label>uproot::TStringReader</label>
@@ -262,18 +262,18 @@
     <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="169" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="169" bodyend="266"/>
     <listofallmembers>
       <member refid="classuproot_1_1_t_string_reader_1a31f91ea1274a09e73e0cc36bf6b57153" prot="public" virt="virtual"><scope>uproot::TStringReader</scope><name>data</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1a9b25d0fa08a042fbb3d7e0a2b6a88e2c" prot="public" virt="non-virtual"><scope>uproot::TStringReader</scope><name>IElementReader</name></member>
+      <member refid="classuproot_1_1_i_reader_1aed13e9c0926be8e89422cf49efdcc752" prot="public" virt="non-virtual"><scope>uproot::TStringReader</scope><name>IReader</name></member>
       <member refid="classuproot_1_1_t_string_reader_1a4fd1d3bbc21057027b5f7f23a9691f1c" prot="private" virt="non-virtual"><scope>uproot::TStringReader</scope><name>m_data</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1aef43764302e9e3816906e4e06065ad23" prot="protected" virt="non-virtual"><scope>uproot::TStringReader</scope><name>m_name</name></member>
+      <member refid="classuproot_1_1_i_reader_1aae3ebcf2974166ec9eb868528759dbc9" prot="protected" virt="non-virtual"><scope>uproot::TStringReader</scope><name>m_name</name></member>
       <member refid="classuproot_1_1_t_string_reader_1a1c80c8b58e78b95c5e3f06b557ca2251" prot="private" virt="non-virtual"><scope>uproot::TStringReader</scope><name>m_offsets</name></member>
       <member refid="classuproot_1_1_t_string_reader_1aa39abf7205fb1c9e899503efe2381fee" prot="private" virt="non-virtual"><scope>uproot::TStringReader</scope><name>m_with_header</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1a3233db4feddc686ba0cc649e49f9899c" prot="public" virt="virtual"><scope>uproot::TStringReader</scope><name>name</name></member>
+      <member refid="classuproot_1_1_i_reader_1a94ec0db0c0012df8317add7519a0c299" prot="public" virt="virtual"><scope>uproot::TStringReader</scope><name>name</name></member>
       <member refid="classuproot_1_1_t_string_reader_1adba2e5ff041d5e4f230ebec83e8b1d86" prot="public" virt="virtual"><scope>uproot::TStringReader</scope><name>read</name></member>
       <member refid="classuproot_1_1_t_string_reader_1a373591a98172b69837593718465ce5cc" prot="public" virt="virtual"><scope>uproot::TStringReader</scope><name>read_many</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1ac9b523e94e8a88e05f45fcb61e883386" prot="public" virt="virtual"><scope>uproot::TStringReader</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot_1_1_i_reader_1a4d01c9b32bed762117e148e997b2fb25" prot="public" virt="virtual"><scope>uproot::TStringReader</scope><name>read_many_memberwise</name></member>
       <member refid="classuproot_1_1_t_string_reader_1a113c3b1dd8d3bad2fa7356dd15f5a8dc" prot="public" virt="virtual"><scope>uproot::TStringReader</scope><name>read_until</name></member>
       <member refid="classuproot_1_1_t_string_reader_1a2fd8c79235e5aa6e069ddba72d12fa19" prot="public" virt="non-virtual"><scope>uproot::TStringReader</scope><name>TStringReader</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1a1d89f076421cb0612201abac621d4fa4" prot="public" virt="virtual"><scope>uproot::TStringReader</scope><name>~IElementReader</name></member>
+      <member refid="classuproot_1_1_i_reader_1a0e010e1426c196808a4ac5f4723637cc" prot="public" virt="virtual"><scope>uproot::TStringReader</scope><name>~IReader</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

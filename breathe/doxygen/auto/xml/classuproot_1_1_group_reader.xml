@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="classuproot_1_1_group_reader" kind="class" language="C++" prot="public">
     <compoundname>uproot::GroupReader</compoundname>
-    <basecompoundref refid="classuproot_1_1_i_element_reader" prot="public" virt="non-virtual">uproot::IElementReader</basecompoundref>
+    <basecompoundref refid="classuproot_1_1_i_reader" prot="public" virt="non-virtual">uproot::IReader</basecompoundref>
     <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classuproot_1_1_group_reader_1a3d6706f13fb347e1f9b261892d733986" prot="private" static="no" mutable="no">
         <type>vector&lt; SharedReader &gt;</type>
@@ -68,7 +68,7 @@
         <argsstring>(BinaryBuffer &amp;buffer) override</argsstring>
         <name>read</name>
         <qualifiedname>uproot::GroupReader::read</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_element_reader_1aa8792622949d1198850dbcc2cae7f88b">read</reimplements>
+        <reimplements refid="classuproot_1_1_i_reader_1af7b6cdf7293548710230ee82ff9706d8">read</reimplements>
         <param>
           <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
           <declname>buffer</declname>
@@ -98,7 +98,7 @@
         <argsstring>(BinaryBuffer &amp;buffer, const int64_t count) override</argsstring>
         <name>read_many_memberwise</name>
         <qualifiedname>uproot::GroupReader::read_many_memberwise</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_element_reader_1ac9b523e94e8a88e05f45fcb61e883386">read_many_memberwise</reimplements>
+        <reimplements refid="classuproot_1_1_i_reader_1a4d01c9b32bed762117e148e997b2fb25">read_many_memberwise</reimplements>
         <param>
           <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
           <declname>buffer</declname>
@@ -108,7 +108,7 @@
           <declname>count</declname>
         </param>
         <briefdescription>
-<para>Read multiple grouped elements from the buffer sequentially in member-wise mode. This method calls <ref refid="classuproot_1_1_i_element_reader_1ab26faa8e12220b0284d8d04dbe9f467a" kindref="member">IElementReader::read_many()</ref> of each grouped reader. </para>
+<para>Read multiple grouped elements from the buffer sequentially in member-wise mode. This method calls <ref refid="classuproot_1_1_i_reader_1a0f59056370968271e27813bd0722eae4" kindref="member">IReader::read_many()</ref> of each grouped reader. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -142,7 +142,7 @@
         <argsstring>() const override</argsstring>
         <name>data</name>
         <qualifiedname>uproot::GroupReader::data</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_element_reader_1a9427a78526ae5ebe09237422c5fa0067">data</reimplements>
+        <reimplements refid="classuproot_1_1_i_reader_1acd7126fde99fad7d3f497aaee23ae118">data</reimplements>
         <briefdescription>
 <para>Get the data read by the reader. This should be called after the whole reading process. </para>
         </briefdescription>
@@ -169,8 +169,8 @@
         </childnode>
       </node>
       <node id="2">
-        <label>uproot::IElementReader</label>
-        <link refid="classuproot_1_1_i_element_reader"/>
+        <label>uproot::IReader</label>
+        <link refid="classuproot_1_1_i_reader"/>
       </node>
     </inheritancegraph>
     <collaborationgraph>
@@ -181,23 +181,23 @@
         </childnode>
       </node>
       <node id="2">
-        <label>uproot::IElementReader</label>
-        <link refid="classuproot_1_1_i_element_reader"/>
+        <label>uproot::IReader</label>
+        <link refid="classuproot_1_1_i_reader"/>
       </node>
     </collaborationgraph>
     <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="846" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="846" bodyend="914"/>
     <listofallmembers>
       <member refid="classuproot_1_1_group_reader_1afca2b38e3e97ae1a55b16e2ed09f347f" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>data</name></member>
       <member refid="classuproot_1_1_group_reader_1ad60ff11f1a4685bf643a82ed5632c68f" prot="public" virt="non-virtual"><scope>uproot::GroupReader</scope><name>GroupReader</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1a9b25d0fa08a042fbb3d7e0a2b6a88e2c" prot="public" virt="non-virtual"><scope>uproot::GroupReader</scope><name>IElementReader</name></member>
+      <member refid="classuproot_1_1_i_reader_1aed13e9c0926be8e89422cf49efdcc752" prot="public" virt="non-virtual"><scope>uproot::GroupReader</scope><name>IReader</name></member>
       <member refid="classuproot_1_1_group_reader_1a3d6706f13fb347e1f9b261892d733986" prot="private" virt="non-virtual"><scope>uproot::GroupReader</scope><name>m_element_readers</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1aef43764302e9e3816906e4e06065ad23" prot="protected" virt="non-virtual"><scope>uproot::GroupReader</scope><name>m_name</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1a3233db4feddc686ba0cc649e49f9899c" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>name</name></member>
+      <member refid="classuproot_1_1_i_reader_1aae3ebcf2974166ec9eb868528759dbc9" prot="protected" virt="non-virtual"><scope>uproot::GroupReader</scope><name>m_name</name></member>
+      <member refid="classuproot_1_1_i_reader_1a94ec0db0c0012df8317add7519a0c299" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>name</name></member>
       <member refid="classuproot_1_1_group_reader_1a1bd17ce1d079e6cb55d62c94a037f4a8" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>read</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1ab26faa8e12220b0284d8d04dbe9f467a" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>read_many</name></member>
+      <member refid="classuproot_1_1_i_reader_1a0f59056370968271e27813bd0722eae4" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>read_many</name></member>
       <member refid="classuproot_1_1_group_reader_1ada5fb250a5829402744802ab012cc441" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>read_many_memberwise</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1a487799ff1530dd3d5e59e74ddd92df50" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>read_until</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1a1d89f076421cb0612201abac621d4fa4" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>~IElementReader</name></member>
+      <member refid="classuproot_1_1_i_reader_1ab72b33c05c4e76a3f658b735f0068d66" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>read_until</name></member>
+      <member refid="classuproot_1_1_i_reader_1a0e010e1426c196808a4ac5f4723637cc" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>~IReader</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

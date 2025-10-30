@@ -61,16 +61,16 @@
     <member refid="classuproot_1_1_group_reader_1ada5fb250a5829402744802ab012cc441" kind="function"><name>read_many_memberwise</name></member>
     <member refid="classuproot_1_1_group_reader_1afca2b38e3e97ae1a55b16e2ed09f347f" kind="function"><name>data</name></member>
   </compound>
-  <compound refid="classuproot_1_1_i_element_reader" kind="class"><name>uproot::IElementReader</name>
-    <member refid="classuproot_1_1_i_element_reader_1aef43764302e9e3816906e4e06065ad23" kind="variable"><name>m_name</name></member>
-    <member refid="classuproot_1_1_i_element_reader_1a9b25d0fa08a042fbb3d7e0a2b6a88e2c" kind="function"><name>IElementReader</name></member>
-    <member refid="classuproot_1_1_i_element_reader_1a1d89f076421cb0612201abac621d4fa4" kind="function"><name>~IElementReader</name></member>
-    <member refid="classuproot_1_1_i_element_reader_1a3233db4feddc686ba0cc649e49f9899c" kind="function"><name>name</name></member>
-    <member refid="classuproot_1_1_i_element_reader_1aa8792622949d1198850dbcc2cae7f88b" kind="function"><name>read</name></member>
-    <member refid="classuproot_1_1_i_element_reader_1a9427a78526ae5ebe09237422c5fa0067" kind="function"><name>data</name></member>
-    <member refid="classuproot_1_1_i_element_reader_1ab26faa8e12220b0284d8d04dbe9f467a" kind="function"><name>read_many</name></member>
-    <member refid="classuproot_1_1_i_element_reader_1a487799ff1530dd3d5e59e74ddd92df50" kind="function"><name>read_until</name></member>
-    <member refid="classuproot_1_1_i_element_reader_1ac9b523e94e8a88e05f45fcb61e883386" kind="function"><name>read_many_memberwise</name></member>
+  <compound refid="classuproot_1_1_i_reader" kind="class"><name>uproot::IReader</name>
+    <member refid="classuproot_1_1_i_reader_1aae3ebcf2974166ec9eb868528759dbc9" kind="variable"><name>m_name</name></member>
+    <member refid="classuproot_1_1_i_reader_1aed13e9c0926be8e89422cf49efdcc752" kind="function"><name>IReader</name></member>
+    <member refid="classuproot_1_1_i_reader_1a0e010e1426c196808a4ac5f4723637cc" kind="function"><name>~IReader</name></member>
+    <member refid="classuproot_1_1_i_reader_1a94ec0db0c0012df8317add7519a0c299" kind="function"><name>name</name></member>
+    <member refid="classuproot_1_1_i_reader_1af7b6cdf7293548710230ee82ff9706d8" kind="function"><name>read</name></member>
+    <member refid="classuproot_1_1_i_reader_1acd7126fde99fad7d3f497aaee23ae118" kind="function"><name>data</name></member>
+    <member refid="classuproot_1_1_i_reader_1a0f59056370968271e27813bd0722eae4" kind="function"><name>read_many</name></member>
+    <member refid="classuproot_1_1_i_reader_1ab72b33c05c4e76a3f658b735f0068d66" kind="function"><name>read_until</name></member>
+    <member refid="classuproot_1_1_i_reader_1a4d01c9b32bed762117e148e997b2fb25" kind="function"><name>read_many_memberwise</name></member>
   </compound>
   <compound refid="classuproot_1_1_object_header_reader" kind="class"><name>uproot::ObjectHeaderReader</name>
     <member refid="classuproot_1_1_object_header_reader_1aa86cd4dabfed16e902dd274dff2ac35f" kind="variable"><name>m_element_reader</name></member>
@@ -157,7 +157,8 @@
     <member refid="classuproot_1_1_t_string_reader_1a31f91ea1274a09e73e0cc36bf6b57153" kind="function"><name>data</name></member>
   </compound>
   <compound refid="namespaceuproot" kind="namespace"><name>uproot</name>
-    <member refid="uproot-custom_8hh_1a7ba0d2f918b4b98a3804f49d86a1e916" kind="typedef"><name>SharedReader</name></member>
+    <member refid="uproot-custom_8hh_1afd7c737977e42677a5925b515109b673" kind="typedef"><name>IElementReader</name></member>
+    <member refid="uproot-custom_8hh_1a34831c4dca741b4dc14b07339ff379e7" kind="typedef"><name>SharedReader</name></member>
     <member refid="uproot-custom_8cc_1a161347aaa1050bb50c0609fb61a7e935" kind="typedef"><name>SharedVector</name></member>
     <member refid="uproot-custom_8hh_1aa6d5be4abcfe0b7678688365f5a62828" kind="variable"><name>kNewClassTag</name></member>
     <member refid="uproot-custom_8hh_1a4689bafc3dcfb35b2298b4e7bbec80d5" kind="variable"><name>kClassMask</name></member>

@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="classuproot_1_1_primitive_reader_3_01bool_01_4" kind="class" language="C++" prot="public">
     <compoundname>uproot::PrimitiveReader&lt; bool &gt;</compoundname>
-    <basecompoundref refid="classuproot_1_1_i_element_reader" prot="public" virt="non-virtual">uproot::IElementReader</basecompoundref>
+    <basecompoundref refid="classuproot_1_1_i_reader" prot="public" virt="non-virtual">uproot::IReader</basecompoundref>
     <templateparamlist>
     </templateparamlist>
     <sectiondef kind="private-attrib">
@@ -47,7 +47,7 @@
         <argsstring>(BinaryBuffer &amp;buffer) override</argsstring>
         <name>read</name>
         <qualifiedname>uproot::PrimitiveReader&lt; bool &gt;::read</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_element_reader_1aa8792622949d1198850dbcc2cae7f88b">read</reimplements>
+        <reimplements refid="classuproot_1_1_i_reader_1af7b6cdf7293548710230ee82ff9706d8">read</reimplements>
         <param>
           <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
           <declname>buffer</declname>
@@ -77,7 +77,7 @@
         <argsstring>() const override</argsstring>
         <name>data</name>
         <qualifiedname>uproot::PrimitiveReader&lt; bool &gt;::data</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_element_reader_1a9427a78526ae5ebe09237422c5fa0067">data</reimplements>
+        <reimplements refid="classuproot_1_1_i_reader_1acd7126fde99fad7d3f497aaee23ae118">data</reimplements>
         <briefdescription>
 <para>Get the read data as a numpy array. </para>
         </briefdescription>
@@ -98,8 +98,8 @@
     </detaileddescription>
     <inheritancegraph>
       <node id="2">
-        <label>uproot::IElementReader</label>
-        <link refid="classuproot_1_1_i_element_reader"/>
+        <label>uproot::IReader</label>
+        <link refid="classuproot_1_1_i_reader"/>
       </node>
       <node id="1">
         <label>uproot::PrimitiveReader&lt; bool &gt;</label>
@@ -110,8 +110,8 @@
     </inheritancegraph>
     <collaborationgraph>
       <node id="2">
-        <label>uproot::IElementReader</label>
-        <link refid="classuproot_1_1_i_element_reader"/>
+        <label>uproot::IReader</label>
+        <link refid="classuproot_1_1_i_reader"/>
       </node>
       <node id="1">
         <label>uproot::PrimitiveReader&lt; bool &gt;</label>
@@ -123,16 +123,16 @@
     <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="59" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="59" bodyend="82"/>
     <listofallmembers>
       <member refid="classuproot_1_1_primitive_reader_3_01bool_01_4_1ab4da57234f495d969d4c9cf250996501" prot="public" virt="virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>data</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1a9b25d0fa08a042fbb3d7e0a2b6a88e2c" prot="public" virt="non-virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>IElementReader</name></member>
+      <member refid="classuproot_1_1_i_reader_1aed13e9c0926be8e89422cf49efdcc752" prot="public" virt="non-virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>IReader</name></member>
       <member refid="classuproot_1_1_primitive_reader_3_01bool_01_4_1a93fa5337380a0e97e510e942bad4dd1e" prot="private" virt="non-virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>m_data</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1aef43764302e9e3816906e4e06065ad23" prot="protected" virt="non-virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>m_name</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1a3233db4feddc686ba0cc649e49f9899c" prot="public" virt="virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>name</name></member>
+      <member refid="classuproot_1_1_i_reader_1aae3ebcf2974166ec9eb868528759dbc9" prot="protected" virt="non-virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>m_name</name></member>
+      <member refid="classuproot_1_1_i_reader_1a94ec0db0c0012df8317add7519a0c299" prot="public" virt="virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>name</name></member>
       <member refid="classuproot_1_1_primitive_reader_3_01bool_01_4_1ae7ec58c1c5727c5a103c3c92e4a34e65" prot="public" virt="non-virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>PrimitiveReader</name></member>
       <member refid="classuproot_1_1_primitive_reader_3_01bool_01_4_1a38c65459cbdf7827a8be3f204cd17f26" prot="public" virt="virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>read</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1ab26faa8e12220b0284d8d04dbe9f467a" prot="public" virt="virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>read_many</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1ac9b523e94e8a88e05f45fcb61e883386" prot="public" virt="virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>read_many_memberwise</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1a487799ff1530dd3d5e59e74ddd92df50" prot="public" virt="virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>read_until</name></member>
-      <member refid="classuproot_1_1_i_element_reader_1a1d89f076421cb0612201abac621d4fa4" prot="public" virt="virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>~IElementReader</name></member>
+      <member refid="classuproot_1_1_i_reader_1a0f59056370968271e27813bd0722eae4" prot="public" virt="virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>read_many</name></member>
+      <member refid="classuproot_1_1_i_reader_1a4d01c9b32bed762117e148e997b2fb25" prot="public" virt="virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot_1_1_i_reader_1ab72b33c05c4e76a3f658b735f0068d66" prot="public" virt="virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>read_until</name></member>
+      <member refid="classuproot_1_1_i_reader_1a0e010e1426c196808a4ac5f4723637cc" prot="public" virt="virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>~IReader</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>
