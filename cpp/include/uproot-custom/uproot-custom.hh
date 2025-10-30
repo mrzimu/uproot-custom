@@ -376,6 +376,13 @@ namespace uproot {
     };
 
     /**
+     * @brief Deprecated alias for IReader.
+     * @deprecated Use IReader instead.
+     */
+    using IElementReader
+        [[deprecated( "IElementReader is deprecated. Use IReader instead." )]] = IReader;
+
+    /**
      * @brief Shortcut for shared pointer to IReader.
      * @note When a reader requires another reader as a member, it must use
      * `std::shared_ptr<IReader>` to properly handle lifetime management.
