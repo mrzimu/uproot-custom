@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classuproot_1_1_object_header_reader" kind="class" language="C++" prot="public">
+    <compoundname>uproot::ObjectHeaderReader</compoundname>
+    <basecompoundref refid="classuproot_1_1_i_element_reader" prot="public" virt="non-virtual">uproot::IElementReader</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classuproot_1_1_object_header_reader_1aa86cd4dabfed16e902dd274dff2ac35f" prot="private" static="no" mutable="no">
+        <type>SharedReader</type>
+        <definition>SharedReader uproot::ObjectHeaderReader::m_element_reader</definition>
+        <argsstring></argsstring>
+        <name>m_element_reader</name>
+        <qualifiedname>uproot::ObjectHeaderReader::m_element_reader</qualifiedname>
+        <briefdescription>
+<para>Reader for the object content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1022" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1022" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classuproot_1_1_object_header_reader_1ae998232093b6ca2e31a3df60ffacc1b8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>uproot::ObjectHeaderReader::ObjectHeaderReader</definition>
+        <argsstring>(string name, SharedReader element_reader)</argsstring>
+        <name>ObjectHeaderReader</name>
+        <qualifiedname>uproot::ObjectHeaderReader::ObjectHeaderReader</qualifiedname>
+        <param>
+          <type>string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>SharedReader</type>
+          <declname>element_reader</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new Object Header Reader object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the reader. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>element_reader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reader for the object content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1031" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1031" bodyend="1032"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_object_header_reader_1a3977dd06e768f11b799e7b896d778d4f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void uproot::ObjectHeaderReader::read</definition>
+        <argsstring>(BinaryBuffer &amp;buffer) override</argsstring>
+        <name>read</name>
+        <qualifiedname>uproot::ObjectHeaderReader::read</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_element_reader_1aa8792622949d1198850dbcc2cae7f88b">read</reimplements>
+        <param>
+          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Read the object header from the buffer, then delegate to m_element_reader to read the object content. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary buffer to read from. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1040" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1040" bodyend="1058"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_object_header_reader_1a7a08392b5f052d1ca61ee1ff8e96bb0a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>py::object</type>
+        <definition>py::object uproot::ObjectHeaderReader::data</definition>
+        <argsstring>() const override</argsstring>
+        <name>data</name>
+        <qualifiedname>uproot::ObjectHeaderReader::data</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_element_reader_1a9427a78526ae5ebe09237422c5fa0067">data</reimplements>
+        <briefdescription>
+<para>Get the data read by the reader. This should be called after the whole reading process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Directly return the data from m_element_reader. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1066" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1066" bodyend="1066"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wrapper reader for object headers. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>uproot::IElementReader</label>
+        <link refid="classuproot_1_1_i_element_reader"/>
+      </node>
+      <node id="1">
+        <label>uproot::ObjectHeaderReader</label>
+        <link refid="classuproot_1_1_object_header_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>uproot::IElementReader</label>
+        <link refid="classuproot_1_1_i_element_reader"/>
+      </node>
+      <node id="1">
+        <label>uproot::ObjectHeaderReader</label>
+        <link refid="classuproot_1_1_object_header_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1020" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1020" bodyend="1067"/>
+    <listofallmembers>
+      <member refid="classuproot_1_1_object_header_reader_1a7a08392b5f052d1ca61ee1ff8e96bb0a" prot="public" virt="virtual"><scope>uproot::ObjectHeaderReader</scope><name>data</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a9b25d0fa08a042fbb3d7e0a2b6a88e2c" prot="public" virt="non-virtual"><scope>uproot::ObjectHeaderReader</scope><name>IElementReader</name></member>
+      <member refid="classuproot_1_1_object_header_reader_1aa86cd4dabfed16e902dd274dff2ac35f" prot="private" virt="non-virtual"><scope>uproot::ObjectHeaderReader</scope><name>m_element_reader</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1aef43764302e9e3816906e4e06065ad23" prot="protected" virt="non-virtual"><scope>uproot::ObjectHeaderReader</scope><name>m_name</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a3233db4feddc686ba0cc649e49f9899c" prot="public" virt="virtual"><scope>uproot::ObjectHeaderReader</scope><name>name</name></member>
+      <member refid="classuproot_1_1_object_header_reader_1ae998232093b6ca2e31a3df60ffacc1b8" prot="public" virt="non-virtual"><scope>uproot::ObjectHeaderReader</scope><name>ObjectHeaderReader</name></member>
+      <member refid="classuproot_1_1_object_header_reader_1a3977dd06e768f11b799e7b896d778d4f" prot="public" virt="virtual"><scope>uproot::ObjectHeaderReader</scope><name>read</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1ab26faa8e12220b0284d8d04dbe9f467a" prot="public" virt="virtual"><scope>uproot::ObjectHeaderReader</scope><name>read_many</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1ac9b523e94e8a88e05f45fcb61e883386" prot="public" virt="virtual"><scope>uproot::ObjectHeaderReader</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a487799ff1530dd3d5e59e74ddd92df50" prot="public" virt="virtual"><scope>uproot::ObjectHeaderReader</scope><name>read_until</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a1d89f076421cb0612201abac621d4fa4" prot="public" virt="virtual"><scope>uproot::ObjectHeaderReader</scope><name>~IElementReader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classuproot_1_1_any_class_reader" kind="class" language="C++" prot="public">
+    <compoundname>uproot::AnyClassReader</compoundname>
+    <basecompoundref refid="classuproot_1_1_i_element_reader" prot="public" virt="non-virtual">uproot::IElementReader</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classuproot_1_1_any_class_reader_1a677b67aa6398ee61628635d9a6954d72" prot="private" static="no" mutable="no">
+        <type>vector&lt; SharedReader &gt;</type>
+        <definition>vector&lt;SharedReader&gt; uproot::AnyClassReader::m_element_readers</definition>
+        <argsstring></argsstring>
+        <name>m_element_readers</name>
+        <qualifiedname>uproot::AnyClassReader::m_element_readers</qualifiedname>
+        <briefdescription>
+<para>The element readers for the Any class. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="928" column="16" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="928" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classuproot_1_1_any_class_reader_1a9a3db7a571c055dcc8dcc8d2acaab15c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>uproot::AnyClassReader::AnyClassReader</definition>
+        <argsstring>(string name, vector&lt; SharedReader &gt; element_readers)</argsstring>
+        <name>AnyClassReader</name>
+        <qualifiedname>uproot::AnyClassReader::AnyClassReader</qualifiedname>
+        <param>
+          <type>string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>vector&lt; SharedReader &gt;</type>
+          <declname>element_readers</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new Any Class Reader object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the reader. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>element_readers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The element readers for the Any class. In Python, this should be a list of readers. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="938" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="938" bodyend="939"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_any_class_reader_1aa0e8fd9772e0505f248b0b37203afb61" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void uproot::AnyClassReader::read</definition>
+        <argsstring>(BinaryBuffer &amp;buffer) override</argsstring>
+        <name>read</name>
+        <qualifiedname>uproot::AnyClassReader::read</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_element_reader_1aa8792622949d1198850dbcc2cae7f88b">read</reimplements>
+        <param>
+          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Read the object from the buffer. First reads the <computeroutput>fNBytes+fVersion</computeroutput> header, then reads all elements sequentially. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary buffer to read from. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="947" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="947" bodyend="969"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_any_class_reader_1a7c9b451d8dac06276fda9a709913bba6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classuproot_1_1_any_class_reader_1aa0e8fd9772e0505f248b0b37203afb61" kindref="member">uint32_t</ref></type>
+        <definition>uint32_t uproot::AnyClassReader::read_many_memberwise</definition>
+        <argsstring>(BinaryBuffer &amp;buffer, const int64_t count) override</argsstring>
+        <name>read_many_memberwise</name>
+        <qualifiedname>uproot::AnyClassReader::read_many_memberwise</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_element_reader_1ac9b523e94e8a88e05f45fcb61e883386">read_many_memberwise</reimplements>
+        <param>
+          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type><ref refid="classuproot_1_1_any_class_reader_1aa0e8fd9772e0505f248b0b37203afb61" kindref="member">const</ref> <ref refid="classuproot_1_1_any_class_reader_1aa0e8fd9772e0505f248b0b37203afb61" kindref="member">int64_t</ref></type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Read multiple objects from the buffer in member-wise mode. This method calls <ref refid="classuproot_1_1_i_element_reader_1ab26faa8e12220b0284d8d04dbe9f467a" kindref="member">IElementReader::read_many()</ref> of each element reader sequentially. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary buffer to read from. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of objects to read. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of objects read. Should be equal to <ref refid="classuproot_1_1_any_class_reader_1aa0e8fd9772e0505f248b0b37203afb61" kindref="member">count</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="979" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="979" bodyend="996"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_any_class_reader_1ae8994380cf5a5a11fe734af389a75092" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>py::object</type>
+        <definition>py::object uproot::AnyClassReader::data</definition>
+        <argsstring>() const override</argsstring>
+        <name>data</name>
+        <qualifiedname>uproot::AnyClassReader::data</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_element_reader_1a9427a78526ae5ebe09237422c5fa0067">data</reimplements>
+        <briefdescription>
+<para>Get the data read by the reader. This should be called after the whole reading process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A list of data from each element reader. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1004" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1004" bodyend="1008"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Reader for composed class types. Similar to <ref refid="classuproot_1_1_group_reader" kindref="compound">GroupReader</ref>, but reads a <computeroutput>fNBytes+fVersion</computeroutput> header before reading the grouped elements. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>uproot::AnyClassReader</label>
+        <link refid="classuproot_1_1_any_class_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>uproot::IElementReader</label>
+        <link refid="classuproot_1_1_i_element_reader"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>uproot::AnyClassReader</label>
+        <link refid="classuproot_1_1_any_class_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>uproot::IElementReader</label>
+        <link refid="classuproot_1_1_i_element_reader"/>
+      </node>
+    </collaborationgraph>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="926" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="926" bodyend="1009"/>
+    <listofallmembers>
+      <member refid="classuproot_1_1_any_class_reader_1a9a3db7a571c055dcc8dcc8d2acaab15c" prot="public" virt="non-virtual"><scope>uproot::AnyClassReader</scope><name>AnyClassReader</name></member>
+      <member refid="classuproot_1_1_any_class_reader_1ae8994380cf5a5a11fe734af389a75092" prot="public" virt="virtual"><scope>uproot::AnyClassReader</scope><name>data</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a9b25d0fa08a042fbb3d7e0a2b6a88e2c" prot="public" virt="non-virtual"><scope>uproot::AnyClassReader</scope><name>IElementReader</name></member>
+      <member refid="classuproot_1_1_any_class_reader_1a677b67aa6398ee61628635d9a6954d72" prot="private" virt="non-virtual"><scope>uproot::AnyClassReader</scope><name>m_element_readers</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1aef43764302e9e3816906e4e06065ad23" prot="protected" virt="non-virtual"><scope>uproot::AnyClassReader</scope><name>m_name</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a3233db4feddc686ba0cc649e49f9899c" prot="public" virt="virtual"><scope>uproot::AnyClassReader</scope><name>name</name></member>
+      <member refid="classuproot_1_1_any_class_reader_1aa0e8fd9772e0505f248b0b37203afb61" prot="public" virt="virtual"><scope>uproot::AnyClassReader</scope><name>read</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1ab26faa8e12220b0284d8d04dbe9f467a" prot="public" virt="virtual"><scope>uproot::AnyClassReader</scope><name>read_many</name></member>
+      <member refid="classuproot_1_1_any_class_reader_1a7c9b451d8dac06276fda9a709913bba6" prot="public" virt="virtual"><scope>uproot::AnyClassReader</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a487799ff1530dd3d5e59e74ddd92df50" prot="public" virt="virtual"><scope>uproot::AnyClassReader</scope><name>read_until</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a1d89f076421cb0612201abac621d4fa4" prot="public" virt="virtual"><scope>uproot::AnyClassReader</scope><name>~IElementReader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

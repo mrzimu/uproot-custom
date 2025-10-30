@@ -1,0 +1,464 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classuproot_1_1_s_t_l_map_reader" kind="class" language="C++" prot="public">
+    <compoundname>uproot::STLMapReader</compoundname>
+    <basecompoundref refid="classuproot_1_1_i_element_reader" prot="public" virt="non-virtual">uproot::IElementReader</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classuproot_1_1_s_t_l_map_reader_1adb692a36d7af74c0986017a24a3d9661" prot="private" static="no" mutable="no">
+        <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">const</ref> <ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">bool</ref></type>
+        <definition>const bool uproot::STLMapReader::m_with_header</definition>
+        <argsstring></argsstring>
+        <name>m_with_header</name>
+        <qualifiedname>uproot::STLMapReader::m_with_header</qualifiedname>
+        <briefdescription>
+<para>Whether the map has a <computeroutput>fNBytes+fVersion</computeroutput> header. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="447" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="447" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuproot_1_1_s_t_l_map_reader_1ad03355666423bcedbf40608f189c3cb7" prot="private" static="no" mutable="no">
+        <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">const</ref> <ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">int</ref></type>
+        <definition>const int uproot::STLMapReader::m_objwise_or_memberwise</definition>
+        <argsstring></argsstring>
+        <name>m_objwise_or_memberwise</name>
+        <qualifiedname>uproot::STLMapReader::m_objwise_or_memberwise</qualifiedname>
+        <initializer>{ -1 }</initializer>
+        <briefdescription>
+<para>-1: auto, 0: obj-wise, 1: member-wise </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="448" column="19" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="448" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuproot_1_1_s_t_l_map_reader_1a889ed6f289e58eb0d84929a04989e087" prot="private" static="no" mutable="no">
+        <type>SharedVector&lt; <ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">int64_t</ref> &gt;</type>
+        <definition>SharedVector&lt;int64_t&gt; uproot::STLMapReader::m_offsets</definition>
+        <argsstring></argsstring>
+        <name>m_offsets</name>
+        <qualifiedname>uproot::STLMapReader::m_offsets</qualifiedname>
+        <briefdescription>
+<para>Store the offsets for each map. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="449" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="449" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuproot_1_1_s_t_l_map_reader_1a7becbb7d3d96d575b18e13644f431066" prot="private" static="no" mutable="no">
+        <type>SharedReader</type>
+        <definition>SharedReader uproot::STLMapReader::m_key_reader</definition>
+        <argsstring></argsstring>
+        <name>m_key_reader</name>
+        <qualifiedname>uproot::STLMapReader::m_key_reader</qualifiedname>
+        <briefdescription>
+<para>Reader for the keys of the map. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="450" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="450" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuproot_1_1_s_t_l_map_reader_1a1306f00d1d2e759e9b3d690007582b1c" prot="private" static="no" mutable="no">
+        <type>SharedReader</type>
+        <definition>SharedReader uproot::STLMapReader::m_value_reader</definition>
+        <argsstring></argsstring>
+        <name>m_value_reader</name>
+        <qualifiedname>uproot::STLMapReader::m_value_reader</qualifiedname>
+        <briefdescription>
+<para>Reader for the values of the map. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="451" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="451" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classuproot_1_1_s_t_l_map_reader_1a5a1809c447f32fd4884f1bc18f7bea84" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>uproot::STLMapReader::STLMapReader</definition>
+        <argsstring>(string name, bool with_header, int objwise_or_memberwise, SharedReader key_reader, SharedReader value_reader)</argsstring>
+        <name>STLMapReader</name>
+        <qualifiedname>uproot::STLMapReader::STLMapReader</qualifiedname>
+        <param>
+          <type>string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">bool</ref></type>
+          <declname>with_header</declname>
+        </param>
+        <param>
+          <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">int</ref></type>
+          <declname>objwise_or_memberwise</declname>
+        </param>
+        <param>
+          <type>SharedReader</type>
+          <declname>key_reader</declname>
+        </param>
+        <param>
+          <type>SharedReader</type>
+          <declname>value_reader</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new <ref refid="classuproot_1_1_s_t_l_map_reader" kindref="compound">STLMapReader</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the reader. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>with_header</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the map has a <computeroutput>fNBytes+fVersion</computeroutput> header. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>objwise_or_memberwise</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Object-wise or member-wise reading mode. -1: auto, 0: obj-wise, 1: member-wise. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_reader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reader for the keys of the map. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value_reader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reader for the values of the map. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="464" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="464" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_s_t_l_map_reader_1a99d92512e696a12fdd452d7ae9b08a45" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">void</ref></type>
+        <definition>void uproot::STLMapReader::check_objwise_memberwise</definition>
+        <argsstring>(const bool is_memberwise)</argsstring>
+        <name>check_objwise_memberwise</name>
+        <qualifiedname>uproot::STLMapReader::check_objwise_memberwise</qualifiedname>
+        <param>
+          <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">const</ref> <ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">bool</ref></type>
+          <declname>is_memberwise</declname>
+        </param>
+        <briefdescription>
+<para>Check if the reading mode matches the expected mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>is_memberwise</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the current reading mode is member-wise. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="478" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="478" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_s_t_l_map_reader_1a0d6eba27490472777f70bcd2fe36492a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">void</ref></type>
+        <definition>void uproot::STLMapReader::read_body</definition>
+        <argsstring>(BinaryBuffer &amp;buffer, bool is_memberwise)</argsstring>
+        <name>read_body</name>
+        <qualifiedname>uproot::STLMapReader::read_body</qualifiedname>
+        <param>
+          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">bool</ref></type>
+          <declname>is_memberwise</declname>
+        </param>
+        <briefdescription>
+<para>Read the body of the map from the buffer. First reads the size (uint32_t) of the map, then calls m_key_reader and m_value_reader to read the keys and values. If member-wise, reads all keys first, then all values. Otherwise, reads key-value pairs one by one. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary buffer to read from. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>is_memberwise</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the current reading mode is member-wise. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="496" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="496" bodyend="513"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void uproot::STLMapReader::read</definition>
+        <argsstring>(BinaryBuffer &amp;buffer) override</argsstring>
+        <name>read</name>
+        <qualifiedname>uproot::STLMapReader::read</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_element_reader_1aa8792622949d1198850dbcc2cae7f88b">read</reimplements>
+        <param>
+          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Read a map from the buffer. If m_with_header is true, reads a <computeroutput>fNBytes+fVersion</computeroutput> header and skip 6 extra bytes. Then calls <ref refid="classuproot_1_1_s_t_l_map_reader_1a0d6eba27490472777f70bcd2fe36492a" kindref="member">read_body()</ref> to read the map body. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary buffer to read from. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="522" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="522" bodyend="530"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_s_t_l_map_reader_1afff1fe3a5f48b7c86ae42e2ae0d13772" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">uint32_t</ref></type>
+        <definition>uint32_t uproot::STLMapReader::read_many</definition>
+        <argsstring>(BinaryBuffer &amp;buffer, const int64_t count) override</argsstring>
+        <name>read_many</name>
+        <qualifiedname>uproot::STLMapReader::read_many</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_element_reader_1ab26faa8e12220b0284d8d04dbe9f467a">read_many</reimplements>
+        <param>
+          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">const</ref> <ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">int64_t</ref></type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Read multiple maps from the buffer. If m_with_header is true, reads a <computeroutput>fNBytes+fVersion</computeroutput> header and skip 6 extra bytes once before reading multiple maps. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary buffer to read from. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of maps to read. If negative, reads according to the <computeroutput>fNBytes</computeroutput> header. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of maps read. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="542" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="542" bodyend="582"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_s_t_l_map_reader_1ad7f3e43954f6e2c659e87d97e5cba2b3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">uint32_t</ref></type>
+        <definition>uint32_t uproot::STLMapReader::read_until</definition>
+        <argsstring>(BinaryBuffer &amp;buffer, const uint8_t *end_pos) override</argsstring>
+        <name>read_until</name>
+        <qualifiedname>uproot::STLMapReader::read_until</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_element_reader_1a487799ff1530dd3d5e59e74ddd92df50">read_until</reimplements>
+        <param>
+          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">const</ref> <ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">uint8_t</ref> *</type>
+          <declname>end_pos</declname>
+        </param>
+        <briefdescription>
+<para>Read sequences from the buffer until reaching the end position. If m_with_header is true, reads a <computeroutput>fNBytes+fVersion</computeroutput> header and skip 6 extra bytes once before reading sequences. If data is stored member-wise, skips 2 bytes after the header. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary buffer to read from. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The end position to stop reading. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of sequences read. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="594" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="594" bodyend="615"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_s_t_l_map_reader_1a94e46b88bc13e902d35d7c79a4e411b6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">uint32_t</ref></type>
+        <definition>virtual uint32_t uproot::STLMapReader::read_many_memberwise</definition>
+        <argsstring>(BinaryBuffer &amp;buffer, const int64_t count) override</argsstring>
+        <name>read_many_memberwise</name>
+        <qualifiedname>uproot::STLMapReader::read_many_memberwise</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_element_reader_1ac9b523e94e8a88e05f45fcb61e883386">read_many_memberwise</reimplements>
+        <param>
+          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">const</ref> <ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">int64_t</ref></type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Read multiple maps from the buffer in member-wise mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary buffer to read from. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of maps to read. If negative, throws an error. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of maps read. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="624" column="26" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="624" bodyend="636"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_s_t_l_map_reader_1a889883808310bab80f589c0f862ffb6a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>py::object</type>
+        <definition>py::object uproot::STLMapReader::data</definition>
+        <argsstring>() const override</argsstring>
+        <name>data</name>
+        <qualifiedname>uproot::STLMapReader::data</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_element_reader_1a9427a78526ae5ebe09237422c5fa0067">data</reimplements>
+        <briefdescription>
+<para>Get the data read by the reader. This should be called after the whole reading process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A tuple contains: (offsets, keys_data, values_data). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="644" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="644" bodyend="649"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Reader for STL map types (e.g., std::map, std::unordered_map). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>uproot::IElementReader</label>
+        <link refid="classuproot_1_1_i_element_reader"/>
+      </node>
+      <node id="1">
+        <label>uproot::STLMapReader</label>
+        <link refid="classuproot_1_1_s_t_l_map_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>uproot::IElementReader</label>
+        <link refid="classuproot_1_1_i_element_reader"/>
+      </node>
+      <node id="1">
+        <label>uproot::STLMapReader</label>
+        <link refid="classuproot_1_1_s_t_l_map_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="445" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="445" bodyend="650"/>
+    <listofallmembers>
+      <member refid="classuproot_1_1_s_t_l_map_reader_1a99d92512e696a12fdd452d7ae9b08a45" prot="public" virt="non-virtual"><scope>uproot::STLMapReader</scope><name>check_objwise_memberwise</name></member>
+      <member refid="classuproot_1_1_s_t_l_map_reader_1a889883808310bab80f589c0f862ffb6a" prot="public" virt="virtual"><scope>uproot::STLMapReader</scope><name>data</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a9b25d0fa08a042fbb3d7e0a2b6a88e2c" prot="public" virt="non-virtual"><scope>uproot::STLMapReader</scope><name>IElementReader</name></member>
+      <member refid="classuproot_1_1_s_t_l_map_reader_1a7becbb7d3d96d575b18e13644f431066" prot="private" virt="non-virtual"><scope>uproot::STLMapReader</scope><name>m_key_reader</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1aef43764302e9e3816906e4e06065ad23" prot="protected" virt="non-virtual"><scope>uproot::STLMapReader</scope><name>m_name</name></member>
+      <member refid="classuproot_1_1_s_t_l_map_reader_1ad03355666423bcedbf40608f189c3cb7" prot="private" virt="non-virtual"><scope>uproot::STLMapReader</scope><name>m_objwise_or_memberwise</name></member>
+      <member refid="classuproot_1_1_s_t_l_map_reader_1a889ed6f289e58eb0d84929a04989e087" prot="private" virt="non-virtual"><scope>uproot::STLMapReader</scope><name>m_offsets</name></member>
+      <member refid="classuproot_1_1_s_t_l_map_reader_1a1306f00d1d2e759e9b3d690007582b1c" prot="private" virt="non-virtual"><scope>uproot::STLMapReader</scope><name>m_value_reader</name></member>
+      <member refid="classuproot_1_1_s_t_l_map_reader_1adb692a36d7af74c0986017a24a3d9661" prot="private" virt="non-virtual"><scope>uproot::STLMapReader</scope><name>m_with_header</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a3233db4feddc686ba0cc649e49f9899c" prot="public" virt="virtual"><scope>uproot::STLMapReader</scope><name>name</name></member>
+      <member refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" prot="public" virt="virtual"><scope>uproot::STLMapReader</scope><name>read</name></member>
+      <member refid="classuproot_1_1_s_t_l_map_reader_1a0d6eba27490472777f70bcd2fe36492a" prot="public" virt="non-virtual"><scope>uproot::STLMapReader</scope><name>read_body</name></member>
+      <member refid="classuproot_1_1_s_t_l_map_reader_1afff1fe3a5f48b7c86ae42e2ae0d13772" prot="public" virt="virtual"><scope>uproot::STLMapReader</scope><name>read_many</name></member>
+      <member refid="classuproot_1_1_s_t_l_map_reader_1a94e46b88bc13e902d35d7c79a4e411b6" prot="public" virt="virtual"><scope>uproot::STLMapReader</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot_1_1_s_t_l_map_reader_1ad7f3e43954f6e2c659e87d97e5cba2b3" prot="public" virt="virtual"><scope>uproot::STLMapReader</scope><name>read_until</name></member>
+      <member refid="classuproot_1_1_s_t_l_map_reader_1a5a1809c447f32fd4884f1bc18f7bea84" prot="public" virt="non-virtual"><scope>uproot::STLMapReader</scope><name>STLMapReader</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a1d89f076421cb0612201abac621d4fa4" prot="public" virt="virtual"><scope>uproot::STLMapReader</scope><name>~IElementReader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -52,10 +52,18 @@
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Get started" href="get-started.html" />
+    <link rel="next" title="Use built-in factories" href="tutorial/use-built-in.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -170,23 +178,34 @@
             </li>
         </ul>
         <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="get-started.html">Get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/use-built-in.html">Use built-in factories</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tutorial/customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/bootstrap.html">Bootstrap of custom classes reading in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/streamer-info.html">Streamer information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/binary-data.html">Binary data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/template-python-project.html">Template Python project</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="examples/override-streamer.html">Example 1: <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method is overridden</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/read-tobjarray.html">Example 2: Read <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> with unique known type</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Architecture</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="architecture/streamer-info.html">Streamer information</a></li>
-<li class="toctree-l1"><a class="reference internal" href="architecture/binary-data.html">Binary data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="architecture/bootstrap.html">Bootstrap of custom classes reading in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="architecture/reader-and-factory.html">Reader and factory interface</a></li>
+</details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="binary-format.html">Binary format of common classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/version-requirements.html">Version requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/binary-format.html">Binary format of common classes</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="reference/api.html">API documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/api/cpp-api.html">C++ API reference</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="reference/api/uproot-custom-ref.html">Module reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/api/uproot_custom.html">Python reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/api/cpp-module.html">C++ reference</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="example/override-streamer.html">Example 1: <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method is overridden</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example/read-tobjarray.html">Example 2: Read <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> with unique known type</a></li>
 </ul>
 
     </div>
@@ -360,7 +379,28 @@ document.write(`
 <section id="how-uproot-custom-works">
 <h2>How <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> works<a class="headerlink" href="#how-uproot-custom-works" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> uses a <code class="docutils literal notranslate"><span class="pre">reader</span></code>/<code class="docutils literal notranslate"><span class="pre">factory</span></code> mechanism to read classes:</p>
-<ul class="simple">
+<pre  class="mermaid">
+        flowchart TD
+    subgraph py[&quot;Python field&quot;]
+        direction TB
+        AsCustom --&gt; fac[&quot;Factory (Primitive, STLVector, TString, ...)&quot;]
+        fac[&quot;Factory (Primitive, STLVector, TString, ...)&quot;] -- Optional --&gt; form([&quot;construct awkward forms&quot;])
+        fac --&gt; build_reader([&quot;build corresponding C++ reader&quot;])
+        fac --&gt; build_ak([&quot;construct awkward arrays&quot;])
+    end
+
+    user_fac[&quot;User's Factory&quot;] -. Register .-&gt; fac
+
+    subgraph cpp[&quot;C++ field&quot;]
+        direction TB
+        build_reader --&gt; reader[&quot;C++ Reader&quot;]
+        reader --&gt; read_bin([&quot;read binary data&quot;])
+        read_bin --&gt; ret_data([&quot;return data&quot;])
+    end
+
+    ret_data --&gt; raw_data[(&quot;tuple, list, numpy arrays, ...&quot;)]
+    raw_data --&gt; build_ak
+    </pre><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">reader</span></code> is a C++ class that implements the logic to read data from binary buffers.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">factory</span></code> is a Python class that creates, combines <code class="docutils literal notranslate"><span class="pre">reader</span></code>s, and post-processes the data read by <code class="docutils literal notranslate"><span class="pre">reader</span></code>s.</p></li>
 </ul>
@@ -372,8 +412,6 @@ document.write(`
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> does not provide a full reimplementation of <code class="docutils literal notranslate"><span class="pre">ROOT</span></code>’s I/O system. Users are expected to implement their own <code class="docutils literal notranslate"><span class="pre">factory</span></code>/<code class="docutils literal notranslate"><span class="pre">reader</span></code> for their custom classes that built-in factories cannot handle.</p>
-</div>
-<div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
 </div>
@@ -396,11 +434,11 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="right-next"
-       href="get-started.html"
+       href="tutorial/use-built-in.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Get started</p>
+        <p class="prev-next-title">Use built-in factories</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

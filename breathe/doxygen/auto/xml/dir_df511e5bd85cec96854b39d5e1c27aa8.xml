@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_df511e5bd85cec96854b39d5e1c27aa8" kind="dir">
+    <compoundname>/home/runner/work/uproot-custom/uproot-custom/cpp</compoundname>
+    <innerdir refid="dir_07f37e320deb3031a60f4b23b9c60eb5">/home/runner/work/uproot-custom/uproot-custom/cpp/include</innerdir>
+    <innerdir refid="dir_7e72c7cf48e3493f8206cd364e6bc9f6">/home/runner/work/uproot-custom/uproot-custom/cpp/src</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/"/>
+  </compounddef>
+</doxygen>

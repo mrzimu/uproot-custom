@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_09a99c3ba1102f5ef37beec98271baab" kind="dir">
+    <compoundname>/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom</compoundname>
+    <innerfile refid="uproot-custom_8hh">uproot-custom.hh</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/"/>
+  </compounddef>
+</doxygen>

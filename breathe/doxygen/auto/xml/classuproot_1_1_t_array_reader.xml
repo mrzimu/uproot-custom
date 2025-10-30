@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classuproot_1_1_t_array_reader" kind="class" language="C++" prot="public">
+    <compoundname>uproot::TArrayReader</compoundname>
+    <basecompoundref refid="classuproot_1_1_i_element_reader" prot="public" virt="non-virtual">uproot::IElementReader</basecompoundref>
+    <templateparamlist>
+      <param>
+        <type><ref refid="classuproot_1_1_t_array_reader_1a93e03ee3c804e6efd1518b6f6bd453bc" kindref="member">typename</ref> <ref refid="classuproot_1_1_t_array_reader_1a93e03ee3c804e6efd1518b6f6bd453bc" kindref="member">T</ref></type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classuproot_1_1_t_array_reader_1a1185e567d7bb4b1ccef6e0a7d8affa93" prot="private" static="no" mutable="no">
+        <type>SharedVector&lt; <ref refid="classuproot_1_1_t_array_reader_1a93e03ee3c804e6efd1518b6f6bd453bc" kindref="member">int64_t</ref> &gt;</type>
+        <definition>SharedVector&lt;int64_t&gt; uproot::TArrayReader&lt; T &gt;::m_offsets</definition>
+        <argsstring></argsstring>
+        <name>m_offsets</name>
+        <qualifiedname>uproot::TArrayReader::m_offsets</qualifiedname>
+        <briefdescription>
+<para>Store the offsets for each TArray. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="798" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="798" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuproot_1_1_t_array_reader_1a62ba29a0755852b8903e8fde1ddb8cd8" prot="private" static="no" mutable="no">
+        <type>SharedVector&lt; <ref refid="classuproot_1_1_t_array_reader_1a93e03ee3c804e6efd1518b6f6bd453bc" kindref="member">T</ref> &gt;</type>
+        <definition>SharedVector&lt;T&gt; uproot::TArrayReader&lt; T &gt;::m_data</definition>
+        <argsstring></argsstring>
+        <name>m_data</name>
+        <qualifiedname>uproot::TArrayReader::m_data</qualifiedname>
+        <briefdescription>
+<para>Store the TArray data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="799" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="799" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classuproot_1_1_t_array_reader_1a77fd7212f5ad71eb7f13ea9ec4b4cbc7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>uproot::TArrayReader&lt; T &gt;::TArrayReader</definition>
+        <argsstring>(string name)</argsstring>
+        <name>TArrayReader</name>
+        <qualifiedname>uproot::TArrayReader::TArrayReader</qualifiedname>
+        <param>
+          <type>string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new <ref refid="classuproot_1_1_t_array_reader" kindref="compound">TArrayReader</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the reader. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="807" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="807" bodyend="810"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_t_array_reader_1a93e03ee3c804e6efd1518b6f6bd453bc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void uproot::TArrayReader&lt; T &gt;::read</definition>
+        <argsstring>(BinaryBuffer &amp;buffer) override</argsstring>
+        <name>read</name>
+        <qualifiedname>uproot::TArrayReader::read</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_element_reader_1aa8792622949d1198850dbcc2cae7f88b">read</reimplements>
+        <param>
+          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Read a TArray from the buffer. First reads the size (uint32_t) of the TArray, then reads the elements of the TArray. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary buffer to read from. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="818" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="818" bodyend="822"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_t_array_reader_1abf6426d184be381efde323471c0dc5b7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>py::object</type>
+        <definition>py::object uproot::TArrayReader&lt; T &gt;::data</definition>
+        <argsstring>() const override</argsstring>
+        <name>data</name>
+        <qualifiedname>uproot::TArrayReader::data</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_element_reader_1a9427a78526ae5ebe09237422c5fa0067">data</reimplements>
+        <briefdescription>
+<para>Get the data read by the reader. This should be called after the whole reading process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A tuple of numpy arrays: (offsets, data). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="830" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="830" bodyend="834"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Reader for TArray types. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Element type of the TArray. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>uproot::IElementReader</label>
+        <link refid="classuproot_1_1_i_element_reader"/>
+      </node>
+      <node id="1">
+        <label>uproot::TArrayReader&lt; T &gt;</label>
+        <link refid="classuproot_1_1_t_array_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>uproot::IElementReader</label>
+        <link refid="classuproot_1_1_i_element_reader"/>
+      </node>
+      <node id="1">
+        <label>uproot::TArrayReader&lt; T &gt;</label>
+        <link refid="classuproot_1_1_t_array_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="796" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="796" bodyend="835"/>
+    <listofallmembers>
+      <member refid="classuproot_1_1_t_array_reader_1abf6426d184be381efde323471c0dc5b7" prot="public" virt="virtual"><scope>uproot::TArrayReader</scope><name>data</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a9b25d0fa08a042fbb3d7e0a2b6a88e2c" prot="public" virt="non-virtual"><scope>uproot::TArrayReader</scope><name>IElementReader</name></member>
+      <member refid="classuproot_1_1_t_array_reader_1a62ba29a0755852b8903e8fde1ddb8cd8" prot="private" virt="non-virtual"><scope>uproot::TArrayReader</scope><name>m_data</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1aef43764302e9e3816906e4e06065ad23" prot="protected" virt="non-virtual"><scope>uproot::TArrayReader</scope><name>m_name</name></member>
+      <member refid="classuproot_1_1_t_array_reader_1a1185e567d7bb4b1ccef6e0a7d8affa93" prot="private" virt="non-virtual"><scope>uproot::TArrayReader</scope><name>m_offsets</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a3233db4feddc686ba0cc649e49f9899c" prot="public" virt="virtual"><scope>uproot::TArrayReader</scope><name>name</name></member>
+      <member refid="classuproot_1_1_t_array_reader_1a93e03ee3c804e6efd1518b6f6bd453bc" prot="public" virt="virtual"><scope>uproot::TArrayReader</scope><name>read</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1ab26faa8e12220b0284d8d04dbe9f467a" prot="public" virt="virtual"><scope>uproot::TArrayReader</scope><name>read_many</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1ac9b523e94e8a88e05f45fcb61e883386" prot="public" virt="virtual"><scope>uproot::TArrayReader</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a487799ff1530dd3d5e59e74ddd92df50" prot="public" virt="virtual"><scope>uproot::TArrayReader</scope><name>read_until</name></member>
+      <member refid="classuproot_1_1_t_array_reader_1a77fd7212f5ad71eb7f13ea9ec4b4cbc7" prot="public" virt="non-virtual"><scope>uproot::TArrayReader</scope><name>TArrayReader</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a1d89f076421cb0612201abac621d4fa4" prot="public" virt="virtual"><scope>uproot::TArrayReader</scope><name>~IElementReader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classuproot_1_1_s_t_l_string_reader" kind="class" language="C++" prot="public">
+    <compoundname>uproot::STLStringReader</compoundname>
+    <basecompoundref refid="classuproot_1_1_i_element_reader" prot="public" virt="non-virtual">uproot::IElementReader</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classuproot_1_1_s_t_l_string_reader_1abfb2642c9a7cf003da5a2771eb1085b4" prot="private" static="no" mutable="no">
+        <type><ref refid="classuproot_1_1_s_t_l_string_reader_1a9b0043c6e4baf90a3178798783e784a7" kindref="member">const</ref> <ref refid="classuproot_1_1_s_t_l_string_reader_1a9b0043c6e4baf90a3178798783e784a7" kindref="member">bool</ref></type>
+        <definition>const bool uproot::STLStringReader::m_with_header</definition>
+        <argsstring></argsstring>
+        <name>m_with_header</name>
+        <qualifiedname>uproot::STLStringReader::m_with_header</qualifiedname>
+        <briefdescription>
+<para>Whether the string has a <computeroutput>fNBytes+fVersion</computeroutput> header. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="657" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="657" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuproot_1_1_s_t_l_string_reader_1a992f9914f3d7c8fd367ee42868d3c458" prot="private" static="no" mutable="no">
+        <type>SharedVector&lt; <ref refid="classuproot_1_1_s_t_l_string_reader_1a9b0043c6e4baf90a3178798783e784a7" kindref="member">int64_t</ref> &gt;</type>
+        <definition>SharedVector&lt;int64_t&gt; uproot::STLStringReader::m_offsets</definition>
+        <argsstring></argsstring>
+        <name>m_offsets</name>
+        <qualifiedname>uproot::STLStringReader::m_offsets</qualifiedname>
+        <briefdescription>
+<para>Store the offsets for each string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="658" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="658" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuproot_1_1_s_t_l_string_reader_1a77eb5886388e7c1287caa120c5f0c30b" prot="private" static="no" mutable="no">
+        <type>SharedVector&lt; <ref refid="classuproot_1_1_s_t_l_string_reader_1a9b0043c6e4baf90a3178798783e784a7" kindref="member">uint8_t</ref> &gt;</type>
+        <definition>SharedVector&lt;uint8_t&gt; uproot::STLStringReader::m_data</definition>
+        <argsstring></argsstring>
+        <name>m_data</name>
+        <qualifiedname>uproot::STLStringReader::m_data</qualifiedname>
+        <briefdescription>
+<para>Store the string data as uint8_t. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="659" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="659" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classuproot_1_1_s_t_l_string_reader_1a408f60c2831293d29cba32edb01f036a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>uproot::STLStringReader::STLStringReader</definition>
+        <argsstring>(string name, bool with_header)</argsstring>
+        <name>STLStringReader</name>
+        <qualifiedname>uproot::STLStringReader::STLStringReader</qualifiedname>
+        <param>
+          <type>string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="classuproot_1_1_s_t_l_string_reader_1a9b0043c6e4baf90a3178798783e784a7" kindref="member">bool</ref></type>
+          <declname>with_header</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new <ref refid="classuproot_1_1_s_t_l_string_reader" kindref="compound">STLStringReader</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the reader. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>with_header</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the string has a <computeroutput>fNBytes+fVersion</computeroutput> header. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="668" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="668" bodyend="672"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_s_t_l_string_reader_1ab26373bc42ef8a16f03da9564fbdd8aa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classuproot_1_1_s_t_l_string_reader_1a9b0043c6e4baf90a3178798783e784a7" kindref="member">void</ref></type>
+        <definition>void uproot::STLStringReader::read_body</definition>
+        <argsstring>(BinaryBuffer &amp;buffer)</argsstring>
+        <name>read_body</name>
+        <qualifiedname>uproot::STLStringReader::read_body</qualifiedname>
+        <param>
+          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Read the body of the string from the buffer. A string starts with a uint8_t size. If the size is 255, then a uint32_t size follows. Then the string data follows. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary buffer to read from. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="681" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="681" bodyend="687"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_s_t_l_string_reader_1a9b0043c6e4baf90a3178798783e784a7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void uproot::STLStringReader::read</definition>
+        <argsstring>(BinaryBuffer &amp;buffer) override</argsstring>
+        <name>read</name>
+        <qualifiedname>uproot::STLStringReader::read</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_element_reader_1aa8792622949d1198850dbcc2cae7f88b">read</reimplements>
+        <param>
+          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Read a string from the buffer. If m_with_header is true, reads a <computeroutput>fNBytes+fVersion</computeroutput> header before reading the string body. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary buffer to read from. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="695" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="695" bodyend="702"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_s_t_l_string_reader_1ac0fea963e1046f6ff02c31da806016c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classuproot_1_1_s_t_l_string_reader_1a9b0043c6e4baf90a3178798783e784a7" kindref="member">uint32_t</ref></type>
+        <definition>uint32_t uproot::STLStringReader::read_many</definition>
+        <argsstring>(BinaryBuffer &amp;buffer, const int64_t count) override</argsstring>
+        <name>read_many</name>
+        <qualifiedname>uproot::STLStringReader::read_many</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_element_reader_1ab26faa8e12220b0284d8d04dbe9f467a">read_many</reimplements>
+        <param>
+          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type><ref refid="classuproot_1_1_s_t_l_string_reader_1a9b0043c6e4baf90a3178798783e784a7" kindref="member">const</ref> <ref refid="classuproot_1_1_s_t_l_string_reader_1a9b0043c6e4baf90a3178798783e784a7" kindref="member">int64_t</ref></type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Read multiple strings from the buffer. If m_with_header is true, reads a <computeroutput>fNBytes+fVersion</computeroutput> header once before reading multiple strings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary buffer to read from. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of strings to read. If negative, reads according to the <computeroutput>fNBytes</computeroutput> header. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of strings read. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="713" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="713" bodyend="743"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_s_t_l_string_reader_1a20de7e78f235ffb6befa3d62c36fa8c1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classuproot_1_1_s_t_l_string_reader_1a9b0043c6e4baf90a3178798783e784a7" kindref="member">uint32_t</ref></type>
+        <definition>uint32_t uproot::STLStringReader::read_until</definition>
+        <argsstring>(BinaryBuffer &amp;buffer, const uint8_t *end_pos) override</argsstring>
+        <name>read_until</name>
+        <qualifiedname>uproot::STLStringReader::read_until</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_element_reader_1a487799ff1530dd3d5e59e74ddd92df50">read_until</reimplements>
+        <param>
+          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type><ref refid="classuproot_1_1_s_t_l_string_reader_1a9b0043c6e4baf90a3178798783e784a7" kindref="member">const</ref> <ref refid="classuproot_1_1_s_t_l_string_reader_1a9b0043c6e4baf90a3178798783e784a7" kindref="member">uint8_t</ref> *</type>
+          <declname>end_pos</declname>
+        </param>
+        <briefdescription>
+<para>Read strings from the buffer until reaching the end position. If m_with_header is true, reads a <computeroutput>fNBytes+fVersion</computeroutput> header once before reading strings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary buffer to read from. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The end position to stop reading. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of strings read. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="754" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="754" bodyend="769"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_s_t_l_string_reader_1a70298c898d36af22f79f64bc06237409" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>py::object</type>
+        <definition>py::object uproot::STLStringReader::data</definition>
+        <argsstring>() const override</argsstring>
+        <name>data</name>
+        <qualifiedname>uproot::STLStringReader::data</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_element_reader_1a9427a78526ae5ebe09237422c5fa0067">data</reimplements>
+        <briefdescription>
+<para>Get the data read by the reader. This should be called after the whole reading process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A tuple of numpy arrays: (offsets, data). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="777" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="777" bodyend="781"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Reader for STL string (std::string). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>uproot::IElementReader</label>
+        <link refid="classuproot_1_1_i_element_reader"/>
+      </node>
+      <node id="1">
+        <label>uproot::STLStringReader</label>
+        <link refid="classuproot_1_1_s_t_l_string_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>uproot::IElementReader</label>
+        <link refid="classuproot_1_1_i_element_reader"/>
+      </node>
+      <node id="1">
+        <label>uproot::STLStringReader</label>
+        <link refid="classuproot_1_1_s_t_l_string_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="655" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="655" bodyend="782"/>
+    <listofallmembers>
+      <member refid="classuproot_1_1_s_t_l_string_reader_1a70298c898d36af22f79f64bc06237409" prot="public" virt="virtual"><scope>uproot::STLStringReader</scope><name>data</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a9b25d0fa08a042fbb3d7e0a2b6a88e2c" prot="public" virt="non-virtual"><scope>uproot::STLStringReader</scope><name>IElementReader</name></member>
+      <member refid="classuproot_1_1_s_t_l_string_reader_1a77eb5886388e7c1287caa120c5f0c30b" prot="private" virt="non-virtual"><scope>uproot::STLStringReader</scope><name>m_data</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1aef43764302e9e3816906e4e06065ad23" prot="protected" virt="non-virtual"><scope>uproot::STLStringReader</scope><name>m_name</name></member>
+      <member refid="classuproot_1_1_s_t_l_string_reader_1a992f9914f3d7c8fd367ee42868d3c458" prot="private" virt="non-virtual"><scope>uproot::STLStringReader</scope><name>m_offsets</name></member>
+      <member refid="classuproot_1_1_s_t_l_string_reader_1abfb2642c9a7cf003da5a2771eb1085b4" prot="private" virt="non-virtual"><scope>uproot::STLStringReader</scope><name>m_with_header</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a3233db4feddc686ba0cc649e49f9899c" prot="public" virt="virtual"><scope>uproot::STLStringReader</scope><name>name</name></member>
+      <member refid="classuproot_1_1_s_t_l_string_reader_1a9b0043c6e4baf90a3178798783e784a7" prot="public" virt="virtual"><scope>uproot::STLStringReader</scope><name>read</name></member>
+      <member refid="classuproot_1_1_s_t_l_string_reader_1ab26373bc42ef8a16f03da9564fbdd8aa" prot="public" virt="non-virtual"><scope>uproot::STLStringReader</scope><name>read_body</name></member>
+      <member refid="classuproot_1_1_s_t_l_string_reader_1ac0fea963e1046f6ff02c31da806016c9" prot="public" virt="virtual"><scope>uproot::STLStringReader</scope><name>read_many</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1ac9b523e94e8a88e05f45fcb61e883386" prot="public" virt="virtual"><scope>uproot::STLStringReader</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot_1_1_s_t_l_string_reader_1a20de7e78f235ffb6befa3d62c36fa8c1" prot="public" virt="virtual"><scope>uproot::STLStringReader</scope><name>read_until</name></member>
+      <member refid="classuproot_1_1_s_t_l_string_reader_1a408f60c2831293d29cba32edb01f036a" prot="public" virt="non-virtual"><scope>uproot::STLStringReader</scope><name>STLStringReader</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a1d89f076421cb0612201abac621d4fa4" prot="public" virt="virtual"><scope>uproot::STLStringReader</scope><name>~IElementReader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classuproot_1_1_primitive_reader_3_01bool_01_4" kind="class" language="C++" prot="public">
+    <compoundname>uproot::PrimitiveReader&lt; bool &gt;</compoundname>
+    <basecompoundref refid="classuproot_1_1_i_element_reader" prot="public" virt="non-virtual">uproot::IElementReader</basecompoundref>
+    <templateparamlist>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classuproot_1_1_primitive_reader_3_01bool_01_4_1a93fa5337380a0e97e510e942bad4dd1e" prot="private" static="no" mutable="no">
+        <type>SharedVector&lt; <ref refid="classuproot_1_1_primitive_reader_3_01bool_01_4_1a38c65459cbdf7827a8be3f204cd17f26" kindref="member">uint8_t</ref> &gt;</type>
+        <definition>SharedVector&lt;uint8_t&gt; uproot::PrimitiveReader&lt; bool &gt;::m_data</definition>
+        <argsstring></argsstring>
+        <name>m_data</name>
+        <qualifiedname>uproot::PrimitiveReader&lt; bool &gt;::m_data</qualifiedname>
+        <briefdescription>
+<para>Store the read data as uint8_t. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="61" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classuproot_1_1_primitive_reader_3_01bool_01_4_1ae7ec58c1c5727c5a103c3c92e4a34e65" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>uproot::PrimitiveReader&lt; bool &gt;::PrimitiveReader</definition>
+        <argsstring>(string name)</argsstring>
+        <name>PrimitiveReader</name>
+        <qualifiedname>uproot::PrimitiveReader&lt; bool &gt;::PrimitiveReader</qualifiedname>
+        <param>
+          <type>string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="64" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="64" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_primitive_reader_3_01bool_01_4_1a38c65459cbdf7827a8be3f204cd17f26" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void uproot::PrimitiveReader&lt; bool &gt;::read</definition>
+        <argsstring>(BinaryBuffer &amp;buffer) override</argsstring>
+        <name>read</name>
+        <qualifiedname>uproot::PrimitiveReader&lt; bool &gt;::read</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_element_reader_1aa8792622949d1198850dbcc2cae7f88b">read</reimplements>
+        <param>
+          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Read a uint8_t from the buffer and store it as bool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary buffer to read from </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="72" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="72" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_primitive_reader_3_01bool_01_4_1ab4da57234f495d969d4c9cf250996501" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>py::object</type>
+        <definition>py::object uproot::PrimitiveReader&lt; bool &gt;::data</definition>
+        <argsstring>() const override</argsstring>
+        <name>data</name>
+        <qualifiedname>uproot::PrimitiveReader&lt; bool &gt;::data</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_element_reader_1a9427a78526ae5ebe09237422c5fa0067">data</reimplements>
+        <briefdescription>
+<para>Get the read data as a numpy array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Numpy array containing the read data </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="81" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="81" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Specialization of <ref refid="classuproot_1_1_primitive_reader" kindref="compound">PrimitiveReader</ref> for bool type. Bools are stored as uint8_t. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>uproot::IElementReader</label>
+        <link refid="classuproot_1_1_i_element_reader"/>
+      </node>
+      <node id="1">
+        <label>uproot::PrimitiveReader&lt; bool &gt;</label>
+        <link refid="classuproot_1_1_primitive_reader_3_01bool_01_4"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>uproot::IElementReader</label>
+        <link refid="classuproot_1_1_i_element_reader"/>
+      </node>
+      <node id="1">
+        <label>uproot::PrimitiveReader&lt; bool &gt;</label>
+        <link refid="classuproot_1_1_primitive_reader_3_01bool_01_4"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="59" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="59" bodyend="82"/>
+    <listofallmembers>
+      <member refid="classuproot_1_1_primitive_reader_3_01bool_01_4_1ab4da57234f495d969d4c9cf250996501" prot="public" virt="virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>data</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a9b25d0fa08a042fbb3d7e0a2b6a88e2c" prot="public" virt="non-virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>IElementReader</name></member>
+      <member refid="classuproot_1_1_primitive_reader_3_01bool_01_4_1a93fa5337380a0e97e510e942bad4dd1e" prot="private" virt="non-virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>m_data</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1aef43764302e9e3816906e4e06065ad23" prot="protected" virt="non-virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>m_name</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a3233db4feddc686ba0cc649e49f9899c" prot="public" virt="virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>name</name></member>
+      <member refid="classuproot_1_1_primitive_reader_3_01bool_01_4_1ae7ec58c1c5727c5a103c3c92e4a34e65" prot="public" virt="non-virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>PrimitiveReader</name></member>
+      <member refid="classuproot_1_1_primitive_reader_3_01bool_01_4_1a38c65459cbdf7827a8be3f204cd17f26" prot="public" virt="virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>read</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1ab26faa8e12220b0284d8d04dbe9f467a" prot="public" virt="virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>read_many</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1ac9b523e94e8a88e05f45fcb61e883386" prot="public" virt="virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a487799ff1530dd3d5e59e74ddd92df50" prot="public" virt="virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>read_until</name></member>
+      <member refid="classuproot_1_1_i_element_reader_1a1d89f076421cb0612201abac621d4fa4" prot="public" virt="virtual"><scope>uproot::PrimitiveReader&lt; bool &gt;</scope><name>~IElementReader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

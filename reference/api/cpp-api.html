@@ -1,0 +1,1139 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>C++ API reference &#8212; uproot-custom</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/cpp-api';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Module reference" href="uproot-custom-ref.html" />
+    <link rel="prev" title="API documentation" href="../api.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">uproot-custom</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../index.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/use-built-in.html">Use built-in factories</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorial/customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/bootstrap.html">Bootstrap of custom classes reading in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/streamer-info.html">Streamer information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/binary-data.html">Binary data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/template-python-project.html">Template Python project</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../version-requirements.html">Version requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../binary-format.html">Binary format of common classes</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../api.html">API documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">C++ API reference</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="uproot-custom-ref.html">Module reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="uproot_custom.html">Python reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpp-module.html">C++ reference</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../example/override-streamer.html">Example 1: <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method is overridden</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example/read-tobjarray.html">Example 2: Read <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> with unique known type</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/reference/api/cpp-api.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>C++ API reference</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c.IMPORT_UPROOT_CUSTOM_CPP"><code class="docutils literal notranslate"><span class="pre">IMPORT_UPROOT_CUSTOM_CPP</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv46uproot"><code class="docutils literal notranslate"><span class="pre">uproot</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12SharedReaderE"><code class="docutils literal notranslate"><span class="pre">SharedReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0DpEN6uproot12CreateReaderE10shared_ptrI10ReaderTypeEDp4Args"><code class="docutils literal notranslate"><span class="pre">CreateReader()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0DpEN6uproot14declare_readerEvRN2py6moduleEPKc"><code class="docutils literal notranslate"><span class="pre">declare_reader()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN6uproot10make_arrayEN2py7array_tI1TEE10shared_ptrINSt6vectorI1TEEE"><code class="docutils literal notranslate"><span class="pre">make_array()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4IDpEN6uproot12debug_printfEvPKcDp4Args"><code class="docutils literal notranslate"><span class="pre">debug_printf()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12debug_printfERN6uproot12BinaryBufferEK6size_t"><code class="docutils literal notranslate"><span class="pre">debug_printf()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12kNewClassTagE"><code class="docutils literal notranslate"><span class="pre">kNewClassTag</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot10kClassMaskE"><code class="docutils literal notranslate"><span class="pre">kClassMask</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot14kByteCountMaskE"><code class="docutils literal notranslate"><span class="pre">kByteCountMask</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12kMaxMapCountE"><code class="docutils literal notranslate"><span class="pre">kMaxMapCount</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot15kByteCountVMaskE"><code class="docutils literal notranslate"><span class="pre">kByteCountVMask</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot11kMaxVersionE"><code class="docutils literal notranslate"><span class="pre">kMaxVersion</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot10kMapOffsetE"><code class="docutils literal notranslate"><span class="pre">kMapOffset</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot19kStreamedMemberWiseE"><code class="docutils literal notranslate"><span class="pre">kStreamedMemberWise</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBufferE"><code class="docutils literal notranslate"><span class="pre">uproot::BinaryBuffer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBitsE"><code class="docutils literal notranslate"><span class="pre">EStatusBits</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits10kCanDeleteE"><code class="docutils literal notranslate"><span class="pre">kCanDelete</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits12kMustCleanupE"><code class="docutils literal notranslate"><span class="pre">kMustCleanup</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits13kIsReferencedE"><code class="docutils literal notranslate"><span class="pre">kIsReferenced</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits8kHasUUIDE"><code class="docutils literal notranslate"><span class="pre">kHasUUID</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits11kCannotPickE"><code class="docutils literal notranslate"><span class="pre">kCannotPick</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits14kNoContextMenuE"><code class="docutils literal notranslate"><span class="pre">kNoContextMenu</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits14kInvalidObjectE"><code class="docutils literal notranslate"><span class="pre">kInvalidObject</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer12BinaryBufferEN2py7array_tI7uint8_tEEN2py7array_tI8uint32_tEE"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN6uproot12BinaryBuffer4readEK1Tv"><code class="docutils literal notranslate"><span class="pre">read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer13read_fVersionEv"><code class="docutils literal notranslate"><span class="pre">read_fVersion()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer12read_fNBytesEv"><code class="docutils literal notranslate"><span class="pre">read_fNBytes()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer27read_null_terminated_stringEv"><code class="docutils literal notranslate"><span class="pre">read_null_terminated_string()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer15read_obj_headerEv"><code class="docutils literal notranslate"><span class="pre">read_obj_header()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer12read_TStringEv"><code class="docutils literal notranslate"><span class="pre">read_TString()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer4skipEK6size_t"><code class="docutils literal notranslate"><span class="pre">skip()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer12skip_fNBytesEv"><code class="docutils literal notranslate"><span class="pre">skip_fNBytes()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer13skip_fVersionEv"><code class="docutils literal notranslate"><span class="pre">skip_fVersion()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer27skip_null_terminated_stringEv"><code class="docutils literal notranslate"><span class="pre">skip_null_terminated_string()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer15skip_obj_headerEv"><code class="docutils literal notranslate"><span class="pre">skip_obj_header()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer12skip_TObjectEv"><code class="docutils literal notranslate"><span class="pre">skip_TObject()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK6uproot12BinaryBuffer8get_dataEv"><code class="docutils literal notranslate"><span class="pre">get_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK6uproot12BinaryBuffer10get_cursorEv"><code class="docutils literal notranslate"><span class="pre">get_cursor()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK6uproot12BinaryBuffer11get_offsetsEv"><code class="docutils literal notranslate"><span class="pre">get_offsets()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK6uproot12BinaryBuffer7entriesEv"><code class="docutils literal notranslate"><span class="pre">entries()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK6uproot12BinaryBuffer11debug_printEK6size_t"><code class="docutils literal notranslate"><span class="pre">debug_print()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer8m_cursorE"><code class="docutils literal notranslate"><span class="pre">m_cursor</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer9m_entriesE"><code class="docutils literal notranslate"><span class="pre">m_entries</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer6m_dataE"><code class="docutils literal notranslate"><span class="pre">m_data</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer9m_offsetsE"><code class="docutils literal notranslate"><span class="pre">m_offsets</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot14IElementReaderE"><code class="docutils literal notranslate"><span class="pre">uproot::IElementReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot14IElementReader14IElementReaderENSt6stringE"><code class="docutils literal notranslate"><span class="pre">IElementReader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot14IElementReaderD0Ev"><code class="docutils literal notranslate"><span class="pre">~IElementReader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK6uproot14IElementReader4nameEv"><code class="docutils literal notranslate"><span class="pre">name()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot14IElementReader4readER12BinaryBuffer"><code class="docutils literal notranslate"><span class="pre">read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK6uproot14IElementReader4dataEv"><code class="docutils literal notranslate"><span class="pre">data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot14IElementReader9read_manyER12BinaryBufferK7int64_t"><code class="docutils literal notranslate"><span class="pre">read_many()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot14IElementReader10read_untilER12BinaryBufferPK7uint8_t"><code class="docutils literal notranslate"><span class="pre">read_until()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot14IElementReader20read_many_memberwiseER12BinaryBufferK7int64_t"><code class="docutils literal notranslate"><span class="pre">read_many_memberwise()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot14IElementReader6m_nameE"><code class="docutils literal notranslate"><span class="pre">m_name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="c-api-reference">
+<h1>C++ API reference<a class="headerlink" href="#c-api-reference" title="Link to this heading">#</a></h1>
+<p>This section documents the C++ API provided by the <code class="docutils literal notranslate"><span class="pre">uproot_custom</span></code> module. Any downstream project that wants to use the C++ functionalities provided by <code class="docutils literal notranslate"><span class="pre">uproot_custom</span></code> should include the header file <code class="docutils literal notranslate"><span class="pre">uproot-custom.hh</span></code>.</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.IMPORT_UPROOT_CUSTOM_CPP">
+<span class="target" id="uproot-custom_8hh_1a392ac9b641493f2271147294f98592ba"></span><span class="sig-name descname"><span class="n"><span class="pre">IMPORT_UPROOT_CUSTOM_CPP</span></span></span><a class="headerlink" href="#c.IMPORT_UPROOT_CUSTOM_CPP" title="Link to this definition">#</a><br /></dt>
+<dd><p>Macro to import the uproot_custom.cpp module. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This macro should be used in the <code class="docutils literal notranslate"><span class="pre">PYBIND11_MODULE</span></code> definition of your module. </p>
+</div>
+</dd></dl>
+
+</div>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv46uproot">
+<span id="_CPPv36uproot"></span><span id="_CPPv26uproot"></span><span id="uproot"></span><span class="target" id="namespaceuproot"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uproot</span></span></span><a class="headerlink" href="#_CPPv46uproot" title="Link to this definition">#</a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12SharedReaderE">
+<span id="_CPPv3N6uproot12SharedReaderE"></span><span id="_CPPv2N6uproot12SharedReaderE"></span><span class="target" id="uproot-custom_8hh_1a7ba0d2f918b4b98a3804f49d86a1e916"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SharedReader</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N6uproot14IElementReaderE" title="uproot::IElementReader"><span class="n"><span class="pre">IElementReader</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N6uproot12SharedReaderE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Shortcut for shared pointer to IElementReader. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When a reader requires another reader as a member, it must use <code class="docutils literal notranslate"><span class="pre">std::shared_ptr&lt;</span><span class="pre">IElementReader</span><span class="pre">&gt;</span></code> to properly handle lifetime management. </p>
+</div>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0DpEN6uproot12CreateReaderE10shared_ptrI10ReaderTypeEDp4Args">
+<span id="_CPPv3I0DpEN6uproot12CreateReaderEDp4Args"></span><span id="_CPPv2I0DpEN6uproot12CreateReaderEDp4Args"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ReaderType</span></span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="sig-name descname"><span class="n"><span class="pre">Args</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="uproot-custom_8hh_1a4d87db1f3b77adee0278efc2ed7a60bb"></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0DpEN6uproot12CreateReaderE10shared_ptrI10ReaderTypeEDp4Args" title="uproot::CreateReader::ReaderType"><span class="n"><span class="pre">ReaderType</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CreateReader</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0DpEN6uproot12CreateReaderE10shared_ptrI10ReaderTypeEDp4Args" title="uproot::CreateReader::Args"><span class="n"><span class="pre">Args</span></span></a><span class="p"><span class="pre">...</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0DpEN6uproot12CreateReaderE10shared_ptrI10ReaderTypeEDp4Args" title="Link to this definition">#</a><br /></dt>
+<dd><p>Helper function to create a shared pointer to a reader. Pybind11 requires shared_ptr to handle object lifetime correctly. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ReaderType</strong> – The type of the reader. </p></li>
+<li><p><strong>Args</strong> – The argument types for the reader constructor. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>args</strong> – The arguments for the reader constructor. </p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The shared pointer to the created reader. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0DpEN6uproot14declare_readerEvRN2py6moduleEPKc">
+<span id="_CPPv3I0DpEN6uproot14declare_readerERN2py6moduleEPKc"></span><span id="_CPPv2I0DpEN6uproot14declare_readerERN2py6moduleEPKc"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ReaderType</span></span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="sig-name descname"><span class="n"><span class="pre">Args</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="uproot-custom_8hh_1adb84887bf6ef9f160a90c6fc7c32a591"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">declare_reader</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">py</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">module</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0DpEN6uproot14declare_readerEvRN2py6moduleEPKc" title="Link to this definition">#</a><br /></dt>
+<dd><p>Helper function to declare a reader class in a pybind11 module. Automatically wraps the class’ constructor to return a shared_ptr. User should always use this function to declare reader classes. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ReaderType</strong> – The type of the reader. </p></li>
+<li><p><strong>Args</strong> – The argument types for the reader constructor. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>m</strong> – The declaring pybind11 module. </p></li>
+<li><p><strong>name</strong> – The name of the reader class in Python. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6uproot10make_arrayEN2py7array_tI1TEE10shared_ptrINSt6vectorI1TEEE">
+<span id="_CPPv3I0EN6uproot10make_arrayE10shared_ptrINSt6vectorI1TEEE"></span><span id="_CPPv2I0EN6uproot10make_arrayE10shared_ptrINSt6vectorI1TEEE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="uproot-custom_8hh_1a8d651da24e026f25854373f8c8057b07"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">py</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array_t</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6uproot10make_arrayEN2py7array_tI1TEE10shared_ptrINSt6vectorI1TEEE" title="uproot::make_array::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">make_array</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN6uproot10make_arrayEN2py7array_tI1TEE10shared_ptrINSt6vectorI1TEEE" title="uproot::make_array::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">seq</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6uproot10make_arrayEN2py7array_tI1TEE10shared_ptrINSt6vectorI1TEEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Convert a shared pointer to a std::vector&lt;T&gt; to a numpy array without copying. User can use this function to return numpy arrays from reader’s data() method. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>T</strong> – The element type of the vector. </p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>seq</strong> – The shared pointer to the std::vector&lt;T&gt;. </p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The numpy array wrapping the vector data. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4IDpEN6uproot12debug_printfEvPKcDp4Args">
+<span id="_CPPv3IDpEN6uproot12debug_printfEPKcDp4Args"></span><span id="_CPPv2IDpEN6uproot12debug_printfEPKcDp4Args"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="sig-name descname"><span class="n"><span class="pre">Args</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="uproot-custom_8hh_1a84d544a757ae5608b1e28e766f638584"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">debug_printf</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">msg</span></span>, <a class="reference internal" href="#_CPPv4IDpEN6uproot12debug_printfEvPKcDp4Args" title="uproot::debug_printf::Args"><span class="n"><span class="pre">Args</span></span></a><span class="p"><span class="pre">...</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4IDpEN6uproot12debug_printfEvPKcDp4Args" title="Link to this definition">#</a><br /></dt>
+<dd><p>Debug print function. Prints only when macro or environment varialbe with name <code class="docutils literal notranslate"><span class="pre">UPROOT_DEBUG</span></code> is defined. Use this function like <code class="docutils literal notranslate"><span class="pre">printf()</span></code>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Args</strong> – Argument types. No need to specify explicitly. </p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>msg</strong> – The format string. </p></li>
+<li><p><strong>args</strong> – Arguments to format. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12debug_printfERN6uproot12BinaryBufferEK6size_t">
+<span id="_CPPv3N6uproot12debug_printfERN6uproot12BinaryBufferEK6size_t"></span><span id="_CPPv2N6uproot12debug_printfERN6uproot12BinaryBufferEK6size_t"></span><span id="uproot::debug_printf__uproot::BinaryBufferR.sC"></span><span class="target" id="uproot-custom_8hh_1a95fe378fbb5f2b33e677a4388d99c7d5"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">debug_printf</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv46uproot" title="uproot"><span class="n"><span class="pre">uproot</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N6uproot12BinaryBufferE" title="uproot::BinaryBuffer"><span class="n"><span class="pre">BinaryBuffer</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">buffer</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">n</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">100</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6uproot12debug_printfERN6uproot12BinaryBufferEK6size_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Debug print function for BinaryBuffer. Prints only when macro or environment varialbe with name <code class="docutils literal notranslate"><span class="pre">UPROOT_DEBUG</span></code> is defined. Call BinaryBuffer::debug_print() internally. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>buffer</strong> – The BinaryBuffer to print. </p></li>
+<li><p><strong>n</strong> – Number of bytes to print. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-variables">Variables</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12kNewClassTagE">
+<span id="_CPPv3N6uproot12kNewClassTagE"></span><span id="_CPPv2N6uproot12kNewClassTagE"></span><span id="uproot::kNewClassTag__uint32_tC"></span><span class="target" id="uproot-custom_8hh_1aa6d5be4abcfe0b7678688365f5a62828"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kNewClassTag</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0xFFFFFFFF</span></span><a class="headerlink" href="#_CPPv4N6uproot12kNewClassTagE" title="Link to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot10kClassMaskE">
+<span id="_CPPv3N6uproot10kClassMaskE"></span><span id="_CPPv2N6uproot10kClassMaskE"></span><span id="uproot::kClassMask__uint32_tC"></span><span class="target" id="uproot-custom_8hh_1a4689bafc3dcfb35b2298b4e7bbec80d5"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kClassMask</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x80000000</span></span><a class="headerlink" href="#_CPPv4N6uproot10kClassMaskE" title="Link to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot14kByteCountMaskE">
+<span id="_CPPv3N6uproot14kByteCountMaskE"></span><span id="_CPPv2N6uproot14kByteCountMaskE"></span><span id="uproot::kByteCountMask__uint32_tC"></span><span class="target" id="uproot-custom_8hh_1afeec8cb74b1dcfb675fa1cde7aa960d4"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kByteCountMask</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x40000000</span></span><a class="headerlink" href="#_CPPv4N6uproot14kByteCountMaskE" title="Link to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12kMaxMapCountE">
+<span id="_CPPv3N6uproot12kMaxMapCountE"></span><span id="_CPPv2N6uproot12kMaxMapCountE"></span><span id="uproot::kMaxMapCount__uint32_tC"></span><span class="target" id="uproot-custom_8hh_1ae57db95d4f1f110831f35675333a1833"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kMaxMapCount</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x3FFFFFFE</span></span><a class="headerlink" href="#_CPPv4N6uproot12kMaxMapCountE" title="Link to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot15kByteCountVMaskE">
+<span id="_CPPv3N6uproot15kByteCountVMaskE"></span><span id="_CPPv2N6uproot15kByteCountVMaskE"></span><span id="uproot::kByteCountVMask__uint16_tC"></span><span class="target" id="uproot-custom_8hh_1a7ceac1e8918332ae540dbe3116aa78a3"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint16_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kByteCountVMask</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x4000</span></span><a class="headerlink" href="#_CPPv4N6uproot15kByteCountVMaskE" title="Link to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot11kMaxVersionE">
+<span id="_CPPv3N6uproot11kMaxVersionE"></span><span id="_CPPv2N6uproot11kMaxVersionE"></span><span id="uproot::kMaxVersion__uint16_tC"></span><span class="target" id="uproot-custom_8hh_1a40a26bc4455e9d44bd3a94a72058993c"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint16_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kMaxVersion</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x3FFF</span></span><a class="headerlink" href="#_CPPv4N6uproot11kMaxVersionE" title="Link to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot10kMapOffsetE">
+<span id="_CPPv3N6uproot10kMapOffsetE"></span><span id="_CPPv2N6uproot10kMapOffsetE"></span><span id="uproot::kMapOffset__int32_tC"></span><span class="target" id="uproot-custom_8hh_1a9f6ca50399d9313e4e62590dee8c1dc4"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">int32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kMapOffset</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">2</span></span><a class="headerlink" href="#_CPPv4N6uproot10kMapOffsetE" title="Link to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot19kStreamedMemberWiseE">
+<span id="_CPPv3N6uproot19kStreamedMemberWiseE"></span><span id="_CPPv2N6uproot19kStreamedMemberWiseE"></span><span id="uproot::kStreamedMemberWise__uint16_tC"></span><span class="target" id="uproot-custom_8hh_1a18927df63f826373739e6df5bffc0649"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint16_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kStreamedMemberWise</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="w"> </span><span class="o"><span class="pre">&lt;&lt;</span></span><span class="w"> </span><span class="m"><span class="pre">14</span></span><a class="headerlink" href="#_CPPv4N6uproot19kStreamedMemberWiseE" title="Link to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBufferE">
+<span id="_CPPv3N6uproot12BinaryBufferE"></span><span id="_CPPv2N6uproot12BinaryBufferE"></span><span id="uproot::BinaryBuffer"></span><span class="target" id="classuproot_1_1_binary_buffer"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BinaryBuffer</span></span></span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBufferE" title="Link to this definition">#</a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp enum">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer11EStatusBitsE">
+<span id="_CPPv3N6uproot12BinaryBuffer11EStatusBitsE"></span><span id="_CPPv2N6uproot12BinaryBuffer11EStatusBitsE"></span><span class="target" id="classuproot_1_1_binary_buffer_1a4b70d27b36d1c1d1224c3d938fe3469f"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">EStatusBits</span></span></span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBitsE" title="Link to this definition">#</a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer11EStatusBits10kCanDeleteE">
+<span id="_CPPv3N6uproot12BinaryBuffer11EStatusBits10kCanDeleteE"></span><span id="_CPPv2N6uproot12BinaryBuffer11EStatusBits10kCanDeleteE"></span><span class="target" id="classuproot_1_1_binary_buffer_1a4b70d27b36d1c1d1224c3d938fe3469fa1809e08f807cf72ca9ab8c3e95c958f2"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kCanDelete</span></span></span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits10kCanDeleteE" title="Link to this definition">#</a><br /></dt>
+<dd><p>if object in a list can be deleted </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer11EStatusBits12kMustCleanupE">
+<span id="_CPPv3N6uproot12BinaryBuffer11EStatusBits12kMustCleanupE"></span><span id="_CPPv2N6uproot12BinaryBuffer11EStatusBits12kMustCleanupE"></span><span class="target" id="classuproot_1_1_binary_buffer_1a4b70d27b36d1c1d1224c3d938fe3469fa6312b886722b8ca4a2bca12ea71f217b"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kMustCleanup</span></span></span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits12kMustCleanupE" title="Link to this definition">#</a><br /></dt>
+<dd><p>if object destructor must call RecursiveRemove()</p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer11EStatusBits13kIsReferencedE">
+<span id="_CPPv3N6uproot12BinaryBuffer11EStatusBits13kIsReferencedE"></span><span id="_CPPv2N6uproot12BinaryBuffer11EStatusBits13kIsReferencedE"></span><span class="target" id="classuproot_1_1_binary_buffer_1a4b70d27b36d1c1d1224c3d938fe3469fa640f316cca36ff8f6870d8991aecfe00"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kIsReferenced</span></span></span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits13kIsReferencedE" title="Link to this definition">#</a><br /></dt>
+<dd><p>if object is referenced by a TRef or TRefArray </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer11EStatusBits8kHasUUIDE">
+<span id="_CPPv3N6uproot12BinaryBuffer11EStatusBits8kHasUUIDE"></span><span id="_CPPv2N6uproot12BinaryBuffer11EStatusBits8kHasUUIDE"></span><span class="target" id="classuproot_1_1_binary_buffer_1a4b70d27b36d1c1d1224c3d938fe3469fa3ee2a311401a546348bebc39f8fa7504"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kHasUUID</span></span></span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits8kHasUUIDE" title="Link to this definition">#</a><br /></dt>
+<dd><p>if object has a TUUID (its fUniqueID=UUIDNumber) </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer11EStatusBits11kCannotPickE">
+<span id="_CPPv3N6uproot12BinaryBuffer11EStatusBits11kCannotPickE"></span><span id="_CPPv2N6uproot12BinaryBuffer11EStatusBits11kCannotPickE"></span><span class="target" id="classuproot_1_1_binary_buffer_1a4b70d27b36d1c1d1224c3d938fe3469fadb083aec5027b16e07254a62603f67d6"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kCannotPick</span></span></span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits11kCannotPickE" title="Link to this definition">#</a><br /></dt>
+<dd><p>if object in a pad cannot be picked </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer11EStatusBits14kNoContextMenuE">
+<span id="_CPPv3N6uproot12BinaryBuffer11EStatusBits14kNoContextMenuE"></span><span id="_CPPv2N6uproot12BinaryBuffer11EStatusBits14kNoContextMenuE"></span><span class="target" id="classuproot_1_1_binary_buffer_1a4b70d27b36d1c1d1224c3d938fe3469fab9fb81d4298216d8f9ed52494dffc8d2"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kNoContextMenu</span></span></span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits14kNoContextMenuE" title="Link to this definition">#</a><br /></dt>
+<dd><p>if object does not want context menu </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer11EStatusBits14kInvalidObjectE">
+<span id="_CPPv3N6uproot12BinaryBuffer11EStatusBits14kInvalidObjectE"></span><span id="_CPPv2N6uproot12BinaryBuffer11EStatusBits14kInvalidObjectE"></span><span class="target" id="classuproot_1_1_binary_buffer_1a4b70d27b36d1c1d1224c3d938fe3469fa0949c109c9a38f7eb1c57c8fb09246af"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kInvalidObject</span></span></span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits14kInvalidObjectE" title="Link to this definition">#</a><br /></dt>
+<dd><p>if object ctor succeeded but object should not be used </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer12BinaryBufferEN2py7array_tI7uint8_tEEN2py7array_tI8uint32_tEE">
+<span id="_CPPv3N6uproot12BinaryBuffer12BinaryBufferEN2py7array_tI7uint8_tEEN2py7array_tI8uint32_tEE"></span><span id="_CPPv2N6uproot12BinaryBuffer12BinaryBufferEN2py7array_tI7uint8_tEEN2py7array_tI8uint32_tEE"></span><span id="uproot::BinaryBuffer::BinaryBuffer__py::array_t:uint8_t:.py::array_t:uint32_t:"></span><span class="target" id="classuproot_1_1_binary_buffer_1ae90dac56ce8da351226b0249703596c1"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BinaryBuffer</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">py</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array_t</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">uint8_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">data</span></span>, <span class="n"><span class="pre">py</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array_t</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">uint32_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">offsets</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer12BinaryBufferEN2py7array_tI7uint8_tEEN2py7array_tI8uint32_tEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct a BinaryBuffer from numpy arrays. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – A numpy array of uint8_t containing the raw data. </p></li>
+<li><p><strong>offsets</strong> – A numpy array of uint32_t containing the offsets for each entry. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN6uproot12BinaryBuffer4readEK1Tv">
+<span id="_CPPv3I0EN6uproot12BinaryBuffer4readEv"></span><span id="_CPPv2I0EN6uproot12BinaryBuffer4readEv"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classuproot_1_1_binary_buffer_1af49068c121159f67dbbd4e76f043e477"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN6uproot12BinaryBuffer4readEK1Tv" title="uproot::BinaryBuffer::read::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN6uproot12BinaryBuffer4readEK1Tv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read a value of type T from the buffer, handling endianness. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>T</strong> – The type to read. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The value read from the buffer. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer13read_fVersionEv">
+<span id="_CPPv3N6uproot12BinaryBuffer13read_fVersionEv"></span><span id="_CPPv2N6uproot12BinaryBuffer13read_fVersionEv"></span><span id="uproot::BinaryBuffer::read_fVersion"></span><span class="target" id="classuproot_1_1_binary_buffer_1a3464e07591ec32b89d49ad1051314bb3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">int16_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_fVersion</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer13read_fVersionEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read the fVersion field from the buffer. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The fVersion value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer12read_fNBytesEv">
+<span id="_CPPv3N6uproot12BinaryBuffer12read_fNBytesEv"></span><span id="_CPPv2N6uproot12BinaryBuffer12read_fNBytesEv"></span><span id="uproot::BinaryBuffer::read_fNBytes"></span><span class="target" id="classuproot_1_1_binary_buffer_1aceb9cb47214de1ba6828949207cfd119"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_fNBytes</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer12read_fNBytesEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read the fNBytes field from the buffer, checking the byte count mask. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – if the byte count mask is not set. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The fNBytes value without the mask. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer27read_null_terminated_stringEv">
+<span id="_CPPv3N6uproot12BinaryBuffer27read_null_terminated_stringEv"></span><span id="_CPPv2N6uproot12BinaryBuffer27read_null_terminated_stringEv"></span><span id="uproot::BinaryBuffer::read_null_terminated_string"></span><span class="target" id="classuproot_1_1_binary_buffer_1ac13428943c87fa13fe1b272801319b18"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_null_terminated_string</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer27read_null_terminated_stringEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read a null-terminated (<code class="docutils literal notranslate"><span class="pre">\0</span></code>) string from the buffer. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The string read from the buffer. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer15read_obj_headerEv">
+<span id="_CPPv3N6uproot12BinaryBuffer15read_obj_headerEv"></span><span id="_CPPv2N6uproot12BinaryBuffer15read_obj_headerEv"></span><span id="uproot::BinaryBuffer::read_obj_header"></span><span class="target" id="classuproot_1_1_binary_buffer_1a208b9f5eef60e00581c0bdc5f2e4d622"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_obj_header</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer15read_obj_headerEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read an object header from the buffer. The object header has <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code>, <code class="docutils literal notranslate"><span class="pre">fVersion</span></code>, <code class="docutils literal notranslate"><span class="pre">fTag</span></code>. If <code class="docutils literal notranslate"><span class="pre">fTag</span> <span class="pre">==</span> <span class="pre">kNewClassTag</span></code>, then a null-terminated class name follows. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The class name if the object is a new class, empty string otherwise. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer12read_TStringEv">
+<span id="_CPPv3N6uproot12BinaryBuffer12read_TStringEv"></span><span id="_CPPv2N6uproot12BinaryBuffer12read_TStringEv"></span><span id="uproot::BinaryBuffer::read_TString"></span><span class="target" id="classuproot_1_1_binary_buffer_1acd0329a0fb952f2125741d8efb8d43b4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_TString</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer12read_TStringEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read a TString from the buffer. A TString has <code class="docutils literal notranslate"><span class="pre">length</span></code> (uint8_t). If <code class="docutils literal notranslate"><span class="pre">length</span> <span class="pre">==</span> <span class="pre">255</span></code>, then the <code class="docutils literal notranslate"><span class="pre">length</span></code> is a following uint32_t. Then following <code class="docutils literal notranslate"><span class="pre">length</span></code> bytes of string data. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The TString data read from the buffer, as a std::string. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer4skipEK6size_t">
+<span id="_CPPv3N6uproot12BinaryBuffer4skipEK6size_t"></span><span id="_CPPv2N6uproot12BinaryBuffer4skipEK6size_t"></span><span id="uproot::BinaryBuffer::skip__sC"></span><span class="target" id="classuproot_1_1_binary_buffer_1a8249a13ad5afcd1843c5e08aad5ae004"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">skip</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">n</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer4skipEK6size_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Skip <code class="docutils literal notranslate"><span class="pre">n</span></code> bytes in the buffer. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> – Number of bytes to skip. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer12skip_fNBytesEv">
+<span id="_CPPv3N6uproot12BinaryBuffer12skip_fNBytesEv"></span><span id="_CPPv2N6uproot12BinaryBuffer12skip_fNBytesEv"></span><span id="uproot::BinaryBuffer::skip_fNBytes"></span><span class="target" id="classuproot_1_1_binary_buffer_1a26345895df03d02487e7babf231cb49e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">skip_fNBytes</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer12skip_fNBytesEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Skip the fNBytes field. Equivalent to read_fNBytes() but does not return the value, since the mask need to be checked. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer13skip_fVersionEv">
+<span id="_CPPv3N6uproot12BinaryBuffer13skip_fVersionEv"></span><span id="_CPPv2N6uproot12BinaryBuffer13skip_fVersionEv"></span><span id="uproot::BinaryBuffer::skip_fVersion"></span><span class="target" id="classuproot_1_1_binary_buffer_1a4ac9566eee4e17ec65b2024bbe2d1d9b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">skip_fVersion</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer13skip_fVersionEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Skip the fVersion field. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer27skip_null_terminated_stringEv">
+<span id="_CPPv3N6uproot12BinaryBuffer27skip_null_terminated_stringEv"></span><span id="_CPPv2N6uproot12BinaryBuffer27skip_null_terminated_stringEv"></span><span id="uproot::BinaryBuffer::skip_null_terminated_string"></span><span class="target" id="classuproot_1_1_binary_buffer_1a8d3f7684b101f18b496df314ac1e8b18"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">skip_null_terminated_string</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer27skip_null_terminated_stringEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Skip a null-terminated (<code class="docutils literal notranslate"><span class="pre">\0</span></code>) string in the buffer. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer15skip_obj_headerEv">
+<span id="_CPPv3N6uproot12BinaryBuffer15skip_obj_headerEv"></span><span id="_CPPv2N6uproot12BinaryBuffer15skip_obj_headerEv"></span><span id="uproot::BinaryBuffer::skip_obj_header"></span><span class="target" id="classuproot_1_1_binary_buffer_1a786f5cb2a4e22bdd8138524f022657c8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">skip_obj_header</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer15skip_obj_headerEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Skip an object header in the buffer. The object header has <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code>, <code class="docutils literal notranslate"><span class="pre">fVersion</span></code>, <code class="docutils literal notranslate"><span class="pre">fTag</span></code>. If <code class="docutils literal notranslate"><span class="pre">fTag</span> <span class="pre">==</span> <span class="pre">kNewClassTag</span></code>, then a null-terminated class name follows. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer12skip_TObjectEv">
+<span id="_CPPv3N6uproot12BinaryBuffer12skip_TObjectEv"></span><span id="_CPPv2N6uproot12BinaryBuffer12skip_TObjectEv"></span><span id="uproot::BinaryBuffer::skip_TObject"></span><span class="target" id="classuproot_1_1_binary_buffer_1ac3a29c312cd136e2a4fa7fc3bef0f250"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">skip_TObject</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer12skip_TObjectEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Skip a TObject in the buffer. A TObject has <code class="docutils literal notranslate"><span class="pre">fVersion</span></code> (2 bytes), <code class="docutils literal notranslate"><span class="pre">fUniqueID</span></code> (4 bytes), <code class="docutils literal notranslate"><span class="pre">fBits</span></code> (4 bytes). If <code class="docutils literal notranslate"><span class="pre">fBits</span> <span class="pre">&amp;</span> <span class="pre">kIsReferenced</span></code>, then a <code class="docutils literal notranslate"><span class="pre">pidf</span></code> (2 bytes) follows. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6uproot12BinaryBuffer8get_dataEv">
+<span id="_CPPv3NK6uproot12BinaryBuffer8get_dataEv"></span><span id="_CPPv2NK6uproot12BinaryBuffer8get_dataEv"></span><span id="uproot::BinaryBuffer::get_dataC"></span><span class="target" id="classuproot_1_1_binary_buffer_1a79a1d1ce86da330b626dbc8e5b4d54e6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_data</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6uproot12BinaryBuffer8get_dataEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the raw data pointer. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6uproot12BinaryBuffer10get_cursorEv">
+<span id="_CPPv3NK6uproot12BinaryBuffer10get_cursorEv"></span><span id="_CPPv2NK6uproot12BinaryBuffer10get_cursorEv"></span><span id="uproot::BinaryBuffer::get_cursorC"></span><span class="target" id="classuproot_1_1_binary_buffer_1ac5b053d2636138eb05993074fcb5f4f3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_cursor</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6uproot12BinaryBuffer10get_cursorEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the current cursor pointer. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6uproot12BinaryBuffer11get_offsetsEv">
+<span id="_CPPv3NK6uproot12BinaryBuffer11get_offsetsEv"></span><span id="_CPPv2NK6uproot12BinaryBuffer11get_offsetsEv"></span><span id="uproot::BinaryBuffer::get_offsetsC"></span><span class="target" id="classuproot_1_1_binary_buffer_1a9d9e22c3ed79b77a324998ea39c93079"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_offsets</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6uproot12BinaryBuffer11get_offsetsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the entry offsets array pointer. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6uproot12BinaryBuffer7entriesEv">
+<span id="_CPPv3NK6uproot12BinaryBuffer7entriesEv"></span><span id="_CPPv2NK6uproot12BinaryBuffer7entriesEv"></span><span id="uproot::BinaryBuffer::entriesC"></span><span class="target" id="classuproot_1_1_binary_buffer_1acca674325dd882bce54b10f3bc144760"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">entries</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6uproot12BinaryBuffer7entriesEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the number of entries. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6uproot12BinaryBuffer11debug_printEK6size_t">
+<span id="_CPPv3NK6uproot12BinaryBuffer11debug_printEK6size_t"></span><span id="_CPPv2NK6uproot12BinaryBuffer11debug_printEK6size_t"></span><span id="uproot::BinaryBuffer::debug_print__sCC"></span><span class="target" id="classuproot_1_1_binary_buffer_1af8cbdbc65070e4b4f9ab5300ea0545cb"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">debug_print</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">n</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">100</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6uproot12BinaryBuffer11debug_printEK6size_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Debug print the next <code class="docutils literal notranslate"><span class="pre">n</span></code> bytes from the current cursor. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> – Number of bytes to print. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer8m_cursorE">
+<span id="_CPPv3N6uproot12BinaryBuffer8m_cursorE"></span><span id="_CPPv2N6uproot12BinaryBuffer8m_cursorE"></span><span id="uproot::BinaryBuffer::m_cursor__uint8_tP"></span><span class="target" id="classuproot_1_1_binary_buffer_1acecfc0ad3e8fa5beeeebf15c666d3e78"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">m_cursor</span></span></span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer8m_cursorE" title="Link to this definition">#</a><br /></dt>
+<dd><p>current cursor position </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer9m_entriesE">
+<span id="_CPPv3N6uproot12BinaryBuffer9m_entriesE"></span><span id="_CPPv2N6uproot12BinaryBuffer9m_entriesE"></span><span id="uproot::BinaryBuffer::m_entries__uint64_tC"></span><span class="target" id="classuproot_1_1_binary_buffer_1ab8b3af6d3eb6ec50bfcb983c0bb072aa"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_entries</span></span></span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer9m_entriesE" title="Link to this definition">#</a><br /></dt>
+<dd><p>number of entries </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer6m_dataE">
+<span id="_CPPv3N6uproot12BinaryBuffer6m_dataE"></span><span id="_CPPv2N6uproot12BinaryBuffer6m_dataE"></span><span id="uproot::BinaryBuffer::m_data__uint8_tCP"></span><span class="target" id="classuproot_1_1_binary_buffer_1a34417f2b5cf6b4d18689847cb031e459"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">m_data</span></span></span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer6m_dataE" title="Link to this definition">#</a><br /></dt>
+<dd><p>raw data pointer </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot12BinaryBuffer9m_offsetsE">
+<span id="_CPPv3N6uproot12BinaryBuffer9m_offsetsE"></span><span id="_CPPv2N6uproot12BinaryBuffer9m_offsetsE"></span><span id="uproot::BinaryBuffer::m_offsets__uint32_tCP"></span><span class="target" id="classuproot_1_1_binary_buffer_1a9dd5c924fb6ac7dff640dab9f1957b6c"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">m_offsets</span></span></span><a class="headerlink" href="#_CPPv4N6uproot12BinaryBuffer9m_offsetsE" title="Link to this definition">#</a><br /></dt>
+<dd><p>entry offsets pointer </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot14IElementReaderE">
+<span id="_CPPv3N6uproot14IElementReaderE"></span><span id="_CPPv2N6uproot14IElementReaderE"></span><span id="uproot::IElementReader"></span><span class="target" id="classuproot_1_1_i_element_reader"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IElementReader</span></span></span><a class="headerlink" href="#_CPPv4N6uproot14IElementReaderE" title="Link to this definition">#</a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;uproot-custom.hh&gt;</em></div>
+<p>Interface for element readers. All element readers must inherit from this class. </p>
+<p>Subclassed by uproot::AnyClassReader, uproot::CStyleArrayReader, uproot::EmptyReader, uproot::GroupReader, uproot::ObjectHeaderReader, uproot::PrimitiveReader&lt; T &gt;, uproot::PrimitiveReader&lt; bool &gt;, uproot::STLMapReader, uproot::STLSeqReader, uproot::STLStringReader, uproot::TArrayReader&lt; T &gt;, uproot::TObjectReader, uproot::TStringReader</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot14IElementReader14IElementReaderENSt6stringE">
+<span id="_CPPv3N6uproot14IElementReader14IElementReaderENSt6stringE"></span><span id="_CPPv2N6uproot14IElementReader14IElementReaderENSt6stringE"></span><span id="uproot::IElementReader::IElementReader__ss"></span><span class="target" id="classuproot_1_1_i_element_reader_1a9b25d0fa08a042fbb3d7e0a2b6a88e2c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IElementReader</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6uproot14IElementReader14IElementReaderENSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct a new IElementReader object. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – Name of the reader. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot14IElementReaderD0Ev">
+<span id="_CPPv3N6uproot14IElementReaderD0Ev"></span><span id="_CPPv2N6uproot14IElementReaderD0Ev"></span><span id="uproot::IElementReader::~IElementReader"></span><span class="target" id="classuproot_1_1_i_element_reader_1a1d89f076421cb0612201abac621d4fa4"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">~IElementReader</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N6uproot14IElementReaderD0Ev" title="Link to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6uproot14IElementReader4nameEv">
+<span id="_CPPv3NK6uproot14IElementReader4nameEv"></span><span id="_CPPv2NK6uproot14IElementReader4nameEv"></span><span id="uproot::IElementReader::nameC"></span><span class="target" id="classuproot_1_1_i_element_reader_1a3233db4feddc686ba0cc649e49f9899c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">name</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK6uproot14IElementReader4nameEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the name of the reader. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Name of the reader. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot14IElementReader4readER12BinaryBuffer">
+<span id="_CPPv3N6uproot14IElementReader4readER12BinaryBuffer"></span><span id="_CPPv2N6uproot14IElementReader4readER12BinaryBuffer"></span><span id="uproot::IElementReader::read__BinaryBufferR"></span><span class="target" id="classuproot_1_1_i_element_reader_1aa8792622949d1198850dbcc2cae7f88b"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N6uproot12BinaryBufferE" title="uproot::BinaryBuffer"><span class="n"><span class="pre">BinaryBuffer</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">buffer</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N6uproot14IElementReader4readER12BinaryBuffer" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read an element from the buffer. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>buffer</strong> – The binary buffer to read from. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6uproot14IElementReader4dataEv">
+<span id="_CPPv3NK6uproot14IElementReader4dataEv"></span><span id="_CPPv2NK6uproot14IElementReader4dataEv"></span><span id="uproot::IElementReader::dataC"></span><span class="target" id="classuproot_1_1_i_element_reader_1a9427a78526ae5ebe09237422c5fa0067"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">py</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">data</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK6uproot14IElementReader4dataEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Get the data read by the reader. This should be called after the whole reading process. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The data read by the reader. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot14IElementReader9read_manyER12BinaryBufferK7int64_t">
+<span id="_CPPv3N6uproot14IElementReader9read_manyER12BinaryBufferK7int64_t"></span><span id="_CPPv2N6uproot14IElementReader9read_manyER12BinaryBufferK7int64_t"></span><span id="uproot::IElementReader::read_many__BinaryBufferR.int64_tC"></span><span class="target" id="classuproot_1_1_i_element_reader_1ab26faa8e12220b0284d8d04dbe9f467a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_many</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N6uproot12BinaryBufferE" title="uproot::BinaryBuffer"><span class="n"><span class="pre">BinaryBuffer</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">buffer</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">count</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6uproot14IElementReader9read_manyER12BinaryBufferK7int64_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read multiple elements from the buffer in one go. Repeatedly calls read() by default. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><p>When multiple elements are stored together, some classes may have “one common</p>
+<p>header + multiple data objects” format. This method can be overridden to handle such cases more efficiently.</p>
+</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>buffer</strong> – The binary buffer to read from. </p></li>
+<li><p><strong>count</strong> – Number of elements to read. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of elements read. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot14IElementReader10read_untilER12BinaryBufferPK7uint8_t">
+<span id="_CPPv3N6uproot14IElementReader10read_untilER12BinaryBufferPK7uint8_t"></span><span id="_CPPv2N6uproot14IElementReader10read_untilER12BinaryBufferPK7uint8_t"></span><span id="uproot::IElementReader::read_until__BinaryBufferR.uint8_tCP"></span><span class="target" id="classuproot_1_1_i_element_reader_1a487799ff1530dd3d5e59e74ddd92df50"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_until</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N6uproot12BinaryBufferE" title="uproot::BinaryBuffer"><span class="n"><span class="pre">BinaryBuffer</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">buffer</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">end_pos</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6uproot14IElementReader10read_untilER12BinaryBufferPK7uint8_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read elements from the buffer until reaching the end position. Repeatedly calls read() method by default. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><p>When multiple elements are stored together, some classes may have “one common</p>
+<p>header + multiple data objects” format. This method can be overridden to handle such cases more efficiently.</p>
+</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>buffer</strong> – The binary buffer to read from. </p></li>
+<li><p><strong>end_pos</strong> – The end position pointer. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of elements read. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot14IElementReader20read_many_memberwiseER12BinaryBufferK7int64_t">
+<span id="_CPPv3N6uproot14IElementReader20read_many_memberwiseER12BinaryBufferK7int64_t"></span><span id="_CPPv2N6uproot14IElementReader20read_many_memberwiseER12BinaryBufferK7int64_t"></span><span id="uproot::IElementReader::read_many_memberwise__BinaryBufferR.int64_tC"></span><span class="target" id="classuproot_1_1_i_element_reader_1ac9b523e94e8a88e05f45fcb61e883386"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_many_memberwise</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N6uproot12BinaryBufferE" title="uproot::BinaryBuffer"><span class="n"><span class="pre">BinaryBuffer</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">buffer</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">count</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6uproot14IElementReader20read_many_memberwiseER12BinaryBufferK7int64_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read multiple elements from the buffer in member-wise fashion. This method checks for negative count and calls read_many() by default. It can be overridden to handle member-wise reading more efficiently. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>buffer</strong> – The binary buffer to read from. </p></li>
+<li><p><strong>count</strong> – Number of elements to read. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of elements read. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-attributes">Protected Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6uproot14IElementReader6m_nameE">
+<span id="_CPPv3N6uproot14IElementReader6m_nameE"></span><span id="_CPPv2N6uproot14IElementReader6m_nameE"></span><span id="uproot::IElementReader::m_name__ssC"></span><span class="target" id="classuproot_1_1_i_element_reader_1aef43764302e9e3816906e4e06065ad23"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_name</span></span></span><a class="headerlink" href="#_CPPv4N6uproot14IElementReader6m_nameE" title="Link to this definition">#</a><br /></dt>
+<dd><p>name of the reader </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../api.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">API documentation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="uproot-custom-ref.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Module reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c.IMPORT_UPROOT_CUSTOM_CPP"><code class="docutils literal notranslate"><span class="pre">IMPORT_UPROOT_CUSTOM_CPP</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv46uproot"><code class="docutils literal notranslate"><span class="pre">uproot</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12SharedReaderE"><code class="docutils literal notranslate"><span class="pre">SharedReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0DpEN6uproot12CreateReaderE10shared_ptrI10ReaderTypeEDp4Args"><code class="docutils literal notranslate"><span class="pre">CreateReader()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0DpEN6uproot14declare_readerEvRN2py6moduleEPKc"><code class="docutils literal notranslate"><span class="pre">declare_reader()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN6uproot10make_arrayEN2py7array_tI1TEE10shared_ptrINSt6vectorI1TEEE"><code class="docutils literal notranslate"><span class="pre">make_array()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4IDpEN6uproot12debug_printfEvPKcDp4Args"><code class="docutils literal notranslate"><span class="pre">debug_printf()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12debug_printfERN6uproot12BinaryBufferEK6size_t"><code class="docutils literal notranslate"><span class="pre">debug_printf()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12kNewClassTagE"><code class="docutils literal notranslate"><span class="pre">kNewClassTag</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot10kClassMaskE"><code class="docutils literal notranslate"><span class="pre">kClassMask</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot14kByteCountMaskE"><code class="docutils literal notranslate"><span class="pre">kByteCountMask</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12kMaxMapCountE"><code class="docutils literal notranslate"><span class="pre">kMaxMapCount</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot15kByteCountVMaskE"><code class="docutils literal notranslate"><span class="pre">kByteCountVMask</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot11kMaxVersionE"><code class="docutils literal notranslate"><span class="pre">kMaxVersion</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot10kMapOffsetE"><code class="docutils literal notranslate"><span class="pre">kMapOffset</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot19kStreamedMemberWiseE"><code class="docutils literal notranslate"><span class="pre">kStreamedMemberWise</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBufferE"><code class="docutils literal notranslate"><span class="pre">uproot::BinaryBuffer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBitsE"><code class="docutils literal notranslate"><span class="pre">EStatusBits</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits10kCanDeleteE"><code class="docutils literal notranslate"><span class="pre">kCanDelete</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits12kMustCleanupE"><code class="docutils literal notranslate"><span class="pre">kMustCleanup</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits13kIsReferencedE"><code class="docutils literal notranslate"><span class="pre">kIsReferenced</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits8kHasUUIDE"><code class="docutils literal notranslate"><span class="pre">kHasUUID</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits11kCannotPickE"><code class="docutils literal notranslate"><span class="pre">kCannotPick</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits14kNoContextMenuE"><code class="docutils literal notranslate"><span class="pre">kNoContextMenu</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer11EStatusBits14kInvalidObjectE"><code class="docutils literal notranslate"><span class="pre">kInvalidObject</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer12BinaryBufferEN2py7array_tI7uint8_tEEN2py7array_tI8uint32_tEE"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN6uproot12BinaryBuffer4readEK1Tv"><code class="docutils literal notranslate"><span class="pre">read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer13read_fVersionEv"><code class="docutils literal notranslate"><span class="pre">read_fVersion()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer12read_fNBytesEv"><code class="docutils literal notranslate"><span class="pre">read_fNBytes()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer27read_null_terminated_stringEv"><code class="docutils literal notranslate"><span class="pre">read_null_terminated_string()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer15read_obj_headerEv"><code class="docutils literal notranslate"><span class="pre">read_obj_header()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer12read_TStringEv"><code class="docutils literal notranslate"><span class="pre">read_TString()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer4skipEK6size_t"><code class="docutils literal notranslate"><span class="pre">skip()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer12skip_fNBytesEv"><code class="docutils literal notranslate"><span class="pre">skip_fNBytes()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer13skip_fVersionEv"><code class="docutils literal notranslate"><span class="pre">skip_fVersion()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer27skip_null_terminated_stringEv"><code class="docutils literal notranslate"><span class="pre">skip_null_terminated_string()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer15skip_obj_headerEv"><code class="docutils literal notranslate"><span class="pre">skip_obj_header()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer12skip_TObjectEv"><code class="docutils literal notranslate"><span class="pre">skip_TObject()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK6uproot12BinaryBuffer8get_dataEv"><code class="docutils literal notranslate"><span class="pre">get_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK6uproot12BinaryBuffer10get_cursorEv"><code class="docutils literal notranslate"><span class="pre">get_cursor()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK6uproot12BinaryBuffer11get_offsetsEv"><code class="docutils literal notranslate"><span class="pre">get_offsets()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK6uproot12BinaryBuffer7entriesEv"><code class="docutils literal notranslate"><span class="pre">entries()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK6uproot12BinaryBuffer11debug_printEK6size_t"><code class="docutils literal notranslate"><span class="pre">debug_print()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer8m_cursorE"><code class="docutils literal notranslate"><span class="pre">m_cursor</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer9m_entriesE"><code class="docutils literal notranslate"><span class="pre">m_entries</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer6m_dataE"><code class="docutils literal notranslate"><span class="pre">m_data</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot12BinaryBuffer9m_offsetsE"><code class="docutils literal notranslate"><span class="pre">m_offsets</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot14IElementReaderE"><code class="docutils literal notranslate"><span class="pre">uproot::IElementReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot14IElementReader14IElementReaderENSt6stringE"><code class="docutils literal notranslate"><span class="pre">IElementReader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot14IElementReaderD0Ev"><code class="docutils literal notranslate"><span class="pre">~IElementReader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK6uproot14IElementReader4nameEv"><code class="docutils literal notranslate"><span class="pre">name()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot14IElementReader4readER12BinaryBuffer"><code class="docutils literal notranslate"><span class="pre">read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK6uproot14IElementReader4dataEv"><code class="docutils literal notranslate"><span class="pre">data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot14IElementReader9read_manyER12BinaryBufferK7int64_t"><code class="docutils literal notranslate"><span class="pre">read_many()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot14IElementReader10read_untilER12BinaryBufferPK7uint8_t"><code class="docutils literal notranslate"><span class="pre">read_until()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot14IElementReader20read_many_memberwiseER12BinaryBufferK7int64_t"><code class="docutils literal notranslate"><span class="pre">read_many_memberwise()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6uproot14IElementReader6m_nameE"><code class="docutils literal notranslate"><span class="pre">m_name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mingrun Li
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Mingrun Li.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
