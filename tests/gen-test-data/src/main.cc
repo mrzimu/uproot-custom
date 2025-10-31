@@ -5,8 +5,6 @@
 #include "TCStyleArray.hh"
 #include "TComplicatedSTL.hh"
 #include "TNestedSTL.hh"
-#include "TObjInObjArray.hh"
-#include "TOverrideStreamer.hh"
 #include "TRootObjects.hh"
 #include "TSTLArray.hh"
 #include "TSTLMap.hh"
@@ -53,14 +51,8 @@ int main() {
     TSimpleObject simple_obj;
     t.Branch( "simple_obj", &simple_obj );
 
-    TOverrideStreamer override_streamer;
-    t.Branch( "override_streamer", &override_streamer );
-
     TComplicatedSTL complicated_stl;
     t.Branch( "complicated_stl", &complicated_stl );
-
-    TObjWithObjArray obj_with_obj_array;
-    t.Branch( "obj_with_obj_array", &obj_with_obj_array );
 
     for ( int i = 0; i < 10; i++ )
     {
@@ -75,10 +67,7 @@ int main() {
         stl_map_with_obj = TSTLMapWithObj();
         nested_stl       = TNestedSTL();
         simple_obj       = TSimpleObject();
-
-        override_streamer  = TOverrideStreamer( i );
-        complicated_stl    = TComplicatedSTL();
-        obj_with_obj_array = TObjWithObjArray( i );
+        complicated_stl  = TComplicatedSTL();
 
         t.Fill();
     }

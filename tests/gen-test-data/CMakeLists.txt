@@ -8,7 +8,6 @@ find_package(ROOT REQUIRED COMPONENTS Core RIO Tree)
 
 add_executable(gen-test-data
     src/main.cc
-    src/TOverrideStreamer.cc
 )
 
 target_include_directories(gen-test-data
@@ -26,8 +25,6 @@ ROOT_GENERATE_DICTIONARY(MyRootDict
         ${CMAKE_CURRENT_LIST_DIR}/include/TBasicTypes.hh
         ${CMAKE_CURRENT_LIST_DIR}/include/TCStyleArray.hh
         ${CMAKE_CURRENT_LIST_DIR}/include/TComplicatedSTL.hh
-        ${CMAKE_CURRENT_LIST_DIR}/include/TObjInObjArray.hh
-        ${CMAKE_CURRENT_LIST_DIR}/include/TOverrideStreamer.hh
         ${CMAKE_CURRENT_LIST_DIR}/include/TRootObjects.hh
         ${CMAKE_CURRENT_LIST_DIR}/include/TSTLArray.hh
         ${CMAKE_CURRENT_LIST_DIR}/include/TSTLMap.hh
