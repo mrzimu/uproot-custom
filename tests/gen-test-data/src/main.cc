@@ -17,7 +17,7 @@
 #include "TSimpleObject.hh"
 
 int main() {
-    TFile f( "demo-data.root", "RECREATE" );
+    TFile f( "test-data.root", "RECREATE" );
     TTree t( "my_tree", "tree" );
 
     TBasicTypes basic_types;
