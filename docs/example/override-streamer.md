@@ -1,7 +1,7 @@
 # Example 1: `Streamer` method is overridden
 
 ```{seealso}
-A full example can be found in the `example` directory of [this repo](https://github.com/mrzimu/uproot-custom/tree/main/example).
+A full example can be found in the [example repository](https://github.com/mrzimu/uproot-custom-example).
 ```
 
 We define a demo class `TOverrideStreamer` whose `Streamer` method is overridden to show how to read such classes using `uproot-custom`.

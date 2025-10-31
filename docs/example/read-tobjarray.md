@@ -1,7 +1,7 @@
 # Example 2: Read `TObjArray` with unique known type
 
 ```{seealso}
-A full example can be found in the `example` directory of [this repo](https://github.com/mrzimu/uproot-custom/tree/main/example).
+A full example can be found in the [example repository](https://github.com/mrzimu/uproot-custom-example).
 ```
 
 This example shows how to use user-known rules to read data.

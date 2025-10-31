@@ -36,10 +36,10 @@ flowchart TD
 - `reader` is a C++ class that implements the logic to read data from binary buffers.
 - `factory` is a Python class that creates, combines `reader`s, and post-processes the data read by `reader`s.
 
-This machanism is implemented as `uproot_custom.AsCustom` interpretation. `uproot-custom` wraps `uproot.interpretation.identify.interpretation_of` method to intercept the interpretation of specific branches. This makes `uproot-custom` well compatible with `uproot`.
+This machanism is implemented basing on `uproot_custom.AsCustom` interpretation. This makes `uproot-custom` well compatible with `uproot`.
 
 > [!TIP]
-> Users can implement their own `factory` and `reader`, register them to `uproot-custom`. An example of implementing a custom `factory`/`reader` can be found in [the repository](https://github.com/mrzimu/uproot-custom/tree/main/example).
+> Users can implement their own `factory` and `reader`, register them to `uproot-custom`. An example of implementing a custom `factory`/`reader` can be found in [the example repository](https://github.com/mrzimu/uproot-custom-example).
 
 > [!NOTE]
 > `uproot-custom` does not provide a full reimplementation of `ROOT`'s I/O system. Users are expected to implement their own `factory`/`reader` for their custom classes that built-in factories cannot handle.
