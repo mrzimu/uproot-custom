@@ -6,8 +6,6 @@
 
 #    pragma link C++ class TOverrideStreamer - ;
 #    pragma link C++ class TComplicatedSTL + ;
-#    pragma link C++ class TObjWithObjArray + ;
-#    pragma link C++ class TObjInObjArray + ;
 #    pragma link C++ class TSimpleObject + ;
 #    pragma link C++ class TCStyleArray + ;
 #    pragma link C++ class TRootObjects + ;
