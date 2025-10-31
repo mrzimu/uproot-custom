@@ -1,4 +1,4 @@
-name: Run pytest
+name: Test package
 
 on:
   push:
@@ -46,13 +46,10 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Install dependencies
+      - name: Build docs
         run: |
           sudo apt-get update
           sudo apt-get install -y doxygen
           python -m pip install --upgrade pip
           pip install .[docs]
-
-      - name: Build docs
-        run: |
           sphinx-build -b html docs/ build/html
