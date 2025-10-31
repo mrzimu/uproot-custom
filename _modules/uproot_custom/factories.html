@@ -1,0 +1,1710 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>uproot_custom.factories &#8212; uproot-custom</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/uproot_custom/factories';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">uproot-custom</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../index.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/use-built-in.html">Use built-in factories</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorial/customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/bootstrap.html">Bootstrap of custom classes reading in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/streamer-info.html">Streamer information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/binary-data.html">Binary data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/template-python-project.html">Template Python project</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../reference/version-requirements.html">Version requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/binary-format.html">Binary format of common classes</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../reference/api.html">API documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/api/cpp-api.html">C++ API reference</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../reference/api/uproot-custom-ref.html">Module reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../reference/api/uproot_custom.html">Python reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../reference/api/cpp-module.html">C++ reference</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../example/override-streamer.html">Example 1: <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method is overridden</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example/read-tobjarray.html">Example 2: Read <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> with unique known type</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for uproot_custom.factories</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">awkward</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ak</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">awkward.contents</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">awkward.forms</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">awkward.index</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.cpp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_dims_from_branch</span><span class="p">,</span>
+    <span class="n">get_map_key_val_typenames</span><span class="p">,</span>
+    <span class="n">get_sequence_element_typename</span><span class="p">,</span>
+    <span class="n">get_top_type_name</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">registered_factories</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="s2">&quot;Factory&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="build_factory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.build_factory">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+    <span class="n">cur_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">all_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">item_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Factory&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate factory with a given streamer information.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cur_streamer_info (dict): Streamer information of current item.</span>
+<span class="sd">        all_streamer_info (dict): All streamer information.</span>
+<span class="sd">        item_path (str): Path to the item.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        An instance of `Factory`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fName</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">]</span>
+
+    <span class="n">top_type_name</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">get_top_type_name</span><span class="p">(</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fTypeName&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;fTypeName&quot;</span> <span class="ow">in</span> <span class="n">cur_streamer_info</span>
+        <span class="k">else</span> <span class="kc">None</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;called_from_top&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="n">item_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">item_path</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">fName</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">for</span> <span class="n">factory_class</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span>
+        <span class="n">registered_factories</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">priority</span><span class="p">(),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">):</span>
+        <span class="n">factory_instance</span> <span class="o">=</span> <span class="n">factory_class</span><span class="o">.</span><span class="n">build_factory</span><span class="p">(</span>
+            <span class="n">top_type_name</span><span class="p">,</span>
+            <span class="n">cur_streamer_info</span><span class="p">,</span>
+            <span class="n">all_streamer_info</span><span class="p">,</span>
+            <span class="n">item_path</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">factory_instance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">factory_instance</span>
+
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown type: </span><span class="si">{</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s1">&#39;fTypeName&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">item_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="read_branch">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.read_branch">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_branch</span><span class="p">(</span>
+    <span class="n">branch</span><span class="p">:</span> <span class="n">uproot</span><span class="o">.</span><span class="n">TBranch</span><span class="p">,</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">],</span>
+    <span class="n">offsets</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">cur_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">all_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]],</span>
+    <span class="n">item_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">factory</span> <span class="o">=</span> <span class="n">build_factory</span><span class="p">(</span>
+        <span class="n">cur_streamer_info</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">,</span>
+        <span class="n">called_from_top</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">branch</span><span class="o">=</span><span class="n">branch</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">offsets</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">nbyte</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fSize&quot;</span><span class="p">]</span>
+        <span class="n">offsets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="n">nbyte</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span> <span class="o">*</span> <span class="n">nbyte</span>
+    <span class="n">raw_data</span> <span class="o">=</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">factory</span><span class="o">.</span><span class="n">make_awkward_content</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="read_branch_awkward_form">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.read_branch_awkward_form">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_branch_awkward_form</span><span class="p">(</span>
+    <span class="n">branch</span><span class="p">:</span> <span class="n">uproot</span><span class="o">.</span><span class="n">TBranch</span><span class="p">,</span>
+    <span class="n">cur_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">all_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]],</span>
+    <span class="n">item_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">factory</span> <span class="o">=</span> <span class="n">build_factory</span><span class="p">(</span>
+        <span class="n">cur_streamer_info</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">,</span>
+        <span class="n">called_from_top</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">branch</span><span class="o">=</span><span class="n">branch</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">factory</span><span class="o">.</span><span class="n">make_awkward_form</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="Factory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.Factory">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Factory</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class of reader factories. Reader factory is in charge of</span>
+<span class="sd">    generating reader configuration tree, build an combine C++ reader</span>
+<span class="sd">    and reconstruct raw array from C++ reader into structured awkward</span>
+<span class="sd">    array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Factory.priority">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.Factory.priority">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">priority</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the call priority of this factory. Factories with higher</span>
+<span class="sd">        priority will be called first.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">10</span></div>
+
+
+<div class="viewcode-block" id="Factory.build_factory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.Factory.build_factory">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Factory</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return an instance of this factory when current item matches this factory,</span>
+<span class="sd">        otherwise return `None`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            top_type_name (str): Name of the top-level class of current item.</span>
+<span class="sd">                For example, `vector&lt;int&gt;` -&gt; `vector`.</span>
+<span class="sd">            cur_streamer_info (dict): Streamer information of current item.</span>
+<span class="sd">            all_streamer_info (dict): Dictionary storing streamer information</span>
+<span class="sd">                of all types. The key is the classname, pair is a dictionary</span>
+<span class="sd">                like `cur_streamer_info`.</span>
+<span class="sd">            item_path (str): Indicating which item is being matched. One can</span>
+<span class="sd">                use this variable to apply specific behavior.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A dictionary containing all necessary information of building</span>
+<span class="sd">            C++ reader and reconstruct raw data to awkward array for current</span>
+<span class="sd">            item.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+<div class="viewcode-block" id="Factory.build_cpp_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.Factory.build_cpp_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">IReader</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build concrete C++ reader.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            An instance of `uproot_custom.cpp.IReader`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;build_cpp_reader not implemented.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Factory.make_awkward_content">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.Factory.make_awkward_content">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">raw_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">Content</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reconstruct awkward contents with raw data returned from the C++ reader.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            raw_data: Data returned from C++ reader.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            awkward.contents.Content: Awkward content to build corresponding array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;reconstruct_array not implemented.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Factory.make_awkward_form">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.Factory.make_awkward_form">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate awkward form with tree configuration.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            awkward.forms.Form: Awkward form of current item.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;gen_awkward_form not implemented.&quot;</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="PrimitiveFactory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PrimitiveFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+    <span class="n">typenames</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;bool&quot;</span><span class="p">:</span> <span class="s2">&quot;bool&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;char&quot;</span><span class="p">:</span> <span class="s2">&quot;i1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;short&quot;</span><span class="p">:</span> <span class="s2">&quot;i2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;int&quot;</span><span class="p">:</span> <span class="s2">&quot;i4&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;long&quot;</span><span class="p">:</span> <span class="s2">&quot;i8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;long long&quot;</span><span class="p">:</span> <span class="s2">&quot;i8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;signed char&quot;</span><span class="p">:</span> <span class="s2">&quot;i1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;signed short&quot;</span><span class="p">:</span> <span class="s2">&quot;i2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;signed int&quot;</span><span class="p">:</span> <span class="s2">&quot;i4&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;signed long&quot;</span><span class="p">:</span> <span class="s2">&quot;i8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;signed long long&quot;</span><span class="p">:</span> <span class="s2">&quot;i8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;unsigned char&quot;</span><span class="p">:</span> <span class="s2">&quot;u1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;unsigned short&quot;</span><span class="p">:</span> <span class="s2">&quot;u2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;unsigned int&quot;</span><span class="p">:</span> <span class="s2">&quot;u4&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;unsigned long&quot;</span><span class="p">:</span> <span class="s2">&quot;u8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;unsigned long long&quot;</span><span class="p">:</span> <span class="s2">&quot;u8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;float&quot;</span><span class="p">:</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;double&quot;</span><span class="p">:</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span>
+        <span class="c1"># cstdint</span>
+        <span class="s2">&quot;int8_t&quot;</span><span class="p">:</span> <span class="s2">&quot;i1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;int16_t&quot;</span><span class="p">:</span> <span class="s2">&quot;i2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;int32_t&quot;</span><span class="p">:</span> <span class="s2">&quot;i4&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;int64_t&quot;</span><span class="p">:</span> <span class="s2">&quot;i8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;uint8_t&quot;</span><span class="p">:</span> <span class="s2">&quot;u1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;uint16_t&quot;</span><span class="p">:</span> <span class="s2">&quot;u2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;uint32_t&quot;</span><span class="p">:</span> <span class="s2">&quot;u4&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;uint64_t&quot;</span><span class="p">:</span> <span class="s2">&quot;u8&quot;</span><span class="p">,</span>
+        <span class="c1"># ROOT types</span>
+        <span class="s2">&quot;Bool_t&quot;</span><span class="p">:</span> <span class="s2">&quot;bool&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Char_t&quot;</span><span class="p">:</span> <span class="s2">&quot;i1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Short_t&quot;</span><span class="p">:</span> <span class="s2">&quot;i2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Int_t&quot;</span><span class="p">:</span> <span class="s2">&quot;i4&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Long_t&quot;</span><span class="p">:</span> <span class="s2">&quot;i8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UChar_t&quot;</span><span class="p">:</span> <span class="s2">&quot;u1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UShort_t&quot;</span><span class="p">:</span> <span class="s2">&quot;u2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UInt_t&quot;</span><span class="p">:</span> <span class="s2">&quot;u4&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ULong_t&quot;</span><span class="p">:</span> <span class="s2">&quot;u8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Float_t&quot;</span><span class="p">:</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Double_t&quot;</span><span class="p">:</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">ftypes</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;i1&quot;</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;i2&quot;</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;i4&quot;</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;i8&quot;</span><span class="p">,</span>
+        <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span>
+        <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span>
+        <span class="mi">11</span><span class="p">:</span> <span class="s2">&quot;u1&quot;</span><span class="p">,</span>
+        <span class="mi">12</span><span class="p">:</span> <span class="s2">&quot;u2&quot;</span><span class="p">,</span>
+        <span class="mi">13</span><span class="p">:</span> <span class="s2">&quot;u4&quot;</span><span class="p">,</span>
+        <span class="mi">14</span><span class="p">:</span> <span class="s2">&quot;u8&quot;</span><span class="p">,</span>
+        <span class="mi">18</span><span class="p">:</span> <span class="s2">&quot;bool&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">cpp_reader_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;bool&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">BoolReader</span><span class="p">,</span>
+        <span class="s2">&quot;i1&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">Int8Reader</span><span class="p">,</span>
+        <span class="s2">&quot;i2&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">Int16Reader</span><span class="p">,</span>
+        <span class="s2">&quot;i4&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">Int32Reader</span><span class="p">,</span>
+        <span class="s2">&quot;i8&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">Int64Reader</span><span class="p">,</span>
+        <span class="s2">&quot;u1&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">UInt8Reader</span><span class="p">,</span>
+        <span class="s2">&quot;u2&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">UInt16Reader</span><span class="p">,</span>
+        <span class="s2">&quot;u4&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">UInt32Reader</span><span class="p">,</span>
+        <span class="s2">&quot;u8&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">UInt64Reader</span><span class="p">,</span>
+        <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">FloatReader</span><span class="p">,</span>
+        <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">DoubleReader</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">ctype_primitive_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;bool&quot;</span><span class="p">:</span> <span class="s2">&quot;bool&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;i1&quot;</span><span class="p">:</span> <span class="s2">&quot;int8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;i2&quot;</span><span class="p">:</span> <span class="s2">&quot;int16&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;i4&quot;</span><span class="p">:</span> <span class="s2">&quot;int32&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;i8&quot;</span><span class="p">:</span> <span class="s2">&quot;int64&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;u1&quot;</span><span class="p">:</span> <span class="s2">&quot;uint8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;u2&quot;</span><span class="p">:</span> <span class="s2">&quot;uint16&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;u4&quot;</span><span class="p">:</span> <span class="s2">&quot;uint32&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;u8&quot;</span><span class="p">:</span> <span class="s2">&quot;uint64&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;float32&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="s2">&quot;float64&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="PrimitiveFactory.build_factory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory.build_factory">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return when `top_type_name` is primitive type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ctype</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">ftypes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cur_streamer_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fType&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ctype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ctype</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">typenames</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">top_type_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ctype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">],</span> <span class="n">ctype</span><span class="o">=</span><span class="n">ctype</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ctype</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ctype</span> <span class="o">=</span> <span class="n">ctype</span>
+
+<div class="viewcode-block" id="PrimitiveFactory.build_cpp_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory.build_cpp_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpp_reader_map</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ctype</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PrimitiveFactory.make_awkward_content">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory.make_awkward_content">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctype</span> <span class="o">==</span> <span class="s2">&quot;bool&quot;</span><span class="p">:</span>
+            <span class="n">raw_data</span> <span class="o">=</span> <span class="n">raw_data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">NumpyArray</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PrimitiveFactory.make_awkward_form">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory.make_awkward_form">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ctype_primitive_map</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ctype</span><span class="p">])</span></div>
+</div>
+
+
+
+<span class="n">stl_typenames</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;vector&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;array&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;list&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;set&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;multiset&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;unordered_set&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;unordered_multiset&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;map&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;multimap&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;unordered_map&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;unordered_multimap&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="STLSeqFactory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLSeqFactory">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">STLSeqFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This factory reads sequence-like STL containers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">target_types</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;vector&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;array&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;list&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;set&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;multiset&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;unordered_set&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;unordered_multiset&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+<div class="viewcode-block" id="STLSeqFactory.build_factory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLSeqFactory.build_factory">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return when `top_type_name` is in `cls.target_types`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">top_type_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">target_types</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">fName</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">]</span>
+        <span class="n">fTypeName</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fTypeName&quot;</span><span class="p">]</span>
+        <span class="n">element_type</span> <span class="o">=</span> <span class="n">get_sequence_element_typename</span><span class="p">(</span><span class="n">fTypeName</span><span class="p">)</span>
+        <span class="n">element_info</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;fName&quot;</span><span class="p">:</span> <span class="n">fName</span><span class="p">,</span>
+            <span class="s2">&quot;fTypeName&quot;</span><span class="p">:</span> <span class="n">element_type</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">element_factory</span> <span class="o">=</span> <span class="n">build_factory</span><span class="p">(</span>
+            <span class="n">element_info</span><span class="p">,</span>
+            <span class="n">all_streamer_info</span><span class="p">,</span>
+            <span class="n">item_path</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">element_factory</span><span class="p">,</span> <span class="p">(</span><span class="n">STLSeqFactory</span><span class="p">,</span> <span class="n">STLMapFactory</span><span class="p">,</span> <span class="n">STLStringFactory</span><span class="p">)):</span>
+            <span class="n">element_factory</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">fName</span><span class="p">,</span>
+            <span class="n">with_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">objwise_or_memberwise</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">element_factory</span><span class="o">=</span><span class="n">element_factory</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">with_header</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">objwise_or_memberwise</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="n">element_factory</span><span class="p">:</span> <span class="n">Factory</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="n">with_header</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">=</span> <span class="n">objwise_or_memberwise</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span> <span class="o">=</span> <span class="n">element_factory</span>
+
+<div class="viewcode-block" id="STLSeqFactory.build_cpp_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLSeqFactory.build_cpp_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">element_cpp_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">STLSeqReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span><span class="p">,</span>
+            <span class="n">element_cpp_reader</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLSeqFactory.make_awkward_content">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLSeqFactory.make_awkward_content">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
+        <span class="n">offsets</span><span class="p">,</span> <span class="n">element_raw_data</span> <span class="o">=</span> <span class="n">raw_data</span>
+        <span class="n">element_content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">make_awkward_content</span><span class="p">(</span><span class="n">element_raw_data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">ListOffsetArray</span><span class="p">(</span>
+            <span class="n">ak</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">Index64</span><span class="p">(</span><span class="n">offsets</span><span class="p">),</span>
+            <span class="n">element_content</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLSeqFactory.make_awkward_form">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLSeqFactory.make_awkward_form">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">element_form</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">make_awkward_form</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">ListOffsetForm</span><span class="p">(</span>
+            <span class="s2">&quot;i64&quot;</span><span class="p">,</span>
+            <span class="n">element_form</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="STLMapFactory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLMapFactory">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">STLMapFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class reads mapping-like STL containers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">target_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;map&quot;</span><span class="p">,</span> <span class="s2">&quot;unordered_map&quot;</span><span class="p">,</span> <span class="s2">&quot;multimap&quot;</span><span class="p">,</span> <span class="s2">&quot;unordered_multimap&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="STLMapFactory.build_factory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLMapFactory.build_factory">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return when `top_type_name` is in `cls.target_types`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">top_type_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">target_types</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">fTypeName</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fTypeName&quot;</span><span class="p">]</span>
+        <span class="n">key_type_name</span><span class="p">,</span> <span class="n">val_type_name</span> <span class="o">=</span> <span class="n">get_map_key_val_typenames</span><span class="p">(</span><span class="n">fTypeName</span><span class="p">)</span>
+
+        <span class="n">fName</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">]</span>
+        <span class="n">key_info</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;fName&quot;</span><span class="p">:</span> <span class="s2">&quot;key&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;fTypeName&quot;</span><span class="p">:</span> <span class="n">key_type_name</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">val_info</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;fName&quot;</span><span class="p">:</span> <span class="s2">&quot;val&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;fTypeName&quot;</span><span class="p">:</span> <span class="n">val_type_name</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">key_factory</span> <span class="o">=</span> <span class="n">build_factory</span><span class="p">(</span><span class="n">key_info</span><span class="p">,</span> <span class="n">all_streamer_info</span><span class="p">,</span> <span class="n">item_path</span><span class="p">)</span>
+        <span class="n">val_factory</span> <span class="o">=</span> <span class="n">build_factory</span><span class="p">(</span><span class="n">val_info</span><span class="p">,</span> <span class="n">all_streamer_info</span><span class="p">,</span> <span class="n">item_path</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">fName</span><span class="p">,</span>
+            <span class="n">with_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">objwise_or_memberwise</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">key_factory</span><span class="o">=</span><span class="n">key_factory</span><span class="p">,</span>
+            <span class="n">val_factory</span><span class="o">=</span><span class="n">val_factory</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">with_header</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">objwise_or_memberwise</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="n">key_factory</span><span class="p">:</span> <span class="n">Factory</span><span class="p">,</span>
+        <span class="n">val_factory</span><span class="p">:</span> <span class="n">Factory</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="n">with_header</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">=</span> <span class="n">objwise_or_memberwise</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key_factory</span> <span class="o">=</span> <span class="n">key_factory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val_factory</span> <span class="o">=</span> <span class="n">val_factory</span>
+
+<div class="viewcode-block" id="STLMapFactory.build_cpp_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLMapFactory.build_cpp_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">is_obj_wise</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">==</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="n">is_obj_wise</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">key_factory</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">val_factory</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">key_cpp_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_factory</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span>
+        <span class="n">val_cpp_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">val_factory</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">STLMapReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span><span class="p">,</span>
+            <span class="n">key_cpp_reader</span><span class="p">,</span>
+            <span class="n">val_cpp_reader</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLMapFactory.make_awkward_content">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLMapFactory.make_awkward_content">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
+        <span class="n">offsets</span><span class="p">,</span> <span class="n">key_raw_data</span><span class="p">,</span> <span class="n">val_raw_data</span> <span class="o">=</span> <span class="n">raw_data</span>
+        <span class="n">key_content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_factory</span><span class="o">.</span><span class="n">make_awkward_content</span><span class="p">(</span><span class="n">key_raw_data</span><span class="p">)</span>
+        <span class="n">val_content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">val_factory</span><span class="o">.</span><span class="n">make_awkward_content</span><span class="p">(</span><span class="n">val_raw_data</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">ListOffsetArray</span><span class="p">(</span>
+            <span class="n">ak</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">Index64</span><span class="p">(</span><span class="n">offsets</span><span class="p">),</span>
+            <span class="n">ak</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">RecordArray</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">key_content</span><span class="p">,</span> <span class="n">val_content</span><span class="p">],</span>
+                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">key_factory</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">val_factory</span><span class="o">.</span><span class="n">name</span><span class="p">],</span>
+            <span class="p">),</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLMapFactory.make_awkward_form">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLMapFactory.make_awkward_form">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">key_form</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_factory</span><span class="o">.</span><span class="n">make_awkward_form</span><span class="p">()</span>
+        <span class="n">val_form</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">val_factory</span><span class="o">.</span><span class="n">make_awkward_form</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">ListOffsetForm</span><span class="p">(</span>
+            <span class="s2">&quot;i64&quot;</span><span class="p">,</span>
+            <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">RecordForm</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">key_form</span><span class="p">,</span> <span class="n">val_form</span><span class="p">],</span>
+                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">key_factory</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">val_factory</span><span class="o">.</span><span class="n">name</span><span class="p">],</span>
+            <span class="p">),</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="STLStringFactory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLStringFactory">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">STLStringFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class reads std::string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="STLStringFactory.build_factory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLStringFactory.build_factory">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">top_type_name</span> <span class="o">!=</span> <span class="s2">&quot;string&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">],</span>
+            <span class="n">with_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">with_header</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="n">with_header</span>
+
+<div class="viewcode-block" id="STLStringFactory.build_cpp_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLStringFactory.build_cpp_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">STLStringReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLStringFactory.make_awkward_content">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLStringFactory.make_awkward_content">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
+        <span class="n">offsets</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">raw_data</span>
+        <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">ListOffsetArray</span><span class="p">(</span>
+            <span class="n">awkward</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">Index64</span><span class="p">(</span><span class="n">offsets</span><span class="p">),</span>
+            <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">NumpyArray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;__array__&quot;</span><span class="p">:</span> <span class="s2">&quot;char&quot;</span><span class="p">}),</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;__array__&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLStringFactory.make_awkward_form">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLStringFactory.make_awkward_form">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">ListOffsetForm</span><span class="p">(</span>
+            <span class="s2">&quot;i64&quot;</span><span class="p">,</span>
+            <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="s2">&quot;uint8&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;__array__&quot;</span><span class="p">:</span> <span class="s2">&quot;char&quot;</span><span class="p">}),</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;__array__&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TArrayFactory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TArrayFactory">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TArrayFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class reads TArray from a binary paerser.</span>
+
+<span class="sd">    TArray includes TArrayC, TArrayS, TArrayI, TArrayL, TArrayL64, TArrayF, and TArrayD.</span>
+<span class="sd">    Corresponding ctype is u1, u2, i4, i8, i8, f, and d.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">typenames</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;TArrayC&quot;</span><span class="p">:</span> <span class="s2">&quot;i1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TArrayS&quot;</span><span class="p">:</span> <span class="s2">&quot;i2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TArrayI&quot;</span><span class="p">:</span> <span class="s2">&quot;i4&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TArrayL&quot;</span><span class="p">:</span> <span class="s2">&quot;i8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TArrayL64&quot;</span><span class="p">:</span> <span class="s2">&quot;i8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TArrayF&quot;</span><span class="p">:</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TArrayD&quot;</span><span class="p">:</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="TArrayFactory.build_factory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TArrayFactory.build_factory">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return when `top_type_name` is in `cls.typenames`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">top_type_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">typenames</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">ctype</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">typenames</span><span class="p">[</span><span class="n">top_type_name</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">],</span> <span class="n">ctype</span><span class="o">=</span><span class="n">ctype</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ctype</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ctype</span> <span class="o">=</span> <span class="n">ctype</span>
+
+<div class="viewcode-block" id="TArrayFactory.build_cpp_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TArrayFactory.build_cpp_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;i1&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayCReader</span><span class="p">,</span>
+            <span class="s2">&quot;i2&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArraySReader</span><span class="p">,</span>
+            <span class="s2">&quot;i4&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayIReader</span><span class="p">,</span>
+            <span class="s2">&quot;i8&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayLReader</span><span class="p">,</span>
+            <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayFReader</span><span class="p">,</span>
+            <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayDReader</span><span class="p">,</span>
+        <span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">ctype</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TArrayFactory.make_awkward_content">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TArrayFactory.make_awkward_content">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
+        <span class="n">offsets</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">raw_data</span>
+        <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">ListOffsetArray</span><span class="p">(</span>
+            <span class="n">awkward</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">Index64</span><span class="p">(</span><span class="n">offsets</span><span class="p">),</span>
+            <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">NumpyArray</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TArrayFactory.make_awkward_form">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TArrayFactory.make_awkward_form">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">ListOffsetForm</span><span class="p">(</span>
+            <span class="s2">&quot;i64&quot;</span><span class="p">,</span>
+            <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="n">PrimitiveFactory</span><span class="o">.</span><span class="n">ctype_primitive_map</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ctype</span><span class="p">]),</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TStringFactory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TStringFactory">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TStringFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class reads TString from a binary parser.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TStringFactory.build_factory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TStringFactory.build_factory">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">top_type_name</span> <span class="o">!=</span> <span class="s2">&quot;TString&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">],</span>
+            <span class="n">with_header</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">with_header</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="n">with_header</span>
+
+<div class="viewcode-block" id="TStringFactory.build_cpp_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TStringFactory.build_cpp_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TStringReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TStringFactory.make_awkward_content">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TStringFactory.make_awkward_content">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
+        <span class="n">offsets</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">raw_data</span>
+        <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">ListOffsetArray</span><span class="p">(</span>
+            <span class="n">awkward</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">Index64</span><span class="p">(</span><span class="n">offsets</span><span class="p">),</span>
+            <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">NumpyArray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;__array__&quot;</span><span class="p">:</span> <span class="s2">&quot;char&quot;</span><span class="p">}),</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;__array__&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TStringFactory.make_awkward_form">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TStringFactory.make_awkward_form">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">ListOffsetForm</span><span class="p">(</span>
+            <span class="s2">&quot;i64&quot;</span><span class="p">,</span>
+            <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="s2">&quot;uint8&quot;</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;__array__&quot;</span><span class="p">:</span> <span class="s2">&quot;char&quot;</span><span class="p">}),</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;__array__&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TObjectFactory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TObjectFactory">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TObjectFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class reads base TObject from a binary parser.</span>
+<span class="sd">    You should skip reconstructing array when this factory</span>
+<span class="sd">    keeps no data, since the method `reconstruct_array`</span>
+<span class="sd">    will always return `None`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Whether keep TObject data.</span>
+    <span class="n">keep_data_itempaths</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+<div class="viewcode-block" id="TObjectFactory.build_factory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TObjectFactory.build_factory">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The configuration contains:</span>
+<span class="sd">        - `factory`: cls</span>
+<span class="sd">        - `name: fName,</span>
+<span class="sd">        - `keep_data`: Whether keep data from TObject.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">top_type_name</span> <span class="o">!=</span> <span class="s2">&quot;BASE&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">fType</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fType&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">fType</span> <span class="o">!=</span> <span class="mi">66</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">],</span>
+            <span class="n">keep_data</span><span class="o">=</span><span class="n">item_path</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">keep_data_itempaths</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">keep_data</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keep_data</span> <span class="o">=</span> <span class="n">keep_data</span>
+
+<div class="viewcode-block" id="TObjectFactory.build_cpp_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TObjectFactory.build_cpp_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TObjectReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">keep_data</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TObjectFactory.make_awkward_content">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TObjectFactory.make_awkward_content">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">keep_data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">EmptyArray</span><span class="p">()</span>
+
+        <span class="n">unique_ids</span><span class="p">,</span> <span class="n">bits</span><span class="p">,</span> <span class="n">pidf</span><span class="p">,</span> <span class="n">pidf_offsets</span> <span class="o">=</span> <span class="n">raw_data</span>
+        <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">RecordArray</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">NumpyArray</span><span class="p">(</span><span class="n">unique_ids</span><span class="p">),</span>
+                <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">NumpyArray</span><span class="p">(</span><span class="n">bits</span><span class="p">),</span>
+                <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">ListOffsetArray</span><span class="p">(</span>
+                    <span class="n">awkward</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">Index64</span><span class="p">(</span><span class="n">pidf_offsets</span><span class="p">),</span>
+                    <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">NumpyArray</span><span class="p">(</span><span class="n">pidf</span><span class="p">),</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+            <span class="p">[</span><span class="s2">&quot;fUniqueID&quot;</span><span class="p">,</span> <span class="s2">&quot;fBits&quot;</span><span class="p">,</span> <span class="s2">&quot;pidf&quot;</span><span class="p">],</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TObjectFactory.make_awkward_form">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TObjectFactory.make_awkward_form">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">keep_data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">EmptyForm</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">RecordForm</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">),</span>  <span class="c1"># fUniqueID</span>
+                <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="s2">&quot;uint32&quot;</span><span class="p">),</span>  <span class="c1"># fBits</span>
+                <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">ListOffsetForm</span><span class="p">(</span>
+                    <span class="s2">&quot;i64&quot;</span><span class="p">,</span>
+                    <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="s2">&quot;uint16&quot;</span><span class="p">),</span>  <span class="c1"># pidf</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+            <span class="p">[</span><span class="s2">&quot;fUniqueID&quot;</span><span class="p">,</span> <span class="s2">&quot;fBits&quot;</span><span class="p">,</span> <span class="s2">&quot;pidf&quot;</span><span class="p">],</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="CStyleArrayFactory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CStyleArrayFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class reads a C-style array from a binary parser.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CStyleArrayFactory.priority">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory.priority">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">priority</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">20</span>  <span class="c1"># This reader should be called first</span></div>
+
+
+<div class="viewcode-block" id="CStyleArrayFactory.build_factory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory.build_factory">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">fTypeName</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fTypeName&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">dims</span> <span class="o">=</span> <span class="p">()</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;called_from_top&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="n">branch</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;branch&quot;</span><span class="p">]</span>
+            <span class="n">dims</span><span class="p">,</span> <span class="n">is_jagged</span> <span class="o">=</span> <span class="n">get_dims_from_branch</span><span class="p">(</span><span class="n">branch</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">is_jagged</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">fTypeName</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;[]&quot;</span><span class="p">):</span>
+                <span class="n">fTypeName</span> <span class="o">+=</span> <span class="s2">&quot;[]&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">fTypeName</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;[]&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">cur_streamer_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fArrayDim&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">fName</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">]</span>
+        <span class="n">fArrayDim</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fArrayDim&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">fMaxIndex</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fMaxIndex&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">fTypeName</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;[]&quot;</span><span class="p">):</span>
+            <span class="n">flat_size</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">fArrayDim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;fArrayDim cannot be None for </span><span class="si">{</span><span class="n">item_path</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="k">assert</span> <span class="n">fMaxIndex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;fMaxIndex cannot be None for </span><span class="si">{</span><span class="n">item_path</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="n">flat_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">fMaxIndex</span><span class="p">[:</span><span class="n">fArrayDim</span><span class="p">])</span>
+
+        <span class="n">element_streamer_info</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">element_streamer_info</span><span class="p">[</span><span class="s2">&quot;fArrayDim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">fTypeName</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;[]&quot;</span><span class="p">):</span>
+            <span class="n">fTypeName</span> <span class="o">=</span> <span class="n">fTypeName</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">element_streamer_info</span><span class="p">[</span><span class="s2">&quot;fTypeName&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fTypeName</span>
+
+        <span class="n">element_factory</span> <span class="o">=</span> <span class="n">build_factory</span><span class="p">(</span>
+            <span class="n">element_streamer_info</span><span class="p">,</span>
+            <span class="n">all_streamer_info</span><span class="p">,</span>
+            <span class="n">item_path</span><span class="o">=</span><span class="n">item_path</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># When TString is stored in C-style or std array, it has a &quot;fNByte+fVersion&quot; header.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">element_factory</span><span class="p">,</span> <span class="n">TStringFactory</span><span class="p">)</span> <span class="ow">and</span> <span class="n">fArrayDim</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">element_factory</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">assert</span> <span class="n">flat_size</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;flatten_size cannot be 0.&quot;</span>
+
+        <span class="c1"># When stored in std::array</span>
+        <span class="c1"># [1] There is no header for vector and map.</span>
+        <span class="c1"># [2] Map is object-wise serialized.</span>
+        <span class="c1"># By so far, we use fType==82 to identify std::array.</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span>
+                <span class="n">element_factory</span><span class="p">,</span>
+                <span class="p">(</span>
+                    <span class="n">STLSeqFactory</span><span class="p">,</span>
+                    <span class="n">STLMapFactory</span><span class="p">,</span>
+                    <span class="n">STLStringFactory</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+            <span class="ow">and</span> <span class="n">cur_streamer_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fType&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">82</span>
+        <span class="p">):</span>
+            <span class="n">element_factory</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">element_factory</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># -1: auto, 0: obj-wise, 1: member-wise</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">fName</span><span class="p">,</span>
+            <span class="n">element_factory</span><span class="o">=</span><span class="n">element_factory</span><span class="p">,</span>
+            <span class="n">flat_size</span><span class="o">=</span><span class="n">flat_size</span><span class="p">,</span>
+            <span class="n">fMaxIndex</span><span class="o">=</span><span class="n">fMaxIndex</span><span class="p">,</span>
+            <span class="n">fArrayDim</span><span class="o">=</span><span class="n">fArrayDim</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">element_factory</span><span class="p">:</span> <span class="n">Factory</span><span class="p">,</span>
+        <span class="n">flat_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">fMaxIndex</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">fArrayDim</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span> <span class="o">=</span> <span class="n">element_factory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flat_size</span> <span class="o">=</span> <span class="n">flat_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fMaxIndex</span> <span class="o">=</span> <span class="n">fMaxIndex</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fArrayDim</span> <span class="o">=</span> <span class="n">fArrayDim</span>
+
+<div class="viewcode-block" id="CStyleArrayFactory.build_cpp_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory.build_cpp_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">CStyleArrayReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flat_size</span><span class="p">,</span>
+            <span class="n">element_reader</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CStyleArrayFactory.make_awkward_content">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory.make_awkward_content">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_size</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">element_raw_data</span> <span class="o">=</span> <span class="n">raw_data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">element_raw_data</span> <span class="o">=</span> <span class="n">raw_data</span>
+
+        <span class="n">element_content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">make_awkward_content</span><span class="p">(</span><span class="n">element_raw_data</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fArrayDim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">fMaxIndex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">fMaxIndex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fArrayDim</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">shape</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">element_content</span> <span class="o">=</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">RegularArray</span><span class="p">(</span><span class="n">element_content</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_size</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">offsets</span> <span class="o">=</span> <span class="n">raw_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">shape</span><span class="p">:</span>
+                <span class="n">offsets</span> <span class="o">=</span> <span class="n">offsets</span> <span class="o">/</span> <span class="n">s</span>
+
+            <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">ListOffsetArray</span><span class="p">(</span>
+                <span class="n">ak</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">Index64</span><span class="p">(</span><span class="n">offsets</span><span class="p">),</span>
+                <span class="n">element_content</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">element_content</span></div>
+
+
+<div class="viewcode-block" id="CStyleArrayFactory.make_awkward_form">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory.make_awkward_form">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">element_form</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">make_awkward_form</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fArrayDim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">fMaxIndex</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">fMaxIndex</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fArrayDim</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">shape</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">element_form</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">RegularForm</span><span class="p">(</span><span class="n">element_form</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_size</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">ListOffsetForm</span><span class="p">(</span>
+                <span class="s2">&quot;i64&quot;</span><span class="p">,</span>
+                <span class="n">element_form</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">element_form</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="GroupFactory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.GroupFactory">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GroupFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This factory groups differernt factory together. You can use</span>
+<span class="sd">    this factory to read specific format of data as you like.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GroupFactory.build_factory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.GroupFactory.build_factory">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Never match items. If one needs to use this factory,</span>
+<span class="sd">        instatiate it directly.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sub_factories</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Factory</span><span class="p">]):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span> <span class="o">=</span> <span class="n">sub_factories</span>
+
+<div class="viewcode-block" id="GroupFactory.build_cpp_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.GroupFactory.build_cpp_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sub_readers</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">GroupReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GroupFactory.make_awkward_content">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.GroupFactory.make_awkward_content">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
+        <span class="n">sub_configs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span>
+
+        <span class="n">sub_fields</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">sub_contents</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">s_fac</span><span class="p">,</span> <span class="n">s_data</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sub_configs</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s_fac</span><span class="p">,</span> <span class="n">TObjectFactory</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">s_fac</span><span class="o">.</span><span class="n">keep_data</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">sub_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_fac</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">sub_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_fac</span><span class="o">.</span><span class="n">make_awkward_content</span><span class="p">(</span><span class="n">s_data</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">RecordArray</span><span class="p">(</span><span class="n">sub_contents</span><span class="p">,</span> <span class="n">sub_fields</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GroupFactory.make_awkward_form">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.GroupFactory.make_awkward_form">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sub_configs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span>
+
+        <span class="n">sub_fields</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">sub_contents</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">s_fac</span> <span class="ow">in</span> <span class="n">sub_configs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s_fac</span><span class="p">,</span> <span class="n">TObjectFactory</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">s_fac</span><span class="o">.</span><span class="n">keep_data</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">sub_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_fac</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">sub_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_fac</span><span class="o">.</span><span class="n">make_awkward_form</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">RecordForm</span><span class="p">(</span><span class="n">sub_contents</span><span class="p">,</span> <span class="n">sub_fields</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="BaseObjectFactory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.BaseObjectFactory">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BaseObjectFactory</span><span class="p">(</span><span class="n">GroupFactory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class reads base-object of an object. The base object has</span>
+<span class="sd">    fNBytes(uint32), fVersion(uint16) at the beginning.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BaseObjectFactory.build_factory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.BaseObjectFactory.build_factory">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">,</span>
+        <span class="n">cls_streamer_info</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">top_type_name</span> <span class="o">!=</span> <span class="s2">&quot;BASE&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">fType</span> <span class="o">=</span> <span class="n">cls_streamer_info</span><span class="p">[</span><span class="s2">&quot;fType&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">fType</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">fName</span> <span class="o">=</span> <span class="n">cls_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">]</span>
+        <span class="n">sub_streamers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="n">all_streamer_info</span><span class="p">[</span><span class="n">fName</span><span class="p">]</span>
+        <span class="n">sub_factories</span> <span class="o">=</span> <span class="p">[</span><span class="n">build_factory</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">all_streamer_info</span><span class="p">,</span> <span class="n">item_path</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sub_streamers</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fName</span><span class="p">,</span> <span class="n">sub_factories</span><span class="o">=</span><span class="n">sub_factories</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseObjectFactory.build_cpp_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.BaseObjectFactory.build_cpp_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sub_readers</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">AnyClassReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="AnyClassFactory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.AnyClassFactory">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AnyClassFactory</span><span class="p">(</span><span class="n">GroupFactory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class tries to read any class object that is not handled by other factories.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AnyClassFactory.priority">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.AnyClassFactory.priority">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">priority</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">0</span>  <span class="c1"># This reader should be called last</span></div>
+
+
+<div class="viewcode-block" id="AnyClassFactory.build_factory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.AnyClassFactory.build_factory">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">sub_streamers</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">all_streamer_info</span><span class="p">[</span><span class="n">top_type_name</span><span class="p">]</span>
+        <span class="n">sub_factories</span> <span class="o">=</span> <span class="p">[</span><span class="n">build_factory</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">all_streamer_info</span><span class="p">,</span> <span class="n">item_path</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sub_streamers</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">top_type_name</span><span class="p">,</span> <span class="n">sub_factories</span><span class="o">=</span><span class="n">sub_factories</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AnyClassFactory.build_cpp_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.AnyClassFactory.build_cpp_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sub_readers</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">AnyClassReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ObjectHeaderFactory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ObjectHeaderFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class reads object header:</span>
+<span class="sd">    1. fNBytes</span>
+<span class="sd">    2. fTag</span>
+<span class="sd">    3. if (fTag == -1) null-terminated-string</span>
+
+<span class="sd">    If will be called automatically if no other factory matches.</span>
+<span class="sd">    Also, it can be manually used to read object header.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ObjectHeaderFactory.build_factory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.build_factory">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This factory will always match items. If one needs to use this factory,</span>
+<span class="sd">        instatiate it directly.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">element_factory</span><span class="p">:</span> <span class="n">Factory</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span> <span class="o">=</span> <span class="n">element_factory</span>
+
+<div class="viewcode-block" id="ObjectHeaderFactory.build_cpp_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.build_cpp_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">ObjectHeaderReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">element_reader</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ObjectHeaderFactory.make_awkward_content">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.make_awkward_content">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">make_awkward_content</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ObjectHeaderFactory.make_awkward_form">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.make_awkward_form">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">make_awkward_form</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="EmptyFactory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.EmptyFactory">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EmptyFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This factory does nothing. It&#39;s just a place holder.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="EmptyFactory.build_factory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.EmptyFactory.build_factory">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This factory will never match items. If one needs to use this factory,</span>
+<span class="sd">        instatiate it directly.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="EmptyFactory.build_cpp_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.EmptyFactory.build_cpp_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">EmptyReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EmptyFactory.make_awkward_content">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.EmptyFactory.make_awkward_content">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">EmptyArray</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="EmptyFactory.make_awkward_form">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.EmptyFactory.make_awkward_form">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">EmptyForm</span><span class="p">()</span></div>
+</div>
+
+
+
+<span class="n">registered_factories</span> <span class="o">|=</span> <span class="p">{</span>
+    <span class="n">PrimitiveFactory</span><span class="p">,</span>
+    <span class="n">STLSeqFactory</span><span class="p">,</span>
+    <span class="n">STLMapFactory</span><span class="p">,</span>
+    <span class="n">STLStringFactory</span><span class="p">,</span>
+    <span class="n">TArrayFactory</span><span class="p">,</span>
+    <span class="n">TStringFactory</span><span class="p">,</span>
+    <span class="n">TObjectFactory</span><span class="p">,</span>
+    <span class="n">CStyleArrayFactory</span><span class="p">,</span>
+    <span class="n">GroupFactory</span><span class="p">,</span>
+    <span class="n">BaseObjectFactory</span><span class="p">,</span>
+    <span class="n">AnyClassFactory</span><span class="p">,</span>
+    <span class="n">ObjectHeaderFactory</span><span class="p">,</span>
+    <span class="n">EmptyFactory</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mingrun Li
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Mingrun Li.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -134,8 +134,7 @@
           <declname>buffer</declname>
         </param>
         <briefdescription>
-<para>Read a TObject from the buffer. A TObject contains <computeroutput>fVersion</computeroutput> (int16_t), <computeroutput>fUniqueID</computeroutput> (int32_t), <computeroutput>fBits</computeroutput> (uint32_t). If <computeroutput>fBits &amp; kIsReferenced</computeroutput>, then a <computeroutput>pidf</computeroutput> (uint16_t) follows. <linebreak/>
- If m_keep_data is true, the read data will be stored. </para>
+<para>Read a TObject from the buffer. A TObject contains <computeroutput>fVersion</computeroutput> (int16_t), <computeroutput>fUniqueID</computeroutput> (int32_t), <computeroutput>fBits</computeroutput> (uint32_t). If <computeroutput>fBits &amp; kIsReferenced</computeroutput>, then a <computeroutput>pidf</computeroutput> (uint16_t) follows. If m_keep_data is true, the read data will be stored. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -151,7 +150,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="123" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="123" bodyend="140"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="124" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="124" bodyend="141"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_t_object_reader_1a621bd11de7afa6879305543c85158579" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>py::object</type>
@@ -170,7 +169,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="149" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="149" bodyend="157"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="150" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="150" bodyend="158"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -202,7 +201,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="93" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="93" bodyend="158"/>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="93" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="93" bodyend="159"/>
     <listofallmembers>
       <member refid="classuproot_1_1_t_object_reader_1a621bd11de7afa6879305543c85158579" prot="public" virt="virtual"><scope>uproot::TObjectReader</scope><name>data</name></member>
       <member refid="classuproot_1_1_i_reader_1aed13e9c0926be8e89422cf49efdcc752" prot="public" virt="non-virtual"><scope>uproot::TObjectReader</scope><name>IReader</name></member>

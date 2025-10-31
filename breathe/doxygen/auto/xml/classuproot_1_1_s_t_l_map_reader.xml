@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="447" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="447" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="448" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="448" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot_1_1_s_t_l_map_reader_1ad03355666423bcedbf40608f189c3cb7" prot="private" static="no" mutable="no">
         <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">const</ref> <ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">int</ref></type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="448" column="19" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="448" bodyend="448"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="449" column="19" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="449" bodyend="449"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot_1_1_s_t_l_map_reader_1a889ed6f289e58eb0d84929a04989e087" prot="private" static="no" mutable="no">
         <type>SharedVector&lt; <ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">int64_t</ref> &gt;</type>
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="449" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="449" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="450" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="450" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot_1_1_s_t_l_map_reader_1a7becbb7d3d96d575b18e13644f431066" prot="private" static="no" mutable="no">
         <type>SharedReader</type>
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="450" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="450" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="451" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="451" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot_1_1_s_t_l_map_reader_1a1306f00d1d2e759e9b3d690007582b1c" prot="private" static="no" mutable="no">
         <type>SharedReader</type>
@@ -78,7 +78,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="451" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="451" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="452" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="452" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -157,7 +157,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="464" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="464" bodyend="471"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="465" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="465" bodyend="472"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_s_t_l_map_reader_1a99d92512e696a12fdd452d7ae9b08a45" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">void</ref></type>
@@ -186,7 +186,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="478" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="478" bodyend="485"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="479" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="479" bodyend="486"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_s_t_l_map_reader_1a0d6eba27490472777f70bcd2fe36492a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">void</ref></type>
@@ -227,7 +227,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="496" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="496" bodyend="513"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="497" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="497" bodyend="514"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>void</type>
@@ -257,7 +257,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="522" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="522" bodyend="530"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="523" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="523" bodyend="531"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_s_t_l_map_reader_1afff1fe3a5f48b7c86ae42e2ae0d13772" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">uint32_t</ref></type>
@@ -301,7 +301,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="542" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="542" bodyend="582"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="543" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="543" bodyend="583"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_s_t_l_map_reader_1ad7f3e43954f6e2c659e87d97e5cba2b3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">uint32_t</ref></type>
@@ -345,7 +345,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="594" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="594" bodyend="615"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="595" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="595" bodyend="616"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_s_t_l_map_reader_1a94e46b88bc13e902d35d7c79a4e411b6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type><ref refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kindref="member">uint32_t</ref></type>
@@ -389,7 +389,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="624" column="26" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="624" bodyend="636"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="625" column="26" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="625" bodyend="637"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_s_t_l_map_reader_1a889883808310bab80f589c0f862ffb6a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>py::object</type>
@@ -408,7 +408,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="644" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="644" bodyend="649"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="645" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="645" bodyend="650"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -440,7 +440,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="445" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="445" bodyend="650"/>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="446" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="446" bodyend="651"/>
     <listofallmembers>
       <member refid="classuproot_1_1_s_t_l_map_reader_1a99d92512e696a12fdd452d7ae9b08a45" prot="public" virt="non-virtual"><scope>uproot::STLMapReader</scope><name>check_objwise_memberwise</name></member>
       <member refid="classuproot_1_1_s_t_l_map_reader_1a889883808310bab80f589c0f862ffb6a" prot="public" virt="virtual"><scope>uproot::STLMapReader</scope><name>data</name></member>

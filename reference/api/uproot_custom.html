@@ -346,10 +346,139 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot-custom-ascustom-module">uproot_custom.AsCustom module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot-custom-factories-module">uproot_custom.factories module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot-custom-utils-module">uproot_custom.utils module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.AsCustom">uproot_custom.AsCustom module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom"><code class="docutils literal notranslate"><span class="pre">AsCustom</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom.awkward_form"><code class="docutils literal notranslate"><span class="pre">AsCustom.awkward_form()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom.basket_array"><code class="docutils literal notranslate"><span class="pre">AsCustom.basket_array()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom.cache_key"><code class="docutils literal notranslate"><span class="pre">AsCustom.cache_key</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom.final_array"><code class="docutils literal notranslate"><span class="pre">AsCustom.final_array()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom.match_branch"><code class="docutils literal notranslate"><span class="pre">AsCustom.match_branch()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom.target_branches"><code class="docutils literal notranslate"><span class="pre">AsCustom.target_branches</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom.typename"><code class="docutils literal notranslate"><span class="pre">AsCustom.typename</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.factories">uproot_custom.factories module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory.priority"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.priority()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.BaseObjectFactory"><code class="docutils literal notranslate"><span class="pre">BaseObjectFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.BaseObjectFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">BaseObjectFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.BaseObjectFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">BaseObjectFactory.build_factory()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.make_awkward_form()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.priority"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.priority()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory"><code class="docutils literal notranslate"><span class="pre">EmptyFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.make_awkward_form()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory"><code class="docutils literal notranslate"><span class="pre">Factory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">Factory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.build_factory"><code class="docutils literal notranslate"><span class="pre">Factory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">Factory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">Factory.make_awkward_form()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.priority"><code class="docutils literal notranslate"><span class="pre">Factory.priority()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory"><code class="docutils literal notranslate"><span class="pre">GroupFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">GroupFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">GroupFactory.make_awkward_form()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.ObjectHeaderFactory"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.ObjectHeaderFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.ObjectHeaderFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.ObjectHeaderFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.ObjectHeaderFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderFactory.make_awkward_form()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.cpp_reader_map"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.cpp_reader_map</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.ctype_primitive_map"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.ctype_primitive_map</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.ftypes"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.ftypes</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.make_awkward_form()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.typenames"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.typenames</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory"><code class="docutils literal notranslate"><span class="pre">STLMapFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.make_awkward_form()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.target_types"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.target_types</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.make_awkward_form()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.target_types"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.target_types</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory"><code class="docutils literal notranslate"><span class="pre">STLStringFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.make_awkward_form()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory"><code class="docutils literal notranslate"><span class="pre">TArrayFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.make_awkward_form()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.typenames"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.typenames</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory"><code class="docutils literal notranslate"><span class="pre">TObjectFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.keep_data_itempaths"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.keep_data_itempaths</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.make_awkward_form()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory"><code class="docutils literal notranslate"><span class="pre">TStringFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">TStringFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">TStringFactory.make_awkward_form()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.build_factory"><code class="docutils literal notranslate"><span class="pre">build_factory()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.read_branch"><code class="docutils literal notranslate"><span class="pre">read_branch()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.read_branch_awkward_form"><code class="docutils literal notranslate"><span class="pre">read_branch_awkward_form()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.utils">uproot_custom.utils module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.utils.get_dims_from_branch"><code class="docutils literal notranslate"><span class="pre">get_dims_from_branch()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.utils.get_map_key_val_typenames"><code class="docutils literal notranslate"><span class="pre">get_map_key_val_typenames()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.utils.get_sequence_element_typename"><code class="docutils literal notranslate"><span class="pre">get_sequence_element_typename()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.utils.get_top_type_name"><code class="docutils literal notranslate"><span class="pre">get_top_type_name()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.utils.regularize_object_path"><code class="docutils literal notranslate"><span class="pre">regularize_object_path()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom">Module contents</a></li>
 </ul>
             </nav>
         </div>
@@ -366,17 +495,1052 @@ document.write(`
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
 </section>
-<section id="uproot-custom-ascustom-module">
-<h2>uproot_custom.AsCustom module<a class="headerlink" href="#uproot-custom-ascustom-module" title="Link to this heading">#</a></h2>
+<section id="module-uproot_custom.AsCustom">
+<span id="uproot-custom-ascustom-module"></span><h2>uproot_custom.AsCustom module<a class="headerlink" href="#module-uproot_custom.AsCustom" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.AsCustom.AsCustom">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.AsCustom.</span></span><span class="sig-name descname"><span class="pre">AsCustom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TBranch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simplify</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/AsCustom.html#AsCustom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.AsCustom.AsCustom" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomInterpretation</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.AsCustom.AsCustom.awkward_form">
+<span class="sig-name descname"><span class="pre">awkward_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'i64'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tobject_header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">breadcrumbs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/AsCustom.html#AsCustom.awkward_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.AsCustom.AsCustom.awkward_form" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<span class="xref std std-doc">uproot.reading.ReadOnlyFile</span>) – File to use to generate
+<span class="xref std std-doc">uproot.model.Model</span> classes from its
+<span class="xref std std-ref">uproot.reading.ReadOnlyFile.streamers</span> and <code class="docutils literal notranslate"><span class="pre">file_path</span></code>
+for error messages.</p></li>
+<li><p><strong>context</strong> (<em>dict</em>) – Context for the Form-generation; defaults are
+the remaining arguments below.</p></li>
+<li><p><strong>index_format</strong> (<em>str</em>) – Format to use for indexes of the
+<code class="docutils literal notranslate"><span class="pre">awkward.forms.Form</span></code>; may be <code class="docutils literal notranslate"><span class="pre">&quot;i32&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;u32&quot;</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">&quot;i64&quot;</span></code>.</p></li>
+<li><p><strong>header</strong> (<em>bool</em>) – If True, include header fields of each C++ class.</p></li>
+<li><p><strong>tobject_header</strong> (<em>bool</em>) – If True, include header fields of each <code class="docutils literal notranslate"><span class="pre">TObject</span></code>
+base class.</p></li>
+<li><p><strong>breadcrumbs</strong> (<em>tuple</em><em> of </em><em>class objects</em>) – Used to check for recursion.
+Types that contain themselves cannot be Awkward Arrays because the
+depth of instances is unknown.</p></li>
+</ul>
+</dd>
+</dl>
+<p>The <code class="docutils literal notranslate"><span class="pre">awkward.forms.Form</span></code> to use to put objects of type type in an
+Awkward Array.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.AsCustom.AsCustom.basket_array">
+<span class="sig-name descname"><span class="pre">basket_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">byte_offsets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basket</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cursor_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp_options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/AsCustom.html#AsCustom.basket_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.AsCustom.AsCustom.basket_array" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (array of <code class="docutils literal notranslate"><span class="pre">numpy.uint8</span></code>) – Raw but uncompressed data from the
+<code class="docutils literal notranslate"><span class="pre">TBasket</span></code>. If the <code class="docutils literal notranslate"><span class="pre">TBasket</span></code> has offsets and navigational
+metadata, it is not included in this array.</p></li>
+<li><p><strong>byte_offsets</strong> (array of <code class="docutils literal notranslate"><span class="pre">numpy.int32</span></code>) – Index where each entry of
+the <code class="docutils literal notranslate"><span class="pre">TBasket</span></code> starts and stops. The header is not included
+(i.e. the first offset is <code class="docutils literal notranslate"><span class="pre">0</span></code>), and the length of this array
+is one greater than the number of entries in the <code class="docutils literal notranslate"><span class="pre">TBasket</span></code>.</p></li>
+<li><p><strong>basket</strong> (<span class="xref std std-doc">uproot.models.TBasket.Model_TBasket</span>) – The <code class="docutils literal notranslate"><span class="pre">TBasket</span></code> object.</p></li>
+<li><p><strong>context</strong> (<em>dict</em>) – Auxiliary data used in deserialization.</p></li>
+<li><p><strong>cursor_offset</strong> (<em>int</em>) – Correction to the integer keys used in
+<span class="xref std std-ref">uproot.source.cursor.Cursor.refs</span> for objects
+deserialized by reference
+(<span class="xref std std-doc">uproot.deserialization.read_object_any</span>).</p></li>
+<li><p><strong>library</strong> (<span class="xref std std-doc">uproot.interpretation.library.Library</span>) – The
+requested library for output.</p></li>
+<li><p><strong>interp_options</strong> (<em>dict</em>) – Flags and other options passed through the
+interpretation process.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Performs the first step of interpretation, from uncompressed <code class="docutils literal notranslate"><span class="pre">TBasket</span></code>
+data to a temporary array.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="uproot_custom.AsCustom.AsCustom.cache_key">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cache_key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#uproot_custom.AsCustom.AsCustom.cache_key" title="Link to this definition">#</a></dt>
+<dd><p>The cache key of the interpretation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.AsCustom.AsCustom.final_array">
+<span class="sig-name descname"><span class="pre">final_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basket_arrays</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entry_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entry_stop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entry_offsets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/AsCustom.html#AsCustom.final_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.AsCustom.AsCustom.final_array" title="Link to this definition">#</a></dt>
+<dd><p>Concatenate the arrays from the baskets and return the final array.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.AsCustom.AsCustom.match_branch">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">match_branch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TBranch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simplify</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/AsCustom.html#AsCustom.match_branch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.AsCustom.AsCustom.match_branch" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>branch</strong> (<span class="xref std std-doc">uproot.behaviors.TBranch.TBranch</span>) – The <code class="docutils literal notranslate"><span class="pre">TBranch</span></code> to
+interpret as an array.</p></li>
+<li><p><strong>context</strong> (<em>dict</em>) – Auxiliary data used in deserialization.</p></li>
+<li><p><strong>simplify</strong> (<em>bool</em>) – If True, call
+<span class="xref std std-ref">uproot.interpretation.objects.AsObjects.simplify</span> on any
+<span class="xref std std-doc">uproot.interpretation.objects.AsObjects</span> to try to get a
+more efficient interpretation.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Accept arguments from <cite>uproot.interpretation.identify.interpretation_of</cite>,
+determine whether this interpretation can be applied to the given branch.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uproot_custom.AsCustom.AsCustom.target_branches">
+<span class="sig-name descname"><span class="pre">target_branches</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#uproot_custom.AsCustom.AsCustom.target_branches" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="uproot_custom.AsCustom.AsCustom.typename">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">typename</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#uproot_custom.AsCustom.AsCustom.typename" title="Link to this definition">#</a></dt>
+<dd><p>The name of the type of the interpretation.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="uproot-custom-factories-module">
-<h2>uproot_custom.factories module<a class="headerlink" href="#uproot-custom-factories-module" title="Link to this heading">#</a></h2>
+<section id="module-uproot_custom.factories">
+<span id="uproot-custom-factories-module"></span><h2>uproot_custom.factories module<a class="headerlink" href="#module-uproot_custom.factories" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.factories.AnyClassFactory">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.factories.</span></span><span class="sig-name descname"><span class="pre">AnyClassFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_factories</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><span class="pre">Factory</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#AnyClassFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.AnyClassFactory" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.factories.GroupFactory" title="uproot_custom.factories.GroupFactory"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupFactory</span></code></a></p>
+<p>This class tries to read any class object that is not handled by other factories.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.AnyClassFactory.build_cpp_reader">
+<span class="sig-name descname"><span class="pre">build_cpp_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#AnyClassFactory.build_cpp_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.AnyClassFactory.build_cpp_reader" title="Link to this definition">#</a></dt>
+<dd><p>Build concrete C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of <cite>uproot_custom.cpp.IReader</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.AnyClassFactory.build_factory">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#AnyClassFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.AnyClassFactory.build_factory" title="Link to this definition">#</a></dt>
+<dd><p>Never match items. If one needs to use this factory,
+instatiate it directly.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.AnyClassFactory.priority">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">priority</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#AnyClassFactory.priority"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.AnyClassFactory.priority" title="Link to this definition">#</a></dt>
+<dd><p>Return the call priority of this factory. Factories with higher
+priority will be called first.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.factories.BaseObjectFactory">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.factories.</span></span><span class="sig-name descname"><span class="pre">BaseObjectFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_factories</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><span class="pre">Factory</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#BaseObjectFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.BaseObjectFactory" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.factories.GroupFactory" title="uproot_custom.factories.GroupFactory"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupFactory</span></code></a></p>
+<p>This class reads base-object of an object. The base object has
+fNBytes(uint32), fVersion(uint16) at the beginning.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.BaseObjectFactory.build_cpp_reader">
+<span class="sig-name descname"><span class="pre">build_cpp_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#BaseObjectFactory.build_cpp_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.BaseObjectFactory.build_cpp_reader" title="Link to this definition">#</a></dt>
+<dd><p>Build concrete C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of <cite>uproot_custom.cpp.IReader</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.BaseObjectFactory.build_factory">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#BaseObjectFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.BaseObjectFactory.build_factory" title="Link to this definition">#</a></dt>
+<dd><p>Never match items. If one needs to use this factory,
+instatiate it directly.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.factories.CStyleArrayFactory">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.factories.</span></span><span class="sig-name descname"><span class="pre">CStyleArrayFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_factory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><span class="pre">Factory</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">flat_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fMaxIndex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fArrayDim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#CStyleArrayFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.CStyleArrayFactory" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><code class="xref py py-class docutils literal notranslate"><span class="pre">Factory</span></code></a></p>
+<p>This class reads a C-style array from a binary parser.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.CStyleArrayFactory.build_cpp_reader">
+<span class="sig-name descname"><span class="pre">build_cpp_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#CStyleArrayFactory.build_cpp_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.CStyleArrayFactory.build_cpp_reader" title="Link to this definition">#</a></dt>
+<dd><p>Build concrete C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of <cite>uproot_custom.cpp.IReader</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.CStyleArrayFactory.build_factory">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#CStyleArrayFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.CStyleArrayFactory.build_factory" title="Link to this definition">#</a></dt>
+<dd><p>Return an instance of this factory when current item matches this factory,
+otherwise return <cite>None</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>top_type_name</strong> (<em>str</em>) – Name of the top-level class of current item.
+For example, <cite>vector&lt;int&gt;</cite> -&gt; <cite>vector</cite>.</p></li>
+<li><p><strong>cur_streamer_info</strong> (<em>dict</em>) – Streamer information of current item.</p></li>
+<li><p><strong>all_streamer_info</strong> (<em>dict</em>) – Dictionary storing streamer information
+of all types. The key is the classname, pair is a dictionary
+like <cite>cur_streamer_info</cite>.</p></li>
+<li><p><strong>item_path</strong> (<em>str</em>) – Indicating which item is being matched. One can
+use this variable to apply specific behavior.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing all necessary information of building
+C++ reader and reconstruct raw data to awkward array for current
+item.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.CStyleArrayFactory.make_awkward_content">
+<span class="sig-name descname"><span class="pre">make_awkward_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#CStyleArrayFactory.make_awkward_content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.CStyleArrayFactory.make_awkward_content" title="Link to this definition">#</a></dt>
+<dd><p>Reconstruct awkward contents with raw data returned from the C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>raw_data</strong> – Data returned from C++ reader.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Awkward content to build corresponding array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>awkward.contents.Content</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.CStyleArrayFactory.make_awkward_form">
+<span class="sig-name descname"><span class="pre">make_awkward_form</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#CStyleArrayFactory.make_awkward_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.CStyleArrayFactory.make_awkward_form" title="Link to this definition">#</a></dt>
+<dd><p>Generate awkward form with tree configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Awkward form of current item.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>awkward.forms.Form</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.CStyleArrayFactory.priority">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">priority</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#CStyleArrayFactory.priority"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.CStyleArrayFactory.priority" title="Link to this definition">#</a></dt>
+<dd><p>Return the call priority of this factory. Factories with higher
+priority will be called first.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.factories.EmptyFactory">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.factories.</span></span><span class="sig-name descname"><span class="pre">EmptyFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#EmptyFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.EmptyFactory" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><code class="xref py py-class docutils literal notranslate"><span class="pre">Factory</span></code></a></p>
+<p>This factory does nothing. It’s just a place holder.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.EmptyFactory.build_cpp_reader">
+<span class="sig-name descname"><span class="pre">build_cpp_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#EmptyFactory.build_cpp_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.EmptyFactory.build_cpp_reader" title="Link to this definition">#</a></dt>
+<dd><p>Build concrete C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of <cite>uproot_custom.cpp.IReader</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.EmptyFactory.build_factory">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#EmptyFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.EmptyFactory.build_factory" title="Link to this definition">#</a></dt>
+<dd><p>This factory will never match items. If one needs to use this factory,
+instatiate it directly.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.EmptyFactory.make_awkward_content">
+<span class="sig-name descname"><span class="pre">make_awkward_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#EmptyFactory.make_awkward_content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.EmptyFactory.make_awkward_content" title="Link to this definition">#</a></dt>
+<dd><p>Reconstruct awkward contents with raw data returned from the C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>raw_data</strong> – Data returned from C++ reader.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Awkward content to build corresponding array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>awkward.contents.Content</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.EmptyFactory.make_awkward_form">
+<span class="sig-name descname"><span class="pre">make_awkward_form</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#EmptyFactory.make_awkward_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.EmptyFactory.make_awkward_form" title="Link to this definition">#</a></dt>
+<dd><p>Generate awkward form with tree configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Awkward form of current item.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>awkward.forms.Form</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.factories.Factory">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.factories.</span></span><span class="sig-name descname"><span class="pre">Factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#Factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.Factory" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class of reader factories. Reader factory is in charge of
+generating reader configuration tree, build an combine C++ reader
+and reconstruct raw array from C++ reader into structured awkward
+array.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.Factory.build_cpp_reader">
+<span class="sig-name descname"><span class="pre">build_cpp_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">IReader</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#Factory.build_cpp_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.Factory.build_cpp_reader" title="Link to this definition">#</a></dt>
+<dd><p>Build concrete C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of <cite>uproot_custom.cpp.IReader</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.Factory.build_factory">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><span class="pre">Factory</span></a></span></span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#Factory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.Factory.build_factory" title="Link to this definition">#</a></dt>
+<dd><p>Return an instance of this factory when current item matches this factory,
+otherwise return <cite>None</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>top_type_name</strong> (<em>str</em>) – Name of the top-level class of current item.
+For example, <cite>vector&lt;int&gt;</cite> -&gt; <cite>vector</cite>.</p></li>
+<li><p><strong>cur_streamer_info</strong> (<em>dict</em>) – Streamer information of current item.</p></li>
+<li><p><strong>all_streamer_info</strong> (<em>dict</em>) – Dictionary storing streamer information
+of all types. The key is the classname, pair is a dictionary
+like <cite>cur_streamer_info</cite>.</p></li>
+<li><p><strong>item_path</strong> (<em>str</em>) – Indicating which item is being matched. One can
+use this variable to apply specific behavior.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing all necessary information of building
+C++ reader and reconstruct raw data to awkward array for current
+item.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.Factory.make_awkward_content">
+<span class="sig-name descname"><span class="pre">make_awkward_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Content</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#Factory.make_awkward_content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.Factory.make_awkward_content" title="Link to this definition">#</a></dt>
+<dd><p>Reconstruct awkward contents with raw data returned from the C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>raw_data</strong> – Data returned from C++ reader.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Awkward content to build corresponding array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>awkward.contents.Content</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.Factory.make_awkward_form">
+<span class="sig-name descname"><span class="pre">make_awkward_form</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Form</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#Factory.make_awkward_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.Factory.make_awkward_form" title="Link to this definition">#</a></dt>
+<dd><p>Generate awkward form with tree configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Awkward form of current item.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>awkward.forms.Form</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.Factory.priority">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">priority</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#Factory.priority"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.Factory.priority" title="Link to this definition">#</a></dt>
+<dd><p>Return the call priority of this factory. Factories with higher
+priority will be called first.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.factories.GroupFactory">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.factories.</span></span><span class="sig-name descname"><span class="pre">GroupFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_factories</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><span class="pre">Factory</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#GroupFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.GroupFactory" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><code class="xref py py-class docutils literal notranslate"><span class="pre">Factory</span></code></a></p>
+<p>This factory groups differernt factory together. You can use
+this factory to read specific format of data as you like.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.GroupFactory.build_cpp_reader">
+<span class="sig-name descname"><span class="pre">build_cpp_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#GroupFactory.build_cpp_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.GroupFactory.build_cpp_reader" title="Link to this definition">#</a></dt>
+<dd><p>Build concrete C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of <cite>uproot_custom.cpp.IReader</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.GroupFactory.build_factory">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#GroupFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.GroupFactory.build_factory" title="Link to this definition">#</a></dt>
+<dd><p>Never match items. If one needs to use this factory,
+instatiate it directly.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.GroupFactory.make_awkward_content">
+<span class="sig-name descname"><span class="pre">make_awkward_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#GroupFactory.make_awkward_content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.GroupFactory.make_awkward_content" title="Link to this definition">#</a></dt>
+<dd><p>Reconstruct awkward contents with raw data returned from the C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>raw_data</strong> – Data returned from C++ reader.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Awkward content to build corresponding array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>awkward.contents.Content</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.GroupFactory.make_awkward_form">
+<span class="sig-name descname"><span class="pre">make_awkward_form</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#GroupFactory.make_awkward_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.GroupFactory.make_awkward_form" title="Link to this definition">#</a></dt>
+<dd><p>Generate awkward form with tree configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Awkward form of current item.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>awkward.forms.Form</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.factories.ObjectHeaderFactory">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.factories.</span></span><span class="sig-name descname"><span class="pre">ObjectHeaderFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_factory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><span class="pre">Factory</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#ObjectHeaderFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.ObjectHeaderFactory" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><code class="xref py py-class docutils literal notranslate"><span class="pre">Factory</span></code></a></p>
+<p>This class reads object header:
+1. fNBytes
+2. fTag
+3. if (fTag == -1) null-terminated-string</p>
+<p>If will be called automatically if no other factory matches.
+Also, it can be manually used to read object header.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.ObjectHeaderFactory.build_cpp_reader">
+<span class="sig-name descname"><span class="pre">build_cpp_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#ObjectHeaderFactory.build_cpp_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.ObjectHeaderFactory.build_cpp_reader" title="Link to this definition">#</a></dt>
+<dd><p>Build concrete C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of <cite>uproot_custom.cpp.IReader</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.ObjectHeaderFactory.build_factory">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#ObjectHeaderFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.ObjectHeaderFactory.build_factory" title="Link to this definition">#</a></dt>
+<dd><p>This factory will always match items. If one needs to use this factory,
+instatiate it directly.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.ObjectHeaderFactory.make_awkward_content">
+<span class="sig-name descname"><span class="pre">make_awkward_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#ObjectHeaderFactory.make_awkward_content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.ObjectHeaderFactory.make_awkward_content" title="Link to this definition">#</a></dt>
+<dd><p>Reconstruct awkward contents with raw data returned from the C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>raw_data</strong> – Data returned from C++ reader.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Awkward content to build corresponding array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>awkward.contents.Content</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.ObjectHeaderFactory.make_awkward_form">
+<span class="sig-name descname"><span class="pre">make_awkward_form</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#ObjectHeaderFactory.make_awkward_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.ObjectHeaderFactory.make_awkward_form" title="Link to this definition">#</a></dt>
+<dd><p>Generate awkward form with tree configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Awkward form of current item.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>awkward.forms.Form</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.factories.PrimitiveFactory">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.factories.</span></span><span class="sig-name descname"><span class="pre">PrimitiveFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#PrimitiveFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.PrimitiveFactory" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><code class="xref py py-class docutils literal notranslate"><span class="pre">Factory</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.PrimitiveFactory.build_cpp_reader">
+<span class="sig-name descname"><span class="pre">build_cpp_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#PrimitiveFactory.build_cpp_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.PrimitiveFactory.build_cpp_reader" title="Link to this definition">#</a></dt>
+<dd><p>Build concrete C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of <cite>uproot_custom.cpp.IReader</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.PrimitiveFactory.build_factory">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#PrimitiveFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.PrimitiveFactory.build_factory" title="Link to this definition">#</a></dt>
+<dd><p>Return when <cite>top_type_name</cite> is primitive type.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uproot_custom.factories.PrimitiveFactory.cpp_reader_map">
+<span class="sig-name descname"><span class="pre">cpp_reader_map</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'bool':</span> <span class="pre">&lt;class</span> <span class="pre">'uproot_custom.cpp.BoolReader'&gt;,</span> <span class="pre">'d':</span> <span class="pre">&lt;class</span> <span class="pre">'uproot_custom.cpp.DoubleReader'&gt;,</span> <span class="pre">'f':</span> <span class="pre">&lt;class</span> <span class="pre">'uproot_custom.cpp.FloatReader'&gt;,</span> <span class="pre">'i1':</span> <span class="pre">&lt;class</span> <span class="pre">'uproot_custom.cpp.Int8Reader'&gt;,</span> <span class="pre">'i2':</span> <span class="pre">&lt;class</span> <span class="pre">'uproot_custom.cpp.Int16Reader'&gt;,</span> <span class="pre">'i4':</span> <span class="pre">&lt;class</span> <span class="pre">'uproot_custom.cpp.Int32Reader'&gt;,</span> <span class="pre">'i8':</span> <span class="pre">&lt;class</span> <span class="pre">'uproot_custom.cpp.Int64Reader'&gt;,</span> <span class="pre">'u1':</span> <span class="pre">&lt;class</span> <span class="pre">'uproot_custom.cpp.UInt8Reader'&gt;,</span> <span class="pre">'u2':</span> <span class="pre">&lt;class</span> <span class="pre">'uproot_custom.cpp.UInt16Reader'&gt;,</span> <span class="pre">'u4':</span> <span class="pre">&lt;class</span> <span class="pre">'uproot_custom.cpp.UInt32Reader'&gt;,</span> <span class="pre">'u8':</span> <span class="pre">&lt;class</span> <span class="pre">'uproot_custom.cpp.UInt64Reader'&gt;}</span></em><a class="headerlink" href="#uproot_custom.factories.PrimitiveFactory.cpp_reader_map" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uproot_custom.factories.PrimitiveFactory.ctype_primitive_map">
+<span class="sig-name descname"><span class="pre">ctype_primitive_map</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'bool':</span> <span class="pre">'bool',</span> <span class="pre">'d':</span> <span class="pre">'float64',</span> <span class="pre">'f':</span> <span class="pre">'float32',</span> <span class="pre">'i1':</span> <span class="pre">'int8',</span> <span class="pre">'i2':</span> <span class="pre">'int16',</span> <span class="pre">'i4':</span> <span class="pre">'int32',</span> <span class="pre">'i8':</span> <span class="pre">'int64',</span> <span class="pre">'u1':</span> <span class="pre">'uint8',</span> <span class="pre">'u2':</span> <span class="pre">'uint16',</span> <span class="pre">'u4':</span> <span class="pre">'uint32',</span> <span class="pre">'u8':</span> <span class="pre">'uint64'}</span></em><a class="headerlink" href="#uproot_custom.factories.PrimitiveFactory.ctype_primitive_map" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uproot_custom.factories.PrimitiveFactory.ftypes">
+<span class="sig-name descname"><span class="pre">ftypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{1:</span> <span class="pre">'i1',</span> <span class="pre">2:</span> <span class="pre">'i2',</span> <span class="pre">3:</span> <span class="pre">'i4',</span> <span class="pre">4:</span> <span class="pre">'i8',</span> <span class="pre">5:</span> <span class="pre">'f',</span> <span class="pre">8:</span> <span class="pre">'d',</span> <span class="pre">11:</span> <span class="pre">'u1',</span> <span class="pre">12:</span> <span class="pre">'u2',</span> <span class="pre">13:</span> <span class="pre">'u4',</span> <span class="pre">14:</span> <span class="pre">'u8',</span> <span class="pre">18:</span> <span class="pre">'bool'}</span></em><a class="headerlink" href="#uproot_custom.factories.PrimitiveFactory.ftypes" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.PrimitiveFactory.make_awkward_content">
+<span class="sig-name descname"><span class="pre">make_awkward_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#PrimitiveFactory.make_awkward_content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.PrimitiveFactory.make_awkward_content" title="Link to this definition">#</a></dt>
+<dd><p>Reconstruct awkward contents with raw data returned from the C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>raw_data</strong> – Data returned from C++ reader.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Awkward content to build corresponding array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>awkward.contents.Content</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.PrimitiveFactory.make_awkward_form">
+<span class="sig-name descname"><span class="pre">make_awkward_form</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#PrimitiveFactory.make_awkward_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.PrimitiveFactory.make_awkward_form" title="Link to this definition">#</a></dt>
+<dd><p>Generate awkward form with tree configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Awkward form of current item.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>awkward.forms.Form</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uproot_custom.factories.PrimitiveFactory.typenames">
+<span class="sig-name descname"><span class="pre">typenames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'Bool_t':</span> <span class="pre">'bool',</span> <span class="pre">'Char_t':</span> <span class="pre">'i1',</span> <span class="pre">'Double_t':</span> <span class="pre">'d',</span> <span class="pre">'Float_t':</span> <span class="pre">'f',</span> <span class="pre">'Int_t':</span> <span class="pre">'i4',</span> <span class="pre">'Long_t':</span> <span class="pre">'i8',</span> <span class="pre">'Short_t':</span> <span class="pre">'i2',</span> <span class="pre">'UChar_t':</span> <span class="pre">'u1',</span> <span class="pre">'UInt_t':</span> <span class="pre">'u4',</span> <span class="pre">'ULong_t':</span> <span class="pre">'u8',</span> <span class="pre">'UShort_t':</span> <span class="pre">'u2',</span> <span class="pre">'bool':</span> <span class="pre">'bool',</span> <span class="pre">'char':</span> <span class="pre">'i1',</span> <span class="pre">'double':</span> <span class="pre">'d',</span> <span class="pre">'float':</span> <span class="pre">'f',</span> <span class="pre">'int':</span> <span class="pre">'i4',</span> <span class="pre">'int16_t':</span> <span class="pre">'i2',</span> <span class="pre">'int32_t':</span> <span class="pre">'i4',</span> <span class="pre">'int64_t':</span> <span class="pre">'i8',</span> <span class="pre">'int8_t':</span> <span class="pre">'i1',</span> <span class="pre">'long':</span> <span class="pre">'i8',</span> <span class="pre">'long</span> <span class="pre">long':</span> <span class="pre">'i8',</span> <span class="pre">'short':</span> <span class="pre">'i2',</span> <span class="pre">'signed</span> <span class="pre">char':</span> <span class="pre">'i1',</span> <span class="pre">'signed</span> <span class="pre">int':</span> <span class="pre">'i4',</span> <span class="pre">'signed</span> <span class="pre">long':</span> <span class="pre">'i8',</span> <span class="pre">'signed</span> <span class="pre">long</span> <span class="pre">long':</span> <span class="pre">'i8',</span> <span class="pre">'signed</span> <span class="pre">short':</span> <span class="pre">'i2',</span> <span class="pre">'uint16_t':</span> <span class="pre">'u2',</span> <span class="pre">'uint32_t':</span> <span class="pre">'u4',</span> <span class="pre">'uint64_t':</span> <span class="pre">'u8',</span> <span class="pre">'uint8_t':</span> <span class="pre">'u1',</span> <span class="pre">'unsigned</span> <span class="pre">char':</span> <span class="pre">'u1',</span> <span class="pre">'unsigned</span> <span class="pre">int':</span> <span class="pre">'u4',</span> <span class="pre">'unsigned</span> <span class="pre">long':</span> <span class="pre">'u8',</span> <span class="pre">'unsigned</span> <span class="pre">long</span> <span class="pre">long':</span> <span class="pre">'u8',</span> <span class="pre">'unsigned</span> <span class="pre">short':</span> <span class="pre">'u2'}</span></em><a class="headerlink" href="#uproot_custom.factories.PrimitiveFactory.typenames" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.factories.STLMapFactory">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.factories.</span></span><span class="sig-name descname"><span class="pre">STLMapFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_header</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objwise_or_memberwise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">-</span></span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_factory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><span class="pre">Factory</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_factory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><span class="pre">Factory</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLMapFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLMapFactory" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><code class="xref py py-class docutils literal notranslate"><span class="pre">Factory</span></code></a></p>
+<p>This class reads mapping-like STL containers.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.STLMapFactory.build_cpp_reader">
+<span class="sig-name descname"><span class="pre">build_cpp_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLMapFactory.build_cpp_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLMapFactory.build_cpp_reader" title="Link to this definition">#</a></dt>
+<dd><p>Build concrete C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of <cite>uproot_custom.cpp.IReader</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.STLMapFactory.build_factory">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLMapFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLMapFactory.build_factory" title="Link to this definition">#</a></dt>
+<dd><p>Return when <cite>top_type_name</cite> is in <cite>cls.target_types</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.STLMapFactory.make_awkward_content">
+<span class="sig-name descname"><span class="pre">make_awkward_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLMapFactory.make_awkward_content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLMapFactory.make_awkward_content" title="Link to this definition">#</a></dt>
+<dd><p>Reconstruct awkward contents with raw data returned from the C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>raw_data</strong> – Data returned from C++ reader.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Awkward content to build corresponding array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>awkward.contents.Content</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.STLMapFactory.make_awkward_form">
+<span class="sig-name descname"><span class="pre">make_awkward_form</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLMapFactory.make_awkward_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLMapFactory.make_awkward_form" title="Link to this definition">#</a></dt>
+<dd><p>Generate awkward form with tree configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Awkward form of current item.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>awkward.forms.Form</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uproot_custom.factories.STLMapFactory.target_types">
+<span class="sig-name descname"><span class="pre">target_types</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['map',</span> <span class="pre">'unordered_map',</span> <span class="pre">'multimap',</span> <span class="pre">'unordered_multimap']</span></em><a class="headerlink" href="#uproot_custom.factories.STLMapFactory.target_types" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.factories.STLSeqFactory">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.factories.</span></span><span class="sig-name descname"><span class="pre">STLSeqFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_header</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objwise_or_memberwise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">-</span></span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_factory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><span class="pre">Factory</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLSeqFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLSeqFactory" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><code class="xref py py-class docutils literal notranslate"><span class="pre">Factory</span></code></a></p>
+<p>This factory reads sequence-like STL containers.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.STLSeqFactory.build_cpp_reader">
+<span class="sig-name descname"><span class="pre">build_cpp_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLSeqFactory.build_cpp_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLSeqFactory.build_cpp_reader" title="Link to this definition">#</a></dt>
+<dd><p>Build concrete C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of <cite>uproot_custom.cpp.IReader</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.STLSeqFactory.build_factory">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLSeqFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLSeqFactory.build_factory" title="Link to this definition">#</a></dt>
+<dd><p>Return when <cite>top_type_name</cite> is in <cite>cls.target_types</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.STLSeqFactory.make_awkward_content">
+<span class="sig-name descname"><span class="pre">make_awkward_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLSeqFactory.make_awkward_content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLSeqFactory.make_awkward_content" title="Link to this definition">#</a></dt>
+<dd><p>Reconstruct awkward contents with raw data returned from the C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>raw_data</strong> – Data returned from C++ reader.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Awkward content to build corresponding array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>awkward.contents.Content</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.STLSeqFactory.make_awkward_form">
+<span class="sig-name descname"><span class="pre">make_awkward_form</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLSeqFactory.make_awkward_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLSeqFactory.make_awkward_form" title="Link to this definition">#</a></dt>
+<dd><p>Generate awkward form with tree configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Awkward form of current item.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>awkward.forms.Form</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uproot_custom.factories.STLSeqFactory.target_types">
+<span class="sig-name descname"><span class="pre">target_types</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['vector',</span> <span class="pre">'array',</span> <span class="pre">'list',</span> <span class="pre">'set',</span> <span class="pre">'multiset',</span> <span class="pre">'unordered_set',</span> <span class="pre">'unordered_multiset']</span></em><a class="headerlink" href="#uproot_custom.factories.STLSeqFactory.target_types" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.factories.STLStringFactory">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.factories.</span></span><span class="sig-name descname"><span class="pre">STLStringFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_header</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLStringFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLStringFactory" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><code class="xref py py-class docutils literal notranslate"><span class="pre">Factory</span></code></a></p>
+<p>This class reads std::string.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.STLStringFactory.build_cpp_reader">
+<span class="sig-name descname"><span class="pre">build_cpp_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLStringFactory.build_cpp_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLStringFactory.build_cpp_reader" title="Link to this definition">#</a></dt>
+<dd><p>Build concrete C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of <cite>uproot_custom.cpp.IReader</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.STLStringFactory.build_factory">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLStringFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLStringFactory.build_factory" title="Link to this definition">#</a></dt>
+<dd><p>Return an instance of this factory when current item matches this factory,
+otherwise return <cite>None</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>top_type_name</strong> (<em>str</em>) – Name of the top-level class of current item.
+For example, <cite>vector&lt;int&gt;</cite> -&gt; <cite>vector</cite>.</p></li>
+<li><p><strong>cur_streamer_info</strong> (<em>dict</em>) – Streamer information of current item.</p></li>
+<li><p><strong>all_streamer_info</strong> (<em>dict</em>) – Dictionary storing streamer information
+of all types. The key is the classname, pair is a dictionary
+like <cite>cur_streamer_info</cite>.</p></li>
+<li><p><strong>item_path</strong> (<em>str</em>) – Indicating which item is being matched. One can
+use this variable to apply specific behavior.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing all necessary information of building
+C++ reader and reconstruct raw data to awkward array for current
+item.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.STLStringFactory.make_awkward_content">
+<span class="sig-name descname"><span class="pre">make_awkward_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLStringFactory.make_awkward_content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLStringFactory.make_awkward_content" title="Link to this definition">#</a></dt>
+<dd><p>Reconstruct awkward contents with raw data returned from the C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>raw_data</strong> – Data returned from C++ reader.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Awkward content to build corresponding array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>awkward.contents.Content</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.STLStringFactory.make_awkward_form">
+<span class="sig-name descname"><span class="pre">make_awkward_form</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLStringFactory.make_awkward_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLStringFactory.make_awkward_form" title="Link to this definition">#</a></dt>
+<dd><p>Generate awkward form with tree configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Awkward form of current item.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>awkward.forms.Form</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.factories.TArrayFactory">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.factories.</span></span><span class="sig-name descname"><span class="pre">TArrayFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TArrayFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.TArrayFactory" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><code class="xref py py-class docutils literal notranslate"><span class="pre">Factory</span></code></a></p>
+<p>This class reads TArray from a binary paerser.</p>
+<p>TArray includes TArrayC, TArrayS, TArrayI, TArrayL, TArrayL64, TArrayF, and TArrayD.
+Corresponding ctype is u1, u2, i4, i8, i8, f, and d.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.TArrayFactory.build_cpp_reader">
+<span class="sig-name descname"><span class="pre">build_cpp_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TArrayFactory.build_cpp_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.TArrayFactory.build_cpp_reader" title="Link to this definition">#</a></dt>
+<dd><p>Build concrete C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of <cite>uproot_custom.cpp.IReader</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.TArrayFactory.build_factory">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TArrayFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.TArrayFactory.build_factory" title="Link to this definition">#</a></dt>
+<dd><p>Return when <cite>top_type_name</cite> is in <cite>cls.typenames</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.TArrayFactory.make_awkward_content">
+<span class="sig-name descname"><span class="pre">make_awkward_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TArrayFactory.make_awkward_content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.TArrayFactory.make_awkward_content" title="Link to this definition">#</a></dt>
+<dd><p>Reconstruct awkward contents with raw data returned from the C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>raw_data</strong> – Data returned from C++ reader.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Awkward content to build corresponding array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>awkward.contents.Content</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.TArrayFactory.make_awkward_form">
+<span class="sig-name descname"><span class="pre">make_awkward_form</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TArrayFactory.make_awkward_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.TArrayFactory.make_awkward_form" title="Link to this definition">#</a></dt>
+<dd><p>Generate awkward form with tree configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Awkward form of current item.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>awkward.forms.Form</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uproot_custom.factories.TArrayFactory.typenames">
+<span class="sig-name descname"><span class="pre">typenames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'TArrayC':</span> <span class="pre">'i1',</span> <span class="pre">'TArrayD':</span> <span class="pre">'d',</span> <span class="pre">'TArrayF':</span> <span class="pre">'f',</span> <span class="pre">'TArrayI':</span> <span class="pre">'i4',</span> <span class="pre">'TArrayL':</span> <span class="pre">'i8',</span> <span class="pre">'TArrayL64':</span> <span class="pre">'i8',</span> <span class="pre">'TArrayS':</span> <span class="pre">'i2'}</span></em><a class="headerlink" href="#uproot_custom.factories.TArrayFactory.typenames" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.factories.TObjectFactory">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.factories.</span></span><span class="sig-name descname"><span class="pre">TObjectFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TObjectFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.TObjectFactory" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><code class="xref py py-class docutils literal notranslate"><span class="pre">Factory</span></code></a></p>
+<p>This class reads base TObject from a binary parser.
+You should skip reconstructing array when this factory
+keeps no data, since the method <cite>reconstruct_array</cite>
+will always return <cite>None</cite>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.TObjectFactory.build_cpp_reader">
+<span class="sig-name descname"><span class="pre">build_cpp_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TObjectFactory.build_cpp_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.TObjectFactory.build_cpp_reader" title="Link to this definition">#</a></dt>
+<dd><p>Build concrete C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of <cite>uproot_custom.cpp.IReader</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.TObjectFactory.build_factory">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TObjectFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.TObjectFactory.build_factory" title="Link to this definition">#</a></dt>
+<dd><p>The configuration contains:
+- <cite>factory</cite>: cls
+- <cite>name: fName,
+- `keep_data</cite>: Whether keep data from TObject.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="uproot_custom.factories.TObjectFactory.keep_data_itempaths">
+<span class="sig-name descname"><span class="pre">keep_data_itempaths</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#uproot_custom.factories.TObjectFactory.keep_data_itempaths" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.TObjectFactory.make_awkward_content">
+<span class="sig-name descname"><span class="pre">make_awkward_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TObjectFactory.make_awkward_content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.TObjectFactory.make_awkward_content" title="Link to this definition">#</a></dt>
+<dd><p>Reconstruct awkward contents with raw data returned from the C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>raw_data</strong> – Data returned from C++ reader.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Awkward content to build corresponding array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>awkward.contents.Content</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.TObjectFactory.make_awkward_form">
+<span class="sig-name descname"><span class="pre">make_awkward_form</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TObjectFactory.make_awkward_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.TObjectFactory.make_awkward_form" title="Link to this definition">#</a></dt>
+<dd><p>Generate awkward form with tree configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Awkward form of current item.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>awkward.forms.Form</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.factories.TStringFactory">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.factories.</span></span><span class="sig-name descname"><span class="pre">TStringFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_header</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TStringFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.TStringFactory" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><code class="xref py py-class docutils literal notranslate"><span class="pre">Factory</span></code></a></p>
+<p>This class reads TString from a binary parser.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.TStringFactory.build_cpp_reader">
+<span class="sig-name descname"><span class="pre">build_cpp_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TStringFactory.build_cpp_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.TStringFactory.build_cpp_reader" title="Link to this definition">#</a></dt>
+<dd><p>Build concrete C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of <cite>uproot_custom.cpp.IReader</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.TStringFactory.build_factory">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TStringFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.TStringFactory.build_factory" title="Link to this definition">#</a></dt>
+<dd><p>Return an instance of this factory when current item matches this factory,
+otherwise return <cite>None</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>top_type_name</strong> (<em>str</em>) – Name of the top-level class of current item.
+For example, <cite>vector&lt;int&gt;</cite> -&gt; <cite>vector</cite>.</p></li>
+<li><p><strong>cur_streamer_info</strong> (<em>dict</em>) – Streamer information of current item.</p></li>
+<li><p><strong>all_streamer_info</strong> (<em>dict</em>) – Dictionary storing streamer information
+of all types. The key is the classname, pair is a dictionary
+like <cite>cur_streamer_info</cite>.</p></li>
+<li><p><strong>item_path</strong> (<em>str</em>) – Indicating which item is being matched. One can
+use this variable to apply specific behavior.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing all necessary information of building
+C++ reader and reconstruct raw data to awkward array for current
+item.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.TStringFactory.make_awkward_content">
+<span class="sig-name descname"><span class="pre">make_awkward_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TStringFactory.make_awkward_content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.TStringFactory.make_awkward_content" title="Link to this definition">#</a></dt>
+<dd><p>Reconstruct awkward contents with raw data returned from the C++ reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>raw_data</strong> – Data returned from C++ reader.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Awkward content to build corresponding array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>awkward.contents.Content</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.factories.TStringFactory.make_awkward_form">
+<span class="sig-name descname"><span class="pre">make_awkward_form</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TStringFactory.make_awkward_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.TStringFactory.make_awkward_form" title="Link to this definition">#</a></dt>
+<dd><p>Generate awkward form with tree configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Awkward form of current item.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>awkward.forms.Form</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="uproot_custom.factories.build_factory">
+<span class="sig-prename descclassname"><span class="pre">uproot_custom.factories.</span></span><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><span class="pre">Factory</span></a></span></span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.build_factory" title="Link to this definition">#</a></dt>
+<dd><p>Generate factory with a given streamer information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cur_streamer_info</strong> (<em>dict</em>) – Streamer information of current item.</p></li>
+<li><p><strong>all_streamer_info</strong> (<em>dict</em>) – All streamer information.</p></li>
+<li><p><strong>item_path</strong> (<em>str</em>) – Path to the item.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An instance of <cite>Factory</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="uproot_custom.factories.read_branch">
+<span class="sig-prename descclassname"><span class="pre">uproot_custom.factories.</span></span><span class="sig-name descname"><span class="pre">read_branch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TBranch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">uint8</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offsets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#read_branch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.read_branch" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="uproot_custom.factories.read_branch_awkward_form">
+<span class="sig-prename descclassname"><span class="pre">uproot_custom.factories.</span></span><span class="sig-name descname"><span class="pre">read_branch_awkward_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TBranch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#read_branch_awkward_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.read_branch_awkward_form" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
 </section>
-<section id="uproot-custom-utils-module">
-<h2>uproot_custom.utils module<a class="headerlink" href="#uproot-custom-utils-module" title="Link to this heading">#</a></h2>
+<section id="module-uproot_custom.utils">
+<span id="uproot-custom-utils-module"></span><h2>uproot_custom.utils module<a class="headerlink" href="#module-uproot_custom.utils" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="uproot_custom.utils.get_dims_from_branch">
+<span class="sig-prename descclassname"><span class="pre">uproot_custom.utils.</span></span><span class="sig-name descname"><span class="pre">get_dims_from_branch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TBranch</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/uproot_custom/utils.html#get_dims_from_branch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.utils.get_dims_from_branch" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="uproot_custom.utils.get_map_key_val_typenames">
+<span class="sig-prename descclassname"><span class="pre">uproot_custom.utils.</span></span><span class="sig-name descname"><span class="pre">get_map_key_val_typenames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/uproot_custom/utils.html#get_map_key_val_typenames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.utils.get_map_key_val_typenames" title="Link to this definition">#</a></dt>
+<dd><p>Get the key and value type names of a map type.</p>
+<p>e.g. map&lt;int, vector&lt;int&gt;&gt; -&gt; (int, vector&lt;int&gt;)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="uproot_custom.utils.get_sequence_element_typename">
+<span class="sig-prename descclassname"><span class="pre">uproot_custom.utils.</span></span><span class="sig-name descname"><span class="pre">get_sequence_element_typename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/utils.html#get_sequence_element_typename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.utils.get_sequence_element_typename" title="Link to this definition">#</a></dt>
+<dd><p>Get the element type name of a vector type.</p>
+<p>e.g. vector&lt;vector&lt;int&gt;&gt; -&gt; vector&lt;int&gt;</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="uproot_custom.utils.get_top_type_name">
+<span class="sig-prename descclassname"><span class="pre">uproot_custom.utils.</span></span><span class="sig-name descname"><span class="pre">get_top_type_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/utils.html#get_top_type_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.utils.get_top_type_name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="uproot_custom.utils.regularize_object_path">
+<span class="sig-prename descclassname"><span class="pre">uproot_custom.utils.</span></span><span class="sig-name descname"><span class="pre">regularize_object_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/utils.html#regularize_object_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.utils.regularize_object_path" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
+<section id="module-uproot_custom">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-uproot_custom" title="Link to this heading">#</a></h2>
 </section>
 </section>
 
@@ -426,10 +1590,139 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot-custom-ascustom-module">uproot_custom.AsCustom module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot-custom-factories-module">uproot_custom.factories module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot-custom-utils-module">uproot_custom.utils module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.AsCustom">uproot_custom.AsCustom module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom"><code class="docutils literal notranslate"><span class="pre">AsCustom</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom.awkward_form"><code class="docutils literal notranslate"><span class="pre">AsCustom.awkward_form()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom.basket_array"><code class="docutils literal notranslate"><span class="pre">AsCustom.basket_array()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom.cache_key"><code class="docutils literal notranslate"><span class="pre">AsCustom.cache_key</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom.final_array"><code class="docutils literal notranslate"><span class="pre">AsCustom.final_array()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom.match_branch"><code class="docutils literal notranslate"><span class="pre">AsCustom.match_branch()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom.target_branches"><code class="docutils literal notranslate"><span class="pre">AsCustom.target_branches</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom.typename"><code class="docutils literal notranslate"><span class="pre">AsCustom.typename</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.factories">uproot_custom.factories module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory.priority"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.priority()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.BaseObjectFactory"><code class="docutils literal notranslate"><span class="pre">BaseObjectFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.BaseObjectFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">BaseObjectFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.BaseObjectFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">BaseObjectFactory.build_factory()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.make_awkward_form()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.priority"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.priority()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory"><code class="docutils literal notranslate"><span class="pre">EmptyFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.make_awkward_form()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory"><code class="docutils literal notranslate"><span class="pre">Factory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">Factory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.build_factory"><code class="docutils literal notranslate"><span class="pre">Factory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">Factory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">Factory.make_awkward_form()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.priority"><code class="docutils literal notranslate"><span class="pre">Factory.priority()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory"><code class="docutils literal notranslate"><span class="pre">GroupFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">GroupFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">GroupFactory.make_awkward_form()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.ObjectHeaderFactory"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.ObjectHeaderFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.ObjectHeaderFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.ObjectHeaderFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.ObjectHeaderFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderFactory.make_awkward_form()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.cpp_reader_map"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.cpp_reader_map</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.ctype_primitive_map"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.ctype_primitive_map</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.ftypes"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.ftypes</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.make_awkward_form()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.typenames"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.typenames</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory"><code class="docutils literal notranslate"><span class="pre">STLMapFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.make_awkward_form()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.target_types"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.target_types</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.make_awkward_form()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.target_types"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.target_types</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory"><code class="docutils literal notranslate"><span class="pre">STLStringFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.make_awkward_form()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory"><code class="docutils literal notranslate"><span class="pre">TArrayFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.make_awkward_form()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.typenames"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.typenames</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory"><code class="docutils literal notranslate"><span class="pre">TObjectFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.keep_data_itempaths"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.keep_data_itempaths</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.make_awkward_form()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory"><code class="docutils literal notranslate"><span class="pre">TStringFactory</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_cpp_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_factory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">TStringFactory.make_awkward_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">TStringFactory.make_awkward_form()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.build_factory"><code class="docutils literal notranslate"><span class="pre">build_factory()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.read_branch"><code class="docutils literal notranslate"><span class="pre">read_branch()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.read_branch_awkward_form"><code class="docutils literal notranslate"><span class="pre">read_branch_awkward_form()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.utils">uproot_custom.utils module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.utils.get_dims_from_branch"><code class="docutils literal notranslate"><span class="pre">get_dims_from_branch()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.utils.get_map_key_val_typenames"><code class="docutils literal notranslate"><span class="pre">get_map_key_val_typenames()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.utils.get_sequence_element_typename"><code class="docutils literal notranslate"><span class="pre">get_sequence_element_typename()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.utils.get_top_type_name"><code class="docutils literal notranslate"><span class="pre">get_top_type_name()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.utils.regularize_object_path"><code class="docutils literal notranslate"><span class="pre">regularize_object_path()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom">Module contents</a></li>
 </ul>
   </nav></div>
 
