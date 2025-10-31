@@ -38,8 +38,6 @@ classifiers = [
 optional-dependencies = { "dev" = [
     "pytest",
     "pytest-xdist",
-    "dask[complete]",
-    "dask-awkward",
     "build",
 ], "docs" = [
     "sphinx>=8.2",
