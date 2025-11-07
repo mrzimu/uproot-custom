@@ -28,7 +28,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install .
+          uv lock --upgrade
+          uv sync --all-extras
 
       - name: Run pytest
         run: |
@@ -48,7 +49,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y doxygen
-          uv pip install .
+          uv lock --upgrade
+          uv sync --all-extras
 
       - name: Build docs
         run: |
