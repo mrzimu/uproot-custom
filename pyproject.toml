@@ -83,4 +83,4 @@ docs = [
 ]
 
 [tool.uv]
-default-groups = ["dev"]
+default-groups = "all"
