@@ -6,6 +6,11 @@
 
 `uproot-custom` aims to handle cases that classes are too complex for `uproot` to read, such as when their `Streamer` methods are overridden or some specific data members are not supported by `uproot`.
 
+## What you can do with `uproot-custom`
+
+- Read your custom classes that `uproot` cannot handle.
+- Read data stored as member-wise format in containers.
+
 ## How `uproot-custom` works
 
 `uproot-custom` uses a `reader`/`factory` mechanism to read classes:
