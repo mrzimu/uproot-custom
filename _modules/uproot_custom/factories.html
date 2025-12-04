@@ -1414,13 +1414,17 @@ document.write(`
         <span class="n">sub_fields</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">sub_contents</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">s_fac</span><span class="p">,</span> <span class="n">s_data</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sub_configs</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s_fac</span><span class="p">,</span> <span class="n">TObjectFactory</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">s_fac</span><span class="o">.</span><span class="n">keep_data</span><span class="p">:</span>
+            <span class="n">s_cont</span> <span class="o">=</span> <span class="n">s_fac</span><span class="o">.</span><span class="n">make_awkward_content</span><span class="p">(</span><span class="n">s_data</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s_cont</span><span class="p">,</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">EmptyArray</span><span class="p">):</span>
                 <span class="k">continue</span>
 
             <span class="n">sub_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_fac</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-            <span class="n">sub_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_fac</span><span class="o">.</span><span class="n">make_awkward_content</span><span class="p">(</span><span class="n">s_data</span><span class="p">))</span>
+            <span class="n">sub_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_cont</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">RecordArray</span><span class="p">(</span><span class="n">sub_contents</span><span class="p">,</span> <span class="n">sub_fields</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sub_contents</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">EmptyArray</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">RecordArray</span><span class="p">(</span><span class="n">sub_contents</span><span class="p">,</span> <span class="n">sub_fields</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GroupFactory.make_awkward_form">
@@ -1431,13 +1435,17 @@ document.write(`
         <span class="n">sub_fields</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">sub_contents</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">s_fac</span> <span class="ow">in</span> <span class="n">sub_configs</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s_fac</span><span class="p">,</span> <span class="n">TObjectFactory</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">s_fac</span><span class="o">.</span><span class="n">keep_data</span><span class="p">:</span>
+            <span class="n">s_form</span> <span class="o">=</span> <span class="n">s_fac</span><span class="o">.</span><span class="n">make_awkward_form</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s_form</span><span class="p">,</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">EmptyForm</span><span class="p">):</span>
                 <span class="k">continue</span>
 
             <span class="n">sub_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_fac</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-            <span class="n">sub_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_fac</span><span class="o">.</span><span class="n">make_awkward_form</span><span class="p">())</span>
+            <span class="n">sub_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_form</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">RecordForm</span><span class="p">(</span><span class="n">sub_contents</span><span class="p">,</span> <span class="n">sub_fields</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sub_contents</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">EmptyForm</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">RecordForm</span><span class="p">(</span><span class="n">sub_contents</span><span class="p">,</span> <span class="n">sub_fields</span><span class="p">)</span></div>
 </div>
 
 
@@ -1479,7 +1487,7 @@ document.write(`
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.BaseObjectFactory.build_cpp_reader">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">sub_readers</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">AnyClassReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">GroupReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span></div>
 </div>
 
 
