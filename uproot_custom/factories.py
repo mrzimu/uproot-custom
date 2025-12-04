@@ -945,13 +945,17 @@ class GroupFactory(Factory):
         sub_fields = []
         sub_contents = []
         for s_fac, s_data in zip(sub_configs, raw_data):
-            if isinstance(s_fac, TObjectFactory) and not s_fac.keep_data:
+            s_cont = s_fac.make_awkward_content(s_data)
+            if isinstance(s_cont, awkward.contents.EmptyArray):
                 continue
 
             sub_fields.append(s_fac.name)
-            sub_contents.append(s_fac.make_awkward_content(s_data))
+            sub_contents.append(s_cont)
 
-        return awkward.contents.RecordArray(sub_contents, sub_fields)
+        if len(sub_contents) == 0:
+            return awkward.contents.EmptyArray()
+        else:
+            return awkward.contents.RecordArray(sub_contents, sub_fields)
 
     def make_awkward_form(self):
         sub_configs = self.sub_factories
@@ -959,13 +963,17 @@ class GroupFactory(Factory):
         sub_fields = []
         sub_contents = []
         for s_fac in sub_configs:
-            if isinstance(s_fac, TObjectFactory) and not s_fac.keep_data:
+            s_form = s_fac.make_awkward_form()
+            if isinstance(s_form, ak.forms.EmptyForm):
                 continue
 
             sub_fields.append(s_fac.name)
-            sub_contents.append(s_fac.make_awkward_form())
+            sub_contents.append(s_form)
 
-        return ak.forms.RecordForm(sub_contents, sub_fields)
+        if len(sub_contents) == 0:
+            return ak.forms.EmptyForm()
+        else:
+            return ak.forms.RecordForm(sub_contents, sub_fields)
 
 
 class BaseObjectFactory(GroupFactory):
@@ -998,7 +1006,7 @@ class BaseObjectFactory(GroupFactory):
 
     def build_cpp_reader(self):
         sub_readers = [s.build_cpp_reader() for s in self.sub_factories]
-        return uproot_custom.cpp.AnyClassReader(self.name, sub_readers)
+        return uproot_custom.cpp.GroupReader(self.name, sub_readers)
 
 
 class AnyClassFactory(GroupFactory):
