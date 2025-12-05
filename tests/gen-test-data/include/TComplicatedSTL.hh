@@ -20,7 +20,6 @@ class TComplicatedSTL : public TObject {
         // Initialize 1 basic type element
         for ( int i = 0; i < 5; i++ )
         {
-
             vector<int> vec_int;
             map<int, double> map_int_double;
             list<int> list_int;

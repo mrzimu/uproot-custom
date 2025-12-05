@@ -1,10 +1,10 @@
 # Use built-in factories
 
-`uproot-custom` has already defined several built-in readers and factories. You can firstly try them to see if they can handle your reading task.
+Uproot-custom has already defined several built-in readers and factories. You can firstly try them to see if they can handle your reading task.
 
 ## Step 1: Obtain the object-path of branches
 
-To let `uproot-custom` read specific branches, you need to obtain the regularized `object-path` of the branches:
+To let uproot-custom read specific branches, you need to obtain the regularized `object-path` of the branches:
 
 ```python
 import uproot
@@ -24,9 +24,9 @@ caption: Output
 /my_tree:my_branch
 ```
 
-## Step 2: Register the branch to `uproot-custom` and read
+## Step 2: Register the branch to uproot-custom and read
 
-Record the content of `regularized_obj_path` above. In the next time, you can register the branch to `uproot-custom` **before opening the file**:
+Record the content of `regularized_obj_path` above. In the next time, you can register the branch to uproot-custom **before opening the file**:
 
 ```python
 import uproot
@@ -51,7 +51,7 @@ uc.AsCustom.target_branches |= {"/my_tree:branch1", "/my_tree:branch2"}
 ```
 ````
 
-Now you can read the branch as using `uproot`:
+Now you can read the branch as using Uproot:
 
 ```python
 arr = f["my_tree/my_branch"].array() # will be read by uproot-custom
@@ -86,15 +86,15 @@ for (int i = 0; i < 10; i++) {
 }
 ```
 
-Reading the branch with `uproot-custom`/`uproot` will lead to different results:
+Reading the branch with uproot-custom/Uproot will lead to different results:
 
 ```{note}
-At the time this document is written, the latest version of `uproot` is `5.6.6`.
+At the time this document is written, the latest version of Uproot is `5.6.6`.
 ```
 
 `````{tab-set}
 ````{tab-item} uproot-custom
-`uproot-custom` can handle this case with the built-in factories:
+Uproot-custom can handle this case with the built-in factories:
 
 ```python
 import uproot
@@ -141,11 +141,11 @@ name                 | typename                 | interpretation
 m_vec_double[3]      | vector<double>[][3]      | AsCustom(vector<double>[][3]) 
 ```
 
-Note that the interpretation is `AsCustom(vector<double>[][3])`, which means `uproot-custom` is used to read this branch.
+Note that the interpretation is `AsCustom(vector<double>[][3])`, which means uproot-custom is used to read this branch.
 
 ````
 ````{tab-item} uproot
-Read the branch with `uproot`:
+Read the branch with Uproot:
 
 ```python
 import uproot

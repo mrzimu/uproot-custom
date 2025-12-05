@@ -4,7 +4,7 @@
 A full example can be found in the [example repository](https://github.com/mrzimu/uproot-custom-example).
 ```
 
-We define a demo class `TOverrideStreamer` whose `Streamer` method is overridden to show how to read such classes using `uproot-custom`.
+We define a demo class `TOverrideStreamer` whose `Streamer` method is overridden to show how to read such classes using uproot-custom.
 
 There are 2 member variables in `TOverrideStreamer`: `m_int` and `m_double`:
 
@@ -281,7 +281,7 @@ Refer to [awkward forms](https://awkward-array.org/doc/main/reference/generated/
 
 ## Step 4: Register target branch and the `factory`
 
-Finally, we need to register the branch we want to read with `uproot-custom`, and also register the `OverrideStreamerFactory` so that it can be used by `uproot-custom`. 
+Finally, we need to register the branch we want to read with uproot-custom, and also register the `OverrideStreamerFactory` so that it can be used by uproot-custom. 
 
 We can do this by adding the following code in the `__init__.py` of your package:
 
@@ -295,9 +295,9 @@ AsCustom.target_branches |= {
 registered_factories.add(OverrideStreamerFactory)
 ```
 
-## Step 5: Read data with `uproot`
+## Step 5: Read data with Uproot
 
-Now we can read the data using `uproot` as usual:
+Now we can read the data using Uproot as usual:
 
 ```python
 >>> b = uproot.open("demo_data.root")["my_tree:override_streamer"]

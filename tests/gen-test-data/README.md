@@ -1,6 +1,6 @@
 # gen-test-data
 
-This program generates test data for the `uproot-custom` package. The generated data is stored in the `tests/test-data.root` file.
+This program generates test data for the uproot-custom package. The generated data is stored in the `tests/test-data.root` file.
 
 ## Requirements
 
@@ -21,4 +21,4 @@ make -j
 ./gen-test-data
 ```
 
-This will generate a `test-data.root` file in the `build` directory. You can then move this file to the `tests` directory of the `uproot-custom` package for use in testing.
+This will generate a `test-data.root` file in the `build` directory. You can then move this file to the `tests` directory of the uproot-custom package for use in testing.

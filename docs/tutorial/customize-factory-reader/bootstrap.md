@@ -1,8 +1,8 @@
-# Bootstrap of custom classes reading in `uproot-custom`
+# Bootstrap of custom classes reading in uproot-custom
 
-When reading a `TBranch` with `uproot-custom`, the following steps are performed:
+When reading a `TBranch` with uproot-custom, the following steps are performed:
 
-1. `uproot-custom` reads the streamer information (which contains information about data members and their types) of the branch.
+1. Uproot-custom reads the streamer information (which contains information about data members and their types) of the branch.
 2. `factory`s recursively instantiate themselves and combine together into a tree-like structure according to the streamer information.
 3. `factory`s recursively create and combine `reader`s .
 4. The combined `reader` reads the binary data and return results back to `factory`.
@@ -10,7 +10,7 @@ When reading a `TBranch` with `uproot-custom`, the following steps are performed
 
 ## Build factory instances
 
-When reading a branch through `uproot-custom`, `uproot-custom` firstly builds a `factory` instance according to the streamer information of the class stored in the branch. During the building process, The factory should also recursively build `factory` instances for all data members of the class.
+When reading a branch through uproot-custom, uproot-custom firstly builds a `factory` instance according to the streamer information of the class stored in the branch. During the building process, The factory should also recursively build `factory` instances for all data members of the class.
 
 For example, the streamer information of `TSimpleObject` is as follows (as illustrated in [streamer information](simple-obj-streamer-info)):
 
