@@ -184,7 +184,7 @@ According to the `Streamer` method, the binary data contains:
 
 4. `Line 15`: The next 4 bytes is `fLowerBound` (int32), which is `[0, 0, 0, 0]`, i.e. `0`.
 
-5. `Line 19-25`: Loop over `nobjects` to read each object. Note that the `[255, 255, 255, 255]` indicates that the object's binary layout follows [this rule](https://root.cern/doc/v636/dobject.html). In `uproot-custom`, it can be handled by `ObjectHeaderFactory`.
+5. `Line 19-25`: Loop over `nobjects` to read each object. Note that the `[255, 255, 255, 255]` indicates that the object's binary layout follows [this rule](https://root.cern/doc/v636/dobject.html). In uproot-custom, it can be handled by `ObjectHeaderFactory`.
 
 ```{tip}
 For other `ROOT` built-in classes, it is suggested to check both the streamer information and the source code. If the `Streamer` method is not overridden, the streamer information is usually enough.
@@ -200,8 +200,8 @@ In summary, the binary data contains:
 So we need such factories/readers to read the data:
 
 - `TObjArrayFactory`/`TObjArrayReader` to read `TObjArray` header and loop over `nobjects`.
-- `ObjectHeaderFactory`/`ObjectHeaderReader` to read `ObjectHeader`, which are already implemented in `uproot-custom`.
-- `AnyClassFactory`/`AnyClassReader` to read `TObjInObjArray` object, which are already implemented in `uproot-custom`.
+- `ObjectHeaderFactory`/`ObjectHeaderReader` to read `ObjectHeader`, which are already implemented in uproot-custom.
+- `AnyClassFactory`/`AnyClassReader` to read `TObjInObjArray` object, which are already implemented in uproot-custom.
 
 The `TObjArrayFactory`/`TObjArrayReader` should be implemented by ourselves. Note that since we know the type of objects in the `TObjArray` is always `TObjInObjArray`, we can take just 1 `AnyClassFactory`/`AnyClassReader` as sub-factory/sub-reader to read all objects. This is also a process that embedding user-known rules.
 
@@ -397,7 +397,7 @@ def make_awkward_form(self):
 
 ## Step 4: Register target branch and the `factory`
 
-Finally, register the branch we want to read with `uproot-custom`, and also register the `TObjArrayFactory` so that it can be used by `uproot-custom`. 
+Finally, register the branch we want to read with uproot-custom, and also register the `TObjArrayFactory` so that it can be used by uproot-custom. 
 
 We can do this by adding the following code in the `__init__.py` of your package:
 
@@ -411,9 +411,9 @@ AsCustom.target_branches |= {
 registered_factories.add(TObjArrayFactory)
 ```
 
-## Step 5: Read data with `uproot`
+## Step 5: Read data with Uproot
 
-Now we can read the data using `uproot` as usual:
+Now we can read the data using Uproot as usual:
 
 ```python
 >>> b = uproot.open("demo_data.root")["my_tree:obj_with_obj_array/m_obj_array"]

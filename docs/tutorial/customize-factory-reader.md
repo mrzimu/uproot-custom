@@ -2,7 +2,7 @@
 
 If the built-in factories cannot reach your needs, you can implement your own `factory` and/or `reader`. 
 
-<!-- This requires some knowledge of `ROOT`'s streaming mechanism and `uproot-custom`'s design. -->
+<!-- This requires some knowledge of `ROOT`'s streaming mechanism and uproot-custom's design. -->
 
 ```{admonition} Prerequisites
 ---

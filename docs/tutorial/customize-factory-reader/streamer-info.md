@@ -55,9 +55,9 @@ class TCStyleArray : public TObject {
 
 In the following sections, we will use `TSimpleObject` and `TCStyleArray` as an example to illustrate how `ROOT` stores custom classes.
 
-## Streamer information in `uproot`
+## Streamer information in Uproot
 
-`uproot` can read the streamer information stored in the file. To obtain all streamer information, you can use:
+Uproot can read the streamer information stored in the file. To obtain all streamer information, you can use:
 
 ```python
 import uproot
@@ -94,7 +94,7 @@ caption: Output
 The key `1` is the version number of `TSimpleObject`, the value is corresponding `TStreamerInfo` object.
 
 ```{seealso}
-You can find all `uproot` streamer information classes in [the documentation](https://uproot.readthedocs.io/en/latest/uproot.streamers.html).
+You can find all Uproot streamer information classes in [the documentation](https://uproot.readthedocs.io/en/latest/uproot.streamers.html).
 ```
 
 Using `show` method you can print the streamer information:
@@ -266,9 +266,9 @@ A brief description of some important attributes is given in the table below:
 [ROOT streamer info page](https://root.cern/doc/v636/streamerinfo.html) provides some explanations of the attributes in `all_members`. But the page seems not updated for a long time, some details are missing.
 ```
 
-## Streamer information in `uproot-custom`
+## Streamer information in uproot-custom
 
-The streamer information in `uproot-custom` will be passed to `factory` to handle data members. To simplify the usage of streamer information, `uproot-custom` rearranges the streamer information into a more convenient format: A dictionary of class names to the list of their data members' streamer information.
+The streamer information in uproot-custom will be passed to `factory` to handle data members. To simplify the usage of streamer information, uproot-custom rearranges the streamer information into a more convenient format: A dictionary of class names to the list of their data members' streamer information.
 
 ```{seealso}
 You can find the concrete format of the rearranged streamer information in [factory interface page](method-build-factory).

@@ -1,14 +1,18 @@
 # Introduction
 
-`uproot-custom` is an extension of [`uproot`](https://uproot.readthedocs.io/en/latest/basic.html) that provides an enhanced way to read custom classes stored in `TTree`.
+Uproot-custom is an extension of [Uproot](https://uproot.readthedocs.io/en/latest/basic.html) that provides an enhanced way to read custom classes stored in `TTree`.
 
-## When to use `uproot-custom`
+## What uproot-custom can do
 
-`uproot-custom` aims to handle cases that classes are too complex for `uproot` to read, such as when their `Streamer` methods are overridden or some specific data members are not supported by `uproot`.
+Uproot-custom can natively read complicated combinations of nested classes and c-style arrays (e.g. `map<int, map<int, map<int, string>>>`, `vector<TString>[3]`, etc), and memberwisely stored classes. It also exposes a way for users to implement their own readers for custom classes that are not supported by Uproot or uproot-custom built-in readers, so that users can read their custom classes seamlessly.
 
-## How `uproot-custom` works
+## When to use uproot-custom
 
-`uproot-custom` uses a `reader`/`factory` mechanism to read classes:
+Uproot-custom aims to handle cases that classes are too complex for Uproot to read, such as when their `Streamer` methods are overridden or some specific data members are not supported by Uproot.
+
+## How uproot-custom works
+
+Uproot-custom uses a `reader`/`factory` mechanism to read classes:
 
 ```mermaid
 flowchart TD
@@ -36,14 +40,14 @@ flowchart TD
 - `reader` is a C++ class that implements the logic to read data from binary buffers.
 - `factory` is a Python class that creates, combines `reader`s, and post-processes the data read by `reader`s.
 
-This machanism is implemented basing on `uproot_custom.AsCustom` interpretation. This makes `uproot-custom` well compatible with `uproot`.
+This machanism is implemented basing on `uproot_custom.AsCustom` interpretation. This makes uproot-custom well compatible with Uproot.
 
 > [!TIP]
-> Users can implement their own `factory` and `reader`, register them to `uproot-custom`. An example of implementing a custom `factory`/`reader` can be found in [the example repository](https://github.com/mrzimu/uproot-custom-example).
+> Users can implement their own `factory` and `reader`, register them to uproot-custom. An example of implementing a custom `factory`/`reader` can be found in [the example repository](https://github.com/mrzimu/uproot-custom-example).
 
 > [!NOTE]
-> `uproot-custom` does not provide a full reimplementation of `ROOT`'s I/O system. Users are expected to implement their own `factory`/`reader` for their custom classes that built-in factories cannot handle.
+> Uproot-custom does not provide a full reimplementation of `ROOT`'s I/O system. Users are expected to implement their own `factory`/`reader` for their custom classes that built-in factories cannot handle.
 
 ## Documentation
 
-View the [documentation](https://mrzimu.github.io/uproot-custom/) for more details about customizing your own `reader`/`factory`, and the architecture of `uproot-custom`.
+View the [documentation](https://mrzimu.github.io/uproot-custom/) for more details about customizing your own `reader`/`factory`, and the architecture of uproot-custom.
