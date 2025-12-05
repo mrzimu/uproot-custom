@@ -180,7 +180,7 @@ window.addEventListener("load", () => mermaid.run());
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="tutorial/use-built-in.html">Use built-in factories</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="tutorial/customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/bootstrap.html">Bootstrap of custom classes reading in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/bootstrap.html">Bootstrap of custom classes reading in uproot-custom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/streamer-info.html">Streamer information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/binary-data.html">Binary data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
@@ -354,8 +354,9 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-uproot-custom">When to use <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-uproot-custom-works">How <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> works</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-uproot-custom-can-do">What uproot-custom can do</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-uproot-custom">When to use uproot-custom</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-uproot-custom-works">How uproot-custom works</a><ul class="visible nav section-nav flex-column">
 </ul>
 </li>
 </ul>
@@ -371,14 +372,18 @@ document.write(`
                   
   <section id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> is an extension of <a class="reference external" href="https://uproot.readthedocs.io/en/latest/basic.html"><code class="docutils literal notranslate"><span class="pre">uproot</span></code></a> that provides an enhanced way to read custom classes stored in <code class="docutils literal notranslate"><span class="pre">TTree</span></code>.</p>
+<p>Uproot-custom is an extension of <a class="reference external" href="https://uproot.readthedocs.io/en/latest/basic.html">Uproot</a> that provides an enhanced way to read custom classes stored in <code class="docutils literal notranslate"><span class="pre">TTree</span></code>.</p>
+<section id="what-uproot-custom-can-do">
+<h2>What uproot-custom can do<a class="headerlink" href="#what-uproot-custom-can-do" title="Link to this heading">#</a></h2>
+<p>Uproot-custom can natively read complicated combinations of nested classes and c-style arrays (e.g. <code class="docutils literal notranslate"><span class="pre">map&lt;int,</span> <span class="pre">map&lt;int,</span> <span class="pre">map&lt;int,</span> <span class="pre">string&gt;&gt;&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">vector&lt;TString&gt;[3]</span></code>, etc), and memberwisely stored classes. It also exposes a way for users to implement their own readers for custom classes that are not supported by Uproot or uproot-custom built-in readers.</p>
+</section>
 <section id="when-to-use-uproot-custom">
-<h2>When to use <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code><a class="headerlink" href="#when-to-use-uproot-custom" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> aims to handle cases that classes are too complex for <code class="docutils literal notranslate"><span class="pre">uproot</span></code> to read, such as when their <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> methods are overridden or some specific data members are not supported by <code class="docutils literal notranslate"><span class="pre">uproot</span></code>.</p>
+<h2>When to use uproot-custom<a class="headerlink" href="#when-to-use-uproot-custom" title="Link to this heading">#</a></h2>
+<p>Uproot-custom aims to handle cases that classes are too complex for Uproot to read, such as when their <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> methods are overridden or some specific data members are not supported by Uproot.</p>
 </section>
 <section id="how-uproot-custom-works">
-<h2>How <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> works<a class="headerlink" href="#how-uproot-custom-works" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> uses a <code class="docutils literal notranslate"><span class="pre">reader</span></code>/<code class="docutils literal notranslate"><span class="pre">factory</span></code> mechanism to read classes:</p>
+<h2>How uproot-custom works<a class="headerlink" href="#how-uproot-custom-works" title="Link to this heading">#</a></h2>
+<p>Uproot-custom uses a <code class="docutils literal notranslate"><span class="pre">reader</span></code>/<code class="docutils literal notranslate"><span class="pre">factory</span></code> mechanism to read classes:</p>
 <pre  class="mermaid">
         flowchart TD
     subgraph py[&quot;Python field&quot;]
@@ -404,14 +409,14 @@ document.write(`
 <li><p><code class="docutils literal notranslate"><span class="pre">reader</span></code> is a C++ class that implements the logic to read data from binary buffers.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">factory</span></code> is a Python class that creates, combines <code class="docutils literal notranslate"><span class="pre">reader</span></code>s, and post-processes the data read by <code class="docutils literal notranslate"><span class="pre">reader</span></code>s.</p></li>
 </ul>
-<p>This machanism is implemented as <code class="docutils literal notranslate"><span class="pre">uproot_custom.AsCustom</span></code> interpretation. This makes <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> well compatible with <code class="docutils literal notranslate"><span class="pre">uproot</span></code>.</p>
+<p>This machanism is implemented as <code class="docutils literal notranslate"><span class="pre">uproot_custom.AsCustom</span></code> interpretation. This makes uproot-custom well compatible with Uproot.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Users can implement their own <code class="docutils literal notranslate"><span class="pre">factory</span></code> and <code class="docutils literal notranslate"><span class="pre">reader</span></code>, register them to <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code>. An example of implementing a custom <code class="docutils literal notranslate"><span class="pre">factory</span></code>/<code class="docutils literal notranslate"><span class="pre">reader</span></code> can be found in <a class="reference external" href="https://github.com/mrzimu/uproot-custom-example">the example repository</a>.</p>
+<p>Users can implement their own <code class="docutils literal notranslate"><span class="pre">factory</span></code> and <code class="docutils literal notranslate"><span class="pre">reader</span></code>, register them to uproot-custom. An example of implementing a custom <code class="docutils literal notranslate"><span class="pre">factory</span></code>/<code class="docutils literal notranslate"><span class="pre">reader</span></code> can be found in <a class="reference external" href="https://github.com/mrzimu/uproot-custom-example">the example repository</a>.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> does not provide a full reimplementation of <code class="docutils literal notranslate"><span class="pre">ROOT</span></code>’s I/O system. Users are expected to implement their own <code class="docutils literal notranslate"><span class="pre">factory</span></code>/<code class="docutils literal notranslate"><span class="pre">reader</span></code> for their custom classes that built-in factories cannot handle.</p>
+<p>Uproot-custom does not provide a full reimplementation of <code class="docutils literal notranslate"><span class="pre">ROOT</span></code>’s I/O system. Users are expected to implement their own <code class="docutils literal notranslate"><span class="pre">factory</span></code>/<code class="docutils literal notranslate"><span class="pre">reader</span></code> for their custom classes that built-in factories cannot handle.</p>
 </div>
 <div class="toctree-wrapper compound">
 </div>
@@ -458,8 +463,9 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-uproot-custom">When to use <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-uproot-custom-works">How <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> works</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-uproot-custom-can-do">What uproot-custom can do</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-uproot-custom">When to use uproot-custom</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-uproot-custom-works">How uproot-custom works</a><ul class="visible nav section-nav flex-column">
 </ul>
 </li>
 </ul>

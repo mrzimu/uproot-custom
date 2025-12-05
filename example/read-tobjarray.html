@@ -170,7 +170,7 @@
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/use-built-in.html">Use built-in factories</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorial/customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/bootstrap.html">Bootstrap of custom classes reading in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/bootstrap.html">Bootstrap of custom classes reading in uproot-custom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/streamer-info.html">Streamer information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/binary-data.html">Binary data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
@@ -355,7 +355,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-register-target-branch-and-the-factory">Step 4: Register target branch and the <code class="docutils literal notranslate"><span class="pre">factory</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-read-data-with-uproot">Step 5: Read data with <code class="docutils literal notranslate"><span class="pre">uproot</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-read-data-with-uproot">Step 5: Read data with Uproot</a></li>
 </ul>
             </nav>
         </div>
@@ -537,7 +537,7 @@ document.write(`
 <li><p><code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">9-10</span></code>: Since the <code class="docutils literal notranslate"><span class="pre">fVersion</span></code> is <code class="docutils literal notranslate"><span class="pre">3</span></code> &gt; <code class="docutils literal notranslate"><span class="pre">1</span></code>, the next part is <code class="docutils literal notranslate"><span class="pre">fName</span></code> (<code class="docutils literal notranslate"><span class="pre">TString</span></code>).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">14</span></code>: The next 4 bytes is <code class="docutils literal notranslate"><span class="pre">nobjects</span></code> (int32), which is <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">1]</span></code>, i.e. <code class="docutils literal notranslate"><span class="pre">1</span></code>. This means there is one object in this <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">15</span></code>: The next 4 bytes is <code class="docutils literal notranslate"><span class="pre">fLowerBound</span></code> (int32), which is <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0]</span></code>, i.e. <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">19-25</span></code>: Loop over <code class="docutils literal notranslate"><span class="pre">nobjects</span></code> to read each object. Note that the <code class="docutils literal notranslate"><span class="pre">[255,</span> <span class="pre">255,</span> <span class="pre">255,</span> <span class="pre">255]</span></code> indicates that the object’s binary layout follows <a class="reference external" href="https://root.cern/doc/v636/dobject.html">this rule</a>. In <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code>, it can be handled by <code class="docutils literal notranslate"><span class="pre">ObjectHeaderFactory</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">19-25</span></code>: Loop over <code class="docutils literal notranslate"><span class="pre">nobjects</span></code> to read each object. Note that the <code class="docutils literal notranslate"><span class="pre">[255,</span> <span class="pre">255,</span> <span class="pre">255,</span> <span class="pre">255]</span></code> indicates that the object’s binary layout follows <a class="reference external" href="https://root.cern/doc/v636/dobject.html">this rule</a>. In uproot-custom, it can be handled by <code class="docutils literal notranslate"><span class="pre">ObjectHeaderFactory</span></code>.</p></li>
 </ol>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
@@ -556,8 +556,8 @@ document.write(`
 <p>So we need such factories/readers to read the data:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">TObjArrayFactory</span></code>/<code class="docutils literal notranslate"><span class="pre">TObjArrayReader</span></code> to read <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> header and loop over <code class="docutils literal notranslate"><span class="pre">nobjects</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ObjectHeaderFactory</span></code>/<code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader</span></code> to read <code class="docutils literal notranslate"><span class="pre">ObjectHeader</span></code>, which are already implemented in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code>/<code class="docutils literal notranslate"><span class="pre">AnyClassReader</span></code> to read <code class="docutils literal notranslate"><span class="pre">TObjInObjArray</span></code> object, which are already implemented in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ObjectHeaderFactory</span></code>/<code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader</span></code> to read <code class="docutils literal notranslate"><span class="pre">ObjectHeader</span></code>, which are already implemented in uproot-custom.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code>/<code class="docutils literal notranslate"><span class="pre">AnyClassReader</span></code> to read <code class="docutils literal notranslate"><span class="pre">TObjInObjArray</span></code> object, which are already implemented in uproot-custom.</p></li>
 </ul>
 <p>The <code class="docutils literal notranslate"><span class="pre">TObjArrayFactory</span></code>/<code class="docutils literal notranslate"><span class="pre">TObjArrayReader</span></code> should be implemented by ourselves. Note that since we know the type of objects in the <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> is always <code class="docutils literal notranslate"><span class="pre">TObjInObjArray</span></code>, we can take just 1 <code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code>/<code class="docutils literal notranslate"><span class="pre">AnyClassReader</span></code> as sub-factory/sub-reader to read all objects. This is also a process that embedding user-known rules.</p>
 </section>
@@ -731,7 +731,7 @@ document.write(`
 </section>
 <section id="step-4-register-target-branch-and-the-factory">
 <h2>Step 4: Register target branch and the <code class="docutils literal notranslate"><span class="pre">factory</span></code><a class="headerlink" href="#step-4-register-target-branch-and-the-factory" title="Link to this heading">#</a></h2>
-<p>Finally, register the branch we want to read with <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code>, and also register the <code class="docutils literal notranslate"><span class="pre">TObjArrayFactory</span></code> so that it can be used by <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code>.</p>
+<p>Finally, register the branch we want to read with uproot-custom, and also register the <code class="docutils literal notranslate"><span class="pre">TObjArrayFactory</span></code> so that it can be used by uproot-custom.</p>
 <p>We can do this by adding the following code in the <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> of your package:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">registered_factories</span><span class="p">,</span> <span class="n">AsCustom</span>
 
@@ -744,8 +744,8 @@ document.write(`
 </div>
 </section>
 <section id="step-5-read-data-with-uproot">
-<h2>Step 5: Read data with <code class="docutils literal notranslate"><span class="pre">uproot</span></code><a class="headerlink" href="#step-5-read-data-with-uproot" title="Link to this heading">#</a></h2>
-<p>Now we can read the data using <code class="docutils literal notranslate"><span class="pre">uproot</span></code> as usual:</p>
+<h2>Step 5: Read data with Uproot<a class="headerlink" href="#step-5-read-data-with-uproot" title="Link to this heading">#</a></h2>
+<p>Now we can read the data using Uproot as usual:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;demo_data.root&quot;</span><span class="p">)[</span><span class="s2">&quot;my_tree:obj_with_obj_array/m_obj_array&quot;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">array</span><span class="p">()</span>
 </pre></div>
@@ -800,7 +800,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-register-target-branch-and-the-factory">Step 4: Register target branch and the <code class="docutils literal notranslate"><span class="pre">factory</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-read-data-with-uproot">Step 5: Read data with <code class="docutils literal notranslate"><span class="pre">uproot</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-read-data-with-uproot">Step 5: Read data with Uproot</a></li>
 </ul>
   </nav></div>
 

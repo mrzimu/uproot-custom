@@ -171,7 +171,7 @@
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Use built-in factories</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="customize-factory-reader/bootstrap.html">Bootstrap of custom classes reading in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="customize-factory-reader/bootstrap.html">Bootstrap of custom classes reading in uproot-custom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="customize-factory-reader/streamer-info.html">Streamer information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="customize-factory-reader/binary-data.html">Binary data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
@@ -346,7 +346,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-obtain-the-object-path-of-branches">Step 1: Obtain the object-path of branches</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-register-the-branch-to-uproot-custom-and-read">Step 2: Register the branch to <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> and read</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-register-the-branch-to-uproot-custom-and-read">Step 2: Register the branch to uproot-custom and read</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
 </ul>
             </nav>
@@ -361,10 +361,10 @@ document.write(`
                   
   <section id="use-built-in-factories">
 <h1>Use built-in factories<a class="headerlink" href="#use-built-in-factories" title="Link to this heading">#</a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> has already defined several built-in readers and factories. You can firstly try them to see if they can handle your reading task.</p>
+<p>Uproot-custom has already defined several built-in readers and factories. You can firstly try them to see if they can handle your reading task.</p>
 <section id="step-1-obtain-the-object-path-of-branches">
 <h2>Step 1: Obtain the object-path of branches<a class="headerlink" href="#step-1-obtain-the-object-path-of-branches" title="Link to this heading">#</a></h2>
-<p>To let <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> read specific branches, you need to obtain the regularized <code class="docutils literal notranslate"><span class="pre">object-path</span></code> of the branches:</p>
+<p>To let uproot-custom read specific branches, you need to obtain the regularized <code class="docutils literal notranslate"><span class="pre">object-path</span></code> of the branches:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">uc</span>
 
@@ -384,8 +384,8 @@ document.write(`
 </div>
 </section>
 <section id="step-2-register-the-branch-to-uproot-custom-and-read">
-<h2>Step 2: Register the branch to <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> and read<a class="headerlink" href="#step-2-register-the-branch-to-uproot-custom-and-read" title="Link to this heading">#</a></h2>
-<p>Record the content of <code class="docutils literal notranslate"><span class="pre">regularized_obj_path</span></code> above. In the next time, you can register the branch to <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> <strong>before opening the file</strong>:</p>
+<h2>Step 2: Register the branch to uproot-custom and read<a class="headerlink" href="#step-2-register-the-branch-to-uproot-custom-and-read" title="Link to this heading">#</a></h2>
+<p>Record the content of <code class="docutils literal notranslate"><span class="pre">regularized_obj_path</span></code> above. In the next time, you can register the branch to uproot-custom <strong>before opening the file</strong>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">uc</span>
 
@@ -404,7 +404,7 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<p>Now you can read the branch as using <code class="docutils literal notranslate"><span class="pre">uproot</span></code>:</p>
+<p>Now you can read the branch as using Uproot:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">arr</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;my_tree/my_branch&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">array</span><span class="p">()</span> <span class="c1"># will be read by uproot-custom</span>
 </pre></div>
 </div>
@@ -435,16 +435,16 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<p>Reading the branch with <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code>/<code class="docutils literal notranslate"><span class="pre">uproot</span></code> will lead to different results:</p>
+<p>Reading the branch with uproot-custom/Uproot will lead to different results:</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>At the time this document is written, the latest version of <code class="docutils literal notranslate"><span class="pre">uproot</span></code> is <code class="docutils literal notranslate"><span class="pre">5.6.6</span></code>.</p>
+<p>At the time this document is written, the latest version of Uproot is <code class="docutils literal notranslate"><span class="pre">5.6.6</span></code>.</p>
 </div>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
 <label class="sd-tab-label" for="sd-tab-item-0">
 uproot-custom</label><div class="sd-tab-content docutils">
-<p><code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> can handle this case with the built-in factories:</p>
+<p>Uproot-custom can handle this case with the built-in factories:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">uc</span>
 
@@ -487,12 +487,12 @@ uproot-custom</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 </div>
-<p>Note that the interpretation is <code class="docutils literal notranslate"><span class="pre">AsCustom(vector&lt;double&gt;[][3])</span></code>, which means <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> is used to read this branch.</p>
+<p>Note that the interpretation is <code class="docutils literal notranslate"><span class="pre">AsCustom(vector&lt;double&gt;[][3])</span></code>, which means uproot-custom is used to read this branch.</p>
 </div>
 <input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
 <label class="sd-tab-label" for="sd-tab-item-1">
 uproot</label><div class="sd-tab-content docutils">
-<p>Read the branch with <code class="docutils literal notranslate"><span class="pre">uproot</span></code>:</p>
+<p>Read the branch with Uproot:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
 <span class="n">f</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;file.root&quot;</span><span class="p">)</span>
 <span class="n">f</span><span class="p">[</span><span class="s2">&quot;my_tree/cstyle_array/m_vec_double[3]&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">array</span><span class="p">()</span>
@@ -558,7 +558,7 @@ uproot</label><div class="sd-tab-content docutils">
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-obtain-the-object-path-of-branches">Step 1: Obtain the object-path of branches</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-register-the-branch-to-uproot-custom-and-read">Step 2: Register the branch to <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> and read</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-register-the-branch-to-uproot-custom-and-read">Step 2: Register the branch to uproot-custom and read</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
 </ul>
   </nav></div>

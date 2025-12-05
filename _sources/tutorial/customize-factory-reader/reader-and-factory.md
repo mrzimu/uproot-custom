@@ -1,6 +1,6 @@
 # Reader and factory interface
 
-`uproot-custom` uses a `reader`/`factory` mechanism to balance performance and flexibility. `reader`s are implemented in C++, do the actual reading from binary stream. `factory`s are implemented in Python, manage `reader`s, and reconstruct the final `awkward` array.
+Uproot-custom uses a `reader`/`factory` mechanism to balance performance and flexibility. `reader`s are implemented in C++, do the actual reading from binary stream. `factory`s are implemented in Python, manage `reader`s, and reconstruct the final `awkward` array.
 
 ## Reader interface
 
@@ -122,7 +122,7 @@ py::array_t<int> np_array = make_array(data);
 
 ### Declaring `reader` to Python
 
-`uproot-custom` uses `pybind11` to declare C++ `reader`s to Python. A helper function `declare_reader` is provided to simplify the declaration. When implementing your own `reader`, you should declare it to Python like this:
+Uproot-custom uses `pybind11` to declare C++ `reader`s to Python. A helper function `declare_reader` is provided to simplify the declaration. When implementing your own `reader`, you should declare it to Python like this:
 
 ```cpp
 PYBIND11_MODULE( my_cpp_reader, m) {
@@ -141,7 +141,7 @@ from my_cpp_reader import MyReaderClass
 
 ### Debugging message
 
-`uproot-custom` provides a `debug_print` method to print debugging message. The print will only be performed when `UPROOT_DEBUG` macro is defined, or `UPROOT_DEBUG` environment variable is set:
+Uproot-custom provides a `debug_print` method to print debugging message. The print will only be performed when `UPROOT_DEBUG` macro is defined, or `UPROOT_DEBUG` environment variable is set:
 
 ```cpp
 // Will print "The reader name is Bob"
@@ -160,7 +160,7 @@ debug_print( buffer, 50 )
 - `make_awkward_content`: Called to reconstruct the final `awkward` content with the raw data read by the C++ `reader`.
 - `make_awkward_form`: Called to generate the `awkward` form.
 
-To select the appropriate `factory` for a data member, `uproot-custom` loops over all registered `factory` classes, and calls their `build_factory` method. The first non-`None` return value will be used.
+To select the appropriate `factory` for a data member, uproot-custom loops over all registered `factory` classes, and calls their `build_factory` method. The first non-`None` return value will be used.
 
 ### Constructor
 
@@ -247,7 +247,7 @@ It receives following parameters:
 
 - `**kwargs`: Any extra keyword arguments that might be needed.
 
-When current data member is not suitable for the `factory`, it should return `None`, so that `uproot-custom` will try next `factory`, until one return an instance of itself.
+When current data member is not suitable for the `factory`, it should return `None`, so that uproot-custom will try next `factory`, until one return an instance of itself.
 
 When current data member is suitable for the `factory`, it should return an instance of itself, with all necessary parameters passed to the constructor.
 

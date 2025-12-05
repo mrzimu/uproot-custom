@@ -171,7 +171,7 @@
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../use-built-in.html">Use built-in factories</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Bootstrap of custom classes reading in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Bootstrap of custom classes reading in uproot-custom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streamer-info.html">Streamer information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="binary-data.html">Binary data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reader-and-factory.html">Reader and factory interface</a></li>
@@ -363,10 +363,10 @@ document.write(`
                 <article class="bd-article">
                   
   <section id="bootstrap-of-custom-classes-reading-in-uproot-custom">
-<h1>Bootstrap of custom classes reading in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code><a class="headerlink" href="#bootstrap-of-custom-classes-reading-in-uproot-custom" title="Link to this heading">#</a></h1>
-<p>When reading a <code class="docutils literal notranslate"><span class="pre">TBranch</span></code> with <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code>, the following steps are performed:</p>
+<h1>Bootstrap of custom classes reading in uproot-custom<a class="headerlink" href="#bootstrap-of-custom-classes-reading-in-uproot-custom" title="Link to this heading">#</a></h1>
+<p>When reading a <code class="docutils literal notranslate"><span class="pre">TBranch</span></code> with uproot-custom, the following steps are performed:</p>
 <ol class="arabic simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> reads the streamer information (which contains information about data members and their types) of the branch.</p></li>
+<li><p>Uproot-custom reads the streamer information (which contains information about data members and their types) of the branch.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">factory</span></code>s recursively instantiate themselves and combine together into a tree-like structure according to the streamer information.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">factory</span></code>s recursively create and combine <code class="docutils literal notranslate"><span class="pre">reader</span></code>s .</p></li>
 <li><p>The combined <code class="docutils literal notranslate"><span class="pre">reader</span></code> reads the binary data and return results back to <code class="docutils literal notranslate"><span class="pre">factory</span></code>.</p></li>
@@ -374,7 +374,7 @@ document.write(`
 </ol>
 <section id="build-factory-instances">
 <h2>Build factory instances<a class="headerlink" href="#build-factory-instances" title="Link to this heading">#</a></h2>
-<p>When reading a branch through <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code>, <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> firstly builds a <code class="docutils literal notranslate"><span class="pre">factory</span></code> instance according to the streamer information of the class stored in the branch. During the building process, The factory should also recursively build <code class="docutils literal notranslate"><span class="pre">factory</span></code> instances for all data members of the class.</p>
+<p>When reading a branch through uproot-custom, uproot-custom firstly builds a <code class="docutils literal notranslate"><span class="pre">factory</span></code> instance according to the streamer information of the class stored in the branch. During the building process, The factory should also recursively build <code class="docutils literal notranslate"><span class="pre">factory</span></code> instances for all data members of the class.</p>
 <p>For example, the streamer information of <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code> is as follows (as illustrated in <a class="reference internal" href="streamer-info.html#simple-obj-streamer-info"><span class="std std-ref">streamer information</span></a>):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;@fUniqueID&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
  <span class="s1">&#39;@fBits&#39;</span><span class="p">:</span> <span class="mi">16842752</span><span class="p">,</span>

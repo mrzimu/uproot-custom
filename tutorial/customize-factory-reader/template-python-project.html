@@ -171,7 +171,7 @@
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../use-built-in.html">Use built-in factories</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="bootstrap.html">Bootstrap of custom classes reading in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootstrap.html">Bootstrap of custom classes reading in uproot-custom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streamer-info.html">Streamer information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="binary-data.html">Binary data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reader-and-factory.html">Reader and factory interface</a></li>
@@ -360,7 +360,7 @@ document.write(`
                   
   <section id="template-python-project">
 <h1>Template Python project<a class="headerlink" href="#template-python-project" title="Link to this heading">#</a></h1>
-<p>Since <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> is implemented with both Python and C++, it is recommended to create a Python project to help manage the dependencies and build process.</p>
+<p>Since uproot-custom is implemented with both Python and C++, it is recommended to create a Python project to help manage the dependencies and build process.</p>
 <p>A template project can be found in the <a class="reference external" href="https://github.com/mrzimu/uproot-custom-example">example repository</a>. Download the repository <a class="reference external" href="https://github.com/mrzimu/uproot-custom-example/archive/refs/tags/v0.1.0.tar.gz">source code</a>, unzip it, you should see a directory structure like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>uproot-custom-example-0.1.0/
     ├── pyproject.toml
@@ -374,7 +374,7 @@ document.write(`
 <p>You can rename the root directory <code class="docutils literal notranslate"><span class="pre">uproot-custom-example-0.1.0</span></code> to your project name.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Users should specify exact versions of <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> and <code class="docutils literal notranslate"><span class="pre">pybind11</span></code> in the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file to avoid unexpected incompatibility issues. See <a class="reference internal" href="../../reference/version-requirements.html"><span class="std std-doc">version requirements</span></a> for more details.</p>
+<p>Users should specify exact versions of uproot-custom and <code class="docutils literal notranslate"><span class="pre">pybind11</span></code> in the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file to avoid unexpected incompatibility issues. See <a class="reference internal" href="../../reference/version-requirements.html"><span class="std std-doc">version requirements</span></a> for more details.</p>
 </div>
 <section id="create-virtual-environment-and-install-the-project">
 <h2>Create virtual environment and install the project<a class="headerlink" href="#create-virtual-environment-and-install-the-project" title="Link to this heading">#</a></h2>
@@ -395,9 +395,9 @@ python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </s
 <p>You can now implement your own <code class="docutils literal notranslate"><span class="pre">factory</span></code> in the <code class="docutils literal notranslate"><span class="pre">my_reader</span></code> directory, and your own <code class="docutils literal notranslate"><span class="pre">reader</span></code> in the <code class="docutils literal notranslate"><span class="pre">cpp</span></code> directory. For summary, here is a checklist of what you need to do:</p>
 <ol class="arabic simple">
 <li><p>Invetigate the streamer information and binary format of your custom class. It is recommended to take a view at the binary data stored in the file, as explained in <a class="reference internal" href="binary-data.html#obtain-binary-data"><span class="std std-ref">Obtain branch binary data</span></a>.</p></li>
-<li><p>Look through the built-in factories/readers in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code>, design your own <code class="docutils literal notranslate"><span class="pre">factory</span></code>/<code class="docutils literal notranslate"><span class="pre">reader</span></code> based on them.</p></li>
+<li><p>Look through the built-in factories/readers in uproot-custom, design your own <code class="docutils literal notranslate"><span class="pre">factory</span></code>/<code class="docutils literal notranslate"><span class="pre">reader</span></code> based on them.</p></li>
 <li><p>Implement your own <code class="docutils literal notranslate"><span class="pre">factory</span></code> in Python, and <code class="docutils literal notranslate"><span class="pre">reader</span></code> in C++.</p></li>
-<li><p>Obtain the regularized object path of the branch you want <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> to interpret, add it to the <code class="docutils literal notranslate"><span class="pre">uproot_custom.AsCustom.target_branches</span></code>.</p></li>
+<li><p>Obtain the regularized object path of the branch you want uproot-custom to interpret, add it to the <code class="docutils literal notranslate"><span class="pre">uproot_custom.AsCustom.target_branches</span></code>.</p></li>
 </ol>
 </section>
 </section>

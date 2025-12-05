@@ -36,7 +36,7 @@ m_tstr                                   | TString                  | AsStrings(
 m_tarr_int                               | TArrayI                  | AsObjects(Model_TArrayI)
 ```
 
-This feature makes `uproot` easy to read most of the custom classes.
+This feature makes Uproot easy to read most of the custom classes.
 
 However, if we store `TCStyleArray` defined in [streamer information page](streamer-info.md) into `TTree`, the data members of `TSimpleObject` will not be splitted:
 
@@ -52,7 +52,7 @@ name                 | typename                 | interpretation
 m_simple_obj[3]      | TSimpleObject[][3]       | AsObjects(AsArray(False, False
 ```
 
-This case is more common when you are trying to use `uproot-custom`.
+This case is more common when you are trying to use uproot-custom.
 
 (obtain-binary-data)=
 ## Obtain branch binary data

@@ -171,7 +171,7 @@
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/use-built-in.html">Use built-in factories</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorial/customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/bootstrap.html">Bootstrap of custom classes reading in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/bootstrap.html">Bootstrap of custom classes reading in uproot-custom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/streamer-info.html">Streamer information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/binary-data.html">Binary data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
@@ -355,7 +355,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-register-target-branch-and-the-factory">Step 4: Register target branch and the <code class="docutils literal notranslate"><span class="pre">factory</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-read-data-with-uproot">Step 5: Read data with <code class="docutils literal notranslate"><span class="pre">uproot</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-read-data-with-uproot">Step 5: Read data with Uproot</a></li>
 </ul>
             </nav>
         </div>
@@ -373,7 +373,7 @@ document.write(`
 <p class="admonition-title">See also</p>
 <p>A full example can be found in the <a class="reference external" href="https://github.com/mrzimu/uproot-custom-example">example repository</a>.</p>
 </div>
-<p>We define a demo class <code class="docutils literal notranslate"><span class="pre">TOverrideStreamer</span></code> whose <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method is overridden to show how to read such classes using <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code>.</p>
+<p>We define a demo class <code class="docutils literal notranslate"><span class="pre">TOverrideStreamer</span></code> whose <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method is overridden to show how to read such classes using uproot-custom.</p>
 <p>There are 2 member variables in <code class="docutils literal notranslate"><span class="pre">TOverrideStreamer</span></code>: <code class="docutils literal notranslate"><span class="pre">m_int</span></code> and <code class="docutils literal notranslate"><span class="pre">m_double</span></code>:</p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">TOverrideStreamer.hh</span></code></span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
@@ -626,7 +626,7 @@ document.write(`
 </section>
 <section id="step-4-register-target-branch-and-the-factory">
 <h2>Step 4: Register target branch and the <code class="docutils literal notranslate"><span class="pre">factory</span></code><a class="headerlink" href="#step-4-register-target-branch-and-the-factory" title="Link to this heading">#</a></h2>
-<p>Finally, we need to register the branch we want to read with <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code>, and also register the <code class="docutils literal notranslate"><span class="pre">OverrideStreamerFactory</span></code> so that it can be used by <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code>.</p>
+<p>Finally, we need to register the branch we want to read with uproot-custom, and also register the <code class="docutils literal notranslate"><span class="pre">OverrideStreamerFactory</span></code> so that it can be used by uproot-custom.</p>
 <p>We can do this by adding the following code in the <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> of your package:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">registered_factories</span><span class="p">,</span> <span class="n">AsCustom</span>
 
@@ -639,8 +639,8 @@ document.write(`
 </div>
 </section>
 <section id="step-5-read-data-with-uproot">
-<h2>Step 5: Read data with <code class="docutils literal notranslate"><span class="pre">uproot</span></code><a class="headerlink" href="#step-5-read-data-with-uproot" title="Link to this heading">#</a></h2>
-<p>Now we can read the data using <code class="docutils literal notranslate"><span class="pre">uproot</span></code> as usual:</p>
+<h2>Step 5: Read data with Uproot<a class="headerlink" href="#step-5-read-data-with-uproot" title="Link to this heading">#</a></h2>
+<p>Now we can read the data using Uproot as usual:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;demo_data.root&quot;</span><span class="p">)[</span><span class="s2">&quot;my_tree:override_streamer&quot;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">array</span><span class="p">()</span>
 </pre></div>
@@ -703,7 +703,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-register-target-branch-and-the-factory">Step 4: Register target branch and the <code class="docutils literal notranslate"><span class="pre">factory</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-read-data-with-uproot">Step 5: Read data with <code class="docutils literal notranslate"><span class="pre">uproot</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-read-data-with-uproot">Step 5: Read data with Uproot</a></li>
 </ul>
   </nav></div>
 

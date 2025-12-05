@@ -171,7 +171,7 @@
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../use-built-in.html">Use built-in factories</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="bootstrap.html">Bootstrap of custom classes reading in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootstrap.html">Bootstrap of custom classes reading in uproot-custom</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Streamer information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="binary-data.html">Binary data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reader-and-factory.html">Reader and factory interface</a></li>
@@ -345,8 +345,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information-in-uproot">Streamer information in <code class="docutils literal notranslate"><span class="pre">uproot</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information-in-uproot-custom">Streamer information in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information-in-uproot">Streamer information in Uproot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information-in-uproot-custom">Streamer information in uproot-custom</a></li>
 </ul>
             </nav>
         </div>
@@ -412,8 +412,8 @@ document.write(`
 </div>
 <p>In the following sections, we will use <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code> and <code class="docutils literal notranslate"><span class="pre">TCStyleArray</span></code> as an example to illustrate how <code class="docutils literal notranslate"><span class="pre">ROOT</span></code> stores custom classes.</p>
 <section id="streamer-information-in-uproot">
-<h2>Streamer information in <code class="docutils literal notranslate"><span class="pre">uproot</span></code><a class="headerlink" href="#streamer-information-in-uproot" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">uproot</span></code> can read the streamer information stored in the file. To obtain all streamer information, you can use:</p>
+<h2>Streamer information in Uproot<a class="headerlink" href="#streamer-information-in-uproot" title="Link to this heading">#</a></h2>
+<p>Uproot can read the streamer information stored in the file. To obtain all streamer information, you can use:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
 
 <span class="n">f</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;file.root&quot;</span><span class="p">)</span>
@@ -444,7 +444,7 @@ document.write(`
 <p>The key <code class="docutils literal notranslate"><span class="pre">1</span></code> is the version number of <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code>, the value is corresponding <code class="docutils literal notranslate"><span class="pre">TStreamerInfo</span></code> object.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p>You can find all <code class="docutils literal notranslate"><span class="pre">uproot</span></code> streamer information classes in <a class="reference external" href="https://uproot.readthedocs.io/en/latest/uproot.streamers.html">the documentation</a>.</p>
+<p>You can find all Uproot streamer information classes in <a class="reference external" href="https://uproot.readthedocs.io/en/latest/uproot.streamers.html">the documentation</a>.</p>
 </div>
 <p>Using <code class="docutils literal notranslate"><span class="pre">show</span></code> method you can print the streamer information:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">streamer</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">streamers</span><span class="p">[</span><span class="s2">&quot;TSimpleObject&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
@@ -624,8 +624,8 @@ document.write(`
 </div>
 </section>
 <section id="streamer-information-in-uproot-custom">
-<h2>Streamer information in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code><a class="headerlink" href="#streamer-information-in-uproot-custom" title="Link to this heading">#</a></h2>
-<p>The streamer information in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> will be passed to <code class="docutils literal notranslate"><span class="pre">factory</span></code> to handle data members. To simplify the usage of streamer information, <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> rearranges the streamer information into a more convenient format: A dictionary of class names to the list of their data members’ streamer information.</p>
+<h2>Streamer information in uproot-custom<a class="headerlink" href="#streamer-information-in-uproot-custom" title="Link to this heading">#</a></h2>
+<p>The streamer information in uproot-custom will be passed to <code class="docutils literal notranslate"><span class="pre">factory</span></code> to handle data members. To simplify the usage of streamer information, uproot-custom rearranges the streamer information into a more convenient format: A dictionary of class names to the list of their data members’ streamer information.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p>You can find the concrete format of the rearranged streamer information in <a class="reference internal" href="reader-and-factory.html#method-build-factory"><span class="std std-ref">factory interface page</span></a>.</p>
@@ -650,7 +650,7 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Bootstrap of custom classes reading in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></p>
+        <p class="prev-next-title">Bootstrap of custom classes reading in uproot-custom</p>
       </div>
     </a>
     <a class="right-next"
@@ -678,8 +678,8 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information-in-uproot">Streamer information in <code class="docutils literal notranslate"><span class="pre">uproot</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information-in-uproot-custom">Streamer information in <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information-in-uproot">Streamer information in Uproot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information-in-uproot-custom">Streamer information in uproot-custom</a></li>
 </ul>
   </nav></div>
 
