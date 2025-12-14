@@ -356,16 +356,15 @@ namespace uproot {
         }
 
         /**
-         * @brief Read multiple elements from the buffer in member-wise fashion.
+         * @brief Read multiple elements from the buffer in member-wise fashion. Readers
+         * that need to handle member-wise data reading must implement this method.
          *
          * @param buffer The binary buffer to read from.
          * @param count Number of elements to read.
          * @return Number of elements read.
          */
         virtual uint32_t read_many_memberwise( BinaryBuffer& buffer, const int64_t count ) {
-            std::stringstream msg;
-            msg << name() << "::read_many_memberwise is not implemented." << count;
-            throw std::runtime_error( msg.str() );
+            throw std::runtime_error( name() + "::read_many_memberwise is not implemented." );
         }
     };
 
