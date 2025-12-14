@@ -170,7 +170,7 @@ class Factory:
         Build concrete C++ reader.
 
         Returns:
-            An instance of `uproot_custom.cpp.IReader`.
+            An instance of `uproot_custom.readers.cpp.IReader`.
         """
         raise NotImplementedError("build_cpp_reader not implemented.")
 

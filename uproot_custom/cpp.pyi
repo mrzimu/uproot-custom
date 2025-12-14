@@ -1,12 +1,15 @@
+"""
+Type stubs for uproot_custom.cpp.
+
+At present, this module contains only type hints for C++ reader
+classes used in uproot for parsing ROOT file formats.
+"""
+
 from __future__ import annotations
 
 import numpy as np
 
-class BinaryParser:
-    def __init__(self): ...
-
 class IReader:
-    def read(self, bparser: BinaryParser): ...
     def data(self): ...
 
 class UInt8Reader(IReader):
