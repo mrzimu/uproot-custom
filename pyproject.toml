@@ -66,6 +66,7 @@ build-dir = "build"
 
 [dependency-groups]
 dev = ["pytest", "pytest-subtests"]
+ipynb = ["ipykernel"]
 docs = [
     "sphinx",
     "sphinx-book-theme",
