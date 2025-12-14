@@ -171,6 +171,7 @@ class BinaryBuffer:
             width, _ = shutil.get_terminal_size()
             width = max(40, width - 4)
         except:
+            # Ignore errors if terminal size cannot be determined; use default width
             pass
 
         wrapper = textwrap.TextWrapper(
