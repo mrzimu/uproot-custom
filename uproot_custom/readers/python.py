@@ -213,7 +213,7 @@ class IReader:
             count >= 0
         ), f"Calling {self.name}.read_many_memberwise with negative count: {count} is not allowed"
 
-        return self.read_many(buffer)
+        return self.read_many(buffer, count)
 
 
 DTYPE_TO_TYPECODE = {
