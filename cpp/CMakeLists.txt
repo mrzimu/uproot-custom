@@ -35,7 +35,7 @@ if(DEFINED SKBUILD_PROJECT_NAME)
 
     install(
         TARGETS cpp
-        LIBRARY DESTINATION ${SKBUILD_PROJECT_NAME}/backends/
+        LIBRARY DESTINATION ${SKBUILD_PROJECT_NAME}/readers/
     )
 
     install( # header files
