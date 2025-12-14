@@ -366,11 +366,11 @@ namespace uproot {
                                               "supported when with_header is true!" );
 
                 auto fNBytes       = buffer.read_fNBytes();
+                auto end_pos       = buffer.get_cursor() + fNBytes;
                 auto fVersion      = buffer.read_fVersion();
                 bool is_memberwise = fVersion & kStreamedMemberWise;
                 check_objwise_memberwise( is_memberwise );
                 if ( is_memberwise ) buffer.skip( 2 );
-                auto end_pos = buffer.get_cursor() + fNBytes - 2; //
 
                 uint32_t cur_count = 0;
                 while ( buffer.get_cursor() < end_pos )
@@ -1039,13 +1039,14 @@ namespace uproot {
          * @param buffer The binary buffer to read from.
          */
         void read( BinaryBuffer& buffer ) override {
-            auto nbytes  = buffer.read_fNBytes();
-            auto end_pos = buffer.get_cursor() + nbytes;
+            auto nbytes    = buffer.read_fNBytes();
+            auto start_pos = buffer.get_cursor();
+            auto end_pos   = buffer.get_cursor() + nbytes;
 
             auto fTag = buffer.read<int32_t>();
-            if ( fTag == -1 ) { auto fTypename = buffer.read_null_terminated_string(); }
+            if ( fTag == kNewClassTag )
+            { auto fTypename = buffer.read_null_terminated_string(); }
 
-            auto start_pos = buffer.get_cursor();
             m_element_reader->read( buffer );
 
             if ( buffer.get_cursor() != end_pos )
@@ -1110,7 +1111,7 @@ namespace uproot {
                           m_flat_size );
             debug_printf( buffer );
 
-            if ( m_flat_size > 0 ) { m_element_reader->read_many( buffer, m_flat_size ); }
+            if ( m_flat_size >= 0 ) { m_element_reader->read_many( buffer, m_flat_size ); }
             else
             {
                 // get end-position
@@ -1179,7 +1180,7 @@ namespace uproot {
          * m_element_reader. Otherwise, return a tuple contains: (offsets, elements_data).
          */
         py::object data() const override {
-            if ( m_flat_size > 0 ) return m_element_reader->data();
+            if ( m_flat_size >= 0 ) return m_element_reader->data();
             else
             {
                 auto offsets_array = make_array( m_offsets );

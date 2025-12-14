@@ -65,7 +65,8 @@ source-dir = "docs"
 build-dir = "build"
 
 [dependency-groups]
-dev = ["pytest"]
+dev = ["pytest", "pytest-subtests"]
+ipynb = ["ipykernel"]
 docs = [
     "sphinx",
     "sphinx-book-theme",
