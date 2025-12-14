@@ -225,8 +225,8 @@ DTYPE_TO_TYPECODE = {
     "i2": "h",
     "i4": "i",
     "i8": "q",
-    "float": "f",
-    "double": "d",
+    "f": "f",
+    "d": "d",
     "bool": "B",
 }
 
@@ -239,8 +239,8 @@ DTYPE_TO_READER: dict[str, Callable[[BinaryBuffer], int]] = {
     "i2": BinaryBuffer.read_int16,
     "i4": BinaryBuffer.read_int32,
     "i8": BinaryBuffer.read_int64,
-    "float": BinaryBuffer.read_float,
-    "double": BinaryBuffer.read_double,
+    "f": BinaryBuffer.read_float,
+    "d": BinaryBuffer.read_double,
     "bool": BinaryBuffer.read_bool,
 }
 
@@ -303,7 +303,7 @@ class TObjectReader(IReader):
         return unique_id_array, bits_array, pidf_array, pidf_offsets_array
 
 
-class TSTringReader(IReader):
+class TStringReader(IReader):
     def __init__(self, name: str, with_header: bool):
         super().__init__(name)
         self.with_header = with_header
@@ -814,7 +814,8 @@ class CStyleArrayReader(IReader):
         else:
             entry_offsets = buffer.offsets
             cursor_pos = buffer.cursor
-            end_pos = (entry_offsets > cursor_pos).nonzero()[0].min()
+            end_offset_index = (entry_offsets > cursor_pos).nonzero()[0].min()
+            end_pos = entry_offsets[end_offset_index]
 
             count = self.element_reader.read_until(buffer, end_pos)
             self.offsets.append(self.offsets[-1] + count)
@@ -861,7 +862,7 @@ def read_data(data: NDArray[np.uint8], offsets: NDArray[np.uint32], reader: IRea
         reader.read(buffer)
         end_pos = buffer.cursor
 
-        assert end_pos - start_pos == offsets[i_evt + 1] - offsets[i_evt], (
+        assert end_pos == offsets[i_evt + 1], (
             f"read_data: Invalid read length for {reader.name} at entry {i_evt}! Expect "
             f"{buffer.offsets[i_evt + 1]-buffer.offsets[i_evt]} bytes, but read {end_pos - start_pos} bytes."
         )
