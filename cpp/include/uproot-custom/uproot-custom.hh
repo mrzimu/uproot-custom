@@ -356,22 +356,15 @@ namespace uproot {
         }
 
         /**
-         * @brief Read multiple elements from the buffer in member-wise fashion. This method
-         * checks for negative count and calls @ref read_many() by default. It can be
-         * overridden to handle member-wise reading more efficiently.
+         * @brief Read multiple elements from the buffer in member-wise fashion. Readers
+         * that need to handle member-wise data reading must implement this method.
          *
          * @param buffer The binary buffer to read from.
          * @param count Number of elements to read.
          * @return Number of elements read.
          */
         virtual uint32_t read_many_memberwise( BinaryBuffer& buffer, const int64_t count ) {
-            if ( count < 0 )
-            {
-                std::stringstream msg;
-                msg << name() << "::read_many_memberwise with negative count: " << count;
-                throw std::runtime_error( msg.str() );
-            }
-            return read_many( buffer, count );
+            throw std::runtime_error( name() + "::read_many_memberwise is not implemented." );
         }
     };
 
