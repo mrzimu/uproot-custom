@@ -1,6 +1,7 @@
 import pytest
 
 import uproot_custom
+import uproot_custom.factories
 
 test_branches = {
     "/my_tree:basic_types/m_bool",
@@ -306,10 +307,24 @@ uproot_custom.AsCustom.target_branches |= test_branches
 
 
 @pytest.mark.parametrize("sub_branch_path", test_branches)
-def test_AsCustom_arrays(f_test_data, sub_branch_path):
+def test_AsCustom_cpp_arrays(f_test_data, sub_branch_path):
+    uproot_custom.factories.reader_backend = "cpp"
     f_test_data[sub_branch_path].arrays()
 
 
 @pytest.mark.parametrize("sub_branch_path", test_branches)
-def test_AsCustom_virtual(f_test_data, sub_branch_path):
+def test_AsCustom_cpp_virtual(f_test_data, sub_branch_path):
+    uproot_custom.factories.reader_backend = "cpp"
+    f_test_data[sub_branch_path].arrays(virtual=True)
+
+
+@pytest.mark.parametrize("sub_branch_path", test_branches)
+def test_AsCustom_py_arrays(f_test_data, sub_branch_path):
+    uproot_custom.factories.reader_backend = "python"
+    f_test_data[sub_branch_path].arrays()
+
+
+@pytest.mark.parametrize("sub_branch_path", test_branches)
+def test_AsCustom_py_virtual(f_test_data, sub_branch_path):
+    uproot_custom.factories.reader_backend = "python"
     f_test_data[sub_branch_path].arrays(virtual=True)

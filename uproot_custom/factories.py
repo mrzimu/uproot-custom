@@ -9,7 +9,8 @@ import awkward.index
 import numpy as np
 import uproot
 
-import uproot_custom.cpp
+import uproot_custom.backends.cpp
+import uproot_custom.backends.python
 from uproot_custom.utils import (
     get_dims_from_branch,
     get_map_key_val_typenames,
@@ -18,6 +19,7 @@ from uproot_custom.utils import (
 )
 
 registered_factories: set[type["Factory"]] = set()
+reader_backend: Literal["cpp", "python"] = "cpp"
 
 
 def build_factory(
@@ -79,12 +81,21 @@ def read_branch(
         called_from_top=True,
         branch=branch,
     )
-    reader = factory.build_cpp_reader()
 
     if offsets is None:
         nbyte = cur_streamer_info["fSize"]
         offsets = np.arange(data.size // nbyte + 1, dtype=np.uint32) * nbyte
-    raw_data = uproot_custom.cpp.read_data(data, offsets, reader)
+
+    if reader_backend == "cpp":
+        reader = factory.build_cpp_reader()
+        raw_data = uproot_custom.backends.cpp.read_data(data, offsets, reader)
+
+    elif reader_backend == "python":
+        reader = factory.build_python_reader()
+        raw_data = uproot_custom.backends.python.read_data(data, offsets, reader)
+
+    else:
+        raise ValueError(f"Unknown reader backend: {reader_backend}.")
 
     return factory.make_awkward_content(raw_data)
 
@@ -154,7 +165,7 @@ class Factory:
     def __init__(self, name: str):
         self.name = name
 
-    def build_cpp_reader(self) -> uproot_custom.cpp.IReader:
+    def build_cpp_reader(self) -> uproot_custom.backends.cpp.IReader:
         """
         Build concrete C++ reader.
 
@@ -162,6 +173,15 @@ class Factory:
             An instance of `uproot_custom.cpp.IReader`.
         """
         raise NotImplementedError("build_cpp_reader not implemented.")
+
+    def build_python_reader(self) -> uproot_custom.backends.python.IReader:
+        """
+        Build concrete Python reader.
+
+        Returns:
+            An instance of `uproot_custom.python.IReader`.
+        """
+        raise NotImplementedError("build_python_reader not implemented.")
 
     def make_awkward_content(
         self,
@@ -246,17 +266,17 @@ class PrimitiveFactory(Factory):
     }
 
     cpp_reader_map = {
-        "bool": uproot_custom.cpp.BoolReader,
-        "i1": uproot_custom.cpp.Int8Reader,
-        "i2": uproot_custom.cpp.Int16Reader,
-        "i4": uproot_custom.cpp.Int32Reader,
-        "i8": uproot_custom.cpp.Int64Reader,
-        "u1": uproot_custom.cpp.UInt8Reader,
-        "u2": uproot_custom.cpp.UInt16Reader,
-        "u4": uproot_custom.cpp.UInt32Reader,
-        "u8": uproot_custom.cpp.UInt64Reader,
-        "f": uproot_custom.cpp.FloatReader,
-        "d": uproot_custom.cpp.DoubleReader,
+        "bool": uproot_custom.backends.cpp.BoolReader,
+        "i1": uproot_custom.backends.cpp.Int8Reader,
+        "i2": uproot_custom.backends.cpp.Int16Reader,
+        "i4": uproot_custom.backends.cpp.Int32Reader,
+        "i8": uproot_custom.backends.cpp.Int64Reader,
+        "u1": uproot_custom.backends.cpp.UInt8Reader,
+        "u2": uproot_custom.backends.cpp.UInt16Reader,
+        "u4": uproot_custom.backends.cpp.UInt32Reader,
+        "u8": uproot_custom.backends.cpp.UInt64Reader,
+        "f": uproot_custom.backends.cpp.FloatReader,
+        "d": uproot_custom.backends.cpp.DoubleReader,
     }
 
     ctype_primitive_map = {
@@ -300,6 +320,9 @@ class PrimitiveFactory(Factory):
 
     def build_cpp_reader(self):
         return self.cpp_reader_map[self.ctype](self.name)
+
+    def build_python_reader(self):
+        return uproot_custom.backends.python.PrimitiveReader(self.name, self.ctype)
 
     def make_awkward_content(self, raw_data: np.ndarray):
         if self.ctype == "bool":
@@ -393,13 +416,21 @@ class STLSeqFactory(Factory):
         self.element_factory = element_factory
 
     def build_cpp_reader(self):
-        element_cpp_reader = self.element_factory.build_cpp_reader()
-
-        return uproot_custom.cpp.STLSeqReader(
+        element_reader = self.element_factory.build_cpp_reader()
+        return uproot_custom.backends.cpp.STLSeqReader(
             self.name,
             self.with_header,
             self.objwise_or_memberwise,
-            element_cpp_reader,
+            element_reader,
+        )
+
+    def build_python_reader(self):
+        element_reader = self.element_factory.build_python_reader()
+        return uproot_custom.backends.python.STLSeqReader(
+            self.name,
+            self.with_header,
+            self.objwise_or_memberwise,
+            element_reader,
         )
 
     def make_awkward_content(self, raw_data):
@@ -489,12 +520,30 @@ class STLMapFactory(Factory):
         key_cpp_reader = self.key_factory.build_cpp_reader()
         val_cpp_reader = self.val_factory.build_cpp_reader()
 
-        return uproot_custom.cpp.STLMapReader(
+        return uproot_custom.backends.cpp.STLMapReader(
             self.name,
             self.with_header,
             self.objwise_or_memberwise,
             key_cpp_reader,
             val_cpp_reader,
+        )
+
+    def build_python_reader(self):
+        is_obj_wise = self.objwise_or_memberwise == 0
+
+        if is_obj_wise:
+            self.key_factory.with_header = False
+            self.val_factory.with_header = False
+
+        key_python_reader = self.key_factory.build_python_reader()
+        val_python_reader = self.val_factory.build_python_reader()
+
+        return uproot_custom.backends.python.STLMapReader(
+            self.name,
+            self.with_header,
+            self.objwise_or_memberwise,
+            key_python_reader,
+            val_python_reader,
         )
 
     def make_awkward_content(self, raw_data):
@@ -549,7 +598,13 @@ class STLStringFactory(Factory):
         self.with_header = with_header
 
     def build_cpp_reader(self):
-        return uproot_custom.cpp.STLStringReader(
+        return uproot_custom.backends.cpp.STLStringReader(
+            self.name,
+            self.with_header,
+        )
+
+    def build_python_reader(self):
+        return uproot_custom.backends.python.STLStringReader(
             self.name,
             self.with_header,
         )
@@ -612,13 +667,16 @@ class TArrayFactory(Factory):
 
     def build_cpp_reader(self):
         return {
-            "i1": uproot_custom.cpp.TArrayCReader,
-            "i2": uproot_custom.cpp.TArraySReader,
-            "i4": uproot_custom.cpp.TArrayIReader,
-            "i8": uproot_custom.cpp.TArrayLReader,
-            "f": uproot_custom.cpp.TArrayFReader,
-            "d": uproot_custom.cpp.TArrayDReader,
+            "i1": uproot_custom.backends.cpp.TArrayCReader,
+            "i2": uproot_custom.backends.cpp.TArraySReader,
+            "i4": uproot_custom.backends.cpp.TArrayIReader,
+            "i8": uproot_custom.backends.cpp.TArrayLReader,
+            "f": uproot_custom.backends.cpp.TArrayFReader,
+            "d": uproot_custom.backends.cpp.TArrayDReader,
         }[self.ctype](self.name)
+
+    def build_python_reader(self):
+        return uproot_custom.backends.python.TArrayReader(self.name, self.ctype)
 
     def make_awkward_content(self, raw_data):
         offsets, data = raw_data
@@ -661,7 +719,10 @@ class TStringFactory(Factory):
         self.with_header = with_header
 
     def build_cpp_reader(self):
-        return uproot_custom.cpp.TStringReader(self.name, self.with_header)
+        return uproot_custom.backends.cpp.TStringReader(self.name, self.with_header)
+
+    def build_python_reader(self):
+        return uproot_custom.backends.python.TStringReader(self.name, self.with_header)
 
     def make_awkward_content(self, raw_data):
         offsets, data = raw_data
@@ -722,7 +783,13 @@ class TObjectFactory(Factory):
         self.keep_data = keep_data
 
     def build_cpp_reader(self):
-        return uproot_custom.cpp.TObjectReader(
+        return uproot_custom.backends.cpp.TObjectReader(
+            self.name,
+            self.keep_data,
+        )
+
+    def build_python_reader(self):
+        return uproot_custom.backends.python.TObjectReader(
             self.name,
             self.keep_data,
         )
@@ -861,7 +928,15 @@ class CStyleArrayFactory(Factory):
 
     def build_cpp_reader(self):
         element_reader = self.element_factory.build_cpp_reader()
-        return uproot_custom.cpp.CStyleArrayReader(
+        return uproot_custom.backends.cpp.CStyleArrayReader(
+            self.name,
+            self.flat_size,
+            element_reader,
+        )
+
+    def build_python_reader(self):
+        element_reader = self.element_factory.build_python_reader()
+        return uproot_custom.backends.python.CStyleArrayReader(
             self.name,
             self.flat_size,
             element_reader,
@@ -937,7 +1012,11 @@ class GroupFactory(Factory):
 
     def build_cpp_reader(self):
         sub_readers = [s.build_cpp_reader() for s in self.sub_factories]
-        return uproot_custom.cpp.GroupReader(self.name, sub_readers)
+        return uproot_custom.backends.cpp.GroupReader(self.name, sub_readers)
+
+    def build_python_reader(self):
+        sub_readers = [s.build_python_reader() for s in self.sub_factories]
+        return uproot_custom.backends.python.GroupReader(self.name, sub_readers)
 
     def make_awkward_content(self, raw_data):
         sub_configs = self.sub_factories
@@ -1006,7 +1085,11 @@ class BaseObjectFactory(GroupFactory):
 
     def build_cpp_reader(self):
         sub_readers = [s.build_cpp_reader() for s in self.sub_factories]
-        return uproot_custom.cpp.GroupReader(self.name, sub_readers)
+        return uproot_custom.backends.cpp.GroupReader(self.name, sub_readers)
+
+    def build_python_reader(self):
+        sub_readers = [s.build_python_reader() for s in self.sub_factories]
+        return uproot_custom.backends.python.GroupReader(self.name, sub_readers)
 
 
 class AnyClassFactory(GroupFactory):
@@ -1033,7 +1116,11 @@ class AnyClassFactory(GroupFactory):
 
     def build_cpp_reader(self):
         sub_readers = [s.build_cpp_reader() for s in self.sub_factories]
-        return uproot_custom.cpp.AnyClassReader(self.name, sub_readers)
+        return uproot_custom.backends.cpp.AnyClassReader(self.name, sub_readers)
+
+    def build_python_reader(self):
+        sub_readers = [s.build_python_reader() for s in self.sub_factories]
+        return uproot_custom.backends.python.AnyClassReader(self.name, sub_readers)
 
 
 class ObjectHeaderFactory(Factory):
@@ -1068,7 +1155,11 @@ class ObjectHeaderFactory(Factory):
 
     def build_cpp_reader(self):
         element_reader = self.element_factory.build_cpp_reader()
-        return uproot_custom.cpp.ObjectHeaderReader(self.name, element_reader)
+        return uproot_custom.backends.cpp.ObjectHeaderReader(self.name, element_reader)
+
+    def build_python_reader(self):
+        element_reader = self.element_factory.build_python_reader()
+        return uproot_custom.backends.python.ObjectHeaderReader(self.name, element_reader)
 
     def make_awkward_content(self, raw_data):
         return self.element_factory.make_awkward_content(raw_data)
@@ -1098,7 +1189,10 @@ class EmptyFactory(Factory):
         return None
 
     def build_cpp_reader(self):
-        return uproot_custom.cpp.EmptyReader(self.name)
+        return uproot_custom.backends.cpp.EmptyReader(self.name)
+
+    def build_python_reader(self):
+        return uproot_custom.backends.python.EmptyReader(self.name)
 
     def make_awkward_content(self, raw_data):
         return awkward.contents.EmptyArray()
