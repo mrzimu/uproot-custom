@@ -210,11 +210,7 @@ class IReader:
         return count
 
     def read_many_memberwise(self, buffer: BinaryBuffer, count: int) -> int:
-        assert (
-            count >= 0
-        ), f"Calling {self.name}.read_many_memberwise with negative count: {count} is not allowed"
-
-        return self.read_many(buffer, count)
+        raise NotImplementedError
 
 
 DTYPE_TO_TYPECODE = {
