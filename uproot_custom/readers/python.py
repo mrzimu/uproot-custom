@@ -170,7 +170,7 @@ class BinaryBuffer:
         try:
             width, _ = shutil.get_terminal_size()
             width = max(40, width - 4)
-        except:
+        except Exception:
             # Ignore errors if terminal size cannot be determined; use default width
             pass
 

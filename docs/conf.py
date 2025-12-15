@@ -2,6 +2,8 @@
 #
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
+import sys
+from pathlib import Path
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -69,9 +71,6 @@ gettext_compact = False  # Do not compact message files
 language = "en"  # Default language
 
 # -- Options for autodoc ---------------------------------------------------------
-import sys
-from pathlib import Path
-
 sys.path.insert(0, str(Path(__file__).parent.parent.resolve()))
 
 apidoc_modules = [
@@ -121,7 +120,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent.resolve() / "doxygen" / "xml
 def run_doxygen():
     """Run the doxygen make command in the designated folder."""
     import subprocess
-    import os
 
     doxygen_file = Path(__file__).parent / "Doxyfile"
     working_dir = doxygen_file.parent

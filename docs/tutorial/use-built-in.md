@@ -136,9 +136,9 @@ f["my_tree/cstyle_array/m_vec_double[3]"].show()
 ---
 caption: Output
 ---
-name                 | typename                 | interpretation                
+name                 | typename                 | interpretation
 ---------------------+--------------------------+-------------------------------
-m_vec_double[3]      | vector<double>[][3]      | AsCustom(vector<double>[][3]) 
+m_vec_double[3]      | vector<double>[][3]      | AsCustom(vector<double>[][3])
 ```
 
 Note that the interpretation is `AsCustom(vector<double>[][3])`, which means uproot-custom is used to read this branch.

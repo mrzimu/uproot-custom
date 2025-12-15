@@ -1,87 +1,86 @@
 [build-system]
-requires = ["scikit-build-core", "pybind11==3.0.*"]
 build-backend = "scikit_build_core.build"
+requires = ["scikit-build-core", "pybind11==3.0.*"]
+
+[dependency-groups]
+dev = ["pytest", "pytest-subtests", "pre-commit"]
+docs = [
+  "sphinx",
+  "sphinx-book-theme",
+  "myst_parser",
+  "sphinx-design",
+  "sphinx-copybutton",
+  "sphinxext-rediraffe",
+  "sphinxext-opengraph",
+  "sphinx-tippy",
+  "sphinx-togglebutton",
+  "sphinxcontrib-mermaid",
+  "sphinx-autobuild",
+  "sphinx-intl",
+  "breathe"
+]
+ipynb = ["ipykernel"]
 
 [project]
-name = "uproot-custom"
-authors = [{ name = "Mingrun Li", email = "mrli@ihep.ac.cn" }]
-description = "uproot extension for reading custom classes"
-requires-python = ">=3.9, <3.14"
-dependencies = ["uproot>=5.6.7", "numpy", "awkward>=2.8.0"]
-readme = "README.md"
-dynamic = ["version"]
+authors = [{name = "Mingrun Li", email = "mrli@ihep.ac.cn"}]
 classifiers = [
-    "Development Status :: 3 - Alpha",
-    "Intended Audience :: Developers",
-    "Intended Audience :: Information Technology",
-    "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: BSD License",
-    "Operating System :: MacOS",
-    "Operating System :: POSIX",
-    "Operating System :: Unix",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-    "Topic :: Scientific/Engineering",
-    "Topic :: Scientific/Engineering :: Information Analysis",
-    "Topic :: Scientific/Engineering :: Mathematics",
-    "Topic :: Scientific/Engineering :: Physics",
-    "Topic :: Software Development",
-    "Topic :: Utilities",
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Information Technology",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: BSD License",
+  "Operating System :: MacOS",
+  "Operating System :: POSIX",
+  "Operating System :: Unix",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+  "Topic :: Scientific/Engineering :: Mathematics",
+  "Topic :: Scientific/Engineering :: Physics",
+  "Topic :: Software Development",
+  "Topic :: Utilities"
 ]
+dependencies = ["uproot>=5.6.7", "numpy", "awkward>=2.8.0"]
+description = "uproot extension for reading custom classes"
+dynamic = ["version"]
+name = "uproot-custom"
+readme = "README.md"
+requires-python = ">=3.9, <3.14"
+urls = {"Homepage" = "https://github.com/mrzimu/uproot-custom"}
 
-urls = { "Homepage" = "https://github.com/mrzimu/uproot-custom" }
-
-[tool.scikit-build]
-build-dir = "build/{wheel_tag}"
-metadata.version.provider = "scikit_build_core.metadata.setuptools_scm"
-sdist.exclude = ["tools"]
-sdist.include = ["uproot_custom/_version.py"]
-wheel.packages = ["uproot_custom"]
-cmake.source-dir = "cpp"
-cmake.build-type = "Release"
-
-[tool.setuptools_scm]
-write_to = "uproot_custom/_version.py"
+[project.entry-points."cmake.root"]
+uproot-custom = "uproot_custom.share.cmake"
 
 [tool.black]
 exclude = "/(build|dist|env|.git|.tox|.eggs|.venv)/"
 line-length = 95
 target-version = ["py39", "py310", "py311", "py312", "py313"]
 
-[project.entry-points."cmake.root"]
-uproot-custom = "uproot_custom.share.cmake"
-
 [tool.cibuildwheel]
 build = ["cp*-manylinux_x86_64", "cp*-macosx_arm64", "cp*-win_amd64"]
 
-[tool.sphinx]
-source-dir = "docs"
-build-dir = "build"
+[tool.scikit-build]
+build-dir = "build/{wheel_tag}"
+cmake.build-type = "Release"
+cmake.source-dir = "cpp"
+metadata.version.provider = "scikit_build_core.metadata.setuptools_scm"
+sdist.exclude = ["tools"]
+sdist.include = ["uproot_custom/_version.py"]
+wheel.packages = ["uproot_custom"]
 
-[dependency-groups]
-dev = ["pytest", "pytest-subtests"]
-ipynb = ["ipykernel"]
-docs = [
-    "sphinx",
-    "sphinx-book-theme",
-    "myst_parser",
-    "sphinx-design",
-    "sphinx-copybutton",
-    "sphinxext-rediraffe",
-    "sphinxext-opengraph",
-    "sphinx-tippy",
-    "sphinx-togglebutton",
-    "sphinxcontrib-mermaid",
-    "sphinx-autobuild",
-    "sphinx-intl",
-    "breathe",
-]
+[tool.setuptools_scm]
+write_to = "uproot_custom/_version.py"
+
+[tool.sphinx]
+build-dir = "build"
+source-dir = "docs"
 
 [tool.uv]
 default-groups = "all"

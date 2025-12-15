@@ -1,34 +1,34 @@
 name: Deploy docs
 
 on:
-    workflow_dispatch:
-    workflow_call:
+  workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: write
 
 jobs:
-    deploy-docs:
-        runs-on: ubuntu-latest
-        steps:
-        - uses: actions/checkout@v4
+  deploy-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-        - uses: astral-sh/setup-uv@v5
-          with:
-            python-version: "3.13"
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: '3.13'
 
-        - name: Install dependencies
-          run: |
-            sudo apt-get update
-            sudo apt-get install -y doxygen
-            uv sync --group=docs
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen
+          uv sync --group=docs
 
-        - name: Build docs
-          run: |
-            sphinx-build -b html docs/ build/html
+      - name: Build docs
+        run: |
+          sphinx-build -b html docs/ build/html
 
-        - name: Deploy to GitHub Pages
-          uses: peaceiris/actions-gh-pages@v3
-          with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            publish_dir: ./build/html
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/html

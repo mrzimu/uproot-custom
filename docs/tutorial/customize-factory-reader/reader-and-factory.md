@@ -198,7 +198,7 @@ It receives following parameters:
 
     For other type of data members, such as STL containers or nested classes, some other attributes may be present.
 
-- `all_streamer_info: dict`: A `dict` mapping all available streamer names to their members' streamer info `dict`. 
+- `all_streamer_info: dict`: A `dict` mapping all available streamer names to their members' streamer info `dict`.
 
     `factory` can use this information to look up the streamer info of any nested classes.
 
