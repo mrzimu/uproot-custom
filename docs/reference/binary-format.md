@@ -12,7 +12,7 @@ These formats are summarized by me, and may not be complete or accurate. If you 
 
 ## C-style arrays and `std::array`
 
-C-style arrays are those data members defined as `T m_data[N]`. When data members are stored as C-style arrays or `std::array`, the streaming rules may be different. In the following sections, both cases are listed. 
+C-style arrays are those data members defined as `T m_data[N]`. When data members are stored as C-style arrays or `std::array`, the streaming rules may be different. In the following sections, both cases are listed.
 
 For both C-style arrays and `std::array`, you can identify them by checking the `fArrayDim` field in the streamer information. `fArrayDim` indicates the number of dimensions of the array. The concrete dimensions are stored in the `fMaxIndex` field as an array of 5 integers.
 
@@ -163,4 +163,3 @@ caption: Binary format
 ```
 ````
 `````
-

@@ -884,7 +884,7 @@ class CStyleArrayFactory(Factory):
         if isinstance(element_factory, TStringFactory) and fArrayDim != 0:
             element_factory.with_header = True
 
-        assert flat_size != 0, f"flatten_size cannot be 0."
+        assert flat_size != 0, "flatten_size cannot be 0."
 
         # When stored in std::array
         # [1] There is no header for vector and map.

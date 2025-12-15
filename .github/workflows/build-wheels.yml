@@ -1,44 +1,44 @@
 name: Build wheels
 
 on:
-    workflow_dispatch:
-    workflow_call:
+  workflow_dispatch:
+  workflow_call:
 
 jobs:
-    test-package:
-        uses: ./.github/workflows/test-package.yml
+  test-package:
+    uses: ./.github/workflows/test-package.yml
 
-    build-wheels:
-        needs: test-package
-        runs-on: ${{ matrix.os }}
-        name: Build wheels on ${{ matrix.os }}
-        strategy:
-            matrix:
-                os: [ubuntu-latest, windows-latest, macos-latest]
+  build-wheels:
+    needs: test-package
+    runs-on: ${{ matrix.os }}
+    name: Build wheels on ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
-        steps:
-        - uses: actions/checkout@v4
+    steps:
+      - uses: actions/checkout@v4
 
-        - name: Build wheels
-          uses: pypa/cibuildwheel@v3.1.3
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v3.1.3
 
-        - name: Upload distributions
-          uses: actions/upload-artifact@v4
-          with:
-                name: ci-wheels-${{ matrix.os }}-${{ strategy.job-index }}
-                path: ./wheelhouse/*.whl
+      - name: Upload distributions
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-wheels-${{ matrix.os }}-${{ strategy.job-index }}
+          path: ./wheelhouse/*.whl
 
-    build-sdist:
-        needs: test-package
-        name: Build source distribution
-        runs-on: ubuntu-latest
-        steps:
-        - uses: actions/checkout@v4
+  build-sdist:
+    needs: test-package
+    name: Build source distribution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-        - name: Build sdist
-          run: pipx run build --sdist
+      - name: Build sdist
+        run: pipx run build --sdist
 
-        - uses: actions/upload-artifact@v4
-          with:
-            name: ci-sdist
-            path: dist/*.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ci-sdist
+          path: dist/*.tar.gz

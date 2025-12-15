@@ -397,7 +397,7 @@ def make_awkward_form(self):
 
 ## Step 4: Register target branch and the `factory`
 
-Finally, register the branch we want to read with uproot-custom, and also register the `TObjArrayFactory` so that it can be used by uproot-custom. 
+Finally, register the branch we want to read with uproot-custom, and also register the `TObjArrayFactory` so that it can be used by uproot-custom.
 
 We can do this by adding the following code in the `__init__.py` of your package:
 
