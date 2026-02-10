@@ -25,3 +25,24 @@ from uproot_custom.utils import regularize_object_path
 
 # register interpretations
 uproot.register_interpretation(AsCustom)
+
+__all__ = [
+    "AsCustom",
+    "AnyClassFactory",
+    "BaseObjectFactory",
+    "CStyleArrayFactory",
+    "EmptyFactory",
+    "Factory",
+    "GroupFactory",
+    "ObjectHeaderFactory",
+    "PrimitiveFactory",
+    "STLMapFactory",
+    "STLSeqFactory",
+    "STLStringFactory",
+    "TArrayFactory",
+    "TObjectFactory",
+    "TStringFactory",
+    "build_factory",
+    "registered_factories",
+    "regularize_object_path",
+]

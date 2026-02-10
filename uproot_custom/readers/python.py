@@ -31,7 +31,7 @@ class BinaryBuffer:
         offsets: NDArray[np.uint32],
         repr_nbytes: int = 50,
     ):
-        self.data = data
+        self.data = data.tobytes()
         self.offsets = offsets
         self.cursor = 0
         self.repr_nbytes = repr_nbytes
@@ -45,52 +45,52 @@ class BinaryBuffer:
         return self.data[self.cursor :]
 
     def read_uint8(self) -> int:
-        val = struct.unpack_from(">B", self.remaining_data)[0]
+        val = struct.unpack_from(">B", self.data, self.cursor)[0]
         self.cursor += 1
         return val
 
     def read_uint16(self) -> int:
-        val = struct.unpack_from(">H", self.remaining_data)[0]
+        val = struct.unpack_from(">H", self.data, self.cursor)[0]
         self.cursor += 2
         return val
 
     def read_uint32(self) -> int:
-        val = struct.unpack_from(">I", self.remaining_data)[0]
+        val = struct.unpack_from(">I", self.data, self.cursor)[0]
         self.cursor += 4
         return val
 
     def read_uint64(self) -> int:
-        val = struct.unpack_from(">Q", self.remaining_data)[0]
+        val = struct.unpack_from(">Q", self.data, self.cursor)[0]
         self.cursor += 8
         return val
 
     def read_int8(self) -> int:
-        val = struct.unpack_from(">b", self.remaining_data)[0]
+        val = struct.unpack_from(">b", self.data, self.cursor)[0]
         self.cursor += 1
         return val
 
     def read_int16(self) -> int:
-        val = struct.unpack_from(">h", self.remaining_data)[0]
+        val = struct.unpack_from(">h", self.data, self.cursor)[0]
         self.cursor += 2
         return val
 
     def read_int32(self) -> int:
-        val = struct.unpack_from(">i", self.remaining_data)[0]
+        val = struct.unpack_from(">i", self.data, self.cursor)[0]
         self.cursor += 4
         return val
 
     def read_int64(self) -> int:
-        val = struct.unpack_from(">q", self.remaining_data)[0]
+        val = struct.unpack_from(">q", self.data, self.cursor)[0]
         self.cursor += 8
         return val
 
     def read_float(self) -> float:
-        val = struct.unpack_from(">f", self.remaining_data)[0]
+        val = struct.unpack_from(">f", self.data, self.cursor)[0]
         self.cursor += 4
         return val
 
     def read_double(self) -> float:
-        val = struct.unpack_from(">d", self.remaining_data)[0]
+        val = struct.unpack_from(">d", self.data, self.cursor)[0]
         self.cursor += 8
         return val
 
@@ -170,7 +170,7 @@ class BinaryBuffer:
         try:
             width, _ = shutil.get_terminal_size()
             width = max(40, width - 4)
-        except:
+        except Exception:
             # Ignore errors if terminal size cannot be determined; use default width
             pass
 

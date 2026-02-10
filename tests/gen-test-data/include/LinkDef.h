@@ -4,7 +4,6 @@
 // #  pragma link off all classes;
 // #  pragma link off all functions;
 
-#    pragma link C++ class TOverrideStreamer - ;
 #    pragma link C++ class TComplicatedSTL + ;
 #    pragma link C++ class TSimpleObject + ;
 #    pragma link C++ class TCStyleArray + ;
