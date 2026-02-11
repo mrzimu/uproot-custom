@@ -38,3 +38,5 @@ This table summarizes the required `pybind11` versions for each uproot-custom ve
 | uproot-custom | pybind11 |
 | :-----------: | :------: |
 | `2.0`         | `3.0`    |
+| `2.1`         | `3.0`    |
+| `2.2`		    | `3.0`    |
