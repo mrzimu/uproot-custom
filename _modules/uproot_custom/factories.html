@@ -175,10 +175,11 @@ window.addEventListener("load", () => mermaid.run());
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/use-built-in.html">Use built-in factories</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorial/customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/bootstrap.html">Bootstrap of custom classes reading in uproot-custom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/streamer-info.html">Streamer information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/binary-data.html">Binary data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
@@ -190,10 +191,14 @@ window.addEventListener("load", () => mermaid.run());
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../reference/version-requirements.html">Version requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../reference/binary-format.html">Binary format of common classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/reader-backends.html">Reader backends</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../reference/api.html">API documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../reference/api/cpp-api.html">C++ API reference</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../reference/api/uproot-custom-ref.html">Module reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../reference/api/uproot_custom.html">Python reference</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../reference/api/uproot_custom.html">Python reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="../../reference/api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
@@ -318,7 +323,8 @@ document.write(`
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.cpp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.readers.cpp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.readers.python</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">get_dims_from_branch</span><span class="p">,</span>
     <span class="n">get_map_key_val_typenames</span><span class="p">,</span>
@@ -327,6 +333,7 @@ document.write(`
 <span class="p">)</span>
 
 <span class="n">registered_factories</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="s2">&quot;Factory&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="n">reader_backend</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;cpp&quot;</span><span class="p">,</span> <span class="s2">&quot;python&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;cpp&quot;</span>
 
 
 <div class="viewcode-block" id="build_factory">
@@ -393,12 +400,21 @@ document.write(`
         <span class="n">called_from_top</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">branch</span><span class="o">=</span><span class="n">branch</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">reader</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">offsets</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">nbyte</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fSize&quot;</span><span class="p">]</span>
         <span class="n">offsets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="n">nbyte</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span> <span class="o">*</span> <span class="n">nbyte</span>
-    <span class="n">raw_data</span> <span class="o">=</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">reader_backend</span> <span class="o">==</span> <span class="s2">&quot;cpp&quot;</span><span class="p">:</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span>
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">reader_backend</span> <span class="o">==</span> <span class="s2">&quot;python&quot;</span><span class="p">:</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span>
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown reader backend: </span><span class="si">{</span><span class="n">reader_backend</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">factory</span><span class="o">.</span><span class="n">make_awkward_content</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span></div>
 
@@ -482,14 +498,26 @@ document.write(`
 
 <div class="viewcode-block" id="Factory.build_cpp_reader">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.Factory.build_cpp_reader">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">IReader</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">IReader</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Build concrete C++ reader.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            An instance of `uproot_custom.cpp.IReader`.</span>
+<span class="sd">            An instance of `uproot_custom.readers.cpp.IReader`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;build_cpp_reader not implemented.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Factory.build_python_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.Factory.build_python_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">IReader</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build concrete Python reader.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            An instance of `uproot_custom.python.IReader`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;build_python_reader not implemented.&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Factory.make_awkward_content">
@@ -584,17 +612,17 @@ document.write(`
     <span class="p">}</span>
 
     <span class="n">cpp_reader_map</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;bool&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">BoolReader</span><span class="p">,</span>
-        <span class="s2">&quot;i1&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">Int8Reader</span><span class="p">,</span>
-        <span class="s2">&quot;i2&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">Int16Reader</span><span class="p">,</span>
-        <span class="s2">&quot;i4&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">Int32Reader</span><span class="p">,</span>
-        <span class="s2">&quot;i8&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">Int64Reader</span><span class="p">,</span>
-        <span class="s2">&quot;u1&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">UInt8Reader</span><span class="p">,</span>
-        <span class="s2">&quot;u2&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">UInt16Reader</span><span class="p">,</span>
-        <span class="s2">&quot;u4&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">UInt32Reader</span><span class="p">,</span>
-        <span class="s2">&quot;u8&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">UInt64Reader</span><span class="p">,</span>
-        <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">FloatReader</span><span class="p">,</span>
-        <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">DoubleReader</span><span class="p">,</span>
+        <span class="s2">&quot;bool&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">BoolReader</span><span class="p">,</span>
+        <span class="s2">&quot;i1&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">Int8Reader</span><span class="p">,</span>
+        <span class="s2">&quot;i2&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">Int16Reader</span><span class="p">,</span>
+        <span class="s2">&quot;i4&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">Int32Reader</span><span class="p">,</span>
+        <span class="s2">&quot;i8&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">Int64Reader</span><span class="p">,</span>
+        <span class="s2">&quot;u1&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">UInt8Reader</span><span class="p">,</span>
+        <span class="s2">&quot;u2&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">UInt16Reader</span><span class="p">,</span>
+        <span class="s2">&quot;u4&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">UInt32Reader</span><span class="p">,</span>
+        <span class="s2">&quot;u8&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">UInt64Reader</span><span class="p">,</span>
+        <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">FloatReader</span><span class="p">,</span>
+        <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">DoubleReader</span><span class="p">,</span>
     <span class="p">}</span>
 
     <span class="n">ctype_primitive_map</span> <span class="o">=</span> <span class="p">{</span>
@@ -643,6 +671,12 @@ document.write(`
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory.build_cpp_reader">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpp_reader_map</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ctype</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PrimitiveFactory.build_python_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory.build_python_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">PrimitiveReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctype</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="PrimitiveFactory.make_awkward_content">
@@ -751,13 +785,24 @@ document.write(`
 <div class="viewcode-block" id="STLSeqFactory.build_cpp_reader">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLSeqFactory.build_cpp_reader">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">element_cpp_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span>
-
-        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">STLSeqReader</span><span class="p">(</span>
+        <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">STLSeqReader</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span><span class="p">,</span>
-            <span class="n">element_cpp_reader</span><span class="p">,</span>
+            <span class="n">element_reader</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLSeqFactory.build_python_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLSeqFactory.build_python_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">STLSeqReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span><span class="p">,</span>
+            <span class="n">element_reader</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
@@ -862,12 +907,33 @@ document.write(`
         <span class="n">key_cpp_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_factory</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span>
         <span class="n">val_cpp_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">val_factory</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">STLMapReader</span><span class="p">(</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">STLMapReader</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span><span class="p">,</span>
             <span class="n">key_cpp_reader</span><span class="p">,</span>
             <span class="n">val_cpp_reader</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLMapFactory.build_python_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLMapFactory.build_python_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">is_obj_wise</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">==</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="n">is_obj_wise</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">key_factory</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">val_factory</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">key_python_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_factory</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span>
+        <span class="n">val_python_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">val_factory</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">STLMapReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span><span class="p">,</span>
+            <span class="n">key_python_reader</span><span class="p">,</span>
+            <span class="n">val_python_reader</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
@@ -937,7 +1003,16 @@ document.write(`
 <div class="viewcode-block" id="STLStringFactory.build_cpp_reader">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLStringFactory.build_cpp_reader">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">STLStringReader</span><span class="p">(</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">STLStringReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLStringFactory.build_python_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLStringFactory.build_python_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">STLStringReader</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">,</span>
         <span class="p">)</span></div>
@@ -1015,13 +1090,19 @@ document.write(`
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TArrayFactory.build_cpp_reader">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">&quot;i1&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayCReader</span><span class="p">,</span>
-            <span class="s2">&quot;i2&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArraySReader</span><span class="p">,</span>
-            <span class="s2">&quot;i4&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayIReader</span><span class="p">,</span>
-            <span class="s2">&quot;i8&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayLReader</span><span class="p">,</span>
-            <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayFReader</span><span class="p">,</span>
-            <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayDReader</span><span class="p">,</span>
+            <span class="s2">&quot;i1&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayCReader</span><span class="p">,</span>
+            <span class="s2">&quot;i2&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArraySReader</span><span class="p">,</span>
+            <span class="s2">&quot;i4&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayIReader</span><span class="p">,</span>
+            <span class="s2">&quot;i8&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayLReader</span><span class="p">,</span>
+            <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayFReader</span><span class="p">,</span>
+            <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayDReader</span><span class="p">,</span>
         <span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">ctype</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TArrayFactory.build_python_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TArrayFactory.build_python_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">TArrayReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctype</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TArrayFactory.make_awkward_content">
@@ -1079,7 +1160,13 @@ document.write(`
 <div class="viewcode-block" id="TStringFactory.build_cpp_reader">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TStringFactory.build_cpp_reader">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TStringReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TStringReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TStringFactory.build_python_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TStringFactory.build_python_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">TStringReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TStringFactory.make_awkward_content">
@@ -1155,7 +1242,16 @@ document.write(`
 <div class="viewcode-block" id="TObjectFactory.build_cpp_reader">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TObjectFactory.build_cpp_reader">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TObjectReader</span><span class="p">(</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TObjectReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">keep_data</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TObjectFactory.build_python_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TObjectFactory.build_python_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">TObjectReader</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">keep_data</span><span class="p">,</span>
         <span class="p">)</span></div>
@@ -1265,7 +1361,7 @@ document.write(`
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">element_factory</span><span class="p">,</span> <span class="n">TStringFactory</span><span class="p">)</span> <span class="ow">and</span> <span class="n">fArrayDim</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">element_factory</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="kc">True</span>
 
-        <span class="k">assert</span> <span class="n">flat_size</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;flatten_size cannot be 0.&quot;</span>
+        <span class="k">assert</span> <span class="n">flat_size</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;flatten_size cannot be 0.&quot;</span>
 
         <span class="c1"># When stored in std::array</span>
         <span class="c1"># [1] There is no header for vector and map.</span>
@@ -1312,7 +1408,18 @@ document.write(`
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory.build_cpp_reader">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">CStyleArrayReader</span><span class="p">(</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">CStyleArrayReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flat_size</span><span class="p">,</span>
+            <span class="n">element_reader</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CStyleArrayFactory.build_python_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory.build_python_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">CStyleArrayReader</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">flat_size</span><span class="p">,</span>
             <span class="n">element_reader</span><span class="p">,</span>
@@ -1403,7 +1510,14 @@ document.write(`
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.GroupFactory.build_cpp_reader">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">sub_readers</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">GroupReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">GroupReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GroupFactory.build_python_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.GroupFactory.build_python_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sub_readers</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">GroupReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GroupFactory.make_awkward_content">
@@ -1487,7 +1601,14 @@ document.write(`
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.BaseObjectFactory.build_cpp_reader">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">sub_readers</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">GroupReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">GroupReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseObjectFactory.build_python_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.BaseObjectFactory.build_python_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sub_readers</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">GroupReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span></div>
 </div>
 
 
@@ -1526,7 +1647,14 @@ document.write(`
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.AnyClassFactory.build_cpp_reader">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">sub_readers</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">AnyClassReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">AnyClassReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AnyClassFactory.build_python_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.AnyClassFactory.build_python_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sub_readers</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">AnyClassReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span></div>
 </div>
 
 
@@ -1570,7 +1698,14 @@ document.write(`
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.build_cpp_reader">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">ObjectHeaderReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">element_reader</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">ObjectHeaderReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">element_reader</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ObjectHeaderFactory.build_python_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.build_python_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">ObjectHeaderReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">element_reader</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ObjectHeaderFactory.make_awkward_content">
@@ -1615,7 +1750,13 @@ document.write(`
 <div class="viewcode-block" id="EmptyFactory.build_cpp_reader">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.EmptyFactory.build_cpp_reader">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">EmptyReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">EmptyReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EmptyFactory.build_python_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.EmptyFactory.build_python_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">EmptyReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="EmptyFactory.make_awkward_content">

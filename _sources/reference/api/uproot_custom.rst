@@ -1,6 +1,14 @@
 uproot\_custom package
 ======================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 10
+
+   uproot_custom.readers
+
 Submodules
 ----------
 

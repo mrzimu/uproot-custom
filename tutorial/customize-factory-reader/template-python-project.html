@@ -168,10 +168,11 @@
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../use-built-in.html">Use built-in factories</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="bootstrap.html">Bootstrap of custom classes reading in uproot-custom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streamer-info.html">Streamer information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="binary-data.html">Binary data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reader-and-factory.html">Reader and factory interface</a></li>
@@ -183,10 +184,14 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../reference/version-requirements.html">Version requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../reference/binary-format.html">Binary format of common classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/reader-backends.html">Reader backends</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../reference/api.html">API documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../reference/api/cpp-api.html">C++ API reference</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../reference/api/uproot-custom-ref.html">Module reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../reference/api/uproot_custom.html">Python reference</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../reference/api/uproot_custom.html">Python reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="../../reference/api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
@@ -374,7 +379,10 @@ document.write(`
 <p>You can rename the root directory <code class="docutils literal notranslate"><span class="pre">uproot-custom-example-0.1.0</span></code> to your project name.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Users should specify exact versions of uproot-custom and <code class="docutils literal notranslate"><span class="pre">pybind11</span></code> in the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file to avoid unexpected incompatibility issues. See <a class="reference internal" href="../../reference/version-requirements.html"><span class="std std-doc">version requirements</span></a> for more details.</p>
+<p>Specify exact versions of uproot-custom and <code class="docutils literal notranslate"><span class="pre">pybind11</span></code> in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> to
+avoid incompatibility during build. <code class="docutils literal notranslate"><span class="pre">pybind11</span></code> is build-time only: do not ship
+or import it at runtime, otherwise reader loading may fail. See
+<a class="reference internal" href="../../reference/version-requirements.html"><span class="std std-doc">version requirements</span></a> for details.</p>
 </div>
 <section id="create-virtual-environment-and-install-the-project">
 <h2>Create virtual environment and install the project<a class="headerlink" href="#create-virtual-environment-and-install-the-project" title="Link to this heading">#</a></h2>
@@ -388,16 +396,23 @@ python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </s
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
 </div>
-<p>Any change in the Python source files will be reflected immediately, but changes in the C++ source files require rebuilding the extension by running <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code> again.</p>
+<p>Any change in the Python source files is picked up immediately. Changes in the
+C++ sources require rebuilding the extension (run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code> again) so
+that the compiled module is refreshed.</p>
 </section>
 <section id="implement-your-own-factory-and-reader">
 <h2>Implement your own factory and reader<a class="headerlink" href="#implement-your-own-factory-and-reader" title="Link to this heading">#</a></h2>
 <p>You can now implement your own <code class="docutils literal notranslate"><span class="pre">factory</span></code> in the <code class="docutils literal notranslate"><span class="pre">my_reader</span></code> directory, and your own <code class="docutils literal notranslate"><span class="pre">reader</span></code> in the <code class="docutils literal notranslate"><span class="pre">cpp</span></code> directory. For summary, here is a checklist of what you need to do:</p>
 <ol class="arabic simple">
-<li><p>Invetigate the streamer information and binary format of your custom class. It is recommended to take a view at the binary data stored in the file, as explained in <a class="reference internal" href="binary-data.html#obtain-binary-data"><span class="std std-ref">Obtain branch binary data</span></a>.</p></li>
-<li><p>Look through the built-in factories/readers in uproot-custom, design your own <code class="docutils literal notranslate"><span class="pre">factory</span></code>/<code class="docutils literal notranslate"><span class="pre">reader</span></code> based on them.</p></li>
+<li><p>Investigate the streamer information and binary format of your custom
+class. It is recommended to inspect the stored binary data, as explained in
+<a class="reference internal" href="binary-data.html#obtain-binary-data"><span class="std std-ref">Obtain branch binary data</span></a>.</p></li>
+<li><p>Look through the built-in factories/readers in uproot-custom, design your own
+<code class="docutils literal notranslate"><span class="pre">factory</span></code>/<code class="docutils literal notranslate"><span class="pre">reader</span></code> based on them.</p></li>
 <li><p>Implement your own <code class="docutils literal notranslate"><span class="pre">factory</span></code> in Python, and <code class="docutils literal notranslate"><span class="pre">reader</span></code> in C++.</p></li>
-<li><p>Obtain the regularized object path of the branch you want uproot-custom to interpret, add it to the <code class="docutils literal notranslate"><span class="pre">uproot_custom.AsCustom.target_branches</span></code>.</p></li>
+<li><p>Obtain the regularized object path of the branch you want uproot-custom to
+interpret, add it to <code class="docutils literal notranslate"><span class="pre">uproot_custom.AsCustom.target_branches</span></code> before
+opening the file.</p></li>
 </ol>
 </section>
 </section>

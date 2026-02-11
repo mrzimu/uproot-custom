@@ -168,10 +168,11 @@
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../use-built-in.html">Use built-in factories</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="bootstrap.html">Bootstrap of custom classes reading in uproot-custom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streamer-info.html">Streamer information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="binary-data.html">Binary data</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Reader and factory interface</a></li>
@@ -183,10 +184,14 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../reference/version-requirements.html">Version requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../reference/binary-format.html">Binary format of common classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/reader-backends.html">Reader backends</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../reference/api.html">API documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../reference/api/cpp-api.html">C++ API reference</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../reference/api/uproot-custom-ref.html">Module reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../reference/api/uproot_custom.html">Python reference</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../reference/api/uproot_custom.html">Python reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="../../reference/api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
@@ -376,12 +381,16 @@ document.write(`
                   
   <section id="reader-and-factory-interface">
 <h1>Reader and factory interface<a class="headerlink" href="#reader-and-factory-interface" title="Link to this heading">#</a></h1>
-<p>Uproot-custom uses a <code class="docutils literal notranslate"><span class="pre">reader</span></code>/<code class="docutils literal notranslate"><span class="pre">factory</span></code> mechanism to balance performance and flexibility. <code class="docutils literal notranslate"><span class="pre">reader</span></code>s are implemented in C++, do the actual reading from binary stream. <code class="docutils literal notranslate"><span class="pre">factory</span></code>s are implemented in Python, manage <code class="docutils literal notranslate"><span class="pre">reader</span></code>s, and reconstruct the final <code class="docutils literal notranslate"><span class="pre">awkward</span></code> array.</p>
+<p>Uproot-custom uses a <code class="docutils literal notranslate"><span class="pre">reader</span></code>/<code class="docutils literal notranslate"><span class="pre">factory</span></code> mechanism to balance performance and
+flexibility. <code class="docutils literal notranslate"><span class="pre">reader</span></code>s are implemented in C++ and read the binary stream.
+<code class="docutils literal notranslate"><span class="pre">factory</span></code>s are implemented in Python, manage <code class="docutils literal notranslate"><span class="pre">reader</span></code>s, and reconstruct the
+final <code class="docutils literal notranslate"><span class="pre">awkward</span></code> array.</p>
 <section id="reader-interface">
 <h2>Reader interface<a class="headerlink" href="#reader-interface" title="Link to this heading">#</a></h2>
 <section id="base-class-ireader">
 <h3>Base class: <code class="docutils literal notranslate"><span class="pre">IReader</span></code><a class="headerlink" href="#base-class-ireader" title="Link to this heading">#</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">reader</span></code> in C++ should derive from the <code class="docutils literal notranslate"><span class="pre">IReader</span></code> interface, which has two pure virtual methods:</p>
+<p><code class="docutils literal notranslate"><span class="pre">reader</span></code> in C++ should derive from the <code class="docutils literal notranslate"><span class="pre">IReader</span></code> interface, which has two pure
+virtual methods:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">read</span></code>: called by parent <code class="docutils literal notranslate"><span class="pre">reader</span></code> to read data from the binary stream.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">data</span></code>: called after reading is done, to return the read-out data in <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays or any Python nested containers filled with <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays.</p></li>
@@ -536,7 +545,7 @@ document.write(`
 </section>
 <section id="class-method-build-factory">
 <span id="method-build-factory"></span><h3>Class method <code class="docutils literal notranslate"><span class="pre">build_factory</span></code><a class="headerlink" href="#class-method-build-factory" title="Link to this heading">#</a></h3>
-<p>This method is called when instatiating factories. It should be a class method.</p>
+<p>This method is called when instantiating factories. It should be a class method.</p>
 <p>It receives following parameters:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">top_type_name:</span> <span class="pre">str</span></code>: The top-level type name of current data member.</p>
@@ -607,7 +616,9 @@ document.write(`
 </section>
 <section id="method-build-cpp-reader">
 <h3>Method <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code><a class="headerlink" href="#method-build-cpp-reader" title="Link to this heading">#</a></h3>
-<p>This method is called to instatiate the C++ reader. For non-bottom-level factories, it should also instatiate sub-readers for nested data members and combine them together to the parent reader.</p>
+<p>This method is called to instantiate the C++ reader. For non-bottom-level
+factories, it should also instantiate sub-readers for nested data members and
+combine them together to the parent reader.</p>
 </section>
 <section id="method-make-awkward-content">
 <h3>Method <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code><a class="headerlink" href="#method-make-awkward-content" title="Link to this heading">#</a></h3>

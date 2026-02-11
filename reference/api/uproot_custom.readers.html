@@ -1,0 +1,1420 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>uproot_custom.readers package &#8212; uproot-custom</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/uproot_custom.readers';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="uproot_custom.cpp module" href="cpp-module.html" />
+    <link rel="prev" title="uproot_custom package" href="uproot_custom.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">uproot-custom</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../index.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/use-built-in.html">Use built-in factories</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorial/customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/streamer-info.html">Streamer information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/binary-data.html">Binary data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/template-python-project.html">Template Python project</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../version-requirements.html">Version requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../binary-format.html">Binary format of common classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reader-backends.html">Reader backends</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../api.html">API documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="cpp-api.html">C++ API reference</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="uproot-custom-ref.html">Module reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="uproot_custom.html">Python reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">uproot_custom.readers package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="cpp-module.html">C++ reference</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../example/override-streamer.html">Example 1: <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method is overridden</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example/read-tobjarray.html">Example 2: Read <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> with unique known type</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/reference/api/uproot_custom.readers.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>uproot_custom.readers package</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.readers.cpp">uproot_custom.readers.cpp module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.AnyClassReader"><code class="docutils literal notranslate"><span class="pre">AnyClassReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.BoolReader"><code class="docutils literal notranslate"><span class="pre">BoolReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.CStyleArrayReader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.DoubleReader"><code class="docutils literal notranslate"><span class="pre">DoubleReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.EmptyReader"><code class="docutils literal notranslate"><span class="pre">EmptyReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.FloatReader"><code class="docutils literal notranslate"><span class="pre">FloatReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.GroupReader"><code class="docutils literal notranslate"><span class="pre">GroupReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.IReader"><code class="docutils literal notranslate"><span class="pre">IReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.IReader.name"><code class="docutils literal notranslate"><span class="pre">IReader.name()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.Int16Reader"><code class="docutils literal notranslate"><span class="pre">Int16Reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.Int32Reader"><code class="docutils literal notranslate"><span class="pre">Int32Reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.Int64Reader"><code class="docutils literal notranslate"><span class="pre">Int64Reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.Int8Reader"><code class="docutils literal notranslate"><span class="pre">Int8Reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.ObjectHeaderReader"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.STLMapReader"><code class="docutils literal notranslate"><span class="pre">STLMapReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.STLSeqReader"><code class="docutils literal notranslate"><span class="pre">STLSeqReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.STLStringReader"><code class="docutils literal notranslate"><span class="pre">STLStringReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.TArrayCReader"><code class="docutils literal notranslate"><span class="pre">TArrayCReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.TArrayDReader"><code class="docutils literal notranslate"><span class="pre">TArrayDReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.TArrayFReader"><code class="docutils literal notranslate"><span class="pre">TArrayFReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.TArrayIReader"><code class="docutils literal notranslate"><span class="pre">TArrayIReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.TArrayLReader"><code class="docutils literal notranslate"><span class="pre">TArrayLReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.TArraySReader"><code class="docutils literal notranslate"><span class="pre">TArraySReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.TObjectReader"><code class="docutils literal notranslate"><span class="pre">TObjectReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.TStringReader"><code class="docutils literal notranslate"><span class="pre">TStringReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.UInt16Reader"><code class="docutils literal notranslate"><span class="pre">UInt16Reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.UInt32Reader"><code class="docutils literal notranslate"><span class="pre">UInt32Reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.UInt64Reader"><code class="docutils literal notranslate"><span class="pre">UInt64Reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.UInt8Reader"><code class="docutils literal notranslate"><span class="pre">UInt8Reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.read_data"><code class="docutils literal notranslate"><span class="pre">read_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.readers.python">uproot_custom.readers.python module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.AnyClassReader"><code class="docutils literal notranslate"><span class="pre">AnyClassReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.AnyClassReader.data"><code class="docutils literal notranslate"><span class="pre">AnyClassReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.AnyClassReader.read"><code class="docutils literal notranslate"><span class="pre">AnyClassReader.read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.AnyClassReader.read_many_memberwise"><code class="docutils literal notranslate"><span class="pre">AnyClassReader.read_many_memberwise()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.entries"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.entries</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_TString"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_TString()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_bool"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_bool()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_double"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_double()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_fNBytes"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_fNBytes()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_fVersion"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_fVersion()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_float"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_float()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_int16"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_int16()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_int32"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_int32()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_int64"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_int64()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_int8"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_int8()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_null_terminated_string"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_null_terminated_string()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_obj_header"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_obj_header()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_uint16"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_uint16()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_uint32"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_uint32()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_uint64"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_uint64()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_uint8"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_uint8()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.remaining_data"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.remaining_data</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.skip"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.skip()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.skip_TObject"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.skip_TObject()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.skip_fNBytes"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.skip_fNBytes()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.skip_fVersion"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.skip_fVersion()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.skip_null_terminated_string"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.skip_null_terminated_string()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.skip_obj_header"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.skip_obj_header()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.CStyleArrayReader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.CStyleArrayReader.data"><code class="docutils literal notranslate"><span class="pre">CStyleArrayReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.CStyleArrayReader.read"><code class="docutils literal notranslate"><span class="pre">CStyleArrayReader.read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.CStyleArrayReader.read_many"><code class="docutils literal notranslate"><span class="pre">CStyleArrayReader.read_many()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.CStyleArrayReader.read_until"><code class="docutils literal notranslate"><span class="pre">CStyleArrayReader.read_until()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.EmptyReader"><code class="docutils literal notranslate"><span class="pre">EmptyReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.EmptyReader.data"><code class="docutils literal notranslate"><span class="pre">EmptyReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.EmptyReader.read"><code class="docutils literal notranslate"><span class="pre">EmptyReader.read()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.GroupReader"><code class="docutils literal notranslate"><span class="pre">GroupReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.GroupReader.data"><code class="docutils literal notranslate"><span class="pre">GroupReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.GroupReader.read"><code class="docutils literal notranslate"><span class="pre">GroupReader.read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.GroupReader.read_many_memberwise"><code class="docutils literal notranslate"><span class="pre">GroupReader.read_many_memberwise()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.IReader"><code class="docutils literal notranslate"><span class="pre">IReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.IReader.data"><code class="docutils literal notranslate"><span class="pre">IReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.IReader.read"><code class="docutils literal notranslate"><span class="pre">IReader.read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.IReader.read_many"><code class="docutils literal notranslate"><span class="pre">IReader.read_many()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.IReader.read_many_memberwise"><code class="docutils literal notranslate"><span class="pre">IReader.read_many_memberwise()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.IReader.read_until"><code class="docutils literal notranslate"><span class="pre">IReader.read_until()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.ObjectHeaderReader"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.ObjectHeaderReader.data"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.ObjectHeaderReader.read"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader.read()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.PrimitiveReader"><code class="docutils literal notranslate"><span class="pre">PrimitiveReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.PrimitiveReader.data"><code class="docutils literal notranslate"><span class="pre">PrimitiveReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.PrimitiveReader.read"><code class="docutils literal notranslate"><span class="pre">PrimitiveReader.read()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLMapReader"><code class="docutils literal notranslate"><span class="pre">STLMapReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLMapReader.check_objwise_memberwise"><code class="docutils literal notranslate"><span class="pre">STLMapReader.check_objwise_memberwise()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLMapReader.data"><code class="docutils literal notranslate"><span class="pre">STLMapReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLMapReader.read"><code class="docutils literal notranslate"><span class="pre">STLMapReader.read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLMapReader.read_body"><code class="docutils literal notranslate"><span class="pre">STLMapReader.read_body()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLMapReader.read_many"><code class="docutils literal notranslate"><span class="pre">STLMapReader.read_many()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLMapReader.read_many_memberwise"><code class="docutils literal notranslate"><span class="pre">STLMapReader.read_many_memberwise()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLMapReader.read_until"><code class="docutils literal notranslate"><span class="pre">STLMapReader.read_until()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLSeqReader"><code class="docutils literal notranslate"><span class="pre">STLSeqReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLSeqReader.check_objwise_memberwise"><code class="docutils literal notranslate"><span class="pre">STLSeqReader.check_objwise_memberwise()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLSeqReader.data"><code class="docutils literal notranslate"><span class="pre">STLSeqReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLSeqReader.read"><code class="docutils literal notranslate"><span class="pre">STLSeqReader.read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLSeqReader.read_body"><code class="docutils literal notranslate"><span class="pre">STLSeqReader.read_body()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLSeqReader.read_many"><code class="docutils literal notranslate"><span class="pre">STLSeqReader.read_many()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLSeqReader.read_until"><code class="docutils literal notranslate"><span class="pre">STLSeqReader.read_until()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLStringReader"><code class="docutils literal notranslate"><span class="pre">STLStringReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLStringReader.data"><code class="docutils literal notranslate"><span class="pre">STLStringReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLStringReader.read"><code class="docutils literal notranslate"><span class="pre">STLStringReader.read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLStringReader.read_body"><code class="docutils literal notranslate"><span class="pre">STLStringReader.read_body()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLStringReader.read_many"><code class="docutils literal notranslate"><span class="pre">STLStringReader.read_many()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLStringReader.read_until"><code class="docutils literal notranslate"><span class="pre">STLStringReader.read_until()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TArrayReader"><code class="docutils literal notranslate"><span class="pre">TArrayReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TArrayReader.data"><code class="docutils literal notranslate"><span class="pre">TArrayReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TArrayReader.read"><code class="docutils literal notranslate"><span class="pre">TArrayReader.read()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TObjectReader"><code class="docutils literal notranslate"><span class="pre">TObjectReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TObjectReader.data"><code class="docutils literal notranslate"><span class="pre">TObjectReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TObjectReader.read"><code class="docutils literal notranslate"><span class="pre">TObjectReader.read()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TStringReader"><code class="docutils literal notranslate"><span class="pre">TStringReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TStringReader.data"><code class="docutils literal notranslate"><span class="pre">TStringReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TStringReader.read"><code class="docutils literal notranslate"><span class="pre">TStringReader.read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TStringReader.read_many"><code class="docutils literal notranslate"><span class="pre">TStringReader.read_many()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TStringReader.read_until"><code class="docutils literal notranslate"><span class="pre">TStringReader.read_until()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.debug_print"><code class="docutils literal notranslate"><span class="pre">debug_print()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.read_data"><code class="docutils literal notranslate"><span class="pre">read_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.readers">Module contents</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="uproot-custom-readers-package">
+<h1>uproot_custom.readers package<a class="headerlink" href="#uproot-custom-readers-package" title="Link to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+</section>
+<section id="module-uproot_custom.readers.cpp">
+<span id="uproot-custom-readers-cpp-module"></span><h2>uproot_custom.readers.cpp module<a class="headerlink" href="#module-uproot_custom.readers.cpp" title="Link to this heading">#</a></h2>
+<p>Type stubs for ROOT C++ reader classes.</p>
+<p>This file contains only type hints without implementations.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.AnyClassReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">AnyClassReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.AnyClassReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.BoolReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">BoolReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.BoolReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.CStyleArrayReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">CStyleArrayReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.CStyleArrayReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.DoubleReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">DoubleReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.DoubleReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.EmptyReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">EmptyReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.EmptyReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.FloatReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">FloatReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.FloatReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.GroupReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">GroupReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.GroupReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.IReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">IReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.IReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.IReader.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><span class="pre">uproot_custom.cpp.IReader</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#uproot_custom.readers.cpp.IReader.name" title="Link to this definition">#</a></dt>
+<dd><p>Get the name of the reader</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.Int16Reader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">Int16Reader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.Int16Reader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.Int32Reader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">Int32Reader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.Int32Reader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.Int64Reader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">Int64Reader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.Int64Reader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.Int8Reader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">Int8Reader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.Int8Reader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.ObjectHeaderReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">ObjectHeaderReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.ObjectHeaderReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.STLMapReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">STLMapReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.STLMapReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.STLSeqReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">STLSeqReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.STLSeqReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.STLStringReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">STLStringReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.STLStringReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.TArrayCReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">TArrayCReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.TArrayCReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.TArrayDReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">TArrayDReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.TArrayDReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.TArrayFReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">TArrayFReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.TArrayFReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.TArrayIReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">TArrayIReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.TArrayIReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.TArrayLReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">TArrayLReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.TArrayLReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.TArraySReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">TArraySReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.TArraySReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.TObjectReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">TObjectReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.TObjectReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.TStringReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">TStringReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.TStringReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.UInt16Reader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">UInt16Reader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.UInt16Reader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.UInt32Reader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">UInt32Reader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.UInt32Reader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.UInt64Reader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">UInt64Reader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.UInt64Reader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.UInt8Reader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">UInt8Reader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.UInt8Reader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="uproot_custom.readers.cpp.read_data">
+<span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">read_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data:</span> <span class="pre">typing.Annotated[numpy.typing.ArrayLike,</span> <span class="pre">numpy.uint8],</span> <span class="pre">offsets:</span> <span class="pre">typing.Annotated[numpy.typing.ArrayLike,</span> <span class="pre">numpy.uint32],</span> <span class="pre">reader:</span> <span class="pre">uproot::IReader</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="headerlink" href="#uproot_custom.readers.cpp.read_data" title="Link to this definition">#</a></dt>
+<dd><p>Read data from a binary buffer</p>
+</dd></dl>
+
+</section>
+<section id="module-uproot_custom.readers.python">
+<span id="uproot-custom-readers-python-module"></span><h2>uproot_custom.readers.python module<a class="headerlink" href="#module-uproot_custom.readers.python" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.AnyClassReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.python.</span></span><span class="sig-name descname"><span class="pre">AnyClassReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_readers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><span class="pre">IReader</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#AnyClassReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.AnyClassReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.AnyClassReader.data">
+<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#AnyClassReader.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.AnyClassReader.data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.AnyClassReader.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.readers.python.BinaryBuffer" title="uproot_custom.readers.python.BinaryBuffer"><span class="pre">BinaryBuffer</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#AnyClassReader.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.AnyClassReader.read" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.AnyClassReader.read_many_memberwise">
+<span class="sig-name descname"><span class="pre">read_many_memberwise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#AnyClassReader.read_many_memberwise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.AnyClassReader.read_many_memberwise" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.python.</span></span><span class="sig-name descname"><span class="pre">BinaryBuffer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">uint8</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offsets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">uint32</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repr_nbytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.entries">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">entries</span></span><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.entries" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.read_TString">
+<span class="sig-name descname"><span class="pre">read_TString</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.read_TString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.read_TString" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.read_bool">
+<span class="sig-name descname"><span class="pre">read_bool</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.read_bool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.read_bool" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.read_double">
+<span class="sig-name descname"><span class="pre">read_double</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.read_double"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.read_double" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.read_fNBytes">
+<span class="sig-name descname"><span class="pre">read_fNBytes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">uint32</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.read_fNBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.read_fNBytes" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.read_fVersion">
+<span class="sig-name descname"><span class="pre">read_fVersion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.read_fVersion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.read_fVersion" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.read_float">
+<span class="sig-name descname"><span class="pre">read_float</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.read_float"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.read_float" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.read_int16">
+<span class="sig-name descname"><span class="pre">read_int16</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.read_int16"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.read_int16" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.read_int32">
+<span class="sig-name descname"><span class="pre">read_int32</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.read_int32"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.read_int32" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.read_int64">
+<span class="sig-name descname"><span class="pre">read_int64</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.read_int64"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.read_int64" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.read_int8">
+<span class="sig-name descname"><span class="pre">read_int8</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.read_int8"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.read_int8" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.read_null_terminated_string">
+<span class="sig-name descname"><span class="pre">read_null_terminated_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.read_null_terminated_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.read_null_terminated_string" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.read_obj_header">
+<span class="sig-name descname"><span class="pre">read_obj_header</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.read_obj_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.read_obj_header" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.read_uint16">
+<span class="sig-name descname"><span class="pre">read_uint16</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.read_uint16"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.read_uint16" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.read_uint32">
+<span class="sig-name descname"><span class="pre">read_uint32</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.read_uint32"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.read_uint32" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.read_uint64">
+<span class="sig-name descname"><span class="pre">read_uint64</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.read_uint64"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.read_uint64" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.read_uint8">
+<span class="sig-name descname"><span class="pre">read_uint8</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.read_uint8"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.read_uint8" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.remaining_data">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">remaining_data</span></span><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.remaining_data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.skip">
+<span class="sig-name descname"><span class="pre">skip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.skip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.skip" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.skip_TObject">
+<span class="sig-name descname"><span class="pre">skip_TObject</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.skip_TObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.skip_TObject" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.skip_fNBytes">
+<span class="sig-name descname"><span class="pre">skip_fNBytes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.skip_fNBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.skip_fNBytes" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.skip_fVersion">
+<span class="sig-name descname"><span class="pre">skip_fVersion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.skip_fVersion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.skip_fVersion" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.skip_null_terminated_string">
+<span class="sig-name descname"><span class="pre">skip_null_terminated_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.skip_null_terminated_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.skip_null_terminated_string" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.BinaryBuffer.skip_obj_header">
+<span class="sig-name descname"><span class="pre">skip_obj_header</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#BinaryBuffer.skip_obj_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.BinaryBuffer.skip_obj_header" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.CStyleArrayReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.python.</span></span><span class="sig-name descname"><span class="pre">CStyleArrayReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flat_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_reader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><span class="pre">IReader</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#CStyleArrayReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.CStyleArrayReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.CStyleArrayReader.data">
+<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#CStyleArrayReader.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.CStyleArrayReader.data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.CStyleArrayReader.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#CStyleArrayReader.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.CStyleArrayReader.read" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.CStyleArrayReader.read_many">
+<span class="sig-name descname"><span class="pre">read_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#CStyleArrayReader.read_many"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.CStyleArrayReader.read_many" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.CStyleArrayReader.read_until">
+<span class="sig-name descname"><span class="pre">read_until</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_pos</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#CStyleArrayReader.read_until"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.CStyleArrayReader.read_until" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.EmptyReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.python.</span></span><span class="sig-name descname"><span class="pre">EmptyReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#EmptyReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.EmptyReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.EmptyReader.data">
+<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#EmptyReader.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.EmptyReader.data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.EmptyReader.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#EmptyReader.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.EmptyReader.read" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.GroupReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.python.</span></span><span class="sig-name descname"><span class="pre">GroupReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_readers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><span class="pre">IReader</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#GroupReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.GroupReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.GroupReader.data">
+<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#GroupReader.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.GroupReader.data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.GroupReader.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#GroupReader.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.GroupReader.read" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.GroupReader.read_many_memberwise">
+<span class="sig-name descname"><span class="pre">read_many_memberwise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#GroupReader.read_many_memberwise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.GroupReader.read_many_memberwise" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.IReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.python.</span></span><span class="sig-name descname"><span class="pre">IReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#IReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.IReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.IReader.data">
+<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#IReader.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.IReader.data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.IReader.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.readers.python.BinaryBuffer" title="uproot_custom.readers.python.BinaryBuffer"><span class="pre">BinaryBuffer</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#IReader.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.IReader.read" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.IReader.read_many">
+<span class="sig-name descname"><span class="pre">read_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.readers.python.BinaryBuffer" title="uproot_custom.readers.python.BinaryBuffer"><span class="pre">BinaryBuffer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#IReader.read_many"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.IReader.read_many" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.IReader.read_many_memberwise">
+<span class="sig-name descname"><span class="pre">read_many_memberwise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.readers.python.BinaryBuffer" title="uproot_custom.readers.python.BinaryBuffer"><span class="pre">BinaryBuffer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#IReader.read_many_memberwise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.IReader.read_many_memberwise" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.IReader.read_until">
+<span class="sig-name descname"><span class="pre">read_until</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.readers.python.BinaryBuffer" title="uproot_custom.readers.python.BinaryBuffer"><span class="pre">BinaryBuffer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#IReader.read_until"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.IReader.read_until" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.ObjectHeaderReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.python.</span></span><span class="sig-name descname"><span class="pre">ObjectHeaderReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_reader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><span class="pre">IReader</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#ObjectHeaderReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.ObjectHeaderReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.ObjectHeaderReader.data">
+<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#ObjectHeaderReader.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.ObjectHeaderReader.data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.ObjectHeaderReader.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#ObjectHeaderReader.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.ObjectHeaderReader.read" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.PrimitiveReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.python.</span></span><span class="sig-name descname"><span class="pre">PrimitiveReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'bool'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'u1'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'u2'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'u4'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'u8'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'i1'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'i2'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'i4'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'i8'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'float'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'double'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#PrimitiveReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.PrimitiveReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.PrimitiveReader.data">
+<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#PrimitiveReader.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.PrimitiveReader.data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.PrimitiveReader.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#PrimitiveReader.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.PrimitiveReader.read" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLMapReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.python.</span></span><span class="sig-name descname"><span class="pre">STLMapReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_header</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objwise_or_memberwise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'auto'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'obj-wise'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'member-wise'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_reader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><span class="pre">IReader</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_reader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><span class="pre">IReader</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLMapReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLMapReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLMapReader.check_objwise_memberwise">
+<span class="sig-name descname"><span class="pre">check_objwise_memberwise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">is_memberwise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLMapReader.check_objwise_memberwise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLMapReader.check_objwise_memberwise" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLMapReader.data">
+<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLMapReader.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLMapReader.data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLMapReader.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLMapReader.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLMapReader.read" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLMapReader.read_body">
+<span class="sig-name descname"><span class="pre">read_body</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.readers.python.BinaryBuffer" title="uproot_custom.readers.python.BinaryBuffer"><span class="pre">BinaryBuffer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_memberwise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLMapReader.read_body"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLMapReader.read_body" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLMapReader.read_many">
+<span class="sig-name descname"><span class="pre">read_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLMapReader.read_many"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLMapReader.read_many" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLMapReader.read_many_memberwise">
+<span class="sig-name descname"><span class="pre">read_many_memberwise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLMapReader.read_many_memberwise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLMapReader.read_many_memberwise" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLMapReader.read_until">
+<span class="sig-name descname"><span class="pre">read_until</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_pos</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLMapReader.read_until"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLMapReader.read_until" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLSeqReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.python.</span></span><span class="sig-name descname"><span class="pre">STLSeqReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_header</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objwise_or_memberwise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'auto'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'obj-wise'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'member-wise'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_reader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><span class="pre">IReader</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLSeqReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLSeqReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLSeqReader.check_objwise_memberwise">
+<span class="sig-name descname"><span class="pre">check_objwise_memberwise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">is_memberwise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLSeqReader.check_objwise_memberwise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLSeqReader.check_objwise_memberwise" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLSeqReader.data">
+<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLSeqReader.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLSeqReader.data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLSeqReader.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLSeqReader.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLSeqReader.read" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLSeqReader.read_body">
+<span class="sig-name descname"><span class="pre">read_body</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.readers.python.BinaryBuffer" title="uproot_custom.readers.python.BinaryBuffer"><span class="pre">BinaryBuffer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_memberwise</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLSeqReader.read_body"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLSeqReader.read_body" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLSeqReader.read_many">
+<span class="sig-name descname"><span class="pre">read_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLSeqReader.read_many"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLSeqReader.read_many" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLSeqReader.read_until">
+<span class="sig-name descname"><span class="pre">read_until</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_pos</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLSeqReader.read_until"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLSeqReader.read_until" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLStringReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.python.</span></span><span class="sig-name descname"><span class="pre">STLStringReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_header</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLStringReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLStringReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLStringReader.data">
+<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLStringReader.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLStringReader.data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLStringReader.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLStringReader.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLStringReader.read" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLStringReader.read_body">
+<span class="sig-name descname"><span class="pre">read_body</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.readers.python.BinaryBuffer" title="uproot_custom.readers.python.BinaryBuffer"><span class="pre">BinaryBuffer</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLStringReader.read_body"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLStringReader.read_body" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLStringReader.read_many">
+<span class="sig-name descname"><span class="pre">read_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLStringReader.read_many"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLStringReader.read_many" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.STLStringReader.read_until">
+<span class="sig-name descname"><span class="pre">read_until</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_pos</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#STLStringReader.read_until"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.STLStringReader.read_until" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.TArrayReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.python.</span></span><span class="sig-name descname"><span class="pre">TArrayReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'i1'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'i2'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'i4'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'i8'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'float'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'double'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#TArrayReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.TArrayReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.TArrayReader.data">
+<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#TArrayReader.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.TArrayReader.data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.TArrayReader.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#TArrayReader.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.TArrayReader.read" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.TObjectReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.python.</span></span><span class="sig-name descname"><span class="pre">TObjectReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#TObjectReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.TObjectReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.TObjectReader.data">
+<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#TObjectReader.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.TObjectReader.data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.TObjectReader.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#TObjectReader.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.TObjectReader.read" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.TStringReader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.python.</span></span><span class="sig-name descname"><span class="pre">TStringReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_header</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#TStringReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.TStringReader" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.TStringReader.data">
+<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#TStringReader.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.TStringReader.data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.TStringReader.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#TStringReader.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.TStringReader.read" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.TStringReader.read_many">
+<span class="sig-name descname"><span class="pre">read_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#TStringReader.read_many"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.TStringReader.read_many" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.TStringReader.read_until">
+<span class="sig-name descname"><span class="pre">read_until</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_pos</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#TStringReader.read_until"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.TStringReader.read_until" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.debug_print">
+<span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.python.</span></span><span class="sig-name descname"><span class="pre">debug_print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#debug_print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.debug_print" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="uproot_custom.readers.python.read_data">
+<span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.python.</span></span><span class="sig-name descname"><span class="pre">read_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">uint8</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offsets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">uint32</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><span class="pre">IReader</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#read_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.read_data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-uproot_custom.readers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-uproot_custom.readers" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="uproot_custom.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">uproot_custom package</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="cpp-module.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">uproot_custom.cpp module</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.readers.cpp">uproot_custom.readers.cpp module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.AnyClassReader"><code class="docutils literal notranslate"><span class="pre">AnyClassReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.BoolReader"><code class="docutils literal notranslate"><span class="pre">BoolReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.CStyleArrayReader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.DoubleReader"><code class="docutils literal notranslate"><span class="pre">DoubleReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.EmptyReader"><code class="docutils literal notranslate"><span class="pre">EmptyReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.FloatReader"><code class="docutils literal notranslate"><span class="pre">FloatReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.GroupReader"><code class="docutils literal notranslate"><span class="pre">GroupReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.IReader"><code class="docutils literal notranslate"><span class="pre">IReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.IReader.name"><code class="docutils literal notranslate"><span class="pre">IReader.name()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.Int16Reader"><code class="docutils literal notranslate"><span class="pre">Int16Reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.Int32Reader"><code class="docutils literal notranslate"><span class="pre">Int32Reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.Int64Reader"><code class="docutils literal notranslate"><span class="pre">Int64Reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.Int8Reader"><code class="docutils literal notranslate"><span class="pre">Int8Reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.ObjectHeaderReader"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.STLMapReader"><code class="docutils literal notranslate"><span class="pre">STLMapReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.STLSeqReader"><code class="docutils literal notranslate"><span class="pre">STLSeqReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.STLStringReader"><code class="docutils literal notranslate"><span class="pre">STLStringReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.TArrayCReader"><code class="docutils literal notranslate"><span class="pre">TArrayCReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.TArrayDReader"><code class="docutils literal notranslate"><span class="pre">TArrayDReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.TArrayFReader"><code class="docutils literal notranslate"><span class="pre">TArrayFReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.TArrayIReader"><code class="docutils literal notranslate"><span class="pre">TArrayIReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.TArrayLReader"><code class="docutils literal notranslate"><span class="pre">TArrayLReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.TArraySReader"><code class="docutils literal notranslate"><span class="pre">TArraySReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.TObjectReader"><code class="docutils literal notranslate"><span class="pre">TObjectReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.TStringReader"><code class="docutils literal notranslate"><span class="pre">TStringReader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.UInt16Reader"><code class="docutils literal notranslate"><span class="pre">UInt16Reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.UInt32Reader"><code class="docutils literal notranslate"><span class="pre">UInt32Reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.UInt64Reader"><code class="docutils literal notranslate"><span class="pre">UInt64Reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.UInt8Reader"><code class="docutils literal notranslate"><span class="pre">UInt8Reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.read_data"><code class="docutils literal notranslate"><span class="pre">read_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.readers.python">uproot_custom.readers.python module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.AnyClassReader"><code class="docutils literal notranslate"><span class="pre">AnyClassReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.AnyClassReader.data"><code class="docutils literal notranslate"><span class="pre">AnyClassReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.AnyClassReader.read"><code class="docutils literal notranslate"><span class="pre">AnyClassReader.read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.AnyClassReader.read_many_memberwise"><code class="docutils literal notranslate"><span class="pre">AnyClassReader.read_many_memberwise()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.entries"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.entries</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_TString"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_TString()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_bool"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_bool()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_double"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_double()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_fNBytes"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_fNBytes()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_fVersion"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_fVersion()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_float"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_float()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_int16"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_int16()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_int32"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_int32()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_int64"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_int64()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_int8"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_int8()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_null_terminated_string"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_null_terminated_string()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_obj_header"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_obj_header()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_uint16"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_uint16()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_uint32"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_uint32()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_uint64"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_uint64()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.read_uint8"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.read_uint8()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.remaining_data"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.remaining_data</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.skip"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.skip()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.skip_TObject"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.skip_TObject()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.skip_fNBytes"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.skip_fNBytes()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.skip_fVersion"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.skip_fVersion()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.skip_null_terminated_string"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.skip_null_terminated_string()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.BinaryBuffer.skip_obj_header"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer.skip_obj_header()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.CStyleArrayReader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.CStyleArrayReader.data"><code class="docutils literal notranslate"><span class="pre">CStyleArrayReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.CStyleArrayReader.read"><code class="docutils literal notranslate"><span class="pre">CStyleArrayReader.read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.CStyleArrayReader.read_many"><code class="docutils literal notranslate"><span class="pre">CStyleArrayReader.read_many()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.CStyleArrayReader.read_until"><code class="docutils literal notranslate"><span class="pre">CStyleArrayReader.read_until()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.EmptyReader"><code class="docutils literal notranslate"><span class="pre">EmptyReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.EmptyReader.data"><code class="docutils literal notranslate"><span class="pre">EmptyReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.EmptyReader.read"><code class="docutils literal notranslate"><span class="pre">EmptyReader.read()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.GroupReader"><code class="docutils literal notranslate"><span class="pre">GroupReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.GroupReader.data"><code class="docutils literal notranslate"><span class="pre">GroupReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.GroupReader.read"><code class="docutils literal notranslate"><span class="pre">GroupReader.read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.GroupReader.read_many_memberwise"><code class="docutils literal notranslate"><span class="pre">GroupReader.read_many_memberwise()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.IReader"><code class="docutils literal notranslate"><span class="pre">IReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.IReader.data"><code class="docutils literal notranslate"><span class="pre">IReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.IReader.read"><code class="docutils literal notranslate"><span class="pre">IReader.read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.IReader.read_many"><code class="docutils literal notranslate"><span class="pre">IReader.read_many()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.IReader.read_many_memberwise"><code class="docutils literal notranslate"><span class="pre">IReader.read_many_memberwise()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.IReader.read_until"><code class="docutils literal notranslate"><span class="pre">IReader.read_until()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.ObjectHeaderReader"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.ObjectHeaderReader.data"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.ObjectHeaderReader.read"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader.read()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.PrimitiveReader"><code class="docutils literal notranslate"><span class="pre">PrimitiveReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.PrimitiveReader.data"><code class="docutils literal notranslate"><span class="pre">PrimitiveReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.PrimitiveReader.read"><code class="docutils literal notranslate"><span class="pre">PrimitiveReader.read()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLMapReader"><code class="docutils literal notranslate"><span class="pre">STLMapReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLMapReader.check_objwise_memberwise"><code class="docutils literal notranslate"><span class="pre">STLMapReader.check_objwise_memberwise()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLMapReader.data"><code class="docutils literal notranslate"><span class="pre">STLMapReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLMapReader.read"><code class="docutils literal notranslate"><span class="pre">STLMapReader.read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLMapReader.read_body"><code class="docutils literal notranslate"><span class="pre">STLMapReader.read_body()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLMapReader.read_many"><code class="docutils literal notranslate"><span class="pre">STLMapReader.read_many()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLMapReader.read_many_memberwise"><code class="docutils literal notranslate"><span class="pre">STLMapReader.read_many_memberwise()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLMapReader.read_until"><code class="docutils literal notranslate"><span class="pre">STLMapReader.read_until()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLSeqReader"><code class="docutils literal notranslate"><span class="pre">STLSeqReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLSeqReader.check_objwise_memberwise"><code class="docutils literal notranslate"><span class="pre">STLSeqReader.check_objwise_memberwise()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLSeqReader.data"><code class="docutils literal notranslate"><span class="pre">STLSeqReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLSeqReader.read"><code class="docutils literal notranslate"><span class="pre">STLSeqReader.read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLSeqReader.read_body"><code class="docutils literal notranslate"><span class="pre">STLSeqReader.read_body()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLSeqReader.read_many"><code class="docutils literal notranslate"><span class="pre">STLSeqReader.read_many()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLSeqReader.read_until"><code class="docutils literal notranslate"><span class="pre">STLSeqReader.read_until()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLStringReader"><code class="docutils literal notranslate"><span class="pre">STLStringReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLStringReader.data"><code class="docutils literal notranslate"><span class="pre">STLStringReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLStringReader.read"><code class="docutils literal notranslate"><span class="pre">STLStringReader.read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLStringReader.read_body"><code class="docutils literal notranslate"><span class="pre">STLStringReader.read_body()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLStringReader.read_many"><code class="docutils literal notranslate"><span class="pre">STLStringReader.read_many()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.STLStringReader.read_until"><code class="docutils literal notranslate"><span class="pre">STLStringReader.read_until()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TArrayReader"><code class="docutils literal notranslate"><span class="pre">TArrayReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TArrayReader.data"><code class="docutils literal notranslate"><span class="pre">TArrayReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TArrayReader.read"><code class="docutils literal notranslate"><span class="pre">TArrayReader.read()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TObjectReader"><code class="docutils literal notranslate"><span class="pre">TObjectReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TObjectReader.data"><code class="docutils literal notranslate"><span class="pre">TObjectReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TObjectReader.read"><code class="docutils literal notranslate"><span class="pre">TObjectReader.read()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TStringReader"><code class="docutils literal notranslate"><span class="pre">TStringReader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TStringReader.data"><code class="docutils literal notranslate"><span class="pre">TStringReader.data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TStringReader.read"><code class="docutils literal notranslate"><span class="pre">TStringReader.read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TStringReader.read_many"><code class="docutils literal notranslate"><span class="pre">TStringReader.read_many()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.TStringReader.read_until"><code class="docutils literal notranslate"><span class="pre">TStringReader.read_until()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.debug_print"><code class="docutils literal notranslate"><span class="pre">debug_print()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.read_data"><code class="docutils literal notranslate"><span class="pre">read_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.readers">Module contents</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mingrun Li
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Mingrun Li.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

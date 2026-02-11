@@ -1,12 +1,16 @@
 # Reader and factory interface
 
-Uproot-custom uses a `reader`/`factory` mechanism to balance performance and flexibility. `reader`s are implemented in C++, do the actual reading from binary stream. `factory`s are implemented in Python, manage `reader`s, and reconstruct the final `awkward` array.
+Uproot-custom uses a `reader`/`factory` mechanism to balance performance and
+flexibility. `reader`s are implemented in C++ and read the binary stream.
+`factory`s are implemented in Python, manage `reader`s, and reconstruct the
+final `awkward` array.
 
 ## Reader interface
 
 ### Base class: `IReader`
 
-`reader` in C++ should derive from the `IReader` interface, which has two pure virtual methods:
+`reader` in C++ should derive from the `IReader` interface, which has two pure
+virtual methods:
 
 - `read`: called by parent `reader` to read data from the binary stream.
 - `data`: called after reading is done, to return the read-out data in `numpy` arrays or any Python nested containers filled with `numpy` arrays.
@@ -169,7 +173,7 @@ The constructor of `factory` should receive all necessary parameters for the `fa
 (method-build-factory)=
 ### Class method `build_factory`
 
-This method is called when instatiating factories. It should be a class method.
+This method is called when instantiating factories. It should be a class method.
 
 It receives following parameters:
 
@@ -198,7 +202,7 @@ It receives following parameters:
 
     For other type of data members, such as STL containers or nested classes, some other attributes may be present.
 
-- `all_streamer_info: dict`: A `dict` mapping all available streamer names to their members' streamer info `dict`. 
+- `all_streamer_info: dict`: A `dict` mapping all available streamer names to their members' streamer info `dict`.
 
     `factory` can use this information to look up the streamer info of any nested classes.
 
@@ -253,7 +257,9 @@ When current data member is suitable for the `factory`, it should return an inst
 
 ### Method `build_cpp_reader`
 
-This method is called to instatiate the C++ reader. For non-bottom-level factories, it should also instatiate sub-readers for nested data members and combine them together to the parent reader.
+This method is called to instantiate the C++ reader. For non-bottom-level
+factories, it should also instantiate sub-readers for nested data members and
+combine them together to the parent reader.
 
 ### Method `make_awkward_content`
 

@@ -178,10 +178,11 @@ window.addEventListener("load", () => mermaid.run());
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="tutorial/use-built-in.html">Use built-in factories</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="tutorial/customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/bootstrap.html">Bootstrap of custom classes reading in uproot-custom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/streamer-info.html">Streamer information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/binary-data.html">Binary data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
@@ -193,10 +194,14 @@ window.addEventListener("load", () => mermaid.run());
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="reference/version-requirements.html">Version requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference/binary-format.html">Binary format of common classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/reader-backends.html">Reader backends</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="reference/api.html">API documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="reference/api/cpp-api.html">C++ API reference</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="reference/api/uproot-custom-ref.html">Module reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="reference/api/uproot_custom.html">Python reference</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/api/uproot_custom.html">Python reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
@@ -335,6 +340,21 @@ document.write(`
        <td></td>
        <td>&#160;&#160;&#160;
        <a href="reference/api/uproot_custom.html#module-uproot_custom.factories"><code class="xref">uproot_custom.factories</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="reference/api/uproot_custom.readers.html#module-uproot_custom.readers"><code class="xref">uproot_custom.readers</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="reference/api/uproot_custom.readers.html#module-uproot_custom.readers.cpp"><code class="xref">uproot_custom.readers.cpp</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="reference/api/uproot_custom.readers.html#module-uproot_custom.readers.python"><code class="xref">uproot_custom.readers.python</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>

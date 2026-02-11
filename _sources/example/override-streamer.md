@@ -1,5 +1,9 @@
 # Example 1: `Streamer` method is overridden
 
+Goal: handle a class whose `Streamer` overrides the default layout by inserting
+an extra mask. We will inspect the bytes, write a C++ reader, wrap it with a
+factory, register it, then read with Uproot.
+
 ```{seealso}
 A full example can be found in the [example repository](https://github.com/mrzimu/uproot-custom-example).
 ```
@@ -35,7 +39,7 @@ We add a mask in the `Streamer` method to demonstrate how to handle special logi
 ```{code-block} cpp
 ---
 caption: `TOverrideStreamer.cc`
-emphasize-lines: 16-23, 31-32 
+emphasize-lines: 16-23, 31-32
 ---
 #include <TBuffer.h>
 #include <TObject.h>
@@ -281,7 +285,7 @@ Refer to [awkward forms](https://awkward-array.org/doc/main/reference/generated/
 
 ## Step 4: Register target branch and the `factory`
 
-Finally, we need to register the branch we want to read with uproot-custom, and also register the `OverrideStreamerFactory` so that it can be used by uproot-custom. 
+Finally, we need to register the branch we want to read with uproot-custom, and also register the `OverrideStreamerFactory` so that it can be used by uproot-custom.
 
 We can do this by adding the following code in the `__init__.py` of your package:
 

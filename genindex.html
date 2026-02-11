@@ -175,10 +175,11 @@ window.addEventListener("load", () => mermaid.run());
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="tutorial/use-built-in.html">Use built-in factories</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="tutorial/customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/bootstrap.html">Bootstrap of custom classes reading in uproot-custom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/streamer-info.html">Streamer information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/binary-data.html">Binary data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
@@ -190,10 +191,14 @@ window.addEventListener("load", () => mermaid.run());
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="reference/version-requirements.html">Version requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference/binary-format.html">Binary format of common classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/reader-backends.html">Reader backends</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="reference/api.html">API documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="reference/api/cpp-api.html">C++ API reference</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="reference/api/uproot-custom-ref.html">Module reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="reference/api/uproot_custom.html">Python reference</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/api/uproot_custom.html">Python reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
@@ -313,12 +318,14 @@ document.write(`
  <a href="#A"><strong>A</strong></a>
  | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#K"><strong>K</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
@@ -330,27 +337,67 @@ document.write(`
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.AnyClassFactory">AnyClassFactory (class in uproot_custom.factories)</a>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.all_streamer_info">all_streamer_info (uproot_custom.AsCustom attribute)</a>
 </li>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.AnyClassFactory">AnyClassFactory (class in uproot_custom)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.AnyClassFactory">(class in uproot_custom.factories)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.AnyClassReader">AnyClassReader (class in uproot_custom.readers.cpp)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.AnyClassReader">(class in uproot_custom.readers.python)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom">AsCustom (class in uproot_custom.AsCustom)</a>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom">AsCustom (class in uproot_custom)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom">(class in uproot_custom.AsCustom)</a>
 </li>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom.awkward_form">awkward_form() (uproot_custom.AsCustom.AsCustom method)</a>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.awkward_form">awkward_form() (uproot_custom.AsCustom method)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom.awkward_form">(uproot_custom.AsCustom.AsCustom method)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.BaseObjectFactory">BaseObjectFactory (class in uproot_custom.factories)</a>
-</li>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom.basket_array">basket_array() (uproot_custom.AsCustom.AsCustom method)</a>
-</li>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.AnyClassFactory.build_cpp_reader">build_cpp_reader() (uproot_custom.factories.AnyClassFactory method)</a>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.BaseObjectFactory">BaseObjectFactory (class in uproot_custom)</a>
 
       <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.BaseObjectFactory">(class in uproot_custom.factories)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.basket_array">basket_array() (uproot_custom.AsCustom method)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom.basket_array">(uproot_custom.AsCustom.AsCustom method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer">BinaryBuffer (class in uproot_custom.readers.python)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.BoolReader">BoolReader (class in uproot_custom.readers.cpp)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.AnyClassFactory.build_cpp_reader">build_cpp_reader() (uproot_custom.AnyClassFactory method)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.BaseObjectFactory.build_cpp_reader">(uproot_custom.BaseObjectFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.CStyleArrayFactory.build_cpp_reader">(uproot_custom.CStyleArrayFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.EmptyFactory.build_cpp_reader">(uproot_custom.EmptyFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.AnyClassFactory.build_cpp_reader">(uproot_custom.factories.AnyClassFactory method)</a>
+</li>
         <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.BaseObjectFactory.build_cpp_reader">(uproot_custom.factories.BaseObjectFactory method)</a>
 </li>
         <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory.build_cpp_reader">(uproot_custom.factories.CStyleArrayFactory method)</a>
@@ -377,12 +424,40 @@ document.write(`
 </li>
         <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TStringFactory.build_cpp_reader">(uproot_custom.factories.TStringFactory method)</a>
 </li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.Factory.build_cpp_reader">(uproot_custom.Factory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.GroupFactory.build_cpp_reader">(uproot_custom.GroupFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.ObjectHeaderFactory.build_cpp_reader">(uproot_custom.ObjectHeaderFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.PrimitiveFactory.build_cpp_reader">(uproot_custom.PrimitiveFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLMapFactory.build_cpp_reader">(uproot_custom.STLMapFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLSeqFactory.build_cpp_reader">(uproot_custom.STLSeqFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLStringFactory.build_cpp_reader">(uproot_custom.STLStringFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TArrayFactory.build_cpp_reader">(uproot_custom.TArrayFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TObjectFactory.build_cpp_reader">(uproot_custom.TObjectFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TStringFactory.build_cpp_reader">(uproot_custom.TStringFactory method)</a>
+</li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.build_factory">build_factory() (in module uproot_custom.factories)</a>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.build_factory">build_factory() (in module uproot_custom)</a>
 
       <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.build_factory">(in module uproot_custom.factories)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.AnyClassFactory.build_factory">(uproot_custom.AnyClassFactory class method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.BaseObjectFactory.build_factory">(uproot_custom.BaseObjectFactory class method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.CStyleArrayFactory.build_factory">(uproot_custom.CStyleArrayFactory class method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.EmptyFactory.build_factory">(uproot_custom.EmptyFactory class method)</a>
+</li>
         <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.AnyClassFactory.build_factory">(uproot_custom.factories.AnyClassFactory class method)</a>
 </li>
         <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.BaseObjectFactory.build_factory">(uproot_custom.factories.BaseObjectFactory class method)</a>
@@ -411,6 +486,86 @@ document.write(`
 </li>
         <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TStringFactory.build_factory">(uproot_custom.factories.TStringFactory class method)</a>
 </li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.Factory.build_factory">(uproot_custom.Factory class method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.GroupFactory.build_factory">(uproot_custom.GroupFactory class method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.ObjectHeaderFactory.build_factory">(uproot_custom.ObjectHeaderFactory class method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.PrimitiveFactory.build_factory">(uproot_custom.PrimitiveFactory class method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLMapFactory.build_factory">(uproot_custom.STLMapFactory class method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLSeqFactory.build_factory">(uproot_custom.STLSeqFactory class method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLStringFactory.build_factory">(uproot_custom.STLStringFactory class method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TArrayFactory.build_factory">(uproot_custom.TArrayFactory class method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TObjectFactory.build_factory">(uproot_custom.TObjectFactory class method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TStringFactory.build_factory">(uproot_custom.TStringFactory class method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.AnyClassFactory.build_python_reader">build_python_reader() (uproot_custom.AnyClassFactory method)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.BaseObjectFactory.build_python_reader">(uproot_custom.BaseObjectFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.CStyleArrayFactory.build_python_reader">(uproot_custom.CStyleArrayFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.EmptyFactory.build_python_reader">(uproot_custom.EmptyFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.AnyClassFactory.build_python_reader">(uproot_custom.factories.AnyClassFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.BaseObjectFactory.build_python_reader">(uproot_custom.factories.BaseObjectFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory.build_python_reader">(uproot_custom.factories.CStyleArrayFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.EmptyFactory.build_python_reader">(uproot_custom.factories.EmptyFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.Factory.build_python_reader">(uproot_custom.factories.Factory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.GroupFactory.build_python_reader">(uproot_custom.factories.GroupFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.build_python_reader">(uproot_custom.factories.ObjectHeaderFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory.build_python_reader">(uproot_custom.factories.PrimitiveFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.STLMapFactory.build_python_reader">(uproot_custom.factories.STLMapFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.STLSeqFactory.build_python_reader">(uproot_custom.factories.STLSeqFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.STLStringFactory.build_python_reader">(uproot_custom.factories.STLStringFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TArrayFactory.build_python_reader">(uproot_custom.factories.TArrayFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TObjectFactory.build_python_reader">(uproot_custom.factories.TObjectFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TStringFactory.build_python_reader">(uproot_custom.factories.TStringFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.Factory.build_python_reader">(uproot_custom.Factory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.GroupFactory.build_python_reader">(uproot_custom.GroupFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.ObjectHeaderFactory.build_python_reader">(uproot_custom.ObjectHeaderFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.PrimitiveFactory.build_python_reader">(uproot_custom.PrimitiveFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLMapFactory.build_python_reader">(uproot_custom.STLMapFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLSeqFactory.build_python_reader">(uproot_custom.STLSeqFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLStringFactory.build_python_reader">(uproot_custom.STLStringFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TArrayFactory.build_python_reader">(uproot_custom.TArrayFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TObjectFactory.build_python_reader">(uproot_custom.TObjectFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TStringFactory.build_python_reader">(uproot_custom.TStringFactory method)</a>
+</li>
       </ul></li>
   </ul></td>
 </tr></table>
@@ -418,15 +573,83 @@ document.write(`
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom.cache_key">cache_key (uproot_custom.AsCustom.AsCustom property)</a>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.cache_key">cache_key (uproot_custom.AsCustom property)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom.cache_key">(uproot_custom.AsCustom.AsCustom property)</a>
 </li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.check_objwise_memberwise">check_objwise_memberwise() (uproot_custom.readers.python.STLMapReader method)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader.check_objwise_memberwise">(uproot_custom.readers.python.STLSeqReader method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory.cpp_reader_map">cpp_reader_map (uproot_custom.factories.PrimitiveFactory attribute)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.PrimitiveFactory.cpp_reader_map">(uproot_custom.PrimitiveFactory attribute)</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory">CStyleArrayFactory (class in uproot_custom.factories)</a>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.CStyleArrayFactory">CStyleArrayFactory (class in uproot_custom)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory">(class in uproot_custom.factories)</a>
 </li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.CStyleArrayReader">CStyleArrayReader (class in uproot_custom.readers.cpp)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.CStyleArrayReader">(class in uproot_custom.readers.python)</a>
+</li>
+      </ul></li>
       <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory.ctype_primitive_map">ctype_primitive_map (uproot_custom.factories.PrimitiveFactory attribute)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.PrimitiveFactory.ctype_primitive_map">(uproot_custom.PrimitiveFactory attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.AnyClassReader.data">data() (uproot_custom.readers.python.AnyClassReader method)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.CStyleArrayReader.data">(uproot_custom.readers.python.CStyleArrayReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.EmptyReader.data">(uproot_custom.readers.python.EmptyReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.GroupReader.data">(uproot_custom.readers.python.GroupReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.IReader.data">(uproot_custom.readers.python.IReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.ObjectHeaderReader.data">(uproot_custom.readers.python.ObjectHeaderReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.PrimitiveReader.data">(uproot_custom.readers.python.PrimitiveReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.data">(uproot_custom.readers.python.STLMapReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader.data">(uproot_custom.readers.python.STLSeqReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLStringReader.data">(uproot_custom.readers.python.STLStringReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TArrayReader.data">(uproot_custom.readers.python.TArrayReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TObjectReader.data">(uproot_custom.readers.python.TObjectReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TStringReader.data">(uproot_custom.readers.python.TStringReader method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.debug_print">debug_print() (in module uproot_custom.readers.python)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.DoubleReader">DoubleReader (class in uproot_custom.readers.cpp)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -434,7 +657,21 @@ document.write(`
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.EmptyFactory">EmptyFactory (class in uproot_custom.factories)</a>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.EmptyFactory">EmptyFactory (class in uproot_custom)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.EmptyFactory">(class in uproot_custom.factories)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.EmptyReader">EmptyReader (class in uproot_custom.readers.cpp)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.EmptyReader">(class in uproot_custom.readers.python)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.entries">entries (uproot_custom.readers.python.BinaryBuffer property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -442,14 +679,28 @@ document.write(`
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.Factory">Factory (class in uproot_custom.factories)</a>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.Factory">Factory (class in uproot_custom)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.Factory">(class in uproot_custom.factories)</a>
 </li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.final_array">final_array() (uproot_custom.AsCustom method)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom.final_array">(uproot_custom.AsCustom.AsCustom method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom.final_array">final_array() (uproot_custom.AsCustom.AsCustom method)</a>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.FloatReader">FloatReader (class in uproot_custom.readers.cpp)</a>
 </li>
       <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory.ftypes">ftypes (uproot_custom.factories.PrimitiveFactory attribute)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.PrimitiveFactory.ftypes">(uproot_custom.PrimitiveFactory attribute)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -460,14 +711,24 @@ document.write(`
 </li>
       <li><a href="reference/api/uproot_custom.html#uproot_custom.utils.get_map_key_val_typenames">get_map_key_val_typenames() (in module uproot_custom.utils)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/api/uproot_custom.html#uproot_custom.utils.get_sequence_element_typename">get_sequence_element_typename() (in module uproot_custom.utils)</a>
 </li>
       <li><a href="reference/api/uproot_custom.html#uproot_custom.utils.get_top_type_name">get_top_type_name() (in module uproot_custom.utils)</a>
 </li>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.GroupFactory">GroupFactory (class in uproot_custom.factories)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.GroupFactory">GroupFactory (class in uproot_custom)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.GroupFactory">(class in uproot_custom.factories)</a>
 </li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.GroupReader">GroupReader (class in uproot_custom.readers.cpp)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.GroupReader">(class in uproot_custom.readers.python)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -476,6 +737,22 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/api/cpp-api.html#c.IMPORT_UPROOT_CUSTOM_CPP">IMPORT_UPROOT_CUSTOM_CPP (C macro)</a>
 </li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.Int16Reader">Int16Reader (class in uproot_custom.readers.cpp)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.Int32Reader">Int32Reader (class in uproot_custom.readers.cpp)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.Int64Reader">Int64Reader (class in uproot_custom.readers.cpp)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.Int8Reader">Int8Reader (class in uproot_custom.readers.cpp)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.IReader">IReader (class in uproot_custom.readers.cpp)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.IReader">(class in uproot_custom.readers.python)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -483,16 +760,24 @@ document.write(`
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TObjectFactory.keep_data_itempaths">keep_data_itempaths (uproot_custom.factories.TObjectFactory attribute)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TObjectFactory.keep_data_itempaths">(uproot_custom.TObjectFactory attribute)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory.make_awkward_content">make_awkward_content() (uproot_custom.factories.CStyleArrayFactory method)</a>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.CStyleArrayFactory.make_awkward_content">make_awkward_content() (uproot_custom.CStyleArrayFactory method)</a>
 
       <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.EmptyFactory.make_awkward_content">(uproot_custom.EmptyFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory.make_awkward_content">(uproot_custom.factories.CStyleArrayFactory method)</a>
+</li>
         <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.EmptyFactory.make_awkward_content">(uproot_custom.factories.EmptyFactory method)</a>
 </li>
         <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.Factory.make_awkward_content">(uproot_custom.factories.Factory method)</a>
@@ -515,10 +800,34 @@ document.write(`
 </li>
         <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TStringFactory.make_awkward_content">(uproot_custom.factories.TStringFactory method)</a>
 </li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.Factory.make_awkward_content">(uproot_custom.Factory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.GroupFactory.make_awkward_content">(uproot_custom.GroupFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.ObjectHeaderFactory.make_awkward_content">(uproot_custom.ObjectHeaderFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.PrimitiveFactory.make_awkward_content">(uproot_custom.PrimitiveFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLMapFactory.make_awkward_content">(uproot_custom.STLMapFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLSeqFactory.make_awkward_content">(uproot_custom.STLSeqFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLStringFactory.make_awkward_content">(uproot_custom.STLStringFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TArrayFactory.make_awkward_content">(uproot_custom.TArrayFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TObjectFactory.make_awkward_content">(uproot_custom.TObjectFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TStringFactory.make_awkward_content">(uproot_custom.TStringFactory method)</a>
+</li>
       </ul></li>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory.make_awkward_form">make_awkward_form() (uproot_custom.factories.CStyleArrayFactory method)</a>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.CStyleArrayFactory.make_awkward_form">make_awkward_form() (uproot_custom.CStyleArrayFactory method)</a>
 
       <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.EmptyFactory.make_awkward_form">(uproot_custom.EmptyFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory.make_awkward_form">(uproot_custom.factories.CStyleArrayFactory method)</a>
+</li>
         <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.EmptyFactory.make_awkward_form">(uproot_custom.factories.EmptyFactory method)</a>
 </li>
         <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.Factory.make_awkward_form">(uproot_custom.factories.Factory method)</a>
@@ -541,11 +850,35 @@ document.write(`
 </li>
         <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TStringFactory.make_awkward_form">(uproot_custom.factories.TStringFactory method)</a>
 </li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.Factory.make_awkward_form">(uproot_custom.Factory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.GroupFactory.make_awkward_form">(uproot_custom.GroupFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.ObjectHeaderFactory.make_awkward_form">(uproot_custom.ObjectHeaderFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.PrimitiveFactory.make_awkward_form">(uproot_custom.PrimitiveFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLMapFactory.make_awkward_form">(uproot_custom.STLMapFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLSeqFactory.make_awkward_form">(uproot_custom.STLSeqFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLStringFactory.make_awkward_form">(uproot_custom.STLStringFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TArrayFactory.make_awkward_form">(uproot_custom.TArrayFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TObjectFactory.make_awkward_form">(uproot_custom.TObjectFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TStringFactory.make_awkward_form">(uproot_custom.TStringFactory method)</a>
+</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom.match_branch">match_branch() (uproot_custom.AsCustom.AsCustom class method)</a>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.match_branch">match_branch() (uproot_custom.AsCustom class method)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom.match_branch">(uproot_custom.AsCustom.AsCustom class method)</a>
 </li>
+      </ul></li>
       <li>
     module
 
@@ -556,31 +889,69 @@ document.write(`
 </li>
         <li><a href="reference/api/uproot_custom.html#module-uproot_custom.factories">uproot_custom.factories</a>
 </li>
+        <li><a href="reference/api/uproot_custom.readers.html#module-uproot_custom.readers">uproot_custom.readers</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#module-uproot_custom.readers.cpp">uproot_custom.readers.cpp</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#module-uproot_custom.readers.python">uproot_custom.readers.python</a>
+</li>
         <li><a href="reference/api/uproot_custom.html#module-uproot_custom.utils">uproot_custom.utils</a>
 </li>
       </ul></li>
   </ul></td>
 </tr></table>
 
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.IReader.name">name() (uproot_custom.readers.cpp.IReader method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory">ObjectHeaderFactory (class in uproot_custom.factories)</a>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.ObjectHeaderFactory">ObjectHeaderFactory (class in uproot_custom)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory">(class in uproot_custom.factories)</a>
 </li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.ObjectHeaderReader">ObjectHeaderReader (class in uproot_custom.readers.cpp)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.ObjectHeaderReader">(class in uproot_custom.readers.python)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory">PrimitiveFactory (class in uproot_custom.factories)</a>
-</li>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.AnyClassFactory.priority">priority() (uproot_custom.factories.AnyClassFactory class method)</a>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.PrimitiveFactory">PrimitiveFactory (class in uproot_custom)</a>
 
       <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory">(class in uproot_custom.factories)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.PrimitiveReader">PrimitiveReader (class in uproot_custom.readers.python)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.AnyClassFactory.priority">priority() (uproot_custom.AnyClassFactory class method)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.CStyleArrayFactory.priority">(uproot_custom.CStyleArrayFactory class method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.AnyClassFactory.priority">(uproot_custom.factories.AnyClassFactory class method)</a>
+</li>
         <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory.priority">(uproot_custom.factories.CStyleArrayFactory class method)</a>
 </li>
         <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.Factory.priority">(uproot_custom.factories.Factory class method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.Factory.priority">(uproot_custom.Factory class method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -589,13 +960,131 @@ document.write(`
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.AnyClassReader.read">read() (uproot_custom.readers.python.AnyClassReader method)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.CStyleArrayReader.read">(uproot_custom.readers.python.CStyleArrayReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.EmptyReader.read">(uproot_custom.readers.python.EmptyReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.GroupReader.read">(uproot_custom.readers.python.GroupReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.IReader.read">(uproot_custom.readers.python.IReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.ObjectHeaderReader.read">(uproot_custom.readers.python.ObjectHeaderReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.PrimitiveReader.read">(uproot_custom.readers.python.PrimitiveReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.read">(uproot_custom.readers.python.STLMapReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader.read">(uproot_custom.readers.python.STLSeqReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLStringReader.read">(uproot_custom.readers.python.STLStringReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TArrayReader.read">(uproot_custom.readers.python.TArrayReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TObjectReader.read">(uproot_custom.readers.python.TObjectReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TStringReader.read">(uproot_custom.readers.python.TStringReader method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.read_body">read_body() (uproot_custom.readers.python.STLMapReader method)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader.read_body">(uproot_custom.readers.python.STLSeqReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLStringReader.read_body">(uproot_custom.readers.python.STLStringReader method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_bool">read_bool() (uproot_custom.readers.python.BinaryBuffer method)</a>
+</li>
       <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.read_branch">read_branch() (in module uproot_custom.factories)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.read_branch_awkward_form">read_branch_awkward_form() (in module uproot_custom.factories)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.read_data">read_data() (in module uproot_custom.readers.cpp)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.read_data">(in module uproot_custom.readers.python)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_double">read_double() (uproot_custom.readers.python.BinaryBuffer method)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_float">read_float() (uproot_custom.readers.python.BinaryBuffer method)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_fNBytes">read_fNBytes() (uproot_custom.readers.python.BinaryBuffer method)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_fVersion">read_fVersion() (uproot_custom.readers.python.BinaryBuffer method)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_int16">read_int16() (uproot_custom.readers.python.BinaryBuffer method)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_int32">read_int32() (uproot_custom.readers.python.BinaryBuffer method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.read_branch_awkward_form">read_branch_awkward_form() (in module uproot_custom.factories)</a>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_int64">read_int64() (uproot_custom.readers.python.BinaryBuffer method)</a>
 </li>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.utils.regularize_object_path">regularize_object_path() (in module uproot_custom.utils)</a>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_int8">read_int8() (uproot_custom.readers.python.BinaryBuffer method)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.CStyleArrayReader.read_many">read_many() (uproot_custom.readers.python.CStyleArrayReader method)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.IReader.read_many">(uproot_custom.readers.python.IReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.read_many">(uproot_custom.readers.python.STLMapReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader.read_many">(uproot_custom.readers.python.STLSeqReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLStringReader.read_many">(uproot_custom.readers.python.STLStringReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TStringReader.read_many">(uproot_custom.readers.python.TStringReader method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.AnyClassReader.read_many_memberwise">read_many_memberwise() (uproot_custom.readers.python.AnyClassReader method)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.GroupReader.read_many_memberwise">(uproot_custom.readers.python.GroupReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.IReader.read_many_memberwise">(uproot_custom.readers.python.IReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.read_many_memberwise">(uproot_custom.readers.python.STLMapReader method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_null_terminated_string">read_null_terminated_string() (uproot_custom.readers.python.BinaryBuffer method)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_obj_header">read_obj_header() (uproot_custom.readers.python.BinaryBuffer method)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_TString">read_TString() (uproot_custom.readers.python.BinaryBuffer method)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_uint16">read_uint16() (uproot_custom.readers.python.BinaryBuffer method)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_uint32">read_uint32() (uproot_custom.readers.python.BinaryBuffer method)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_uint64">read_uint64() (uproot_custom.readers.python.BinaryBuffer method)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_uint8">read_uint8() (uproot_custom.readers.python.BinaryBuffer method)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.CStyleArrayReader.read_until">read_until() (uproot_custom.readers.python.CStyleArrayReader method)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.IReader.read_until">(uproot_custom.readers.python.IReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.read_until">(uproot_custom.readers.python.STLMapReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader.read_until">(uproot_custom.readers.python.STLSeqReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLStringReader.read_until">(uproot_custom.readers.python.STLStringReader method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TStringReader.read_until">(uproot_custom.readers.python.TStringReader method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.regularize_object_path">regularize_object_path() (in module uproot_custom)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.utils.regularize_object_path">(in module uproot_custom.utils)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.remaining_data">remaining_data (uproot_custom.readers.python.BinaryBuffer property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -603,42 +1092,138 @@ document.write(`
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.STLMapFactory">STLMapFactory (class in uproot_custom.factories)</a>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.skip">skip() (uproot_custom.readers.python.BinaryBuffer method)</a>
 </li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.skip_fNBytes">skip_fNBytes() (uproot_custom.readers.python.BinaryBuffer method)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.skip_fVersion">skip_fVersion() (uproot_custom.readers.python.BinaryBuffer method)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.skip_null_terminated_string">skip_null_terminated_string() (uproot_custom.readers.python.BinaryBuffer method)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.skip_obj_header">skip_obj_header() (uproot_custom.readers.python.BinaryBuffer method)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.skip_TObject">skip_TObject() (uproot_custom.readers.python.BinaryBuffer method)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.STLMapFactory">STLMapFactory (class in uproot_custom)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.STLMapFactory">(class in uproot_custom.factories)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.STLMapReader">STLMapReader (class in uproot_custom.readers.cpp)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader">(class in uproot_custom.readers.python)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.STLSeqFactory">STLSeqFactory (class in uproot_custom.factories)</a>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.STLSeqFactory">STLSeqFactory (class in uproot_custom)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.STLSeqFactory">(class in uproot_custom.factories)</a>
 </li>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.STLStringFactory">STLStringFactory (class in uproot_custom.factories)</a>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.STLSeqReader">STLSeqReader (class in uproot_custom.readers.cpp)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader">(class in uproot_custom.readers.python)</a>
 </li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.STLStringFactory">STLStringFactory (class in uproot_custom)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.STLStringFactory">(class in uproot_custom.factories)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.STLStringReader">STLStringReader (class in uproot_custom.readers.cpp)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLStringReader">(class in uproot_custom.readers.python)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom.target_branches">target_branches (uproot_custom.AsCustom.AsCustom attribute)</a>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.target_branches">target_branches (uproot_custom.AsCustom attribute)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom.target_branches">(uproot_custom.AsCustom.AsCustom attribute)</a>
 </li>
+      </ul></li>
       <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.STLMapFactory.target_types">target_types (uproot_custom.factories.STLMapFactory attribute)</a>
 
       <ul>
         <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.STLSeqFactory.target_types">(uproot_custom.factories.STLSeqFactory attribute)</a>
 </li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLMapFactory.target_types">(uproot_custom.STLMapFactory attribute)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLSeqFactory.target_types">(uproot_custom.STLSeqFactory attribute)</a>
+</li>
       </ul></li>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TArrayFactory">TArrayFactory (class in uproot_custom.factories)</a>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.TArrayCReader">TArrayCReader (class in uproot_custom.readers.cpp)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.TArrayDReader">TArrayDReader (class in uproot_custom.readers.cpp)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.TArrayFactory">TArrayFactory (class in uproot_custom)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TArrayFactory">(class in uproot_custom.factories)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.TArrayFReader">TArrayFReader (class in uproot_custom.readers.cpp)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.TArrayIReader">TArrayIReader (class in uproot_custom.readers.cpp)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.TArrayLReader">TArrayLReader (class in uproot_custom.readers.cpp)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TArrayReader">TArrayReader (class in uproot_custom.readers.python)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TObjectFactory">TObjectFactory (class in uproot_custom.factories)</a>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.TArraySReader">TArraySReader (class in uproot_custom.readers.cpp)</a>
 </li>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TStringFactory">TStringFactory (class in uproot_custom.factories)</a>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.TObjectFactory">TObjectFactory (class in uproot_custom)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TObjectFactory">(class in uproot_custom.factories)</a>
 </li>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom.typename">typename (uproot_custom.AsCustom.AsCustom property)</a>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.TObjectReader">TObjectReader (class in uproot_custom.readers.cpp)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TObjectReader">(class in uproot_custom.readers.python)</a>
 </li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.TStringFactory">TStringFactory (class in uproot_custom)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TStringFactory">(class in uproot_custom.factories)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.TStringReader">TStringReader (class in uproot_custom.readers.cpp)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TStringReader">(class in uproot_custom.readers.python)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.typename">typename (uproot_custom.AsCustom property)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom.typename">(uproot_custom.AsCustom.AsCustom property)</a>
+</li>
+      </ul></li>
       <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory.typenames">typenames (uproot_custom.factories.PrimitiveFactory attribute)</a>
 
       <ul>
         <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TArrayFactory.typenames">(uproot_custom.factories.TArrayFactory attribute)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.PrimitiveFactory.typenames">(uproot_custom.PrimitiveFactory attribute)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TArrayFactory.typenames">(uproot_custom.TArrayFactory attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -647,6 +1232,14 @@ document.write(`
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.UInt16Reader">UInt16Reader (class in uproot_custom.readers.cpp)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.UInt32Reader">UInt32Reader (class in uproot_custom.readers.cpp)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.UInt64Reader">UInt64Reader (class in uproot_custom.readers.cpp)</a>
+</li>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.UInt8Reader">UInt8Reader (class in uproot_custom.readers.cpp)</a>
+</li>
       <li><a href="reference/api/cpp-api.html#_CPPv46uproot">uproot (C++ type)</a>, <a href="reference/api/cpp-module.html#_CPPv46uproot">[1]</a>
 </li>
       <li><a href="reference/api/cpp-module.html#_CPPv4N6uproot14AnyClassReaderE">uproot::AnyClassReader (C++ class)</a>
@@ -813,10 +1406,10 @@ document.write(`
 </li>
       <li><a href="reference/api/cpp-module.html#_CPPv4N6uproot18ObjectHeaderReader16m_element_readerE">uproot::ObjectHeaderReader::m_element_reader (C++ member)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/api/cpp-module.html#_CPPv4N6uproot18ObjectHeaderReader18ObjectHeaderReaderE6string12SharedReader">uproot::ObjectHeaderReader::ObjectHeaderReader (C++ function)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/api/cpp-module.html#_CPPv4N6uproot18ObjectHeaderReader4readER12BinaryBuffer">uproot::ObjectHeaderReader::read (C++ function)</a>
 </li>
       <li><a href="reference/api/cpp-module.html#_CPPv4I0EN6uproot15PrimitiveReaderE">uproot::PrimitiveReader (C++ class)</a>
@@ -986,6 +1579,27 @@ document.write(`
 
       <ul>
         <li><a href="reference/api/uproot_custom.html#module-uproot_custom.factories">module</a>
+</li>
+      </ul></li>
+      <li>
+    uproot_custom.readers
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#module-uproot_custom.readers">module</a>
+</li>
+      </ul></li>
+      <li>
+    uproot_custom.readers.cpp
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#module-uproot_custom.readers.cpp">module</a>
+</li>
+      </ul></li>
+      <li>
+    uproot_custom.readers.python
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#module-uproot_custom.readers.python">module</a>
 </li>
       </ul></li>
       <li>

@@ -177,10 +177,11 @@ window.addEventListener("load", () => mermaid.run());
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="tutorial/use-built-in.html">Use built-in factories</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="tutorial/customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/bootstrap.html">Bootstrap of custom classes reading in uproot-custom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/streamer-info.html">Streamer information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/binary-data.html">Binary data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
@@ -192,10 +193,14 @@ window.addEventListener("load", () => mermaid.run());
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="reference/version-requirements.html">Version requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference/binary-format.html">Binary format of common classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/reader-backends.html">Reader backends</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="reference/api.html">API documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="reference/api/cpp-api.html">C++ API reference</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="reference/api/uproot-custom-ref.html">Module reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="reference/api/uproot_custom.html">Python reference</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="reference/api/uproot_custom.html">Python reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
@@ -388,17 +393,15 @@ document.write(`
         flowchart TD
     subgraph py[&quot;Python field&quot;]
         direction TB
-        AsCustom --&gt; fac[&quot;Factory (Primitive, STLVector, TString, ...)&quot;]
+        AsCustom -- Recursively generate --&gt; fac[&quot;Factory (Primitive, STLVector, TString, ...)&quot;]
         fac[&quot;Factory (Primitive, STLVector, TString, ...)&quot;] -- Optional --&gt; form([&quot;construct awkward forms&quot;])
-        fac --&gt; build_reader([&quot;build corresponding C++ reader&quot;])
+        fac --&gt; build_reader([&quot;build corresponding reader&quot;])
         fac --&gt; build_ak([&quot;construct awkward arrays&quot;])
     end
 
-    user_fac[&quot;User's Factory&quot;] -. Register .-&gt; fac
-
-    subgraph cpp[&quot;C++ field&quot;]
+    subgraph cpp[&quot;Backend-specific field&quot;]
         direction TB
-        build_reader --&gt; reader[&quot;C++ Reader&quot;]
+        build_reader --&gt; reader[&quot;Reader&quot;]
         reader --&gt; read_bin([&quot;read binary data&quot;])
         read_bin --&gt; ret_data([&quot;return data&quot;])
     end
@@ -406,17 +409,17 @@ document.write(`
     ret_data --&gt; raw_data[(&quot;tuple, list, numpy arrays, ...&quot;)]
     raw_data --&gt; build_ak
     </pre><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">reader</span></code> is a C++ class that implements the logic to read data from binary buffers.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">factory</span></code> is a Python class that creates, combines <code class="docutils literal notranslate"><span class="pre">reader</span></code>s, and post-processes the data read by <code class="docutils literal notranslate"><span class="pre">reader</span></code>s.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Reader</span></code> is a Python/C++ class that implements the logic to read data from binary buffers.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Factory</span></code> is a Python class that creates, combines <code class="docutils literal notranslate"><span class="pre">Reader</span></code>s, and post-processes the data read by <code class="docutils literal notranslate"><span class="pre">Reader</span></code>s.</p></li>
 </ul>
-<p>This machanism is implemented as <code class="docutils literal notranslate"><span class="pre">uproot_custom.AsCustom</span></code> interpretation. This makes uproot-custom well compatible with Uproot.</p>
+<p>This machanism is implemented as <code class="docutils literal notranslate"><span class="pre">AsCustom</span></code> interpretation. This makes uproot-custom well compatible with Uproot.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>Users can implement their own <code class="docutils literal notranslate"><span class="pre">factory</span></code> and <code class="docutils literal notranslate"><span class="pre">reader</span></code>, register them to uproot-custom. An example of implementing a custom <code class="docutils literal notranslate"><span class="pre">factory</span></code>/<code class="docutils literal notranslate"><span class="pre">reader</span></code> can be found in <a class="reference external" href="https://github.com/mrzimu/uproot-custom-example">the example repository</a>.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Uproot-custom does not provide a full reimplementation of <code class="docutils literal notranslate"><span class="pre">ROOT</span></code>’s I/O system. Users are expected to implement their own <code class="docutils literal notranslate"><span class="pre">factory</span></code>/<code class="docutils literal notranslate"><span class="pre">reader</span></code> for their custom classes that built-in factories cannot handle.</p>
+<p>Uproot-custom does not provide a full reimplementation of <code class="docutils literal notranslate"><span class="pre">ROOT</span></code>’s TTree I/O system. Users are expected to implement their own <code class="docutils literal notranslate"><span class="pre">factory</span></code>/<code class="docutils literal notranslate"><span class="pre">reader</span></code> for their custom classes that built-in factories cannot handle.</p>
 </div>
 <div class="toctree-wrapper compound">
 </div>

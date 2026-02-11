@@ -168,10 +168,11 @@
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Use built-in factories</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="customize-factory-reader/bootstrap.html">Bootstrap of custom classes reading in uproot-custom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="customize-factory-reader/bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="customize-factory-reader/streamer-info.html">Streamer information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="customize-factory-reader/binary-data.html">Binary data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
@@ -183,10 +184,14 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../reference/version-requirements.html">Version requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/binary-format.html">Binary format of common classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/reader-backends.html">Reader backends</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../reference/api.html">API documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../reference/api/cpp-api.html">C++ API reference</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../reference/api/uproot-custom-ref.html">Module reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../reference/api/uproot_custom.html">Python reference</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/api/uproot_custom.html">Python reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
@@ -347,7 +352,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-obtain-the-object-path-of-branches">Step 1: Obtain the object-path of branches</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-register-the-branch-to-uproot-custom-and-read">Step 2: Register the branch to uproot-custom and read</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-comparing-uproot-custom-vs-uproot">Example: comparing uproot-custom vs Uproot</a></li>
 </ul>
             </nav>
         </div>
@@ -361,10 +366,13 @@ document.write(`
                   
   <section id="use-built-in-factories">
 <h1>Use built-in factories<a class="headerlink" href="#use-built-in-factories" title="Link to this heading">#</a></h1>
-<p>Uproot-custom has already defined several built-in readers and factories. You can firstly try them to see if they can handle your reading task.</p>
+<p>Uproot-custom ships with built-in readers and factories; try them first before
+writing custom ones. This page walks through registering a branch, confirming
+it is routed to <code class="docutils literal notranslate"><span class="pre">AsCustom</span></code>, and comparing with plain Uproot behavior.</p>
 <section id="step-1-obtain-the-object-path-of-branches">
 <h2>Step 1: Obtain the object-path of branches<a class="headerlink" href="#step-1-obtain-the-object-path-of-branches" title="Link to this heading">#</a></h2>
-<p>To let uproot-custom read specific branches, you need to obtain the regularized <code class="docutils literal notranslate"><span class="pre">object-path</span></code> of the branches:</p>
+<p>To let uproot-custom read specific branches, you need to obtain the regularized
+<code class="docutils literal notranslate"><span class="pre">object-path</span></code> of the branch:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">uc</span>
 
@@ -385,18 +393,20 @@ document.write(`
 </section>
 <section id="step-2-register-the-branch-to-uproot-custom-and-read">
 <h2>Step 2: Register the branch to uproot-custom and read<a class="headerlink" href="#step-2-register-the-branch-to-uproot-custom-and-read" title="Link to this heading">#</a></h2>
-<p>Record the content of <code class="docutils literal notranslate"><span class="pre">regularized_obj_path</span></code> above. In the next time, you can register the branch to uproot-custom <strong>before opening the file</strong>:</p>
+<p>Register the regularized path above to uproot-custom <strong>before opening the
+file</strong>. Registration must happen before the file is opened; otherwise Uproot
+will cache a non-<code class="docutils literal notranslate"><span class="pre">AsCustom</span></code> interpretation.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">uc</span>
 
 <span class="n">uc</span><span class="o">.</span><span class="n">AsCustom</span><span class="o">.</span><span class="n">target_branches</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;/my_tree:my_branch&quot;</span><span class="p">)</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;file.root&quot;</span><span class="p">)</span>
+<span class="n">f</span><span class="p">[</span><span class="s2">&quot;my_tree&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>You can print the branch with <code class="docutils literal notranslate"><span class="pre">show</span></code> method:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;my_tree&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>As long as the registration is successful, the interpretation of <code class="docutils literal notranslate"><span class="pre">my_branch</span></code> should be <code class="docutils literal notranslate"><span class="pre">AsCustom</span></code>.</p>
+<p>As long as the registration is successful, the interpretation of <code class="docutils literal notranslate"><span class="pre">my_branch</span></code>
+should be <code class="docutils literal notranslate"><span class="pre">AsCustom</span></code>.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p><code class="docutils literal notranslate"><span class="pre">uc.AsCustom.target_branches</span></code> is a <code class="docutils literal notranslate"><span class="pre">set</span></code>, you can add multiple branches like this:</p>
@@ -404,13 +414,14 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<p>Now you can read the branch as using Uproot:</p>
+<p>Now you can read the data as usual with Uproot. For large jobs, keep the set of
+target branches minimal so only the branches you intend are patched:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">arr</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;my_tree/my_branch&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">array</span><span class="p">()</span> <span class="c1"># will be read by uproot-custom</span>
 </pre></div>
 </div>
 </section>
-<section id="example">
-<h2>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h2>
+<section id="example-comparing-uproot-custom-vs-uproot">
+<h2>Example: comparing uproot-custom vs Uproot<a class="headerlink" href="#example-comparing-uproot-custom-vs-uproot" title="Link to this heading">#</a></h2>
 <p>When storing a c-style array <code class="docutils literal notranslate"><span class="pre">std::vector&lt;double&gt;[3]</span></code> into a custom class like:</p>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text">Class definition</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
@@ -481,9 +492,9 @@ uproot-custom</label><div class="sd-tab-content docutils">
 </div>
 <div class="literal-block-wrapper docutils container" id="id5">
 <div class="code-block-caption"><span class="caption-text">Output</span><a class="headerlink" href="#id5" title="Link to this code">#</a></div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">name                 | typename                 | interpretation                </span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">name                 | typename                 | interpretation</span>
 <span class="go">---------------------+--------------------------+-------------------------------</span>
-<span class="go">m_vec_double[3]      | vector&lt;double&gt;[][3]      | AsCustom(vector&lt;double&gt;[][3]) </span>
+<span class="go">m_vec_double[3]      | vector&lt;double&gt;[][3]      | AsCustom(vector&lt;double&gt;[][3])</span>
 </pre></div>
 </div>
 </div>
@@ -559,7 +570,7 @@ uproot</label><div class="sd-tab-content docutils">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-obtain-the-object-path-of-branches">Step 1: Obtain the object-path of branches</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-register-the-branch-to-uproot-custom-and-read">Step 2: Register the branch to uproot-custom and read</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-comparing-uproot-custom-vs-uproot">Example: comparing uproot-custom vs Uproot</a></li>
 </ul>
   </nav></div>
 

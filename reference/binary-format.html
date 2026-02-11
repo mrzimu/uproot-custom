@@ -55,7 +55,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/binary-format';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="API documentation" href="api.html" />
+    <link rel="next" title="Reader backends" href="reader-backends.html" />
     <link rel="prev" title="Version requirements" href="version-requirements.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -168,10 +168,11 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/use-built-in.html">Use built-in factories</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorial/customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/bootstrap.html">Bootstrap of custom classes reading in uproot-custom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/streamer-info.html">Streamer information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/binary-data.html">Binary data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
@@ -183,10 +184,14 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="version-requirements.html">Version requirements</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Binary format of common classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reader-backends.html">Reader backends</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/cpp-api.html">C++ API reference</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/uproot-custom-ref.html">Module reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/uproot_custom.html">Python reference</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/uproot_custom.html">Python reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
@@ -363,9 +368,11 @@ document.write(`
 <h1>Binary format of common classes<a class="headerlink" href="#binary-format-of-common-classes" title="Link to this heading">#</a></h1>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
-<p>This page is still under construction.</p>
+<p>This page is a growing checklist. Use it alongside the walkthrough in
+<a class="reference internal" href="../tutorial/customize-factory-reader/binary-data.html"><span class="std std-doc">Binary data</span></a> when inspecting bytes.</p>
 </div>
-<p>This section lists the binary format of some common classes. Data are stored in big-endian format.</p>
+<p>This section lists the binary format of some common classes. Data are stored in
+big-endian format.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>These formats are summarized by me, and may not be complete or accurate. If you find any mistakes, you are welcome to open an issue or a PR to correct them.</p>
@@ -536,11 +543,11 @@ std::array</label><div class="sd-tab-content docutils">
       </div>
     </a>
     <a class="right-next"
-       href="api.html"
+       href="reader-backends.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">API documentation</p>
+        <p class="prev-next-title">Reader backends</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

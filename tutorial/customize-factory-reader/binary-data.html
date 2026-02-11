@@ -168,10 +168,11 @@
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../use-built-in.html">Use built-in factories</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="bootstrap.html">Bootstrap of custom classes reading in uproot-custom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streamer-info.html">Streamer information</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Binary data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reader-and-factory.html">Reader and factory interface</a></li>
@@ -183,10 +184,14 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../reference/version-requirements.html">Version requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../reference/binary-format.html">Binary format of common classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/reader-backends.html">Reader backends</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../reference/api.html">API documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../reference/api/cpp-api.html">C++ API reference</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../reference/api/uproot-custom-ref.html">Module reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../reference/api/uproot_custom.html">Python reference</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../reference/api/uproot_custom.html">Python reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="../../reference/api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
@@ -366,7 +371,9 @@ document.write(`
                   
   <section id="binary-data">
 <h1>Binary data<a class="headerlink" href="#binary-data" title="Link to this heading">#</a></h1>
-<p>Now let’s turn to the binary data stored in file. Before starting to implement your own <code class="docutils literal notranslate"><span class="pre">reader</span></code>/<code class="docutils literal notranslate"><span class="pre">factory</span></code>, you need to check the raw binary data. As long as you understand how <code class="docutils literal notranslate"><span class="pre">ROOT</span></code> stores the binary data, you can implement your own <code class="docutils literal notranslate"><span class="pre">reader</span></code>/<code class="docutils literal notranslate"><span class="pre">factory</span></code> easily.</p>
+<p>Now let’s turn to the binary data stored in file. Before writing a custom
+<code class="docutils literal notranslate"><span class="pre">reader</span></code>/<code class="docutils literal notranslate"><span class="pre">factory</span></code>, inspect the raw bytes. Understanding how <code class="docutils literal notranslate"><span class="pre">ROOT</span></code> lays out the
+payload lets you validate your assumptions before touching C++.</p>
 <section id="object-splitting">
 <h2>Object splitting<a class="headerlink" href="#object-splitting" title="Link to this heading">#</a></h2>
 <p>Most of the time, data members are splitted into separate branches or sub-branches. For example, if you directly store <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code> into <code class="docutils literal notranslate"><span class="pre">TTree</span></code>, each data member will be stored in a separate branch:</p>
@@ -378,7 +385,7 @@ document.write(`
 </div>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">Output</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">name                                     | typename                 | interpretation                </span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">name                                     | typename                 | interpretation</span>
 <span class="go">-----------------------------------------+--------------------------+-------------------------------</span>
 <span class="go">simple_obj                               | TSimpleObject            | AsGroup(&lt;TBranchElement &#39;simpl</span>
 <span class="go">TObject                                  | (group of fUniqueID:u... | AsGroup(&lt;TBranchElement &#39;TO...</span>
@@ -406,7 +413,7 @@ document.write(`
 </div>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text">Output</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">name                 | typename                 | interpretation                </span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">name                 | typename                 | interpretation</span>
 <span class="go">---------------------+--------------------------+-------------------------------</span>
 <span class="go">m_simple_obj[3]      | TSimpleObject[][3]       | AsObjects(AsArray(False, False</span>
 </pre></div>
@@ -416,7 +423,8 @@ document.write(`
 </section>
 <section id="obtain-branch-binary-data">
 <span id="obtain-binary-data"></span><h2>Obtain branch binary data<a class="headerlink" href="#obtain-branch-binary-data" title="Link to this heading">#</a></h2>
-<p>You can obtain the raw binary data of a branch using <code class="docutils literal notranslate"><span class="pre">uproot.interpretations.custom.AsBinary</span></code> interpretation:</p>
+<p>You can obtain the raw binary data of a branch using
+<code class="docutils literal notranslate"><span class="pre">uproot.interpretations.custom.AsBinary</span></code> interpretation:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot.interpretations.custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsBinary</span>
 
 <span class="n">raw_binary</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;my_tree/cstyle_array/m_simple_obj[3]&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">interpretation</span><span class="o">=</span><span class="n">AsBinary</span><span class="p">())</span>

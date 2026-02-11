@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>API documentation &#8212; uproot-custom</title>
+    <title>Reader backends &#8212; uproot-custom</title>
   
   
   
@@ -52,11 +52,11 @@
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/reader-backends';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="C++ API reference" href="api/cpp-api.html" />
-    <link rel="prev" title="Reader backends" href="reader-backends.html" />
+    <link rel="next" title="API documentation" href="api.html" />
+    <link rel="prev" title="Binary format of common classes" href="binary-format.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -184,8 +184,8 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="version-requirements.html">Version requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="binary-format.html">Binary format of common classes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reader-backends.html">Reader backends</a></li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">API documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Reader backends</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/cpp-api.html">C++ API reference</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/uproot-custom-ref.html">Module reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/uproot_custom.html">Python reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -256,7 +256,7 @@
       
       
       
-      <li><a href="../_sources/reference/api.md" target="_blank"
+      <li><a href="../_sources/reference/reader-backends.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -327,7 +327,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -338,11 +340,22 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>API documentation</h1>
+    <h1>Reader backends</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-backend-selection-works">How backend selection works</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-each-backend">When to use each backend</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-custom-factories-for-both-backends">Writing custom factories for both backends</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -352,10 +365,71 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="api-documentation">
-<h1>API documentation<a class="headerlink" href="#api-documentation" title="Link to this heading">#</a></h1>
-<div class="toctree-wrapper compound">
+  <section id="reader-backends">
+<h1>Reader backends<a class="headerlink" href="#reader-backends" title="Link to this heading">#</a></h1>
+<p>Uproot-custom supports two reader backends:</p>
+<ul class="simple">
+<li><p><strong>C++ backend (default):</strong> fast pybind11 readers built from the bundled C++
+extension. Use this for production workloads.</p></li>
+<li><p><strong>Python backend:</strong> pure-Python readers in <code class="docutils literal notranslate"><span class="pre">uproot_custom.readers.python</span></code>. Use
+it only when you cannot build the C++ extension or when debugging reader
+logic; it is much slower and not suitable for production volumes.</p></li>
+</ul>
+<section id="how-backend-selection-works">
+<h2>How backend selection works<a class="headerlink" href="#how-backend-selection-works" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">uproot_custom.factories.reader_backend</span></code> controls which backend <code class="docutils literal notranslate"><span class="pre">AsCustom</span></code> uses
+when materializing readers. The value is read at build time of the factory tree.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.factories</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fac</span>
+
+<span class="c1"># Switch to Python readers (slower but compiler-free)</span>
+<span class="n">fac</span><span class="o">.</span><span class="n">reader_backend</span> <span class="o">=</span> <span class="s2">&quot;python&quot;</span>
+
+<span class="c1"># ... open files, register target branches, read arrays ...</span>
+
+<span class="c1"># Switch back to C++ readers for speed</span>
+<span class="n">fac</span><span class="o">.</span><span class="n">reader_backend</span> <span class="o">=</span> <span class="s2">&quot;cpp&quot;</span>
+</pre></div>
 </div>
+<p>Set the backend <strong>before</strong> opening files or reading branches so that factories
+build the correct reader implementations.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The Python backend is intended for development and debugging only. It is
+significantly slower than the C++ backend and should not be used for production
+or large datasets.</p>
+</div>
+</section>
+<section id="when-to-use-each-backend">
+<h2>When to use each backend<a class="headerlink" href="#when-to-use-each-backend" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Prefer <strong>C++</strong> for any real analysis, performance-sensitive jobs, or large
+datasets.</p></li>
+<li><p>Use <strong>Python</strong> only when:</p>
+<ul>
+<li><p>You are on a platform without a C++17 toolchain or cannot build the native
+extension.</p></li>
+<li><p>You need to debug reader behavior interactively (e.g., step through Python
+readers or print buffer state) on small samples.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="writing-custom-factories-for-both-backends">
+<h2>Writing custom factories for both backends<a class="headerlink" href="#writing-custom-factories-for-both-backends" title="Link to this heading">#</a></h2>
+<p>If you plan to allow the Python backend, your custom factories should implement
+both <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code> and <code class="docutils literal notranslate"><span class="pre">build_python_reader</span></code>. See the reader/factory
+interface description in <a class="reference internal" href="#tutorial/customize-factory-reader/reader-and-factory.md"><span class="xref myst">tutorial/customize-factory-reader/reader-and-factory.md</span></a>.</p>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>If you see <code class="docutils literal notranslate"><span class="pre">Unknown</span> <span class="pre">reader</span> <span class="pre">backend</span></code> errors, ensure <code class="docutils literal notranslate"><span class="pre">reader_backend</span></code> is either
+<code class="docutils literal notranslate"><span class="pre">&quot;cpp&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;python&quot;</span></code>.</p></li>
+<li><p>If imports fail for C++ readers (pybind11 module missing), either rebuild the
+extension (e.g., <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code>) or temporarily switch to the Python
+backend.</p></li>
+</ul>
+</section>
 </section>
 
 
@@ -370,20 +444,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="reader-backends.html"
+       href="binary-format.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Reader backends</p>
+        <p class="prev-next-title">Binary format of common classes</p>
       </div>
     </a>
     <a class="right-next"
-       href="api/cpp-api.html"
+       href="api.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">C++ API reference</p>
+        <p class="prev-next-title">API documentation</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -393,6 +467,24 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-backend-selection-works">How backend selection works</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-each-backend">When to use each backend</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-custom-factories-for-both-backends">Writing custom factories for both backends</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

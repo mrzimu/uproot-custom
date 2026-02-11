@@ -55,7 +55,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorial/customize-factory-reader';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Bootstrap of custom classes reading in uproot-custom" href="customize-factory-reader/bootstrap.html" />
+    <link rel="next" title="Bootstrapping custom-class reading in uproot-custom" href="customize-factory-reader/bootstrap.html" />
     <link rel="prev" title="Use built-in factories" href="use-built-in.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -168,10 +168,11 @@
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="use-built-in.html">Use built-in factories</a></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="customize-factory-reader/bootstrap.html">Bootstrap of custom classes reading in uproot-custom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="customize-factory-reader/bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="customize-factory-reader/streamer-info.html">Streamer information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="customize-factory-reader/binary-data.html">Binary data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
@@ -183,10 +184,14 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../reference/version-requirements.html">Version requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/binary-format.html">Binary format of common classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/reader-backends.html">Reader backends</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../reference/api.html">API documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../reference/api/cpp-api.html">C++ API reference</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../reference/api/uproot-custom-ref.html">Module reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../reference/api/uproot_custom.html">Python reference</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/api/uproot_custom.html">Python reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="../reference/api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
@@ -349,13 +354,22 @@ document.write(`
                   
   <section id="customize-factory-and-reader">
 <h1>Customize factory and reader<a class="headerlink" href="#customize-factory-and-reader" title="Link to this heading">#</a></h1>
-<p>If the built-in factories cannot reach your needs, you can implement your own <code class="docutils literal notranslate"><span class="pre">factory</span></code> and/or <code class="docutils literal notranslate"><span class="pre">reader</span></code>.</p>
-<!-- This requires some knowledge of `ROOT`'s streaming mechanism and uproot-custom's design. -->
+<p>If the built-in factories cannot reach your needs, you can implement your own
+<code class="docutils literal notranslate"><span class="pre">factory</span></code> and/or <code class="docutils literal notranslate"><span class="pre">reader</span></code>.</p>
 <div class="note admonition">
 <p class="admonition-title">Prerequisites</p>
-<p>Customizing own <code class="docutils literal notranslate"><span class="pre">reader</span></code> requires C++ compiler supporting <code class="docutils literal notranslate"><span class="pre">C++17</span></code> and <code class="docutils literal notranslate"><span class="pre">CMake&gt;3.20</span></code>.</p>
+<p>Custom readers require a C++17 compiler, <code class="docutils literal notranslate"><span class="pre">CMake&gt;3.20</span></code>, and a Python toolchain
+able to build extension modules.</p>
 </div>
-<p>This chapter describes preliminary knowledge you may need when customizing your own <code class="docutils literal notranslate"><span class="pre">factory</span></code> and <code class="docutils literal notranslate"><span class="pre">reader</span></code>, and a step-by-step guide to create a template Python project for your custom implementation.</p>
+<p>What you’ll find here:</p>
+<ul class="simple">
+<li><p>How streamer info maps to factories/readers.</p></li>
+<li><p>How to inspect binary payloads before coding.</p></li>
+<li><p>A template Python project that wires Python factories to C++ readers.</p></li>
+</ul>
+<p>Recommended flow: read <strong>Bootstrap</strong>, skim <strong>Streamer information</strong> and
+<strong>Binary data</strong>, then dive into <strong>Reader and factory interface</strong> before using
+the <strong>Template Python project</strong>.</p>
 <div class="toctree-wrapper compound">
 </div>
 </section>
@@ -385,7 +399,7 @@ document.write(`
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Bootstrap of custom classes reading in uproot-custom</p>
+        <p class="prev-next-title">Bootstrapping custom-class reading in uproot-custom</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

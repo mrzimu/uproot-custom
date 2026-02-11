@@ -288,7 +288,7 @@ header + multiple data objects&quot; format. This method can be overridden to ha
           <declname>count</declname>
         </param>
         <briefdescription>
-<para>Read multiple elements from the buffer in member-wise fashion. This method checks for negative count and calls <ref refid="classuproot_1_1_i_reader_1a0f59056370968271e27813bd0722eae4" kindref="member">read_many()</ref> by default. It can be overridden to handle member-wise reading more efficiently. </para>
+<para>Read multiple elements from the buffer in member-wise fashion. Readers that need to handle member-wise data reading must implement this method. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -314,7 +314,7 @@ header + multiple data objects&quot; format. This method can be overridden to ha
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="367" column="26" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="367" bodyend="375"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="366" column="26" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="366" bodyend="368"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -406,7 +406,7 @@ header + multiple data objects&quot; format. This method can be overridden to ha
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="283" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="283" bodyend="376"/>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="283" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="283" bodyend="369"/>
     <listofallmembers>
       <member refid="classuproot_1_1_i_reader_1acd7126fde99fad7d3f497aaee23ae118" prot="public" virt="pure-virtual"><scope>uproot::IReader</scope><name>data</name></member>
       <member refid="classuproot_1_1_i_reader_1aed13e9c0926be8e89422cf49efdcc752" prot="public" virt="non-virtual"><scope>uproot::IReader</scope><name>IReader</name></member>

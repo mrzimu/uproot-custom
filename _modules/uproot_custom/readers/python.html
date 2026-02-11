@@ -1,0 +1,1505 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>uproot_custom.readers.python &#8212; uproot-custom</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/uproot_custom/readers/python';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">uproot-custom</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../../index.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/use-built-in.html">Use built-in factories</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorial/customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/customize-factory-reader/bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/customize-factory-reader/streamer-info.html">Streamer information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/customize-factory-reader/binary-data.html">Binary data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/customize-factory-reader/template-python-project.html">Template Python project</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/version-requirements.html">Version requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/binary-format.html">Binary format of common classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/reader-backends.html">Reader backends</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../reference/api.html">API documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../reference/api/cpp-api.html">C++ API reference</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../reference/api/uproot-custom-ref.html">Module reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../reference/api/uproot_custom.html">Python reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../reference/api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../reference/api/cpp-module.html">C++ reference</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../example/override-streamer.html">Example 1: <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method is overridden</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../example/read-tobjarray.html">Example 2: Read <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> with unique known type</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for uproot_custom.readers.python</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">struct</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">textwrap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">array</span><span class="w"> </span><span class="kn">import</span> <span class="n">array</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Literal</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NDArray</span>
+
+<span class="n">kNewClassTag</span> <span class="o">=</span> <span class="mh">0xFFFFFFFF</span>
+<span class="n">kByteCountMask</span> <span class="o">=</span> <span class="mh">0x40000000</span>
+<span class="n">kIsReferenced</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span>
+<span class="n">kStreamedMemberwise</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">14</span>
+
+
+<div class="viewcode-block" id="debug_print">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.debug_print">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">debug_print</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<span class="k">if</span> <span class="s2">&quot;UPROOT_DEBUG&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="n">debug_print</span> <span class="o">=</span> <span class="nb">print</span>
+
+
+<div class="viewcode-block" id="BinaryBuffer">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BinaryBuffer</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">],</span>
+        <span class="n">offsets</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">],</span>
+        <span class="n">repr_nbytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span> <span class="o">=</span> <span class="n">offsets</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">repr_nbytes</span> <span class="o">=</span> <span class="n">repr_nbytes</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">entries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">remaining_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="p">:]</span>
+
+<div class="viewcode-block" id="BinaryBuffer.read_uint8">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_uint8">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_uint8</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack_from</span><span class="p">(</span><span class="s2">&quot;&gt;B&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">val</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.read_uint16">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_uint16">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_uint16</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack_from</span><span class="p">(</span><span class="s2">&quot;&gt;H&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">val</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.read_uint32">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_uint32">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_uint32</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack_from</span><span class="p">(</span><span class="s2">&quot;&gt;I&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="mi">4</span>
+        <span class="k">return</span> <span class="n">val</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.read_uint64">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_uint64">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_uint64</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack_from</span><span class="p">(</span><span class="s2">&quot;&gt;Q&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="mi">8</span>
+        <span class="k">return</span> <span class="n">val</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.read_int8">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_int8">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_int8</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack_from</span><span class="p">(</span><span class="s2">&quot;&gt;b&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">val</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.read_int16">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_int16">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_int16</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack_from</span><span class="p">(</span><span class="s2">&quot;&gt;h&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">val</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.read_int32">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_int32">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_int32</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack_from</span><span class="p">(</span><span class="s2">&quot;&gt;i&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="mi">4</span>
+        <span class="k">return</span> <span class="n">val</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.read_int64">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_int64">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_int64</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack_from</span><span class="p">(</span><span class="s2">&quot;&gt;q&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="mi">8</span>
+        <span class="k">return</span> <span class="n">val</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.read_float">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_float">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_float</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack_from</span><span class="p">(</span><span class="s2">&quot;&gt;f&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="mi">4</span>
+        <span class="k">return</span> <span class="n">val</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.read_double">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_double">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_double</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack_from</span><span class="p">(</span><span class="s2">&quot;&gt;d&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="mi">8</span>
+        <span class="k">return</span> <span class="n">val</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.read_bool">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_bool">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_bool</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">read_uint8</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.read_fNBytes">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_fNBytes">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_fNBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">:</span>
+        <span class="n">byte_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">byte_count</span> <span class="o">&amp;</span> <span class="n">kByteCountMask</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Invalid byte count: </span><span class="si">{</span><span class="n">byte_count</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">byte_count</span> <span class="o">&amp;</span> <span class="p">(</span><span class="o">~</span><span class="n">kByteCountMask</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.read_fVersion">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_fVersion">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_fVersion</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_int16</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.read_null_terminated_string">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_null_terminated_string">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_null_terminated_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">]</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.read_obj_header">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_obj_header">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_obj_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_fNBytes</span><span class="p">()</span>
+        <span class="n">fTag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">fTag</span> <span class="o">==</span> <span class="n">kNewClassTag</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_null_terminated_string</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.read_TString">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.read_TString">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_TString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_uint8</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">length</span> <span class="o">==</span> <span class="mi">255</span><span class="p">:</span>
+            <span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+
+        <span class="n">start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="n">length</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">]</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.skip">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.skip">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">skip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="n">n</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.skip_fNBytes">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.skip_fNBytes">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">skip_fNBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_fNBytes</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.skip_fVersion">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.skip_fVersion">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">skip_fVersion</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.skip_null_terminated_string">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.skip_null_terminated_string">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">skip_null_terminated_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.skip_obj_header">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.skip_obj_header">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">skip_obj_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skip_fNBytes</span><span class="p">()</span>
+        <span class="n">fTag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">fTag</span> <span class="o">==</span> <span class="n">kNewClassTag</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">skip_null_terminated_string</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BinaryBuffer.skip_TObject">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.skip_TObject">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">skip_TObject</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># fUniqueID</span>
+        <span class="n">fBits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">fBits</span> <span class="o">&amp;</span> <span class="n">kIsReferenced</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># pidf</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">data_view</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">repr_nbytes</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data_view</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2">, &quot;</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_view</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="p">:]):</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="s2">&quot;...&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">width</span> <span class="o">=</span> <span class="mi">76</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">width</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">get_terminal_size</span><span class="p">()</span>
+            <span class="n">width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="c1"># Ignore errors if terminal size cannot be determined; use default width</span>
+            <span class="k">pass</span>
+
+        <span class="n">wrapper</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">TextWrapper</span><span class="p">(</span>
+            <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">initial_indent</span><span class="o">=</span><span class="s2">&quot;[ &quot;</span><span class="p">,</span>
+            <span class="n">subsequent_indent</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+            <span class="n">break_long_words</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">break_on_hyphens</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">drop_whitespace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">replace_whitespace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="s2">&quot;BinaryBuffer:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="IReader">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.IReader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">IReader</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+<div class="viewcode-block" id="IReader.read">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.IReader.read">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="IReader.data">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.IReader.data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="IReader.read_many">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.IReader.read_many">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_many</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="p">,</span> <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">count</span></div>
+
+
+<div class="viewcode-block" id="IReader.read_until">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.IReader.read_until">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_until</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="p">,</span> <span class="n">end_pos</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">&lt;</span> <span class="n">end_pos</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">count</span></div>
+
+
+<div class="viewcode-block" id="IReader.read_many_memberwise">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.IReader.read_many_memberwise">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_many_memberwise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="p">,</span> <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+</div>
+
+
+
+<span class="n">DTYPE_TO_TYPECODE</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;u1&quot;</span><span class="p">:</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;u2&quot;</span><span class="p">:</span> <span class="s2">&quot;H&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;u4&quot;</span><span class="p">:</span> <span class="s2">&quot;I&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;u8&quot;</span><span class="p">:</span> <span class="s2">&quot;Q&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;i1&quot;</span><span class="p">:</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;i2&quot;</span><span class="p">:</span> <span class="s2">&quot;h&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;i4&quot;</span><span class="p">:</span> <span class="s2">&quot;i&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;i8&quot;</span><span class="p">:</span> <span class="s2">&quot;q&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bool&quot;</span><span class="p">:</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">DTYPE_TO_READER</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">BinaryBuffer</span><span class="p">],</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;u1&quot;</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="o">.</span><span class="n">read_uint8</span><span class="p">,</span>
+    <span class="s2">&quot;u2&quot;</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="o">.</span><span class="n">read_uint16</span><span class="p">,</span>
+    <span class="s2">&quot;u4&quot;</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">,</span>
+    <span class="s2">&quot;u8&quot;</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="o">.</span><span class="n">read_uint64</span><span class="p">,</span>
+    <span class="s2">&quot;i1&quot;</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="o">.</span><span class="n">read_int8</span><span class="p">,</span>
+    <span class="s2">&quot;i2&quot;</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="o">.</span><span class="n">read_int16</span><span class="p">,</span>
+    <span class="s2">&quot;i4&quot;</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="o">.</span><span class="n">read_int32</span><span class="p">,</span>
+    <span class="s2">&quot;i8&quot;</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="o">.</span><span class="n">read_int64</span><span class="p">,</span>
+    <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="o">.</span><span class="n">read_float</span><span class="p">,</span>
+    <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="o">.</span><span class="n">read_double</span><span class="p">,</span>
+    <span class="s2">&quot;bool&quot;</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="o">.</span><span class="n">read_bool</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="PrimitiveReader">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.PrimitiveReader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PrimitiveReader</span><span class="p">(</span><span class="n">IReader</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span>
+            <span class="s2">&quot;bool&quot;</span><span class="p">,</span> <span class="s2">&quot;u1&quot;</span><span class="p">,</span> <span class="s2">&quot;u2&quot;</span><span class="p">,</span> <span class="s2">&quot;u4&quot;</span><span class="p">,</span> <span class="s2">&quot;u8&quot;</span><span class="p">,</span> <span class="s2">&quot;i1&quot;</span><span class="p">,</span> <span class="s2">&quot;i2&quot;</span><span class="p">,</span> <span class="s2">&quot;i4&quot;</span><span class="p">,</span> <span class="s2">&quot;i8&quot;</span><span class="p">,</span> <span class="s2">&quot;float&quot;</span><span class="p">,</span> <span class="s2">&quot;double&quot;</span>
+        <span class="p">],</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">typecode</span> <span class="o">=</span> <span class="n">DTYPE_TO_TYPECODE</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">typecode</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffer_reader</span> <span class="o">=</span> <span class="n">DTYPE_TO_READER</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span>
+
+<div class="viewcode-block" id="PrimitiveReader.read">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.PrimitiveReader.read">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buffer_reader</span><span class="p">(</span><span class="n">buffer</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="PrimitiveReader.data">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.PrimitiveReader.data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TObjectReader">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TObjectReader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TObjectReader</span><span class="p">(</span><span class="n">IReader</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">keep_data</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">keep_data</span> <span class="o">=</span> <span class="n">keep_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unique_id</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bits</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;I&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pidf</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;H&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pidf_offsets</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<div class="viewcode-block" id="TObjectReader.read">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TObjectReader.read">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
+        <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
+        <span class="n">fUniqueID</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_int32</span><span class="p">()</span>
+        <span class="n">fBits</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">fBits</span> <span class="o">&amp;</span> <span class="n">kIsReferenced</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keep_data</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pidf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">read_uint16</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">buffer</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keep_data</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">unique_id</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fUniqueID</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fBits</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pidf_offsets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pidf</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="TObjectReader.data">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TObjectReader.data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">keep_data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">unique_id_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_id</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i4&quot;</span><span class="p">)</span>
+        <span class="n">bits_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bits</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;u4&quot;</span><span class="p">)</span>
+        <span class="n">pidf_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pidf</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;u2&quot;</span><span class="p">)</span>
+        <span class="n">pidf_offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pidf_offsets</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">unique_id_array</span><span class="p">,</span> <span class="n">bits_array</span><span class="p">,</span> <span class="n">pidf_array</span><span class="p">,</span> <span class="n">pidf_offsets_array</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TStringReader">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TStringReader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TStringReader</span><span class="p">(</span><span class="n">IReader</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">with_header</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="n">with_header</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<div class="viewcode-block" id="TStringReader.read">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TStringReader.read">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
+        <span class="n">fSize</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_uint8</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">fSize</span> <span class="o">==</span> <span class="mi">255</span><span class="p">:</span>
+            <span class="n">fSize</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">fSize</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">read_uint8</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="TStringReader.read_many">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TStringReader.read_many">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_many</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+        <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Calling </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.read_many with negative count: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> is not allowed&quot;</span>
+
+        <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">:</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fNBytes</span><span class="p">()</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TStringReader.read_until">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TStringReader.read_until">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_until</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">end_pos</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">:</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fNBytes</span><span class="p">()</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
+
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">&lt;</span> <span class="n">end_pos</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">count</span></div>
+
+
+<div class="viewcode-block" id="TStringReader.data">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TStringReader.data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;u1&quot;</span><span class="p">)</span>
+        <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">offsets_array</span><span class="p">,</span> <span class="n">data_array</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="STLSeqReader">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">STLSeqReader</span><span class="p">(</span><span class="n">IReader</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">with_header</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">objwise_or_memberwise</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="s2">&quot;obj-wise&quot;</span><span class="p">,</span> <span class="s2">&quot;member-wise&quot;</span><span class="p">],</span>
+        <span class="n">element_reader</span><span class="p">:</span> <span class="n">IReader</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="n">with_header</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">=</span> <span class="n">objwise_or_memberwise</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span> <span class="o">=</span> <span class="n">element_reader</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<div class="viewcode-block" id="STLSeqReader.check_objwise_memberwise">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader.check_objwise_memberwise">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_objwise_memberwise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_memberwise</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">==</span> <span class="s2">&quot;obj-wise&quot;</span> <span class="ow">and</span> <span class="n">is_memberwise</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;STLMapReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) expected obj-wise reading but got member-wise&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">==</span> <span class="s2">&quot;member-wise&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_memberwise</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;STLMapReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) expected member-wise reading but got obj-wise&quot;</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLSeqReader.read_body">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader.read_body">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="p">,</span> <span class="n">is_memberwise</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="n">fSize</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">fSize</span><span class="p">)</span>
+
+        <span class="n">debug_print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;STLSeqReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): reading body, is_memberwise=</span><span class="si">{</span><span class="n">is_memberwise</span><span class="si">}</span><span class="s2">, fSize=</span><span class="si">{</span><span class="n">fSize</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="n">debug_print</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">is_memberwise</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">read_many_memberwise</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">fSize</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">read_many</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">fSize</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLSeqReader.read">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader.read">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
+        <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fNBytes</span><span class="p">()</span>
+
+        <span class="n">fVersion</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
+        <span class="n">is_memberwise</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">fVersion</span> <span class="o">&amp;</span> <span class="n">kStreamedMemberwise</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_objwise_memberwise</span><span class="p">(</span><span class="n">is_memberwise</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">is_memberwise</span><span class="p">:</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_body</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">is_memberwise</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLSeqReader.read_many">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader.read_many">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_many</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="k">elif</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span>
+            <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;STLSeqReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">).read_many called with negative count expecting with_header=True&quot;</span>
+
+            <span class="n">fNBytes</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fNBytes</span><span class="p">()</span>
+            <span class="n">end_pos</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+</span> <span class="n">fNBytes</span>
+
+            <span class="n">fVersion</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
+            <span class="n">is_memberwise</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">fVersion</span> <span class="o">&amp;</span> <span class="n">kStreamedMemberwise</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">check_objwise_memberwise</span><span class="p">(</span><span class="n">is_memberwise</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">is_memberwise</span><span class="p">:</span>
+                <span class="n">buffer</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+            <span class="n">cur_count</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">&lt;</span> <span class="n">end_pos</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">read_body</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">is_memberwise</span><span class="p">)</span>
+                <span class="n">cur_count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="n">cur_count</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">is_memberwise</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">==</span> <span class="s2">&quot;member-wise&quot;</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">:</span>
+                <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fNBytes</span><span class="p">()</span>
+                <span class="n">fVersion</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
+                <span class="n">is_memberwise</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">fVersion</span> <span class="o">&amp;</span> <span class="n">kStreamedMemberwise</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">check_objwise_memberwise</span><span class="p">(</span><span class="n">is_memberwise</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">is_memberwise</span><span class="p">:</span>
+                <span class="n">buffer</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">read_body</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">is_memberwise</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">count</span></div>
+
+
+<div class="viewcode-block" id="STLSeqReader.read_until">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader.read_until">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_until</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">end_pos</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="n">is_membersie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">==</span> <span class="s2">&quot;member-wise&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">:</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fNBytes</span><span class="p">()</span>
+            <span class="n">fVersion</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
+            <span class="n">is_membersie</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">fVersion</span> <span class="o">&amp;</span> <span class="n">kStreamedMemberwise</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">check_objwise_memberwise</span><span class="p">(</span><span class="n">is_membersie</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">is_membersie</span><span class="p">:</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">&lt;</span> <span class="n">end_pos</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read_body</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">is_membersie</span><span class="p">)</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">count</span></div>
+
+
+<div class="viewcode-block" id="STLSeqReader.data">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader.data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
+        <span class="n">element_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">offsets_array</span><span class="p">,</span> <span class="n">element_data</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="STLMapReader">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">STLMapReader</span><span class="p">(</span><span class="n">IReader</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">with_header</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">objwise_or_memberwise</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="s2">&quot;obj-wise&quot;</span><span class="p">,</span> <span class="s2">&quot;member-wise&quot;</span><span class="p">],</span>
+        <span class="n">key_reader</span><span class="p">:</span> <span class="n">IReader</span><span class="p">,</span>
+        <span class="n">value_reader</span><span class="p">:</span> <span class="n">IReader</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="n">with_header</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">=</span> <span class="n">objwise_or_memberwise</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key_reader</span> <span class="o">=</span> <span class="n">key_reader</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value_reader</span> <span class="o">=</span> <span class="n">value_reader</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<div class="viewcode-block" id="STLMapReader.check_objwise_memberwise">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.check_objwise_memberwise">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_objwise_memberwise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_memberwise</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">==</span> <span class="s2">&quot;obj-wise&quot;</span> <span class="ow">and</span> <span class="n">is_memberwise</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;STLMapReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) expected obj-wise reading but got member-wise&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">==</span> <span class="s2">&quot;member-wise&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_memberwise</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;STLMapReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) expected member-wise reading but got obj-wise&quot;</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLMapReader.read_body">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.read_body">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="p">,</span> <span class="n">is_memberwise</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="n">fSize</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">fSize</span><span class="p">)</span>
+
+        <span class="n">debug_print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;STLMapReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): reading body, is_memberwise=</span><span class="si">{</span><span class="n">is_memberwise</span><span class="si">}</span><span class="s2">, fSize=</span><span class="si">{</span><span class="n">fSize</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="n">debug_print</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">is_memberwise</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">key_reader</span><span class="o">.</span><span class="n">read_many</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">fSize</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value_reader</span><span class="o">.</span><span class="n">read_many</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">fSize</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">fSize</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">key_reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">value_reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLMapReader.read">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.read">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
+        <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fNBytes</span><span class="p">()</span>
+        <span class="n">fVersion</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
+        <span class="n">buffer</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+
+        <span class="n">is_memberwise</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">fVersion</span> <span class="o">&amp;</span> <span class="n">kStreamedMemberwise</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_objwise_memberwise</span><span class="p">(</span><span class="n">is_memberwise</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_body</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">is_memberwise</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLMapReader.read_many">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.read_many">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_many</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="k">elif</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span>
+            <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;STLMapReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">).read_many called with negative count expecting with_header=True&quot;</span>
+
+            <span class="n">fNBytes</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fNBytes</span><span class="p">()</span>
+            <span class="n">end_pos</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+</span> <span class="n">fNBytes</span>
+
+            <span class="n">fVersion</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+
+            <span class="n">is_memberwise</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">fVersion</span> <span class="o">&amp;</span> <span class="n">kStreamedMemberwise</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">check_objwise_memberwise</span><span class="p">(</span><span class="n">is_memberwise</span><span class="p">)</span>
+
+            <span class="n">cur_count</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">&lt;</span> <span class="n">end_pos</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">read_body</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">is_memberwise</span><span class="p">)</span>
+                <span class="n">cur_count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="n">cur_count</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">is_memberwise</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">==</span> <span class="s2">&quot;member-wise&quot;</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">:</span>
+                <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fNBytes</span><span class="p">()</span>
+                <span class="n">fVersion</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
+                <span class="n">buffer</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+
+                <span class="n">is_memberwise</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">fVersion</span> <span class="o">&amp;</span> <span class="n">kStreamedMemberwise</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">check_objwise_memberwise</span><span class="p">(</span><span class="n">is_memberwise</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">read_body</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">is_memberwise</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">count</span></div>
+
+
+<div class="viewcode-block" id="STLMapReader.read_until">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.read_until">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_until</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">end_pos</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="n">is_membersie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">==</span> <span class="s2">&quot;member-wise&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">:</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fNBytes</span><span class="p">()</span>
+            <span class="n">fVersion</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+
+            <span class="n">is_membersie</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">fVersion</span> <span class="o">&amp;</span> <span class="n">kStreamedMemberwise</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">check_objwise_memberwise</span><span class="p">(</span><span class="n">is_membersie</span><span class="p">)</span>
+
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">&lt;</span> <span class="n">end_pos</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read_body</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">is_membersie</span><span class="p">)</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">count</span></div>
+
+
+<div class="viewcode-block" id="STLMapReader.read_many_memberwise">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.read_many_memberwise">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_many_memberwise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+        <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Calling </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.read_many_memberwise with negative count: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> is not allowed&quot;</span>
+
+        <span class="n">is_memberwise</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_objwise_memberwise</span><span class="p">(</span><span class="n">is_memberwise</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_many</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLMapReader.data">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
+        <span class="n">key_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_reader</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
+        <span class="n">value_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value_reader</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">offsets_array</span><span class="p">,</span> <span class="n">key_data</span><span class="p">,</span> <span class="n">value_data</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="STLStringReader">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLStringReader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">STLStringReader</span><span class="p">(</span><span class="n">IReader</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">with_header</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="n">with_header</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<div class="viewcode-block" id="STLStringReader.read_body">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLStringReader.read_body">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="p">):</span>
+        <span class="n">fSize</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_uint8</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">fSize</span> <span class="o">==</span> <span class="mi">255</span><span class="p">:</span>
+            <span class="n">fSize</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">fSize</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">fSize</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">read_uint8</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="STLStringReader.read">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLStringReader.read">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">:</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fNBytes</span><span class="p">()</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_body</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLStringReader.read_many">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLStringReader.read_many">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_many</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="k">elif</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span>
+            <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;STLStringReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">).read_many called with negative count expecting with_header=True&quot;</span>
+
+            <span class="n">fNBytes</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fNBytes</span><span class="p">()</span>
+            <span class="n">end_pos</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+</span> <span class="n">fNBytes</span>
+
+            <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
+
+            <span class="n">cur_count</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">&lt;</span> <span class="n">end_pos</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">read_body</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+                <span class="n">cur_count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="n">cur_count</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">:</span>
+                <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fNBytes</span><span class="p">()</span>
+                <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
+
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">read_body</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">count</span></div>
+
+
+<div class="viewcode-block" id="STLStringReader.read_until">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLStringReader.read_until">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_until</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">end_pos</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">:</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fNBytes</span><span class="p">()</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
+
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">&lt;</span> <span class="n">end_pos</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read_body</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">count</span></div>
+
+
+<div class="viewcode-block" id="STLStringReader.data">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLStringReader.data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;u1&quot;</span><span class="p">)</span>
+        <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">offsets_array</span><span class="p">,</span> <span class="n">data_array</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TArrayReader">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TArrayReader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TArrayReader</span><span class="p">(</span><span class="n">IReader</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;i1&quot;</span><span class="p">,</span> <span class="s2">&quot;i2&quot;</span><span class="p">,</span> <span class="s2">&quot;i4&quot;</span><span class="p">,</span> <span class="s2">&quot;i8&quot;</span><span class="p">,</span> <span class="s2">&quot;float&quot;</span><span class="p">,</span> <span class="s2">&quot;double&quot;</span><span class="p">],</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">typecode</span> <span class="o">=</span> <span class="n">DTYPE_TO_TYPECODE</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">typecode</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffer_reader</span> <span class="o">=</span> <span class="n">DTYPE_TO_READER</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span>
+
+<div class="viewcode-block" id="TArrayReader.read">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TArrayReader.read">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
+        <span class="n">fSize</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">fSize</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">fSize</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buffer_reader</span><span class="p">(</span><span class="n">buffer</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="TArrayReader.data">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TArrayReader.data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
+        <span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">offsets_array</span><span class="p">,</span> <span class="n">data_array</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="GroupReader">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.GroupReader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GroupReader</span><span class="p">(</span><span class="n">IReader</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">element_readers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">IReader</span><span class="p">]):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span> <span class="o">=</span> <span class="n">element_readers</span>
+
+<div class="viewcode-block" id="GroupReader.read">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.GroupReader.read">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">:</span>
+            <span class="n">debug_print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GroupReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) reading element </span><span class="si">{</span><span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">debug_print</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+            <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GroupReader.read_many_memberwise">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.GroupReader.read_many_memberwise">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_many_memberwise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+        <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Calling </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.read_many_memberwise with negative count: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> is not allowed&quot;</span>
+
+        <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">:</span>
+            <span class="n">debug_print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;GroupReader</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> reading many member-wise element </span><span class="si">{</span><span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">debug_print</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+            <span class="n">reader</span><span class="o">.</span><span class="n">read_many</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">count</span></div>
+
+
+<div class="viewcode-block" id="GroupReader.data">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.GroupReader.data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">reader</span><span class="o">.</span><span class="n">data</span><span class="p">()</span> <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">]</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="AnyClassReader">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.AnyClassReader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AnyClassReader</span><span class="p">(</span><span class="n">IReader</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">element_readers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">IReader</span><span class="p">]):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span> <span class="o">=</span> <span class="n">element_readers</span>
+
+<div class="viewcode-block" id="AnyClassReader.read">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.AnyClassReader.read">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="p">):</span>
+        <span class="n">fNBytes</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fNBytes</span><span class="p">()</span>
+        <span class="n">start_pos</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span>
+        <span class="n">end_pos</span> <span class="o">=</span> <span class="n">start_pos</span> <span class="o">+</span> <span class="n">fNBytes</span>
+
+        <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">:</span>
+            <span class="n">debug_print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AnyClassReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) reading element </span><span class="si">{</span><span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">debug_print</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+            <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+
+        <span class="k">assert</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">,</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;AnyClassReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): Invalid read length! Expect </span><span class="si">{</span><span class="n">fNBytes</span><span class="si">}</span><span class="s2"> bytes, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;but read </span><span class="si">{</span><span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_pos</span><span class="si">}</span><span class="s2"> bytes.&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AnyClassReader.read_many_memberwise">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.AnyClassReader.read_many_memberwise">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_many_memberwise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+        <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Calling </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.read_many_memberwise with negative count: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> is not allowed&quot;</span>
+
+        <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">:</span>
+            <span class="n">debug_print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;AnyClassReader</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> reading many member-wise element </span><span class="si">{</span><span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">debug_print</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+            <span class="n">reader</span><span class="o">.</span><span class="n">read_many</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">count</span></div>
+
+
+<div class="viewcode-block" id="AnyClassReader.data">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.AnyClassReader.data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">reader</span><span class="o">.</span><span class="n">data</span><span class="p">()</span> <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">]</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ObjectHeaderReader">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.ObjectHeaderReader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ObjectHeaderReader</span><span class="p">(</span><span class="n">IReader</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">element_reader</span><span class="p">:</span> <span class="n">IReader</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span> <span class="o">=</span> <span class="n">element_reader</span>
+
+<div class="viewcode-block" id="ObjectHeaderReader.read">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.ObjectHeaderReader.read">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
+        <span class="n">fNBytes</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fNBytes</span><span class="p">()</span>
+        <span class="n">start_pos</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span>
+        <span class="n">end_pos</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+</span> <span class="n">fNBytes</span>
+
+        <span class="n">fTag</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_int32</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">fTag</span> <span class="o">==</span> <span class="n">kNewClassTag</span><span class="p">:</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">skip_null_terminated_string</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+
+        <span class="k">assert</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">,</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;ObjectHeaderReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): Invalid read length! Expect </span><span class="si">{</span><span class="n">fNBytes</span><span class="si">}</span><span class="s2"> bytes, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;but read </span><span class="si">{</span><span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_pos</span><span class="si">}</span><span class="s2"> bytes.&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ObjectHeaderReader.data">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.ObjectHeaderReader.data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">data</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="CStyleArrayReader">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.CStyleArrayReader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CStyleArrayReader</span><span class="p">(</span><span class="n">IReader</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">flat_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">element_reader</span><span class="p">:</span> <span class="n">IReader</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flat_size</span> <span class="o">=</span> <span class="n">flat_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span> <span class="o">=</span> <span class="n">element_reader</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<div class="viewcode-block" id="CStyleArrayReader.read">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.CStyleArrayReader.read">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
+        <span class="n">debug_print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;CStyleArrayReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): reading C-style array of flat_size=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">flat_size</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="n">debug_print</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_size</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">read_many</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_size</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">entry_offsets</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">offsets</span>
+            <span class="n">cursor_pos</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span>
+            <span class="n">end_offset_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">entry_offsets</span> <span class="o">&gt;</span> <span class="n">cursor_pos</span><span class="p">)</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+            <span class="n">end_pos</span> <span class="o">=</span> <span class="n">entry_offsets</span><span class="p">[</span><span class="n">end_offset_index</span><span class="p">]</span>
+
+            <span class="n">count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">read_until</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">end_pos</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">count</span><span class="p">)</span>
+            <span class="n">debug_print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CStyleArrayReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): read </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> elements&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CStyleArrayReader.read_many">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.CStyleArrayReader.read_many">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_many</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flat_size</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+        <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Calling CStyleArrayReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">).read_many with negative flat_size is not allowed&quot;</span>
+
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+        <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Calling CStyleArrayReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">).read_many with negative count: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> is not allowed&quot;</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">read_many</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_size</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">count</span></div>
+
+
+<div class="viewcode-block" id="CStyleArrayReader.read_until">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.CStyleArrayReader.read_until">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_until</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">end_pos</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;CStyleArrayReader.read_until is not supported&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CStyleArrayReader.data">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.CStyleArrayReader.data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_size</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
+            <span class="n">element_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">offsets_array</span><span class="p">,</span> <span class="n">element_data</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="EmptyReader">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.EmptyReader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EmptyReader</span><span class="p">(</span><span class="n">IReader</span><span class="p">):</span>
+<div class="viewcode-block" id="EmptyReader.read">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.EmptyReader.read">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="EmptyReader.data">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.EmptyReader.data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="read_data">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.read_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_data</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">],</span> <span class="n">offsets</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">],</span> <span class="n">reader</span><span class="p">:</span> <span class="n">IReader</span><span class="p">):</span>
+    <span class="n">buffer</span> <span class="o">=</span> <span class="n">BinaryBuffer</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offsets</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i_evt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">entries</span><span class="p">):</span>
+        <span class="n">start_pos</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span>
+        <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+        <span class="n">end_pos</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span>
+
+        <span class="k">assert</span> <span class="n">end_pos</span> <span class="o">==</span> <span class="n">offsets</span><span class="p">[</span><span class="n">i_evt</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;read_data: Invalid read length for </span><span class="si">{</span><span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> at entry </span><span class="si">{</span><span class="n">i_evt</span><span class="si">}</span><span class="s2">! Expect &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">buffer</span><span class="o">.</span><span class="n">offsets</span><span class="p">[</span><span class="n">i_evt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">buffer</span><span class="o">.</span><span class="n">offsets</span><span class="p">[</span><span class="n">i_evt</span><span class="p">]</span><span class="si">}</span><span class="s2"> bytes, but read </span><span class="si">{</span><span class="n">end_pos</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_pos</span><span class="si">}</span><span class="s2"> bytes.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">reader</span><span class="o">.</span><span class="n">data</span><span class="p">()</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mingrun Li
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Mingrun Li.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

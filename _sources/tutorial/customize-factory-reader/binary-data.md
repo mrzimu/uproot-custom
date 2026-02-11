@@ -1,6 +1,8 @@
 # Binary data
 
-Now let's turn to the binary data stored in file. Before starting to implement your own `reader`/`factory`, you need to check the raw binary data. As long as you understand how `ROOT` stores the binary data, you can implement your own `reader`/`factory` easily.
+Now let's turn to the binary data stored in file. Before writing a custom
+`reader`/`factory`, inspect the raw bytes. Understanding how `ROOT` lays out the
+payload lets you validate your assumptions before touching C++.
 
 ## Object splitting
 
@@ -16,7 +18,7 @@ f["my_tree/simple_obj"].show()
 ---
 caption: Output
 ---
-name                                     | typename                 | interpretation                
+name                                     | typename                 | interpretation
 -----------------------------------------+--------------------------+-------------------------------
 simple_obj                               | TSimpleObject            | AsGroup(<TBranchElement 'simpl
 TObject                                  | (group of fUniqueID:u... | AsGroup(<TBranchElement 'TO...
@@ -47,7 +49,7 @@ f["my_tree/cstyle_array"].show()
 ---
 caption: Output
 ---
-name                 | typename                 | interpretation                
+name                 | typename                 | interpretation
 ---------------------+--------------------------+-------------------------------
 m_simple_obj[3]      | TSimpleObject[][3]       | AsObjects(AsArray(False, False
 ```
@@ -57,7 +59,8 @@ This case is more common when you are trying to use uproot-custom.
 (obtain-binary-data)=
 ## Obtain branch binary data
 
-You can obtain the raw binary data of a branch using `uproot.interpretations.custom.AsBinary` interpretation:
+You can obtain the raw binary data of a branch using
+`uproot.interpretations.custom.AsBinary` interpretation:
 
 ```python
 from uproot.interpretations.custom import AsBinary
@@ -92,7 +95,7 @@ The streaming rules are summarized by myself. They may not be complete or accura
 
 For many objects, a `fNBytes`+`fVersion` header will be stored ahead of their data members. The `fNBytes` is the left total number of bytes of the object (including `fVersion`), `fVersion` is the version of the object.
 
-`fNBytes` is a 4-byte `uint32_t`. When writing the binary data, `ROOT` sets a bit mask `0x40000000` to the `fNBytes`, so that one can easily check whether the reading is correct. This mask is reflected as a `64` header (i.e. `[64, x, x, x]`) in the `numpy` array. 
+`fNBytes` is a 4-byte `uint32_t`. When writing the binary data, `ROOT` sets a bit mask `0x40000000` to the `fNBytes`, so that one can easily check whether the reading is correct. This mask is reflected as a `64` header (i.e. `[64, x, x, x]`) in the `numpy` array.
 
 For example, the first 4 bytes of the binary data above, `64, 0, 0, 223`, is the `fNBytes` of the first `TSimpleObject`. The `64` usually means the `0x40000000` mask. Unset the mask, we get `0, 0, 0, 223`, which is `223` in `uint32_t`. So the next 223 bytes are the data of this `TSimpleObject`.
 

@@ -168,10 +168,11 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/use-built-in.html">Use built-in factories</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorial/customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/bootstrap.html">Bootstrap of custom classes reading in uproot-custom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/streamer-info.html">Streamer information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/binary-data.html">Binary data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
@@ -183,10 +184,14 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../version-requirements.html">Version requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../binary-format.html">Binary format of common classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reader-backends.html">Reader backends</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../api.html">API documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">C++ API reference</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="uproot-custom-ref.html">Module reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="uproot_custom.html">Python reference</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="uproot_custom.html">Python reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="uproot_custom.readers.html">uproot_custom.readers package</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
@@ -956,7 +961,7 @@ document.write(`
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N6uproot7IReader20read_many_memberwiseER12BinaryBufferK7int64_t">
 <span id="_CPPv3N6uproot7IReader20read_many_memberwiseER12BinaryBufferK7int64_t"></span><span id="_CPPv2N6uproot7IReader20read_many_memberwiseER12BinaryBufferK7int64_t"></span><span id="uproot::IReader::read_many_memberwise__BinaryBufferR.int64_tC"></span><span class="target" id="classuproot_1_1_i_reader_1a4d01c9b32bed762117e148e997b2fb25"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_many_memberwise</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N6uproot12BinaryBufferE" title="uproot::BinaryBuffer"><span class="n"><span class="pre">BinaryBuffer</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">buffer</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">count</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6uproot7IReader20read_many_memberwiseER12BinaryBufferK7int64_t" title="Link to this definition">#</a><br /></dt>
-<dd><p>Read multiple elements from the buffer in member-wise fashion. This method checks for negative count and calls read_many() by default. It can be overridden to handle member-wise reading more efficiently. </p>
+<dd><p>Read multiple elements from the buffer in member-wise fashion. Readers that need to handle member-wise data reading must implement this method. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
