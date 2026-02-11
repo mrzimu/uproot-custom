@@ -66,6 +66,7 @@ caption: Reference
 ---
 reference/version-requirements
 reference/binary-format
+reference/reader-backends
 reference/api
 ```
 
