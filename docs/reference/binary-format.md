@@ -1,10 +1,12 @@
 # Binary format of common classes
 
 ```{attention}
-This page is still under construction.
+This page is a growing checklist. Use it alongside the walkthrough in
+[](../tutorial/customize-factory-reader/binary-data.md) when inspecting bytes.
 ```
 
-This section lists the binary format of some common classes. Data are stored in big-endian format.
+This section lists the binary format of some common classes. Data are stored in
+big-endian format.
 
 ```{note}
 These formats are summarized by me, and may not be complete or accurate. If you find any mistakes, you are welcome to open an issue or a PR to correct them.

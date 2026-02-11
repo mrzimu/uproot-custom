@@ -1,5 +1,9 @@
 # Example 2: Read `TObjArray` with unique known type
 
+Goal: read a `TObjArray` when you already know every element is of a specific
+type (`TObjInObjArray`). We will inspect bytes, implement a `TObjArray`
+reader/factory pair that embeds this rule, and register it with uproot-custom.
+
 ```{seealso}
 A full example can be found in the [example repository](https://github.com/mrzimu/uproot-custom-example).
 ```

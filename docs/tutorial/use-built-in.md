@@ -1,10 +1,13 @@
 # Use built-in factories
 
-Uproot-custom has already defined several built-in readers and factories. You can firstly try them to see if they can handle your reading task.
+Uproot-custom ships with built-in readers and factories; try them first before
+writing custom ones. This page walks through registering a branch, confirming
+it is routed to `AsCustom`, and comparing with plain Uproot behavior.
 
 ## Step 1: Obtain the object-path of branches
 
-To let uproot-custom read specific branches, you need to obtain the regularized `object-path` of the branches:
+To let uproot-custom read specific branches, you need to obtain the regularized
+`object-path` of the branch:
 
 ```python
 import uproot
@@ -26,22 +29,22 @@ caption: Output
 
 ## Step 2: Register the branch to uproot-custom and read
 
-Record the content of `regularized_obj_path` above. In the next time, you can register the branch to uproot-custom **before opening the file**:
+Register the regularized path above to uproot-custom **before opening the
+file**. Registration must happen before the file is opened; otherwise Uproot
+will cache a non-`AsCustom` interpretation.
 
 ```python
 import uproot
 import uproot_custom as uc
 
 uc.AsCustom.target_branches.add("/my_tree:my_branch")
-```
 
-You can print the branch with `show` method:
-
-```python
+f = uproot.open("file.root")
 f["my_tree"].show()
 ```
 
-As long as the registration is successful, the interpretation of `my_branch` should be `AsCustom`.
+As long as the registration is successful, the interpretation of `my_branch`
+should be `AsCustom`.
 
 ````{tip}
 `uc.AsCustom.target_branches` is a `set`, you can add multiple branches like this:
@@ -51,13 +54,14 @@ uc.AsCustom.target_branches |= {"/my_tree:branch1", "/my_tree:branch2"}
 ```
 ````
 
-Now you can read the branch as using Uproot:
+Now you can read the data as usual with Uproot. For large jobs, keep the set of
+target branches minimal so only the branches you intend are patched:
 
 ```python
 arr = f["my_tree/my_branch"].array() # will be read by uproot-custom
 ```
 
-## Example
+## Example: comparing uproot-custom vs Uproot
 
 When storing a c-style array `std::vector<double>[3]` into a custom class like:
 

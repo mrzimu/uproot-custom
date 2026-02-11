@@ -1,17 +1,24 @@
 # Customize factory and reader
 
-If the built-in factories cannot reach your needs, you can implement your own `factory` and/or `reader`.
-
-<!-- This requires some knowledge of `ROOT`'s streaming mechanism and uproot-custom's design. -->
+If the built-in factories cannot reach your needs, you can implement your own
+`factory` and/or `reader`.
 
 ```{admonition} Prerequisites
 ---
 class: note
 ---
-Customizing own `reader` requires C++ compiler supporting `C++17` and `CMake>3.20`.
+Custom readers require a C++17 compiler, `CMake>3.20`, and a Python toolchain
+able to build extension modules.
 ```
 
-This chapter describes preliminary knowledge you may need when customizing your own `factory` and `reader`, and a step-by-step guide to create a template Python project for your custom implementation.
+What you'll find here:
+- How streamer info maps to factories/readers.
+- How to inspect binary payloads before coding.
+- A template Python project that wires Python factories to C++ readers.
+
+Recommended flow: read **Bootstrap**, skim **Streamer information** and
+**Binary data**, then dive into **Reader and factory interface** before using
+the **Template Python project**.
 
 ```{toctree}
 ---

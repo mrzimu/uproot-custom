@@ -1,5 +1,9 @@
 # Example 1: `Streamer` method is overridden
 
+Goal: handle a class whose `Streamer` overrides the default layout by inserting
+an extra mask. We will inspect the bytes, write a C++ reader, wrap it with a
+factory, register it, then read with Uproot.
+
 ```{seealso}
 A full example can be found in the [example repository](https://github.com/mrzimu/uproot-custom-example).
 ```

@@ -1,6 +1,8 @@
 # Binary data
 
-Now let's turn to the binary data stored in file. Before starting to implement your own `reader`/`factory`, you need to check the raw binary data. As long as you understand how `ROOT` stores the binary data, you can implement your own `reader`/`factory` easily.
+Now let's turn to the binary data stored in file. Before writing a custom
+`reader`/`factory`, inspect the raw bytes. Understanding how `ROOT` lays out the
+payload lets you validate your assumptions before touching C++.
 
 ## Object splitting
 
@@ -57,7 +59,8 @@ This case is more common when you are trying to use uproot-custom.
 (obtain-binary-data)=
 ## Obtain branch binary data
 
-You can obtain the raw binary data of a branch using `uproot.interpretations.custom.AsBinary` interpretation:
+You can obtain the raw binary data of a branch using
+`uproot.interpretations.custom.AsBinary` interpretation:
 
 ```python
 from uproot.interpretations.custom import AsBinary
