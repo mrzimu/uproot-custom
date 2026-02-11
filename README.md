@@ -50,4 +50,4 @@ This machanism is implemented basing on `uproot_custom.AsCustom` interpretation.
 
 ## Documentation
 
-View the [documentation](https://mrzimu.github.io/uproot-custom/) for more details about customizing your own `reader`/`factory`, and the architecture of uproot-custom.
+View the [documentation](https://mrzimu.github.io/uproot-custom/) for more details about customizing your own `reader`/`factory`, the architecture of uproot-custom, and build-only dependencies (e.g., `pybind11` is needed only at build time and should not be present in the runtime environment).

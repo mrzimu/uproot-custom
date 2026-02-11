@@ -17,7 +17,10 @@ uproot-custom-example-0.1.0/
 You can rename the root directory `uproot-custom-example-0.1.0` to your project name.
 
 ```{warning}
-Users should specify exact versions of uproot-custom and `pybind11` in the `pyproject.toml` file to avoid unexpected incompatibility issues. See [version requirements](../../reference/version-requirements.md) for more details.
+Specify exact versions of uproot-custom and `pybind11` in `pyproject.toml` to
+avoid incompatibility during build. `pybind11` is build-time only: do not ship
+or import it at runtime, otherwise reader loading may fail. See
+[version requirements](../../reference/version-requirements.md) for details.
 ```
 
 ## Create virtual environment and install the project
@@ -36,16 +39,23 @@ Install the project in editable mode:
 pip install -e .
 ```
 
-Any change in the Python source files will be reflected immediately, but changes in the C++ source files require rebuilding the extension by running `pip install -e .` again.
+Any change in the Python source files is picked up immediately. Changes in the
+C++ sources require rebuilding the extension (run `pip install -e .` again) so
+that the compiled module is refreshed.
 
 ## Implement your own factory and reader
 
 You can now implement your own `factory` in the `my_reader` directory, and your own `reader` in the `cpp` directory. For summary, here is a checklist of what you need to do:
 
-1. Invetigate the streamer information and binary format of your custom class. It is recommended to take a view at the binary data stored in the file, as explained in [](obtain-binary-data).
+1. Investigate the streamer information and binary format of your custom
+    class. It is recommended to inspect the stored binary data, as explained in
+    [](obtain-binary-data).
 
-2. Look through the built-in factories/readers in uproot-custom, design your own `factory`/`reader` based on them.
+2. Look through the built-in factories/readers in uproot-custom, design your own
+    `factory`/`reader` based on them.
 
 3. Implement your own `factory` in Python, and `reader` in C++.
 
-4. Obtain the regularized object path of the branch you want uproot-custom to interpret, add it to the `uproot_custom.AsCustom.target_branches`.
+4. Obtain the regularized object path of the branch you want uproot-custom to
+    interpret, add it to `uproot_custom.AsCustom.target_branches` before
+    opening the file.
