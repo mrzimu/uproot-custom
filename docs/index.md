@@ -12,7 +12,7 @@ Uproot-custom aims to handle cases that classes are too complex for Uproot to re
 
 ## How uproot-custom works
 
-Uproot-custom uses a `reader`/`factory` mechanism to read classes:
+Uproot-custom uses a Reader / Factory mechanism to read classes:
 
 ```{mermaid}
 flowchart TD
@@ -24,7 +24,7 @@ flowchart TD
         fac --> build_ak(["construct awkward arrays"])
     end
 
-    subgraph cpp["Backend-specific field"]
+    subgraph reader_field["Reader (Python or C++)"]
         direction TB
         build_reader --> reader["Reader"]
         reader --> read_bin(["read binary data"])
@@ -35,26 +35,33 @@ flowchart TD
     raw_data --> build_ak
 ```
 
-- `Reader` is a Python/C++ class that implements the logic to read data from binary buffers.
+- `Reader` is a class that implements the logic to read data from binary buffers. It can be written in **Python** (for development and debugging) or **C++** (for production performance).
 - `Factory` is a Python class that creates, combines `Reader`s, and post-processes the data read by `Reader`s.
 
-This machanism is implemented as `AsCustom` interpretation. This makes uproot-custom well compatible with Uproot.
+This mechanism is implemented as `AsCustom` interpretation. This makes uproot-custom well compatible with Uproot.
 
 ```{tip}
-Users can implement their own `factory` and `reader`, register them to uproot-custom. An example of implementing a custom `factory`/`reader` can be found in [the example repository](https://github.com/mrzimu/uproot-custom-example).
+Users can implement their own Factory and Reader, register them to uproot-custom. Start with a **Python reader** for rapid prototyping, then port the logic to **C++** for production speed. The default reader backend is C++; during development, explicitly set the backend to Python. An example of implementing a custom Factory / Reader can be found in [the example repository](https://github.com/mrzimu/uproot-custom-example).
 ```
 
 ```{note}
-Uproot-custom does not provide a full reimplementation of `ROOT`'s TTree I/O system. Users are expected to implement their own `factory`/`reader` for their custom classes that built-in factories cannot handle.
+Uproot-custom does not provide a full reimplementation of `ROOT`'s TTree I/O system. Users are expected to implement their own Factory / Reader for their custom classes that built-in factories cannot handle.
 ```
 
 ```{toctree}
 ---
 maxdepth: 2
 hidden: true
-caption: Start here
 ---
-tutorial/use-built-in
+get-started
+```
+
+```{toctree}
+---
+maxdepth: 2
+hidden: true
+caption: Customization
+---
 tutorial/customize-factory-reader
 ```
 

@@ -2,7 +2,8 @@
 
 Goal: read a `TObjArray` when you already know every element is of a specific
 type (`TObjInObjArray`). We will inspect bytes, implement a `TObjArray`
-reader/factory pair that embeds this rule, and register it with uproot-custom.
+reader/factory pair in Python that embeds this rule, register it with
+uproot-custom, and then show how to port the reader to C++.
 
 ```{seealso}
 A full example can be found in the [example repository](https://github.com/mrzimu/uproot-custom-example).
@@ -10,7 +11,7 @@ A full example can be found in the [example repository](https://github.com/mrzim
 
 This example shows how to use user-known rules to read data.
 
-In this example, we define a `TObjWithObjArray` class, which contains a `TObjArray` of `TObjWithInt` objects. We know the type of objects in the `TObjArray` is always `TObjWithInt`, so we can use user-known rules to read the data.
+In this example, we define a `TObjWithObjArray` class, which contains a `TObjArray` of `TObjWithInt` objects. We know the type of objects in the `TObjArray` is always `TObjInObjArray`, so we can use user-known rules to read the data.
 
 The definition of `TObjInObjArray` and `TObjWithObjArray` is as follows:
 
@@ -209,61 +210,57 @@ So we need such factories/readers to read the data:
 
 The `TObjArrayFactory`/`TObjArrayReader` should be implemented by ourselves. Note that since we know the type of objects in the `TObjArray` is always `TObjInObjArray`, we can take just 1 `AnyClassFactory`/`AnyClassReader` as sub-factory/sub-reader to read all objects. This is also a process that embedding user-known rules.
 
-## Step 2: Implement C++ `reader` to read binary data
+## Step 2: Implement Python Reader to read binary data
 
-Our `TObjArrayReader` can be implemented as follows:
+Our `TObjArrayReader` in Python can be implemented as follows:
 
-```{code-block} cpp
-class TObjArrayReader : public IReader {
-  private:
-    SharedReader m_element_reader;
-    std::shared_ptr<std::vector<int64_t>> m_offsets;
+```{code-block} python
+from array import array
+import numpy as np
 
-  public:
-    TObjArrayReader( std::string name, SharedReader element_reader )
-        : IReader( name )
-        , m_element_reader( element_reader )
-        , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) ) {}
+from uproot_custom.readers.python import IReader, BinaryBuffer
 
-    void read( BinaryBuffer& buffer ) override final {
-        buffer.skip_fNBytes();
-        buffer.skip_fVersion();
-        buffer.skip_TObject();
-        buffer.read_TString(); // fName
-        auto fSize = buffer.read<uint32_t>();
-        buffer.skip( 4 ); // fLowerBound
 
-        m_offsets->push_back( m_offsets->back() + fSize );
-        m_element_reader->read_many( buffer, fSize );
-    }
+class TObjArrayReader(IReader):
+    def __init__(self, name, element_reader):
+        super().__init__(name)
+        self.element_reader = element_reader
+        self.offsets = array("q", [0])
 
-    py::object data() const override final {
-        auto offsets_array      = make_array( m_offsets );
-        py::object element_data = m_element_reader->data();
-        return py::make_tuple( offsets_array, element_data );
-    }
-};
+    def read(self, buffer):
+        # Read TObjArray header
+        buffer.skip_fNBytes()
+        buffer.skip_fVersion()
+        buffer.skip_TObject()
+        buffer.read_TString()  # fName
+        fSize = buffer.read_uint32()
+        buffer.skip(4)  # fLowerBound
 
-PYBIND11_MODULE( my_reader_cpp, m ) {
-    declare_reader<TObjArrayReader, std::string, SharedReader>( m, "TObjArrayReader" );
-}
+        # Record the new offset
+        self.offsets.append(self.offsets[-1] + fSize)
+
+        # Read the elements using the element reader
+        self.element_reader.read_many(buffer, fSize)
+
+    def data(self):
+        offsets_array = np.frombuffer(self.offsets.tobytes(), dtype="i8")
+        element_data = self.element_reader.data()
+        return offsets_array, element_data
 ```
 
-- In the constructor, we take one `SharedReader` as the `m_element_reader`, which is expected to read `TObjInObjArray` objects.
+- In the constructor, we take one `IReader` as the `element_reader`, which is expected to read `TObjInObjArray` objects.
 
-- In `read` method, we read the `TObjArray` header, then call `m_element_reader->read_many` to read multiple `TObjInObjArray` objects in one go. Also, we record the offsets of each event in `m_offsets`.
+- In `read` method, we read the `TObjArray` header, then call `element_reader.read_many` to read multiple `TObjInObjArray` objects in one go. Also, we record the offsets of each event in `offsets`.
 
-- In `data` method, we return a tuple of `(offsets, element_data)`, where `offsets` is a 1D array of int64, `element_data` is the data returned by `m_element_reader`.
-
-- Finally, we declare the `TObjArrayReader` in the `my_reader_cpp` module.
+- In `data` method, we return a tuple of `(offsets, element_data)`, where `offsets` is a 1D array of int64, `element_data` is the data returned by `element_reader`.
 
 ```{important}
-You should always use `IReader::read_many` method to read multiple objects in one go, since some classes (e.g. `std::vector`) may have "1 header + multiple objects" structure.
+You should always use `IReader.read_many` method to read multiple objects in one go, since some classes (e.g. `std::vector`) may have "1 header + multiple objects" structure.
 ```
 
-## Step 3: Implement Python `factory`
+## Step 3: Implement Python Factory
 
-Similar to [Example 1](override-streamer.md), we need to identify the `TObjArray` branch and implement a corresponding `factory` to use our `TObjArrayReader`.
+Similar to [Example 1](override-streamer.md), we need to identify the `TObjArray` branch and implement a corresponding Factory to use our `TObjArrayReader`.
 
 First, import necessary modules. Since we need to use `ObjectHeaderFactory` and `AnyClassFactory`, some extra imports are needed:
 
@@ -277,11 +274,7 @@ from uproot_custom import (
     build_factory,
 )
 from uproot_custom.factories import AnyClassFactory, ObjectHeaderFactory
-
-from .my_reader_cpp import TObjArrayReader
 ```
-
-The `my_reader_cpp` is the compiled C++ module containing our `TObjArrayReader`.
 
 ### Implement `build_factory`
 
@@ -352,21 +345,21 @@ def __init__(self, name: str, element_factory: Factory):
     self.element_factory = element_factory
 ```
 
-### Implement `build_cpp_reader`
+### Implement `build_python_reader`
 
-The `build_cpp_reader` method is straightforward:
+The `build_python_reader` method is straightforward:
 
 ```{code-block} python
 ---
 lineno-start: 1
 emphasize-lines: 2
 ---
-def build_cpp_reader(self):
-    element_reader = self.element_factory.build_cpp_reader()
+def build_python_reader(self):
+    element_reader = self.element_factory.build_python_reader()
     return TObjArrayReader(self.name, element_reader)
 ```
 
-- In `Line 2`, we use `self.element_factory.build_cpp_reader` to create the `element_reader`. Here, `ObjectHeaderFactory`, then `AnyClassFactory` are called to create corresponding sub-factories.
+- In `Line 2`, we use `self.element_factory.build_python_reader` to create the `element_reader`. Here, `ObjectHeaderFactory`, then `AnyClassFactory` are called to create corresponding sub-readers.
 
 - In `Line 3`, we just create an instance of `TObjArrayReader`, passing the `element_reader` to it.
 
@@ -399,7 +392,7 @@ def make_awkward_form(self):
     )
 ```
 
-## Step 4: Register target branch and the `factory`
+## Step 4: Register target branch and the Factory
 
 Finally, register the branch we want to read with uproot-custom, and also register the `TObjArrayFactory` so that it can be used by uproot-custom.
 
@@ -415,6 +408,14 @@ AsCustom.target_branches |= {
 registered_factories.add(TObjArrayFactory)
 ```
 
+Don't forget to switch to the Python backend during development, since the
+default backend is C++:
+
+```python
+import uproot_custom.factories as fac
+fac.reader_backend = "python"  # default is "cpp"
+```
+
 ## Step 5: Read data with Uproot
 
 Now we can read the data using Uproot as usual:
@@ -423,3 +424,78 @@ Now we can read the data using Uproot as usual:
 >>> b = uproot.open("demo_data.root")["my_tree:obj_with_obj_array/m_obj_array"]
 >>> arr = b.array()
 ```
+
+## Step 6: Port the reader to C++ for production speed
+
+Once the Python reader is working, porting to C++ is straightforward.
+**The C++ reader only needs to keep the same reading logic as the Python
+version** — the same fields read in the same order, and `data()` returning
+the same structure.
+
+```{seealso}
+See [](../../tutorial/customize-factory-reader/port-to-cpp.md) for the full
+C++ reader API reference (IReader, BinaryBuffer, pybind11 bindings).
+```
+
+```{code-block} cpp
+---
+caption: "`TObjArrayReader` (C++) — same logic as the Python version"
+---
+class TObjArrayReader : public IReader {
+  private:
+    SharedReader m_element_reader;
+    std::shared_ptr<std::vector<int64_t>> m_offsets;
+
+  public:
+    TObjArrayReader( std::string name, SharedReader element_reader )
+        : IReader( name )
+        , m_element_reader( element_reader )
+        , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) ) {}
+
+    void read( BinaryBuffer& buffer ) override final {
+        buffer.skip_fNBytes();
+        buffer.skip_fVersion();
+        buffer.skip_TObject();
+        buffer.read_TString(); // fName
+        auto fSize = buffer.read<uint32_t>();
+        buffer.skip( 4 ); // fLowerBound
+
+        m_offsets->push_back( m_offsets->back() + fSize );
+        m_element_reader->read_many( buffer, fSize );
+    }
+
+    py::object data() const override final {
+        auto offsets_array      = make_array( m_offsets );
+        py::object element_data = m_element_reader->data();
+        return py::make_tuple( offsets_array, element_data );
+    }
+};
+
+PYBIND11_MODULE( my_reader_cpp, m ) {
+    declare_reader<TObjArrayReader, std::string, SharedReader>( m, "TObjArrayReader" );
+}
+```
+
+Then add `build_cpp_reader` to the factory:
+
+```python
+from .my_reader_cpp import TObjArrayReader as TObjArrayCppReader
+
+def build_cpp_reader(self):
+    element_reader = self.element_factory.build_cpp_reader()
+    return TObjArrayCppReader(self.name, element_reader)
+```
+
+After adding `build_cpp_reader`, simply remove the
+`fac.reader_backend = "python"` line (or set it back to `"cpp"`) to use the
+default C++ backend for production:
+
+```python
+import uproot_custom.factories as fac
+fac.reader_backend = "cpp"  # this is the default, so you can also just remove the line
+```
+```
+
+The factory's `make_awkward_content` and `make_awkward_form` remain exactly
+the same — they work identically regardless of which backend is used,
+because both readers return data in the same structure.
