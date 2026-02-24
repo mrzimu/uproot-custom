@@ -168,15 +168,17 @@
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../get-started.html">Get started</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Customization</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../tutorial/use-built-in.html">Use built-in factories</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorial/customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/streamer-info.html">Streamer information</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/binary-data.html">Binary data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/template-python-project.html">Template Python project</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorial/customize-factory-reader.html">Customize Reader &amp; Factory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/pipeline.html">Pipeline overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/investigate-data.html">Investigate your data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/reader-and-factory.html">Reader &amp; factory interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/project-setup.html">Project setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/port-to-cpp.html">Port readers to C++</a></li>
 </ul>
 </details></li>
 </ul>
@@ -351,16 +353,17 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-check-the-binary-data">Step 1: Check the binary data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-implement-c-reader-to-read-binary-data">Step 2: Implement C++ <code class="docutils literal notranslate"><span class="pre">reader</span></code> to read binary data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-implement-python-factory">Step 3: Implement Python <code class="docutils literal notranslate"><span class="pre">factory</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-implement-python-reader-to-read-binary-data">Step 2: Implement Python Reader to read binary data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-implement-python-factory">Step 3: Implement Python Factory</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-build-factory">Implement <code class="docutils literal notranslate"><span class="pre">build_factory</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-build-cpp-reader">Implement <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-build-python-reader">Implement <code class="docutils literal notranslate"><span class="pre">build_python_reader</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-make-awkward-content">Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-implement-make-awkward-form">(Optional) Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-register-target-branch-and-the-factory">Step 4: Register target branch and the <code class="docutils literal notranslate"><span class="pre">factory</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-register-target-branch-and-the-factory">Step 4: Register target branch and the Factory</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-read-data-with-uproot">Step 5: Read data with Uproot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-port-the-reader-to-c-for-production-speed">Step 6: Port the reader to C++ for production speed</a></li>
 </ul>
             </nav>
         </div>
@@ -375,8 +378,9 @@ document.write(`
   <section id="example-1-streamer-method-is-overridden">
 <h1>Example 1: <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method is overridden<a class="headerlink" href="#example-1-streamer-method-is-overridden" title="Link to this heading">#</a></h1>
 <p>Goal: handle a class whose <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> overrides the default layout by inserting
-an extra mask. We will inspect the bytes, write a C++ reader, wrap it with a
-factory, register it, then read with Uproot.</p>
+an extra mask. We will inspect the bytes, write a Python reader, wrap it with a
+factory, register it, then read with Uproot. Finally, we show how to port the
+reader to C++ for production speed.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p>A full example can be found in the <a class="reference external" href="https://github.com/mrzimu/uproot-custom-example">example repository</a>.</p>
@@ -446,7 +450,7 @@ factory, register it, then read with Uproot.</p>
 </div>
 <section id="step-1-check-the-binary-data">
 <h2>Step 1: Check the binary data<a class="headerlink" href="#step-1-check-the-binary-data" title="Link to this heading">#</a></h2>
-<p>Before implementing the <code class="docutils literal notranslate"><span class="pre">reader</span></code> and <code class="docutils literal notranslate"><span class="pre">factory</span></code>, we should check the binary data of <code class="docutils literal notranslate"><span class="pre">TOverrideStreamer</span></code> to understand how the data is stored in the ROOT file:</p>
+<p>Before implementing the Reader and Factory, we should check the binary data of <code class="docutils literal notranslate"><span class="pre">TOverrideStreamer</span></code> to understand how the data is stored in the ROOT file:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">uc</span>
 <span class="gp">&gt;&gt;&gt;</span>
@@ -466,11 +470,191 @@ factory, register it, then read with Uproot.</p>
 <li><p>mask (4 bytes, <code class="docutils literal notranslate"><span class="pre">18,</span>&#160; <span class="pre">52,</span>&#160; <span class="pre">86,</span> <span class="pre">120</span></code>, which is <code class="docutils literal notranslate"><span class="pre">0x12345678</span></code>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">m_double</span></code> (8 bytes, <code class="docutils literal notranslate"><span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">0</span></code>, which is 0.0)</p></li>
 </ul>
-<p>These bytes are the data your <code class="docutils literal notranslate"><span class="pre">reader</span></code> needs to read.</p>
+<p>These bytes are the data your Reader needs to read.</p>
 </section>
-<section id="step-2-implement-c-reader-to-read-binary-data">
-<h2>Step 2: Implement C++ <code class="docutils literal notranslate"><span class="pre">reader</span></code> to read binary data<a class="headerlink" href="#step-2-implement-c-reader-to-read-binary-data" title="Link to this heading">#</a></h2>
-<p>We can implement a <code class="docutils literal notranslate"><span class="pre">reader</span></code> named <code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code> to do this:</p>
+<section id="step-2-implement-python-reader-to-read-binary-data">
+<h2>Step 2: Implement Python Reader to read binary data<a class="headerlink" href="#step-2-implement-python-reader-to-read-binary-data" title="Link to this heading">#</a></h2>
+<p>We implement a Python Reader named <code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span><span class="w"> </span><span class="nn">array</span><span class="w"> </span><span class="kn">import</span> <span class="n">array</span>
+<span class="linenos"> 2</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.readers.python</span><span class="w"> </span><span class="kn">import</span> <span class="n">IReader</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="k">class</span><span class="w"> </span><span class="nc">OverrideStreamerReader</span><span class="p">(</span><span class="n">IReader</span><span class="p">):</span>
+<span class="linenos"> 8</span>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="linenos"> 9</span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="linenos">10</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_ints</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">)</span>       <span class="c1"># int32</span>
+<span class="hll"><span class="linenos">11</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">)</span>    <span class="c1"># float64</span>
+</span><span class="hll"><span class="linenos">12</span>
+</span><span class="hll"><span class="linenos">13</span>    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
+</span><span class="hll"><span class="linenos">14</span>        <span class="c1"># Skip TObject header</span>
+</span><span class="hll"><span class="linenos">15</span>        <span class="n">buffer</span><span class="o">.</span><span class="n">skip_TObject</span><span class="p">()</span>
+</span><span class="hll"><span class="linenos">16</span>
+</span><span class="hll"><span class="linenos">17</span>        <span class="c1"># Read integer value</span>
+</span><span class="hll"><span class="linenos">18</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_ints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">read_int32</span><span class="p">())</span>
+</span><span class="hll"><span class="linenos">19</span>
+</span><span class="hll"><span class="linenos">20</span>        <span class="c1"># Read a custom added mask value</span>
+</span><span class="hll"><span class="linenos">21</span>        <span class="n">mask</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+</span><span class="hll"><span class="linenos">22</span>        <span class="k">if</span> <span class="n">mask</span> <span class="o">!=</span> <span class="mh">0x12345678</span><span class="p">:</span>
+</span><span class="hll"><span class="linenos">23</span>            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: Unexpected mask value: </span><span class="si">{</span><span class="n">mask</span><span class="si">:</span><span class="s2">#x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos">24</span>
+</span><span class="hll"><span class="linenos">25</span>        <span class="c1"># Read double value</span>
+</span><span class="linenos">26</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">read_double</span><span class="p">())</span>
+<span class="linenos">27</span>
+<span class="linenos">28</span>    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos">29</span>        <span class="n">int_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_ints</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i4&quot;</span><span class="p">)</span>
+<span class="linenos">30</span>        <span class="n">double_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;f8&quot;</span><span class="p">)</span>
+<span class="linenos">31</span>        <span class="k">return</span> <span class="n">int_array</span><span class="p">,</span> <span class="n">double_array</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>In the <code class="docutils literal notranslate"><span class="pre">read</span></code> method, we skip the <code class="docutils literal notranslate"><span class="pre">TObject</span></code> header, then read the member variables and the mask according to the logic in the <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method.</p></li>
+</ul>
+<ul class="simple" id="override-streamer-2-np">
+<li><p>In the <code class="docutils literal notranslate"><span class="pre">data</span></code> method, we return a tuple containing 2 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays: one for <code class="docutils literal notranslate"><span class="pre">m_int</span></code> and the other for <code class="docutils literal notranslate"><span class="pre">m_double</span></code>.</p></li>
+</ul>
+</section>
+<section id="step-3-implement-python-factory">
+<h2>Step 3: Implement Python Factory<a class="headerlink" href="#step-3-implement-python-factory" title="Link to this heading">#</a></h2>
+<p>To use our <code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code> and reconstruct the final <code class="docutils literal notranslate"><span class="pre">awkward</span></code> array, we need to implement a corresponding Factory. We can implement a Factory named <code class="docutils literal notranslate"><span class="pre">OverrideStreamerFactory</span></code> to do this.</p>
+<p>A Factory requires at least 3 methods: <code class="docutils literal notranslate"><span class="pre">build_factory</span></code>, <code class="docutils literal notranslate"><span class="pre">build_python_reader</span></code> and <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code>. An optional method <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code> can be implemented to enable <code class="docutils literal notranslate"><span class="pre">dask</span></code> functionality.</p>
+<p>First, import necessary modules:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">awkward.contents</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">awkward.forms</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">Factory</span>
+</pre></div>
+</div>
+<section id="implement-build-factory">
+<h3>Implement <code class="docutils literal notranslate"><span class="pre">build_factory</span></code><a class="headerlink" href="#implement-build-factory" title="Link to this heading">#</a></h3>
+<p>We can make an assumpion that the <code class="docutils literal notranslate"><span class="pre">fName</span></code> of the <code class="docutils literal notranslate"><span class="pre">TStreamerInfo</span></code> is <code class="docutils literal notranslate"><span class="pre">TOverrideStreamer</span></code> for our class. If the <code class="docutils literal notranslate"><span class="pre">fName</span></code> matches, we return a tree config dictionary containing the Factory and the <code class="docutils literal notranslate"><span class="pre">name</span></code> of the corresponding Reader. Otherwise, we return <code class="docutils literal notranslate"><span class="pre">None</span></code> to let other factories have a chance to handle current class.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">OverrideStreamerFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">fName</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">fName</span> <span class="o">!=</span> <span class="s2">&quot;TOverrideStreamer&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">fName</span><span class="p">)</span> <span class="c1"># Factory takes `name: str` as constructor argument</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>In production, you may want use <code class="docutils literal notranslate"><span class="pre">item_path</span></code> to make a more accurate identification of whether the current class is the one you want to handle:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">OverrideStreamerFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">item_path</span> <span class="o">!=</span> <span class="s2">&quot;/my_tree:override_streamer&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">fName</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="implement-build-python-reader">
+<h3>Implement <code class="docutils literal notranslate"><span class="pre">build_python_reader</span></code><a class="headerlink" href="#implement-build-python-reader" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">build_python_reader</span></code> to create an instance of <code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">OverrideStreamerReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="implement-make-awkward-content">
+<h3>Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code><a class="headerlink" href="#implement-make-awkward-content" title="Link to this heading">#</a></h3>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code> to construct <code class="docutils literal notranslate"><span class="pre">awkward</span></code> contents from the raw data returned by the Reader:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
+    <span class="n">int_array</span><span class="p">,</span> <span class="n">double_array</span> <span class="o">=</span> <span class="n">raw_data</span>
+
+    <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">RecordArray</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">NumpyArray</span><span class="p">(</span><span class="n">int_array</span><span class="p">),</span>
+            <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">NumpyArray</span><span class="p">(</span><span class="n">double_array</span><span class="p">),</span>
+        <span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;m_int&quot;</span><span class="p">,</span> <span class="s2">&quot;m_double&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">raw_data</span></code> is the object returned by the <code class="docutils literal notranslate"><span class="pre">data</span></code> method of the Reader. In our example, it is a tuple containing 2 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays, as illustrated <a class="reference internal" href="#override-streamer-2-np"><span class="std std-ref">above</span></a>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Refer to <a class="reference external" href="https://awkward-array.org/doc/main/user-guide/how-to-create-constructors.html"><code class="docutils literal notranslate"><span class="pre">awkward</span></code> direct constructors</a> for more details about <code class="docutils literal notranslate"><span class="pre">awkward</span></code> contents.</p>
+</div>
+</section>
+<section id="optional-implement-make-awkward-form">
+<h3>(Optional) Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code><a class="headerlink" href="#optional-implement-make-awkward-form" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code> method is optional, but it is easy to implement, since the <code class="docutils literal notranslate"><span class="pre">awkward.forms</span></code> is similar to <code class="docutils literal notranslate"><span class="pre">awkward.contents</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">RecordForm</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">),</span>
+            <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="s2">&quot;float64&quot;</span><span class="p">),</span>
+        <span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;m_int&quot;</span><span class="p">,</span> <span class="s2">&quot;m_double&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Refer to <a class="reference external" href="https://awkward-array.org/doc/main/reference/generated/ak.forms.Form.html">awkward forms</a> for more details about <code class="docutils literal notranslate"><span class="pre">awkward</span></code> forms.</p>
+</div>
+</section>
+</section>
+<section id="step-4-register-target-branch-and-the-factory">
+<h2>Step 4: Register target branch and the Factory<a class="headerlink" href="#step-4-register-target-branch-and-the-factory" title="Link to this heading">#</a></h2>
+<p>Finally, we need to register the branch we want to read with uproot-custom, and also register the <code class="docutils literal notranslate"><span class="pre">OverrideStreamerFactory</span></code> so that it can be used by uproot-custom.</p>
+<p>We can do this by adding the following code in the <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> of your package:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">registered_factories</span><span class="p">,</span> <span class="n">AsCustom</span>
+
+<span class="n">AsCustom</span><span class="o">.</span><span class="n">target_branches</span> <span class="o">|=</span> <span class="p">{</span>
+    <span class="s2">&quot;/my_tree:override_streamer&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">registered_factories</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">OverrideStreamerFactory</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Don’t forget to switch to the Python backend during development, since the
+default backend is C++:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.factories</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fac</span>
+<span class="n">fac</span><span class="o">.</span><span class="n">reader_backend</span> <span class="o">=</span> <span class="s2">&quot;python&quot;</span>  <span class="c1"># default is &quot;cpp&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="step-5-read-data-with-uproot">
+<h2>Step 5: Read data with Uproot<a class="headerlink" href="#step-5-read-data-with-uproot" title="Link to this heading">#</a></h2>
+<p>Now we can read the data using Uproot as usual:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;demo_data.root&quot;</span><span class="p">)[</span><span class="s2">&quot;my_tree:override_streamer&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">array</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="step-6-port-the-reader-to-c-for-production-speed">
+<h2>Step 6: Port the reader to C++ for production speed<a class="headerlink" href="#step-6-port-the-reader-to-c-for-production-speed" title="Link to this heading">#</a></h2>
+<p>Once the Python reader is working, you can port the same logic to C++ for
+significantly better performance. <strong>The C++ reader only needs to keep the same
+reading logic as the Python version</strong> — the same fields read in the same
+order, and <code class="docutils literal notranslate"><span class="pre">data()</span></code> returning the same structure.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>See <a class="reference internal" href="#../../tutorial/customize-factory-reader/port-to-cpp.md"><code class="xref myst docutils literal notranslate"><span class="pre">../../tutorial/customize-factory-reader/port-to-cpp.md</span></code></a> for the full
+C++ reader API reference (IReader, BinaryBuffer, pybind11 bindings).</p>
+</div>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code> (C++) — same logic as the Python version</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdint&gt;</span>
 <span class="linenos"> 2</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span>
 <span class="linenos"> 3</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
@@ -523,134 +707,25 @@ factory, register it, then read with Uproot.</p>
 <span class="linenos">50</span><span class="p">}</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li><p>In the <code class="docutils literal notranslate"><span class="pre">read</span></code> method, we skip the <code class="docutils literal notranslate"><span class="pre">TObject</span></code> header, then read the member variables and the mask according to the logic in the <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method.</p></li>
-</ul>
-<ul class="simple" id="override-streamer-2-np">
-<li><p>In the <code class="docutils literal notranslate"><span class="pre">data</span></code> method, we return a <code class="docutils literal notranslate"><span class="pre">py::tuple</span></code> containing 2 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays: one for <code class="docutils literal notranslate"><span class="pre">m_int</span></code> and the other for <code class="docutils literal notranslate"><span class="pre">m_double</span></code>.</p></li>
-<li><p>Finally we declare the <code class="docutils literal notranslate"><span class="pre">reader</span></code> in the <code class="docutils literal notranslate"><span class="pre">PYBIND11_MODULE</span></code>, so that it can be used in Python.</p></li>
-</ul>
-</section>
-<section id="step-3-implement-python-factory">
-<h2>Step 3: Implement Python <code class="docutils literal notranslate"><span class="pre">factory</span></code><a class="headerlink" href="#step-3-implement-python-factory" title="Link to this heading">#</a></h2>
-<p>To use our <code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code> and reconstruct the final <code class="docutils literal notranslate"><span class="pre">awkward</span></code> array, we need to implement a corresponding <code class="docutils literal notranslate"><span class="pre">factory</span></code>. We can implement a <code class="docutils literal notranslate"><span class="pre">factory</span></code> named <code class="docutils literal notranslate"><span class="pre">OverrideStreamerFactory</span></code> to do this.</p>
-<p>A <code class="docutils literal notranslate"><span class="pre">factory</span></code> requires at least 3 methods: <code class="docutils literal notranslate"><span class="pre">build_factory</span></code>, <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code> and <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code>. An optional method <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code> can be implemented to enable <code class="docutils literal notranslate"><span class="pre">dask</span></code> functionality.</p>
-<p>First, import necessary modules:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">awkward.contents</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">awkward.forms</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">Factory</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.my_reader_cpp</span><span class="w"> </span><span class="kn">import</span> <span class="n">OverrideStreamerReader</span>
-</pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">my_reader_cpp</span></code> is the compiled C++ module containing our <code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code>.</p>
-<section id="implement-build-factory">
-<h3>Implement <code class="docutils literal notranslate"><span class="pre">build_factory</span></code><a class="headerlink" href="#implement-build-factory" title="Link to this heading">#</a></h3>
-<p>We can make an assumpion that the <code class="docutils literal notranslate"><span class="pre">fName</span></code> of the <code class="docutils literal notranslate"><span class="pre">TStreamerInfo</span></code> is <code class="docutils literal notranslate"><span class="pre">TOverrideStreamer</span></code> for our class. If the <code class="docutils literal notranslate"><span class="pre">fName</span></code> matches, we return a tree config dictionary containing the <code class="docutils literal notranslate"><span class="pre">factory</span></code> and the <code class="docutils literal notranslate"><span class="pre">name</span></code> of the corresponding <code class="docutils literal notranslate"><span class="pre">reader</span></code>. Otherwise, we return <code class="docutils literal notranslate"><span class="pre">None</span></code> to let other factories have a chance to handle current class.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">OverrideStreamerFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">top_type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">cur_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
-        <span class="n">all_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
-        <span class="n">item_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-    <span class="p">):</span>
-        <span class="n">fName</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">fName</span> <span class="o">!=</span> <span class="s2">&quot;TOverrideStreamer&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
+<p>Then add <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code> to the factory:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">.my_reader_cpp</span><span class="w"> </span><span class="kn">import</span> <span class="n">OverrideStreamerReader</span> <span class="k">as</span> <span class="n">OverrideStreamerCppReader</span>
 
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">fName</span><span class="p">)</span> <span class="c1"># Factory takes `name: str` as constructor argument</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">OverrideStreamerCppReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>In production, you may want use <code class="docutils literal notranslate"><span class="pre">item_path</span></code> to make a more accurate identification of whether the current class is the one you want to handle:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">OverrideStreamerFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">top_type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">cur_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
-        <span class="n">all_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
-        <span class="n">item_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-    <span class="p">):</span>
-        <span class="k">if</span> <span class="n">item_path</span> <span class="o">!=</span> <span class="s2">&quot;/my_tree:override_streamer&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
-
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">fName</span><span class="p">)</span>
+<p>After adding <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code>, simply remove the
+<code class="docutils literal notranslate"><span class="pre">fac.reader_backend</span> <span class="pre">=</span> <span class="pre">&quot;python&quot;</span></code> line (or set it back to <code class="docutils literal notranslate"><span class="pre">&quot;cpp&quot;</span></code>) to use the
+default C++ backend for production:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.factories</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fac</span>
+<span class="n">fac</span><span class="o">.</span><span class="n">reader_backend</span> <span class="o">=</span> <span class="s2">&quot;cpp&quot;</span>  <span class="c1"># this is the default, so you can also just remove the line</span>
 </pre></div>
 </div>
-</div>
-</section>
-<section id="implement-build-cpp-reader">
-<h3>Implement <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code><a class="headerlink" href="#implement-build-cpp-reader" title="Link to this heading">#</a></h3>
-<p>Implement <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code> to create an instance of <code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">OverrideStreamerReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-</pre></div>
-</div>
-</section>
-<section id="implement-make-awkward-content">
-<h3>Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code><a class="headerlink" href="#implement-make-awkward-content" title="Link to this heading">#</a></h3>
-<p>Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code> to construct <code class="docutils literal notranslate"><span class="pre">awkward</span></code> contents from the raw data returned by the <code class="docutils literal notranslate"><span class="pre">reader</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
-    <span class="n">int_array</span><span class="p">,</span> <span class="n">double_array</span> <span class="o">=</span> <span class="n">raw_data</span>
-
-    <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">RecordArray</span><span class="p">(</span>
-        <span class="p">[</span>
-            <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">NumpyArray</span><span class="p">(</span><span class="n">int_array</span><span class="p">),</span>
-            <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">NumpyArray</span><span class="p">(</span><span class="n">double_array</span><span class="p">),</span>
-        <span class="p">],</span>
-        <span class="p">[</span><span class="s2">&quot;m_int&quot;</span><span class="p">,</span> <span class="s2">&quot;m_double&quot;</span><span class="p">],</span>
-    <span class="p">)</span>
-</pre></div>
-</div>
-<p>The <code class="docutils literal notranslate"><span class="pre">raw_data</span></code> is the object returned by the <code class="docutils literal notranslate"><span class="pre">data</span></code> method of the <code class="docutils literal notranslate"><span class="pre">reader</span></code>. In our example, it is a <code class="docutils literal notranslate"><span class="pre">py::tuple</span></code> containing 2 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays, as illustrated <a class="reference internal" href="#override-streamer-2-np"><span class="std std-ref">above</span></a>.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p>Refer to <a class="reference external" href="https://awkward-array.org/doc/main/user-guide/how-to-create-constructors.html"><code class="docutils literal notranslate"><span class="pre">awkward</span></code> direct constructors</a> for more details about <code class="docutils literal notranslate"><span class="pre">awkward</span></code> contents.</p>
-</div>
-</section>
-<section id="optional-implement-make-awkward-form">
-<h3>(Optional) Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code><a class="headerlink" href="#optional-implement-make-awkward-form" title="Link to this heading">#</a></h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code> method is optional, but it is easy to implement, since the <code class="docutils literal notranslate"><span class="pre">awkward.forms</span></code> is similar to <code class="docutils literal notranslate"><span class="pre">awkward.contents</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">RecordForm</span><span class="p">(</span>
-        <span class="p">[</span>
-            <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">),</span>
-            <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="s2">&quot;float64&quot;</span><span class="p">),</span>
-        <span class="p">],</span>
-        <span class="p">[</span><span class="s2">&quot;m_int&quot;</span><span class="p">,</span> <span class="s2">&quot;m_double&quot;</span><span class="p">],</span>
-    <span class="p">)</span>
-</pre></div>
-</div>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p>Refer to <a class="reference external" href="https://awkward-array.org/doc/main/reference/generated/ak.forms.Form.html">awkward forms</a> for more details about <code class="docutils literal notranslate"><span class="pre">awkward</span></code> forms.</p>
-</div>
-</section>
-</section>
-<section id="step-4-register-target-branch-and-the-factory">
-<h2>Step 4: Register target branch and the <code class="docutils literal notranslate"><span class="pre">factory</span></code><a class="headerlink" href="#step-4-register-target-branch-and-the-factory" title="Link to this heading">#</a></h2>
-<p>Finally, we need to register the branch we want to read with uproot-custom, and also register the <code class="docutils literal notranslate"><span class="pre">OverrideStreamerFactory</span></code> so that it can be used by uproot-custom.</p>
-<p>We can do this by adding the following code in the <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> of your package:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">registered_factories</span><span class="p">,</span> <span class="n">AsCustom</span>
-
-<span class="n">AsCustom</span><span class="o">.</span><span class="n">target_branches</span> <span class="o">|=</span> <span class="p">{</span>
-    <span class="s2">&quot;/my_tree:override_streamer&quot;</span><span class="p">,</span>
-<span class="p">}</span>
-
-<span class="n">registered_factories</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">OverrideStreamerFactory</span><span class="p">)</span>
-</pre></div>
-</div>
-</section>
-<section id="step-5-read-data-with-uproot">
-<h2>Step 5: Read data with Uproot<a class="headerlink" href="#step-5-read-data-with-uproot" title="Link to this heading">#</a></h2>
-<p>Now we can read the data using Uproot as usual:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;demo_data.root&quot;</span><span class="p">)[</span><span class="s2">&quot;my_tree:override_streamer&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">array</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+The factory&#39;s `make_awkward_content` and `make_awkward_form` remain exactly
+the same — they work identically regardless of which backend is used,
+because both readers return data in the same structure.
 </pre></div>
 </div>
 </section>
@@ -702,16 +777,17 @@ factory, register it, then read with Uproot.</p>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-check-the-binary-data">Step 1: Check the binary data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-implement-c-reader-to-read-binary-data">Step 2: Implement C++ <code class="docutils literal notranslate"><span class="pre">reader</span></code> to read binary data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-implement-python-factory">Step 3: Implement Python <code class="docutils literal notranslate"><span class="pre">factory</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-implement-python-reader-to-read-binary-data">Step 2: Implement Python Reader to read binary data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-implement-python-factory">Step 3: Implement Python Factory</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-build-factory">Implement <code class="docutils literal notranslate"><span class="pre">build_factory</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-build-cpp-reader">Implement <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-build-python-reader">Implement <code class="docutils literal notranslate"><span class="pre">build_python_reader</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-make-awkward-content">Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-implement-make-awkward-form">(Optional) Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-register-target-branch-and-the-factory">Step 4: Register target branch and the <code class="docutils literal notranslate"><span class="pre">factory</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-register-target-branch-and-the-factory">Step 4: Register target branch and the Factory</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-read-data-with-uproot">Step 5: Read data with Uproot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-port-the-reader-to-c-for-production-speed">Step 6: Port the reader to C++ for production speed</a></li>
 </ul>
   </nav></div>
 

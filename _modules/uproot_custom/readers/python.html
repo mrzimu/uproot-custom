@@ -175,15 +175,17 @@ window.addEventListener("load", () => mermaid.run());
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../get-started.html">Get started</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Customization</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/use-built-in.html">Use built-in factories</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorial/customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/customize-factory-reader/bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/customize-factory-reader/streamer-info.html">Streamer information</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/customize-factory-reader/binary-data.html">Binary data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/customize-factory-reader/template-python-project.html">Template Python project</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../tutorial/customize-factory-reader.html">Customize Reader &amp; Factory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/customize-factory-reader/pipeline.html">Pipeline overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/customize-factory-reader/investigate-data.html">Investigate your data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/customize-factory-reader/reader-and-factory.html">Reader &amp; factory interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/customize-factory-reader/project-setup.html">Project setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/customize-factory-reader/port-to-cpp.html">Port readers to C++</a></li>
 </ul>
 </details></li>
 </ul>
@@ -350,7 +352,7 @@ document.write(`
         <span class="n">offsets</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">],</span>
         <span class="n">repr_nbytes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span> <span class="o">=</span> <span class="n">offsets</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">repr_nbytes</span> <span class="o">=</span> <span class="n">repr_nbytes</span>
@@ -469,7 +471,7 @@ document.write(`
         <span class="n">start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span>
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">]</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="BinaryBuffer.read_obj_header">
@@ -492,7 +494,7 @@ document.write(`
 
         <span class="n">start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="n">length</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">]</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="BinaryBuffer.skip">
@@ -517,7 +519,8 @@ document.write(`
 <a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryBuffer.skip_null_terminated_string">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">skip_null_terminated_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="mi">1</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Skip the null terminator</span></div>
 
 
 <div class="viewcode-block" id="BinaryBuffer.skip_obj_header">
@@ -585,12 +588,6 @@ document.write(`
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 
-<div class="viewcode-block" id="IReader.data">
-<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.IReader.data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
-
-
 <div class="viewcode-block" id="IReader.read_many">
 <a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.IReader.read_many">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">read_many</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="p">,</span> <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -612,6 +609,14 @@ document.write(`
 <div class="viewcode-block" id="IReader.read_many_memberwise">
 <a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.IReader.read_many_memberwise">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">read_many_memberwise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="p">,</span> <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">).read_many_memberwise is not implemented&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="IReader.data">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.IReader.data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 </div>
 
@@ -671,7 +676,7 @@ document.write(`
 <div class="viewcode-block" id="PrimitiveReader.data">
 <a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.PrimitiveReader.data">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span></div>
 </div>
 
 
@@ -713,10 +718,10 @@ document.write(`
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">keep_data</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-        <span class="n">unique_id_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_id</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i4&quot;</span><span class="p">)</span>
-        <span class="n">bits_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bits</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;u4&quot;</span><span class="p">)</span>
-        <span class="n">pidf_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pidf</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;u2&quot;</span><span class="p">)</span>
-        <span class="n">pidf_offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pidf_offsets</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
+        <span class="n">unique_id_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_id</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i4&quot;</span><span class="p">)</span>
+        <span class="n">bits_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bits</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;u4&quot;</span><span class="p">)</span>
+        <span class="n">pidf_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pidf</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;u2&quot;</span><span class="p">)</span>
+        <span class="n">pidf_offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pidf_offsets</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">unique_id_array</span><span class="p">,</span> <span class="n">bits_array</span><span class="p">,</span> <span class="n">pidf_array</span><span class="p">,</span> <span class="n">pidf_offsets_array</span></div>
 </div>
 
@@ -759,7 +764,9 @@ document.write(`
             <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">count</span></div>
 
 
 <div class="viewcode-block" id="TStringReader.read_until">
@@ -782,8 +789,8 @@ document.write(`
 <div class="viewcode-block" id="TStringReader.data">
 <a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TStringReader.data">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;u1&quot;</span><span class="p">)</span>
-        <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
+        <span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;u1&quot;</span><span class="p">)</span>
+        <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">offsets_array</span><span class="p">,</span> <span class="n">data_array</span></div>
 </div>
 
@@ -811,12 +818,12 @@ document.write(`
     <span class="k">def</span><span class="w"> </span><span class="nf">check_objwise_memberwise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_memberwise</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">==</span> <span class="s2">&quot;obj-wise&quot;</span> <span class="ow">and</span> <span class="n">is_memberwise</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;STLMapReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) expected obj-wise reading but got member-wise&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;STLSeqReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) expected obj-wise reading but got member-wise&quot;</span>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">==</span> <span class="s2">&quot;member-wise&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_memberwise</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;STLMapReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) expected member-wise reading but got obj-wise&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;STLSeqReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) expected member-wise reading but got obj-wise&quot;</span>
             <span class="p">)</span></div>
 
 
@@ -861,7 +868,7 @@ document.write(`
         <span class="k">elif</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">assert</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span>
-            <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;STLSeqReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">).read_many called with negative count expecting with_header=True&quot;</span>
+            <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;STLSeqReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">).read_many called with negative count expects with_header=True&quot;</span>
 
             <span class="n">fNBytes</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fNBytes</span><span class="p">()</span>
             <span class="n">end_pos</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+</span> <span class="n">fNBytes</span>
@@ -922,7 +929,7 @@ document.write(`
 <div class="viewcode-block" id="STLSeqReader.data">
 <a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader.data">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
+        <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
         <span class="n">element_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">offsets_array</span><span class="p">,</span> <span class="n">element_data</span></div>
 </div>
@@ -1074,7 +1081,7 @@ document.write(`
 <div class="viewcode-block" id="STLMapReader.data">
 <a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.data">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
+        <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
         <span class="n">key_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_reader</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
         <span class="n">value_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value_reader</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">offsets_array</span><span class="p">,</span> <span class="n">key_data</span><span class="p">,</span> <span class="n">value_data</span></div>
@@ -1165,8 +1172,8 @@ document.write(`
 <div class="viewcode-block" id="STLStringReader.data">
 <a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLStringReader.data">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;u1&quot;</span><span class="p">)</span>
-        <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
+        <span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;u1&quot;</span><span class="p">)</span>
+        <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">offsets_array</span><span class="p">,</span> <span class="n">data_array</span></div>
 </div>
 
@@ -1200,8 +1207,8 @@ document.write(`
 <div class="viewcode-block" id="TArrayReader.data">
 <a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.TArrayReader.data">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
-        <span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
+        <span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">offsets_array</span><span class="p">,</span> <span class="n">data_array</span></div>
 </div>
 
@@ -1394,7 +1401,7 @@ document.write(`
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_size</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
+            <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
             <span class="n">element_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
             <span class="k">return</span> <span class="n">offsets_array</span><span class="p">,</span> <span class="n">element_data</span></div>
 </div>

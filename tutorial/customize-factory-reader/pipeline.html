@@ -1,0 +1,933 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Pipeline overview &#8212; uproot-custom</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorial/customize-factory-reader/pipeline';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Investigate your data" href="investigate-data.html" />
+    <link rel="prev" title="Customize Reader &amp; Factory" href="../customize-factory-reader.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">uproot-custom</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../index.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started.html">Get started</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Customization</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../customize-factory-reader.html">Customize Reader &amp; Factory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Pipeline overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="investigate-data.html">Investigate your data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reader-and-factory.html">Reader &amp; factory interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project-setup.html">Project setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="port-to-cpp.html">Port readers to C++</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../reference/version-requirements.html">Version requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/binary-format.html">Binary format of common classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/reader-backends.html">Reader backends</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../reference/api.html">API documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../reference/api/cpp-api.html">C++ API reference</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../reference/api/uproot-custom-ref.html">Module reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../reference/api/uproot_custom.html">Python reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../reference/api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../reference/api/cpp-module.html">C++ reference</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../example/override-streamer.html">Example 1: <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method is overridden</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example/read-tobjarray.html">Example 2: Read <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> with unique known type</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/tutorial/customize-factory-reader/pipeline.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Pipeline overview</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-1-build-factory-instances">Stage 1: Build factory instances</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recursive-factory-construction">Recursive factory construction</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-2-build-readers">Stage 2: Build readers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-3-4-read-binary-data-and-return-results">Stage 3 &amp; 4: Read binary data and return results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-5-build-awkward-arrays">Stage 5: Build awkward arrays</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-awkward-forms">Generating awkward forms</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-example-putting-it-all-together">Complete example: putting it all together</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-1-factory">Stage 1 — Factory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-2-reader">Stage 2 — Reader</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#register-and-read">Register and read</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="pipeline-overview">
+<h1>Pipeline overview<a class="headerlink" href="#pipeline-overview" title="Link to this heading">#</a></h1>
+<p>This page explains the end-to-end pipeline that uproot-custom uses to turn
+ROOT binary data into <code class="docutils literal notranslate"><span class="pre">awkward</span></code> arrays. Understanding this pipeline will help
+you design your own factories and readers.</p>
+<p>At a high level the pipeline has five stages:</p>
+<ol class="arabic simple">
+<li><p><strong>Build factories</strong> — uproot-custom reads streamer information and
+recursively creates a tree of <code class="docutils literal notranslate"><span class="pre">Factory</span></code> instances that mirror the class
+hierarchy.</p></li>
+<li><p><strong>Build readers</strong> — each factory creates a corresponding <code class="docutils literal notranslate"><span class="pre">Reader</span></code> (Python
+or C++).</p></li>
+<li><p><strong>Read binary data</strong> — the composed reader graph walks the byte buffer.</p></li>
+<li><p><strong>Return raw data</strong> — leaf readers return <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays; parent readers
+assemble them into nested tuples / lists.</p></li>
+<li><p><strong>Build awkward arrays</strong> — factories convert the raw arrays into
+<code class="docutils literal notranslate"><span class="pre">awkward</span></code> contents and form the final <code class="docutils literal notranslate"><span class="pre">awkward</span></code> array.</p></li>
+</ol>
+<hr class="docutils" />
+<section id="stage-1-build-factory-instances">
+<h2>Stage 1: Build factory instances<a class="headerlink" href="#stage-1-build-factory-instances" title="Link to this heading">#</a></h2>
+<p>When a branch is read, <code class="docutils literal notranslate"><span class="pre">AsCustom</span></code> calls <code class="docutils literal notranslate"><span class="pre">uproot_custom.factories.build_factory</span></code>.
+This function loops over all registered factory classes (highest priority first)
+and invokes each one’s <code class="docutils literal notranslate"><span class="pre">build_factory</span></code> class method. The first class that
+returns a non-<code class="docutils literal notranslate"><span class="pre">None</span></code> instance wins.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">Source code of <code class="docutils literal notranslate"><span class="pre">uproot_custom.factories.build_factory</span></code></span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+    <span class="n">cur_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">all_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">item_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Factory&quot;</span><span class="p">:</span>
+    <span class="n">fName</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">]</span>
+
+    <span class="n">top_type_name</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">get_top_type_name</span><span class="p">(</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fTypeName&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;fTypeName&quot;</span> <span class="ow">in</span> <span class="n">cur_streamer_info</span>
+        <span class="k">else</span> <span class="kc">None</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;called_from_top&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="n">item_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">item_path</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">fName</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="hll">    <span class="k">for</span> <span class="n">factory_class</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">registered_factories</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">priority</span><span class="p">(),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+</span><span class="hll">        <span class="n">factory_instance</span> <span class="o">=</span> <span class="n">factory_class</span><span class="o">.</span><span class="n">build_factory</span><span class="p">(</span>
+</span><span class="hll">            <span class="n">top_type_name</span><span class="p">,</span>
+</span><span class="hll">            <span class="n">cur_streamer_info</span><span class="p">,</span>
+</span><span class="hll">            <span class="n">all_streamer_info</span><span class="p">,</span>
+</span><span class="hll">            <span class="n">item_path</span><span class="p">,</span>
+</span><span class="hll">            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+</span><span class="hll">        <span class="p">)</span>
+</span><span class="hll">        <span class="k">if</span> <span class="n">factory_instance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span class="hll">            <span class="k">return</span> <span class="n">factory_instance</span>
+</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown type: </span><span class="si">{</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s1">&#39;fTypeName&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">item_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<section id="recursive-factory-construction">
+<h3>Recursive factory construction<a class="headerlink" href="#recursive-factory-construction" title="Link to this heading">#</a></h3>
+<p>For composite classes such as <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code>, <code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code> matches and
+then <strong>recursively</strong> calls <code class="docutils literal notranslate"><span class="pre">build_factory</span></code> for every data member listed in the
+streamer information:</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">Source code of <code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_factory</span></code></span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AnyClassFactory</span><span class="p">(</span><span class="n">GroupFactory</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="hll">        <span class="n">sub_streamers</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">all_streamer_info</span><span class="p">[</span><span class="n">top_type_name</span><span class="p">]</span>
+</span><span class="hll">        <span class="n">sub_factories</span> <span class="o">=</span> <span class="p">[</span><span class="n">build_factory</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">all_streamer_info</span><span class="p">,</span> <span class="n">item_path</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sub_streamers</span><span class="p">]</span>
+</span>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">top_type_name</span><span class="p">,</span> <span class="n">sub_factories</span><span class="o">=</span><span class="n">sub_factories</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The resulting factory tree for <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code>
+(using the <a class="reference internal" href="investigate-data.html#simple-obj-streamer-info"><span class="std std-ref">streamer information</span></a> as input) looks
+like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">AnyClassFactory</span><span class="p">,</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;TSimpleObject&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sub_factories&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">TObjectFactory</span><span class="p">,</span>    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;TObject&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">PrimitiveFactory</span><span class="p">,</span>  <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;m_int&quot;</span><span class="p">,</span>            <span class="s2">&quot;ctype&quot;</span><span class="p">:</span> <span class="s2">&quot;i4&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">STLStringFactory</span><span class="p">,</span>  <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;m_str&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">CStyleArrayFactory</span><span class="p">,</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;m_arr_int&quot;</span><span class="p">,</span>        <span class="s2">&quot;flat_size&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">STLSeqFactory</span><span class="p">,</span>     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;m_vec_double&quot;</span><span class="p">,</span>     <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="s2">&quot;PrimitiveFactory(d)&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">STLMapFactory</span><span class="p">,</span>     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;m_map_int_double&quot;</span><span class="p">,</span> <span class="s2">&quot;key/val&quot;</span><span class="p">:</span> <span class="s2">&quot;Primitive/Primitive&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">STLMapFactory</span><span class="p">,</span>     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;m_map_str_str&quot;</span><span class="p">,</span>    <span class="s2">&quot;key/val&quot;</span><span class="p">:</span> <span class="s2">&quot;STLString/TString&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">TStringFactory</span><span class="p">,</span>    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;m_tstr&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">TArrayFactory</span><span class="p">,</span>     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;m_tarr_int&quot;</span><span class="p">,</span>       <span class="s2">&quot;ctype&quot;</span><span class="p">:</span> <span class="s2">&quot;i4&quot;</span><span class="p">},</span>
+    <span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="stage-2-build-readers">
+<h2>Stage 2: Build readers<a class="headerlink" href="#stage-2-build-readers" title="Link to this heading">#</a></h2>
+<p>Once the factory tree is ready, <code class="docutils literal notranslate"><span class="pre">AsCustom</span></code> calls <code class="docutils literal notranslate"><span class="pre">Factory.build_python_reader</span></code>
+(or <code class="docutils literal notranslate"><span class="pre">Factory.build_cpp_reader</span></code> when using the default C++ backend) on the root
+factory. Each factory delegates to its sub-factories to build sub-readers, then
+combines them into a parent reader.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The default reader backend is <strong>C++</strong> (<code class="docutils literal notranslate"><span class="pre">uproot_custom.factories.reader_backend</span> <span class="pre">=</span> <span class="pre">&quot;cpp&quot;</span></code>).
+During development, you must explicitly switch to the Python backend:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import uproot_custom.factories as fac
+fac.reader_backend = &quot;python&quot;
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">Source code of <code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_python_reader</span></code></span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AnyClassFactory</span><span class="p">(</span><span class="n">GroupFactory</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="hll">        <span class="n">sub_readers</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span><span class="p">]</span>
+</span><span class="hll">        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">AnyClassReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="stage-3-4-read-binary-data-and-return-results">
+<h2>Stage 3 &amp; 4: Read binary data and return results<a class="headerlink" href="#stage-3-4-read-binary-data-and-return-results" title="Link to this heading">#</a></h2>
+<p>The top-level reader drives sub-readers recursively. For instance,
+<code class="docutils literal notranslate"><span class="pre">AnyClassReader</span></code> reads its <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> + <code class="docutils literal notranslate"><span class="pre">fVersion</span></code> header, then asks each
+sub-reader to consume its portion of the buffer:</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">AnyClassReader.read</span></code> method (Python)</span><a class="headerlink" href="#id4" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
+    <span class="n">fNBytes</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fNBytes</span><span class="p">()</span>
+    <span class="n">start_pos</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span>
+    <span class="n">end_pos</span> <span class="o">=</span> <span class="n">start_pos</span> <span class="o">+</span> <span class="n">fNBytes</span>
+
+    <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
+<span class="hll">
+</span>    <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">:</span>
+        <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">,</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;AnyClassReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): Invalid read length!&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>After all entries are read, the top-level reader’s <code class="docutils literal notranslate"><span class="pre">data()</span></code> method collects
+results recursively — leaf readers return <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays, and composite
+readers assemble them into nested tuples or lists:</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">PrimitiveReader.data</span></code> — leaf</span><a class="headerlink" href="#id5" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">AnyClassReader.data</span></code> — composite</span><a class="headerlink" href="#id6" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">reader</span><span class="o">.</span><span class="n">data</span><span class="p">()</span> <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="stage-5-build-awkward-arrays">
+<h2>Stage 5: Build awkward arrays<a class="headerlink" href="#stage-5-build-awkward-arrays" title="Link to this heading">#</a></h2>
+<p>With the nested arrays available in Python, <code class="docutils literal notranslate"><span class="pre">AsCustom</span></code> calls
+<code class="docutils literal notranslate"><span class="pre">Factory.make_awkward_content</span></code> to reconstruct <code class="docutils literal notranslate"><span class="pre">awkward</span></code> contents. Each factory
+extracts its slice of the raw data, delegates to sub-factories, then combines
+the results:</p>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">Source code of <code class="docutils literal notranslate"><span class="pre">GroupFactory.make_awkward_content</span></code></span><a class="headerlink" href="#id7" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">GroupFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
+        <span class="n">sub_configs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span>
+
+        <span class="n">sub_fields</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">sub_contents</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">s_fac</span><span class="p">,</span> <span class="n">s_data</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sub_configs</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s_fac</span><span class="p">,</span> <span class="n">TObjectFactory</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">s_fac</span><span class="o">.</span><span class="n">keep_data</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">sub_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_fac</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">sub_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_fac</span><span class="o">.</span><span class="n">make_awkward_content</span><span class="p">(</span><span class="n">s_data</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">RecordArray</span><span class="p">(</span><span class="n">sub_contents</span><span class="p">,</span> <span class="n">sub_fields</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<section id="generating-awkward-forms">
+<h3>Generating awkward forms<a class="headerlink" href="#generating-awkward-forms" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">awkward</span></code> forms describe the data structure without holding data, enabling
+lazy evaluation with <code class="docutils literal notranslate"><span class="pre">dask</span></code>. Form generation mirrors <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code> but
+needs no input data:</p>
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text">Source code of <code class="docutils literal notranslate"><span class="pre">GroupFactory.make_awkward_form</span></code></span><a class="headerlink" href="#id8" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">GroupFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sub_configs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span>
+
+        <span class="n">sub_fields</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">sub_contents</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">s_fac</span> <span class="ow">in</span> <span class="n">sub_configs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s_fac</span><span class="p">,</span> <span class="n">TObjectFactory</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">s_fac</span><span class="o">.</span><span class="n">keep_data</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">sub_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_fac</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">sub_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_fac</span><span class="o">.</span><span class="n">make_awkward_form</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">RecordForm</span><span class="p">(</span><span class="n">sub_contents</span><span class="p">,</span> <span class="n">sub_fields</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="complete-example-putting-it-all-together">
+<h2>Complete example: putting it all together<a class="headerlink" href="#complete-example-putting-it-all-together" title="Link to this heading">#</a></h2>
+<p>The five stages above may feel abstract. Below is a concrete, end-to-end
+example that walks through every stage. We use a demo class
+<code class="docutils literal notranslate"><span class="pre">TOverrideStreamer</span></code> that overrides the default ROOT <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method by
+inserting an extra mask between its two data members.</p>
+<div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text">Demo class — <code class="docutils literal notranslate"><span class="pre">TOverrideStreamer</span></code> (C++)</span><a class="headerlink" href="#id9" title="Link to this code">#</a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TOverrideStreamer</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">TObject</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">private</span><span class="o">:</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">m_int</span><span class="p">{</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">};</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">m_double</span><span class="p">{</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="p">};</span>
+
+<span class="w">    </span><span class="n">ClassDef</span><span class="p">(</span><span class="w"> </span><span class="n">TOverrideStreamer</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<p>Its <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method is overridden to insert an extra mask (<code class="docutils literal notranslate"><span class="pre">0x12345678</span></code>)
+between <code class="docutils literal notranslate"><span class="pre">m_int</span></code> and <code class="docutils literal notranslate"><span class="pre">m_double</span></code>:</p>
+<div class="literal-block-wrapper docutils container" id="id10">
+<div class="code-block-caption"><span class="caption-text">Overridden <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method</span><a class="headerlink" href="#id10" title="Link to this code">#</a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">TOverrideStreamer::Streamer</span><span class="p">(</span><span class="w"> </span><span class="n">TBuffer</span><span class="o">&amp;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">IsReading</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">TObject</span><span class="o">::</span><span class="n">Streamer</span><span class="p">(</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">);</span>
+<span class="w">        </span><span class="n">b</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">m_int</span><span class="p">;</span>
+
+<span class="w">        </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mask</span><span class="p">;</span>
+<span class="hll"><span class="w">        </span><span class="n">b</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">mask</span><span class="p">;</span><span class="w"> </span><span class="c1">// additionally read a mask</span>
+</span><span class="hll"><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mh">0x12345678</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* error */</span><span class="w"> </span><span class="p">}</span>
+</span>
+<span class="w">        </span><span class="n">b</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">m_double</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">TObject</span><span class="o">::</span><span class="n">Streamer</span><span class="p">(</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">);</span>
+<span class="w">        </span><span class="n">b</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">m_int</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x12345678</span><span class="p">;</span>
+<span class="w">        </span><span class="n">b</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">mask</span><span class="p">;</span>
+<span class="w">        </span><span class="n">b</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">m_double</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>Because of this override, the binary layout is:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Content</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Size</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TObject</span></code></p></td>
+<td><p>—</p></td>
+<td><p>10 bytes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">m_int</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int32_t</span></code></p></td>
+<td><p>4 bytes</p></td>
+</tr>
+<tr class="row-even"><td><p><em>mask</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">uint32_t</span></code></p></td>
+<td><p>4 bytes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">m_double</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">double</span></code></p></td>
+<td><p>8 bytes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The built-in reader cannot handle the extra mask, so we must implement a
+custom reader and factory.</p>
+<section id="stage-1-factory">
+<h3>Stage 1 — Factory<a class="headerlink" href="#stage-1-factory" title="Link to this heading">#</a></h3>
+<p>The factory must implement four methods. <code class="docutils literal notranslate"><span class="pre">build_factory</span></code> matches on the
+class name and returns an instance; the remaining methods build readers and
+convert raw data to <code class="docutils literal notranslate"><span class="pre">awkward</span></code> arrays.</p>
+<div class="literal-block-wrapper docutils container" id="id11">
+<div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">OverrideStreamerFactory</span></code> — complete factory implementation</span><a class="headerlink" href="#id11" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span><span class="w"> </span><span class="nn">awkward</span>
+<span class="linenos"> 2</span><span class="kn">import</span><span class="w"> </span><span class="nn">awkward.contents</span>
+<span class="linenos"> 3</span><span class="kn">import</span><span class="w"> </span><span class="nn">awkward.forms</span>
+<span class="linenos"> 4</span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">Factory</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="k">class</span><span class="w"> </span><span class="nc">OverrideStreamerFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+<span class="linenos"> 8</span>    <span class="nd">@classmethod</span>
+<span class="linenos"> 9</span>    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">top_type_name</span><span class="p">,</span> <span class="n">cur_streamer_info</span><span class="p">,</span>
+<span class="linenos">10</span>                      <span class="n">all_streamer_info</span><span class="p">,</span> <span class="n">item_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="linenos">11</span>        <span class="k">if</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;TOverrideStreamer&quot;</span><span class="p">:</span>
+<span class="linenos">12</span>            <span class="k">return</span> <span class="kc">None</span>
+<span class="linenos">13</span>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">])</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span>    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos">16</span>        <span class="c1"># Stage 2 — create the reader</span>
+<span class="linenos">17</span>        <span class="k">return</span> <span class="n">OverrideStreamerReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span>    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
+<span class="linenos">20</span>        <span class="c1"># Stage 5a — convert raw numpy arrays to awkward content</span>
+<span class="linenos">21</span>        <span class="n">int_array</span><span class="p">,</span> <span class="n">double_array</span> <span class="o">=</span> <span class="n">raw_data</span>
+<span class="linenos">22</span>        <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">RecordArray</span><span class="p">(</span>
+<span class="linenos">23</span>            <span class="p">[</span><span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">NumpyArray</span><span class="p">(</span><span class="n">int_array</span><span class="p">),</span>
+<span class="linenos">24</span>             <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">NumpyArray</span><span class="p">(</span><span class="n">double_array</span><span class="p">)],</span>
+<span class="linenos">25</span>            <span class="p">[</span><span class="s2">&quot;m_int&quot;</span><span class="p">,</span> <span class="s2">&quot;m_double&quot;</span><span class="p">],</span>
+<span class="linenos">26</span>        <span class="p">)</span>
+<span class="linenos">27</span>
+<span class="linenos">28</span>    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos">29</span>        <span class="c1"># Stage 5b — describe the data layout for dask</span>
+<span class="linenos">30</span>        <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">RecordForm</span><span class="p">(</span>
+<span class="linenos">31</span>            <span class="p">[</span><span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">),</span>
+<span class="linenos">32</span>             <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="s2">&quot;float64&quot;</span><span class="p">)],</span>
+<span class="linenos">33</span>            <span class="p">[</span><span class="s2">&quot;m_int&quot;</span><span class="p">,</span> <span class="s2">&quot;m_double&quot;</span><span class="p">],</span>
+<span class="linenos">34</span>        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="stage-2-reader">
+<h3>Stage 2 — Reader<a class="headerlink" href="#stage-2-reader" title="Link to this heading">#</a></h3>
+<p>The reader implements the binary decoding logic. It reads every entry from
+the byte buffer and accumulates values in Python <code class="docutils literal notranslate"><span class="pre">array</span></code> objects, then
+returns them as <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays.</p>
+<div class="literal-block-wrapper docutils container" id="id12">
+<div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code> — Python reader</span><a class="headerlink" href="#id12" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span><span class="w"> </span><span class="nn">array</span><span class="w"> </span><span class="kn">import</span> <span class="n">array</span>
+<span class="linenos"> 2</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos"> 3</span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.readers.python</span><span class="w"> </span><span class="kn">import</span> <span class="n">IReader</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="k">class</span><span class="w"> </span><span class="nc">OverrideStreamerReader</span><span class="p">(</span><span class="n">IReader</span><span class="p">):</span>
+<span class="linenos"> 7</span>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="linenos"> 8</span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="linenos"> 9</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_ints</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">)</span>       <span class="c1"># int32</span>
+<span class="linenos">10</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">)</span>    <span class="c1"># float64</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span>    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
+<span class="linenos">13</span>        <span class="c1"># Stage 3 — read binary data</span>
+<span class="linenos">14</span>        <span class="n">buffer</span><span class="o">.</span><span class="n">skip_TObject</span><span class="p">()</span>                        <span class="c1"># skip base class</span>
+<span class="linenos">15</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_ints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">read_int32</span><span class="p">())</span>      <span class="c1"># m_int</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span>        <span class="n">mask</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>                  <span class="c1"># custom mask</span>
+<span class="linenos">18</span>        <span class="k">if</span> <span class="n">mask</span> <span class="o">!=</span> <span class="mh">0x12345678</span><span class="p">:</span>
+<span class="linenos">19</span>            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected mask: </span><span class="si">{</span><span class="n">mask</span><span class="si">:</span><span class="s2">#x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">read_double</span><span class="p">())</span>  <span class="c1"># m_double</span>
+<span class="linenos">22</span>
+<span class="linenos">23</span>    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos">24</span>        <span class="c1"># Stage 4 — return raw numpy arrays</span>
+<span class="linenos">25</span>        <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_ints</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i4&quot;</span><span class="p">),</span>
+<span class="linenos">26</span>                <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;f8&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="register-and-read">
+<h3>Register and read<a class="headerlink" href="#register-and-read" title="Link to this heading">#</a></h3>
+<p>With the factory and reader defined, register them and read data with Uproot:</p>
+<div class="literal-block-wrapper docutils container" id="id13">
+<div class="code-block-caption"><span class="caption-text">Registration and usage</span><a class="headerlink" href="#id13" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
+<span class="linenos"> 2</span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom</span>
+<span class="linenos"> 3</span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.factories</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fac</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="c1"># During development, use the Python backend</span>
+<span class="linenos"> 6</span><span class="n">fac</span><span class="o">.</span><span class="n">reader_backend</span> <span class="o">=</span> <span class="s2">&quot;python&quot;</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="c1"># Register the target branch and the custom factory</span>
+<span class="linenos"> 9</span><span class="n">uproot_custom</span><span class="o">.</span><span class="n">AsCustom</span><span class="o">.</span><span class="n">target_branches</span> <span class="o">|=</span> <span class="p">{</span>
+<span class="linenos">10</span>    <span class="s2">&quot;/my_tree:override_streamer&quot;</span><span class="p">,</span>
+<span class="linenos">11</span><span class="p">}</span>
+<span class="linenos">12</span><span class="n">uproot_custom</span><span class="o">.</span><span class="n">registered_factories</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">OverrideStreamerFactory</span><span class="p">)</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="c1"># Read the data — Uproot will automatically invoke our factory/reader</span>
+<span class="linenos">15</span><span class="n">arr</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;demo_data.root&quot;</span><span class="p">)[</span><span class="s2">&quot;my_tree:override_streamer&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">array</span><span class="p">()</span>
+<span class="linenos">16</span><span class="n">arr</span><span class="o">.</span><span class="n">m_int</span>    <span class="c1"># &lt;Array [0, 1, 2, ...] type=&#39;100 * int32&#39;&gt;</span>
+<span class="linenos">17</span><span class="n">arr</span><span class="o">.</span><span class="n">m_double</span> <span class="c1"># &lt;Array [0.0, 3.14, 6.28, ...] type=&#39;100 * float64&#39;&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>In a real project, put the factory, reader, and registration code inside a
+Python package (see <a class="reference internal" href="project-setup.html"><span class="std std-doc">Project setup</span></a>). The registration is typically
+done in the package’s <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> so that it happens automatically on
+import.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>For a full walkthrough — including binary-data inspection and porting to C++
+— see <a class="reference internal" href="../../example/override-streamer.html"><span class="std std-doc">Example 1: Streamer method is overridden</span></a>.</p>
+</div>
+<hr class="docutils" />
+<div class="hint admonition">
+<p class="admonition-title">Next step</p>
+<p>Now that you understand the pipeline, move on to
+<a class="reference internal" href="investigate-data.html"><span class="std std-doc">Investigate your data</span></a> to learn how to inspect
+streamer information and raw binary bytes for the class you need to read.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../customize-factory-reader.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Customize Reader &amp; Factory</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="investigate-data.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Investigate your data</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-1-build-factory-instances">Stage 1: Build factory instances</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recursive-factory-construction">Recursive factory construction</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-2-build-readers">Stage 2: Build readers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-3-4-read-binary-data-and-return-results">Stage 3 &amp; 4: Read binary data and return results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-5-build-awkward-arrays">Stage 5: Build awkward arrays</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-awkward-forms">Generating awkward forms</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-example-putting-it-all-together">Complete example: putting it all together</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-1-factory">Stage 1 — Factory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-2-reader">Stage 2 — Reader</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#register-and-read">Register and read</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mingrun Li
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Mingrun Li.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

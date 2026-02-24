@@ -175,15 +175,17 @@ window.addEventListener("load", () => mermaid.run());
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="get-started.html">Get started</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Customization</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="tutorial/use-built-in.html">Use built-in factories</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="tutorial/customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/streamer-info.html">Streamer information</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/binary-data.html">Binary data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/template-python-project.html">Template Python project</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tutorial/customize-factory-reader.html">Customize Reader &amp; Factory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/pipeline.html">Pipeline overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/investigate-data.html">Investigate your data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/reader-and-factory.html">Reader &amp; factory interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/project-setup.html">Project setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/customize-factory-reader/port-to-cpp.html">Port readers to C++</a></li>
 </ul>
 </details></li>
 </ul>
@@ -507,8 +509,120 @@ document.write(`
         <li><a href="reference/api/uproot_custom.html#uproot_custom.TStringFactory.build_factory">(uproot_custom.TStringFactory class method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.AnyClassFactory.build_forth_reader">build_forth_reader() (uproot_custom.AnyClassFactory method)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.BaseObjectFactory.build_forth_reader">(uproot_custom.BaseObjectFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.CStyleArrayFactory.build_forth_reader">(uproot_custom.CStyleArrayFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.EmptyFactory.build_forth_reader">(uproot_custom.EmptyFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.AnyClassFactory.build_forth_reader">(uproot_custom.factories.AnyClassFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.BaseObjectFactory.build_forth_reader">(uproot_custom.factories.BaseObjectFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory.build_forth_reader">(uproot_custom.factories.CStyleArrayFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.EmptyFactory.build_forth_reader">(uproot_custom.factories.EmptyFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.Factory.build_forth_reader">(uproot_custom.factories.Factory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.GroupFactory.build_forth_reader">(uproot_custom.factories.GroupFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.build_forth_reader">(uproot_custom.factories.ObjectHeaderFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory.build_forth_reader">(uproot_custom.factories.PrimitiveFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.STLMapFactory.build_forth_reader">(uproot_custom.factories.STLMapFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.STLSeqFactory.build_forth_reader">(uproot_custom.factories.STLSeqFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.STLStringFactory.build_forth_reader">(uproot_custom.factories.STLStringFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TArrayFactory.build_forth_reader">(uproot_custom.factories.TArrayFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TObjectFactory.build_forth_reader">(uproot_custom.factories.TObjectFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TStringFactory.build_forth_reader">(uproot_custom.factories.TStringFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.Factory.build_forth_reader">(uproot_custom.Factory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.GroupFactory.build_forth_reader">(uproot_custom.GroupFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.ObjectHeaderFactory.build_forth_reader">(uproot_custom.ObjectHeaderFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.PrimitiveFactory.build_forth_reader">(uproot_custom.PrimitiveFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLMapFactory.build_forth_reader">(uproot_custom.STLMapFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLSeqFactory.build_forth_reader">(uproot_custom.STLSeqFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLStringFactory.build_forth_reader">(uproot_custom.STLStringFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TArrayFactory.build_forth_reader">(uproot_custom.TArrayFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TObjectFactory.build_forth_reader">(uproot_custom.TObjectFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TStringFactory.build_forth_reader">(uproot_custom.TStringFactory method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.AnyClassFactory.build_numba_reader">build_numba_reader() (uproot_custom.AnyClassFactory method)</a>
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.CStyleArrayFactory.build_numba_reader">(uproot_custom.CStyleArrayFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.EmptyFactory.build_numba_reader">(uproot_custom.EmptyFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.AnyClassFactory.build_numba_reader">(uproot_custom.factories.AnyClassFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory.build_numba_reader">(uproot_custom.factories.CStyleArrayFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.EmptyFactory.build_numba_reader">(uproot_custom.factories.EmptyFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.Factory.build_numba_reader">(uproot_custom.factories.Factory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.GroupFactory.build_numba_reader">(uproot_custom.factories.GroupFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.build_numba_reader">(uproot_custom.factories.ObjectHeaderFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory.build_numba_reader">(uproot_custom.factories.PrimitiveFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.STLMapFactory.build_numba_reader">(uproot_custom.factories.STLMapFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.STLSeqFactory.build_numba_reader">(uproot_custom.factories.STLSeqFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.STLStringFactory.build_numba_reader">(uproot_custom.factories.STLStringFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TArrayFactory.build_numba_reader">(uproot_custom.factories.TArrayFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TObjectFactory.build_numba_reader">(uproot_custom.factories.TObjectFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.TStringFactory.build_numba_reader">(uproot_custom.factories.TStringFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.Factory.build_numba_reader">(uproot_custom.Factory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.GroupFactory.build_numba_reader">(uproot_custom.GroupFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.ObjectHeaderFactory.build_numba_reader">(uproot_custom.ObjectHeaderFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.PrimitiveFactory.build_numba_reader">(uproot_custom.PrimitiveFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLMapFactory.build_numba_reader">(uproot_custom.STLMapFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLSeqFactory.build_numba_reader">(uproot_custom.STLSeqFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.STLStringFactory.build_numba_reader">(uproot_custom.STLStringFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TArrayFactory.build_numba_reader">(uproot_custom.TArrayFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TObjectFactory.build_numba_reader">(uproot_custom.TObjectFactory method)</a>
+</li>
+        <li><a href="reference/api/uproot_custom.html#uproot_custom.TStringFactory.build_numba_reader">(uproot_custom.TStringFactory method)</a>
+</li>
+      </ul></li>
       <li><a href="reference/api/uproot_custom.html#uproot_custom.AnyClassFactory.build_python_reader">build_python_reader() (uproot_custom.AnyClassFactory method)</a>
 
       <ul>

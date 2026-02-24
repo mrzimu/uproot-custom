@@ -168,15 +168,17 @@
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../get-started.html">Get started</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Customization</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../tutorial/use-built-in.html">Use built-in factories</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorial/customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/streamer-info.html">Streamer information</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/binary-data.html">Binary data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/template-python-project.html">Template Python project</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorial/customize-factory-reader.html">Customize Reader &amp; Factory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/pipeline.html">Pipeline overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/investigate-data.html">Investigate your data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/reader-and-factory.html">Reader &amp; factory interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/project-setup.html">Project setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/customize-factory-reader/port-to-cpp.html">Port readers to C++</a></li>
 </ul>
 </details></li>
 </ul>
@@ -370,55 +372,63 @@ document.write(`
 <p>Uproot-custom supports two reader backends:</p>
 <ul class="simple">
 <li><p><strong>C++ backend (default):</strong> fast pybind11 readers built from the bundled C++
-extension. Use this for production workloads.</p></li>
-<li><p><strong>Python backend:</strong> pure-Python readers in <code class="docutils literal notranslate"><span class="pre">uproot_custom.readers.python</span></code>. Use
-it only when you cannot build the C++ extension or when debugging reader
-logic; it is much slower and not suitable for production volumes.</p></li>
+extension. This is the default and is recommended for production workloads
+and large datasets.</p></li>
+<li><p><strong>Python backend:</strong> pure-Python readers in
+<code class="docutils literal notranslate"><span class="pre">uproot_custom.readers.python</span></code>. Use this for rapid development, debugging,
+and when no C++ toolchain is available.</p></li>
 </ul>
 <section id="how-backend-selection-works">
 <h2>How backend selection works<a class="headerlink" href="#how-backend-selection-works" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">uproot_custom.factories.reader_backend</span></code> controls which backend <code class="docutils literal notranslate"><span class="pre">AsCustom</span></code> uses
-when materializing readers. The value is read at build time of the factory tree.</p>
+when materializing readers. <strong>The default value is <code class="docutils literal notranslate"><span class="pre">&quot;cpp&quot;</span></code></strong>. The value is
+read at build time of the factory tree.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.factories</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fac</span>
 
-<span class="c1"># Switch to Python readers (slower but compiler-free)</span>
+<span class="c1"># During development: switch to the Python backend</span>
 <span class="n">fac</span><span class="o">.</span><span class="n">reader_backend</span> <span class="o">=</span> <span class="s2">&quot;python&quot;</span>
 
-<span class="c1"># ... open files, register target branches, read arrays ...</span>
+<span class="c1"># ... develop, debug, read arrays ...</span>
 
-<span class="c1"># Switch back to C++ readers for speed</span>
+<span class="c1"># For production: use C++ readers (the default)</span>
 <span class="n">fac</span><span class="o">.</span><span class="n">reader_backend</span> <span class="o">=</span> <span class="s2">&quot;cpp&quot;</span>
 </pre></div>
 </div>
 <p>Set the backend <strong>before</strong> opening files or reading branches so that factories
 build the correct reader implementations.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The Python backend is intended for development and debugging only. It is
-significantly slower than the C++ backend and should not be used for production
-or large datasets.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The default backend is <strong>C++</strong>. When developing a new reader, you must
+explicitly set <code class="docutils literal notranslate"><span class="pre">fac.reader_backend</span> <span class="pre">=</span> <span class="pre">&quot;python&quot;</span></code> to use your Python reader.
+Once the Python reader is validated, port it to C++ and switch back to the
+default C++ backend for production.</p>
 </div>
 </section>
 <section id="when-to-use-each-backend">
 <h2>When to use each backend<a class="headerlink" href="#when-to-use-each-backend" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Prefer <strong>C++</strong> for any real analysis, performance-sensitive jobs, or large
-datasets.</p></li>
-<li><p>Use <strong>Python</strong> only when:</p>
+<li><p>Use <strong>Python</strong> when:</p>
 <ul>
+<li><p>You are developing and prototyping new readers.</p></li>
+<li><p>You need to debug reader behavior interactively (e.g., step through Python
+readers or print buffer state).</p></li>
 <li><p>You are on a platform without a C++17 toolchain or cannot build the native
 extension.</p></li>
-<li><p>You need to debug reader behavior interactively (e.g., step through Python
-readers or print buffer state) on small samples.</p></li>
 </ul>
 </li>
+<li><p>Prefer <strong>C++</strong> for any real analysis, performance-sensitive jobs, or large
+datasets.</p></li>
 </ul>
 </section>
 <section id="writing-custom-factories-for-both-backends">
 <h2>Writing custom factories for both backends<a class="headerlink" href="#writing-custom-factories-for-both-backends" title="Link to this heading">#</a></h2>
-<p>If you plan to allow the Python backend, your custom factories should implement
-both <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code> and <code class="docutils literal notranslate"><span class="pre">build_python_reader</span></code>. See the reader/factory
-interface description in <a class="reference internal" href="#tutorial/customize-factory-reader/reader-and-factory.md"><span class="xref myst">tutorial/customize-factory-reader/reader-and-factory.md</span></a>.</p>
+<p>Start by implementing <code class="docutils literal notranslate"><span class="pre">build_python_reader</span></code> in your factory. Once the reader
+logic is validated, implement <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code> to support the default C++
+backend. The C++ reader only needs to maintain the same reading logic as the
+Python version — porting is a straightforward process.</p>
+<p>See the <a class="reference internal" href="../tutorial/customize-factory-reader/reader-and-factory.html"><span class="std std-doc">reader/factory interface</span></a>
+for the Python API, and <a class="reference internal" href="../tutorial/customize-factory-reader/port-to-cpp.html"><span class="std std-doc">port readers to C++</span></a>
+for the C++ API and pybind11 bindings.</p>
 </section>
 <section id="troubleshooting">
 <h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
@@ -426,8 +436,7 @@ interface description in <a class="reference internal" href="#tutorial/customize
 <li><p>If you see <code class="docutils literal notranslate"><span class="pre">Unknown</span> <span class="pre">reader</span> <span class="pre">backend</span></code> errors, ensure <code class="docutils literal notranslate"><span class="pre">reader_backend</span></code> is either
 <code class="docutils literal notranslate"><span class="pre">&quot;cpp&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;python&quot;</span></code>.</p></li>
 <li><p>If imports fail for C++ readers (pybind11 module missing), either rebuild the
-extension (e.g., <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code>) or temporarily switch to the Python
-backend.</p></li>
+extension (e.g., <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code>) or switch to the Python backend.</p></li>
 </ul>
 </section>
 </section>

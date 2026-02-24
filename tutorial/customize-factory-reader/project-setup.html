@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Template Python project &#8212; uproot-custom</title>
+    <title>Project setup &#8212; uproot-custom</title>
   
   
   
@@ -52,11 +52,11 @@
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorial/customize-factory-reader/template-python-project';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorial/customize-factory-reader/project-setup';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Version requirements" href="../../reference/version-requirements.html" />
-    <link rel="prev" title="Reader and factory interface" href="reader-and-factory.html" />
+    <link rel="next" title="Port readers to C++" href="port-to-cpp.html" />
+    <link rel="prev" title="Reader &amp; factory interface" href="reader-and-factory.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -168,15 +168,17 @@
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started.html">Get started</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Customization</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../use-built-in.html">Use built-in factories</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streamer-info.html">Streamer information</a></li>
-<li class="toctree-l2"><a class="reference internal" href="binary-data.html">Binary data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reader-and-factory.html">Reader and factory interface</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Template Python project</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../customize-factory-reader.html">Customize Reader &amp; Factory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pipeline.html">Pipeline overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="investigate-data.html">Investigate your data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reader-and-factory.html">Reader &amp; factory interface</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Project setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="port-to-cpp.html">Port readers to C++</a></li>
 </ul>
 </details></li>
 </ul>
@@ -256,7 +258,7 @@
       
       
       
-      <li><a href="../../_sources/tutorial/customize-factory-reader/template-python-project.md" target="_blank"
+      <li><a href="../../_sources/tutorial/customize-factory-reader/project-setup.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -340,7 +342,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Template Python project</h1>
+    <h1>Project setup</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -350,8 +352,9 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-virtual-environment-and-install-the-project">Create virtual environment and install the project</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-your-own-factory-and-reader">Implement your own factory and reader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-virtual-environment">Create a virtual environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-in-editable-mode">Install in editable mode</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-checklist">Implementation checklist</a></li>
 </ul>
             </nav>
         </div>
@@ -363,57 +366,70 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="template-python-project">
-<h1>Template Python project<a class="headerlink" href="#template-python-project" title="Link to this heading">#</a></h1>
-<p>Since uproot-custom is implemented with both Python and C++, it is recommended to create a Python project to help manage the dependencies and build process.</p>
-<p>A template project can be found in the <a class="reference external" href="https://github.com/mrzimu/uproot-custom-example">example repository</a>. Download the repository <a class="reference external" href="https://github.com/mrzimu/uproot-custom-example/archive/refs/tags/v0.1.0.tar.gz">source code</a>, unzip it, you should see a directory structure like this:</p>
+  <section id="project-setup">
+<h1>Project setup<a class="headerlink" href="#project-setup" title="Link to this heading">#</a></h1>
+<p>Uproot-custom readers start with Python factories and Python readers. Once
+validated, the reader logic is ported to C++ for production performance.
+A proper Python project is the recommended approach.</p>
+<p>A ready-to-use template is available in the
+<a class="reference external" href="https://github.com/mrzimu/uproot-custom-example">example repository</a>.
+Download the
+<a class="reference external" href="https://github.com/mrzimu/uproot-custom-example/archive/refs/tags/v0.1.0.tar.gz">source archive</a>,
+unzip, and you will see:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>uproot-custom-example-0.1.0/
     ├── pyproject.toml
     ├── README.md
-    ├── my_reader/
-    │   └── Python source files...
-    └── cpp/
-        └── C++ source files...
+    ├── my_reader/          # Python factories and readers
+    │   └── ...
+    └── cpp/                # C++ readers (for production performance)
+        └── ...
 </pre></div>
 </div>
-<p>You can rename the root directory <code class="docutils literal notranslate"><span class="pre">uproot-custom-example-0.1.0</span></code> to your project name.</p>
+<p>Rename the root directory to match your project name.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Specify exact versions of uproot-custom and <code class="docutils literal notranslate"><span class="pre">pybind11</span></code> in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> to
-avoid incompatibility during build. <code class="docutils literal notranslate"><span class="pre">pybind11</span></code> is build-time only: do not ship
-or import it at runtime, otherwise reader loading may fail. See
-<a class="reference internal" href="../../reference/version-requirements.html"><span class="std std-doc">version requirements</span></a> for details.</p>
+<p>If using C++ readers, pin <strong>exact</strong> versions of uproot-custom and <code class="docutils literal notranslate"><span class="pre">pybind11</span></code>
+in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> to avoid build-time incompatibilities. <code class="docutils literal notranslate"><span class="pre">pybind11</span></code> is a
+<strong>build-only</strong> dependency — do not import it at runtime, or reader loading may
+fail. See <a class="reference internal" href="../../reference/version-requirements.html"><span class="std std-doc">Version requirements</span></a> for details.</p>
 </div>
-<section id="create-virtual-environment-and-install-the-project">
-<h2>Create virtual environment and install the project<a class="headerlink" href="#create-virtual-environment-and-install-the-project" title="Link to this heading">#</a></h2>
-<p>Create a Python virtual environment in the root directory of your project, and activate it:</p>
+<section id="create-a-virtual-environment">
+<h2>Create a virtual environment<a class="headerlink" href="#create-a-virtual-environment" title="Link to this heading">#</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/your/project
 python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
-<span class="nb">source</span><span class="w"> </span>.venv/bin/activate<span class="w"> </span><span class="c1"># On Windows use: .venv\Scripts\activate</span>
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate<span class="w">   </span><span class="c1"># Windows: .venv\Scripts\activate</span>
 </pre></div>
 </div>
-<p>Install the project in editable mode:</p>
+</section>
+<section id="install-in-editable-mode">
+<h2>Install in editable mode<a class="headerlink" href="#install-in-editable-mode" title="Link to this heading">#</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
 </div>
-<p>Any change in the Python source files is picked up immediately. Changes in the
-C++ sources require rebuilding the extension (run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code> again) so
-that the compiled module is refreshed.</p>
+<p>Python changes take effect immediately. If you have C++ sources, re-run
+<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code> to rebuild the extension module after modifying them.</p>
 </section>
-<section id="implement-your-own-factory-and-reader">
-<h2>Implement your own factory and reader<a class="headerlink" href="#implement-your-own-factory-and-reader" title="Link to this heading">#</a></h2>
-<p>You can now implement your own <code class="docutils literal notranslate"><span class="pre">factory</span></code> in the <code class="docutils literal notranslate"><span class="pre">my_reader</span></code> directory, and your own <code class="docutils literal notranslate"><span class="pre">reader</span></code> in the <code class="docutils literal notranslate"><span class="pre">cpp</span></code> directory. For summary, here is a checklist of what you need to do:</p>
+<section id="implementation-checklist">
+<h2>Implementation checklist<a class="headerlink" href="#implementation-checklist" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
-<li><p>Investigate the streamer information and binary format of your custom
-class. It is recommended to inspect the stored binary data, as explained in
-<a class="reference internal" href="binary-data.html#obtain-binary-data"><span class="std std-ref">Obtain branch binary data</span></a>.</p></li>
-<li><p>Look through the built-in factories/readers in uproot-custom, design your own
-<code class="docutils literal notranslate"><span class="pre">factory</span></code>/<code class="docutils literal notranslate"><span class="pre">reader</span></code> based on them.</p></li>
-<li><p>Implement your own <code class="docutils literal notranslate"><span class="pre">factory</span></code> in Python, and <code class="docutils literal notranslate"><span class="pre">reader</span></code> in C++.</p></li>
-<li><p>Obtain the regularized object path of the branch you want uproot-custom to
-interpret, add it to <code class="docutils literal notranslate"><span class="pre">uproot_custom.AsCustom.target_branches</span></code> before
-opening the file.</p></li>
+<li><p><strong>Investigate your data</strong> — inspect streamer information and binary bytes as
+described in <a class="reference internal" href="investigate-data.html"><span class="std std-doc">Investigate your data</span></a>. Pay special attention to headers,
+base-class layout, and any custom <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> logic.</p></li>
+<li><p><strong>Survey built-in code</strong> — review the built-in factories and readers in
+uproot-custom for patterns you can reuse or subclass.</p></li>
+<li><p><strong>Implement</strong> — write your <code class="docutils literal notranslate"><span class="pre">Factory</span></code> and <code class="docutils literal notranslate"><span class="pre">Reader</span></code> in Python,
+following the interfaces described in <a class="reference internal" href="reader-and-factory.html"><span class="std std-doc">Reader &amp; factory interface</span></a>.
+Then <a class="reference internal" href="port-to-cpp.html"><span class="std std-doc">port the reader to C++</span></a> for production use.</p></li>
+<li><p><strong>Register</strong> — obtain the regularized object-path of the target branch and
+add it to <code class="docutils literal notranslate"><span class="pre">uproot_custom.AsCustom.target_branches</span></code> <strong>before</strong> opening the
+file.</p></li>
 </ol>
+<hr class="docutils" />
+<div class="hint admonition">
+<p class="admonition-title">Next step</p>
+<p>Once your Python reader is working, the final step is to
+<a class="reference internal" href="port-to-cpp.html"><span class="std std-doc">port it to C++</span></a> for production-level performance.</p>
+</div>
 </section>
 </section>
 
@@ -434,15 +450,15 @@ opening the file.</p></li>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Reader and factory interface</p>
+        <p class="prev-next-title">Reader &amp; factory interface</p>
       </div>
     </a>
     <a class="right-next"
-       href="../../reference/version-requirements.html"
+       href="port-to-cpp.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Version requirements</p>
+        <p class="prev-next-title">Port readers to C++</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -462,8 +478,9 @@ opening the file.</p></li>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-virtual-environment-and-install-the-project">Create virtual environment and install the project</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-your-own-factory-and-reader">Implement your own factory and reader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-virtual-environment">Create a virtual environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-in-editable-mode">Install in editable mode</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-checklist">Implementation checklist</a></li>
 </ul>
   </nav></div>
 

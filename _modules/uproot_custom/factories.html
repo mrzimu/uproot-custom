@@ -175,15 +175,17 @@ window.addEventListener("load", () => mermaid.run());
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started.html">Get started</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Customization</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial/use-built-in.html">Use built-in factories</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorial/customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/streamer-info.html">Streamer information</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/binary-data.html">Binary data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/reader-and-factory.html">Reader and factory interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/template-python-project.html">Template Python project</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorial/customize-factory-reader.html">Customize Reader &amp; Factory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/pipeline.html">Pipeline overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/investigate-data.html">Investigate your data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/reader-and-factory.html">Reader &amp; factory interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/project-setup.html">Project setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/customize-factory-reader/port-to-cpp.html">Port readers to C++</a></li>
 </ul>
 </details></li>
 </ul>
@@ -314,6 +316,7 @@ document.write(`
   <h1>Source code for uproot_custom.factories</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">awkward</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ak</span>
@@ -323,8 +326,7 @@ document.write(`
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.readers.cpp</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.readers.python</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">get_dims_from_branch</span><span class="p">,</span>
     <span class="n">get_map_key_val_typenames</span><span class="p">,</span>
@@ -332,8 +334,28 @@ document.write(`
     <span class="n">get_top_type_name</span><span class="p">,</span>
 <span class="p">)</span>
 
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.readers.cpp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.readers.python</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.readers._forth</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.readers._numba</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">pass</span>
+
 <span class="n">registered_factories</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="s2">&quot;Factory&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-<span class="n">reader_backend</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;cpp&quot;</span><span class="p">,</span> <span class="s2">&quot;python&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;cpp&quot;</span>
+<span class="n">reader_backend</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;cpp&quot;</span><span class="p">,</span> <span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="s2">&quot;forth&quot;</span><span class="p">,</span> <span class="s2">&quot;numba&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;cpp&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_objwise_or_memberwise_to_text</span><span class="p">(</span>
+    <span class="n">objwise_or_memberwise</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="s2">&quot;obj-wise&quot;</span><span class="p">,</span> <span class="s2">&quot;member-wise&quot;</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;obj-wise&quot;</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;member-wise&quot;</span><span class="p">,</span>
+    <span class="p">}[</span><span class="n">objwise_or_memberwise</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="build_factory">
@@ -412,6 +434,28 @@ document.write(`
     <span class="k">elif</span> <span class="n">reader_backend</span> <span class="o">==</span> <span class="s2">&quot;python&quot;</span><span class="p">:</span>
         <span class="n">reader</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span>
         <span class="n">raw_data</span> <span class="o">=</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">reader_backend</span> <span class="o">==</span> <span class="s2">&quot;forth&quot;</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s1">&#39;&quot;forth&quot; reader is only for testing and benchmarking. It is not recommended for production use.&#39;</span><span class="p">,</span>
+            <span class="ne">UserWarning</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">buffer_holder</span> <span class="o">=</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">BufferHolder</span><span class="p">()</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">build_forth_reader</span><span class="p">(</span><span class="n">buffer_holder</span><span class="p">)</span>
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">reader_backend</span> <span class="o">==</span> <span class="s2">&quot;numba&quot;</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s1">&#39;&quot;numba&quot; reader is only for testing and benchmarking. It is not recommended for production use.&#39;</span><span class="p">,</span>
+            <span class="ne">UserWarning</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">ctx</span> <span class="o">=</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">CompilationContext</span><span class="p">()</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">build_numba_reader</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span>
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">reader</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">branch</span><span class="p">),</span> <span class="n">ctx</span>
+        <span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown reader backend: </span><span class="si">{</span><span class="n">reader_backend</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
@@ -518,6 +562,42 @@ document.write(`
 <span class="sd">            An instance of `uproot_custom.python.IReader`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;build_python_reader not implemented.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Factory.build_forth_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.Factory.build_forth_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_forth_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">buffer_holder</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">BufferHolder</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">IReader</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build concrete Forth reader.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            buffer_holder: An instance of `BufferHolder` to register buffers</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            An instance of `uproot_custom.readers.forth.IReader`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;build_forth_reader not implemented.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Factory.build_numba_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.Factory.build_numba_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_numba_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ctx</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">CompilationContext</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build concrete Numba reader.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ctx: An instance of `CompilationContext` to register buffers and store other compilation information.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            An instance of `uproot_custom.readers.numba.IReader`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;build_numba_reader not implemented.&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Factory.make_awkward_content">
@@ -679,6 +759,30 @@ document.write(`
         <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">PrimitiveReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctype</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="PrimitiveFactory.build_forth_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory.build_forth_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_forth_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">buffer_holder</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">BufferHolder</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">PrimitiveReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctype</span><span class="p">,</span> <span class="n">buffer_holder</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PrimitiveFactory.build_numba_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory.build_numba_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_numba_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ctx</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">CompilationContext</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">numba_ctype</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;float&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="s2">&quot;double&quot;</span><span class="p">,</span>
+        <span class="p">}</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ctype</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">PrimitiveReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">numba_ctype</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="PrimitiveFactory.make_awkward_content">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory.make_awkward_content">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
@@ -797,11 +901,46 @@ document.write(`
 <div class="viewcode-block" id="STLSeqFactory.build_python_reader">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLSeqFactory.build_python_reader">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">objwise_or_memberwise</span> <span class="o">=</span> <span class="n">_objwise_or_memberwise_to_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span><span class="p">)</span>
         <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">STLSeqReader</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span><span class="p">,</span>
+            <span class="n">objwise_or_memberwise</span><span class="p">,</span>
+            <span class="n">element_reader</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLSeqFactory.build_forth_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLSeqFactory.build_forth_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_forth_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">buffer_holder</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">BufferHolder</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">objwise_or_memberwise</span> <span class="o">=</span> <span class="n">_objwise_or_memberwise_to_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span><span class="p">)</span>
+        <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_forth_reader</span><span class="p">(</span><span class="n">buffer_holder</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">STLSeqReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">,</span>
+            <span class="n">objwise_or_memberwise</span><span class="p">,</span>
+            <span class="n">element_reader</span><span class="p">,</span>
+            <span class="n">buffer_holder</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLSeqFactory.build_numba_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLSeqFactory.build_numba_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_numba_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ctx</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">CompilationContext</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">objwise_or_memberwise</span> <span class="o">=</span> <span class="n">_objwise_or_memberwise_to_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span><span class="p">)</span>
+        <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_numba_reader</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">STLSeqReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">ctx</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">,</span>
+            <span class="n">objwise_or_memberwise</span><span class="p">,</span>
             <span class="n">element_reader</span><span class="p">,</span>
         <span class="p">)</span></div>
 
@@ -925,15 +1064,68 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">key_factory</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">val_factory</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="kc">False</span>
 
+        <span class="n">objwise_or_memberwise</span> <span class="o">=</span> <span class="n">_objwise_or_memberwise_to_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span><span class="p">)</span>
         <span class="n">key_python_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_factory</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span>
         <span class="n">val_python_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">val_factory</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">STLMapReader</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span><span class="p">,</span>
+            <span class="n">objwise_or_memberwise</span><span class="p">,</span>
             <span class="n">key_python_reader</span><span class="p">,</span>
             <span class="n">val_python_reader</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLMapFactory.build_forth_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLMapFactory.build_forth_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_forth_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">buffer_holder</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">BufferHolder</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">is_obj_wise</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">==</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="n">is_obj_wise</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">key_factory</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">val_factory</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">objwise_or_memberwise</span> <span class="o">=</span> <span class="n">_objwise_or_memberwise_to_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span><span class="p">)</span>
+        <span class="n">key_forth_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_factory</span><span class="o">.</span><span class="n">build_forth_reader</span><span class="p">(</span><span class="n">buffer_holder</span><span class="p">)</span>
+        <span class="n">val_forth_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">val_factory</span><span class="o">.</span><span class="n">build_forth_reader</span><span class="p">(</span><span class="n">buffer_holder</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">STLMapReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">,</span>
+            <span class="n">objwise_or_memberwise</span><span class="p">,</span>
+            <span class="n">key_forth_reader</span><span class="p">,</span>
+            <span class="n">val_forth_reader</span><span class="p">,</span>
+            <span class="n">buffer_holder</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLMapFactory.build_numba_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLMapFactory.build_numba_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_numba_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ctx</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">CompilationContext</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">is_obj_wise</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">==</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="n">is_obj_wise</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">key_factory</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">val_factory</span><span class="o">.</span><span class="n">with_header</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">objwise_or_memberwise</span> <span class="o">=</span> <span class="n">_objwise_or_memberwise_to_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span><span class="p">)</span>
+        <span class="n">key_numba_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_factory</span><span class="o">.</span><span class="n">build_numba_reader</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span>
+        <span class="n">val_numba_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">val_factory</span><span class="o">.</span><span class="n">build_numba_reader</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">STLMapReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">ctx</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">,</span>
+            <span class="n">objwise_or_memberwise</span><span class="p">,</span>
+            <span class="n">key_numba_reader</span><span class="p">,</span>
+            <span class="n">val_numba_reader</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
@@ -1014,6 +1206,32 @@ document.write(`
     <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">STLStringReader</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLStringFactory.build_forth_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLStringFactory.build_forth_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_forth_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">buffer_holder</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">BufferHolder</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">STLStringReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">,</span>
+            <span class="n">buffer_holder</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STLStringFactory.build_numba_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLStringFactory.build_numba_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_numba_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ctx</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">CompilationContext</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">STLStringReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">ctx</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">,</span>
         <span class="p">)</span></div>
 
@@ -1105,6 +1323,28 @@ document.write(`
         <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">TArrayReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctype</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="TArrayFactory.build_forth_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TArrayFactory.build_forth_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_forth_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">buffer_holder</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">BufferHolder</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">TArrayReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctype</span><span class="p">,</span> <span class="n">buffer_holder</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TArrayFactory.build_numba_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TArrayFactory.build_numba_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_numba_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ctx</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">CompilationContext</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">numba_ctype</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="s2">&quot;float&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="s2">&quot;double&quot;</span><span class="p">,</span>
+        <span class="p">}</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ctype</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">TArrayReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">numba_ctype</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="TArrayFactory.make_awkward_content">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TArrayFactory.make_awkward_content">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
@@ -1167,6 +1407,26 @@ document.write(`
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TStringFactory.build_python_reader">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">TStringReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TStringFactory.build_forth_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TStringFactory.build_forth_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_forth_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">buffer_holder</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">BufferHolder</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">TStringReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">,</span> <span class="n">buffer_holder</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TStringFactory.build_numba_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TStringFactory.build_numba_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_numba_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ctx</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">CompilationContext</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">TStringReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TStringFactory.make_awkward_content">
@@ -1253,6 +1513,32 @@ document.write(`
     <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">TObjectReader</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">keep_data</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TObjectFactory.build_forth_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TObjectFactory.build_forth_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_forth_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">buffer_holder</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">BufferHolder</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">TObjectReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">keep_data</span><span class="p">,</span>
+            <span class="n">buffer_holder</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TObjectFactory.build_numba_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TObjectFactory.build_numba_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_numba_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ctx</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">CompilationContext</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">TObjectReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">ctx</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">keep_data</span><span class="p">,</span>
         <span class="p">)</span></div>
 
@@ -1426,6 +1712,36 @@ document.write(`
         <span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="CStyleArrayFactory.build_forth_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory.build_forth_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_forth_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">buffer_holder</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">BufferHolder</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_forth_reader</span><span class="p">(</span><span class="n">buffer_holder</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">CStyleArrayReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flat_size</span><span class="p">,</span>
+            <span class="n">element_reader</span><span class="p">,</span>
+            <span class="n">buffer_holder</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CStyleArrayFactory.build_numba_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory.build_numba_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_numba_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ctx</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">CompilationContext</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_numba_reader</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">CStyleArrayReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">ctx</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flat_size</span><span class="p">,</span>
+            <span class="n">element_reader</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="CStyleArrayFactory.make_awkward_content">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.CStyleArrayFactory.make_awkward_content">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
@@ -1520,6 +1836,26 @@ document.write(`
         <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">GroupReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="GroupFactory.build_forth_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.GroupFactory.build_forth_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_forth_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">buffer_holder</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">BufferHolder</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">sub_readers</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">build_forth_reader</span><span class="p">(</span><span class="n">buffer_holder</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">GroupReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">,</span> <span class="n">buffer_holder</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GroupFactory.build_numba_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.GroupFactory.build_numba_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_numba_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ctx</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">CompilationContext</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">sub_readers</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">build_numba_reader</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">GroupReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="GroupFactory.make_awkward_content">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.GroupFactory.make_awkward_content">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
@@ -1609,6 +1945,16 @@ document.write(`
     <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">sub_readers</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">GroupReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseObjectFactory.build_forth_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.BaseObjectFactory.build_forth_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_forth_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">buffer_holder</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">BufferHolder</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">sub_readers</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">build_forth_reader</span><span class="p">(</span><span class="n">buffer_holder</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">GroupReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">,</span> <span class="n">buffer_holder</span><span class="p">)</span></div>
 </div>
 
 
@@ -1655,6 +2001,28 @@ document.write(`
     <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">sub_readers</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">AnyClassReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AnyClassFactory.build_forth_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.AnyClassFactory.build_forth_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_forth_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">buffer_holder</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">BufferHolder</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">sub_readers</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">build_forth_reader</span><span class="p">(</span><span class="n">buffer_holder</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">AnyClassReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">,</span> <span class="n">buffer_holder</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AnyClassFactory.build_numba_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.AnyClassFactory.build_numba_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_numba_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ctx</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">CompilationContext</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">sub_readers</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">build_numba_reader</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">AnyClassReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">sub_readers</span><span class="p">)</span></div>
 </div>
 
 
@@ -1708,6 +2076,28 @@ document.write(`
         <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">ObjectHeaderReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">element_reader</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="ObjectHeaderFactory.build_forth_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.build_forth_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_forth_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">buffer_holder</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">BufferHolder</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_forth_reader</span><span class="p">(</span><span class="n">buffer_holder</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">ObjectHeaderReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">element_reader</span><span class="p">,</span> <span class="n">buffer_holder</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ObjectHeaderFactory.build_numba_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.build_numba_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_numba_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ctx</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">CompilationContext</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_numba_reader</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">ObjectHeaderReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">element_reader</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="ObjectHeaderFactory.make_awkward_content">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.make_awkward_content">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
@@ -1757,6 +2147,24 @@ document.write(`
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.EmptyFactory.build_python_reader">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">EmptyReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EmptyFactory.build_forth_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.EmptyFactory.build_forth_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_forth_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">buffer_holder</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">BufferHolder</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">EmptyReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">buffer_holder</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EmptyFactory.build_numba_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.EmptyFactory.build_numba_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_numba_reader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ctx</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">CompilationContext</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">EmptyReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">ctx</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="EmptyFactory.make_awkward_content">

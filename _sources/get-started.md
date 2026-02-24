@@ -1,19 +1,20 @@
-# Use built-in factories
+# Get started
 
-Uproot-custom ships with built-in readers and factories; try them first before
-writing custom ones. This page walks through registering a branch, confirming
-it is routed to `AsCustom`, and comparing with plain Uproot behavior.
+Uproot-custom ships with built-in readers and factories that handle most
+common data types out of the box. This page walks you through the two key
+steps — **registering a branch** and **reading it** — so you can start
+working with your data right away.
 
-## Step 1: Obtain the object-path of branches
+## Step 1: Obtain the object-path of a branch
 
-To let uproot-custom read specific branches, you need to obtain the regularized
-`object-path` of the branch:
+Uproot-custom identifies branches by their *regularized object-path*.
+To find the path for a branch, open the file with Uproot and call
+`regularize_object_path`:
 
 ```python
 import uproot
 import uproot_custom as uc
 
-# Open a ROOT file and get the object-path of a branch
 f = uproot.open("file.root")
 obj_path = f["my_tree/my_branch"].object_path
 
@@ -27,11 +28,10 @@ caption: Output
 /my_tree:my_branch
 ```
 
-## Step 2: Register the branch to uproot-custom and read
+## Step 2: Register the branch and read
 
-Register the regularized path above to uproot-custom **before opening the
-file**. Registration must happen before the file is opened; otherwise Uproot
-will cache a non-`AsCustom` interpretation.
+Register the regularized path **before** opening the file. Uproot caches
+interpretations on first access, so late registration will have no effect.
 
 ```python
 import uproot
@@ -43,27 +43,33 @@ f = uproot.open("file.root")
 f["my_tree"].show()
 ```
 
-As long as the registration is successful, the interpretation of `my_branch`
-should be `AsCustom`.
+Once the registration succeeds, the branch's interpretation should display as
+`AsCustom`:
 
 ````{tip}
-`uc.AsCustom.target_branches` is a `set`, you can add multiple branches like this:
+`uc.AsCustom.target_branches` is a `set`. You can register several branches at
+once:
 
 ```python
 uc.AsCustom.target_branches |= {"/my_tree:branch1", "/my_tree:branch2"}
 ```
 ````
 
-Now you can read the data as usual with Uproot. For large jobs, keep the set of
-target branches minimal so only the branches you intend are patched:
+Now read the data as you normally would with Uproot:
 
 ```python
-arr = f["my_tree/my_branch"].array() # will be read by uproot-custom
+arr = f["my_tree/my_branch"].array()  # read by uproot-custom
 ```
 
-## Example: comparing uproot-custom vs Uproot
+```{tip}
+Keep the set of target branches minimal — only register the branches that
+uproot-custom should handle.
+```
 
-When storing a c-style array `std::vector<double>[3]` into a custom class like:
+## Example: uproot-custom vs Uproot
+
+The following example demonstrates a case that Uproot cannot handle on its own:
+a c-style array of `std::vector<double>` stored inside a custom class.
 
 ```{code-block} cpp
 ---
@@ -71,13 +77,17 @@ caption: Class definition
 ---
 class TCStyleArray : public TObject {
 public:
-  std::vector<double> m_vec_double[3]{ { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
+  std::vector<double> m_vec_double[3]{
+    { 1.0, 2.0, 3.0 },
+    { 4.0, 5.0, 6.0 },
+    { 7.0, 8.0, 9.0 }
+  };
 }
 ```
 
 ```{code-block} cpp
 ---
-caption: Write to `TTree`
+caption: Write to TTree
 ---
 TTree t("my_tree", "my_tree");
 
@@ -90,24 +100,14 @@ for (int i = 0; i < 10; i++) {
 }
 ```
 
-Reading the branch with uproot-custom/Uproot will lead to different results:
-
-```{note}
-At the time this document is written, the latest version of Uproot is `5.6.6`.
-```
-
 `````{tab-set}
 ````{tab-item} uproot-custom
-Uproot-custom can handle this case with the built-in factories:
-
 ```python
 import uproot
 import uproot_custom as uc
 
-# register the branch to uproot-custom
 uc.AsCustom.target_branches.add("/my_tree:cstyle_array/m_vec_double[3]")
 
-# open the file and read the branch as usual
 f = uproot.open("file.root")
 f["my_tree/cstyle_array/m_vec_double[3]"].array()
 ```
@@ -131,7 +131,7 @@ nbytes: 1.1 kB
 type: 10 * var * 3 * var * float64
 ```
 
-Use `show` method to inspect the branch:
+Inspect the branch to confirm uproot-custom is active:
 
 ```python
 f["my_tree/cstyle_array/m_vec_double[3]"].show()
@@ -145,19 +145,17 @@ name                 | typename                 | interpretation
 m_vec_double[3]      | vector<double>[][3]      | AsCustom(vector<double>[][3])
 ```
 
-Note that the interpretation is `AsCustom(vector<double>[][3])`, which means uproot-custom is used to read this branch.
-
+The interpretation `AsCustom(vector<double>[][3])` confirms uproot-custom is
+being used.
 ````
-````{tab-item} uproot
-Read the branch with Uproot:
-
+````{tab-item} Uproot (without uproot-custom)
 ```python
 import uproot
 f = uproot.open("file.root")
 f["my_tree/cstyle_array/m_vec_double[3]"].array()
 ```
 
-It will throw `DeserializationError`:
+This raises a `DeserializationError`:
 
 ```{code-block} console
 ---

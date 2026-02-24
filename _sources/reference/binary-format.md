@@ -2,7 +2,7 @@
 
 ```{attention}
 This page is a growing checklist. Use it alongside the walkthrough in
-[](../tutorial/customize-factory-reader/binary-data.md) when inspecting bytes.
+[](../tutorial/customize-factory-reader/investigate-data.md) when inspecting bytes.
 ```
 
 This section lists the binary format of some common classes. Data are stored in

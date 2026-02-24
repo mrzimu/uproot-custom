@@ -1,191 +1,195 @@
-# Reader and factory interface
+# Reader & factory interface
 
-Uproot-custom uses a `reader`/`factory` mechanism to balance performance and
-flexibility. `reader`s are implemented in C++ and read the binary stream.
-`factory`s are implemented in Python, manage `reader`s, and reconstruct the
-final `awkward` array.
+Uproot-custom splits the work between two layers:
 
-## Reader interface
+- **Reader** — reads binary data from the ROOT byte buffer. It can be written
+  in **Python** (for rapid development and debugging) or **C++** (for
+  production performance).
+- **Factory** (Python) — orchestrates readers, and converts their output into
+  `awkward` arrays.
+
+This page describes the Python reader and factory interfaces, then presents a
+worked example using the Python backend.
+
+---
+
+## Reader interface (Python)
 
 ### Base class: `IReader`
 
-`reader` in C++ should derive from the `IReader` interface, which has two pure
-virtual methods:
+Every Python reader must inherit from `uproot_custom.readers.python.IReader`
+and implement two methods:
 
-- `read`: called by parent `reader` to read data from the binary stream.
-- `data`: called after reading is done, to return the read-out data in `numpy` arrays or any Python nested containers filled with `numpy` arrays.
+| Method | Purpose |
+| ------ | ------- |
+| `read(buffer)` | Consume bytes from the buffer for one entry. |
+| `data()` | Return all accumulated data as `numpy` arrays (or nested containers of them). |
 
-There are extra 3 virtual methods that can be overridden to handle special cases:
+Three additional methods handle special reading patterns (override only when
+needed):
 
-- `read_many`: called when reading multiple elements in one go, such as reading c-style arrays. Some classes may have only one header with multiple elements following it. In this case, `read_many` can be overridden to read handle such case.
+| Method | When it is called |
+| ------ | ----------------- |
+| `read_many(buffer, count)` | Reading a fixed number of elements (e.g. c-style arrays). Override when multiple elements share a single header. |
+| `read_until(buffer, end_pos)` | Reading elements until a byte position is reached. |
+| `read_many_memberwise(buffer, count)` | Member-wise reading: all first members, then all second members, etc. Used by some STL containers. |
 
-- `read_until`: called when reading elements until a certain position in the binary stream.
-
-- `read_many_memberwise`: called when reading multiple elements in a member-wise fashion. "Member-wise" means that the first member of all elements are read first, then the second member of all elements are read, and so on. This is used when reading STL containers in some specific cases.
-
-```{code-block} cpp
+```{code-block} python
 ---
-caption: `IReader`
+caption: "`IReader` — base class"
 lineno-start: 1
-emphasize-lines: 11-12
+emphasize-lines: 5-6
 ---
-class IReader {
-  protected:
-    const std::string m_name;
+class IReader:
+    def __init__(self, name: str):
+        self.name = name
 
-  public:
-    IReader( std::string name ) : m_name( name ) {}
-    virtual ~IReader() = default;
+    def read(self, buffer: BinaryBuffer) -> None:
+        raise NotImplementedError
 
-    virtual const std::string name() const { return m_name; }
+    def data(self):
+        raise NotImplementedError
 
-    virtual void read( BinaryBuffer& buffer ) = 0;
-    virtual py::object data() const           = 0;
+    def read_many(self, buffer: BinaryBuffer, count: int) -> int:
+        for _ in range(count):
+            self.read(buffer)
+        return count
 
-    virtual uint32_t read_many( BinaryBuffer& buffer, const int64_t count ) {
-        for ( int32_t i = 0; i < count; i++ ) { read( buffer ); }
-        return count;
-    }
+    def read_until(self, buffer: BinaryBuffer, end_pos: int) -> int:
+        count = 0
+        while buffer.cursor < end_pos:
+            self.read(buffer)
+            count += 1
+        return count
 
-    virtual uint32_t read_until( BinaryBuffer& buffer, const uint8_t* end_pos ) {
-        uint32_t cur_count = 0;
-        while ( buffer.get_cursor() < end_pos )
-        {
-            read( buffer );
-            cur_count++;
-        }
-        return cur_count;
-    }
-
-    virtual uint32_t read_many_memberwise( BinaryBuffer& buffer, const int64_t count ) {
-        if ( count < 0 )
-        {
-            std::stringstream msg;
-            msg << name() << "::read_many_memberwise with negative count: " << count;
-            throw std::runtime_error( msg.str() );
-        }
-        return read_many( buffer, count );
-    }
-};
+    def read_many_memberwise(self, buffer: BinaryBuffer, count: int) -> int:
+        raise NotImplementedError
 ```
 
 ```{note}
-- A `std::string name` is required for each `reader`, which is used to print debug information.
-- Several extended virtual methods are also provided. These methods will be called when reading c-style arrays or STL containers.
+Every reader requires a `name: str` for debug output.
 ```
 
-### `BinaryBuffer` class
+### `BinaryBuffer`
 
-`BinaryBuffer` is a helper class to read binary data from a `uint8_t*` buffer. It provides methods to read basic types, skip bytes, and handle `fNBytes`+`fVersion` header.
+`BinaryBuffer` wraps a byte buffer and provides convenience methods for
+reading ROOT binary data.
 
-Reading methods include:
-- `const T read<T>()`: Read a value of type `T` from the buffer, and advance the cursor.
-- `const int16_t read_fVersion()`: Equivalent to `read<int16_t>()`.
-- `const uint32_t read_fNBytes()`: Read `fNBytes` from the buffer, check the mask, and return the actual number of bytes.
-- `const std::string read_null_terminated_string()`: Read a null-terminated string from the buffer.
-- `const std::string read_obj_header()`: Read the object header from the buffer, return the object's name if present. Can be used when `ObjectHeaderReader` is not used.
-- `const std::string read_TString()`: Read a `TString` from the buffer
+**Reading**
+- `read_uint8() → int`, `read_uint16()`, `read_uint32()`, `read_uint64()`: Read unsigned integers.
+- `read_int8() → int`, `read_int16()`, `read_int32()`, `read_int64()`: Read signed integers.
+- `read_float() → float`, `read_double() → float`: Read floating-point values.
+- `read_bool() → bool`: Read a boolean value.
+- `read_fVersion() → int`: Read `fVersion` (signed 16-bit).
+- `read_fNBytes() → int`: Read `fNBytes` from the buffer, check the mask, and return the actual number of bytes.
+- `read_null_terminated_string() → str`: Read a null-terminated string from the buffer.
+- `read_obj_header() → str`: Read the object header, return the object's name if present.
+- `read_TString() → str`: Read a `TString` from the buffer.
 
-Skipping methods include:
-- `void skip(const size_t nbytes)`: Skip `nbytes` bytes.
-- `void skip_fVersion()`: Skip the `fVersion` (2 bytes).
-- `void skip_fNBytes()`: Equivalent to `read_fNBytes()`, will check the mask.
-- `void skip_null_terminated_string()`: Skip a null-terminated string.
-- `void skip_obj_header()`: Skip the object header.
-- `void skip_TObject()`: Skip a `TObject`.
+**Skipping**
+- `skip(n)`: Skip `n` bytes.
+- `skip_fVersion()`: Skip the `fVersion` (2 bytes).
+- `skip_fNBytes()`: Equivalent to `read_fNBytes()`, will check the mask.
+- `skip_null_terminated_string()`: Skip a null-terminated string.
+- `skip_obj_header()`: Skip the object header.
+- `skip_TObject()`: Skip a `TObject`.
 
-Other methods include:
-- `const uint8_t* get_data() const`: Get the start of the data buffer.
-- `const uint8_t* get_cursor() const`: Get the current cursor position.
-- `const uint32_t* get_offsets() const`: Get the entry offsets of the data buffer.
-- `const uint64_t* entries() const`: Get the number of entries of the data buffer.
-- `void debug_print( const size_t n = 100 ) const`: Print the next `n` bytes from the current cursor for debugging.
+**Miscellaneous**
+- `cursor`: Current cursor position (byte index into the buffer).
+- `entries`: Number of entries in the data buffer.
+- `offsets`: Entry offsets of the data buffer.
 
+### Accepting sub-readers
 
-### Accept sub-`reader`s
+Composite readers accept sub-readers for nested types.
+Pass sub-readers as `IReader` instances because they are managed by Python's
+garbage collector.
 
-When reading nested classes, a `reader` may require sub-`reader`s to read the nested data members. For example, `STLSeqReader` needs a sub-`reader` to read the element type of the STL sequence, such as `int`, `float`, or a custom class. In this case, the sub-`reader` can be passed to the constructor of the parent `reader`.
+### Debug output
 
-In the constructor, the sub-`reader` should be passed as a `std::shared_ptr<IReader>`. This is because other `readers` are constructed in Python, so the ownership of the `reader` should be shared between C++ and Python.
-
-`uproot-custom.hh` already define a type alias `using SharedReader = shared_ptr<IReader>;` for convenience.
-
-
-### Transform `std::vector` to `numpy` array without copying
-
-When returning data in `data` method, `reader` can use `make_array` helper function to transform `std::shared_ptr<std::vector<T>>` to `numpy` array without copying:
-
-```cpp
-std::shared_ptr<std::vector<int>> data = std::make_shared<std::vector<int>>();
-data->push_back(1);
-data->push_back(2);
-data->push_back(3);
-
-py::array_t<int> np_array = make_array(data);
-```
-
-### Declaring `reader` to Python
-
-Uproot-custom uses `pybind11` to declare C++ `reader`s to Python. A helper function `declare_reader` is provided to simplify the declaration. When implementing your own `reader`, you should declare it to Python like this:
-
-```cpp
-PYBIND11_MODULE( my_cpp_reader, m) {
-    declare_reader<MyReaderClass, constructor_arg1_type, constructor_arg2_type, ...>(m, "MyReaderClass");
-}
-```
-
-- The `constructor_argN_type` are the types of the constructor arguments of your `reader`. If your `reader` has no constructor arguments, you can omit them.
-- The second argument of `declare_reader` is the name of your `reader` in Python. In this example, it is `"MyReaderClass"`.
-
-Then you can import `MyReaderClass` in Python:
+Set the `UPROOT_DEBUG` environment variable to enable debug printing. When
+enabled, the module-level `debug_print` function becomes an alias for
+`print`:
 
 ```python
-from my_cpp_reader import MyReaderClass
+import os
+os.environ["UPROOT_DEBUG"] = "1"
+
+# Now debug_print(...) calls will produce output
 ```
 
-### Debugging message
+You can also print the current buffer state:
 
-Uproot-custom provides a `debug_print` method to print debugging message. The print will only be performed when `UPROOT_DEBUG` macro is defined, or `UPROOT_DEBUG` environment variable is set:
-
-```cpp
-// Will print "The reader name is Bob"
-debug_print("The reader name is %s", "Bob");
-
-// Call buffer.debug_print(50), print next 50 bytes from current cursor
-debug_print( buffer, 50 )
+```python
+def read(self, buffer):
+    print(buffer)   # shows the next N bytes from the current cursor
+    ...
 ```
 
-## Factory interface
+---
 
-`factory` in Python should derive from the `BaseFactory` interface, which has four methods to be implemented:
+## Factory interface (Python)
 
-- `build_factory`: Match the data member and instantiate the `factory` if matched, otherwise return `None`.
-- `build_cpp_reader`: Called to create the C++ `reader`.
-- `make_awkward_content`: Called to reconstruct the final `awkward` content with the raw data read by the C++ `reader`.
-- `make_awkward_form`: Called to generate the `awkward` form.
+Every Python factory must inherit from `Factory` and implement four
+methods:
 
-To select the appropriate `factory` for a data member, uproot-custom loops over all registered `factory` classes, and calls their `build_factory` method. The first non-`None` return value will be used.
+| Method | Purpose |
+| ------ | ------- |
+| `priority` (classmethod) | Return an `int` controlling match order. Higher values are tried first. Default is `10`. |
+| `build_factory` (classmethod) | Match a streamer node; return an instance if matched, `None` otherwise. |
+| `build_python_reader` | Create and return the Python reader for this node. |
+| `make_awkward_content(raw_data)` | Convert raw `numpy` data into an `awkward.contents.Content`. |
+| `make_awkward_form` | Return an `awkward.forms.Form` describing the data layout. |
+
+Uproot-custom iterates over all registered factory classes **sorted by
+`priority()` in descending order** and uses the first one whose
+`build_factory` returns a non-`None` result.
+
+### `priority` (classmethod)
+
+Controls the order in which factories are tried. Factories with **higher**
+priority are called first. The default value is `10`.
+
+Override this method when your factory needs to run before or after the
+built-in ones:
+
+```python
+class MySpecialFactory(Factory):
+    @classmethod
+    def priority(cls):
+        return 20   # run before most built-in factories (default 10)
+```
+
+For reference, the built-in factories use the following priorities:
+
+| Priority | Factory | Why |
+| :------: | ------- | --- |
+| 20 | `CStyleArrayFactory` | Must match C-style arrays before other factories see the same type name. |
+| 10 | All other built-in factories | Default. |
+| 0 | `AnyClassFactory` | Catch-all fallback — should run last. |
+
+```{tip}
+When registering a custom factory that targets a specific class name, the
+default priority (`10`) is usually sufficient because `build_factory` already
+returns `None` for non-matching classes. Increase the priority only when your
+factory competes with a built-in factory for the same type name.
+```
 
 ### Constructor
 
-The constructor of `factory` should receive all necessary parameters for the `factory` to build C++ reader, make `awkward` content and form. The constructor should at least receive a `name` parameter, which is usually the `fName` in the `streamer info`.
+The constructor receives all parameters needed for the three runtime methods.
+At minimum it must accept a `name` (usually `fName` from the streamer info).
 
 (method-build-factory)=
-### Class method `build_factory`
+### `build_factory` (classmethod)
 
-This method is called when instantiating factories. It should be a class method.
+Called during factory-tree construction. Parameters:
 
-It receives following parameters:
+- `top_type_name: str` — the top-level type name, with `std::` prefixes
+  stripped (e.g. `vector` for `std::vector<std::map<int, float>>`).
 
-- `top_type_name: str`: The top-level type name of current data member.
-
-    Any `std::` prefixes will be stripped. For example, for `std::vector<std::map<int, float>>`, the `top_type_name` is `vector`.
-
-- `cur_streamer_info: dict`: The streamer info `dict` of the current data member.
-
-    `factory ` can use this information to decide whether it can handle this node, and to generate the configuration `dict`.
-
-    An example of `cur_streamer_info` is:
+- `cur_streamer_info: dict` — the streamer dictionary for the current data
+  member. Use it to decide whether this factory is applicable. Example:
 
     ```python
     {'@fUniqueID': 0,
@@ -200,13 +204,8 @@ It receives following parameters:
     'fTypeName': 'int'}
     ```
 
-    For other type of data members, such as STL containers or nested classes, some other attributes may be present.
-
-- `all_streamer_info: dict`: A `dict` mapping all available streamer names to their members' streamer info `dict`.
-
-    `factory` can use this information to look up the streamer info of any nested classes.
-
-    For example, you can retrieve the streamer information of `TSimpleObject` like:
+- `all_streamer_info: dict` — maps every class name to the list of its
+  members' streamer dictionaries. Use it to look up nested classes:
 
     ```python
     >>> all_streamer_info["TSimpleObject"]
@@ -236,7 +235,7 @@ It receives following parameters:
     ]
     ```
 
-    And use it to build sub-factories for nested data members:
+    Build sub-factories for nested members:
 
     ```python
     sub_factories = []
@@ -245,101 +244,97 @@ It receives following parameters:
         sub_factories.append(sub_fac)
     ```
 
-- `item_path: str`: The absolute path from the root node to the current data member.
+- `item_path: str` — the dot-separated path from the root to this node.
+  Useful for path-specific logic.
 
-    It is useful when some special handling is needed for certain nodes.
+- `**kwargs` — reserved for future use.
 
-- `**kwargs`: Any extra keyword arguments that might be needed.
+**Return** an instance of the factory if the node matches, or `None` to pass
+to the next registered factory.
 
-When current data member is not suitable for the `factory`, it should return `None`, so that uproot-custom will try next `factory`, until one return an instance of itself.
+### `build_python_reader`
 
-When current data member is suitable for the `factory`, it should return an instance of itself, with all necessary parameters passed to the constructor.
+Instantiate and return the Python reader. For composite factories, also build
+sub-readers and wire them together.
 
-### Method `build_cpp_reader`
+### `make_awkward_content(raw_data)`
 
-This method is called to instantiate the C++ reader. For non-bottom-level
-factories, it should also instantiate sub-readers for nested data members and
-combine them together to the parent reader.
-
-### Method `make_awkward_content`
-
-This method is called to construct `awkward` content with given raw data read by the C++ `reader`.
-
-It receives following parameters:
-
-- `raw_data: Any`: The raw data read by the C++ `reader`, returned by its `data` method.
-
-The `factory` should return `awkward.contents.Content` object.
+Convert `raw_data` (the value returned by the reader's `data()` method) into
+an `awkward.contents.Content`.
 
 ```{seealso}
-Refer to [`awkward` direct constructors](https://awkward-array.org/doc/main/user-guide/how-to-create-constructors.html) for more details about `awkward` contents.
+[`awkward` direct constructors](https://awkward-array.org/doc/main/user-guide/how-to-create-constructors.html)
 ```
 
-### Method `make_awkward_form`
+### `make_awkward_form`
 
-This method is called when building the `awkward` forms.
-
-The `factory` should return an `awkward.forms.Form` object.
+Return an `awkward.forms.Form` that describes the data layout. This is used
+by `dask` for lazy evaluation.
 
 ```{seealso}
-Refer to [awkward forms](https://awkward-array.org/doc/main/reference/generated/ak.forms.Form.html) for more details about `awkward` forms.
-```
-
-## Example of reader and factory
-
-Take the `TArrayReader` and `TArrayFactory` as an example. This pair of `reader` and `factory` handles `TArray` nodes in the data tree.
-
-The `TArrayReader`:
-- Reads `fSize`, then reads `fSize` number of `T` elements from the binary stream in its `read` method.
-- The read-out data is stored in two vectors: `m_offsets` and `m_data`
-- These two vectors are converted to `numpy` arrays and returned in its `data` method, which is called after reading is done.
-
-```{code-block} cpp
----
-caption: `TArrayReader`
----
-template <typename T>
-class TArrayReader : public IReader {
-    private:
-    SharedVector<int64_t> m_offsets;
-    SharedVector<T> m_data;
-
-    public:
-    TArrayReader( std::string name )
-        : IReader( name )
-        , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) )
-        , m_data( std::make_shared<std::vector<T>>() ) {}
-
-    void read( BinaryBuffer& buffer ) override {
-        auto fSize = buffer.read<uint32_t>();
-        m_offsets->push_back( m_offsets->back() + fSize );
-        for ( auto i = 0; i < fSize; i++ ) { m_data->push_back( buffer.read<T>() ); }
-    }
-
-    py::object data() const override {
-        auto offsets_array = make_array( m_offsets );
-        auto data_array    = make_array( m_data );
-        return py::make_tuple( offsets_array, data_array );
-    }
-};
+[`awkward` forms reference](https://awkward-array.org/doc/main/reference/generated/ak.forms.Form.html)
 ```
 
 ---
 
-In `TArrayFactory`,
+## Worked example: `TArray`
 
-- `build_factory` method matches the data member and instantiates the `TArrayFactory`
-- `build_cpp_reader` method creates the C++ `TArrayReader`.
-- `make_awkward_content` method constructs the `awkward` content with the raw data returned by `TArrayReader`.
-- `make_awkward_form` method generates the corresponding `awkward` form.
+Take the `TArrayReader` / `TArrayFactory` pair as a concrete example.
+`TArray` nodes store a `uint32_t` size followed by that many typed elements.
+
+### Python reader
+
+`TArrayReader` reads `fSize`, then reads `fSize` elements. It accumulates
+offsets and data using Python's `array` module:
 
 ```{code-block} python
 ---
-caption: `TArrayFactory`
+caption: "`TArrayReader` (Python)"
 ---
+from array import array
+import numpy as np
+
+from uproot_custom.readers.python import IReader, BinaryBuffer, DTYPE_TO_READER, DTYPE_TO_TYPECODE
+
+
+class TArrayReader(IReader):
+    def __init__(self, name, dtype):
+        super().__init__(name)
+        self.dtype = dtype
+        self.typecode = DTYPE_TO_TYPECODE[dtype]
+        self._data = array(self.typecode)
+        self.offsets = array("q", [0])
+        self.buffer_reader = DTYPE_TO_READER[dtype]
+
+    def read(self, buffer):
+        fSize = buffer.read_uint32()
+        self.offsets.append(self.offsets[-1] + fSize)
+        for _ in range(fSize):
+            self._data.append(self.buffer_reader(buffer))
+
+    def data(self):
+        offsets_array = np.frombuffer(self.offsets.tobytes(), dtype="i8")
+        data_array = np.frombuffer(self._data.tobytes(), dtype=self.dtype)
+        return offsets_array, data_array
+```
+
+---
+
+### Python factory
+
+`TArrayFactory` matches any `TArray*` type name, creates the corresponding
+typed Python reader, and converts the offsets + data arrays into an `awkward`
+`ListOffsetArray`:
+
+```{code-block} python
+---
+caption: "`TArrayFactory`"
+---
+import uproot_custom.readers.python
+
 class TArrayFactory(Factory):
     """
-    This class reads TArray from a binary paerser.
+    This class reads TArray from a binary parser.
 
     TArray includes TArrayC, TArrayS, TArrayI, TArrayL, TArrayL64, TArrayF, and TArrayD.
     Corresponding ctype is u1, u2, i4, i8, i8, f, and d.
@@ -377,15 +372,8 @@ class TArrayFactory(Factory):
         super().__init__(name)
         self.ctype = ctype
 
-    def build_cpp_reader(self):
-        return {
-            "i1": uproot_custom.cpp.TArrayCReader,
-            "i2": uproot_custom.cpp.TArraySReader,
-            "i4": uproot_custom.cpp.TArrayIReader,
-            "i8": uproot_custom.cpp.TArrayLReader,
-            "f": uproot_custom.cpp.TArrayFReader,
-            "d": uproot_custom.cpp.TArrayDReader,
-        }[self.ctype](self.name)
+    def build_python_reader(self):
+        return uproot_custom.readers.python.TArrayReader(self.name, self.ctype)
 
     def make_awkward_content(self, raw_data):
         offsets, data = raw_data
@@ -399,4 +387,24 @@ class TArrayFactory(Factory):
             "i64",
             ak.forms.NumpyForm(PrimitiveFactory.ctype_primitive_map[self.ctype]),
         )
+```
+
+
+
+---
+
+```{seealso}
+Once your Python reader is working correctly, you can port the logic to C++
+for production performance. See [](port-to-cpp.md) for the C++ `IReader` API,
+`BinaryBuffer` reference, pybind11 bindings, and a worked C++ version of
+`TArrayReader`.
+```
+
+```{admonition} Next step
+---
+class: hint
+---
+You now understand the Reader and Factory interfaces. Move on to
+[Project setup](project-setup.md) to create a proper Python package that
+wires your factory and reader together.
 ```

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Streamer information &#8212; uproot-custom</title>
+    <title>Investigate your data &#8212; uproot-custom</title>
   
   
   
@@ -52,11 +52,11 @@
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorial/customize-factory-reader/streamer-info';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorial/customize-factory-reader/investigate-data';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Binary data" href="binary-data.html" />
-    <link rel="prev" title="Bootstrapping custom-class reading in uproot-custom" href="bootstrap.html" />
+    <link rel="next" title="Reader &amp; factory interface" href="reader-and-factory.html" />
+    <link rel="prev" title="Pipeline overview" href="pipeline.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -168,15 +168,17 @@
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Start here</span></p>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started.html">Get started</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Customization</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../use-built-in.html">Use built-in factories</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../customize-factory-reader.html">Customize factory and reader</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="bootstrap.html">Bootstrapping custom-class reading in uproot-custom</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Streamer information</a></li>
-<li class="toctree-l2"><a class="reference internal" href="binary-data.html">Binary data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reader-and-factory.html">Reader and factory interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="template-python-project.html">Template Python project</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../customize-factory-reader.html">Customize Reader &amp; Factory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pipeline.html">Pipeline overview</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Investigate your data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reader-and-factory.html">Reader &amp; factory interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project-setup.html">Project setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="port-to-cpp.html">Port readers to C++</a></li>
 </ul>
 </details></li>
 </ul>
@@ -256,7 +258,7 @@
       
       
       
-      <li><a href="../../_sources/tutorial/customize-factory-reader/streamer-info.md" target="_blank"
+      <li><a href="../../_sources/tutorial/customize-factory-reader/investigate-data.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -340,7 +342,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Streamer information</h1>
+    <h1>Investigate your data</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -350,8 +352,25 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information-in-uproot">Streamer information in Uproot</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information-in-uproot-custom">Streamer information in uproot-custom</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information">Streamer information</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#demo-classes">Demo classes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-streamer-information-with-uproot">Reading streamer information with Uproot</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#human-readable-summary">Human-readable summary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-member-attributes">Detailed member attributes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information-in-uproot-custom">Streamer information in uproot-custom</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binary-data">Binary data</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#object-splitting">Object splitting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#obtaining-raw-binary-data">Obtaining raw binary data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-byte-layout">Understanding the byte layout</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fnbytes-fversion-header"><code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> + <code class="docutils literal notranslate"><span class="pre">fVersion</span></code> header</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#base-class-tobject">Base class (<code class="docutils literal notranslate"><span class="pre">TObject</span></code>)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#subsequent-data-members">Subsequent data members</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -363,39 +382,47 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="streamer-information">
-<h1>Streamer information<a class="headerlink" href="#streamer-information" title="Link to this heading">#</a></h1>
-<p>When storing custom classes in <code class="docutils literal notranslate"><span class="pre">ROOT</span></code>, <code class="docutils literal notranslate"><span class="pre">ROOT</span></code> stores the class’s streamer information in the file. The streamer information contains the class’s data members and their types. When reading the class from file, <code class="docutils literal notranslate"><span class="pre">ROOT</span></code> reads the streamer information first, then reads the binary data according to the streamer information.</p>
-<p>Before continuing, we define a demo custom class <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code> and <code class="docutils literal notranslate"><span class="pre">TCstyleArray</span></code> in C++. <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code> contains various data members of different types, <code class="docutils literal notranslate"><span class="pre">TCStyleArray</span></code> contains an c-style array of <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code>:</p>
+  <section id="investigate-your-data">
+<h1>Investigate your data<a class="headerlink" href="#investigate-your-data" title="Link to this heading">#</a></h1>
+<p>Before writing a custom reader or factory, you need to understand two things
+about the branch you want to read:</p>
+<ol class="arabic simple">
+<li><p><strong>Streamer information</strong> — the metadata that describes the class layout
+(field names, types, nesting).</p></li>
+<li><p><strong>Binary format</strong> — the raw byte sequence that ROOT writes for each entry.</p></li>
+</ol>
+<p>This page covers both topics in order. By the end you will know exactly what
+bytes your reader must consume.</p>
+<hr class="docutils" />
+<section id="streamer-information">
+<h2>Streamer information<a class="headerlink" href="#streamer-information" title="Link to this heading">#</a></h2>
+<p>When ROOT writes a custom class to a file, it also writes the class’s <em>streamer
+information</em>: a machine-readable description of every data member and its type.
+Understanding this metadata is the first step toward implementing a reader.</p>
+<section id="demo-classes">
+<h3>Demo classes<a class="headerlink" href="#demo-classes" title="Link to this heading">#</a></h3>
+<p>Throughout this page we use two demo classes, <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code> and
+<code class="docutils literal notranslate"><span class="pre">TCStyleArray</span></code>:</p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">Definition of <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code></span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">TSimpleObject</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">TObject</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">private</span><span class="o">:</span>
-<span class="w">    </span><span class="c1">// --------- Simple types ---------</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">m_int</span><span class="p">{</span><span class="w"> </span><span class="mi">32</span><span class="w"> </span><span class="p">};</span>
 
-<span class="w">    </span><span class="c1">// --------- Simple STL ---------</span>
 <span class="w">    </span><span class="n">string</span><span class="w"> </span><span class="n">m_str</span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Hello, ROOT!&quot;</span><span class="w"> </span><span class="p">};</span>
-
-<span class="w">    </span><span class="c1">// std::array</span>
 <span class="w">    </span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_arr_int</span><span class="p">{</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">101</span><span class="p">,</span><span class="w"> </span><span class="mi">102</span><span class="p">,</span><span class="w"> </span><span class="mi">103</span><span class="p">,</span><span class="w"> </span><span class="mi">104</span><span class="w"> </span><span class="p">};</span>
-
-<span class="w">    </span><span class="c1">// Sequence like containers</span>
 <span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_vec_double</span><span class="p">{</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0</span><span class="w"> </span><span class="p">};</span>
 
-<span class="w">    </span><span class="c1">// Mapping like containers</span>
 <span class="w">    </span><span class="n">map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_map_int_double</span><span class="p">{</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">};</span>
 <span class="w">    </span><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">TString</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_map_str_str</span><span class="p">{</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Apple&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;B&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Banana&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Cat&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">};</span>
 
-<span class="w">    </span><span class="c1">// --------- ROOT objects ---------</span>
 <span class="w">    </span><span class="n">TString</span><span class="w"> </span><span class="n">m_tstr</span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Hello, ROOT!&quot;</span><span class="w"> </span><span class="p">};</span>
 <span class="w">    </span><span class="n">TArrayI</span><span class="w"> </span><span class="n">m_tarr_int</span><span class="p">{</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">};</span>
 
 <span class="w">  </span><span class="k">public</span><span class="o">:</span>
 <span class="w">    </span><span class="n">TSimpleObject</span><span class="p">()</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">TObject</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="c1">// Fill TArrayI</span>
 <span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">m_tarr_int</span><span class="p">.</span><span class="n">GetSize</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">m_tarr_int</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
 <span class="w">    </span><span class="p">}</span>
 
@@ -415,28 +442,26 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<p>In the following sections, we will use <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code> and <code class="docutils literal notranslate"><span class="pre">TCStyleArray</span></code> as an example to illustrate how <code class="docutils literal notranslate"><span class="pre">ROOT</span></code> stores custom classes.</p>
-<section id="streamer-information-in-uproot">
-<h2>Streamer information in Uproot<a class="headerlink" href="#streamer-information-in-uproot" title="Link to this heading">#</a></h2>
-<p>Uproot can read the streamer information stored in the file. To obtain all streamer information, you can use:</p>
+</section>
+<section id="reading-streamer-information-with-uproot">
+<h3>Reading streamer information with Uproot<a class="headerlink" href="#reading-streamer-information-with-uproot" title="Link to this heading">#</a></h3>
+<p>Uproot exposes all streamers stored in a file via <code class="docutils literal notranslate"><span class="pre">f.file.streamers</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
 
 <span class="n">f</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;file.root&quot;</span><span class="p">)</span>
 <span class="n">f</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">streamers</span>
 </pre></div>
 </div>
-<p>You can see plenty of streamers in the output:</p>
 <div class="literal-block-wrapper docutils container" id="id3">
-<div class="code-block-caption"><span class="caption-text">Output</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
+<div class="code-block-caption"><span class="caption-text">Output (truncated)</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">{&#39;TNamed&#39;: {1: &lt;TStreamerInfo for TNamed version 1 at 0x74083a52a840&gt;},</span>
 <span class="go"> &#39;TObject&#39;: {1: &lt;TStreamerInfo for TObject version 1 at 0x74083a52b140&gt;},</span>
 <span class="go"> &#39;TList&#39;: {5: &lt;TStreamerInfo for TList version 5 at 0x74083a52bbf0&gt;},</span>
-<span class="go"> &#39;TSeqCollection&#39;: {0: &lt;TStreamerInfo for TSeqCollection version 0 at 0x74083a538380&gt;},</span>
 <span class="go"> ...}</span>
 </pre></div>
 </div>
 </div>
-<p>As long as the <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code> is stored in the file, you can find its streamer information:</p>
+<p>Look up a specific class by name. The version number is the dictionary key:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">streamers</span><span class="p">[</span><span class="s2">&quot;TSimpleObject&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -446,12 +471,15 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<p>The key <code class="docutils literal notranslate"><span class="pre">1</span></code> is the version number of <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code>, the value is corresponding <code class="docutils literal notranslate"><span class="pre">TStreamerInfo</span></code> object.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p>You can find all Uproot streamer information classes in <a class="reference external" href="https://uproot.readthedocs.io/en/latest/uproot.streamers.html">the documentation</a>.</p>
+<p>All Uproot streamer classes are documented in
+<a class="reference external" href="https://uproot.readthedocs.io/en/latest/uproot.streamers.html">the Uproot documentation</a>.</p>
 </div>
-<p>Using <code class="docutils literal notranslate"><span class="pre">show</span></code> method you can print the streamer information:</p>
+</section>
+<section id="human-readable-summary">
+<h3>Human-readable summary<a class="headerlink" href="#human-readable-summary" title="Link to this heading">#</a></h3>
+<p>Call <code class="docutils literal notranslate"><span class="pre">show()</span></code> for a compact overview:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">streamer</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">streamers</span><span class="p">[</span><span class="s2">&quot;TSimpleObject&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">streamer</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -470,7 +498,10 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<p>Using <code class="docutils literal notranslate"><span class="pre">all_members</span></code> attribute, you can see full details of the streamer information:</p>
+</section>
+<section id="detailed-member-attributes">
+<h3>Detailed member attributes<a class="headerlink" href="#detailed-member-attributes" title="Link to this heading">#</a></h3>
+<p>For the full details, use <code class="docutils literal notranslate"><span class="pre">all_members</span></code>:</p>
 <div class="highlight-python notranslate" id="simple-obj-streamer-info"><div class="highlight"><pre><span></span><span class="n">streamer</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">streamers</span><span class="p">[</span><span class="s2">&quot;TSimpleObject&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">streamer</span><span class="o">.</span><span class="n">all_members</span>
 </pre></div>
@@ -487,7 +518,7 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<p>Print <code class="docutils literal notranslate"><span class="pre">all_members</span></code> of <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code>’s data members:</p>
+<p>Iterate over <code class="docutils literal notranslate"><span class="pre">elements</span></code> to inspect each data member:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">all_members</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">streamer</span><span class="o">.</span><span class="n">elements</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -596,8 +627,7 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<p>This list of <code class="docutils literal notranslate"><span class="pre">all_members</span></code> corresponds to the data members defined in <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code>. Each data member is represented by a dictionary containing its attributes, such as <code class="docutils literal notranslate"><span class="pre">fName</span></code>, <code class="docutils literal notranslate"><span class="pre">fType</span></code>, <code class="docutils literal notranslate"><span class="pre">fSize</span></code>, <code class="docutils literal notranslate"><span class="pre">fArrayLength</span></code>, and <code class="docutils literal notranslate"><span class="pre">fTypeName</span></code>.</p>
-<p>A brief description of some important attributes is given in the table below:</p>
+<p>Each dictionary maps to one data member of <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code>. Key attributes:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Attribute</p></th>
@@ -606,35 +636,213 @@ document.write(`
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fName</span></code></p></td>
-<td><p>Name of the data member</p></td>
+<td><p>Data member name</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fType</span></code></p></td>
-<td><p>Type code of the data member</p></td>
+<td><p>Numeric type code</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fTypeName</span></code></p></td>
-<td><p>Type name of the data member</p></td>
+<td><p>Human-readable type name</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fArrayDim</span></code></p></td>
-<td><p>Number of dimensions if the data member is an array</p></td>
+<td><p>Number of array dimensions (0 = scalar)</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fMaxIndex</span></code></p></td>
-<td><p>Maximum index of the <code class="docutils literal notranslate"><span class="pre">fArrayDim</span></code> if the data member is an array</p></td>
+<td><p>Maximum index per dimension</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><a class="reference external" href="https://root.cern/doc/v636/streamerinfo.html">ROOT streamer info page</a> provides some explanations of the attributes in <code class="docutils literal notranslate"><span class="pre">all_members</span></code>. But the page seems not updated for a long time, some details are missing.</p>
+<p>The <a class="reference external" href="https://root.cern/doc/v636/streamerinfo.html">ROOT streamer-info reference</a>
+documents these attributes, though some details may be outdated.</p>
 </div>
 </section>
 <section id="streamer-information-in-uproot-custom">
-<h2>Streamer information in uproot-custom<a class="headerlink" href="#streamer-information-in-uproot-custom" title="Link to this heading">#</a></h2>
-<p>The streamer information in uproot-custom will be passed to <code class="docutils literal notranslate"><span class="pre">factory</span></code> to handle data members. To simplify the usage of streamer information, uproot-custom rearranges the streamer information into a more convenient format: A dictionary of class names to the list of their data members’ streamer information.</p>
+<h3>Streamer information in uproot-custom<a class="headerlink" href="#streamer-information-in-uproot-custom" title="Link to this heading">#</a></h3>
+<p>Uproot-custom rearranges the raw Uproot streamer information into a more
+convenient format: a dictionary mapping class names to the list of their data
+members’ streamer dictionaries. This rearranged dictionary is what gets passed
+to <code class="docutils literal notranslate"><span class="pre">Factory.build_factory</span></code>.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p>You can find the concrete format of the rearranged streamer information in <a class="reference internal" href="reader-and-factory.html#method-build-factory"><span class="std std-ref">factory interface page</span></a>.</p>
+<p>See <a class="reference internal" href="reader-and-factory.html#method-build-factory"><span class="std std-ref">build_factory (classmethod)</span></a> for the exact signature and format.</p>
 </div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="binary-data">
+<h2>Binary data<a class="headerlink" href="#binary-data" title="Link to this heading">#</a></h2>
+<p>With the streamer information in hand, the next step is to inspect the actual
+bytes ROOT writes for each entry. This lets you validate your understanding of
+the layout before writing any reader code.</p>
+<section id="object-splitting">
+<h3>Object splitting<a class="headerlink" href="#object-splitting" title="Link to this heading">#</a></h3>
+<p>ROOT usually <em>splits</em> top-level data members into separate sub-branches. For
+example, storing <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code> directly in a <code class="docutils literal notranslate"><span class="pre">TTree</span></code> produces one sub-branch
+per member:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;demo_data.root&quot;</span><span class="p">)</span>
+<span class="n">f</span><span class="p">[</span><span class="s2">&quot;my_tree/simple_obj&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text">Output</span><a class="headerlink" href="#id8" title="Link to this code">#</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">name                                     | typename                 | interpretation</span>
+<span class="go">-----------------------------------------+--------------------------+-------------------------------</span>
+<span class="go">simple_obj                               | TSimpleObject            | AsGroup(&lt;TBranchElement &#39;simpl</span>
+<span class="go">TObject                                  | (group of fUniqueID:u... | AsGroup(&lt;TBranchElement &#39;TO...</span>
+<span class="go">TObject/fUniqueID                        | uint32_t                 | AsDtype(&#39;&gt;u4&#39;)</span>
+<span class="go">TObject/fBits                            | uint32_t                 | AsDtype(&#39;&gt;u4&#39;)</span>
+<span class="go">m_int                                    | int32_t                  | AsDtype(&#39;&gt;i4&#39;)</span>
+<span class="go">m_str                                    | std::string              | AsStrings(header_bytes=6)</span>
+<span class="go">m_arr_int[5]                             | int32_t[5]               | AsDtype(&quot;(&#39;&gt;i4&#39;, (5,))&quot;)</span>
+<span class="go">m_vec_double                             | std::vector&lt;double&gt;      | AsJagged(AsDtype(&#39;&gt;f8&#39;), he...</span>
+<span class="go">m_map_int_double                         | map&lt;int,double&gt;          | AsGroup(&lt;TBranchElement &#39;m_...</span>
+<span class="go">m_map_int_double/m_map_int_double.first  | int32_t[]                | AsJagged(AsDtype(&#39;&gt;i4&#39;))</span>
+<span class="go">m_map_int_double/m_map_int_double.second | double[]                 | AsJagged(AsDtype(&#39;&gt;f8&#39;))</span>
+<span class="go">m_map_str_str                            | map&lt;string,TString&gt;      | AsGroup(&lt;TBranchElement &#39;m_...</span>
+<span class="go">m_map_str_str/m_map_str_str.first        | std::string[]            | AsObjects(AsArray(True, Fal...</span>
+<span class="go">m_map_str_str/m_map_str_str.second       | TString                  | AsStrings()</span>
+<span class="go">m_tstr                                   | TString                  | AsStrings()</span>
+<span class="go">m_tarr_int                               | TArrayI                  | AsObjects(Model_TArrayI)</span>
+</pre></div>
+</div>
+</div>
+<p>Uproot handles split branches natively, so this case rarely needs uproot-custom.</p>
+<p>However, when the class is stored as a c-style array element — for instance,
+<code class="docutils literal notranslate"><span class="pre">TCStyleArray</span></code> defined <a class="reference internal" href="#demo-classes"><span class="xref myst">above</span></a> — ROOT does <strong>not</strong> split the
+members:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;my_tree/cstyle_array&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text">Output</span><a class="headerlink" href="#id9" title="Link to this code">#</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">name                 | typename                 | interpretation</span>
+<span class="go">---------------------+--------------------------+-------------------------------</span>
+<span class="go">m_simple_obj[3]      | TSimpleObject[][3]       | AsObjects(AsArray(False, False</span>
+</pre></div>
+</div>
+</div>
+<p>This is the typical scenario where uproot-custom is needed.</p>
+</section>
+<section id="obtaining-raw-binary-data">
+<span id="obtain-binary-data"></span><h3>Obtaining raw binary data<a class="headerlink" href="#obtaining-raw-binary-data" title="Link to this heading">#</a></h3>
+<p>Use <code class="docutils literal notranslate"><span class="pre">AsBinary</span></code> to pull the uninterpreted byte buffer of a branch:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot.interpretations.custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsBinary</span>
+
+<span class="n">raw_binary</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;my_tree/cstyle_array/m_simple_obj[3]&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">interpretation</span><span class="o">=</span><span class="n">AsBinary</span><span class="p">())</span>
+
+<span class="c1"># Binary data of entry 0</span>
+<span class="n">raw_binary</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id10">
+<div class="code-block-caption"><span class="caption-text">Output</span><a class="headerlink" href="#id10" title="Link to this code">#</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">array([ 64,   0,   0, 223,   0,   1,   0,   1,   0,   0,   0,   0,   0,</span>
+<span class="go">         0,   0,   0,   0,   0,   0,  32,  64,   0,   0,  15,   0,   9,</span>
+<span class="go">        12,  72, 101, 108, 108, 111,  44,  32,  82,  79,  79,  84,  33,</span>
+<span class="go">        ...], dtype=uint8)</span>
+</pre></div>
+</div>
+</div>
+<p>This <code class="docutils literal notranslate"><span class="pre">uint8</span></code> array is exactly what your reader will receive.</p>
+</section>
+<section id="understanding-the-byte-layout">
+<h3>Understanding the byte layout<a class="headerlink" href="#understanding-the-byte-layout" title="Link to this heading">#</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The streaming rules below are summarized empirically. If you find inaccuracies,
+please open an issue or pull request.</p>
+</div>
+<section id="fnbytes-fversion-header">
+<span id="nbytes-version-header"></span><h4><code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> + <code class="docutils literal notranslate"><span class="pre">fVersion</span></code> header<a class="headerlink" href="#fnbytes-fversion-header" title="Link to this heading">#</a></h4>
+<p>Many ROOT objects begin with a <strong>6-byte header</strong>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Size</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fNBytes</span></code></p></td>
+<td><p>4 bytes</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">uint32_t</span></code></p></td>
+<td><p>Remaining byte count (including <code class="docutils literal notranslate"><span class="pre">fVersion</span></code>). The high bit <code class="docutils literal notranslate"><span class="pre">0x40000000</span></code> is always set as a validity marker.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fVersion</span></code></p></td>
+<td><p>2 bytes</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int16_t</span></code></p></td>
+<td><p>Class version</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>For the first entry above, the first four bytes <code class="docutils literal notranslate"><span class="pre">64,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">223</span></code> form <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code>.
+The leading <code class="docutils literal notranslate"><span class="pre">64</span></code> corresponds to the <code class="docutils literal notranslate"><span class="pre">0x40000000</span></code> mask. Stripping the mask gives
+<code class="docutils literal notranslate"><span class="pre">0x000000DF</span></code> = <strong>223</strong>, so the next 223 bytes make up this <code class="docutils literal notranslate"><span class="pre">TSimpleObject</span></code>.
+The following two bytes <code class="docutils literal notranslate"><span class="pre">0,</span> <span class="pre">1</span></code> are the <code class="docutils literal notranslate"><span class="pre">fVersion</span></code> = <strong>1</strong>.</p>
+</section>
+<section id="base-class-tobject">
+<h4>Base class (<code class="docutils literal notranslate"><span class="pre">TObject</span></code>)<a class="headerlink" href="#base-class-tobject" title="Link to this heading">#</a></h4>
+<p>After the header, ROOT writes base-class data first. <code class="docutils literal notranslate"><span class="pre">TObject</span></code> contains
+(<a class="reference external" href="https://root.cern/doc/v636/tobject.html">reference</a>):</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">fVersion</span></code> (<code class="docutils literal notranslate"><span class="pre">int16_t</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fUniqueID</span></code> (<code class="docutils literal notranslate"><span class="pre">int32_t</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fBits</span></code> (<code class="docutils literal notranslate"><span class="pre">uint32_t</span></code>)</p></li>
+</ol>
+<p>If <code class="docutils literal notranslate"><span class="pre">fBits</span> <span class="pre">&amp;</span> <span class="pre">(1</span> <span class="pre">&lt;&lt;</span> <span class="pre">4)</span></code> is set (rare), an extra <code class="docutils literal notranslate"><span class="pre">uint16_t</span> <span class="pre">pidf</span></code> follows.</p>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Code example</p>
+<p>The built-in <code class="docutils literal notranslate"><span class="pre">TObjectReader::read</span></code> method:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="w"> </span><span class="n">BinaryBuffer</span><span class="o">&amp;</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">buffer</span><span class="p">.</span><span class="n">skip_fVersion</span><span class="p">();</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">fUniqueID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">int32_t</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">fBits</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">();</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">fBits</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">BinaryBuffer</span><span class="o">::</span><span class="n">kIsReferenced</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">m_keep_data</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">m_pidf</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">uint16_t</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">);</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">skip</span><span class="p">(</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">m_keep_data</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">m_unique_id</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="w"> </span><span class="n">fUniqueID</span><span class="w"> </span><span class="p">);</span>
+<span class="w">        </span><span class="n">m_bits</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="w"> </span><span class="n">fBits</span><span class="w"> </span><span class="p">);</span>
+<span class="w">        </span><span class="n">m_pidf_offsets</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="w"> </span><span class="n">m_pidf</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="subsequent-data-members">
+<h4>Subsequent data members<a class="headerlink" href="#subsequent-data-members" title="Link to this heading">#</a></h4>
+<p>After the base class, data members appear in streamer order:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">m_int</span></code> — 4 bytes (<code class="docutils literal notranslate"><span class="pre">int32_t</span></code>). E.g. <code class="docutils literal notranslate"><span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">32</span></code> = <strong>32</strong>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">m_str</span></code> — <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> + <code class="docutils literal notranslate"><span class="pre">fVersion</span></code> + length-prefixed content (<code class="docutils literal notranslate"><span class="pre">std::string</span></code>).</p></li>
+<li><p>And so on for every member listed in the <a class="reference internal" href="#all-streamer-info-output">streamer output above</a>.</p></li>
+</ul>
+<p>Follow the streamer information member by member and you can decode the entire
+binary payload.</p>
+<p><a class="reference internal" href="../../reference/binary-format.html"><span class="doc std std-doc">Binary format of common classes</span></a> provides a summary of the binary formats for
+common ROOT types — useful reference material when implementing your own reader.</p>
+<hr class="docutils" />
+<div class="hint admonition">
+<p class="admonition-title">Next step</p>
+<p>You now know how to inspect streamer information and decode binary bytes.
+Move on to <a class="reference internal" href="reader-and-factory.html"><span class="std std-doc">Reader &amp; factory interface</span></a> to learn
+the Python APIs and study a full worked example.</p>
+</div>
+</section>
+</section>
 </section>
 </section>
 
@@ -650,20 +858,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="bootstrap.html"
+       href="pipeline.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Bootstrapping custom-class reading in uproot-custom</p>
+        <p class="prev-next-title">Pipeline overview</p>
       </div>
     </a>
     <a class="right-next"
-       href="binary-data.html"
+       href="reader-and-factory.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Binary data</p>
+        <p class="prev-next-title">Reader &amp; factory interface</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -683,8 +891,25 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information-in-uproot">Streamer information in Uproot</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information-in-uproot-custom">Streamer information in uproot-custom</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information">Streamer information</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#demo-classes">Demo classes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-streamer-information-with-uproot">Reading streamer information with Uproot</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#human-readable-summary">Human-readable summary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-member-attributes">Detailed member attributes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#streamer-information-in-uproot-custom">Streamer information in uproot-custom</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binary-data">Binary data</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#object-splitting">Object splitting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#obtaining-raw-binary-data">Obtaining raw binary data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-the-byte-layout">Understanding the byte layout</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fnbytes-fversion-header"><code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> + <code class="docutils literal notranslate"><span class="pre">fVersion</span></code> header</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#base-class-tobject">Base class (<code class="docutils literal notranslate"><span class="pre">TObject</span></code>)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#subsequent-data-members">Subsequent data members</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
