@@ -31,7 +31,7 @@ class BinaryBuffer:
         offsets: NDArray[np.uint32],
         repr_nbytes: int = 50,
     ):
-        self.data = data.tobytes()
+        self.data = data
         self.offsets = offsets
         self.cursor = 0
         self.repr_nbytes = repr_nbytes
@@ -109,7 +109,7 @@ class BinaryBuffer:
         start = self.cursor
         while self.data[self.cursor] != 0:
             self.cursor += 1
-        return self.data[start : self.cursor].tobytes().decode()
+        return self.data[start : self.cursor].decode()
 
     def read_obj_header(self):
         self.read_fNBytes()
@@ -126,7 +126,7 @@ class BinaryBuffer:
 
         start = self.cursor
         self.cursor += length
-        return self.data[start : self.cursor].tobytes().decode()
+        return self.data[start : self.cursor].decode()
 
     def skip(self, n: int):
         self.cursor += n
@@ -140,6 +140,7 @@ class BinaryBuffer:
     def skip_null_terminated_string(self):
         while self.data[self.cursor] != 0:
             self.cursor += 1
+        self.cursor += 1  # Skip the null terminator
 
     def skip_obj_header(self):
         self.skip_fNBytes()
@@ -194,9 +195,6 @@ class IReader:
     def read(self, buffer: BinaryBuffer) -> None:
         raise NotImplementedError
 
-    def data(self) -> Any:
-        raise NotImplementedError
-
     def read_many(self, buffer: BinaryBuffer, count: int) -> int:
         for _ in range(count):
             self.read(buffer)
@@ -210,6 +208,11 @@ class IReader:
         return count
 
     def read_many_memberwise(self, buffer: BinaryBuffer, count: int) -> int:
+        raise NotImplementedError(
+            f"{self.__class__.__name__}({self.name}).read_many_memberwise is not implemented"
+        )
+
+    def data(self) -> Any:
         raise NotImplementedError
 
 
@@ -260,7 +263,7 @@ class PrimitiveReader(IReader):
         self._data.append(self.buffer_reader(buffer))
 
     def data(self):
-        return np.frombuffer(self._data.tobytes(), dtype=self.dtype)
+        return np.asarray(self._data, dtype=self.dtype)
 
 
 class TObjectReader(IReader):
@@ -293,10 +296,10 @@ class TObjectReader(IReader):
         if not self.keep_data:
             return None
 
-        unique_id_array = np.frombuffer(self.unique_id.tobytes(), dtype="i4")
-        bits_array = np.frombuffer(self.bits.tobytes(), dtype="u4")
-        pidf_array = np.frombuffer(self.pidf.tobytes(), dtype="u2")
-        pidf_offsets_array = np.frombuffer(self.pidf_offsets.tobytes(), dtype="i8")
+        unique_id_array = np.asarray(self.unique_id, dtype="i4")
+        bits_array = np.asarray(self.bits, dtype="u4")
+        pidf_array = np.asarray(self.pidf, dtype="u2")
+        pidf_offsets_array = np.asarray(self.pidf_offsets, dtype="i8")
         return unique_id_array, bits_array, pidf_array, pidf_offsets_array
 
 
@@ -332,6 +335,8 @@ class TStringReader(IReader):
         for _ in range(count):
             self.read(buffer)
 
+        return count
+
     def read_until(self, buffer, end_pos):
         if buffer.cursor == end_pos:
             return 0
@@ -347,8 +352,8 @@ class TStringReader(IReader):
         return count
 
     def data(self):
-        data_array = np.frombuffer(self._data.tobytes(), dtype="u1")
-        offsets_array = np.frombuffer(self.offsets.tobytes(), dtype="i8")
+        data_array = np.asarray(self._data, dtype="u1")
+        offsets_array = np.asarray(self.offsets, dtype="i8")
         return offsets_array, data_array
 
 
@@ -370,12 +375,12 @@ class STLSeqReader(IReader):
     def check_objwise_memberwise(self, is_memberwise: bool):
         if self.objwise_or_memberwise == "obj-wise" and is_memberwise:
             raise ValueError(
-                f"STLMapReader({self.name}) expected obj-wise reading but got member-wise"
+                f"STLSeqReader({self.name}) expected obj-wise reading but got member-wise"
             )
 
         if self.objwise_or_memberwise == "member-wise" and not is_memberwise:
             raise ValueError(
-                f"STLMapReader({self.name}) expected member-wise reading but got obj-wise"
+                f"STLSeqReader({self.name}) expected member-wise reading but got obj-wise"
             )
 
     def read_body(self, buffer: BinaryBuffer, is_memberwise: bool):
@@ -411,7 +416,7 @@ class STLSeqReader(IReader):
         elif count < 0:
             assert (
                 self.with_header
-            ), f"STLSeqReader({self.name}).read_many called with negative count expecting with_header=True"
+            ), f"STLSeqReader({self.name}).read_many called with negative count expects with_header=True"
 
             fNBytes = buffer.read_fNBytes()
             end_pos = buffer.cursor + fNBytes
@@ -466,7 +471,7 @@ class STLSeqReader(IReader):
         return count
 
     def data(self):
-        offsets_array = np.frombuffer(self.offsets.tobytes(), dtype="i8")
+        offsets_array = np.asarray(self.offsets, dtype="i8")
         element_data = self.element_reader.data()
         return offsets_array, element_data
 
@@ -594,7 +599,7 @@ class STLMapReader(IReader):
         return self.read_many(buffer, count)
 
     def data(self):
-        offsets_array = np.frombuffer(self.offsets.tobytes(), dtype="i8")
+        offsets_array = np.asarray(self.offsets, dtype="i8")
         key_data = self.key_reader.data()
         value_data = self.value_reader.data()
         return offsets_array, key_data, value_data
@@ -667,8 +672,8 @@ class STLStringReader(IReader):
         return count
 
     def data(self):
-        data_array = np.frombuffer(self._data.tobytes(), dtype="u1")
-        offsets_array = np.frombuffer(self.offsets.tobytes(), dtype="i8")
+        data_array = np.asarray(self._data, dtype="u1")
+        offsets_array = np.asarray(self.offsets, dtype="i8")
         return offsets_array, data_array
 
 
@@ -693,8 +698,8 @@ class TArrayReader(IReader):
             self._data.append(self.buffer_reader(buffer))
 
     def data(self):
-        offsets_array = np.frombuffer(self.offsets.tobytes(), dtype="i8")
-        data_array = np.frombuffer(self._data.tobytes(), dtype=self.dtype)
+        offsets_array = np.asarray(self.offsets, dtype="i8")
+        data_array = np.asarray(self._data, dtype=self.dtype)
         return offsets_array, data_array
 
 
@@ -839,7 +844,7 @@ class CStyleArrayReader(IReader):
         if self.flat_size >= 0:
             return self.element_reader.data()
         else:
-            offsets_array = np.frombuffer(self.offsets.tobytes(), dtype="i8")
+            offsets_array = np.asarray(self.offsets, dtype="i8")
             element_data = self.element_reader.data()
             return offsets_array, element_data
 
