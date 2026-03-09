@@ -1,0 +1,17 @@
+changelog:
+  categories:
+    - title: C++ API Changes
+      labels:
+        - break cpp
+    - title: New Features
+      labels:
+        - feature
+    - title: Bug Fixes
+      labels:
+        - bug
+    - title: Performance Improvements
+      labels:
+        - performance
+    - title: Other Changes
+      labels:
+        - '*'
