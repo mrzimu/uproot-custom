@@ -4,7 +4,7 @@ Uproot-custom is an extension of [Uproot](https://uproot.readthedocs.io/en/lates
 
 ## What uproot-custom can do
 
-Uproot-custom can natively read complicated combinations of nested classes and c-style arrays (e.g. `map<int, map<int, map<int, string>>>`, `vector<TString>[3]`, etc), and memberwisely stored classes. It also exposes a way for users to implement their own readers for custom classes that are not supported by Uproot or uproot-custom built-in readers, so that users can read their custom classes seamlessly.
+Uproot-custom can natively read complicated combinations of nested classes and c-style arrays (e.g. `map<int, map<int, map<int, string>>>`, `vector<TString>[3]`, etc), and memberwisely stored classes. It also exposes a way for users to implement their own readers for custom classes that are not supported by Uproot or uproot-custom built-in readers.
 
 ## When to use uproot-custom
 
@@ -12,23 +12,21 @@ Uproot-custom aims to handle cases that classes are too complex for Uproot to re
 
 ## How uproot-custom works
 
-Uproot-custom uses a `reader`/`factory` mechanism to read classes:
+Uproot-custom uses a Reader / Factory mechanism to read classes:
 
 ```mermaid
 flowchart TD
     subgraph py["Python field"]
         direction TB
-        AsCustom --> fac["Factory (Primitive, STLVector, TString, ...)"]
+        AsCustom -- Recursively generate --> fac["Factory (Primitive, STLVector, TString, ...)"]
         fac["Factory (Primitive, STLVector, TString, ...)"] -- Optional --> form(["construct awkward forms"])
-        fac --> build_reader(["build corresponding C++ reader"])
+        fac --> build_reader(["build corresponding reader"])
         fac --> build_ak(["construct awkward arrays"])
     end
 
-    user_fac["User's Factory"] -. Register .-> fac
-
-    subgraph cpp["C++ field"]
+    subgraph reader_field["Reader (Python or C++)"]
         direction TB
-        build_reader --> reader["C++ Reader"]
+        build_reader --> reader["Reader"]
         reader --> read_bin(["read binary data"])
         read_bin --> ret_data(["return data"])
     end
@@ -37,16 +35,16 @@ flowchart TD
     raw_data --> build_ak
 ```
 
-- `reader` is a C++ class that implements the logic to read data from binary buffers.
-- `factory` is a Python class that creates, combines `reader`s, and post-processes the data read by `reader`s.
+- `Reader` is a class that implements the logic to read data from binary buffers. It can be written in **Python** (for development and debugging) or **C++** (for production performance).
+- `Factory` is a Python class that creates, combines `Reader`s, and post-processes the data read by `Reader`s.
 
-This machanism is implemented basing on `uproot_custom.AsCustom` interpretation. This makes uproot-custom well compatible with Uproot.
+This mechanism is implemented as `AsCustom` interpretation. This makes uproot-custom well compatible with Uproot.
 
 > [!TIP]
-> Users can implement their own `factory` and `reader`, register them to uproot-custom. An example of implementing a custom `factory`/`reader` can be found in [the example repository](https://github.com/mrzimu/uproot-custom-example).
+> Users can implement their own Factory and Reader, register them to uproot-custom. Start with a **Python reader** for rapid prototyping, then port the logic to **C++** for production speed. The default reader backend is C++; during development, explicitly set the backend to Python. An example of implementing a custom Factory / Reader can be found in [the example repository](https://github.com/mrzimu/uproot-custom-example).
 
 > [!NOTE]
-> Uproot-custom does not provide a full reimplementation of `ROOT`'s I/O system. Users are expected to implement their own `factory`/`reader` for their custom classes that built-in factories cannot handle.
+> Uproot-custom does not provide a full reimplementation of `ROOT`'s TTree I/O system. Users are expected to implement their own Factory / Reader for their custom classes that built-in factories cannot handle.
 
 ## Documentation
 
