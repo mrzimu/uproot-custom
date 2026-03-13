@@ -1,3 +1,4 @@
+import sys
 import textwrap
 from dataclasses import dataclass, field
 from typing import Literal, TypeAlias
@@ -9,9 +10,12 @@ import numba.types
 import numpy as np
 from numba.experimental import jitclass
 
-DTYPE: TypeAlias = Literal[
-    "bool", "u1", "u2", "u4", "u8", "i1", "i2", "i4", "i8", "float", "double"
-]
+if sys.version_info > (3, 9):
+    DTYPE: TypeAlias = Literal[
+        "bool", "u1", "u2", "u4", "u8", "i1", "i2", "i4", "i8", "float", "double"
+    ]
+else:
+    DTYPE = Literal["bool", "u1", "u2", "u4", "u8", "i1", "i2", "i4", "i8", "float", "double"]
 
 _dtype_to_numbatype = {
     "bool": "numba.types.uint8",
