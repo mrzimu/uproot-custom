@@ -145,7 +145,7 @@ class AsCustom(uproot.interpretation.custom.CustomInterpretation):
         relative_entry_start = entry_start - basket_entry_starts[basket_start_idx]
         relative_entry_stop = entry_stop - basket_entry_starts[basket_start_idx]
 
-        return tot_array[relative_entry_start:relative_entry_stop]
+        return ak.to_packed(tot_array[relative_entry_start:relative_entry_stop])
 
     def basket_array(
         self,
