@@ -313,7 +313,7 @@ class TArrayReader(IReader):
             self._data.append(self.buffer_reader(buffer))
 
     def data(self):
-        offsets_array = np.frombuffer(self.offsets.tobytes(), dtype="i8")
+        offsets_array = np.frombuffer(self.offsets.tobytes(), dtype="int64")
         data_array = np.frombuffer(self._data.tobytes(), dtype=self.dtype)
         return offsets_array, data_array
 ```
@@ -337,17 +337,17 @@ class TArrayFactory(Factory):
     This class reads TArray from a binary parser.
 
     TArray includes TArrayC, TArrayS, TArrayI, TArrayL, TArrayL64, TArrayF, and TArrayD.
-    Corresponding ctype is u1, u2, i4, i8, i8, f, and d.
+    Corresponding dtype is int8, int16, int32, int64, int64, float32, and float64.
     """
 
     typenames = {
-        "TArrayC": "i1",
-        "TArrayS": "i2",
-        "TArrayI": "i4",
-        "TArrayL": "i8",
-        "TArrayL64": "i8",
-        "TArrayF": "f",
-        "TArrayD": "d",
+        "TArrayC": "int8",
+        "TArrayS": "int16",
+        "TArrayI": "int32",
+        "TArrayL": "int64",
+        "TArrayL64": "int64",
+        "TArrayF": "float32",
+        "TArrayD": "float64",
     }
 
     @classmethod

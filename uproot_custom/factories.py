@@ -281,88 +281,77 @@ class Factory:
 
 
 class PrimitiveFactory(Factory):
-    typenames = {
+    typename2dtype = {
+        # builtin
         "bool": "bool",
-        "char": "i1",
-        "short": "i2",
-        "int": "i4",
-        "long": "i8",
-        "long long": "i8",
-        "signed char": "i1",
-        "signed short": "i2",
-        "signed int": "i4",
-        "signed long": "i8",
-        "signed long long": "i8",
-        "unsigned char": "u1",
-        "unsigned short": "u2",
-        "unsigned int": "u4",
-        "unsigned long": "u8",
-        "unsigned long long": "u8",
-        "float": "f",
-        "double": "d",
+        "char": "int8",
+        "short": "int16",
+        "int": "int32",
+        "long": "int64",
+        "long long": "int64",
+        "signed char": "int8",
+        "signed short": "int16",
+        "signed int": "int32",
+        "signed long": "int64",
+        "signed long long": "int64",
+        "unsigned char": "uint8",
+        "unsigned short": "uint16",
+        "unsigned int": "uint32",
+        "unsigned long": "uint64",
+        "unsigned long long": "uint64",
+        "float": "float32",
+        "double": "float64",
         # cstdint
-        "int8_t": "i1",
-        "int16_t": "i2",
-        "int32_t": "i4",
-        "int64_t": "i8",
-        "uint8_t": "u1",
-        "uint16_t": "u2",
-        "uint32_t": "u4",
-        "uint64_t": "u8",
+        "int8_t": "int8",
+        "int16_t": "int16",
+        "int32_t": "int32",
+        "int64_t": "int64",
+        "uint8_t": "uint8",
+        "uint16_t": "uint16",
+        "uint32_t": "uint32",
+        "uint64_t": "uint64",
         # ROOT types
         "Bool_t": "bool",
-        "Char_t": "i1",
-        "Short_t": "i2",
-        "Int_t": "i4",
-        "Long_t": "i8",
-        "UChar_t": "u1",
-        "UShort_t": "u2",
-        "UInt_t": "u4",
-        "ULong_t": "u8",
-        "Float_t": "f",
-        "Double_t": "d",
+        "Char_t": "int8",
+        "Short_t": "int16",
+        "Int_t": "int32",
+        "Long_t": "int64",
+        "UChar_t": "uint8",
+        "UShort_t": "uint16",
+        "UInt_t": "uint32",
+        "ULong_t": "uint64",
+        "Float_t": "float32",
+        "Double_t": "float64",
     }
 
-    ftypes = {
-        1: "i1",
-        2: "i2",
-        3: "i4",
-        4: "i8",
-        5: "f",
-        8: "d",
-        11: "u1",
-        12: "u2",
-        13: "u4",
-        14: "u8",
+    ftype2dtype = {
+        1: "int8",
+        2: "int16",
+        3: "int32",
+        4: "int64",
+        5: "float32",
+        8: "float64",
+        11: "uint8",
+        12: "uint16",
+        13: "uint32",
+        14: "uint64",
+        16: "int64",  # long long
+        17: "uint64",  # unsigned long long
         18: "bool",
     }
 
     cpp_reader_map = {
         "bool": uproot_custom.readers.cpp.BoolReader,
-        "i1": uproot_custom.readers.cpp.Int8Reader,
-        "i2": uproot_custom.readers.cpp.Int16Reader,
-        "i4": uproot_custom.readers.cpp.Int32Reader,
-        "i8": uproot_custom.readers.cpp.Int64Reader,
-        "u1": uproot_custom.readers.cpp.UInt8Reader,
-        "u2": uproot_custom.readers.cpp.UInt16Reader,
-        "u4": uproot_custom.readers.cpp.UInt32Reader,
-        "u8": uproot_custom.readers.cpp.UInt64Reader,
-        "f": uproot_custom.readers.cpp.FloatReader,
-        "d": uproot_custom.readers.cpp.DoubleReader,
-    }
-
-    ctype_primitive_map = {
-        "bool": "bool",
-        "i1": "int8",
-        "i2": "int16",
-        "i4": "int32",
-        "i8": "int64",
-        "u1": "uint8",
-        "u2": "uint16",
-        "u4": "uint32",
-        "u8": "uint64",
-        "f": "float32",
-        "d": "float64",
+        "int8": uproot_custom.readers.cpp.Int8Reader,
+        "int16": uproot_custom.readers.cpp.Int16Reader,
+        "int32": uproot_custom.readers.cpp.Int32Reader,
+        "int64": uproot_custom.readers.cpp.Int64Reader,
+        "uint8": uproot_custom.readers.cpp.UInt8Reader,
+        "uint16": uproot_custom.readers.cpp.UInt16Reader,
+        "uint32": uproot_custom.readers.cpp.UInt32Reader,
+        "uint64": uproot_custom.readers.cpp.UInt64Reader,
+        "float32": uproot_custom.readers.cpp.FloatReader,
+        "float64": uproot_custom.readers.cpp.DoubleReader,
     }
 
     @classmethod
@@ -377,50 +366,48 @@ class PrimitiveFactory(Factory):
         """
         Return when `top_type_name` is primitive type.
         """
-        ctype = cls.ftypes.get(cur_streamer_info.get("fType", -1), None)
-        if ctype is None:
-            ctype = cls.typenames.get(top_type_name, None)
+        dtype = cls.ftype2dtype.get(cur_streamer_info.get("fType", -1), None)
+        if dtype is None:
+            # Match typename when fType is not available. This is for handling
+            # types like vector<int>
+            dtype = cls.typename2dtype.get(top_type_name, None)
 
-        if ctype is None:
+        if dtype is None:
             return None
 
-        return cls(name=cur_streamer_info["fName"], ctype=ctype)
+        return cls(name=cur_streamer_info["fName"], dtype=dtype)
 
-    def __init__(self, name: str, ctype: str):
+    def __init__(self, name: str, dtype: str):
         self.name = name
-        self.ctype = ctype
+        self.dtype = dtype
 
     def build_cpp_reader(self):
-        return self.cpp_reader_map[self.ctype](self.name)
+        return self.cpp_reader_map[self.dtype](self.name)
 
     def build_python_reader(self):
-        return uproot_custom.readers.python.PrimitiveReader(self.name, self.ctype)
+        return uproot_custom.readers.python.PrimitiveReader(self.name, self.dtype)
 
     def build_forth_reader(
         self,
         buffer_holder: uproot_custom.readers._forth.BufferHolder,
     ):
         return uproot_custom.readers._forth.PrimitiveReader(
-            self.name, self.ctype, buffer_holder
+            self.name, self.dtype, buffer_holder
         )
 
     def build_numba_reader(
         self,
         ctx: uproot_custom.readers._numba.CompilationContext,
     ):
-        numba_ctype = {
-            "f": "float",
-            "d": "double",
-        }.get(self.ctype, self.ctype)
-        return uproot_custom.readers._numba.PrimitiveReader(self.name, ctx, numba_ctype)
+        return uproot_custom.readers._numba.PrimitiveReader(self.name, ctx, self.dtype)
 
     def make_awkward_content(self, raw_data: np.ndarray):
-        if self.ctype == "bool":
+        if self.dtype == "bool":
             raw_data = raw_data.astype(np.bool_)
         return ak.contents.NumpyArray(raw_data)
 
     def make_awkward_form(self):
-        return ak.forms.NumpyForm(self.ctype_primitive_map[self.ctype])
+        return ak.forms.NumpyForm(self.dtype)
 
 
 stl_typenames = {
@@ -816,17 +803,17 @@ class TArrayFactory(Factory):
     This class reads TArray from a binary paerser.
 
     TArray includes TArrayC, TArrayS, TArrayI, TArrayL, TArrayL64, TArrayF, and TArrayD.
-    Corresponding ctype is u1, u2, i4, i8, i8, f, and d.
+    Corresponding dtype is int8, int16, int32, int64, int64, float32, and float64 respectively.
     """
 
-    typenames = {
-        "TArrayC": "i1",
-        "TArrayS": "i2",
-        "TArrayI": "i4",
-        "TArrayL": "i8",
-        "TArrayL64": "i8",
-        "TArrayF": "f",
-        "TArrayD": "d",
+    typename2dtype = {
+        "TArrayC": "int8",
+        "TArrayS": "int16",
+        "TArrayI": "int32",
+        "TArrayL": "int64",
+        "TArrayL64": "int64",
+        "TArrayF": "float32",
+        "TArrayD": "float64",
     }
 
     @classmethod
@@ -841,44 +828,40 @@ class TArrayFactory(Factory):
         """
         Return when `top_type_name` is in `cls.typenames`.
         """
-        if top_type_name not in cls.typenames:
+        if top_type_name not in cls.typename2dtype:
             return None
 
-        ctype = cls.typenames[top_type_name]
-        return cls(name=cur_streamer_info["fName"], ctype=ctype)
+        dtype = cls.typename2dtype[top_type_name]
+        return cls(name=cur_streamer_info["fName"], dtype=dtype)
 
-    def __init__(self, name: str, ctype: str):
+    def __init__(self, name: str, dtype: str):
         super().__init__(name)
-        self.ctype = ctype
+        self.dtype = dtype
 
     def build_cpp_reader(self):
         return {
-            "i1": uproot_custom.readers.cpp.TArrayCReader,
-            "i2": uproot_custom.readers.cpp.TArraySReader,
-            "i4": uproot_custom.readers.cpp.TArrayIReader,
-            "i8": uproot_custom.readers.cpp.TArrayLReader,
-            "f": uproot_custom.readers.cpp.TArrayFReader,
-            "d": uproot_custom.readers.cpp.TArrayDReader,
-        }[self.ctype](self.name)
+            "int8": uproot_custom.readers.cpp.TArrayCReader,
+            "int16": uproot_custom.readers.cpp.TArraySReader,
+            "int32": uproot_custom.readers.cpp.TArrayIReader,
+            "int64": uproot_custom.readers.cpp.TArrayLReader,
+            "float32": uproot_custom.readers.cpp.TArrayFReader,
+            "float64": uproot_custom.readers.cpp.TArrayDReader,
+        }[self.dtype](self.name)
 
     def build_python_reader(self):
-        return uproot_custom.readers.python.TArrayReader(self.name, self.ctype)
+        return uproot_custom.readers.python.TArrayReader(self.name, self.dtype)
 
     def build_forth_reader(
         self,
         buffer_holder: uproot_custom.readers._forth.BufferHolder,
     ):
-        return uproot_custom.readers._forth.TArrayReader(self.name, self.ctype, buffer_holder)
+        return uproot_custom.readers._forth.TArrayReader(self.name, self.dtype, buffer_holder)
 
     def build_numba_reader(
         self,
         ctx: uproot_custom.readers._numba.CompilationContext,
     ):
-        numba_ctype = {
-            "f": "float",
-            "d": "double",
-        }.get(self.ctype, self.ctype)
-        return uproot_custom.readers._numba.TArrayReader(self.name, ctx, numba_ctype)
+        return uproot_custom.readers._numba.TArrayReader(self.name, ctx, self.dtype)
 
     def make_awkward_content(self, raw_data):
         offsets, data = raw_data
@@ -888,10 +871,7 @@ class TArrayFactory(Factory):
         )
 
     def make_awkward_form(self):
-        return ak.forms.ListOffsetForm(
-            "i64",
-            ak.forms.NumpyForm(PrimitiveFactory.ctype_primitive_map[self.ctype]),
-        )
+        return ak.forms.ListOffsetForm("i64", ak.forms.NumpyForm(self.dtype))
 
 
 class TStringFactory(Factory):

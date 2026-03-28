@@ -100,14 +100,14 @@ like this:
     "name": "TSimpleObject",
     "sub_factories": [
         {"factory": TObjectFactory,    "name": "TObject"},
-        {"factory": PrimitiveFactory,  "name": "m_int",            "ctype": "i4"},
+        {"factory": PrimitiveFactory,  "name": "m_int",            "dtype": "int32"},
         {"factory": STLStringFactory,  "name": "m_str"},
         {"factory": CStyleArrayFactory,"name": "m_arr_int",        "flat_size": 5},
         {"factory": STLSeqFactory,     "name": "m_vec_double",     "element": "PrimitiveFactory(d)"},
         {"factory": STLMapFactory,     "name": "m_map_int_double", "key/val": "Primitive/Primitive"},
         {"factory": STLMapFactory,     "name": "m_map_str_str",    "key/val": "STLString/TString"},
         {"factory": TStringFactory,    "name": "m_tstr"},
-        {"factory": TArrayFactory,     "name": "m_tarr_int",       "ctype": "i4"},
+        {"factory": TArrayFactory,     "name": "m_tarr_int",       "dtype": "int32"},
     ],
 }
 ```
@@ -393,8 +393,7 @@ class OverrideStreamerReader(IReader):
 
     def data(self):
         # Stage 4 — return raw numpy arrays
-        return (np.frombuffer(self.m_ints.tobytes(), dtype="i4"),
-                np.frombuffer(self.m_doubles.tobytes(), dtype="f8"))
+        return np.asarray(self.m_ints), np.asarray(self.m_doubles)
 ```
 
 ### Register and read

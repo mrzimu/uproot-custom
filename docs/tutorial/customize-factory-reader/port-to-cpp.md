@@ -218,8 +218,7 @@ class OverrideStreamerReader(IReader):
         self.m_doubles.append(buffer.read_double())  # m_double
 
     def data(self):
-        return (np.frombuffer(self.m_ints.tobytes(), dtype="i4"),
-                np.frombuffer(self.m_doubles.tobytes(), dtype="f8"))
+        return np.asarray(self.m_ints), np.asarray(self.m_doubles)
 ```
 ````
 
@@ -337,16 +336,16 @@ emphasize-lines: 2-12
 class TArrayFactory(Factory):
     def build_cpp_reader(self):
         return {
-            "i1": uproot_custom.readers.cpp.TArrayCReader,
-            "i2": uproot_custom.readers.cpp.TArraySReader,
-            "i4": uproot_custom.readers.cpp.TArrayIReader,
-            "i8": uproot_custom.readers.cpp.TArrayLReader,
-            "f": uproot_custom.readers.cpp.TArrayFReader,
-            "d": uproot_custom.readers.cpp.TArrayDReader,
-        }[self.ctype](self.name)
+            "int8": uproot_custom.readers.cpp.TArrayCReader,
+            "int16": uproot_custom.readers.cpp.TArraySReader,
+            "int32": uproot_custom.readers.cpp.TArrayIReader,
+            "int64": uproot_custom.readers.cpp.TArrayLReader,
+            "float32": uproot_custom.readers.cpp.TArrayFReader,
+            "float64": uproot_custom.readers.cpp.TArrayDReader,
+        }[self.dtype](self.name)
 
     def build_python_reader(self):
-        return uproot_custom.readers.python.TArrayReader(self.name, self.ctype)
+        return uproot_custom.readers.python.TArrayReader(self.name, self.dtype)
 
     # ... make_awkward_content and make_awkward_form remain unchanged
 ```
