@@ -243,7 +243,7 @@ class TObjArrayReader(IReader):
         self.element_reader.read_many(buffer, fSize)
 
     def data(self):
-        offsets_array = np.frombuffer(self.offsets.tobytes(), dtype="i8")
+        offsets_array = np.asarray(self.offsets)
         element_data = self.element_reader.data()
         return offsets_array, element_data
 ```
