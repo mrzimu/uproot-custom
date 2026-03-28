@@ -334,13 +334,13 @@ import uproot_custom.readers.python
 
 class TArrayFactory(Factory):
     """
-    This class reads TArray from a binary parser.
+    This class reads TArray from a binary paerser.
 
     TArray includes TArrayC, TArrayS, TArrayI, TArrayL, TArrayL64, TArrayF, and TArrayD.
-    Corresponding dtype is int8, int16, int32, int64, int64, float32, and float64.
+    Corresponding dtype is int8, int16, int32, int64, int64, float32, and float64 respectively.
     """
 
-    typenames = {
+    typename2dtype = {
         "TArrayC": "int8",
         "TArrayS": "int16",
         "TArrayI": "int32",
@@ -362,18 +362,28 @@ class TArrayFactory(Factory):
         """
         Return when `top_type_name` is in `cls.typenames`.
         """
-        if top_type_name not in cls.typenames:
+        if top_type_name not in cls.typename2dtype:
             return None
 
-        ctype = cls.typenames[top_type_name]
-        return cls(name=cur_streamer_info["fName"], ctype=ctype)
+        dtype = cls.typename2dtype[top_type_name]
+        return cls(name=cur_streamer_info["fName"], dtype=dtype)
 
-    def __init__(self, name: str, ctype: str):
+    def __init__(self, name: str, dtype: str):
         super().__init__(name)
-        self.ctype = ctype
+        self.dtype = dtype
+
+    def build_cpp_reader(self):
+        return {
+            "int8": uproot_custom.readers.cpp.TArrayCReader,
+            "int16": uproot_custom.readers.cpp.TArraySReader,
+            "int32": uproot_custom.readers.cpp.TArrayIReader,
+            "int64": uproot_custom.readers.cpp.TArrayLReader,
+            "float32": uproot_custom.readers.cpp.TArrayFReader,
+            "float64": uproot_custom.readers.cpp.TArrayDReader,
+        }[self.dtype](self.name)
 
     def build_python_reader(self):
-        return uproot_custom.readers.python.TArrayReader(self.name, self.ctype)
+        return uproot_custom.readers.python.TArrayReader(self.name, self.dtype)
 
     def make_awkward_content(self, raw_data):
         offsets, data = raw_data
@@ -383,10 +393,7 @@ class TArrayFactory(Factory):
         )
 
     def make_awkward_form(self):
-        return ak.forms.ListOffsetForm(
-            "i64",
-            ak.forms.NumpyForm(PrimitiveFactory.ctype_primitive_map[self.ctype]),
-        )
+        return ak.forms.ListOffsetForm("i64", ak.forms.NumpyForm(self.dtype))
 ```
 
 
