@@ -84,12 +84,6 @@
     <member refid="classuproot_1_1_primitive_reader_1a75d810204026eaa8b9318d45b3f745ed" kind="function"><name>read</name></member>
     <member refid="classuproot_1_1_primitive_reader_1a564fb5fa2c44e21c0c8275e92f683dde" kind="function"><name>data</name></member>
   </compound>
-  <compound refid="classuproot_1_1_primitive_reader_3_01bool_01_4" kind="class"><name>uproot::PrimitiveReader&lt; bool &gt;</name>
-    <member refid="classuproot_1_1_primitive_reader_3_01bool_01_4_1a93fa5337380a0e97e510e942bad4dd1e" kind="variable"><name>m_data</name></member>
-    <member refid="classuproot_1_1_primitive_reader_3_01bool_01_4_1ae7ec58c1c5727c5a103c3c92e4a34e65" kind="function"><name>PrimitiveReader</name></member>
-    <member refid="classuproot_1_1_primitive_reader_3_01bool_01_4_1a38c65459cbdf7827a8be3f204cd17f26" kind="function"><name>read</name></member>
-    <member refid="classuproot_1_1_primitive_reader_3_01bool_01_4_1ab4da57234f495d969d4c9cf250996501" kind="function"><name>data</name></member>
-  </compound>
   <compound refid="classuproot_1_1_s_t_l_map_reader" kind="class"><name>uproot::STLMapReader</name>
     <member refid="classuproot_1_1_s_t_l_map_reader_1adb692a36d7af74c0986017a24a3d9661" kind="variable"><name>m_with_header</name></member>
     <member refid="classuproot_1_1_s_t_l_map_reader_1ad03355666423bcedbf40608f189c3cb7" kind="variable"><name>m_objwise_or_memberwise</name></member>

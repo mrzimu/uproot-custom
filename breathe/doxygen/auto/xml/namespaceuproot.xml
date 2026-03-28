@@ -10,7 +10,6 @@
     <innerclass refid="classuproot_1_1_i_reader" prot="public">uproot::IReader</innerclass>
     <innerclass refid="classuproot_1_1_object_header_reader" prot="public">uproot::ObjectHeaderReader</innerclass>
     <innerclass refid="classuproot_1_1_primitive_reader" prot="public">uproot::PrimitiveReader</innerclass>
-    <innerclass refid="classuproot_1_1_primitive_reader_3_01bool_01_4" prot="public">uproot::PrimitiveReader&lt; bool &gt;</innerclass>
     <innerclass refid="classuproot_1_1_s_t_l_map_reader" prot="public">uproot::STLMapReader</innerclass>
     <innerclass refid="classuproot_1_1_s_t_l_seq_reader" prot="public">uproot::STLSeqReader</innerclass>
     <innerclass refid="classuproot_1_1_s_t_l_string_reader" prot="public">uproot::STLStringReader</innerclass>
@@ -519,7 +518,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1236" column="16" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1236" bodyend="1257"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1207" column="16" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1207" bodyend="1228"/>
       </memberdef>
       <memberdef kind="function" id="uproot-custom_8cc_1aff2595789f541a1ffc8527b3d574a122" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -539,7 +538,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1259" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1259" bodyend="1304"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1230" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1230" bodyend="1274"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
