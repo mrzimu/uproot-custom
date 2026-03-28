@@ -103,7 +103,7 @@ like this:
         {"factory": PrimitiveFactory,  "name": "m_int",            "dtype": "int32"},
         {"factory": STLStringFactory,  "name": "m_str"},
         {"factory": CStyleArrayFactory,"name": "m_arr_int",        "flat_size": 5},
-        {"factory": STLSeqFactory,     "name": "m_vec_double",     "element": "PrimitiveFactory(d)"},
+        {"factory": STLSeqFactory,     "name": "m_vec_double",     "element": "PrimitiveFactory(float64)"},
         {"factory": STLMapFactory,     "name": "m_map_int_double", "key/val": "Primitive/Primitive"},
         {"factory": STLMapFactory,     "name": "m_map_str_str",    "key/val": "STLString/TString"},
         {"factory": TStringFactory,    "name": "m_tstr"},
