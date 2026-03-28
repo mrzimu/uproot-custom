@@ -52,35 +52,6 @@ namespace uproot {
         py::object data() const override { return make_array( m_data ); }
     };
 
-    /**
-     * @brief Specialization of PrimitiveReader for bool type. Bools are stored as uint8_t.
-     */
-    template <>
-    class PrimitiveReader<bool> : public IReader {
-      private:
-        SharedVector<uint8_t> m_data; ///< Store the read data as uint8_t
-
-      public:
-        PrimitiveReader( string name )
-            : IReader( name ), m_data( std::make_shared<vector<uint8_t>>() ) {}
-
-        /**
-         * @brief Read a uint8_t from the buffer and store it as bool
-         *
-         * @param buffer The binary buffer to read from
-         */
-        void read( BinaryBuffer& buffer ) override {
-            m_data->push_back( buffer.read<uint8_t>() != 0 );
-        }
-
-        /**
-         * @brief Get the read data as a numpy array
-         *
-         * @return Numpy array containing the read data
-         */
-        py::object data() const override { return make_array( m_data ); }
-    };
-
     /*
     -----------------------------------------------------------------------------
     -----------------------------------------------------------------------------
@@ -1276,7 +1247,6 @@ namespace uproot {
         declare_reader<PrimitiveReader<int64_t>, string>( m, "Int64Reader" );
         declare_reader<PrimitiveReader<float>, string>( m, "FloatReader" );
         declare_reader<PrimitiveReader<double>, string>( m, "DoubleReader" );
-        declare_reader<PrimitiveReader<bool>, string>( m, "BoolReader" );
 
         // STL readers
         declare_reader<STLSeqReader, string, bool, int, SharedReader>( m, "STLSeqReader" );
