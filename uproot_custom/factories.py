@@ -341,7 +341,7 @@ class PrimitiveFactory(Factory):
     }
 
     cpp_reader_map = {
-        "bool": uproot_custom.readers.cpp.BoolReader,
+        "bool": uproot_custom.readers.cpp.UInt8Reader,
         "int8": uproot_custom.readers.cpp.Int8Reader,
         "int16": uproot_custom.readers.cpp.Int16Reader,
         "int32": uproot_custom.readers.cpp.Int32Reader,

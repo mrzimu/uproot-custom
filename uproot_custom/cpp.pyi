@@ -36,9 +36,6 @@ class Int32Reader(IReader):
 class Int64Reader(IReader):
     def __init__(self, name: str) -> None: ...
 
-class BoolReader(IReader):
-    def __init__(self, name: str) -> None: ...
-
 class DoubleReader(IReader):
     def __init__(self, name: str) -> None: ...
 
