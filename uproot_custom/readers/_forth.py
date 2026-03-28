@@ -20,16 +20,16 @@ stream_nevt_token = "__stream_nevt"
 stream_evt_end_pos_token = "__stream_evt_end_pos"
 
 DTYPE_TO_TYPECODE = {
-    "u1": "B",
-    "u2": "H",
-    "u4": "I",
-    "u8": "Q",
-    "i1": "b",
-    "i2": "h",
-    "i4": "i",
-    "i8": "q",
-    "f": "f",
-    "d": "d",
+    "uint8": "B",
+    "uint16": "H",
+    "uint32": "I",
+    "uint64": "Q",
+    "int8": "b",
+    "int16": "h",
+    "int32": "i",
+    "int64": "q",
+    "float32": "f",
+    "float64": "d",
     "bool": "B",
 }
 
@@ -474,7 +474,17 @@ class PrimitiveReader(IReader):
         self,
         name: str,
         dtype: Literal[
-            "bool", "u1", "u2", "u4", "u8", "i1", "i2", "i4", "i8", "f", "d", "float", "double"
+            "bool",
+            "uint8",
+            "uint16",
+            "uint32",
+            "uint64",
+            "int8",
+            "int16",
+            "int32",
+            "int64",
+            "float32",
+            "float64",
         ],
         buffer_holder: BufferHolder,
     ):
@@ -1293,7 +1303,7 @@ class TArrayReader(IReader):
     def __init__(
         self,
         name: str,
-        dtype: Literal["i1", "i2", "i4", "i8", "f", "d", "float", "double"],
+        dtype: Literal["int8", "int16", "int32", "int64", "float32", "float64"],
         buffer_holder: BufferHolder,
     ):
         super().__init__(name, buffer_holder)

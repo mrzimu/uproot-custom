@@ -142,8 +142,8 @@ class OverrideStreamerReader(IReader):
         self.m_doubles.append(buffer.read_double())
 
     def data(self):
-        int_array = np.frombuffer(self.m_ints.tobytes(), dtype="i4")
-        double_array = np.frombuffer(self.m_doubles.tobytes(), dtype="f8")
+        int_array = np.asarray(self.m_ints)
+        double_array = np.asarray(self.m_doubles)
         return int_array, double_array
 ```
 

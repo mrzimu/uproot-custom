@@ -21,7 +21,7 @@ def test_forth_read_data_generates_event_loop(monkeypatch):
     data = np.array([1, 2, 3], dtype=np.uint8)
     offsets = np.array([0, 1, 2, 3], dtype=np.uint32)
     forth_holder = _forth.BufferHolder()
-    forth_reader = _forth.PrimitiveReader("x", "u1", forth_holder)
+    forth_reader = _forth.PrimitiveReader("x", "uint8", forth_holder)
 
     expected = np.array([1, 2, 3], dtype=np.uint8)
     DummyForthMachine.outputs = {forth_reader.data_token: expected}
@@ -44,7 +44,7 @@ def test_forth_read_data_generates_event_loop(monkeypatch):
 
 def test_forth_cstyle_array_fixed_read_code():
     forth_holder = _forth.BufferHolder()
-    forth_element = _forth.PrimitiveReader("item", "u1", forth_holder)
+    forth_element = _forth.PrimitiveReader("item", "uint8", forth_holder)
     forth_reader = _forth.CStyleArrayReader("arr", 2, forth_element, forth_holder)
 
     codes = forth_reader.read()
@@ -54,7 +54,7 @@ def test_forth_cstyle_array_fixed_read_code():
 
 def test_forth_cstyle_array_jagged_uses_event_end_pos():
     forth_holder = _forth.BufferHolder()
-    forth_element = _forth.PrimitiveReader("item", "u1", forth_holder)
+    forth_element = _forth.PrimitiveReader("item", "uint8", forth_holder)
     forth_reader = _forth.CStyleArrayReader("arr", -1, forth_element, forth_holder)
 
     codes = forth_reader.read()

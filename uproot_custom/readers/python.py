@@ -217,30 +217,30 @@ class IReader:
 
 
 DTYPE_TO_TYPECODE = {
-    "u1": "B",
-    "u2": "H",
-    "u4": "I",
-    "u8": "Q",
-    "i1": "b",
-    "i2": "h",
-    "i4": "i",
-    "i8": "q",
-    "f": "f",
-    "d": "d",
+    "uint8": "B",
+    "uint16": "H",
+    "uint32": "I",
+    "uint64": "Q",
+    "int8": "b",
+    "int16": "h",
+    "int32": "i",
+    "int64": "q",
+    "float32": "f",
+    "float64": "d",
     "bool": "B",
 }
 
 DTYPE_TO_READER: dict[str, Callable[[BinaryBuffer], int]] = {
-    "u1": BinaryBuffer.read_uint8,
-    "u2": BinaryBuffer.read_uint16,
-    "u4": BinaryBuffer.read_uint32,
-    "u8": BinaryBuffer.read_uint64,
-    "i1": BinaryBuffer.read_int8,
-    "i2": BinaryBuffer.read_int16,
-    "i4": BinaryBuffer.read_int32,
-    "i8": BinaryBuffer.read_int64,
-    "f": BinaryBuffer.read_float,
-    "d": BinaryBuffer.read_double,
+    "uint8": BinaryBuffer.read_uint8,
+    "uint16": BinaryBuffer.read_uint16,
+    "uint32": BinaryBuffer.read_uint32,
+    "uint64": BinaryBuffer.read_uint64,
+    "int8": BinaryBuffer.read_int8,
+    "int16": BinaryBuffer.read_int16,
+    "int32": BinaryBuffer.read_int32,
+    "int64": BinaryBuffer.read_int64,
+    "float32": BinaryBuffer.read_float,
+    "float64": BinaryBuffer.read_double,
     "bool": BinaryBuffer.read_bool,
 }
 
@@ -250,7 +250,17 @@ class PrimitiveReader(IReader):
         self,
         name: str,
         dtype: Literal[
-            "bool", "u1", "u2", "u4", "u8", "i1", "i2", "i4", "i8", "float", "double"
+            "bool",
+            "uint8",
+            "uint16",
+            "uint32",
+            "uint64",
+            "int8",
+            "int16",
+            "int32",
+            "int64",
+            "float32",
+            "float64",
         ],
     ):
         super().__init__(name)
@@ -296,10 +306,10 @@ class TObjectReader(IReader):
         if not self.keep_data:
             return None
 
-        unique_id_array = np.asarray(self.unique_id, dtype="i4")
-        bits_array = np.asarray(self.bits, dtype="u4")
-        pidf_array = np.asarray(self.pidf, dtype="u2")
-        pidf_offsets_array = np.asarray(self.pidf_offsets, dtype="i8")
+        unique_id_array = np.asarray(self.unique_id)
+        bits_array = np.asarray(self.bits)
+        pidf_array = np.asarray(self.pidf)
+        pidf_offsets_array = np.asarray(self.pidf_offsets)
         return unique_id_array, bits_array, pidf_array, pidf_offsets_array
 
 
@@ -352,8 +362,8 @@ class TStringReader(IReader):
         return count
 
     def data(self):
-        data_array = np.asarray(self._data, dtype="u1")
-        offsets_array = np.asarray(self.offsets, dtype="i8")
+        data_array = np.asarray(self._data)
+        offsets_array = np.asarray(self.offsets)
         return offsets_array, data_array
 
 
@@ -471,7 +481,7 @@ class STLSeqReader(IReader):
         return count
 
     def data(self):
-        offsets_array = np.asarray(self.offsets, dtype="i8")
+        offsets_array = np.asarray(self.offsets)
         element_data = self.element_reader.data()
         return offsets_array, element_data
 
@@ -599,7 +609,7 @@ class STLMapReader(IReader):
         return self.read_many(buffer, count)
 
     def data(self):
-        offsets_array = np.asarray(self.offsets, dtype="i8")
+        offsets_array = np.asarray(self.offsets)
         key_data = self.key_reader.data()
         value_data = self.value_reader.data()
         return offsets_array, key_data, value_data
@@ -672,8 +682,8 @@ class STLStringReader(IReader):
         return count
 
     def data(self):
-        data_array = np.asarray(self._data, dtype="u1")
-        offsets_array = np.asarray(self.offsets, dtype="i8")
+        data_array = np.asarray(self._data)
+        offsets_array = np.asarray(self.offsets)
         return offsets_array, data_array
 
 
@@ -681,7 +691,7 @@ class TArrayReader(IReader):
     def __init__(
         self,
         name: str,
-        dtype: Literal["i1", "i2", "i4", "i8", "float", "double"],
+        dtype: Literal["int8", "int16", "int32", "int64", "float32", "float64"],
     ):
         super().__init__(name)
         self.dtype = dtype
@@ -698,8 +708,8 @@ class TArrayReader(IReader):
             self._data.append(self.buffer_reader(buffer))
 
     def data(self):
-        offsets_array = np.asarray(self.offsets, dtype="i8")
-        data_array = np.asarray(self._data, dtype=self.dtype)
+        offsets_array = np.asarray(self.offsets)
+        data_array = np.asarray(self._data)
         return offsets_array, data_array
 
 
@@ -844,7 +854,7 @@ class CStyleArrayReader(IReader):
         if self.flat_size >= 0:
             return self.element_reader.data()
         else:
-            offsets_array = np.asarray(self.offsets, dtype="i8")
+            offsets_array = np.asarray(self.offsets)
             element_data = self.element_reader.data()
             return offsets_array, element_data
 

@@ -12,23 +12,45 @@ from numba.experimental import jitclass
 
 if sys.version_info > (3, 9):
     DTYPE: TypeAlias = Literal[
-        "bool", "u1", "u2", "u4", "u8", "i1", "i2", "i4", "i8", "float", "double"
+        "bool",
+        "uint8",
+        "uint16",
+        "uint32",
+        "uint64",
+        "int8",
+        "int16",
+        "int32",
+        "int64",
+        "float32",
+        "float64",
     ]
 else:
-    DTYPE = Literal["bool", "u1", "u2", "u4", "u8", "i1", "i2", "i4", "i8", "float", "double"]
+    DTYPE = Literal[
+        "bool",
+        "uint8",
+        "uint16",
+        "uint32",
+        "uint64",
+        "int8",
+        "int16",
+        "int32",
+        "int64",
+        "float32",
+        "float64",
+    ]
 
 _dtype_to_numbatype = {
     "bool": "numba.types.uint8",
-    "u1": "numba.types.uint8",
-    "u2": "numba.types.uint16",
-    "u4": "numba.types.uint32",
-    "u8": "numba.types.uint64",
-    "i1": "numba.types.int8",
-    "i2": "numba.types.int16",
-    "i4": "numba.types.int32",
-    "i8": "numba.types.int64",
-    "float": "numba.types.float32",
-    "double": "numba.types.float64",
+    "uint8": "numba.types.uint8",
+    "uint16": "numba.types.uint16",
+    "uint32": "numba.types.uint32",
+    "uint64": "numba.types.uint64",
+    "int8": "numba.types.int8",
+    "int16": "numba.types.int16",
+    "int32": "numba.types.int32",
+    "int64": "numba.types.int64",
+    "float32": "numba.types.float32",
+    "float64": "numba.types.float64",
 }
 
 kNewClassTag = 0xFFFFFFFF
@@ -464,16 +486,16 @@ class PrimitiveReader(IReader):
 
         self.stream_method = {
             "bool": "read_uint8",
-            "u1": "read_uint8",
-            "u2": "read_uint16",
-            "u4": "read_uint32",
-            "u8": "read_uint64",
-            "i1": "read_int8",
-            "i2": "read_int16",
-            "i4": "read_int32",
-            "i8": "read_int64",
-            "float": "read_float",
-            "double": "read_double",
+            "uint8": "read_uint8",
+            "uint16": "read_uint16",
+            "uint32": "read_uint32",
+            "uint64": "read_uint64",
+            "int8": "read_int8",
+            "int16": "read_int16",
+            "int32": "read_int32",
+            "int64": "read_int64",
+            "float32": "read_float",
+            "float64": "read_double",
         }[self.dtype]
 
     def read(self) -> str:
@@ -498,10 +520,10 @@ class TObjectReader(IReader):
         self.pidf_offsets_id = self.get_attr_id("pidf_offsets")
 
         if self.keep_data:
-            self.declare_buffer(self.unique_id_id, "i4")
-            self.declare_buffer(self.bits_id, "u4")
-            self.declare_buffer(self.pidf_id, "u2")
-            self.declare_buffer(self.pidf_offsets_id, "i8")
+            self.declare_buffer(self.unique_id_id, "int32")
+            self.declare_buffer(self.bits_id, "uint32")
+            self.declare_buffer(self.pidf_id, "uint16")
+            self.declare_buffer(self.pidf_offsets_id, "int64")
             self.declare_init(f"self.{self.pidf_offsets_id}.append(0)")
 
     def read(self) -> str:
@@ -554,8 +576,8 @@ class TStringReader(IReader):
         self.content_id = self.get_attr_id("content")
         self.offsets_id = self.get_attr_id("offsets")
 
-        self.declare_buffer(self.content_id, "u1")
-        self.declare_buffer(self.offsets_id, "i8")
+        self.declare_buffer(self.content_id, "uint8")
+        self.declare_buffer(self.offsets_id, "int64")
         self.declare_init(f"self.{self.offsets_id}.append(0)")
 
     def read(self):
@@ -649,7 +671,7 @@ class STLSeqReader(IReader):
         self.read_body_id = self.get_attr_id("read_body")
         self.check_objwise_memberwise_id = self.get_attr_id("check_objwise_memberwise")
 
-        self.declare_buffer(self.offsets_id, "i8")
+        self.declare_buffer(self.offsets_id, "int64")
         self.declare_init(f"self.{self.offsets_id}.append(0)")
 
     def register_context(self):
@@ -794,7 +816,7 @@ class STLMapReader(IReader):
         self.read_body_id = self.get_attr_id("read_body")
         self.check_objwise_memberwise_id = self.get_attr_id("check_objwise_memberwise")
 
-        self.declare_buffer(self.offsets_id, "i8")
+        self.declare_buffer(self.offsets_id, "int64")
         self.declare_init(f"self.{self.offsets_id}.append(0)")
 
     def register_context(self):
@@ -936,8 +958,8 @@ class STLStringReader(IReader):
         self.offsets_id = self.get_attr_id("offsets")
         self.read_body_id = self.get_attr_id("read_body")
 
-        self.declare_buffer(self.data_id, "u1")
-        self.declare_buffer(self.offsets_id, "i8")
+        self.declare_buffer(self.data_id, "uint8")
+        self.declare_buffer(self.offsets_id, "int64")
         self.declare_init(f"self.{self.offsets_id}.append(0)")
 
     def register_context(self):
@@ -1023,25 +1045,25 @@ class TArrayReader(IReader):
         self,
         name: str,
         context: CompilationContext,
-        dtype: Literal["i1", "i2", "i4", "i8", "float", "double"],
+        dtype: Literal["int8", "int16", "int32", "int64", "float32", "float64"],
     ):
         super().__init__(name, context)
 
         self.dtype = dtype
         self.stream_method = {
-            "i1": "read_int8",
-            "i2": "read_int16",
-            "i4": "read_int32",
-            "i8": "read_int64",
-            "float": "read_float",
-            "double": "read_double",
+            "int8": "read_int8",
+            "int16": "read_int16",
+            "int32": "read_int32",
+            "int64": "read_int64",
+            "float32": "read_float",
+            "float64": "read_double",
         }[self.dtype]
 
         self.data_id = self.get_attr_id("data")
         self.offsets_id = self.get_attr_id("offsets")
 
         self.declare_buffer(self.data_id, self.dtype)
-        self.declare_buffer(self.offsets_id, "i8")
+        self.declare_buffer(self.offsets_id, "int64")
         self.declare_init(f"self.{self.offsets_id}.append(0)")
 
     def read(self):
@@ -1194,7 +1216,7 @@ class CStyleArrayReader(IReader):
         self.offsets_id = self.get_attr_id("offsets")
 
         if self.flat_size < 0:
-            self.declare_buffer(self.offsets_id, "i8")
+            self.declare_buffer(self.offsets_id, "int64")
             self.declare_init(f"self.{self.offsets_id}.append(0)")
 
     def register_context(self):
@@ -1310,16 +1332,16 @@ def read_data(
     for buffer_id, buffer_dtype in ctx.buffer_meta.items():
         transform_func = {
             "bool": list_to_array_uint8,
-            "u1": list_to_array_uint8,
-            "u2": list_to_array_uint16,
-            "u4": list_to_array_uint32,
-            "u8": list_to_array_uint64,
-            "i1": list_to_array_int8,
-            "i2": list_to_array_int16,
-            "i4": list_to_array_int32,
-            "i8": list_to_array_int64,
-            "float": list_to_array_float32,
-            "double": list_to_array_float64,
+            "uint8": list_to_array_uint8,
+            "uint16": list_to_array_uint16,
+            "uint32": list_to_array_uint32,
+            "uint64": list_to_array_uint64,
+            "int8": list_to_array_int8,
+            "int16": list_to_array_int16,
+            "int32": list_to_array_int32,
+            "int64": list_to_array_int64,
+            "float32": list_to_array_float32,
+            "float64": list_to_array_float64,
         }[buffer_dtype]
         ctx.buffers[buffer_id] = transform_func(getattr(compiled_reader, buffer_id))
 
