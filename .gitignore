@@ -206,4 +206,8 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
+# Versioneer
 _version.py
+
+# Claude
+.claude

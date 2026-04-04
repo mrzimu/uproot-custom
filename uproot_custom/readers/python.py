@@ -5,15 +5,18 @@ import shutil
 import struct
 import textwrap
 from array import array
-from typing import Any, Callable, Literal
+from dataclasses import dataclass
+from typing import Any, Callable, Literal, Optional
 
 import numpy as np
 from numpy.typing import NDArray
 
 kNewClassTag = 0xFFFFFFFF
 kByteCountMask = 0x40000000
+kClassMask = 0x80000000
 kIsReferenced = 1 << 4
 kStreamedMemberwise = 1 << 14
+kMapOffset = 2
 
 
 def debug_print(*args, **kwargs):
@@ -24,17 +27,33 @@ if "UPROOT_DEBUG" in os.environ:
     debug_print = print
 
 
+@dataclass
+class _Reference:
+    type: Literal["object", "class"]
+    class_name: Optional[str] = None
+    object_index: Optional[int] = None
+
+
 class BinaryBuffer:
     def __init__(
         self,
         data: NDArray[np.uint8],
         offsets: NDArray[np.uint32],
+        initial_cursor_position: int,
         repr_nbytes: int = 50,
     ):
+        if isinstance(data, bytes):
+            data = np.frombuffer(data, dtype=np.uint8)
+
         self.data = data
         self.offsets = offsets
         self.cursor = 0
         self.repr_nbytes = repr_nbytes
+
+        # Store the initial cursor position for reference (e.g., for calculating relative positions)
+        self.initial_cursor_position = initial_cursor_position
+
+        self.refs: dict[int, _Reference] = {}
 
     @property
     def entries(self):
@@ -109,7 +128,9 @@ class BinaryBuffer:
         start = self.cursor
         while self.data[self.cursor] != 0:
             self.cursor += 1
-        return self.data[start : self.cursor].decode()
+        res = self.data[start : self.cursor].tobytes().decode()
+        self.cursor += 1  # Skip the null terminator
+        return res
 
     def read_obj_header(self):
         self.read_fNBytes()
@@ -126,7 +147,7 @@ class BinaryBuffer:
 
         start = self.cursor
         self.cursor += length
-        return self.data[start : self.cursor].decode()
+        return self.data[start : self.cursor].tobytes().decode()
 
     def skip(self, n: int):
         self.cursor += n
@@ -782,8 +803,134 @@ class AnyClassReader(IReader):
         return [reader.data() for reader in self.element_readers]
 
 
+class AnyPointerReader(IReader):
+    """
+    Reads objects stored via ROOT's read_object_any protocol.
+
+    This handles both:
+    - True pointers (kObjectP=64, kAnyP=69): full read_object_any with null/reference support
+    - Object headers (kNewClassTag + classname before object data)
+
+    Binary format (read_object_any):
+      1. bcnt (uint32) — if kByteCountMask set: versioned, then read tag (uint32)
+                          otherwise: unversioned, tag = bcnt
+      2. tag:
+         - tag == 0: null pointer
+         - tag & kClassMask == 0 (nonzero): reference to previously-read object (skip bytes)
+         - tag == kNewClassTag: null-terminated classname + object data
+         - tag & kClassMask != 0: reference to known class, new object data
+    """
+
+    def __init__(self, name: str, element_reader: IReader):
+        super().__init__(name)
+
+        self.element_reader = element_reader
+        self.object_counter = 0  # Counter for assigning object indexes to true pointers
+        self.object_indexes = array("q")
+
+        self.class_name = None
+
+    def read(self, buffer):
+        start_pos = buffer.cursor
+        ref_begin = start_pos + buffer.initial_cursor_position
+        fNBytes = buffer.read_uint32()
+
+        if (fNBytes & kByteCountMask) == 0 or fNBytes == kNewClassTag:
+            fVersion = 0
+            ref_begin = 0
+            fTag = fNBytes
+            fNBytes = 0
+        else:
+            fVersion = 1
+            fTag = buffer.read_uint32()
+            fNBytes &= ~kByteCountMask
+
+        end_pos = start_pos + 4 + fNBytes if fVersion > 0 else start_pos + 4
+
+        if fTag & kClassMask == 0:
+            if fTag == 0:
+                assert (
+                    buffer.cursor == end_pos
+                ), f"AnyPointerReader({self.name}): Invalid null pointer format! Expect to read 0 bytes, but read {buffer.cursor - start_pos} bytes."
+                return  # Null pointer, nothing to read
+
+            elif fTag == 1:
+                raise NotImplementedError("AnyPointerReader: kAnyP (tag=1) is not supported")
+
+            elif fTag not in buffer.refs:
+                buffer.cursor = end_pos  # Skip unknown reference
+                return
+
+            else:
+                ref_idx = buffer.refs[fTag].object_index
+                self.object_indexes.append(ref_idx)
+
+                assert (
+                    buffer.cursor == end_pos
+                ), f"AnyPointerReader({self.name}): Invalid null pointer format! Expect to read 0 bytes, but read {buffer.cursor - start_pos} bytes."
+                return
+
+        elif fTag == kNewClassTag:
+            class_name = buffer.read_null_terminated_string()
+            if self.class_name is None:
+                self.class_name = class_name
+            else:
+                assert self.class_name == class_name, (
+                    f"AnyPointerReader({self.name}): Inconsistent class names for multiple objects! "
+                    f"Expected {self.class_name}, but got {class_name}"
+                )
+
+            ref_key = ref_begin + kMapOffset if fVersion > 0 else len(buffer.refs) + 1
+            buffer.refs[ref_key] = _Reference(type="class", class_name=class_name)
+
+            self.element_reader.read(buffer)
+            self.object_indexes.append(self.object_counter)
+
+            ref_key = ref_begin + kMapOffset if fVersion > 0 else len(buffer.refs) + 1
+            buffer.refs[ref_key] = _Reference(type="object", object_index=self.object_counter)
+
+            self.object_counter += 1
+
+        else:  # reference class, new object
+            cls_ref_key = fTag & (~kClassMask)
+            if cls_ref_key in buffer.refs:
+                class_name = buffer.refs[cls_ref_key].class_name
+                assert class_name == self.class_name, (
+                    f"AnyPointerReader({self.name}): Inconsistent class names for multiple objects! "
+                    f"Expected {self.class_name}, but got {class_name}"
+                )
+
+            self.element_reader.read(buffer)
+            self.object_indexes.append(self.object_counter)
+
+            obj_ref_key = ref_begin + kMapOffset if fVersion > 0 else len(buffer.refs) + 1
+            buffer.refs[obj_ref_key] = _Reference(
+                type="object", object_index=self.object_counter
+            )
+
+            self.object_counter += 1
+
+        assert (
+            buffer.cursor == end_pos
+        ), f"AnyPointerReader({self.name}): Invalid null pointer format! Expect to read 0 bytes, but read {buffer.cursor - start_pos} bytes."
+        return
+
+    def data(self):
+        element_data = self.element_reader.data()
+        object_indexes_array = np.asarray(self.object_indexes)
+        return element_data, object_indexes_array
+
+
 class ObjectHeaderReader(IReader):
     def __init__(self, name: str, element_reader: IReader):
+        import warnings
+
+        warnings.warn(
+            "ObjectHeaderReader is deprecated and will be removed in a future version. "
+            "Use BinaryBuffer.read_obj_header() directly in your reader instead.",
+            DeprecationWarning,
+        )
+
         super().__init__(name)
         self.element_reader = element_reader
 
@@ -867,8 +1014,13 @@ class EmptyReader(IReader):
         return None
 
 
-def read_data(data: NDArray[np.uint8], offsets: NDArray[np.uint32], reader: IReader):
-    buffer = BinaryBuffer(data, offsets)
+def read_data(
+    data: NDArray[np.uint8],
+    offsets: NDArray[np.uint32],
+    cursor_offset: int,
+    reader: IReader,
+):
+    buffer = BinaryBuffer(data, offsets, cursor_offset)
     for i_evt in range(buffer.entries):
         start_pos = buffer.cursor
         reader.read(buffer)

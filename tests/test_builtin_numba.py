@@ -37,20 +37,24 @@ class TestStream:
         assert stream.read_null_terminated_string() == test_str
 
 
-def test_AsCustom_numba_arrays(f_test_data, test_branches, subtests, monkeypatch):
+def test_AsCustom_numba_arrays(
+    f_test_data, test_branches_inner_backend, subtests, monkeypatch
+):
     monkeypatch.setattr(uproot_custom.factories, "reader_backend", "numba")
     assert uproot_custom.factories.reader_backend == "numba"
 
     with pytest.warns(UserWarning):
-        for sub_branch_path in test_branches:
+        for sub_branch_path in test_branches_inner_backend:
             with subtests.test(sub_branch_path=sub_branch_path):
                 f_test_data[sub_branch_path].array()
 
 
-def test_AsCustom_numba_virtual(f_test_data, test_branches, subtests, monkeypatch):
+def test_AsCustom_numba_virtual(
+    f_test_data, test_branches_inner_backend, subtests, monkeypatch
+):
     monkeypatch.setattr(uproot_custom.factories, "reader_backend", "numba")
     assert uproot_custom.factories.reader_backend == "numba"
 
-    for sub_branch_path in test_branches:
+    for sub_branch_path in test_branches_inner_backend:
         with subtests.test(sub_branch_path=sub_branch_path):
             f_test_data[sub_branch_path].arrays(virtual=True)

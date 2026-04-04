@@ -10,8 +10,8 @@
 #include <cstdint>
 #include <iostream>
 #include <memory>
-#include <sstream>
 #include <string>
+#include <variant>
 
 #if defined( _MSC_VER )
 #    include <stdlib.h>
@@ -63,14 +63,26 @@ namespace uproot {
                              << 13 ///< if object ctor succeeded but object should not be used
         };
 
+        struct RefCls {
+            std::string name;
+        };
+
+        struct RefObj {
+            int64_t index;
+        };
+
+        using Reference = std::variant<RefCls, RefObj>;
+
         /**
          * @brief Construct a BinaryBuffer from numpy arrays.
          * @param data A numpy array of uint8_t containing the raw data.
          * @param offsets A numpy array of uint32_t containing the offsets for each entry.
          */
-        BinaryBuffer( py::array_t<uint8_t> data, py::array_t<uint32_t> offsets )
+        BinaryBuffer( py::array_t<uint8_t> data, py::array_t<uint32_t> offsets,
+                      uint32_t initial_cursor_position )
             : m_data( static_cast<uint8_t*>( data.request().ptr ) )
             , m_offsets( static_cast<uint32_t*>( offsets.request().ptr ) )
+            , m_initial_cursor_offset( initial_cursor_position )
             , m_entries( offsets.request().size - 1 )
             , m_cursor( static_cast<uint8_t*>( data.request().ptr ) ) {}
 
@@ -250,6 +262,28 @@ namespace uproot {
         const uint32_t* get_offsets() const { return m_offsets; }
 
         /**
+         * @brief Get the index object
+         *
+         * @return const uint32_t
+         */
+        const uint32_t get_index() const { return m_cursor - m_data; }
+
+        /**
+         * @brief Get the initial cursor offset, which is used for calculating relative
+         * offsets.
+         *
+         * @return const uint32_t
+         */
+        const uint32_t get_initial_cursor_offset() const { return m_initial_cursor_offset; }
+
+        /**
+         * @brief Get the references map, which is used for pointer reading.
+         *
+         * @return The references map.
+         */
+        std::map<uint32_t, Reference>& get_refs() { return m_refs; }
+
+        /**
          * @brief Get the number of entries.
          */
         const uint64_t entries() const { return m_entries; }
@@ -265,10 +299,15 @@ namespace uproot {
         }
 
       private:
-        uint8_t* m_cursor;         ///< current cursor position
-        const uint64_t m_entries;  ///< number of entries
-        const uint8_t* m_data;     ///< raw data pointer
-        const uint32_t* m_offsets; ///< entry offsets pointer
+        uint8_t* m_cursor;                      ///< current cursor position
+        const uint64_t m_entries;               ///< number of entries
+        const uint8_t* m_data;                  ///< raw data pointer
+        const uint32_t* m_offsets;              ///< entry offsets pointer
+        const uint32_t m_initial_cursor_offset; ///< initial cursor position, used for
+                                                ///< calculating relative offsets
+
+        std::map<uint32_t, Reference> m_refs; ///< offset -> reference, used for pointer
+                                              ///< reading
     };
 
     /*

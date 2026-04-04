@@ -175,6 +175,7 @@ class AsCustom(uproot.interpretation.custom.CustomInterpretation):
             self._branch,
             data,
             byte_offsets,
+            cursor_offset,
             cls_streamer_info,
             self.all_streamer_info,
             full_branch_path,

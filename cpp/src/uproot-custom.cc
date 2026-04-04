@@ -5,6 +5,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/pytypes.h>
 #include <stdexcept>
+#include <variant>
 #include <vector>
 
 #include "uproot-custom/uproot-custom.hh"
@@ -986,6 +987,156 @@ namespace uproot {
     -----------------------------------------------------------------------------
     */
 
+    class AnyPointerReader : public IReader {
+      private:
+        SharedReader m_element_reader; ///< Reader for the object content.
+
+        int64_t m_object_counter{ 0 }; ///< Counter for the number of objects read, used for
+                                       ///< generating indexes
+
+        SharedVector<int64_t> m_object_indexes; ///< Store the indexes of the objects read
+
+        string m_class_name{}; ///< Store the class name of the object
+
+      public:
+        AnyPointerReader( string name, SharedReader element_reader )
+            : IReader( name )
+            , m_element_reader( element_reader )
+            , m_object_indexes( std::make_shared<vector<int64_t>>() ) {}
+
+        void check_cursor_position( BinaryBuffer& buffer, const uint32_t expected_nbytes,
+                                    const uint8_t* expected_pos ) {
+            if ( buffer.get_cursor() != expected_pos )
+            {
+                stringstream msg;
+                msg << "AnyPointerReader(" << name() << "): Invalid read length! Expect "
+                    << expected_nbytes << " bytes, got " << buffer.get_cursor() - expected_pos
+                    << " bytes.";
+                throw std::runtime_error( msg.str() );
+            }
+        }
+
+        void read( BinaryBuffer& buffer ) override {
+            auto start_ptr     = buffer.get_cursor();
+            uint32_t start_pos = buffer.get_index();
+            uint32_t ref_begin = start_pos + buffer.get_initial_cursor_offset();
+            auto fNBytes       = buffer.read<uint32_t>();
+
+            int16_t fVersion;
+            uint32_t fTag;
+
+            if ( ( fNBytes & kByteCountMask ) == 0 || fNBytes == kNewClassTag )
+            {
+                fVersion  = 0;
+                ref_begin = 0;
+                fTag      = fNBytes;
+                fNBytes   = 0;
+            }
+            else
+            {
+                fVersion = 1;
+                fTag     = buffer.read<uint32_t>();
+                fNBytes &= ~kByteCountMask;
+            }
+
+            auto end_ptr = fVersion > 0 ? start_ptr + 4 + fNBytes : start_ptr + 4;
+
+            if ( ( fTag & kClassMask ) == 0 )
+            {
+                if ( fTag == 0 )
+                {
+                    check_cursor_position( buffer, fNBytes, end_ptr );
+                    return; // null pointer, no content to read
+                }
+                else if ( fTag == 1 )
+                    throw std::runtime_error( "AnyPointerReader(" + name() +
+                                              "): Unsupported fTag value 1" );
+                else if ( buffer.get_refs().find( fTag ) == buffer.get_refs().end() )
+                {
+                    // skip unknown reference
+                    auto nskip = end_ptr - buffer.get_cursor();
+                    buffer.skip( nskip );
+                    check_cursor_position( buffer, fNBytes, end_ptr );
+                    return;
+                }
+                else
+                {
+                    auto ref     = buffer.get_refs().at( fTag );
+                    auto ref_idx = std::get<BinaryBuffer::RefObj>( ref ).index;
+                    m_object_indexes->push_back( ref_idx );
+                    check_cursor_position( buffer, fNBytes, end_ptr );
+                    return;
+                }
+            }
+            else if ( fTag == kNewClassTag )
+            {
+                auto class_name = buffer.read_null_terminated_string();
+                if ( m_class_name.empty() ) m_class_name = class_name;
+                else if ( m_class_name != class_name )
+                {
+                    stringstream msg;
+                    msg << "AnyPointerReader(" << name()
+                        << "): Inconsistent class names! Expect " << m_class_name << ", got "
+                        << class_name;
+                    throw std::runtime_error( msg.str() );
+                }
+
+                auto& buf_refs = buffer.get_refs();
+
+                auto ref_key = fVersion > 0 ? ref_begin + kMapOffset : buf_refs.size() + 1;
+                buf_refs[ref_key] = BinaryBuffer::RefCls{ class_name };
+
+                m_element_reader->read( buffer );
+                m_object_indexes->push_back( m_object_counter );
+
+                ref_key = fVersion > 0 ? ref_begin + kMapOffset : buf_refs.size() + 1;
+                buf_refs[ref_key] = BinaryBuffer::RefObj{ m_object_counter };
+
+                m_object_counter++;
+            }
+            else
+            {
+                auto& buf_refs   = buffer.get_refs();
+                auto cls_ref_key = fTag & ( ~kClassMask );
+                if ( buf_refs.find( cls_ref_key ) != buf_refs.end() )
+                {
+                    auto class_name =
+                        std::get<BinaryBuffer::RefCls>( buf_refs.at( cls_ref_key ) ).name;
+                    if ( class_name != m_class_name )
+                    {
+                        stringstream msg;
+                        msg << "AnyPointerReader(" << name()
+                            << "): Inconsistent class names! Expect " << m_class_name
+                            << ", got " << class_name;
+                        throw std::runtime_error( msg.str() );
+                    }
+                }
+
+                m_element_reader->read( buffer );
+                m_object_indexes->push_back( m_object_counter );
+
+                auto obj_ref_key = fVersion > 0 ? ref_begin + kMapOffset : buf_refs.size() + 1;
+                buf_refs[obj_ref_key] = BinaryBuffer::RefObj{ m_object_counter };
+
+                m_object_counter++;
+            }
+
+            check_cursor_position( buffer, fNBytes, end_ptr );
+        }
+
+        py::object data() const override {
+            auto element_data  = m_element_reader->data();
+            auto indexes_array = make_array( m_object_indexes );
+            return py::make_tuple( element_data, indexes_array );
+        }
+    };
+
+    /*
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    -----------------------------------------------------------------------------
+    */
+
     /**
      * @brief Wrapper reader for object headers.
      */
@@ -1205,8 +1356,8 @@ namespace uproot {
      * @return (Possibly nested) numpy array containing the read data
      */
     py::object py_read_data( py::array_t<uint8_t> data, py::array_t<uint32_t> offsets,
-                             SharedReader reader ) {
-        BinaryBuffer buffer( data, offsets );
+                             uint32_t cursor_offset, SharedReader reader ) {
+        BinaryBuffer buffer( data, offsets, cursor_offset );
         for ( auto i_evt = 0; i_evt < buffer.entries(); i_evt++ )
         {
             auto start_pos = buffer.get_cursor();
@@ -1231,7 +1382,7 @@ namespace uproot {
         m.doc() = "C++ module for uproot-custom";
 
         m.def( "read_data", &py_read_data, "Read data from a binary buffer", py::arg( "data" ),
-               py::arg( "offsets" ), py::arg( "reader" ) );
+               py::arg( "offsets" ), py::arg( "cursor_offset" ), py::arg( "reader" ) );
 
         py::class_<IReader, SharedReader>( m, "IReader" )
             .def( "name", &IReader::name, "Get the name of the reader" );
@@ -1267,6 +1418,7 @@ namespace uproot {
         declare_reader<TObjectReader, string, bool>( m, "TObjectReader" );
         declare_reader<GroupReader, string, vector<SharedReader>>( m, "GroupReader" );
         declare_reader<AnyClassReader, string, vector<SharedReader>>( m, "AnyClassReader" );
+        declare_reader<AnyPointerReader, string, SharedReader>( m, "AnyPointerReader" );
         declare_reader<ObjectHeaderReader, string, SharedReader>( m, "ObjectHeaderReader" );
         declare_reader<CStyleArrayReader, string, int64_t, SharedReader>(
             m, "CStyleArrayReader" );

@@ -5,6 +5,7 @@ import uproot
 from uproot_custom.AsCustom import AsCustom
 from uproot_custom.factories import (
     AnyClassFactory,
+    AnyPointerFactory,
     BaseObjectFactory,
     CStyleArrayFactory,
     EmptyFactory,
@@ -29,6 +30,7 @@ uproot.register_interpretation(AsCustom)
 __all__ = [
     "AsCustom",
     "AnyClassFactory",
+    "AnyPointerFactory",
     "BaseObjectFactory",
     "CStyleArrayFactory",
     "EmptyFactory",

@@ -10,18 +10,15 @@ import awkward.index
 import numpy as np
 import uproot
 
-
+import uproot_custom.readers._forth
+import uproot_custom.readers.cpp
+import uproot_custom.readers.python
 from uproot_custom.utils import (
     get_dims_from_branch,
     get_map_key_val_typenames,
     get_sequence_element_typename,
     get_top_type_name,
 )
-
-
-import uproot_custom.readers.cpp
-import uproot_custom.readers.python
-import uproot_custom.readers._forth
 
 try:
     import uproot_custom.readers._numba
@@ -90,6 +87,7 @@ def read_branch(
     branch: uproot.TBranch,
     data: np.ndarray[np.uint8],
     offsets: np.ndarray,
+    cursor_offset: int,
     cur_streamer_info: dict,
     all_streamer_info: dict[str, list[dict]],
     item_path: str = "",
@@ -108,11 +106,11 @@ def read_branch(
 
     if reader_backend == "cpp":
         reader = factory.build_cpp_reader()
-        raw_data = uproot_custom.readers.cpp.read_data(data, offsets, reader)
+        raw_data = uproot_custom.readers.cpp.read_data(data, offsets, cursor_offset, reader)
 
     elif reader_backend == "python":
         reader = factory.build_python_reader()
-        raw_data = uproot_custom.readers.python.read_data(data, offsets, reader)
+        raw_data = uproot_custom.readers.python.read_data(data, offsets, cursor_offset, reader)
 
     elif reader_backend == "forth":
         warnings.warn(
@@ -1400,6 +1398,75 @@ class AnyClassFactory(GroupFactory):
         return uproot_custom.readers._numba.AnyClassReader(self.name, ctx, sub_readers)
 
 
+class AnyPointerFactory(Factory):
+    """
+    Handles pointer-to-object members serialized via ROOT's read_object_any protocol.
+
+    Matches:
+    - fType in {63, 64, 68, 69}
+    - fTypeName ending with "*"
+    """
+
+    # kObjectp=63, kObjectP=64, kAnyp=68, kAnyP=69
+    _POINTER_FTYPES = {63, 64, 68, 69}
+
+    @classmethod
+    def priority(cls):
+        return 15
+
+    @classmethod
+    def build_factory(
+        cls,
+        top_type_name,
+        cur_streamer_info,
+        all_streamer_info,
+        item_path,
+        **kwargs,
+    ):
+        fTypeName = cur_streamer_info.get("fTypeName", "")
+        fType = cur_streamer_info.get("fType", -1)
+
+        if not fTypeName.endswith("*") and fType not in cls._POINTER_FTYPES:
+            return None
+
+        # Build sub-factory for the pointed-to class
+        pointee_typename = fTypeName.rstrip("*").strip()
+        pointee_streamer_info = {
+            "fName": cur_streamer_info["fName"],
+            "fTypeName": pointee_typename,
+        }
+        element_factory = build_factory(pointee_streamer_info, all_streamer_info, item_path)
+
+        return cls(
+            name=cur_streamer_info["fName"],
+            element_factory=element_factory,
+        )
+
+    def __init__(self, name: str, element_factory: Factory):
+        super().__init__(name)
+        self.element_factory = element_factory
+
+    def build_cpp_reader(self):
+        element_reader = self.element_factory.build_cpp_reader()
+        return uproot_custom.readers.cpp.AnyPointerReader(self.name, element_reader)
+
+    def build_python_reader(self):
+        element_reader = self.element_factory.build_python_reader()
+        return uproot_custom.readers.python.AnyPointerReader(self.name, element_reader)
+
+    def make_awkward_content(self, raw_data):
+        element_data, element_idxs = raw_data
+        element_content = self.element_factory.make_awkward_content(element_data)
+        return awkward.contents.IndexedArray(
+            awkward.index.Index64(element_idxs),
+            element_content,
+        )
+
+    def make_awkward_form(self):
+        inner_form = self.element_factory.make_awkward_form()
+        return awkward.forms.IndexedForm("i64", inner_form)
+
+
 class ObjectHeaderFactory(Factory):
     """
     This class reads object header:
@@ -1409,6 +1476,8 @@ class ObjectHeaderFactory(Factory):
 
     If will be called automatically if no other factory matches.
     Also, it can be manually used to read object header.
+
+    Deprecated: This factory is now a special case of AnyPointerFactory with is_true_pointer=False.
     """
 
     @classmethod
@@ -1429,6 +1498,14 @@ class ObjectHeaderFactory(Factory):
     def __init__(self, name: str, element_factory: Factory):
         super().__init__(name)
         self.element_factory = element_factory
+
+        import warnings
+
+        warnings.warn(
+            "ObjectHeaderFactory is deprecated and will be removed in future versions. "
+            "Please use AnyPointerFactory with is_true_pointer=False instead.",
+            FutureWarning,
+        )
 
     def build_cpp_reader(self):
         element_reader = self.element_factory.build_cpp_reader()
@@ -1518,6 +1595,6 @@ registered_factories |= {
     GroupFactory,
     BaseObjectFactory,
     AnyClassFactory,
-    ObjectHeaderFactory,
+    AnyPointerFactory,
     EmptyFactory,
 }
