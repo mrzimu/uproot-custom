@@ -15,5 +15,6 @@ find_package_handle_standard_args(uproot-custom
 if(uproot-custom_FOUND AND NOT TARGET uproot-custom)
     add_library(uproot-custom INTERFACE IMPORTED)
     target_include_directories(uproot-custom INTERFACE ${UPROOT_CUSTOM_INCLUDE_DIR})
+    target_compile_features(uproot-custom INTERFACE cxx_std_17)
     message(DEBUG "[DEBUG] Target uproot-custom created")
 endif()
