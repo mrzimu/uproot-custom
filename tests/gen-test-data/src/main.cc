@@ -5,6 +5,7 @@
 #include "TCStyleArray.hh"
 #include "TComplicatedSTL.hh"
 #include "TNestedSTL.hh"
+#include "TPointers.hh"
 #include "TRootObjects.hh"
 #include "TSTLArray.hh"
 #include "TSTLMap.hh"
@@ -54,6 +55,9 @@ int main() {
     TComplicatedSTL complicated_stl;
     t.Branch( "complicated_stl", &complicated_stl );
 
+    TPointers pointers;
+    t.Branch( "pointers", &pointers );
+
     for ( int i = 0; i < 10; i++ )
     {
         basic_types      = TBasicTypes();
@@ -68,6 +72,7 @@ int main() {
         nested_stl       = TNestedSTL();
         simple_obj       = TSimpleObject();
         complicated_stl  = TComplicatedSTL();
+        pointers         = TPointers( i );
 
         t.Fill();
     }

@@ -6,6 +6,7 @@ endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(PYBIND11_NEWPYTHON ON)
+set(CMAKE_CXX_STANDARD 17)
 
 project(${SKBUILD_PROJECT_NAME}
     VERSION ${SKBUILD_PROJECT_VERSION}
@@ -15,7 +16,6 @@ project(${SKBUILD_PROJECT_NAME}
 find_package(pybind11 REQUIRED)
 
 # Add the uproot-custom module
-
 pybind11_add_module(cpp
     src/uproot-custom.cc
 )

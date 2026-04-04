@@ -16,4 +16,6 @@
 #    pragma link C++ class TSTLSeqWithObj + ;
 #    pragma link C++ class TSTLMapWithObj + ;
 #    pragma link C++ class TNestedSTL + ;
+#    pragma link C++ class TPointers + ;
+#    pragma link C++ class TestPointerStruct + ;
 #endif

@@ -1182,7 +1182,7 @@ class ObjectHeaderReader(IReader):
             start_pos = stream.cursor
             end_pos = stream.cursor + fNBytes
 
-            fTag = stream.read_int32()
+            fTag = stream.read_uint32()
             if fTag == {kNewClassTag}:
                 stream.skip_null_terminated_string()
 

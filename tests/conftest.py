@@ -5,7 +5,7 @@ import uproot
 
 import uproot_custom
 
-_test_branches = {
+_test_branches_base = {
     "/my_tree:basic_types/m_bool",
     "/my_tree:basic_types/m_char",
     "/my_tree:basic_types/m_schar",
@@ -305,6 +305,10 @@ _test_branches = {
     "/my_tree:complicated_stl/m_map_vec_list_set_int/m_map_vec_list_set_int.second",
 }
 
+_test_branches = _test_branches_base | {
+    "/my_tree:pointers/m_vec_ptr",
+}
+
 uproot_custom.AsCustom.target_branches |= _test_branches
 
 
@@ -326,3 +330,8 @@ def f_test_data(test_data_path):
 @pytest.fixture(scope="session")
 def test_branches():
     yield _test_branches
+
+
+@pytest.fixture(scope="session")
+def test_branches_inner_backend():
+    yield _test_branches_base

@@ -6,6 +6,7 @@ This file contains only type hints without implementations.
 
 from uproot_custom.cpp import (
     AnyClassReader,
+    AnyPointerReader,
     CStyleArrayReader,
     DoubleReader,
     EmptyReader,
@@ -37,6 +38,7 @@ from uproot_custom.cpp import (
 
 __all__ = [
     "AnyClassReader",
+    "AnyPointerReader",
     "CStyleArrayReader",
     "DoubleReader",
     "EmptyReader",

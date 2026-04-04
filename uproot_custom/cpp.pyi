@@ -106,6 +106,13 @@ class AnyClassReader(IReader):
         sub_readers: list[IReader],
     ) -> None: ...
 
+class AnyPointerReader(IReader):
+    def __init__(
+        self,
+        name: str,
+        element_reader: IReader,
+    ) -> None: ...
+
 class ObjectHeaderReader(IReader):
     def __init__(
         self,
@@ -125,4 +132,4 @@ class CStyleArrayReader(IReader):
 class EmptyReader(IReader):
     def __init__(self, name: str) -> None: ...
 
-def read_data(data: np.ndarray, offsets: np.ndarray, reader: IReader): ...
+def read_data(data: np.ndarray, offsets: np.ndarray, cursor_offset: int, reader: IReader): ...
