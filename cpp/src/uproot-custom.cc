@@ -1,12 +1,14 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
-#include <pybind11/gil.h>
-#include <pybind11/pybind11.h>
-#include <pybind11/pytypes.h>
+#include <sstream>
 #include <stdexcept>
 #include <variant>
 #include <vector>
+
+#include <pybind11/gil.h>
+#include <pybind11/pybind11.h>
+#include <pybind11/pytypes.h>
 
 #include "uproot-custom/uproot-custom.hh"
 
@@ -1010,7 +1012,9 @@ namespace uproot {
             {
                 stringstream msg;
                 msg << "AnyPointerReader(" << name() << "): Invalid read length! Expect "
-                    << expected_nbytes << " bytes, got " << buffer.get_cursor() - expected_pos
+                    << expected_nbytes << " bytes, got "
+                    << static_cast<int64_t>( expected_nbytes ) -
+                           ( expected_pos - buffer.get_cursor() )
                     << " bytes.";
                 throw std::runtime_error( msg.str() );
             }
@@ -1046,7 +1050,8 @@ namespace uproot {
                 if ( fTag == 0 )
                 {
                     check_cursor_position( buffer, fNBytes, end_ptr );
-                    return; // null pointer, no content to read
+                    m_object_indexes->push_back( -1 ); // use -1 to indicate null pointer
+                    return;
                 }
                 else if ( fTag == 1 )
                     throw std::runtime_error( "AnyPointerReader(" + name() +

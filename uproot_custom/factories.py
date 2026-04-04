@@ -1476,8 +1476,6 @@ class ObjectHeaderFactory(Factory):
 
     If will be called automatically if no other factory matches.
     Also, it can be manually used to read object header.
-
-    Deprecated: This factory is now a special case of AnyPointerFactory with is_true_pointer=False.
     """
 
     @classmethod
@@ -1503,7 +1501,7 @@ class ObjectHeaderFactory(Factory):
 
         warnings.warn(
             "ObjectHeaderFactory is deprecated and will be removed in future versions. "
-            "Please use AnyPointerFactory with is_true_pointer=False instead.",
+            "Please use AnyPointerFactory nstead.",
             FutureWarning,
         )
 

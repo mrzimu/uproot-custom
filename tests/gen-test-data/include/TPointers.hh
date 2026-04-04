@@ -24,12 +24,14 @@ class TPointers : public TObject {
     TPointers() {
         for ( int i = 0; i < 3; i++ ) { m_vec_ptr.push_back( new TestPointerStruct( i ) ); }
         for ( int i = 0; i < 3; i++ ) { m_vec_ptr.push_back( m_vec_ptr[i] ); }
+        m_vec_ptr.push_back( nullptr );
     }
 
     TPointers( int i ) {
         for ( int j = 0; j < 3; j++ )
         { m_vec_ptr.push_back( new TestPointerStruct( i * 10 + j ) ); }
         for ( int j = 0; j < 3; j++ ) { m_vec_ptr.push_back( m_vec_ptr[j] ); }
+        m_vec_ptr.push_back( nullptr );
     }
 
     ClassDef( TPointers, 1 );

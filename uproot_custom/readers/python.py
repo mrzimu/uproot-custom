@@ -851,8 +851,9 @@ class AnyPointerReader(IReader):
             if fTag == 0:
                 assert (
                     buffer.cursor == end_pos
-                ), f"AnyPointerReader({self.name}): Invalid null pointer format! Expect to read 0 bytes, but read {buffer.cursor - start_pos} bytes."
-                return  # Null pointer, nothing to read
+                ), f"AnyPointerReader({self.name}): Invalid read length! Expect to read 0 bytes, but read {buffer.cursor - start_pos} bytes."
+                self.object_indexes.append(-1)  # Use -1 to indicate null pointer
+                return
 
             elif fTag == 1:
                 raise NotImplementedError("AnyPointerReader: kAnyP (tag=1) is not supported")
@@ -867,7 +868,7 @@ class AnyPointerReader(IReader):
 
                 assert (
                     buffer.cursor == end_pos
-                ), f"AnyPointerReader({self.name}): Invalid null pointer format! Expect to read 0 bytes, but read {buffer.cursor - start_pos} bytes."
+                ), f"AnyPointerReader({self.name}): Invalid read length! Expect to read 0 bytes, but read {buffer.cursor - start_pos} bytes."
                 return
 
         elif fTag == kNewClassTag:
@@ -912,7 +913,7 @@ class AnyPointerReader(IReader):
 
         assert (
             buffer.cursor == end_pos
-        ), f"AnyPointerReader({self.name}): Invalid null pointer format! Expect to read 0 bytes, but read {buffer.cursor - start_pos} bytes."
+        ), f"AnyPointerReader({self.name}): Invalid read length! Expect to read 0 bytes, but read {buffer.cursor - start_pos} bytes."
         return
 
     def data(self):
