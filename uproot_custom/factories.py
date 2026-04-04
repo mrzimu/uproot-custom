@@ -1457,14 +1457,14 @@ class AnyPointerFactory(Factory):
     def make_awkward_content(self, raw_data):
         element_data, element_idxs = raw_data
         element_content = self.element_factory.make_awkward_content(element_data)
-        return awkward.contents.IndexedArray(
+        return awkward.contents.IndexedOptionArray(
             awkward.index.Index64(element_idxs),
             element_content,
         )
 
     def make_awkward_form(self):
         inner_form = self.element_factory.make_awkward_form()
-        return awkward.forms.IndexedForm("i64", inner_form)
+        return awkward.forms.IndexedOptionForm("i64", inner_form)
 
 
 class ObjectHeaderFactory(Factory):
