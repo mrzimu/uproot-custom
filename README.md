@@ -46,6 +46,11 @@ This mechanism is implemented as `AsCustom` interpretation. This makes uproot-cu
 > [!NOTE]
 > Uproot-custom does not provide a full reimplementation of `ROOT`'s TTree I/O system. Users are expected to implement their own Factory / Reader for their custom classes that built-in factories cannot handle.
 
+## System Requirements
+
+- **C++17 compatible compiler**: Required for building C++ readers and the uproot-custom extension module. The CMake configuration sets `CMAKE_CXX_STANDARD 17`.
+- **Python 3.9+**: Uproot-custom supports Python 3.9 through 3.13.
+
 ## Documentation
 
 View the [documentation](https://mrzimu.github.io/uproot-custom/) for more details about customizing your own `reader`/`factory`, the architecture of uproot-custom, and build-only dependencies (e.g., `pybind11` is needed only at build time and should not be present in the runtime environment).
