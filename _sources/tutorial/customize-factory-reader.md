@@ -30,7 +30,8 @@ class: note
 ---
 - A Python toolchain capable of building Python packages (e.g. `pip`,
   `setuptools`, `scikit-build-core`)
-- (Optional, for C++ backend) A C++17 compiler and CMake ≥ 3.20
+- **C++17 compatible compiler** (e.g., GCC ≥ 7, Clang ≥ 5, MSVC ≥ 19.15) for building C++ readers
+- CMake ≥ 3.20 for building native extensions
 ```
 
 ## Tutorial roadmap

@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structuproot_1_1_binary_buffer_1_1_ref_cls" kind="struct" language="C++" prot="public">
+    <compoundname>uproot::BinaryBuffer::RefCls</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structuproot_1_1_binary_buffer_1_1_ref_cls_1a17751561362f743764c9b71bee95e10b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string uproot::BinaryBuffer::RefCls::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>uproot::BinaryBuffer::RefCls::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="68" column="25" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="1">
+        <label>uproot::BinaryBuffer::RefCls</label>
+        <link refid="structuproot_1_1_binary_buffer_1_1_ref_cls"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>name</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="67" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="67" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structuproot_1_1_binary_buffer_1_1_ref_cls_1a17751561362f743764c9b71bee95e10b" prot="public" virt="non-virtual"><scope>uproot::BinaryBuffer::RefCls</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

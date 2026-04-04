@@ -6,6 +6,16 @@ Uproot-custom guarantees C++ header compatibility within a minor version (for
 example, `2.0.0` and `2.0.1` headers are compatible). Pin the minor version in
 your `pyproject.toml` to avoid surprises when rebuilding readers.
 
+## C++ compiler requirement
+
+Uproot-custom and user‑implemented C++ readers require a **C++17 compatible compiler**.
+The CMake configuration sets `CMAKE_CXX_STANDARD 17`. Ensure your compiler
+supports C++17 features such as structured bindings, `std::optional`, and
+`std::variant`.
+
+If you are building on an older system, you may need to upgrade your compiler
+(e.g., GCC ≥ 7, Clang ≥ 5, MSVC ≥ 19.15) or adjust the CMake flags accordingly.
+
 ## pybind11 version requirement
 
 `pybind11` is a **build-time dependency only**. Do not ship or import

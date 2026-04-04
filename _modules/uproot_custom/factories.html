@@ -740,18 +740,15 @@ window.runMermaid = runMermaid;</script>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
 
-
+<span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.readers._forth</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.readers.cpp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.readers.python</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">get_dims_from_branch</span><span class="p">,</span>
     <span class="n">get_map_key_val_typenames</span><span class="p">,</span>
     <span class="n">get_sequence_element_typename</span><span class="p">,</span>
     <span class="n">get_top_type_name</span><span class="p">,</span>
 <span class="p">)</span>
-
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.readers.cpp</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.readers.python</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.readers._forth</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.readers._numba</span>
@@ -825,6 +822,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">branch</span><span class="p">:</span> <span class="n">uproot</span><span class="o">.</span><span class="n">TBranch</span><span class="p">,</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">],</span>
     <span class="n">offsets</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">cursor_offset</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">cur_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">all_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]],</span>
     <span class="n">item_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
@@ -843,11 +841,11 @@ window.runMermaid = runMermaid;</script>
 
     <span class="k">if</span> <span class="n">reader_backend</span> <span class="o">==</span> <span class="s2">&quot;cpp&quot;</span><span class="p">:</span>
         <span class="n">reader</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span>
-        <span class="n">raw_data</span> <span class="o">=</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span>
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">cursor_offset</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="n">reader_backend</span> <span class="o">==</span> <span class="s2">&quot;python&quot;</span><span class="p">:</span>
         <span class="n">reader</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span>
-        <span class="n">raw_data</span> <span class="o">=</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span>
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">cursor_offset</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="n">reader_backend</span> <span class="o">==</span> <span class="s2">&quot;forth&quot;</span><span class="p">:</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
@@ -2421,6 +2419,96 @@ window.runMermaid = runMermaid;</script>
 
 
 
+<div class="viewcode-block" id="AnyPointerFactory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.AnyPointerFactory">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AnyPointerFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Handles pointer-to-object members serialized via ROOT&#39;s read_object_any protocol.</span>
+
+<span class="sd">    Matches:</span>
+<span class="sd">    - fType in {63, 64, 68, 69}</span>
+<span class="sd">    - fTypeName ending with &quot;*&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># kObjectp=63, kObjectP=64, kAnyp=68, kAnyP=69</span>
+    <span class="n">_POINTER_FTYPES</span> <span class="o">=</span> <span class="p">{</span><span class="mi">63</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">68</span><span class="p">,</span> <span class="mi">69</span><span class="p">}</span>
+
+<div class="viewcode-block" id="AnyPointerFactory.priority">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.AnyPointerFactory.priority">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">priority</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">15</span></div>
+
+
+<div class="viewcode-block" id="AnyPointerFactory.build_factory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.AnyPointerFactory.build_factory">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">fTypeName</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fTypeName&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">fType</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fType&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">fTypeName</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">fType</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_POINTER_FTYPES</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># Build sub-factory for the pointed-to class</span>
+        <span class="n">pointee_typename</span> <span class="o">=</span> <span class="n">fTypeName</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">pointee_streamer_info</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;fName&quot;</span><span class="p">:</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;fTypeName&quot;</span><span class="p">:</span> <span class="n">pointee_typename</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">element_factory</span> <span class="o">=</span> <span class="n">build_factory</span><span class="p">(</span><span class="n">pointee_streamer_info</span><span class="p">,</span> <span class="n">all_streamer_info</span><span class="p">,</span> <span class="n">item_path</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">],</span>
+            <span class="n">element_factory</span><span class="o">=</span><span class="n">element_factory</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">element_factory</span><span class="p">:</span> <span class="n">Factory</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span> <span class="o">=</span> <span class="n">element_factory</span>
+
+<div class="viewcode-block" id="AnyPointerFactory.build_cpp_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.AnyPointerFactory.build_cpp_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">AnyPointerReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">element_reader</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AnyPointerFactory.build_python_reader">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.AnyPointerFactory.build_python_reader">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">AnyPointerReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">element_reader</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AnyPointerFactory.make_awkward_content">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.AnyPointerFactory.make_awkward_content">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
+        <span class="n">element_data</span><span class="p">,</span> <span class="n">element_idxs</span> <span class="o">=</span> <span class="n">raw_data</span>
+        <span class="n">element_content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">make_awkward_content</span><span class="p">(</span><span class="n">element_data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">IndexedOptionArray</span><span class="p">(</span>
+            <span class="n">awkward</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">Index64</span><span class="p">(</span><span class="n">element_idxs</span><span class="p">),</span>
+            <span class="n">element_content</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AnyPointerFactory.make_awkward_form">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.AnyPointerFactory.make_awkward_form">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">inner_form</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">make_awkward_form</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">IndexedOptionForm</span><span class="p">(</span><span class="s2">&quot;i64&quot;</span><span class="p">,</span> <span class="n">inner_form</span><span class="p">)</span></div>
+</div>
+
+
+
 <div class="viewcode-block" id="ObjectHeaderFactory">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ObjectHeaderFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
@@ -2455,6 +2543,14 @@ window.runMermaid = runMermaid;</script>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">element_factory</span><span class="p">:</span> <span class="n">Factory</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span> <span class="o">=</span> <span class="n">element_factory</span>
+
+        <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;ObjectHeaderFactory is deprecated and will be removed in future versions. &quot;</span>
+            <span class="s2">&quot;Please use AnyPointerFactory nstead.&quot;</span><span class="p">,</span>
+            <span class="ne">FutureWarning</span><span class="p">,</span>
+        <span class="p">)</span>
 
 <div class="viewcode-block" id="ObjectHeaderFactory.build_cpp_reader">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.build_cpp_reader">[docs]</a>
@@ -2587,7 +2683,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">GroupFactory</span><span class="p">,</span>
     <span class="n">BaseObjectFactory</span><span class="p">,</span>
     <span class="n">AnyClassFactory</span><span class="p">,</span>
-    <span class="n">ObjectHeaderFactory</span><span class="p">,</span>
+    <span class="n">AnyPointerFactory</span><span class="p">,</span>
     <span class="n">EmptyFactory</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>

@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classuproot_1_1_any_pointer_reader" kind="class" language="C++" prot="public">
+    <compoundname>uproot::AnyPointerReader</compoundname>
+    <basecompoundref refid="classuproot_1_1_i_reader" prot="public" virt="non-virtual">uproot::IReader</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classuproot_1_1_any_pointer_reader_1a200cade99f4b242117839c8bbe9d2fe4" prot="private" static="no" mutable="no">
+        <type>SharedReader</type>
+        <definition>SharedReader uproot::AnyPointerReader::m_element_reader</definition>
+        <argsstring></argsstring>
+        <name>m_element_reader</name>
+        <qualifiedname>uproot::AnyPointerReader::m_element_reader</qualifiedname>
+        <briefdescription>
+<para>Reader for the object content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="994" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="994" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuproot_1_1_any_pointer_reader_1a232a794b45d4d6ebcd8e157f0f96c595" prot="private" static="no" mutable="no">
+        <type><ref refid="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b" kindref="member">int64_t</ref></type>
+        <definition>int64_t uproot::AnyPointerReader::m_object_counter</definition>
+        <argsstring></argsstring>
+        <name>m_object_counter</name>
+        <qualifiedname>uproot::AnyPointerReader::m_object_counter</qualifiedname>
+        <initializer>{ 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Counter for the number of objects read, used for generating indexes </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="996" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="996" bodyend="996"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuproot_1_1_any_pointer_reader_1a4159c581ec3db81fe24aa2b95ce9353b" prot="private" static="no" mutable="no">
+        <type>SharedVector&lt; <ref refid="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b" kindref="member">int64_t</ref> &gt;</type>
+        <definition>SharedVector&lt;int64_t&gt; uproot::AnyPointerReader::m_object_indexes</definition>
+        <argsstring></argsstring>
+        <name>m_object_indexes</name>
+        <qualifiedname>uproot::AnyPointerReader::m_object_indexes</qualifiedname>
+        <briefdescription>
+<para>Store the indexes of the objects read. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="999" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="999" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuproot_1_1_any_pointer_reader_1a69b38d42158c133b02bbdb390d998962" prot="private" static="no" mutable="no">
+        <type>string</type>
+        <definition>string uproot::AnyPointerReader::m_class_name</definition>
+        <argsstring></argsstring>
+        <name>m_class_name</name>
+        <qualifiedname>uproot::AnyPointerReader::m_class_name</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+<para>Store the class name of the object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1001" column="16" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1001" bodyend="1001"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classuproot_1_1_any_pointer_reader_1aa4e4d16e27d2a4faf66486fa59b2df4e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>uproot::AnyPointerReader::AnyPointerReader</definition>
+        <argsstring>(string name, SharedReader element_reader)</argsstring>
+        <name>AnyPointerReader</name>
+        <qualifiedname>uproot::AnyPointerReader::AnyPointerReader</qualifiedname>
+        <param>
+          <type>string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>SharedReader</type>
+          <declname>element_reader</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1004" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1004" bodyend="1007"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_any_pointer_reader_1ae11309b3f66d027917a41c431b7352ca" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b" kindref="member">void</ref></type>
+        <definition>void uproot::AnyPointerReader::check_cursor_position</definition>
+        <argsstring>(BinaryBuffer &amp;buffer, const uint32_t expected_nbytes, const uint8_t *expected_pos)</argsstring>
+        <name>check_cursor_position</name>
+        <qualifiedname>uproot::AnyPointerReader::check_cursor_position</qualifiedname>
+        <param>
+          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type><ref refid="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b" kindref="member">const</ref> <ref refid="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b" kindref="member">uint32_t</ref></type>
+          <declname>expected_nbytes</declname>
+        </param>
+        <param>
+          <type><ref refid="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b" kindref="member">const</ref> <ref refid="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b" kindref="member">uint8_t</ref> *</type>
+          <declname>expected_pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1009" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1009" bodyend="1021"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void uproot::AnyPointerReader::read</definition>
+        <argsstring>(BinaryBuffer &amp;buffer) override</argsstring>
+        <name>read</name>
+        <qualifiedname>uproot::AnyPointerReader::read</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_reader_1af7b6cdf7293548710230ee82ff9706d8">read</reimplements>
+        <param>
+          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Read an element from the buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary buffer to read from. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1023" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1023" bodyend="1130"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_any_pointer_reader_1a67a0fe00a4b66b37ea839a6083682247" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>py::object</type>
+        <definition>py::object uproot::AnyPointerReader::data</definition>
+        <argsstring>() const override</argsstring>
+        <name>data</name>
+        <qualifiedname>uproot::AnyPointerReader::data</qualifiedname>
+        <reimplements refid="classuproot_1_1_i_reader_1acd7126fde99fad7d3f497aaee23ae118">data</reimplements>
+        <briefdescription>
+<para>Get the data read by the reader. This should be called after the whole reading process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The data read by the reader. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1132" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1132" bodyend="1136"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>uproot::AnyPointerReader</label>
+        <link refid="classuproot_1_1_any_pointer_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>uproot::IReader</label>
+        <link refid="classuproot_1_1_i_reader"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>uproot::AnyPointerReader</label>
+        <link refid="classuproot_1_1_any_pointer_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>uproot::IReader</label>
+        <link refid="classuproot_1_1_i_reader"/>
+      </node>
+    </collaborationgraph>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="992" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="992" bodyend="1137"/>
+    <listofallmembers>
+      <member refid="classuproot_1_1_any_pointer_reader_1aa4e4d16e27d2a4faf66486fa59b2df4e" prot="public" virt="non-virtual"><scope>uproot::AnyPointerReader</scope><name>AnyPointerReader</name></member>
+      <member refid="classuproot_1_1_any_pointer_reader_1ae11309b3f66d027917a41c431b7352ca" prot="public" virt="non-virtual"><scope>uproot::AnyPointerReader</scope><name>check_cursor_position</name></member>
+      <member refid="classuproot_1_1_any_pointer_reader_1a67a0fe00a4b66b37ea839a6083682247" prot="public" virt="virtual"><scope>uproot::AnyPointerReader</scope><name>data</name></member>
+      <member refid="classuproot_1_1_i_reader_1aed13e9c0926be8e89422cf49efdcc752" prot="public" virt="non-virtual"><scope>uproot::AnyPointerReader</scope><name>IReader</name></member>
+      <member refid="classuproot_1_1_any_pointer_reader_1a69b38d42158c133b02bbdb390d998962" prot="private" virt="non-virtual"><scope>uproot::AnyPointerReader</scope><name>m_class_name</name></member>
+      <member refid="classuproot_1_1_any_pointer_reader_1a200cade99f4b242117839c8bbe9d2fe4" prot="private" virt="non-virtual"><scope>uproot::AnyPointerReader</scope><name>m_element_reader</name></member>
+      <member refid="classuproot_1_1_i_reader_1aae3ebcf2974166ec9eb868528759dbc9" prot="protected" virt="non-virtual"><scope>uproot::AnyPointerReader</scope><name>m_name</name></member>
+      <member refid="classuproot_1_1_any_pointer_reader_1a232a794b45d4d6ebcd8e157f0f96c595" prot="private" virt="non-virtual"><scope>uproot::AnyPointerReader</scope><name>m_object_counter</name></member>
+      <member refid="classuproot_1_1_any_pointer_reader_1a4159c581ec3db81fe24aa2b95ce9353b" prot="private" virt="non-virtual"><scope>uproot::AnyPointerReader</scope><name>m_object_indexes</name></member>
+      <member refid="classuproot_1_1_i_reader_1a94ec0db0c0012df8317add7519a0c299" prot="public" virt="virtual"><scope>uproot::AnyPointerReader</scope><name>name</name></member>
+      <member refid="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b" prot="public" virt="virtual"><scope>uproot::AnyPointerReader</scope><name>read</name></member>
+      <member refid="classuproot_1_1_i_reader_1a0f59056370968271e27813bd0722eae4" prot="public" virt="virtual"><scope>uproot::AnyPointerReader</scope><name>read_many</name></member>
+      <member refid="classuproot_1_1_i_reader_1a4d01c9b32bed762117e148e997b2fb25" prot="public" virt="virtual"><scope>uproot::AnyPointerReader</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot_1_1_i_reader_1ab72b33c05c4e76a3f658b735f0068d66" prot="public" virt="virtual"><scope>uproot::AnyPointerReader</scope><name>read_until</name></member>
+      <member refid="classuproot_1_1_i_reader_1a0e010e1426c196808a4ac5f4723637cc" prot="public" virt="virtual"><scope>uproot::AnyPointerReader</scope><name>~IReader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -3,6 +3,7 @@
   <compounddef id="classuproot_1_1_i_reader" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>uproot::IReader</compoundname>
     <derivedcompoundref refid="classuproot_1_1_any_class_reader" prot="public" virt="non-virtual">uproot::AnyClassReader</derivedcompoundref>
+    <derivedcompoundref refid="classuproot_1_1_any_pointer_reader" prot="public" virt="non-virtual">uproot::AnyPointerReader</derivedcompoundref>
     <derivedcompoundref refid="classuproot_1_1_c_style_array_reader" prot="public" virt="non-virtual">uproot::CStyleArrayReader</derivedcompoundref>
     <derivedcompoundref refid="classuproot_1_1_empty_reader" prot="public" virt="non-virtual">uproot::EmptyReader</derivedcompoundref>
     <derivedcompoundref refid="classuproot_1_1_group_reader" prot="public" virt="non-virtual">uproot::GroupReader</derivedcompoundref>
@@ -29,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="285" column="27" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="285" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="325" column="27" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="325" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -60,7 +61,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="293" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="293" bodyend="293"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="333" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="333" bodyend="333"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_i_reader_1a0e010e1426c196808a4ac5f4723637cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -74,7 +75,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="295" column="17"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="335" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_i_reader_1a94ec0db0c0012df8317add7519a0c299" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type><ref refid="classuproot_1_1_i_reader_1af7b6cdf7293548710230ee82ff9706d8" kindref="member">const</ref> std::string</type>
@@ -92,7 +93,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="302" column="35" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="302" bodyend="302"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="342" column="35" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="342" bodyend="342"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_i_reader_1af7b6cdf7293548710230ee82ff9706d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -110,6 +111,7 @@
         <reimplementedby refid="classuproot_1_1_t_array_reader_1a93e03ee3c804e6efd1518b6f6bd453bc">read</reimplementedby>
         <reimplementedby refid="classuproot_1_1_group_reader_1a1bd17ce1d079e6cb55d62c94a037f4a8">read</reimplementedby>
         <reimplementedby refid="classuproot_1_1_any_class_reader_1aa0e8fd9772e0505f248b0b37203afb61">read</reimplementedby>
+        <reimplementedby refid="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b">read</reimplementedby>
         <reimplementedby refid="classuproot_1_1_object_header_reader_1a3977dd06e768f11b799e7b896d778d4f">read</reimplementedby>
         <reimplementedby refid="classuproot_1_1_c_style_array_reader_1a4f4337c9fa35b608b436a2829ff8f4b9">read</reimplementedby>
         <param>
@@ -133,7 +135,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="309" column="22"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="349" column="22"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_i_reader_1acd7126fde99fad7d3f497aaee23ae118" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>py::object</type>
@@ -150,6 +152,7 @@
         <reimplementedby refid="classuproot_1_1_t_array_reader_1abf6426d184be381efde323471c0dc5b7">data</reimplementedby>
         <reimplementedby refid="classuproot_1_1_group_reader_1afca2b38e3e97ae1a55b16e2ed09f347f">data</reimplementedby>
         <reimplementedby refid="classuproot_1_1_any_class_reader_1ae8994380cf5a5a11fe734af389a75092">data</reimplementedby>
+        <reimplementedby refid="classuproot_1_1_any_pointer_reader_1a67a0fe00a4b66b37ea839a6083682247">data</reimplementedby>
         <reimplementedby refid="classuproot_1_1_object_header_reader_1a7a08392b5f052d1ca61ee1ff8e96bb0a">data</reimplementedby>
         <reimplementedby refid="classuproot_1_1_c_style_array_reader_1a67f2a1a32309d9d09f47fc9acc5da3ad">data</reimplementedby>
         <reimplementedby refid="classuproot_1_1_empty_reader_1a13d3daa5c5a613446942498c57aa8b34">data</reimplementedby>
@@ -163,7 +166,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="317" column="28"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="357" column="28"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_i_reader_1a0f59056370968271e27813bd0722eae4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type><ref refid="classuproot_1_1_i_reader_1af7b6cdf7293548710230ee82ff9706d8" kindref="member">uint32_t</ref></type>
@@ -214,7 +217,7 @@ header + multiple data objects&quot; format. This method can be overridden to ha
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="331" column="26" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="331" bodyend="334"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="371" column="26" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="371" bodyend="374"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_i_reader_1ab72b33c05c4e76a3f658b735f0068d66" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type><ref refid="classuproot_1_1_i_reader_1af7b6cdf7293548710230ee82ff9706d8" kindref="member">uint32_t</ref></type>
@@ -265,7 +268,7 @@ header + multiple data objects&quot; format. This method can be overridden to ha
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="348" column="26" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="348" bodyend="356"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="388" column="26" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="388" bodyend="396"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_i_reader_1a4d01c9b32bed762117e148e997b2fb25" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type><ref refid="classuproot_1_1_i_reader_1af7b6cdf7293548710230ee82ff9706d8" kindref="member">uint32_t</ref></type>
@@ -311,7 +314,7 @@ header + multiple data objects&quot; format. This method can be overridden to ha
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="366" column="26" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="366" bodyend="368"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="406" column="26" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="406" bodyend="408"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -327,18 +330,24 @@ header + multiple data objects&quot; format. This method can be overridden to ha
         </childnode>
       </node>
       <node id="3">
+        <label>uproot::AnyPointerReader</label>
+        <link refid="classuproot_1_1_any_pointer_reader"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
         <label>uproot::CStyleArrayReader</label>
         <link refid="classuproot_1_1_c_style_array_reader"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="4">
+      <node id="5">
         <label>uproot::EmptyReader</label>
         <link refid="classuproot_1_1_empty_reader"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
+      <node id="6">
         <label>uproot::GroupReader</label>
         <link refid="classuproot_1_1_group_reader"/>
         <childnode refid="1" relation="public-inheritance">
@@ -348,56 +357,56 @@ header + multiple data objects&quot; format. This method can be overridden to ha
         <label>uproot::IReader</label>
         <link refid="classuproot_1_1_i_reader"/>
       </node>
-      <node id="6">
+      <node id="7">
         <label>uproot::ObjectHeaderReader</label>
         <link refid="classuproot_1_1_object_header_reader"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="7">
+      <node id="8">
         <label>uproot::PrimitiveReader&lt; T &gt;</label>
         <link refid="classuproot_1_1_primitive_reader"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="8">
+      <node id="9">
         <label>uproot::STLMapReader</label>
         <link refid="classuproot_1_1_s_t_l_map_reader"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="9">
+      <node id="10">
         <label>uproot::STLSeqReader</label>
         <link refid="classuproot_1_1_s_t_l_seq_reader"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="10">
+      <node id="11">
         <label>uproot::STLStringReader</label>
         <link refid="classuproot_1_1_s_t_l_string_reader"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="11">
+      <node id="12">
         <label>uproot::TArrayReader&lt; T &gt;</label>
         <link refid="classuproot_1_1_t_array_reader"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="12">
+      <node id="13">
         <label>uproot::TObjectReader</label>
         <link refid="classuproot_1_1_t_object_reader"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="13">
+      <node id="14">
         <label>uproot::TStringReader</label>
         <link refid="classuproot_1_1_t_string_reader"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="283" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="283" bodyend="369"/>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="323" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="323" bodyend="409"/>
     <listofallmembers>
       <member refid="classuproot_1_1_i_reader_1acd7126fde99fad7d3f497aaee23ae118" prot="public" virt="pure-virtual"><scope>uproot::IReader</scope><name>data</name></member>
       <member refid="classuproot_1_1_i_reader_1aed13e9c0926be8e89422cf49efdcc752" prot="public" virt="non-virtual"><scope>uproot::IReader</scope><name>IReader</name></member>
