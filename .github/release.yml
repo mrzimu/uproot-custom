@@ -6,11 +6,10 @@ changelog:
     - title: New Features
       labels:
         - feature
-    - title: Bug Fixes
+    - title: Bug Fixes, Performance Improvements and Refactors
       labels:
-        - bug
-    - title: Performance Improvements
-      labels:
+        - bug fix
+        - refactor
         - performance
     - title: Other Changes
       labels:
