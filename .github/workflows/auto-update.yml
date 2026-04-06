@@ -20,16 +20,13 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Install pre-commit
-        run: uv pip install pre-commit
-
       - name: Update pre-commit hooks
-        run: uv run pre-commit autoupdate
+        run: uvx pre-commit autoupdate
 
       - name: Update uv lock
         run: |
           uv lock --upgrade
-          uv run pre-commit run --all
+          uvx pre-commit run --all-files
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
