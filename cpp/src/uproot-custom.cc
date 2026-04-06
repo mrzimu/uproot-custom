@@ -515,9 +515,9 @@ namespace uproot {
         }
 
         /**
-         * @brief Read a map from the buffer. If @ref m_with_header is true, reads a
-         * `fNBytes+fVersion` header and skip 6 extra bytes. Then calls @ref read_body() to
-         * read the map body.
+         * @brief Read a map from the buffer. Reads a `fNBytes+fVersion` header,
+         * then reads element version/checksum via @ref read_element_version(), and
+         * finally calls @ref read_body() to read the map body.
          *
          * @param buffer The binary buffer to read from.
          */
@@ -533,8 +533,8 @@ namespace uproot {
 
         /**
          * @brief Read multiple maps from the buffer. If @ref m_with_header is true,
-         * reads a `fNBytes+fVersion` header and skip 6 extra bytes once before reading
-         * multiple maps.
+         * reads a `fNBytes+fVersion` header and element version/checksum once before
+         * reading multiple maps.
          *
          * @param buffer The binary buffer to read from.
          * @param count Number of maps to read. If negative, reads according to the
@@ -584,14 +584,13 @@ namespace uproot {
         }
 
         /**
-         * @brief Read sequences from the buffer until reaching the end position. If @ref
-         * m_with_header is true, reads a `fNBytes+fVersion` header and skip 6 extra bytes once
-         * before reading sequences. If data is stored member-wise, skips 2 bytes after the
-         * header.
+         * @brief Read maps from the buffer until reaching the end position. If @ref
+         * m_with_header is true, reads a `fNBytes+fVersion` header and element
+         * version/checksum once before reading maps.
          *
          * @param buffer The binary buffer to read from.
          * @param end_pos The end position to stop reading.
-         * @return Number of sequences read.
+         * @return Number of maps read.
          */
         uint32_t read_until( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
             if ( buffer.get_cursor() == end_pos ) return 0;
