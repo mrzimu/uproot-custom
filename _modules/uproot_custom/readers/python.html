@@ -1272,6 +1272,16 @@ window.runMermaid = runMermaid;</script>
             <span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="STLSeqReader.read_element_version">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader.read_element_version">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_element_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="p">):</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
+        <span class="n">checksum</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">version</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">checksum</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">version</span><span class="p">,</span> <span class="n">checksum</span></div>
+
+
 <div class="viewcode-block" id="STLSeqReader.read_body">
 <a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader.read_body">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">read_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="p">,</span> <span class="n">is_memberwise</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
@@ -1299,7 +1309,7 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_objwise_memberwise</span><span class="p">(</span><span class="n">is_memberwise</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">is_memberwise</span><span class="p">:</span>
-            <span class="n">buffer</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read_element_version</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">read_body</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">is_memberwise</span><span class="p">)</span></div>
 
@@ -1323,7 +1333,7 @@ window.runMermaid = runMermaid;</script>
             <span class="bp">self</span><span class="o">.</span><span class="n">check_objwise_memberwise</span><span class="p">(</span><span class="n">is_memberwise</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">is_memberwise</span><span class="p">:</span>
-                <span class="n">buffer</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">read_element_version</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
 
             <span class="n">cur_count</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">while</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">&lt;</span> <span class="n">end_pos</span><span class="p">:</span>
@@ -1340,7 +1350,7 @@ window.runMermaid = runMermaid;</script>
                 <span class="bp">self</span><span class="o">.</span><span class="n">check_objwise_memberwise</span><span class="p">(</span><span class="n">is_memberwise</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">is_memberwise</span><span class="p">:</span>
-                <span class="n">buffer</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">read_element_version</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
 
             <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">read_body</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">is_memberwise</span><span class="p">)</span>
@@ -1353,20 +1363,20 @@ window.runMermaid = runMermaid;</script>
         <span class="k">if</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span>
 
-        <span class="n">is_membersie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">==</span> <span class="s2">&quot;member-wise&quot;</span>
+        <span class="n">is_memberwise</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">==</span> <span class="s2">&quot;member-wise&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">:</span>
             <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fNBytes</span><span class="p">()</span>
             <span class="n">fVersion</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
-            <span class="n">is_membersie</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">fVersion</span> <span class="o">&amp;</span> <span class="n">kStreamedMemberwise</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">check_objwise_memberwise</span><span class="p">(</span><span class="n">is_membersie</span><span class="p">)</span>
+            <span class="n">is_memberwise</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">fVersion</span> <span class="o">&amp;</span> <span class="n">kStreamedMemberwise</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">check_objwise_memberwise</span><span class="p">(</span><span class="n">is_memberwise</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">is_membersie</span><span class="p">:</span>
-            <span class="n">buffer</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_memberwise</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read_element_version</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
 
         <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">while</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">&lt;</span> <span class="n">end_pos</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">read_body</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">is_membersie</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read_body</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">is_memberwise</span><span class="p">)</span>
             <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">count</span></div>
 
@@ -1414,6 +1424,16 @@ window.runMermaid = runMermaid;</script>
             <span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="STLMapReader.read_element_version">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.read_element_version">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_element_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="p">):</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
+        <span class="n">checksum</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">version</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">checksum</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">version</span><span class="p">,</span> <span class="n">checksum</span></div>
+
+
 <div class="viewcode-block" id="STLMapReader.read_body">
 <a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.read_body">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">read_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">:</span> <span class="n">BinaryBuffer</span><span class="p">,</span> <span class="n">is_memberwise</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
@@ -1439,7 +1459,8 @@ window.runMermaid = runMermaid;</script>
     <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
         <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fNBytes</span><span class="p">()</span>
         <span class="n">fVersion</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
-        <span class="n">buffer</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_element_version</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
 
         <span class="n">is_memberwise</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">fVersion</span> <span class="o">&amp;</span> <span class="n">kStreamedMemberwise</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_objwise_memberwise</span><span class="p">(</span><span class="n">is_memberwise</span><span class="p">)</span>
@@ -1461,7 +1482,8 @@ window.runMermaid = runMermaid;</script>
             <span class="n">end_pos</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+</span> <span class="n">fNBytes</span>
 
             <span class="n">fVersion</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
-            <span class="n">buffer</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">read_element_version</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
 
             <span class="n">is_memberwise</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">fVersion</span> <span class="o">&amp;</span> <span class="n">kStreamedMemberwise</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">check_objwise_memberwise</span><span class="p">(</span><span class="n">is_memberwise</span><span class="p">)</span>
@@ -1477,7 +1499,8 @@ window.runMermaid = runMermaid;</script>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">:</span>
                 <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fNBytes</span><span class="p">()</span>
                 <span class="n">fVersion</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
-                <span class="n">buffer</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">read_element_version</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
 
                 <span class="n">is_memberwise</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">fVersion</span> <span class="o">&amp;</span> <span class="n">kStreamedMemberwise</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">check_objwise_memberwise</span><span class="p">(</span><span class="n">is_memberwise</span><span class="p">)</span>
@@ -1493,19 +1516,20 @@ window.runMermaid = runMermaid;</script>
         <span class="k">if</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span>
 
-        <span class="n">is_membersie</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">==</span> <span class="s2">&quot;member-wise&quot;</span>
+        <span class="n">is_memberwise</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objwise_or_memberwise</span> <span class="o">==</span> <span class="s2">&quot;member-wise&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_header</span><span class="p">:</span>
             <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fNBytes</span><span class="p">()</span>
             <span class="n">fVersion</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
-            <span class="n">buffer</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
 
-            <span class="n">is_membersie</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">fVersion</span> <span class="o">&amp;</span> <span class="n">kStreamedMemberwise</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">check_objwise_memberwise</span><span class="p">(</span><span class="n">is_membersie</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read_element_version</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+
+            <span class="n">is_memberwise</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">fVersion</span> <span class="o">&amp;</span> <span class="n">kStreamedMemberwise</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">check_objwise_memberwise</span><span class="p">(</span><span class="n">is_memberwise</span><span class="p">)</span>
 
         <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">while</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">&lt;</span> <span class="n">end_pos</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">read_body</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">is_membersie</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read_body</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">is_memberwise</span><span class="p">)</span>
             <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">count</span></div>
 

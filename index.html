@@ -794,6 +794,10 @@ window.runMermaid = runMermaid;</script>
   <section id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h1>
 <p>Uproot-custom is an extension of <a class="reference external" href="https://uproot.readthedocs.io/en/latest/basic.html">Uproot</a> that provides an enhanced way to read custom classes stored in <code class="docutils literal notranslate"><span class="pre">TTree</span></code>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Because of earlier mistakes in version management, the <code class="docutils literal notranslate"><span class="pre">v2.x.x</span></code> series should still be treated as a development version rather than a stable release.</p>
+</div>
 <section id="what-uproot-custom-can-do">
 <h2>What uproot-custom can do<a class="headerlink" href="#what-uproot-custom-can-do" title="Link to this heading">#</a></h2>
 <p>Uproot-custom can natively read complicated combinations of nested classes and c-style arrays (e.g. <code class="docutils literal notranslate"><span class="pre">map&lt;int,</span> <span class="pre">map&lt;int,</span> <span class="pre">map&lt;int,</span> <span class="pre">string&gt;&gt;&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">vector&lt;TString&gt;[3]</span></code>, etc), and memberwisely stored classes. It also exposes a way for users to implement their own readers for custom classes that are not supported by Uproot or uproot-custom built-in readers.</p>

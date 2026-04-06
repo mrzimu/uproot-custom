@@ -114,6 +114,7 @@
     <member refid="classuproot_1_1_s_t_l_map_reader_1a1306f00d1d2e759e9b3d690007582b1c" kind="variable"><name>m_value_reader</name></member>
     <member refid="classuproot_1_1_s_t_l_map_reader_1a5a1809c447f32fd4884f1bc18f7bea84" kind="function"><name>STLMapReader</name></member>
     <member refid="classuproot_1_1_s_t_l_map_reader_1a99d92512e696a12fdd452d7ae9b08a45" kind="function"><name>check_objwise_memberwise</name></member>
+    <member refid="classuproot_1_1_s_t_l_map_reader_1abd02830a58f1b696a25c8567756574f7" kind="function"><name>read_element_version</name></member>
     <member refid="classuproot_1_1_s_t_l_map_reader_1a0d6eba27490472777f70bcd2fe36492a" kind="function"><name>read_body</name></member>
     <member refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kind="function"><name>read</name></member>
     <member refid="classuproot_1_1_s_t_l_map_reader_1afff1fe3a5f48b7c86ae42e2ae0d13772" kind="function"><name>read_many</name></member>
@@ -128,6 +129,7 @@
     <member refid="classuproot_1_1_s_t_l_seq_reader_1abad7c3ce55a325c61005161c5b86578d" kind="variable"><name>m_offsets</name></member>
     <member refid="classuproot_1_1_s_t_l_seq_reader_1ab9055c568aa137b763c9f52190ab9a80" kind="function"><name>STLSeqReader</name></member>
     <member refid="classuproot_1_1_s_t_l_seq_reader_1ac386c9ece7c9299e8a5673e2b8e310a3" kind="function"><name>check_objwise_memberwise</name></member>
+    <member refid="classuproot_1_1_s_t_l_seq_reader_1a9173b6d33dbedcf5ccd57b8e3cfa5bcf" kind="function"><name>read_element_version</name></member>
     <member refid="classuproot_1_1_s_t_l_seq_reader_1a0ea19f37703df0ce987add7a6fd8fbb9" kind="function"><name>read_body</name></member>
     <member refid="classuproot_1_1_s_t_l_seq_reader_1a73cc29d3a12261fad519bf8261d7befe" kind="function"><name>read</name></member>
     <member refid="classuproot_1_1_s_t_l_seq_reader_1ab1ee392bd024724f9fe45c59880b0ca3" kind="function"><name>read_many</name></member>

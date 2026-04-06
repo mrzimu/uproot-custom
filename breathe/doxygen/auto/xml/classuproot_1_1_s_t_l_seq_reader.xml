@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="254" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="254" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="255" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="255" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot_1_1_s_t_l_seq_reader_1aac6e93897168dff885cd4ebdc21c5095" prot="private" static="no" mutable="no">
         <type><ref refid="classuproot_1_1_s_t_l_seq_reader_1a73cc29d3a12261fad519bf8261d7befe" kindref="member">const</ref> <ref refid="classuproot_1_1_s_t_l_seq_reader_1a73cc29d3a12261fad519bf8261d7befe" kindref="member">int</ref></type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="255" column="19" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="255" bodyend="255"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="256" column="19" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="256" bodyend="256"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot_1_1_s_t_l_seq_reader_1a746efee2e7be099bf0f2f5edf41aea11" prot="private" static="no" mutable="no">
         <type>SharedReader</type>
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="256" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="256" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="257" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="257" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot_1_1_s_t_l_seq_reader_1abad7c3ce55a325c61005161c5b86578d" prot="private" static="no" mutable="no">
         <type>SharedVector&lt; <ref refid="classuproot_1_1_s_t_l_seq_reader_1a73cc29d3a12261fad519bf8261d7befe" kindref="member">int64_t</ref> &gt;</type>
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="257" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="257" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="258" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="258" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -130,7 +130,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="269" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="269" bodyend="275"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="270" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="270" bodyend="276"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_s_t_l_seq_reader_1ac386c9ece7c9299e8a5673e2b8e310a3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classuproot_1_1_s_t_l_seq_reader_1a73cc29d3a12261fad519bf8261d7befe" kindref="member">void</ref></type>
@@ -159,7 +159,38 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="282" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="282" bodyend="289"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="283" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="283" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot_1_1_s_t_l_seq_reader_1a9173b6d33dbedcf5ccd57b8e3cfa5bcf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>pair&lt; <ref refid="classuproot_1_1_s_t_l_seq_reader_1a73cc29d3a12261fad519bf8261d7befe" kindref="member">int</ref>, <ref refid="classuproot_1_1_s_t_l_seq_reader_1a73cc29d3a12261fad519bf8261d7befe" kindref="member">uint32_t</ref> &gt;</type>
+        <definition>pair&lt; int, uint32_t &gt; uproot::STLSeqReader::read_element_version</definition>
+        <argsstring>(BinaryBuffer &amp;buffer)</argsstring>
+        <name>read_element_version</name>
+        <qualifiedname>uproot::STLSeqReader::read_element_version</qualifiedname>
+        <param>
+          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Read the element version and checksum from the buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary buffer to read from. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A tuple of (version, checksum). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="298" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="298" bodyend="303"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_s_t_l_seq_reader_1a0ea19f37703df0ce987add7a6fd8fbb9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="classuproot_1_1_s_t_l_seq_reader_1a73cc29d3a12261fad519bf8261d7befe" kindref="member">void</ref></type>
@@ -200,7 +231,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="298" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="298" bodyend="308"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="312" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="312" bodyend="322"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_s_t_l_seq_reader_1a73cc29d3a12261fad519bf8261d7befe" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>void</type>
@@ -230,7 +261,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="316" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="316" bodyend="323"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="330" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="330" bodyend="337"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_s_t_l_seq_reader_1ab1ee392bd024724f9fe45c59880b0ca3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type><ref refid="classuproot_1_1_s_t_l_seq_reader_1a73cc29d3a12261fad519bf8261d7befe" kindref="member">uint32_t</ref></type>
@@ -274,7 +305,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="334" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="334" bodyend="372"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="348" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="348" bodyend="386"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_s_t_l_seq_reader_1a862c178e643dd799d5aa5e150433aab9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type><ref refid="classuproot_1_1_s_t_l_seq_reader_1a73cc29d3a12261fad519bf8261d7befe" kindref="member">uint32_t</ref></type>
@@ -318,7 +349,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="383" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="383" bodyend="402"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="397" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="397" bodyend="416"/>
       </memberdef>
       <memberdef kind="function" id="classuproot_1_1_s_t_l_seq_reader_1aa62fd58b0996d5f7ec36754f762dea4c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>py::object</type>
@@ -337,7 +368,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="410" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="410" bodyend="414"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="424" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="424" bodyend="428"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -369,7 +400,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="252" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="252" bodyend="415"/>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="253" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="253" bodyend="429"/>
     <listofallmembers>
       <member refid="classuproot_1_1_s_t_l_seq_reader_1ac386c9ece7c9299e8a5673e2b8e310a3" prot="public" virt="non-virtual"><scope>uproot::STLSeqReader</scope><name>check_objwise_memberwise</name></member>
       <member refid="classuproot_1_1_s_t_l_seq_reader_1aa62fd58b0996d5f7ec36754f762dea4c" prot="public" virt="virtual"><scope>uproot::STLSeqReader</scope><name>data</name></member>
@@ -382,6 +413,7 @@
       <member refid="classuproot_1_1_i_reader_1a94ec0db0c0012df8317add7519a0c299" prot="public" virt="virtual"><scope>uproot::STLSeqReader</scope><name>name</name></member>
       <member refid="classuproot_1_1_s_t_l_seq_reader_1a73cc29d3a12261fad519bf8261d7befe" prot="public" virt="virtual"><scope>uproot::STLSeqReader</scope><name>read</name></member>
       <member refid="classuproot_1_1_s_t_l_seq_reader_1a0ea19f37703df0ce987add7a6fd8fbb9" prot="public" virt="non-virtual"><scope>uproot::STLSeqReader</scope><name>read_body</name></member>
+      <member refid="classuproot_1_1_s_t_l_seq_reader_1a9173b6d33dbedcf5ccd57b8e3cfa5bcf" prot="public" virt="non-virtual"><scope>uproot::STLSeqReader</scope><name>read_element_version</name></member>
       <member refid="classuproot_1_1_s_t_l_seq_reader_1ab1ee392bd024724f9fe45c59880b0ca3" prot="public" virt="virtual"><scope>uproot::STLSeqReader</scope><name>read_many</name></member>
       <member refid="classuproot_1_1_i_reader_1a4d01c9b32bed762117e148e997b2fb25" prot="public" virt="virtual"><scope>uproot::STLSeqReader</scope><name>read_many_memberwise</name></member>
       <member refid="classuproot_1_1_s_t_l_seq_reader_1a862c178e643dd799d5aa5e150433aab9" prot="public" virt="virtual"><scope>uproot::STLSeqReader</scope><name>read_until</name></member>
