@@ -52,7 +52,7 @@ This mechanism is implemented as `AsCustom` interpretation. This makes uproot-cu
 ## System Requirements
 
 - **C++17 compatible compiler**: Required for building C++ readers and the uproot-custom extension module. The CMake configuration sets `CMAKE_CXX_STANDARD 17`.
-- **Python 3.9+**: Uproot-custom supports Python 3.9 through 3.13.
+- **Python 3.9+**: Uproot-custom supports Python 3.9 through 3.14.
 
 ## Documentation
 
