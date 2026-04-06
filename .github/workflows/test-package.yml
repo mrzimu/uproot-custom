@@ -27,6 +27,7 @@ jobs:
       - uses: astral-sh/setup-uv@v7
         with:
           python-version: ${{ matrix.python-version }}
+          activate-environment: true
 
       - name: Install dependencies
         run: |
@@ -47,6 +48,7 @@ jobs:
       - uses: astral-sh/setup-uv@v7
         with:
           python-version: '3.13'
+          activate-environment: true
 
       - name: Install dependencies
         run: |
