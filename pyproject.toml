@@ -77,7 +77,6 @@ sdist.include = ["uproot_custom/_version.py"]
 wheel.packages = ["uproot_custom"]
 
 [tool.setuptools_scm]
-local_scheme = "no-local-version"
 write_to = "uproot_custom/_version.py"
 
 [tool.sphinx]
