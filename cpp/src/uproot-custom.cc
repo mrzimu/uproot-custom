@@ -13,6 +13,7 @@
 #include "uproot-custom/uproot-custom.hh"
 
 namespace uproot {
+    using std::pair;
     using std::shared_ptr;
     using std::string;
     using std::stringstream;
@@ -289,6 +290,19 @@ namespace uproot {
         }
 
         /**
+         * @brief Read the element version and checksum from the buffer.
+         *
+         * @param buffer The binary buffer to read from.
+         * @return A tuple of (version, checksum).
+         */
+        pair<int, uint32_t> read_element_version( BinaryBuffer& buffer ) {
+            auto version      = buffer.read_fVersion();
+            uint32_t checksum = 0;
+            if ( version == 0 ) checksum = buffer.read<uint32_t>();
+            return { version, checksum };
+        }
+
+        /**
          * @brief Read the body of the sequence from the buffer. First reads the size
          * (uint32_t) of the sequence, then calls @ref m_element_reader to read the elements.
          *
@@ -318,7 +332,7 @@ namespace uproot {
             auto fVersion      = buffer.read_fVersion();
             bool is_memberwise = fVersion & kStreamedMemberWise;
             check_objwise_memberwise( is_memberwise );
-            if ( is_memberwise ) buffer.skip( 2 );
+            if ( is_memberwise ) read_element_version( buffer );
             read_body( buffer, is_memberwise );
         }
 
@@ -344,7 +358,7 @@ namespace uproot {
                 auto fVersion      = buffer.read_fVersion();
                 bool is_memberwise = fVersion & kStreamedMemberWise;
                 check_objwise_memberwise( is_memberwise );
-                if ( is_memberwise ) buffer.skip( 2 );
+                if ( is_memberwise ) read_element_version( buffer );
 
                 uint32_t cur_count = 0;
                 while ( buffer.get_cursor() < end_pos )
@@ -364,7 +378,7 @@ namespace uproot {
                     is_memberwise = fVersion & kStreamedMemberWise;
                     check_objwise_memberwise( is_memberwise );
                 }
-                if ( is_memberwise ) buffer.skip( 2 );
+                if ( is_memberwise ) read_element_version( buffer );
 
                 for ( auto i = 0; i < count; i++ ) { read_body( buffer, is_memberwise ); }
                 return count;
@@ -390,7 +404,7 @@ namespace uproot {
                 is_memberwise = fVersion & kStreamedMemberWise;
                 check_objwise_memberwise( is_memberwise );
             }
-            if ( is_memberwise ) buffer.skip( 2 );
+            if ( is_memberwise ) read_element_version( buffer );
 
             uint32_t cur_count = 0;
             while ( buffer.get_cursor() < end_pos )
@@ -460,6 +474,19 @@ namespace uproot {
         }
 
         /**
+         * @brief Read the element version and checksum from the buffer.
+         *
+         * @param buffer The binary buffer to read from.
+         * @return A tuple of (version, checksum).
+         */
+        pair<int, uint32_t> read_element_version( BinaryBuffer& buffer ) {
+            auto version      = buffer.read_fVersion();
+            uint32_t checksum = 0;
+            if ( version == 0 ) checksum = buffer.read<uint32_t>();
+            return { version, checksum };
+        }
+
+        /**
          * @brief Read the body of the map from the buffer. First reads the size
          * (uint32_t) of the map, then calls @ref m_key_reader and @ref m_value_reader
          * to read the keys and values. If member-wise, reads all keys first, then all values.
@@ -488,16 +515,16 @@ namespace uproot {
         }
 
         /**
-         * @brief Read a map from the buffer. If @ref m_with_header is true, reads a
-         * `fNBytes+fVersion` header and skip 6 extra bytes. Then calls @ref read_body() to
-         * read the map body.
+         * @brief Read a map from the buffer. Reads a `fNBytes+fVersion` header,
+         * then reads element version/checksum via @ref read_element_version(), and
+         * finally calls @ref read_body() to read the map body.
          *
          * @param buffer The binary buffer to read from.
          */
         void read( BinaryBuffer& buffer ) override {
             buffer.read_fNBytes();
             auto fVersion = buffer.read_fVersion();
-            buffer.skip( 6 );
+            read_element_version( buffer );
 
             bool is_memberwise = fVersion & kStreamedMemberWise;
             check_objwise_memberwise( is_memberwise );
@@ -506,8 +533,8 @@ namespace uproot {
 
         /**
          * @brief Read multiple maps from the buffer. If @ref m_with_header is true,
-         * reads a `fNBytes+fVersion` header and skip 6 extra bytes once before reading
-         * multiple maps.
+         * reads a `fNBytes+fVersion` header and element version/checksum once before
+         * reading multiple maps.
          *
          * @param buffer The binary buffer to read from.
          * @param count Number of maps to read. If negative, reads according to the
@@ -524,7 +551,7 @@ namespace uproot {
 
                 auto fNBytes  = buffer.read_fNBytes();
                 auto fVersion = buffer.read_fVersion();
-                buffer.skip( 6 );
+                read_element_version( buffer );
                 bool is_memberwise = fVersion & kStreamedMemberWise;
                 check_objwise_memberwise( is_memberwise );
 
@@ -545,7 +572,7 @@ namespace uproot {
                 {
                     auto fNBytes  = buffer.read_fNBytes();
                     auto fVersion = buffer.read_fVersion();
-                    buffer.skip( 6 ); // skip 6 bytes
+                    read_element_version( buffer );
 
                     is_memberwise = fVersion & kStreamedMemberWise;
                     check_objwise_memberwise( is_memberwise );
@@ -557,14 +584,13 @@ namespace uproot {
         }
 
         /**
-         * @brief Read sequences from the buffer until reaching the end position. If @ref
-         * m_with_header is true, reads a `fNBytes+fVersion` header and skip 6 extra bytes once
-         * before reading sequences. If data is stored member-wise, skips 2 bytes after the
-         * header.
+         * @brief Read maps from the buffer until reaching the end position. If @ref
+         * m_with_header is true, reads a `fNBytes+fVersion` header and element
+         * version/checksum once before reading maps.
          *
          * @param buffer The binary buffer to read from.
          * @param end_pos The end position to stop reading.
-         * @return Number of sequences read.
+         * @return Number of maps read.
          */
         uint32_t read_until( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
             if ( buffer.get_cursor() == end_pos ) return 0;
@@ -574,7 +600,7 @@ namespace uproot {
             {
                 buffer.read_fNBytes();
                 auto fVersion = buffer.read_fVersion();
-                buffer.skip( 6 ); // skip 6 bytes
+                read_element_version( buffer );
 
                 is_memberwise = fVersion & kStreamedMemberWise;
                 check_objwise_memberwise( is_memberwise );

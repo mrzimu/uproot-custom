@@ -414,6 +414,13 @@ class STLSeqReader(IReader):
                 f"STLSeqReader({self.name}) expected member-wise reading but got obj-wise"
             )
 
+    def read_element_version(self, buffer: BinaryBuffer):
+        version = buffer.read_fVersion()
+        checksum = None
+        if version == 0:
+            checksum = buffer.read_uint32()
+        return version, checksum
+
     def read_body(self, buffer: BinaryBuffer, is_memberwise: bool):
         fSize = buffer.read_uint32()
         self.offsets.append(self.offsets[-1] + fSize)
@@ -436,7 +443,7 @@ class STLSeqReader(IReader):
         self.check_objwise_memberwise(is_memberwise)
 
         if is_memberwise:
-            buffer.skip(2)
+            self.read_element_version(buffer)
 
         self.read_body(buffer, is_memberwise)
 
@@ -457,7 +464,7 @@ class STLSeqReader(IReader):
             self.check_objwise_memberwise(is_memberwise)
 
             if is_memberwise:
-                buffer.skip(2)
+                self.read_element_version(buffer)
 
             cur_count = 0
             while buffer.cursor < end_pos:
@@ -474,7 +481,7 @@ class STLSeqReader(IReader):
                 self.check_objwise_memberwise(is_memberwise)
 
             if is_memberwise:
-                buffer.skip(2)
+                self.read_element_version(buffer)
 
             for _ in range(count):
                 self.read_body(buffer, is_memberwise)
@@ -484,20 +491,20 @@ class STLSeqReader(IReader):
         if buffer.cursor == end_pos:
             return 0
 
-        is_membersie = self.objwise_or_memberwise == "member-wise"
+        is_memberwise = self.objwise_or_memberwise == "member-wise"
 
         if self.with_header:
             buffer.skip_fNBytes()
             fVersion = buffer.read_fVersion()
-            is_membersie = bool(fVersion & kStreamedMemberwise)
-            self.check_objwise_memberwise(is_membersie)
+            is_memberwise = bool(fVersion & kStreamedMemberwise)
+            self.check_objwise_memberwise(is_memberwise)
 
-        if is_membersie:
-            buffer.skip(2)
+        if is_memberwise:
+            self.read_element_version(buffer)
 
         count = 0
         while buffer.cursor < end_pos:
-            self.read_body(buffer, is_membersie)
+            self.read_body(buffer, is_memberwise)
             count += 1
         return count
 
@@ -535,6 +542,13 @@ class STLMapReader(IReader):
                 f"STLMapReader({self.name}) expected member-wise reading but got obj-wise"
             )
 
+    def read_element_version(self, buffer: BinaryBuffer):
+        version = buffer.read_fVersion()
+        checksum = None
+        if version == 0:
+            checksum = buffer.read_uint32()
+        return version, checksum
+
     def read_body(self, buffer: BinaryBuffer, is_memberwise: bool):
         fSize = buffer.read_uint32()
         self.offsets.append(self.offsets[-1] + fSize)
@@ -555,7 +569,8 @@ class STLMapReader(IReader):
     def read(self, buffer):
         buffer.skip_fNBytes()
         fVersion = buffer.read_fVersion()
-        buffer.skip(6)
+
+        self.read_element_version(buffer)
 
         is_memberwise = bool(fVersion & kStreamedMemberwise)
         self.check_objwise_memberwise(is_memberwise)
@@ -574,7 +589,8 @@ class STLMapReader(IReader):
             end_pos = buffer.cursor + fNBytes
 
             fVersion = buffer.read_fVersion()
-            buffer.skip(6)
+
+            self.read_element_version(buffer)
 
             is_memberwise = bool(fVersion & kStreamedMemberwise)
             self.check_objwise_memberwise(is_memberwise)
@@ -590,7 +606,8 @@ class STLMapReader(IReader):
             if self.with_header:
                 buffer.skip_fNBytes()
                 fVersion = buffer.read_fVersion()
-                buffer.skip(6)
+
+                self.read_element_version(buffer)
 
                 is_memberwise = bool(fVersion & kStreamedMemberwise)
                 self.check_objwise_memberwise(is_memberwise)
@@ -603,19 +620,20 @@ class STLMapReader(IReader):
         if buffer.cursor == end_pos:
             return 0
 
-        is_membersie = self.objwise_or_memberwise == "member-wise"
+        is_memberwise = self.objwise_or_memberwise == "member-wise"
 
         if self.with_header:
             buffer.skip_fNBytes()
             fVersion = buffer.read_fVersion()
-            buffer.skip(6)
 
-            is_membersie = bool(fVersion & kStreamedMemberwise)
-            self.check_objwise_memberwise(is_membersie)
+            self.read_element_version(buffer)
+
+            is_memberwise = bool(fVersion & kStreamedMemberwise)
+            self.check_objwise_memberwise(is_memberwise)
 
         count = 0
         while buffer.cursor < end_pos:
-            self.read_body(buffer, is_membersie)
+            self.read_body(buffer, is_memberwise)
             count += 1
         return count
 
