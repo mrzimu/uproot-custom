@@ -2,6 +2,10 @@
 
 Uproot-custom is an extension of [Uproot](https://uproot.readthedocs.io/en/latest/basic.html) that provides an enhanced way to read custom classes stored in `TTree`.
 
+```{important}
+Because of earlier mistakes in version management, the `v2.x.x` series should still be treated as a development version rather than a stable release.
+```
+
 ## What uproot-custom can do
 
 Uproot-custom can natively read complicated combinations of nested classes and c-style arrays (e.g. `map<int, map<int, map<int, string>>>`, `vector<TString>[3]`, etc), and memberwisely stored classes. It also exposes a way for users to implement their own readers for custom classes that are not supported by Uproot or uproot-custom built-in readers.
