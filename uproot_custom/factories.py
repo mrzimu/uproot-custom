@@ -1501,7 +1501,7 @@ class ObjectHeaderFactory(Factory):
 
         warnings.warn(
             "ObjectHeaderFactory is deprecated and will be removed in future versions. "
-            "Please use AnyPointerFactory nstead.",
+            "Please use AnyPointerFactory instead.",
             FutureWarning,
         )
 
