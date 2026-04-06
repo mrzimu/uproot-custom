@@ -28,7 +28,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv lock --upgrade
           uv sync --group dev
 
       - name: Run pytest
@@ -40,6 +39,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - uses: astral-sh/setup-uv@v7
         with:
@@ -49,7 +50,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y doxygen
-          uv lock --upgrade
           uv sync --group docs
 
       - name: Build docs
