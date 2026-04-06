@@ -1,8 +1,55 @@
-import numpy as np
-from numpy.testing import assert_array_equal
 import awkward as ak
+import numpy as np
+import pytest
+from numpy.testing import assert_array_equal
 
+import uproot_custom.factories
 from uproot_custom.readers import _forth
+
+
+def _test_helper(test_contexts, subtests):
+    for test_name, ctx in test_contexts.items():
+        test_file = ctx["file"]
+        test_branches = ctx["branches"]
+        for sub_branch in test_branches:
+            with subtests.test(test_name=test_name, branch=sub_branch):
+                test_file[sub_branch].array()
+
+
+def test_python(test_contexts, subtests, monkeypatch):
+    monkeypatch.setattr(uproot_custom.factories, "reader_backend", "python")
+    _test_helper(test_contexts, subtests)
+
+
+def test_cpp(test_contexts, subtests, monkeypatch):
+    monkeypatch.setattr(uproot_custom.factories, "reader_backend", "cpp")
+    _test_helper(test_contexts, subtests)
+
+
+def test_forth(test_contexts, subtests, monkeypatch):
+    forth_test_names = [
+        "primitive",
+        "stl_string",
+        "stl_sequence",
+        "stl_map",
+        "root_objects",
+        "cstyle_array",
+        "stl_array",
+        "stl_seq_with_obj",
+        "stl_map_with_obj",
+        "stl_nested",
+        "stl_complicated",
+    ]
+
+    forth_contexts = {
+        test_name: ctx
+        for (test_name, ctx) in test_contexts.items()
+        if test_name in forth_test_names
+    }
+
+    monkeypatch.setattr(uproot_custom.factories, "reader_backend", "forth")
+    with pytest.warns(UserWarning):
+        _test_helper(forth_contexts, subtests)
 
 
 def test_forth_read_data_generates_event_loop(monkeypatch):
@@ -62,3 +109,31 @@ def test_forth_cstyle_array_jagged_uses_event_end_pos():
     assert f"{_forth.stream_evt_end_pos_token} @" in codes
     assert forth_element.read_until_token in codes
     assert forth_reader.offsets_token in codes
+
+
+def test_numba(test_contexts, subtests, monkeypatch):
+    pytest.importorskip("numba")
+
+    numba_test_names = [
+        "primitive",
+        "stl_string",
+        "stl_sequence",
+        "stl_map",
+        "root_objects",
+        "cstyle_array",
+        "stl_array",
+        "stl_seq_with_obj",
+        "stl_map_with_obj",
+        "stl_nested",
+        "stl_complicated",
+    ]
+
+    numba_contexts = {
+        test_name: ctx
+        for (test_name, ctx) in test_contexts.items()
+        if test_name in numba_test_names
+    }
+
+    monkeypatch.setattr(uproot_custom.factories, "reader_backend", "numba")
+    with pytest.warns(UserWarning):
+        _test_helper(numba_contexts, subtests)

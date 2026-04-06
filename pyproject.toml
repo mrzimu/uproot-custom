@@ -20,7 +20,7 @@ docs = [
   "breathe"
 ]
 ipynb = ["ipykernel"]
-numba = ["numba", "black"]
+numba = ["numba", "black", "pytest-xdist"]
 
 [project]
 authors = [{name = "Mingrun Li", email = "mrli@ihep.ac.cn"}]
