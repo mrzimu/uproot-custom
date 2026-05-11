@@ -209,6 +209,9 @@ class BinaryStream:
         return "BinaryStream:\n" + wrapper.fill(res) + "]"
 
 
+BinaryBuffer = BinaryStream
+
+
 class IReader:
     def __init__(self, name: str):
         self.name = name
