@@ -42,11 +42,11 @@ namespace uproot {
             : IReader( name ), m_data( std::make_shared<vector<T>>() ) {}
 
         /**
-         * @brief Read a value from the buffer and store it. Only reads one value at a time.
+         * @brief Read a value from the stream and store it. Only reads one value at a time.
          *
-         * @param buffer The binary buffer to read from
+         * @param stream The binary stream to read from
          */
-        void read( BinaryBuffer& buffer ) override { m_data->push_back( buffer.read<T>() ); }
+        void read( BinaryStream& stream ) override { m_data->push_back( stream.read<T>() ); }
 
         /**
          * @brief Get the read data as a numpy array
@@ -89,22 +89,22 @@ namespace uproot {
             , m_pidf_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) ) {}
 
         /**
-         * @brief Read a TObject from the buffer. A TObject contains `fVersion` (int16_t),
+         * @brief Read a TObject from the stream. A TObject contains `fVersion` (int16_t),
          * `fUniqueID` (int32_t), `fBits` (uint32_t). If `fBits & kIsReferenced`, then a `pidf`
          * (uint16_t) follows. If @ref m_keep_data is true, the read data
          * will be stored.
          *
-         * @param buffer The binary buffer to read from
+         * @param stream The binary stream to read from
          */
-        void read( BinaryBuffer& buffer ) override {
-            buffer.skip_fVersion();
-            auto fUniqueID = buffer.read<int32_t>();
-            auto fBits     = buffer.read<uint32_t>();
+        void read( BinaryStream& stream ) override {
+            stream.skip_fVersion();
+            auto fUniqueID = stream.read<int32_t>();
+            auto fBits     = stream.read<uint32_t>();
 
-            if ( fBits & ( BinaryBuffer::kIsReferenced ) )
+            if ( fBits & ( BinaryStream::kIsReferenced ) )
             {
-                if ( m_keep_data ) m_pidf->push_back( buffer.read<uint16_t>() );
-                else buffer.skip( 2 );
+                if ( m_keep_data ) m_pidf->push_back( stream.read<uint16_t>() );
+                else stream.skip( 2 );
             }
 
             if ( m_keep_data )
@@ -162,29 +162,29 @@ namespace uproot {
             , m_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) ) {}
 
         /**
-         * @brief Read a TString from the buffer. A TString starts with a uint8_t size. If the
+         * @brief Read a TString from the stream. A TString starts with a uint8_t size. If the
          * size is 255, then a uint32_t size follows. Then the string data follows. It @ref
          * m_with_header is true, read a `fNBytes+fVersion` header before reading the TString.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          */
-        void read( BinaryBuffer& buffer ) override {
-            uint32_t fSize = buffer.read<uint8_t>();
-            if ( fSize == 255 ) fSize = buffer.read<uint32_t>();
+        void read( BinaryStream& stream ) override {
+            uint32_t fSize = stream.read<uint8_t>();
+            if ( fSize == 255 ) fSize = stream.read<uint32_t>();
 
-            for ( int i = 0; i < fSize; i++ ) { m_data->push_back( buffer.read<uint8_t>() ); }
+            for ( int i = 0; i < fSize; i++ ) { m_data->push_back( stream.read<uint8_t>() ); }
             m_offsets->push_back( m_data->size() );
         }
 
         /**
-         * @brief Read multiple TStrings from the buffer. If @ref m_with_header is true, only
+         * @brief Read multiple TStrings from the stream. If @ref m_with_header is true, only
          * read `fNBytes+fVersion` header once before reading multiple TStrings.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @param count Number of TStrings to read. If negative, throws an error.
          * @return Number of TStrings read.
          */
-        uint32_t read_many( BinaryBuffer& buffer, const int64_t count ) override {
+        uint32_t read_many( BinaryStream& stream, const int64_t count ) override {
             if ( count < 0 )
                 throw std::runtime_error(
                     "TStringReader::read_many with negative count not supported!" );
@@ -193,36 +193,36 @@ namespace uproot {
 
             if ( m_with_header )
             {
-                auto fNBytes  = buffer.read_fNBytes();
-                auto fVersion = buffer.read_fVersion();
+                auto fNBytes  = stream.read_fNBytes();
+                auto fVersion = stream.read_fVersion();
             }
 
-            for ( auto i = 0; i < count; i++ ) { read( buffer ); }
+            for ( auto i = 0; i < count; i++ ) { read( stream ); }
             return count;
         }
 
         /**
-         * @brief Read TStrings from the buffer until reaching the end position. If @ref
+         * @brief Read TStrings from the stream until reaching the end position. If @ref
          * m_with_header is true, only read `fNBytes+fVersion` header once before reading
          * TStrings.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @param end_pos The end position to stop reading.
          * @return Number of TStrings read.
          */
-        uint32_t read_until( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
-            if ( buffer.get_cursor() == end_pos ) return 0;
+        uint32_t read_until( BinaryStream& stream, const uint8_t* end_pos ) override {
+            if ( stream.get_cursor() == end_pos ) return 0;
 
             if ( m_with_header )
             {
-                auto fNBytes  = buffer.read_fNBytes();
-                auto fVersion = buffer.read_fVersion();
+                auto fNBytes  = stream.read_fNBytes();
+                auto fVersion = stream.read_fVersion();
             }
 
             uint32_t cur_count = 0;
-            while ( buffer.get_cursor() < end_pos )
+            while ( stream.get_cursor() < end_pos )
             {
-                read( buffer );
+                read( stream );
                 cur_count++;
             }
             return cur_count;
@@ -290,62 +290,62 @@ namespace uproot {
         }
 
         /**
-         * @brief Read the element version and checksum from the buffer.
+         * @brief Read the element version and checksum from the stream.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @return A tuple of (version, checksum).
          */
-        pair<int, uint32_t> read_element_version( BinaryBuffer& buffer ) {
-            auto version      = buffer.read_fVersion();
+        pair<int, uint32_t> read_element_version( BinaryStream& stream ) {
+            auto version      = stream.read_fVersion();
             uint32_t checksum = 0;
-            if ( version == 0 ) checksum = buffer.read<uint32_t>();
+            if ( version == 0 ) checksum = stream.read<uint32_t>();
             return { version, checksum };
         }
 
         /**
-         * @brief Read the body of the sequence from the buffer. First reads the size
+         * @brief Read the body of the sequence from the stream. First reads the size
          * (uint32_t) of the sequence, then calls @ref m_element_reader to read the elements.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @param is_memberwise Whether the current reading mode is member-wise.
          */
-        void read_body( BinaryBuffer& buffer, bool is_memberwise ) {
-            auto fSize = buffer.read<uint32_t>();
+        void read_body( BinaryStream& stream, bool is_memberwise ) {
+            auto fSize = stream.read<uint32_t>();
             m_offsets->push_back( m_offsets->back() + fSize );
 
             debug_printf( "STLSeqReader(%s): reading body, is_memberwise=%d, fSize=%d\n",
                           m_name.c_str(), is_memberwise, fSize );
-            debug_printf( buffer );
+            debug_printf( stream );
 
-            if ( is_memberwise ) m_element_reader->read_many_memberwise( buffer, fSize );
-            else m_element_reader->read_many( buffer, fSize );
+            if ( is_memberwise ) m_element_reader->read_many_memberwise( stream, fSize );
+            else m_element_reader->read_many( stream, fSize );
         }
 
         /**
-         * @brief Read a sequence from the buffer. If @ref m_with_header is true, reads a
+         * @brief Read a sequence from the stream. If @ref m_with_header is true, reads a
          * `fNBytes+fVersion` header. Then calls @ref read_body() to read the sequence body.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          */
-        void read( BinaryBuffer& buffer ) override {
-            buffer.read_fNBytes();
-            auto fVersion      = buffer.read_fVersion();
+        void read( BinaryStream& stream ) override {
+            stream.read_fNBytes();
+            auto fVersion      = stream.read_fVersion();
             bool is_memberwise = fVersion & kStreamedMemberWise;
             check_objwise_memberwise( is_memberwise );
-            if ( is_memberwise ) read_element_version( buffer );
-            read_body( buffer, is_memberwise );
+            if ( is_memberwise ) read_element_version( stream );
+            read_body( stream, is_memberwise );
         }
 
         /**
-         * @brief Read multiple sequences from the buffer. If @ref m_with_header is true,
+         * @brief Read multiple sequences from the stream. If @ref m_with_header is true,
          * reads a `fNBytes+fVersion` header once before reading multiple sequences.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @param count Number of sequences to read. If negative, reads according to the
          * `fNBytes` header.
          * @return Number of sequences read.
          */
-        uint32_t read_many( BinaryBuffer& buffer, const int64_t count ) override {
+        uint32_t read_many( BinaryStream& stream, const int64_t count ) override {
             if ( count == 0 ) return 0;
             else if ( count < 0 )
             {
@@ -353,17 +353,17 @@ namespace uproot {
                     throw std::runtime_error( "STLSeqReader::read with negative count only "
                                               "supported when with_header is true!" );
 
-                auto fNBytes       = buffer.read_fNBytes();
-                auto end_pos       = buffer.get_cursor() + fNBytes;
-                auto fVersion      = buffer.read_fVersion();
+                auto fNBytes       = stream.read_fNBytes();
+                auto end_pos       = stream.get_cursor() + fNBytes;
+                auto fVersion      = stream.read_fVersion();
                 bool is_memberwise = fVersion & kStreamedMemberWise;
                 check_objwise_memberwise( is_memberwise );
-                if ( is_memberwise ) read_element_version( buffer );
+                if ( is_memberwise ) read_element_version( stream );
 
                 uint32_t cur_count = 0;
-                while ( buffer.get_cursor() < end_pos )
+                while ( stream.get_cursor() < end_pos )
                 {
-                    read_body( buffer, is_memberwise );
+                    read_body( stream, is_memberwise );
                     cur_count++;
                 }
                 return cur_count;
@@ -373,43 +373,43 @@ namespace uproot {
                 bool is_memberwise = m_objwise_or_memberwise == 1;
                 if ( m_with_header )
                 {
-                    buffer.read_fNBytes();
-                    auto fVersion = buffer.read_fVersion();
+                    stream.read_fNBytes();
+                    auto fVersion = stream.read_fVersion();
                     is_memberwise = fVersion & kStreamedMemberWise;
                     check_objwise_memberwise( is_memberwise );
                 }
-                if ( is_memberwise ) read_element_version( buffer );
+                if ( is_memberwise ) read_element_version( stream );
 
-                for ( auto i = 0; i < count; i++ ) { read_body( buffer, is_memberwise ); }
+                for ( auto i = 0; i < count; i++ ) { read_body( stream, is_memberwise ); }
                 return count;
             }
         }
 
         /**
-         * @brief Read sequences from the buffer until reaching the end position. If @ref
+         * @brief Read sequences from the stream until reaching the end position. If @ref
          * m_with_header is true, reads a `fNBytes+fVersion` header once before reading
          * sequences. If data is stored member-wise, skips 2 bytes after the header.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @param end_pos The end position to stop reading.
          * @return Number of sequences read.
          */
-        uint32_t read_until( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
-            if ( buffer.get_cursor() == end_pos ) return 0;
+        uint32_t read_until( BinaryStream& stream, const uint8_t* end_pos ) override {
+            if ( stream.get_cursor() == end_pos ) return 0;
             bool is_memberwise = m_objwise_or_memberwise == 1;
             if ( m_with_header )
             {
-                auto fNBytes  = buffer.read_fNBytes();
-                auto fVersion = buffer.read_fVersion();
+                auto fNBytes  = stream.read_fNBytes();
+                auto fVersion = stream.read_fVersion();
                 is_memberwise = fVersion & kStreamedMemberWise;
                 check_objwise_memberwise( is_memberwise );
             }
-            if ( is_memberwise ) read_element_version( buffer );
+            if ( is_memberwise ) read_element_version( stream );
 
             uint32_t cur_count = 0;
-            while ( buffer.get_cursor() < end_pos )
+            while ( stream.get_cursor() < end_pos )
             {
-                read_body( buffer, is_memberwise );
+                read_body( stream, is_memberwise );
                 cur_count++;
             }
             return cur_count;
@@ -474,74 +474,74 @@ namespace uproot {
         }
 
         /**
-         * @brief Read the element version and checksum from the buffer.
+         * @brief Read the element version and checksum from the stream.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @return A tuple of (version, checksum).
          */
-        pair<int, uint32_t> read_element_version( BinaryBuffer& buffer ) {
-            auto version      = buffer.read_fVersion();
+        pair<int, uint32_t> read_element_version( BinaryStream& stream ) {
+            auto version      = stream.read_fVersion();
             uint32_t checksum = 0;
-            if ( version == 0 ) checksum = buffer.read<uint32_t>();
+            if ( version == 0 ) checksum = stream.read<uint32_t>();
             return { version, checksum };
         }
 
         /**
-         * @brief Read the body of the map from the buffer. First reads the size
+         * @brief Read the body of the map from the stream. First reads the size
          * (uint32_t) of the map, then calls @ref m_key_reader and @ref m_value_reader
          * to read the keys and values. If member-wise, reads all keys first, then all values.
          * Otherwise, reads key-value pairs one by one.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @param is_memberwise Whether the current reading mode is member-wise.
          */
-        void read_body( BinaryBuffer& buffer, bool is_memberwise ) {
-            auto fSize = buffer.read<uint32_t>();
+        void read_body( BinaryStream& stream, bool is_memberwise ) {
+            auto fSize = stream.read<uint32_t>();
             m_offsets->push_back( m_offsets->back() + fSize );
 
             if ( is_memberwise )
             {
-                m_key_reader->read_many( buffer, fSize );
-                m_value_reader->read_many( buffer, fSize );
+                m_key_reader->read_many( stream, fSize );
+                m_value_reader->read_many( stream, fSize );
             }
             else
             {
                 for ( auto i = 0; i < fSize; i++ )
                 {
-                    m_key_reader->read( buffer );
-                    m_value_reader->read( buffer );
+                    m_key_reader->read( stream );
+                    m_value_reader->read( stream );
                 }
             }
         }
 
         /**
-         * @brief Read a map from the buffer. Reads a `fNBytes+fVersion` header,
+         * @brief Read a map from the stream. Reads a `fNBytes+fVersion` header,
          * then reads element version/checksum via @ref read_element_version(), and
          * finally calls @ref read_body() to read the map body.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          */
-        void read( BinaryBuffer& buffer ) override {
-            buffer.read_fNBytes();
-            auto fVersion = buffer.read_fVersion();
-            read_element_version( buffer );
+        void read( BinaryStream& stream ) override {
+            stream.read_fNBytes();
+            auto fVersion = stream.read_fVersion();
+            read_element_version( stream );
 
             bool is_memberwise = fVersion & kStreamedMemberWise;
             check_objwise_memberwise( is_memberwise );
-            read_body( buffer, is_memberwise );
+            read_body( stream, is_memberwise );
         }
 
         /**
-         * @brief Read multiple maps from the buffer. If @ref m_with_header is true,
+         * @brief Read multiple maps from the stream. If @ref m_with_header is true,
          * reads a `fNBytes+fVersion` header and element version/checksum once before
          * reading multiple maps.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @param count Number of maps to read. If negative, reads according to the
          * `fNBytes` header.
          * @return Number of maps read.
          */
-        uint32_t read_many( BinaryBuffer& buffer, const int64_t count ) override {
+        uint32_t read_many( BinaryStream& stream, const int64_t count ) override {
             if ( count == 0 ) return 0;
             else if ( count < 0 )
             {
@@ -549,18 +549,18 @@ namespace uproot {
                     throw std::runtime_error( "STLMapReader::read with negative count only "
                                               "supported when with_header is true!" );
 
-                auto fNBytes  = buffer.read_fNBytes();
-                auto fVersion = buffer.read_fVersion();
-                read_element_version( buffer );
+                auto fNBytes  = stream.read_fNBytes();
+                auto fVersion = stream.read_fVersion();
+                read_element_version( stream );
                 bool is_memberwise = fVersion & kStreamedMemberWise;
                 check_objwise_memberwise( is_memberwise );
 
-                auto end_pos = buffer.get_cursor() + fNBytes - 8;
+                auto end_pos = stream.get_cursor() + fNBytes - 8;
 
                 uint32_t cur_count = 0;
-                while ( buffer.get_cursor() < end_pos )
+                while ( stream.get_cursor() < end_pos )
                 {
-                    read_body( buffer, is_memberwise );
+                    read_body( stream, is_memberwise );
                     cur_count++;
                 }
                 return cur_count;
@@ -570,59 +570,59 @@ namespace uproot {
                 bool is_memberwise = m_objwise_or_memberwise == 1;
                 if ( m_with_header )
                 {
-                    auto fNBytes  = buffer.read_fNBytes();
-                    auto fVersion = buffer.read_fVersion();
-                    read_element_version( buffer );
+                    auto fNBytes  = stream.read_fNBytes();
+                    auto fVersion = stream.read_fVersion();
+                    read_element_version( stream );
 
                     is_memberwise = fVersion & kStreamedMemberWise;
                     check_objwise_memberwise( is_memberwise );
                 }
 
-                for ( auto i = 0; i < count; i++ ) { read_body( buffer, is_memberwise ); }
+                for ( auto i = 0; i < count; i++ ) { read_body( stream, is_memberwise ); }
                 return count;
             }
         }
 
         /**
-         * @brief Read maps from the buffer until reaching the end position. If @ref
+         * @brief Read maps from the stream until reaching the end position. If @ref
          * m_with_header is true, reads a `fNBytes+fVersion` header and element
          * version/checksum once before reading maps.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @param end_pos The end position to stop reading.
          * @return Number of maps read.
          */
-        uint32_t read_until( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
-            if ( buffer.get_cursor() == end_pos ) return 0;
+        uint32_t read_until( BinaryStream& stream, const uint8_t* end_pos ) override {
+            if ( stream.get_cursor() == end_pos ) return 0;
 
             bool is_memberwise = m_objwise_or_memberwise == 1;
             if ( m_with_header )
             {
-                buffer.read_fNBytes();
-                auto fVersion = buffer.read_fVersion();
-                read_element_version( buffer );
+                stream.read_fNBytes();
+                auto fVersion = stream.read_fVersion();
+                read_element_version( stream );
 
                 is_memberwise = fVersion & kStreamedMemberWise;
                 check_objwise_memberwise( is_memberwise );
             }
 
             uint32_t cur_count = 0;
-            while ( buffer.get_cursor() < end_pos )
+            while ( stream.get_cursor() < end_pos )
             {
-                read_body( buffer, is_memberwise );
+                read_body( stream, is_memberwise );
                 cur_count++;
             }
             return cur_count;
         }
 
         /**
-         * @brief Read multiple maps from the buffer in member-wise mode.
+         * @brief Read multiple maps from the stream in member-wise mode.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @param count Number of maps to read. If negative, throws an error.
          * @return Number of maps read.
          */
-        virtual uint32_t read_many_memberwise( BinaryBuffer& buffer,
+        virtual uint32_t read_many_memberwise( BinaryStream& stream,
                                                const int64_t count ) override {
             if ( count < 0 )
             {
@@ -633,7 +633,7 @@ namespace uproot {
 
             bool is_memberwise = true;
             check_objwise_memberwise( is_memberwise );
-            return read_many( buffer, count );
+            return read_many( stream, count );
         }
 
         /**
@@ -673,59 +673,59 @@ namespace uproot {
             , m_data( std::make_shared<vector<uint8_t>>() ) {}
 
         /**
-         * @brief Read the body of the string from the buffer. A string starts with a uint8_t
+         * @brief Read the body of the string from the stream. A string starts with a uint8_t
          * size. If the size is 255, then a uint32_t size follows. Then the string data
          * follows.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          */
-        void read_body( BinaryBuffer& buffer ) {
-            uint32_t fSize = buffer.read<uint8_t>();
-            if ( fSize == 255 ) fSize = buffer.read<uint32_t>();
+        void read_body( BinaryStream& stream ) {
+            uint32_t fSize = stream.read<uint8_t>();
+            if ( fSize == 255 ) fSize = stream.read<uint32_t>();
 
             m_offsets->push_back( m_offsets->back() + fSize );
-            for ( int i = 0; i < fSize; i++ ) { m_data->push_back( buffer.read<uint8_t>() ); }
+            for ( int i = 0; i < fSize; i++ ) { m_data->push_back( stream.read<uint8_t>() ); }
         }
 
         /**
-         * @brief Read a string from the buffer. If @ref m_with_header is true, reads a
+         * @brief Read a string from the stream. If @ref m_with_header is true, reads a
          * `fNBytes+fVersion` header before reading the string body.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          */
-        void read( BinaryBuffer& buffer ) override {
+        void read( BinaryStream& stream ) override {
             if ( m_with_header )
             {
-                buffer.read_fNBytes();
-                buffer.read_fVersion();
+                stream.read_fNBytes();
+                stream.read_fVersion();
             }
-            read_body( buffer );
+            read_body( stream );
         }
 
         /**
-         * @brief Read multiple strings from the buffer. If @ref m_with_header is true,
+         * @brief Read multiple strings from the stream. If @ref m_with_header is true,
          * reads a `fNBytes+fVersion` header once before reading multiple strings.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @param count Number of strings to read. If negative, reads according to the
          * `fNBytes` header.
          * @return Number of strings read.
          */
-        uint32_t read_many( BinaryBuffer& buffer, const int64_t count ) override {
+        uint32_t read_many( BinaryStream& stream, const int64_t count ) override {
             if ( count == 0 ) return 0;
             else if ( count < 0 )
             {
                 if ( !m_with_header )
                     throw std::runtime_error( "STLStringReader::read with negative count only "
                                               "supported when with_header is true!" );
-                auto fNBytes  = buffer.read_fNBytes();
-                auto fVersion = buffer.read_fVersion();
+                auto fNBytes  = stream.read_fNBytes();
+                auto fVersion = stream.read_fVersion();
 
-                auto end_pos       = buffer.get_cursor() + fNBytes - 2; // -2 for fVersion
+                auto end_pos       = stream.get_cursor() + fNBytes - 2; // -2 for fVersion
                 uint32_t cur_count = 0;
-                while ( buffer.get_cursor() < end_pos )
+                while ( stream.get_cursor() < end_pos )
                 {
-                    read_body( buffer );
+                    read_body( stream );
                     cur_count++;
                 }
                 return cur_count;
@@ -734,36 +734,36 @@ namespace uproot {
             {
                 if ( m_with_header )
                 {
-                    auto fNBytes  = buffer.read_fNBytes();
-                    auto fVersion = buffer.read_fVersion();
+                    auto fNBytes  = stream.read_fNBytes();
+                    auto fVersion = stream.read_fVersion();
                 }
 
-                for ( auto i = 0; i < count; i++ ) { read_body( buffer ); }
+                for ( auto i = 0; i < count; i++ ) { read_body( stream ); }
                 return count;
             }
         }
 
         /**
-         * @brief Read strings from the buffer until reaching the end position. If @ref
+         * @brief Read strings from the stream until reaching the end position. If @ref
          * m_with_header is true, reads a `fNBytes+fVersion` header once before reading
          * strings.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @param end_pos The end position to stop reading.
          * @return Number of strings read.
          */
-        uint32_t read_until( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
-            if ( buffer.get_cursor() == end_pos ) return 0;
+        uint32_t read_until( BinaryStream& stream, const uint8_t* end_pos ) override {
+            if ( stream.get_cursor() == end_pos ) return 0;
             if ( m_with_header )
             {
-                buffer.read_fNBytes();
-                buffer.read_fVersion();
+                stream.read_fNBytes();
+                stream.read_fVersion();
             }
 
             int32_t cur_count = 0;
-            while ( buffer.get_cursor() < end_pos )
+            while ( stream.get_cursor() < end_pos )
             {
-                read_body( buffer );
+                read_body( stream );
                 cur_count++;
             }
             return cur_count;
@@ -811,15 +811,15 @@ namespace uproot {
             , m_data( std::make_shared<vector<T>>() ) {}
 
         /**
-         * @brief Read a TArray from the buffer. First reads the size (uint32_t) of the TArray,
+         * @brief Read a TArray from the stream. First reads the size (uint32_t) of the TArray,
          * then reads the elements of the TArray.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          */
-        void read( BinaryBuffer& buffer ) override {
-            auto fSize = buffer.read<uint32_t>();
+        void read( BinaryStream& stream ) override {
+            auto fSize = stream.read<uint32_t>();
             m_offsets->push_back( m_offsets->back() + fSize );
-            for ( auto i = 0; i < fSize; i++ ) { m_data->push_back( buffer.read<T>() ); }
+            for ( auto i = 0; i < fSize; i++ ) { m_data->push_back( stream.read<T>() ); }
         }
 
         /**
@@ -860,30 +860,30 @@ namespace uproot {
             : IReader( name ), m_element_readers( element_readers ) {}
 
         /**
-         * @brief Read all grouped elements from the buffer sequentially.
+         * @brief Read all grouped elements from the stream sequentially.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          */
-        void read( BinaryBuffer& buffer ) override {
+        void read( BinaryStream& stream ) override {
             for ( auto& reader : m_element_readers )
             {
                 debug_printf( "GroupReader %s: reading %s\n", m_name.c_str(),
                               reader->name().c_str() );
-                debug_printf( buffer );
-                reader->read( buffer );
+                debug_printf( stream );
+                reader->read( stream );
             }
         }
 
         /**
-         * @brief Read multiple grouped elements from the buffer sequentially in member-wise
+         * @brief Read multiple grouped elements from the stream sequentially in member-wise
          * mode. This method calls @ref IReader::read_many() of each grouped
          * reader.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @param count Number of objects to read.
          * @return Number of objects read. Should be equal to @ref count.
          */
-        uint32_t read_many_memberwise( BinaryBuffer& buffer, const int64_t count ) override {
+        uint32_t read_many_memberwise( BinaryStream& stream, const int64_t count ) override {
             if ( count < 0 )
             {
                 stringstream msg;
@@ -895,8 +895,8 @@ namespace uproot {
             {
                 debug_printf( "GroupReader %s: reading %s\n", m_name.c_str(),
                               reader->name().c_str() );
-                debug_printf( buffer );
-                reader->read_many( buffer, count );
+                debug_printf( stream );
+                reader->read_many( stream, count );
             }
             return count;
         }
@@ -940,44 +940,44 @@ namespace uproot {
             : IReader( name ), m_element_readers( element_readers ) {}
 
         /**
-         * @brief Read the object from the buffer. First reads the `fNBytes+fVersion`
+         * @brief Read the object from the stream. First reads the `fNBytes+fVersion`
          * header, then reads all elements sequentially.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          */
-        void read( BinaryBuffer& buffer ) override {
-            auto fNBytes  = buffer.read_fNBytes();
-            auto fVersion = buffer.read_fVersion();
+        void read( BinaryStream& stream ) override {
+            auto fNBytes  = stream.read_fNBytes();
+            auto fVersion = stream.read_fVersion();
 
-            auto start_pos = buffer.get_cursor();
-            auto end_pos   = buffer.get_cursor() + fNBytes - 2; // -2 for fVersion
+            auto start_pos = stream.get_cursor();
+            auto end_pos   = stream.get_cursor() + fNBytes - 2; // -2 for fVersion
 
             for ( auto& reader : m_element_readers )
             {
                 debug_printf( "AnyClassReader %s: reading %s\n", m_name.c_str(),
                               reader->name().c_str() );
-                debug_printf( buffer );
-                reader->read( buffer );
+                debug_printf( stream );
+                reader->read( stream );
             }
 
-            if ( buffer.get_cursor() != end_pos )
+            if ( stream.get_cursor() != end_pos )
             {
                 stringstream msg;
                 msg << "AnyClassReader: Invalid read length for " << name() << "! Expect "
-                    << end_pos - start_pos << ", got " << buffer.get_cursor() - start_pos;
+                    << end_pos - start_pos << ", got " << stream.get_cursor() - start_pos;
                 throw std::runtime_error( msg.str() );
             }
         }
 
         /**
-         * @brief Read multiple objects from the buffer in member-wise mode. This method
+         * @brief Read multiple objects from the stream in member-wise mode. This method
          * calls @ref IReader::read_many() of each element reader sequentially.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @param count Number of objects to read.
          * @return Number of objects read. Should be equal to @ref count.
          */
-        uint32_t read_many_memberwise( BinaryBuffer& buffer, const int64_t count ) override {
+        uint32_t read_many_memberwise( BinaryStream& stream, const int64_t count ) override {
             if ( count < 0 )
             {
                 stringstream msg;
@@ -989,8 +989,8 @@ namespace uproot {
             {
                 debug_printf( "AnyClassReader %s: reading memberwise %s\n", m_name.c_str(),
                               reader->name().c_str() );
-                debug_printf( buffer );
-                reader->read_many( buffer, count );
+                debug_printf( stream );
+                reader->read_many( stream, count );
             }
 
             return count;
@@ -1032,25 +1032,25 @@ namespace uproot {
             , m_element_reader( element_reader )
             , m_object_indexes( std::make_shared<vector<int64_t>>() ) {}
 
-        void check_cursor_position( BinaryBuffer& buffer, const uint32_t expected_nbytes,
+        void check_cursor_position( BinaryStream& stream, const uint32_t expected_nbytes,
                                     const uint8_t* expected_pos ) {
-            if ( buffer.get_cursor() != expected_pos )
+            if ( stream.get_cursor() != expected_pos )
             {
                 stringstream msg;
                 msg << "AnyPointerReader(" << name() << "): Invalid read length! Expect "
                     << expected_nbytes << " bytes, got "
                     << static_cast<int64_t>( expected_nbytes ) -
-                           ( expected_pos - buffer.get_cursor() )
+                           ( expected_pos - stream.get_cursor() )
                     << " bytes.";
                 throw std::runtime_error( msg.str() );
             }
         }
 
-        void read( BinaryBuffer& buffer ) override {
-            auto start_ptr     = buffer.get_cursor();
-            uint32_t start_pos = buffer.get_index();
-            uint32_t ref_begin = start_pos + buffer.get_initial_cursor_offset();
-            auto fNBytes       = buffer.read<uint32_t>();
+        void read( BinaryStream& stream ) override {
+            auto start_ptr     = stream.get_cursor();
+            uint32_t start_pos = stream.get_index();
+            uint32_t ref_begin = start_pos + stream.get_initial_cursor_offset();
+            auto fNBytes       = stream.read<uint32_t>();
 
             int16_t fVersion;
             uint32_t fTag;
@@ -1065,7 +1065,7 @@ namespace uproot {
             else
             {
                 fVersion = 1;
-                fTag     = buffer.read<uint32_t>();
+                fTag     = stream.read<uint32_t>();
                 fNBytes &= ~kByteCountMask;
             }
 
@@ -1075,33 +1075,33 @@ namespace uproot {
             {
                 if ( fTag == 0 )
                 {
-                    check_cursor_position( buffer, fNBytes, end_ptr );
+                    check_cursor_position( stream, fNBytes, end_ptr );
                     m_object_indexes->push_back( -1 ); // use -1 to indicate null pointer
                     return;
                 }
                 else if ( fTag == 1 )
                     throw std::runtime_error( "AnyPointerReader(" + name() +
                                               "): Unsupported fTag value 1" );
-                else if ( buffer.get_refs().find( fTag ) == buffer.get_refs().end() )
+                else if ( stream.get_refs().find( fTag ) == stream.get_refs().end() )
                 {
                     // skip unknown reference
-                    auto nskip = end_ptr - buffer.get_cursor();
-                    buffer.skip( nskip );
-                    check_cursor_position( buffer, fNBytes, end_ptr );
+                    auto nskip = end_ptr - stream.get_cursor();
+                    stream.skip( nskip );
+                    check_cursor_position( stream, fNBytes, end_ptr );
                     return;
                 }
                 else
                 {
-                    auto ref     = buffer.get_refs().at( fTag );
-                    auto ref_idx = std::get<BinaryBuffer::RefObj>( ref ).index;
+                    auto ref     = stream.get_refs().at( fTag );
+                    auto ref_idx = std::get<BinaryStream::RefObj>( ref ).index;
                     m_object_indexes->push_back( ref_idx );
-                    check_cursor_position( buffer, fNBytes, end_ptr );
+                    check_cursor_position( stream, fNBytes, end_ptr );
                     return;
                 }
             }
             else if ( fTag == kNewClassTag )
             {
-                auto class_name = buffer.read_null_terminated_string();
+                auto class_name = stream.read_null_terminated_string();
                 if ( m_class_name.empty() ) m_class_name = class_name;
                 else if ( m_class_name != class_name )
                 {
@@ -1112,27 +1112,27 @@ namespace uproot {
                     throw std::runtime_error( msg.str() );
                 }
 
-                auto& buf_refs = buffer.get_refs();
+                auto& buf_refs = stream.get_refs();
 
                 auto ref_key = fVersion > 0 ? ref_begin + kMapOffset : buf_refs.size() + 1;
-                buf_refs[ref_key] = BinaryBuffer::RefCls{ class_name };
+                buf_refs[ref_key] = BinaryStream::RefCls{ class_name };
 
-                m_element_reader->read( buffer );
+                m_element_reader->read( stream );
                 m_object_indexes->push_back( m_object_counter );
 
                 ref_key = fVersion > 0 ? ref_begin + kMapOffset : buf_refs.size() + 1;
-                buf_refs[ref_key] = BinaryBuffer::RefObj{ m_object_counter };
+                buf_refs[ref_key] = BinaryStream::RefObj{ m_object_counter };
 
                 m_object_counter++;
             }
             else
             {
-                auto& buf_refs   = buffer.get_refs();
+                auto& buf_refs   = stream.get_refs();
                 auto cls_ref_key = fTag & ( ~kClassMask );
                 if ( buf_refs.find( cls_ref_key ) != buf_refs.end() )
                 {
                     auto class_name =
-                        std::get<BinaryBuffer::RefCls>( buf_refs.at( cls_ref_key ) ).name;
+                        std::get<BinaryStream::RefCls>( buf_refs.at( cls_ref_key ) ).name;
                     if ( class_name != m_class_name )
                     {
                         stringstream msg;
@@ -1143,16 +1143,16 @@ namespace uproot {
                     }
                 }
 
-                m_element_reader->read( buffer );
+                m_element_reader->read( stream );
                 m_object_indexes->push_back( m_object_counter );
 
                 auto obj_ref_key = fVersion > 0 ? ref_begin + kMapOffset : buf_refs.size() + 1;
-                buf_refs[obj_ref_key] = BinaryBuffer::RefObj{ m_object_counter };
+                buf_refs[obj_ref_key] = BinaryStream::RefObj{ m_object_counter };
 
                 m_object_counter++;
             }
 
-            check_cursor_position( buffer, fNBytes, end_ptr );
+            check_cursor_position( stream, fNBytes, end_ptr );
         }
 
         py::object data() const override {
@@ -1186,28 +1186,28 @@ namespace uproot {
             : IReader( name ), m_element_reader( element_reader ) {}
 
         /**
-         * @brief Read the object header from the buffer, then delegate to @ref
+         * @brief Read the object header from the stream, then delegate to @ref
          * m_element_reader to read the object content.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          */
-        void read( BinaryBuffer& buffer ) override {
-            auto nbytes    = buffer.read_fNBytes();
-            auto start_pos = buffer.get_cursor();
-            auto end_pos   = buffer.get_cursor() + nbytes;
+        void read( BinaryStream& stream ) override {
+            auto nbytes    = stream.read_fNBytes();
+            auto start_pos = stream.get_cursor();
+            auto end_pos   = stream.get_cursor() + nbytes;
 
-            auto fTag = buffer.read<int32_t>();
+            auto fTag = stream.read<int32_t>();
             if ( fTag == kNewClassTag )
-            { auto fTypename = buffer.read_null_terminated_string(); }
+            { auto fTypename = stream.read_null_terminated_string(); }
 
-            m_element_reader->read( buffer );
+            m_element_reader->read( stream );
 
-            if ( buffer.get_cursor() != end_pos )
+            if ( stream.get_cursor() != end_pos )
             {
                 stringstream msg;
                 msg << "ObjectHeaderReader: Invalid read length for "
                     << m_element_reader->name() << "! Expect " << end_pos - start_pos
-                    << ", got " << buffer.get_cursor() - start_pos;
+                    << ", got " << stream.get_cursor() - start_pos;
                 throw std::runtime_error( msg.str() );
             }
         }
@@ -1253,31 +1253,31 @@ namespace uproot {
             , m_element_reader( element_reader ) {}
 
         /**
-         * @brief Read the array from the buffer. If @ref m_flat_size is positive, calls @ref
+         * @brief Read the array from the stream. If @ref m_flat_size is positive, calls @ref
          * IReader::read_many() function of @ref m_element_reader. Otherwise, reads
-         * until the end of the current entry in the buffer.
+         * until the end of the current entry in the stream.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          */
-        void read( BinaryBuffer& buffer ) override {
+        void read( BinaryStream& stream ) override {
             debug_printf( "CStyleArrayReader(%s) with flat_size %ld\n", m_name.c_str(),
                           m_flat_size );
-            debug_printf( buffer );
+            debug_printf( stream );
 
-            if ( m_flat_size >= 0 ) { m_element_reader->read_many( buffer, m_flat_size ); }
+            if ( m_flat_size >= 0 ) { m_element_reader->read_many( stream, m_flat_size ); }
             else
             {
                 // get end-position
-                auto n_entries     = buffer.entries();
-                auto start_pos     = buffer.get_data();
-                auto entry_offsets = buffer.get_offsets();
-                auto cursor_pos    = buffer.get_cursor();
+                auto n_entries     = stream.entries();
+                auto start_pos     = stream.get_data();
+                auto entry_offsets = stream.get_offsets();
+                auto cursor_pos    = stream.get_cursor();
                 auto entry_end = std::find_if( entry_offsets, entry_offsets + n_entries + 1,
                                                [start_pos, cursor_pos]( uint32_t offset ) {
                                                    return start_pos + offset > cursor_pos;
                                                } );
                 auto end_pos   = start_pos + *entry_end;
-                uint32_t count = m_element_reader->read_until( buffer, end_pos );
+                uint32_t count = m_element_reader->read_until( stream, end_pos );
                 m_offsets->push_back( m_offsets->back() + count );
                 debug_printf( "CStyleArrayReader(%s) read %d elements\n", m_name.c_str(),
                               count );
@@ -1285,14 +1285,14 @@ namespace uproot {
         }
 
         /**
-         * @brief Read multiple arrays from the buffer. Only supported when @ref m_flat_size
+         * @brief Read multiple arrays from the stream. Only supported when @ref m_flat_size
          * is positive.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @param count Number of arrays to read.
          * @return Number of arrays read.
          */
-        uint32_t read_many( BinaryBuffer& buffer, const int64_t count ) override {
+        uint32_t read_many( BinaryStream& stream, const int64_t count ) override {
             if ( m_flat_size < 0 )
             {
                 stringstream msg;
@@ -1307,21 +1307,21 @@ namespace uproot {
             }
 
             for ( auto i = 0; i < count; i++ )
-                m_element_reader->read_many( buffer, m_flat_size );
+                m_element_reader->read_many( stream, m_flat_size );
 
             return count;
         }
 
         /**
-         * @brief Read arrays from the buffer until reaching the end position. Not supported.
+         * @brief Read arrays from the stream until reaching the end position. Not supported.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @param end_pos The end position to stop reading.
          * @return Number of arrays read.
          *
          * @exception std::runtime_error Always thrown since this method is not supported.
          */
-        uint32_t read_until( BinaryBuffer& buffer, const uint8_t* end_pos ) override {
+        uint32_t read_until( BinaryStream& stream, const uint8_t* end_pos ) override {
             throw std::runtime_error( "CStyleArrayReader::read with end_pos not supported!" );
         }
 
@@ -1364,7 +1364,7 @@ namespace uproot {
         /**
          * @brief Do nothing.
          */
-        void read( BinaryBuffer& ) override {}
+        void read( BinaryStream& ) override {}
 
         /**
          * @brief Return None.
@@ -1379,7 +1379,7 @@ namespace uproot {
     */
 
     /**
-     * @brief Read data from a binary buffer using the provided reader.
+     * @brief Read data from a binary stream using the provided reader.
      *
      * @param data Binary data as a numpy array of uint8_t
      * @param offsets Offsets for each entry as a numpy array of uint32_t
@@ -1388,20 +1388,20 @@ namespace uproot {
      */
     py::object py_read_data( py::array_t<uint8_t> data, py::array_t<uint32_t> offsets,
                              uint32_t cursor_offset, SharedReader reader ) {
-        BinaryBuffer buffer( data, offsets, cursor_offset );
-        for ( auto i_evt = 0; i_evt < buffer.entries(); i_evt++ )
+        BinaryStream stream( data, offsets, cursor_offset );
+        for ( auto i_evt = 0; i_evt < stream.entries(); i_evt++ )
         {
-            auto start_pos = buffer.get_cursor();
-            reader->read( buffer );
-            auto end_pos = buffer.get_cursor();
+            auto start_pos = stream.get_cursor();
+            reader->read( stream );
+            auto end_pos = stream.get_cursor();
 
             if ( end_pos - start_pos !=
-                 buffer.get_offsets()[i_evt + 1] - buffer.get_offsets()[i_evt] )
+                 stream.get_offsets()[i_evt + 1] - stream.get_offsets()[i_evt] )
             {
                 stringstream msg;
                 msg << "py_read_data: Invalid read length for " << reader->name()
                     << " at event " << i_evt << "! Expect "
-                    << buffer.get_offsets()[i_evt + 1] - buffer.get_offsets()[i_evt]
+                    << stream.get_offsets()[i_evt + 1] - stream.get_offsets()[i_evt]
                     << ", got " << end_pos - start_pos;
                 throw std::runtime_error( msg.str() );
             }
@@ -1412,7 +1412,7 @@ namespace uproot {
     PYBIND11_MODULE( cpp, m ) {
         m.doc() = "C++ module for uproot-custom";
 
-        m.def( "read_data", &py_read_data, "Read data from a binary buffer", py::arg( "data" ),
+        m.def( "read_data", &py_read_data, "Read data from a binary stream", py::arg( "data" ),
                py::arg( "offsets" ), py::arg( "cursor_offset" ), py::arg( "reader" ) );
 
         py::class_<IReader, SharedReader>( m, "IReader" )

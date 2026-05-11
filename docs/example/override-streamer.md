@@ -126,20 +126,20 @@ class OverrideStreamerReader(IReader):
         self.m_ints = array("i")       # int32
         self.m_doubles = array("d")    # float64
 
-    def read(self, buffer):
+    def read(self, stream):
         # Skip TObject header
-        buffer.skip_TObject()
+        stream.skip_TObject()
 
         # Read integer value
-        self.m_ints.append(buffer.read_int32())
+        self.m_ints.append(stream.read_int32())
 
         # Read a custom added mask value
-        mask = buffer.read_uint32()
+        mask = stream.read_uint32()
         if mask != 0x12345678:
             raise RuntimeError(f"Error: Unexpected mask value: {mask:#x}")
 
         # Read double value
-        self.m_doubles.append(buffer.read_double())
+        self.m_doubles.append(stream.read_double())
 
     def data(self):
         int_array = np.asarray(self.m_ints)
@@ -302,7 +302,7 @@ order, and `data()` returning the same structure.
 
 ```{seealso}
 See [](../../tutorial/customize-factory-reader/port-to-cpp.md) for the full
-C++ reader API reference (IReader, BinaryBuffer, pybind11 bindings).
+C++ reader API reference (IReader, BinaryStream, pybind11 bindings).
 ```
 
 ```{code-block} cpp
@@ -326,15 +326,15 @@ class OverrideStreamerReader : public IReader {
         , m_data_ints( std::make_shared<std::vector<int>>() )
         , m_data_doubles( std::make_shared<std::vector<double>>() ) {}
 
-    void read( BinaryBuffer& buffer ) {
+    void read( BinaryStream& stream ) {
         // Skip TObject header
-        buffer.skip_TObject();
+        stream.skip_TObject();
 
         // Read integer value
-        m_data_ints->push_back( buffer.read<int>() );
+        m_data_ints->push_back( stream.read<int>() );
 
         // Read a custom added mask value
-        auto mask = buffer.read<uint32_t>();
+        auto mask = stream.read<uint32_t>();
         if ( mask != 0x12345678 )
         {
             throw std::runtime_error( "Error: Unexpected mask value: " +
@@ -342,7 +342,7 @@ class OverrideStreamerReader : public IReader {
         }
 
         // Read double value
-        m_data_doubles->push_back( buffer.read<double>() );
+        m_data_doubles->push_back( stream.read<double>() );
     }
 
     py::object data() const {

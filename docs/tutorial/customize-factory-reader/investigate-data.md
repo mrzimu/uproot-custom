@@ -352,7 +352,7 @@ This is the typical scenario where uproot-custom is needed.
 (obtain-binary-data)=
 ### Obtaining raw binary data
 
-Use `AsBinary` to pull the uninterpreted byte buffer of a branch:
+Use `AsBinary` to pull the uninterpreted byte stream of a branch:
 
 ```python
 from uproot.interpretations.custom import AsBinary
@@ -414,15 +414,15 @@ class: tip, dropdown
 The built-in `TObjectReader::read` method:
 
 ```cpp
-void read( BinaryBuffer& buffer ) override {
-    buffer.skip_fVersion();
-    auto fUniqueID = buffer.read<int32_t>();
-    auto fBits     = buffer.read<uint32_t>();
+void read( BinaryStream& stream ) override {
+    stream.skip_fVersion();
+    auto fUniqueID = stream.read<int32_t>();
+    auto fBits     = stream.read<uint32_t>();
 
-    if ( fBits & ( BinaryBuffer::kIsReferenced ) )
+    if ( fBits & ( BinaryStream::kIsReferenced ) )
     {
-        if ( m_keep_data ) m_pidf->push_back( buffer.read<uint16_t>() );
-        else buffer.skip( 2 );
+        if ( m_keep_data ) m_pidf->push_back( stream.read<uint16_t>() );
+        else stream.skip( 2 );
     }
 
     if ( m_keep_data )

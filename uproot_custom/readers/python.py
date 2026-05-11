@@ -34,7 +34,7 @@ class _Reference:
     object_index: Optional[int] = None
 
 
-class BinaryBuffer:
+class BinaryStream:
     def __init__(
         self,
         data: NDArray[np.uint8],
@@ -206,29 +206,29 @@ class BinaryBuffer:
             replace_whitespace=False,
         )
 
-        return "BinaryBuffer:\n" + wrapper.fill(res) + "]"
+        return "BinaryStream:\n" + wrapper.fill(res) + "]"
 
 
 class IReader:
     def __init__(self, name: str):
         self.name = name
 
-    def read(self, buffer: BinaryBuffer) -> None:
+    def read(self, stream: BinaryStream) -> None:
         raise NotImplementedError
 
-    def read_many(self, buffer: BinaryBuffer, count: int) -> int:
+    def read_many(self, stream: BinaryStream, count: int) -> int:
         for _ in range(count):
-            self.read(buffer)
+            self.read(stream)
         return count
 
-    def read_until(self, buffer: BinaryBuffer, end_pos: int) -> int:
+    def read_until(self, stream: BinaryStream, end_pos: int) -> int:
         count = 0
-        while buffer.cursor < end_pos:
-            self.read(buffer)
+        while stream.cursor < end_pos:
+            self.read(stream)
             count += 1
         return count
 
-    def read_many_memberwise(self, buffer: BinaryBuffer, count: int) -> int:
+    def read_many_memberwise(self, stream: BinaryStream, count: int) -> int:
         raise NotImplementedError(
             f"{self.__class__.__name__}({self.name}).read_many_memberwise is not implemented"
         )
@@ -251,18 +251,18 @@ DTYPE_TO_TYPECODE = {
     "bool": "B",
 }
 
-DTYPE_TO_READER: dict[str, Callable[[BinaryBuffer], int]] = {
-    "uint8": BinaryBuffer.read_uint8,
-    "uint16": BinaryBuffer.read_uint16,
-    "uint32": BinaryBuffer.read_uint32,
-    "uint64": BinaryBuffer.read_uint64,
-    "int8": BinaryBuffer.read_int8,
-    "int16": BinaryBuffer.read_int16,
-    "int32": BinaryBuffer.read_int32,
-    "int64": BinaryBuffer.read_int64,
-    "float32": BinaryBuffer.read_float,
-    "float64": BinaryBuffer.read_double,
-    "bool": BinaryBuffer.read_bool,
+DTYPE_TO_READER: dict[str, Callable[[BinaryStream], int]] = {
+    "uint8": BinaryStream.read_uint8,
+    "uint16": BinaryStream.read_uint16,
+    "uint32": BinaryStream.read_uint32,
+    "uint64": BinaryStream.read_uint64,
+    "int8": BinaryStream.read_int8,
+    "int16": BinaryStream.read_int16,
+    "int32": BinaryStream.read_int32,
+    "int64": BinaryStream.read_int64,
+    "float32": BinaryStream.read_float,
+    "float64": BinaryStream.read_double,
+    "bool": BinaryStream.read_bool,
 }
 
 
@@ -290,8 +290,8 @@ class PrimitiveReader(IReader):
         self._data = array(self.typecode)
         self.buffer_reader = DTYPE_TO_READER[dtype]
 
-    def read(self, buffer):
-        self._data.append(self.buffer_reader(buffer))
+    def read(self, stream):
+        self._data.append(self.buffer_reader(stream))
 
     def data(self):
         return np.asarray(self._data, dtype=self.dtype)
@@ -307,16 +307,16 @@ class TObjectReader(IReader):
         self.pidf = array("H")
         self.pidf_offsets = array("q", [0])
 
-    def read(self, buffer):
-        buffer.skip_fVersion()
-        fUniqueID = buffer.read_int32()
-        fBits = buffer.read_uint32()
+    def read(self, stream):
+        stream.skip_fVersion()
+        fUniqueID = stream.read_int32()
+        fBits = stream.read_uint32()
 
         if fBits & kIsReferenced:
             if self.keep_data:
-                self.pidf.append(buffer.read_uint16())
+                self.pidf.append(stream.read_uint16())
             else:
-                buffer.skip(2)
+                stream.skip(2)
 
         if self.keep_data:
             self.unique_id.append(fUniqueID)
@@ -342,16 +342,16 @@ class TStringReader(IReader):
         self._data = array("B")
         self.offsets = array("q", [0])
 
-    def read(self, buffer):
-        fSize = buffer.read_uint8()
+    def read(self, stream):
+        fSize = stream.read_uint8()
         if fSize == 255:
-            fSize = buffer.read_uint32()
+            fSize = stream.read_uint32()
 
         for _ in range(fSize):
-            self._data.append(buffer.read_uint8())
+            self._data.append(stream.read_uint8())
         self.offsets.append(len(self._data))
 
-    def read_many(self, buffer, count):
+    def read_many(self, stream, count):
         assert (
             count >= 0
         ), f"Calling {self.name}.read_many with negative count: {count} is not allowed"
@@ -360,25 +360,25 @@ class TStringReader(IReader):
             return 0
 
         if self.with_header:
-            buffer.skip_fNBytes()
-            buffer.skip_fVersion()
+            stream.skip_fNBytes()
+            stream.skip_fVersion()
 
         for _ in range(count):
-            self.read(buffer)
+            self.read(stream)
 
         return count
 
-    def read_until(self, buffer, end_pos):
-        if buffer.cursor == end_pos:
+    def read_until(self, stream, end_pos):
+        if stream.cursor == end_pos:
             return 0
 
         if self.with_header:
-            buffer.skip_fNBytes()
-            buffer.skip_fVersion()
+            stream.skip_fNBytes()
+            stream.skip_fVersion()
 
         count = 0
-        while buffer.cursor < end_pos:
-            self.read(buffer)
+        while stream.cursor < end_pos:
+            self.read(stream)
             count += 1
         return count
 
@@ -414,40 +414,40 @@ class STLSeqReader(IReader):
                 f"STLSeqReader({self.name}) expected member-wise reading but got obj-wise"
             )
 
-    def read_element_version(self, buffer: BinaryBuffer):
-        version = buffer.read_fVersion()
+    def read_element_version(self, stream: BinaryStream):
+        version = stream.read_fVersion()
         checksum = None
         if version == 0:
-            checksum = buffer.read_uint32()
+            checksum = stream.read_uint32()
         return version, checksum
 
-    def read_body(self, buffer: BinaryBuffer, is_memberwise: bool):
-        fSize = buffer.read_uint32()
+    def read_body(self, stream: BinaryStream, is_memberwise: bool):
+        fSize = stream.read_uint32()
         self.offsets.append(self.offsets[-1] + fSize)
 
         debug_print(
             f"STLSeqReader({self.name}): reading body, is_memberwise={is_memberwise}, fSize={fSize}\n"
         )
-        debug_print(buffer)
+        debug_print(stream)
 
         if is_memberwise:
-            self.element_reader.read_many_memberwise(buffer, fSize)
+            self.element_reader.read_many_memberwise(stream, fSize)
         else:
-            self.element_reader.read_many(buffer, fSize)
+            self.element_reader.read_many(stream, fSize)
 
-    def read(self, buffer):
-        buffer.skip_fNBytes()
+    def read(self, stream):
+        stream.skip_fNBytes()
 
-        fVersion = buffer.read_fVersion()
+        fVersion = stream.read_fVersion()
         is_memberwise = bool(fVersion & kStreamedMemberwise)
         self.check_objwise_memberwise(is_memberwise)
 
         if is_memberwise:
-            self.read_element_version(buffer)
+            self.read_element_version(stream)
 
-        self.read_body(buffer, is_memberwise)
+        self.read_body(stream, is_memberwise)
 
-    def read_many(self, buffer, count):
+    def read_many(self, stream, count):
         if count == 0:
             return 0
 
@@ -456,55 +456,55 @@ class STLSeqReader(IReader):
                 self.with_header
             ), f"STLSeqReader({self.name}).read_many called with negative count expects with_header=True"
 
-            fNBytes = buffer.read_fNBytes()
-            end_pos = buffer.cursor + fNBytes
+            fNBytes = stream.read_fNBytes()
+            end_pos = stream.cursor + fNBytes
 
-            fVersion = buffer.read_fVersion()
+            fVersion = stream.read_fVersion()
             is_memberwise = bool(fVersion & kStreamedMemberwise)
             self.check_objwise_memberwise(is_memberwise)
 
             if is_memberwise:
-                self.read_element_version(buffer)
+                self.read_element_version(stream)
 
             cur_count = 0
-            while buffer.cursor < end_pos:
-                self.read_body(buffer, is_memberwise)
+            while stream.cursor < end_pos:
+                self.read_body(stream, is_memberwise)
                 cur_count += 1
             return cur_count
 
         else:
             is_memberwise = self.objwise_or_memberwise == "member-wise"
             if self.with_header:
-                buffer.skip_fNBytes()
-                fVersion = buffer.read_fVersion()
+                stream.skip_fNBytes()
+                fVersion = stream.read_fVersion()
                 is_memberwise = bool(fVersion & kStreamedMemberwise)
                 self.check_objwise_memberwise(is_memberwise)
 
             if is_memberwise:
-                self.read_element_version(buffer)
+                self.read_element_version(stream)
 
             for _ in range(count):
-                self.read_body(buffer, is_memberwise)
+                self.read_body(stream, is_memberwise)
             return count
 
-    def read_until(self, buffer, end_pos):
-        if buffer.cursor == end_pos:
+    def read_until(self, stream, end_pos):
+        if stream.cursor == end_pos:
             return 0
 
         is_memberwise = self.objwise_or_memberwise == "member-wise"
 
         if self.with_header:
-            buffer.skip_fNBytes()
-            fVersion = buffer.read_fVersion()
+            stream.skip_fNBytes()
+            fVersion = stream.read_fVersion()
             is_memberwise = bool(fVersion & kStreamedMemberwise)
             self.check_objwise_memberwise(is_memberwise)
 
         if is_memberwise:
-            self.read_element_version(buffer)
+            self.read_element_version(stream)
 
         count = 0
-        while buffer.cursor < end_pos:
-            self.read_body(buffer, is_memberwise)
+        while stream.cursor < end_pos:
+            self.read_body(stream, is_memberwise)
             count += 1
         return count
 
@@ -542,41 +542,41 @@ class STLMapReader(IReader):
                 f"STLMapReader({self.name}) expected member-wise reading but got obj-wise"
             )
 
-    def read_element_version(self, buffer: BinaryBuffer):
-        version = buffer.read_fVersion()
+    def read_element_version(self, stream: BinaryStream):
+        version = stream.read_fVersion()
         checksum = None
         if version == 0:
-            checksum = buffer.read_uint32()
+            checksum = stream.read_uint32()
         return version, checksum
 
-    def read_body(self, buffer: BinaryBuffer, is_memberwise: bool):
-        fSize = buffer.read_uint32()
+    def read_body(self, stream: BinaryStream, is_memberwise: bool):
+        fSize = stream.read_uint32()
         self.offsets.append(self.offsets[-1] + fSize)
 
         debug_print(
             f"STLMapReader({self.name}): reading body, is_memberwise={is_memberwise}, fSize={fSize}\n"
         )
-        debug_print(buffer)
+        debug_print(stream)
 
         if is_memberwise:
-            self.key_reader.read_many(buffer, fSize)
-            self.value_reader.read_many(buffer, fSize)
+            self.key_reader.read_many(stream, fSize)
+            self.value_reader.read_many(stream, fSize)
         else:
             for _ in range(fSize):
-                self.key_reader.read(buffer)
-                self.value_reader.read(buffer)
+                self.key_reader.read(stream)
+                self.value_reader.read(stream)
 
-    def read(self, buffer):
-        buffer.skip_fNBytes()
-        fVersion = buffer.read_fVersion()
+    def read(self, stream):
+        stream.skip_fNBytes()
+        fVersion = stream.read_fVersion()
 
-        self.read_element_version(buffer)
+        self.read_element_version(stream)
 
         is_memberwise = bool(fVersion & kStreamedMemberwise)
         self.check_objwise_memberwise(is_memberwise)
-        self.read_body(buffer, is_memberwise)
+        self.read_body(stream, is_memberwise)
 
-    def read_many(self, buffer, count):
+    def read_many(self, stream, count):
         if count == 0:
             return 0
 
@@ -585,59 +585,59 @@ class STLMapReader(IReader):
                 self.with_header
             ), f"STLMapReader({self.name}).read_many called with negative count expecting with_header=True"
 
-            fNBytes = buffer.read_fNBytes()
-            end_pos = buffer.cursor + fNBytes
+            fNBytes = stream.read_fNBytes()
+            end_pos = stream.cursor + fNBytes
 
-            fVersion = buffer.read_fVersion()
+            fVersion = stream.read_fVersion()
 
-            self.read_element_version(buffer)
+            self.read_element_version(stream)
 
             is_memberwise = bool(fVersion & kStreamedMemberwise)
             self.check_objwise_memberwise(is_memberwise)
 
             cur_count = 0
-            while buffer.cursor < end_pos:
-                self.read_body(buffer, is_memberwise)
+            while stream.cursor < end_pos:
+                self.read_body(stream, is_memberwise)
                 cur_count += 1
             return cur_count
 
         else:
             is_memberwise = self.objwise_or_memberwise == "member-wise"
             if self.with_header:
-                buffer.skip_fNBytes()
-                fVersion = buffer.read_fVersion()
+                stream.skip_fNBytes()
+                fVersion = stream.read_fVersion()
 
-                self.read_element_version(buffer)
+                self.read_element_version(stream)
 
                 is_memberwise = bool(fVersion & kStreamedMemberwise)
                 self.check_objwise_memberwise(is_memberwise)
 
             for _ in range(count):
-                self.read_body(buffer, is_memberwise)
+                self.read_body(stream, is_memberwise)
             return count
 
-    def read_until(self, buffer, end_pos):
-        if buffer.cursor == end_pos:
+    def read_until(self, stream, end_pos):
+        if stream.cursor == end_pos:
             return 0
 
         is_memberwise = self.objwise_or_memberwise == "member-wise"
 
         if self.with_header:
-            buffer.skip_fNBytes()
-            fVersion = buffer.read_fVersion()
+            stream.skip_fNBytes()
+            fVersion = stream.read_fVersion()
 
-            self.read_element_version(buffer)
+            self.read_element_version(stream)
 
             is_memberwise = bool(fVersion & kStreamedMemberwise)
             self.check_objwise_memberwise(is_memberwise)
 
         count = 0
-        while buffer.cursor < end_pos:
-            self.read_body(buffer, is_memberwise)
+        while stream.cursor < end_pos:
+            self.read_body(stream, is_memberwise)
             count += 1
         return count
 
-    def read_many_memberwise(self, buffer, count):
+    def read_many_memberwise(self, stream, count):
         assert (
             count >= 0
         ), f"Calling {self.name}.read_many_memberwise with negative count: {count} is not allowed"
@@ -645,7 +645,7 @@ class STLMapReader(IReader):
         is_memberwise = True
 
         self.check_objwise_memberwise(is_memberwise)
-        return self.read_many(buffer, count)
+        return self.read_many(stream, count)
 
     def data(self):
         offsets_array = np.asarray(self.offsets)
@@ -662,22 +662,22 @@ class STLStringReader(IReader):
         self._data = array("B")
         self.offsets = array("q", [0])
 
-    def read_body(self, buffer: BinaryBuffer):
-        fSize = buffer.read_uint8()
+    def read_body(self, stream: BinaryStream):
+        fSize = stream.read_uint8()
         if fSize == 255:
-            fSize = buffer.read_uint32()
+            fSize = stream.read_uint32()
 
         self.offsets.append(self.offsets[-1] + fSize)
         for _ in range(fSize):
-            self._data.append(buffer.read_uint8())
+            self._data.append(stream.read_uint8())
 
-    def read(self, buffer):
+    def read(self, stream):
         if self.with_header:
-            buffer.skip_fNBytes()
-            buffer.skip_fVersion()
-        self.read_body(buffer)
+            stream.skip_fNBytes()
+            stream.skip_fVersion()
+        self.read_body(stream)
 
-    def read_many(self, buffer, count):
+    def read_many(self, stream, count):
         if count == 0:
             return 0
 
@@ -686,37 +686,37 @@ class STLStringReader(IReader):
                 self.with_header
             ), f"STLStringReader({self.name}).read_many called with negative count expecting with_header=True"
 
-            fNBytes = buffer.read_fNBytes()
-            end_pos = buffer.cursor + fNBytes
+            fNBytes = stream.read_fNBytes()
+            end_pos = stream.cursor + fNBytes
 
-            buffer.skip_fVersion()
+            stream.skip_fVersion()
 
             cur_count = 0
-            while buffer.cursor < end_pos:
-                self.read_body(buffer)
+            while stream.cursor < end_pos:
+                self.read_body(stream)
                 cur_count += 1
             return cur_count
 
         else:
             if self.with_header:
-                buffer.skip_fNBytes()
-                buffer.skip_fVersion()
+                stream.skip_fNBytes()
+                stream.skip_fVersion()
 
             for _ in range(count):
-                self.read_body(buffer)
+                self.read_body(stream)
             return count
 
-    def read_until(self, buffer, end_pos):
-        if buffer.cursor == end_pos:
+    def read_until(self, stream, end_pos):
+        if stream.cursor == end_pos:
             return 0
 
         if self.with_header:
-            buffer.skip_fNBytes()
-            buffer.skip_fVersion()
+            stream.skip_fNBytes()
+            stream.skip_fVersion()
 
         count = 0
-        while buffer.cursor < end_pos:
-            self.read_body(buffer)
+        while stream.cursor < end_pos:
+            self.read_body(stream)
             count += 1
         return count
 
@@ -739,12 +739,12 @@ class TArrayReader(IReader):
         self.offsets = array("q", [0])
         self.buffer_reader = DTYPE_TO_READER[dtype]
 
-    def read(self, buffer):
-        fSize = buffer.read_uint32()
+    def read(self, stream):
+        fSize = stream.read_uint32()
         self.offsets.append(self.offsets[-1] + fSize)
 
         for _ in range(fSize):
-            self._data.append(self.buffer_reader(buffer))
+            self._data.append(self.buffer_reader(stream))
 
     def data(self):
         offsets_array = np.asarray(self.offsets)
@@ -757,13 +757,13 @@ class GroupReader(IReader):
         super().__init__(name)
         self.element_readers = element_readers
 
-    def read(self, buffer):
+    def read(self, stream):
         for reader in self.element_readers:
             debug_print(f"GroupReader({self.name}) reading element {reader.name}:\n")
-            debug_print(buffer)
-            reader.read(buffer)
+            debug_print(stream)
+            reader.read(stream)
 
-    def read_many_memberwise(self, buffer, count):
+    def read_many_memberwise(self, stream, count):
         assert (
             count >= 0
         ), f"Calling {self.name}.read_many_memberwise with negative count: {count} is not allowed"
@@ -772,8 +772,8 @@ class GroupReader(IReader):
             debug_print(
                 f"GroupReader{self.name} reading many member-wise element {reader.name}:\n"
             )
-            debug_print(buffer)
-            reader.read_many(buffer, count)
+            debug_print(stream)
+            reader.read_many(stream, count)
 
         return count
 
@@ -786,24 +786,24 @@ class AnyClassReader(IReader):
         super().__init__(name)
         self.element_readers = element_readers
 
-    def read(self, buffer: BinaryBuffer):
-        fNBytes = buffer.read_fNBytes()
-        start_pos = buffer.cursor
+    def read(self, stream: BinaryStream):
+        fNBytes = stream.read_fNBytes()
+        start_pos = stream.cursor
         end_pos = start_pos + fNBytes
 
-        buffer.skip_fVersion()
+        stream.skip_fVersion()
 
         for reader in self.element_readers:
             debug_print(f"AnyClassReader({self.name}) reading element {reader.name}:\n")
-            debug_print(buffer)
-            reader.read(buffer)
+            debug_print(stream)
+            reader.read(stream)
 
-        assert buffer.cursor == end_pos, (
+        assert stream.cursor == end_pos, (
             f"AnyClassReader({self.name}): Invalid read length! Expect {fNBytes} bytes, "
-            f"but read {buffer.cursor - start_pos} bytes."
+            f"but read {stream.cursor - start_pos} bytes."
         )
 
-    def read_many_memberwise(self, buffer, count):
+    def read_many_memberwise(self, stream, count):
         assert (
             count >= 0
         ), f"Calling {self.name}.read_many_memberwise with negative count: {count} is not allowed"
@@ -812,8 +812,8 @@ class AnyClassReader(IReader):
             debug_print(
                 f"AnyClassReader{self.name} reading many member-wise element {reader.name}:\n"
             )
-            debug_print(buffer)
-            reader.read_many(buffer, count)
+            debug_print(stream)
+            reader.read_many(stream, count)
 
         return count
 
@@ -848,10 +848,10 @@ class AnyPointerReader(IReader):
 
         self.class_name = None
 
-    def read(self, buffer):
-        start_pos = buffer.cursor
-        ref_begin = start_pos + buffer.initial_cursor_position
-        fNBytes = buffer.read_uint32()
+    def read(self, stream):
+        start_pos = stream.cursor
+        ref_begin = start_pos + stream.initial_cursor_position
+        fNBytes = stream.read_uint32()
 
         if (fNBytes & kByteCountMask) == 0 or fNBytes == kNewClassTag:
             fVersion = 0
@@ -860,7 +860,7 @@ class AnyPointerReader(IReader):
             fNBytes = 0
         else:
             fVersion = 1
-            fTag = buffer.read_uint32()
+            fTag = stream.read_uint32()
             fNBytes &= ~kByteCountMask
 
         end_pos = start_pos + 4 + fNBytes if fVersion > 0 else start_pos + 4
@@ -868,29 +868,29 @@ class AnyPointerReader(IReader):
         if fTag & kClassMask == 0:
             if fTag == 0:
                 assert (
-                    buffer.cursor == end_pos
-                ), f"AnyPointerReader({self.name}): Invalid read length! Expect to read 0 bytes, but read {buffer.cursor - start_pos} bytes."
+                    stream.cursor == end_pos
+                ), f"AnyPointerReader({self.name}): Invalid read length! Expect to read 0 bytes, but read {stream.cursor - start_pos} bytes."
                 self.object_indexes.append(-1)  # Use -1 to indicate null pointer
                 return
 
             elif fTag == 1:
                 raise NotImplementedError("AnyPointerReader: kAnyP (tag=1) is not supported")
 
-            elif fTag not in buffer.refs:
-                buffer.cursor = end_pos  # Skip unknown reference
+            elif fTag not in stream.refs:
+                stream.cursor = end_pos  # Skip unknown reference
                 return
 
             else:
-                ref_idx = buffer.refs[fTag].object_index
+                ref_idx = stream.refs[fTag].object_index
                 self.object_indexes.append(ref_idx)
 
                 assert (
-                    buffer.cursor == end_pos
-                ), f"AnyPointerReader({self.name}): Invalid read length! Expect to read 0 bytes, but read {buffer.cursor - start_pos} bytes."
+                    stream.cursor == end_pos
+                ), f"AnyPointerReader({self.name}): Invalid read length! Expect to read 0 bytes, but read {stream.cursor - start_pos} bytes."
                 return
 
         elif fTag == kNewClassTag:
-            class_name = buffer.read_null_terminated_string()
+            class_name = stream.read_null_terminated_string()
             if self.class_name is None:
                 self.class_name = class_name
             else:
@@ -899,39 +899,39 @@ class AnyPointerReader(IReader):
                     f"Expected {self.class_name}, but got {class_name}"
                 )
 
-            ref_key = ref_begin + kMapOffset if fVersion > 0 else len(buffer.refs) + 1
-            buffer.refs[ref_key] = _Reference(type="class", class_name=class_name)
+            ref_key = ref_begin + kMapOffset if fVersion > 0 else len(stream.refs) + 1
+            stream.refs[ref_key] = _Reference(type="class", class_name=class_name)
 
-            self.element_reader.read(buffer)
+            self.element_reader.read(stream)
             self.object_indexes.append(self.object_counter)
 
-            ref_key = ref_begin + kMapOffset if fVersion > 0 else len(buffer.refs) + 1
-            buffer.refs[ref_key] = _Reference(type="object", object_index=self.object_counter)
+            ref_key = ref_begin + kMapOffset if fVersion > 0 else len(stream.refs) + 1
+            stream.refs[ref_key] = _Reference(type="object", object_index=self.object_counter)
 
             self.object_counter += 1
 
         else:  # reference class, new object
             cls_ref_key = fTag & (~kClassMask)
-            if cls_ref_key in buffer.refs:
-                class_name = buffer.refs[cls_ref_key].class_name
+            if cls_ref_key in stream.refs:
+                class_name = stream.refs[cls_ref_key].class_name
                 assert class_name == self.class_name, (
                     f"AnyPointerReader({self.name}): Inconsistent class names for multiple objects! "
                     f"Expected {self.class_name}, but got {class_name}"
                 )
 
-            self.element_reader.read(buffer)
+            self.element_reader.read(stream)
             self.object_indexes.append(self.object_counter)
 
-            obj_ref_key = ref_begin + kMapOffset if fVersion > 0 else len(buffer.refs) + 1
-            buffer.refs[obj_ref_key] = _Reference(
+            obj_ref_key = ref_begin + kMapOffset if fVersion > 0 else len(stream.refs) + 1
+            stream.refs[obj_ref_key] = _Reference(
                 type="object", object_index=self.object_counter
             )
 
             self.object_counter += 1
 
         assert (
-            buffer.cursor == end_pos
-        ), f"AnyPointerReader({self.name}): Invalid read length! Expect to read 0 bytes, but read {buffer.cursor - start_pos} bytes."
+            stream.cursor == end_pos
+        ), f"AnyPointerReader({self.name}): Invalid read length! Expect to read 0 bytes, but read {stream.cursor - start_pos} bytes."
         return
 
     def data(self):
@@ -946,27 +946,27 @@ class ObjectHeaderReader(IReader):
 
         warnings.warn(
             "ObjectHeaderReader is deprecated and will be removed in a future version. "
-            "Use BinaryBuffer.read_obj_header() directly in your reader instead.",
+            "Use BinaryStream.read_obj_header() directly in your reader instead.",
             DeprecationWarning,
         )
 
         super().__init__(name)
         self.element_reader = element_reader
 
-    def read(self, buffer):
-        fNBytes = buffer.read_fNBytes()
-        start_pos = buffer.cursor
-        end_pos = buffer.cursor + fNBytes
+    def read(self, stream):
+        fNBytes = stream.read_fNBytes()
+        start_pos = stream.cursor
+        end_pos = stream.cursor + fNBytes
 
-        fTag = buffer.read_int32()
+        fTag = stream.read_int32()
         if fTag == kNewClassTag:
-            buffer.skip_null_terminated_string()
+            stream.skip_null_terminated_string()
 
-        self.element_reader.read(buffer)
+        self.element_reader.read(stream)
 
-        assert buffer.cursor == end_pos, (
+        assert stream.cursor == end_pos, (
             f"ObjectHeaderReader({self.name}): Invalid read length! Expect {fNBytes} bytes, "
-            f"but read {buffer.cursor - start_pos} bytes."
+            f"but read {stream.cursor - start_pos} bytes."
         )
 
     def data(self):
@@ -980,26 +980,26 @@ class CStyleArrayReader(IReader):
         self.element_reader = element_reader
         self.offsets = array("q", [0])
 
-    def read(self, buffer):
+    def read(self, stream):
         debug_print(
             f"CStyleArrayReader({self.name}): reading C-style array of flat_size={self.flat_size}\n"
         )
-        debug_print(buffer)
+        debug_print(stream)
 
         if self.flat_size >= 0:
-            self.element_reader.read_many(buffer, self.flat_size)
+            self.element_reader.read_many(stream, self.flat_size)
 
         else:
-            entry_offsets = buffer.offsets
-            cursor_pos = buffer.cursor
+            entry_offsets = stream.offsets
+            cursor_pos = stream.cursor
             end_offset_index = (entry_offsets > cursor_pos).nonzero()[0].min()
             end_pos = entry_offsets[end_offset_index]
 
-            count = self.element_reader.read_until(buffer, end_pos)
+            count = self.element_reader.read_until(stream, end_pos)
             self.offsets.append(self.offsets[-1] + count)
             debug_print(f"CStyleArrayReader({self.name}): read {count} elements")
 
-    def read_many(self, buffer, count):
+    def read_many(self, stream, count):
         assert (
             self.flat_size >= 0
         ), f"Calling CStyleArrayReader({self.name}).read_many with negative flat_size is not allowed"
@@ -1009,11 +1009,11 @@ class CStyleArrayReader(IReader):
         ), f"Calling CStyleArrayReader({self.name}).read_many with negative count: {count} is not allowed"
 
         for _ in range(count):
-            self.element_reader.read_many(buffer, self.flat_size)
+            self.element_reader.read_many(stream, self.flat_size)
 
         return count
 
-    def read_until(self, buffer, end_pos):
+    def read_until(self, stream, end_pos):
         raise NotImplementedError("CStyleArrayReader.read_until is not supported")
 
     def data(self):
@@ -1026,7 +1026,7 @@ class CStyleArrayReader(IReader):
 
 
 class EmptyReader(IReader):
-    def read(self, buffer):
+    def read(self, stream):
         pass
 
     def data(self):
@@ -1039,15 +1039,15 @@ def read_data(
     cursor_offset: int,
     reader: IReader,
 ):
-    buffer = BinaryBuffer(data, offsets, cursor_offset)
-    for i_evt in range(buffer.entries):
-        start_pos = buffer.cursor
-        reader.read(buffer)
-        end_pos = buffer.cursor
+    stream = BinaryStream(data, offsets, cursor_offset)
+    for i_evt in range(stream.entries):
+        start_pos = stream.cursor
+        reader.read(stream)
+        end_pos = stream.cursor
 
         assert end_pos == offsets[i_evt + 1], (
             f"read_data: Invalid read length for {reader.name} at entry {i_evt}! Expect "
-            f"{buffer.offsets[i_evt + 1]-buffer.offsets[i_evt]} bytes, but read {end_pos - start_pos} bytes."
+            f"{stream.offsets[i_evt + 1]-stream.offsets[i_evt]} bytes, but read {end_pos - start_pos} bytes."
         )
 
     return reader.data()
