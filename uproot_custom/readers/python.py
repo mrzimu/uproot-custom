@@ -209,6 +209,20 @@ class BinaryStream:
         return "BinaryStream:\n" + wrapper.fill(res) + "]"
 
 
+class BinaryBuffer(BinaryStream):
+    def __init__(self, data, offsets, initial_cursor_position, repr_nbytes=50):
+        super().__init__(data, offsets, initial_cursor_position, repr_nbytes)
+
+        import warnings
+
+        warnings.warn(
+            "BinaryBuffer is deprecated and will be removed in a future version. "
+            "Use BinaryStream instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+
+
 class IReader:
     def __init__(self, name: str):
         self.name = name
