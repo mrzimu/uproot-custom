@@ -515,7 +515,7 @@ namespace uproot {
 
     /**
      * @brief Debug print function for BinaryStream. Prints only when macro or environment
-     * varialbe with name `UPROOT_DEBUG` is defined. Call @ref BinaryStream::debug_print()
+     * variable with name `UPROOT_DEBUG` is defined. Call @ref BinaryStream::debug_print()
      * internally.
      *
      * @param stream The BinaryStream to print.
