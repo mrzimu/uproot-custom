@@ -16,7 +16,7 @@ the default C++ backend.
 
 By the end of this tutorial you will have:
 
-- A **Python reader** that decodes binary data from the ROOT byte buffer.
+- A **Python reader** that decodes binary data from the ROOT byte stream.
 - A **Python factory** that creates the reader, converts raw arrays into
   `awkward` arrays, and describes the data layout for `dask`.
 - A **registration** step so Uproot picks up your custom code automatically.

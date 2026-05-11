@@ -47,7 +47,7 @@ namespace uproot {
 
     const uint16_t kStreamedMemberWise = 1 << 14; // streamed member-wise mask
 
-    class BinaryBuffer {
+    class BinaryStream {
       public:
         enum EStatusBits {
             kCanDelete = 1ULL << 0, ///< if object in a list can be deleted
@@ -75,11 +75,11 @@ namespace uproot {
         using Reference = std::variant<RefCls, RefObj>;
 
         /**
-         * @brief Construct a BinaryBuffer from numpy arrays.
+         * @brief Construct a BinaryStream from numpy arrays.
          * @param data A numpy array of uint8_t containing the raw data.
          * @param offsets A numpy array of uint32_t containing the offsets for each entry.
          */
-        BinaryBuffer( py::array_t<uint8_t> data, py::array_t<uint32_t> offsets,
+        BinaryStream( py::array_t<uint8_t> data, py::array_t<uint32_t> offsets,
                       uint32_t initial_cursor_position )
             : m_data( static_cast<uint8_t*>( data.request().ptr ) )
             , m_offsets( static_cast<uint32_t*>( offsets.request().ptr ) )
@@ -88,10 +88,10 @@ namespace uproot {
             , m_cursor( static_cast<uint8_t*>( data.request().ptr ) ) {}
 
         /**
-         * @brief Read a value of type T from the buffer, handling endianness.
+         * @brief Read a value of type T from the stream, handling endianness.
          *
          * @tparam T The type to read.
-         * @return The value read from the buffer.
+         * @return The value read from the stream.
          */
         template <typename T>
         const T read() {
@@ -136,14 +136,14 @@ namespace uproot {
         }
 
         /**
-         * @brief Read the fVersion field from the buffer
+         * @brief Read the fVersion field from the stream
          *
          * @return The fVersion value
          */
         const int16_t read_fVersion() { return read<int16_t>(); }
 
         /**
-         * @brief Read the fNBytes field from the buffer, checking the byte count mask.
+         * @brief Read the fNBytes field from the stream, checking the byte count mask.
          *
          * @return The fNBytes value without the mask.
          * @exception std::runtime_error if the byte count mask is not set.
@@ -156,9 +156,9 @@ namespace uproot {
         }
 
         /**
-         * @brief Read a null-terminated (`\0`) string from the buffer.
+         * @brief Read a null-terminated (`\0`) string from the stream.
          *
-         * @return The string read from the buffer.
+         * @return The string read from the stream.
          */
         const std::string read_null_terminated_string() {
             auto start = m_cursor;
@@ -168,7 +168,7 @@ namespace uproot {
         }
 
         /**
-         * @brief Read an object header from the buffer. The object header has `fNBytes`,
+         * @brief Read an object header from the stream. The object header has `fNBytes`,
          * `fVersion`, `fTag`. If `fTag == kNewClassTag`, then a null-terminated class name
          * follows.
          *
@@ -183,11 +183,11 @@ namespace uproot {
         }
 
         /**
-         * @brief Read a TString from the buffer. A TString has `length` (uint8_t). If `length
+         * @brief Read a TString from the stream. A TString has `length` (uint8_t). If `length
          * == 255`, then the `length` is a following uint32_t. Then following `length` bytes of
          * string data.
          *
-         * @return The TString data read from the buffer, as a std::string.
+         * @return The TString data read from the stream, as a std::string.
          */
         const std::string read_TString() {
             uint32_t length = read<uint8_t>();
@@ -198,7 +198,7 @@ namespace uproot {
         }
 
         /**
-         * @brief Skip `n` bytes in the buffer.
+         * @brief Skip `n` bytes in the stream.
          *
          * @param n Number of bytes to skip.
          */
@@ -216,7 +216,7 @@ namespace uproot {
         void skip_fVersion() { skip( 2 ); }
 
         /**
-         * @brief Skip a null-terminated (`\0`) string in the buffer.
+         * @brief Skip a null-terminated (`\0`) string in the stream.
          */
         void skip_null_terminated_string() {
             while ( *m_cursor != 0 ) { m_cursor++; }
@@ -224,7 +224,7 @@ namespace uproot {
         }
 
         /**
-         * @brief Skip an object header in the buffer. The object header has `fNBytes`,
+         * @brief Skip an object header in the stream. The object header has `fNBytes`,
          * `fVersion`, `fTag`. If `fTag == kNewClassTag`, then a null-terminated class name
          * follows.
          */
@@ -235,7 +235,7 @@ namespace uproot {
         }
 
         /**
-         * @brief Skip a TObject in the buffer. A TObject has `fVersion` (2 bytes), `fUniqueID`
+         * @brief Skip a TObject in the stream. A TObject has `fVersion` (2 bytes), `fUniqueID`
          * (4 bytes), `fBits` (4 bytes). If `fBits & kIsReferenced`, then a `pidf` (2 bytes)
          * follows.
          */
@@ -311,6 +311,11 @@ namespace uproot {
                                               ///< reading
     };
 
+    // backward compatibility
+    using BinaryBuffer
+        [[deprecated( "BinaryBuffer is deprecated. Use BinaryStream instead." )]] =
+            BinaryStream;
+
     /*
     -----------------------------------------------------------------------------
     -----------------------------------------------------------------------------
@@ -342,11 +347,11 @@ namespace uproot {
         virtual const std::string name() const { return m_name; }
 
         /**
-         * @brief Read an element from the buffer.
+         * @brief Read an element from the stream.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          */
-        virtual void read( BinaryBuffer& buffer ) = 0;
+        virtual void read( BinaryStream& stream ) = 0;
 
         /**
          * @brief Get the data read by the reader. This should be called after the whole
@@ -357,53 +362,53 @@ namespace uproot {
         virtual py::object data() const = 0;
 
         /**
-         * @brief Read multiple elements from the buffer in one go. Repeatedly calls @ref
+         * @brief Read multiple elements from the stream in one go. Repeatedly calls @ref
          * read() by default.
          *
          * @note When multiple elements are stored together, some classes may have "one common
          * header + multiple data objects" format. This method can be overridden to handle such
          * cases more efficiently.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @param count Number of elements to read.
          * @return Number of elements read.
          */
-        virtual uint32_t read_many( BinaryBuffer& buffer, const int64_t count ) {
-            for ( int32_t i = 0; i < count; i++ ) { read( buffer ); }
+        virtual uint32_t read_many( BinaryStream& stream, const int64_t count ) {
+            for ( int32_t i = 0; i < count; i++ ) { read( stream ); }
             return count;
         }
 
         /**
-         * @brief Read elements from the buffer until reaching the end position. Repeatedly
+         * @brief Read elements from the stream until reaching the end position. Repeatedly
          * calls @ref read() method by default.
          *
          * @note When multiple elements are stored together, some classes may have "one common
          * header + multiple data objects" format. This method can be overridden to handle such
          * cases more efficiently.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @param end_pos The end position pointer.
          * @return Number of elements read.
          */
-        virtual uint32_t read_until( BinaryBuffer& buffer, const uint8_t* end_pos ) {
+        virtual uint32_t read_until( BinaryStream& stream, const uint8_t* end_pos ) {
             uint32_t cur_count = 0;
-            while ( buffer.get_cursor() < end_pos )
+            while ( stream.get_cursor() < end_pos )
             {
-                read( buffer );
+                read( stream );
                 cur_count++;
             }
             return cur_count;
         }
 
         /**
-         * @brief Read multiple elements from the buffer in member-wise fashion. Readers
+         * @brief Read multiple elements from the stream in member-wise fashion. Readers
          * that need to handle member-wise data reading must implement this method.
          *
-         * @param buffer The binary buffer to read from.
+         * @param stream The binary stream to read from.
          * @param count Number of elements to read.
          * @return Number of elements read.
          */
-        virtual uint32_t read_many_memberwise( BinaryBuffer& buffer, const int64_t count ) {
+        virtual uint32_t read_many_memberwise( BinaryStream& stream, const int64_t count ) {
             throw std::runtime_error( name() + "::read_many_memberwise is not implemented." );
         }
     };
@@ -509,20 +514,20 @@ namespace uproot {
     }
 
     /**
-     * @brief Debug print function for BinaryBuffer. Prints only when macro or environment
-     * varialbe with name `UPROOT_DEBUG` is defined. Call @ref BinaryBuffer::debug_print()
+     * @brief Debug print function for BinaryStream. Prints only when macro or environment
+     * variable with name `UPROOT_DEBUG` is defined. Call @ref BinaryStream::debug_print()
      * internally.
      *
-     * @param buffer The BinaryBuffer to print.
+     * @param stream The BinaryStream to print.
      * @param n Number of bytes to print.
      */
-    inline void debug_printf( uproot::BinaryBuffer& buffer, const size_t n = 100 ) {
+    inline void debug_printf( uproot::BinaryStream& stream, const size_t n = 100 ) {
         bool do_print = getenv( "UPROOT_DEBUG" );
 #ifdef UPROOT_DEBUG
         do_print = true;
 #endif
         if ( !do_print ) return;
-        buffer.debug_print( n );
+        stream.debug_print( n );
     }
 
 } // namespace uproot

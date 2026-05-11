@@ -39,7 +39,7 @@ flowchart TD
     raw_data --> build_ak
 ```
 
-- `Reader` is a class that implements the logic to read data from binary buffers. It can be written in **Python** (for development and debugging) or **C++** (for production performance).
+- `Reader` is a class that implements the logic to read data from binary streams. It can be written in **Python** (for development and debugging) or **C++** (for production performance).
 - `Factory` is a Python class that creates, combines `Reader`s, and post-processes the data read by `Reader`s.
 
 This mechanism is implemented as `AsCustom` interpretation. This makes uproot-custom well compatible with Uproot.

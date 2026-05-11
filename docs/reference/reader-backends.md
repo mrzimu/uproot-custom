@@ -42,7 +42,7 @@ default C++ backend for production.
 - Use **Python** when:
   - You are developing and prototyping new readers.
   - You need to debug reader behavior interactively (e.g., step through Python
-    readers or print buffer state).
+    readers or print stream state).
   - You are on a platform without a C++17 toolchain or cannot build the native
     extension.
 - Prefer **C++** for any real analysis, performance-sensitive jobs, or large

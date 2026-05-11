@@ -11,7 +11,7 @@ At a high level the pipeline has five stages:
    hierarchy.
 2. **Build readers** — each factory creates a corresponding `Reader` (Python
    or C++).
-3. **Read binary data** — the composed reader graph walks the byte buffer.
+3. **Read binary data** — the composed reader graph walks the byte stream.
 4. **Return raw data** — leaf readers return `numpy` arrays; parent readers
    assemble them into nested tuples / lists.
 5. **Build awkward arrays** — factories convert the raw arrays into
@@ -148,24 +148,24 @@ class AnyClassFactory(GroupFactory):
 
 The top-level reader drives sub-readers recursively. For instance,
 `AnyClassReader` reads its `fNBytes` + `fVersion` header, then asks each
-sub-reader to consume its portion of the buffer:
+sub-reader to consume its portion of the stream:
 
 ```{code-block} python
 ---
 caption: "`AnyClassReader.read` method (Python)"
 emphasize-lines: 7
 ---
-def read(self, buffer):
-    fNBytes = buffer.read_fNBytes()
-    start_pos = buffer.cursor
+def read(self, stream):
+    fNBytes = stream.read_fNBytes()
+    start_pos = stream.cursor
     end_pos = start_pos + fNBytes
 
-    buffer.skip_fVersion()
+    stream.skip_fVersion()
 
     for reader in self.element_readers:
-        reader.read(buffer)
+        reader.read(stream)
 
-    assert buffer.cursor == end_pos, (
+    assert stream.cursor == end_pos, (
         f"AnyClassReader({self.name}): Invalid read length!"
     )
 ```
@@ -361,7 +361,7 @@ class OverrideStreamerFactory(Factory):
 ### Stage 2 — Reader
 
 The reader implements the binary decoding logic. It reads every entry from
-the byte buffer and accumulates values in Python `array` objects, then
+the byte stream and accumulates values in Python `array` objects, then
 returns them as `numpy` arrays.
 
 ```{code-block} python
@@ -380,16 +380,16 @@ class OverrideStreamerReader(IReader):
         self.m_ints = array("i")       # int32
         self.m_doubles = array("d")    # float64
 
-    def read(self, buffer):
+    def read(self, stream):
         # Stage 3 — read binary data
-        buffer.skip_TObject()                        # skip base class
-        self.m_ints.append(buffer.read_int32())      # m_int
+        stream.skip_TObject()                        # skip base class
+        self.m_ints.append(stream.read_int32())      # m_int
 
-        mask = buffer.read_uint32()                  # custom mask
+        mask = stream.read_uint32()                  # custom mask
         if mask != 0x12345678:
             raise RuntimeError(f"Unexpected mask: {mask:#x}")
 
-        self.m_doubles.append(buffer.read_double())  # m_double
+        self.m_doubles.append(stream.read_double())  # m_double
 
     def data(self):
         # Stage 4 — return raw numpy arrays
