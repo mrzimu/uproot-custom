@@ -2,7 +2,7 @@
 
 Uproot-custom splits the work between two layers:
 
-- **Reader** — reads binary data from the ROOT byte buffer. It can be written
+- **Reader** — reads binary data from the ROOT byte stream. It can be written
   in **Python** (for rapid development and debugging) or **C++** (for
   production performance).
 - **Factory** (Python) — orchestrates readers, and converts their output into
@@ -22,7 +22,7 @@ and implement two methods:
 
 | Method | Purpose |
 | ------ | ------- |
-| `read(buffer)` | Consume bytes from the buffer for one entry. |
+| `read(stream)` | Consume bytes from the stream for one entry. |
 | `data()` | Return all accumulated data as `numpy` arrays (or nested containers of them). |
 
 Three additional methods handle special reading patterns (override only when
@@ -30,9 +30,9 @@ needed):
 
 | Method | When it is called |
 | ------ | ----------------- |
-| `read_many(buffer, count)` | Reading a fixed number of elements (e.g. c-style arrays). Override when multiple elements share a single header. |
-| `read_until(buffer, end_pos)` | Reading elements until a byte position is reached. |
-| `read_many_memberwise(buffer, count)` | Member-wise reading: all first members, then all second members, etc. Used by some STL containers. |
+| `read_many(stream, count)` | Reading a fixed number of elements (e.g. c-style arrays). Override when multiple elements share a single header. |
+| `read_until(stream, end_pos)` | Reading elements until a byte position is reached. |
+| `read_many_memberwise(stream, count)` | Member-wise reading: all first members, then all second members, etc. Used by some STL containers. |
 
 ```{code-block} python
 ---
@@ -44,25 +44,25 @@ class IReader:
     def __init__(self, name: str):
         self.name = name
 
-    def read(self, buffer: BinaryBuffer) -> None:
+    def read(self, stream: BinaryStream) -> None:
         raise NotImplementedError
 
     def data(self):
         raise NotImplementedError
 
-    def read_many(self, buffer: BinaryBuffer, count: int) -> int:
+    def read_many(self, stream: BinaryStream, count: int) -> int:
         for _ in range(count):
-            self.read(buffer)
+            self.read(stream)
         return count
 
-    def read_until(self, buffer: BinaryBuffer, end_pos: int) -> int:
+    def read_until(self, stream: BinaryStream, end_pos: int) -> int:
         count = 0
-        while buffer.cursor < end_pos:
-            self.read(buffer)
+        while stream.cursor < end_pos:
+            self.read(stream)
             count += 1
         return count
 
-    def read_many_memberwise(self, buffer: BinaryBuffer, count: int) -> int:
+    def read_many_memberwise(self, stream: BinaryStream, count: int) -> int:
         raise NotImplementedError
 ```
 
@@ -70,9 +70,9 @@ class IReader:
 Every reader requires a `name: str` for debug output.
 ```
 
-### `BinaryBuffer`
+### `BinaryStream`
 
-`BinaryBuffer` wraps a byte buffer and provides convenience methods for
+`BinaryStream` wraps a byte stream and provides convenience methods for
 reading ROOT binary data.
 
 **Reading**
@@ -81,10 +81,10 @@ reading ROOT binary data.
 - `read_float() → float`, `read_double() → float`: Read floating-point values.
 - `read_bool() → bool`: Read a boolean value.
 - `read_fVersion() → int`: Read `fVersion` (signed 16-bit).
-- `read_fNBytes() → int`: Read `fNBytes` from the buffer, check the mask, and return the actual number of bytes.
-- `read_null_terminated_string() → str`: Read a null-terminated string from the buffer.
+- `read_fNBytes() → int`: Read `fNBytes` from the stream, check the mask, and return the actual number of bytes.
+- `read_null_terminated_string() → str`: Read a null-terminated string from the stream.
 - `read_obj_header() → str`: Read the object header, return the object's name if present.
-- `read_TString() → str`: Read a `TString` from the buffer.
+- `read_TString() → str`: Read a `TString` from the stream.
 
 **Skipping**
 - `skip(n)`: Skip `n` bytes.
@@ -95,9 +95,9 @@ reading ROOT binary data.
 - `skip_TObject()`: Skip a `TObject`.
 
 **Miscellaneous**
-- `cursor`: Current cursor position (byte index into the buffer).
-- `entries`: Number of entries in the data buffer.
-- `offsets`: Entry offsets of the data buffer.
+- `cursor`: Current cursor position (byte index into the stream).
+- `entries`: Number of entries in the data stream.
+- `offsets`: Entry offsets of the data stream.
 
 ### Accepting sub-readers
 
@@ -118,11 +118,11 @@ os.environ["UPROOT_DEBUG"] = "1"
 # Now debug_print(...) calls will produce output
 ```
 
-You can also print the current buffer state:
+You can also print the current stream state:
 
 ```python
-def read(self, buffer):
-    print(buffer)   # shows the next N bytes from the current cursor
+def read(self, stream):
+    print(stream)   # shows the next N bytes from the current cursor
     ...
 ```
 
@@ -294,7 +294,7 @@ caption: "`TArrayReader` (Python)"
 from array import array
 import numpy as np
 
-from uproot_custom.readers.python import IReader, BinaryBuffer, DTYPE_TO_READER, DTYPE_TO_TYPECODE
+from uproot_custom.readers.python import IReader, BinaryStream, DTYPE_TO_READER, DTYPE_TO_TYPECODE
 
 
 class TArrayReader(IReader):
@@ -306,11 +306,11 @@ class TArrayReader(IReader):
         self.offsets = array("q", [0])
         self.buffer_reader = DTYPE_TO_READER[dtype]
 
-    def read(self, buffer):
-        fSize = buffer.read_uint32()
+    def read(self, stream):
+        fSize = stream.read_uint32()
         self.offsets.append(self.offsets[-1] + fSize)
         for _ in range(fSize):
-            self._data.append(self.buffer_reader(buffer))
+            self._data.append(self.buffer_reader(stream))
 
     def data(self):
         offsets_array = np.frombuffer(self.offsets.tobytes(), dtype="int64")
@@ -403,7 +403,7 @@ class TArrayFactory(Factory):
 ```{seealso}
 Once your Python reader is working correctly, you can port the logic to C++
 for production performance. See [](port-to-cpp.md) for the C++ `IReader` API,
-`BinaryBuffer` reference, pybind11 bindings, and a worked C++ version of
+`BinaryStream` reference, pybind11 bindings, and a worked C++ version of
 `TArrayReader`.
 ```
 

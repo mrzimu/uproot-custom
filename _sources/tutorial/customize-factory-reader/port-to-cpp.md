@@ -21,16 +21,16 @@ methods:
 
 | Method | Purpose |
 | ------ | ------- |
-| `read(BinaryBuffer&)` | Consume bytes from the buffer for one entry. |
+| `read(BinaryStream&)` | Consume bytes from the stream for one entry. |
 | `data() → py::object` | Return all accumulated data as `numpy` arrays (or nested containers of them). |
 
 The same optional methods are available as in Python:
 
 | Method | When it is called |
 | ------ | ----------------- |
-| `read_many(buffer, count)` | Reading a fixed number of elements. |
-| `read_until(buffer, end_pos)` | Reading elements until a byte position. |
-| `read_many_memberwise(buffer, count)` | Member-wise reading for STL containers. |
+| `read_many(stream, count)` | Reading a fixed number of elements. |
+| `read_until(stream, end_pos)` | Reading elements until a byte position. |
+| `read_many_memberwise(stream, count)` | Member-wise reading for STL containers. |
 
 ```{code-block} cpp
 ---
@@ -48,50 +48,50 @@ class IReader {
 
     virtual const std::string name() const { return m_name; }
 
-    virtual void read( BinaryBuffer& buffer ) = 0;
+    virtual void read( BinaryStream& stream ) = 0;
     virtual py::object data() const           = 0;
 
-    virtual uint32_t read_many( BinaryBuffer& buffer, const int64_t count ) {
-        for ( int32_t i = 0; i < count; i++ ) { read( buffer ); }
+    virtual uint32_t read_many( BinaryStream& stream, const int64_t count ) {
+        for ( int32_t i = 0; i < count; i++ ) { read( stream ); }
         return count;
     }
 
-    virtual uint32_t read_until( BinaryBuffer& buffer, const uint8_t* end_pos ) {
+    virtual uint32_t read_until( BinaryStream& stream, const uint8_t* end_pos ) {
         uint32_t cur_count = 0;
-        while ( buffer.get_cursor() < end_pos )
+        while ( stream.get_cursor() < end_pos )
         {
-            read( buffer );
+            read( stream );
             cur_count++;
         }
         return cur_count;
     }
 
-    virtual uint32_t read_many_memberwise( BinaryBuffer& buffer, const int64_t count ) {
+    virtual uint32_t read_many_memberwise( BinaryStream& stream, const int64_t count ) {
         if ( count < 0 )
         {
             std::stringstream msg;
             msg << name() << "::read_many_memberwise with negative count: " << count;
             throw std::runtime_error( msg.str() );
         }
-        return read_many( buffer, count );
+        return read_many( stream, count );
     }
 };
 ```
 
 ---
 
-## C++ `BinaryBuffer`
+## C++ `BinaryStream`
 
-The C++ `BinaryBuffer` wraps a `uint8_t*` buffer with the same convenience
+The C++ `BinaryStream` wraps a `uint8_t*` stream with the same convenience
 methods as the Python version:
 
 **Reading**
-- `const T read<T>()`: Read a value of type `T` from the buffer, and advance the cursor.
+- `const T read<T>()`: Read a value of type `T` from the stream, and advance the cursor.
 - `const int16_t read_fVersion()`: Equivalent to `read<int16_t>()`.
-- `const uint32_t read_fNBytes()`: Read `fNBytes` from the buffer, check the mask, and return the actual number of bytes.
-- `const std::string read_null_terminated_string()`: Read a null-terminated string from the buffer.
-- `const std::string read_obj_header()`: Read the object header from the buffer, return the object's name if present.
-- `const std::string read_TString()`: Read a `TString` from the buffer.
+- `const uint32_t read_fNBytes()`: Read `fNBytes` from the stream, check the mask, and return the actual number of bytes.
+- `const std::string read_null_terminated_string()`: Read a null-terminated string from the stream.
+- `const std::string read_obj_header()`: Read the object header from the stream, return the object's name if present.
+- `const std::string read_TString()`: Read a `TString` from the stream.
 
 **Skipping**
 - `void skip(const size_t nbytes)`: Skip `nbytes` bytes.
@@ -102,10 +102,10 @@ methods as the Python version:
 - `void skip_TObject()`: Skip a `TObject`.
 
 **Miscellaneous**
-- `const uint8_t* get_data() const`: Get the start of the data buffer.
+- `const uint8_t* get_data() const`: Get the start of the data stream.
 - `const uint8_t* get_cursor() const`: Get the current cursor position.
-- `const uint32_t* get_offsets() const`: Get the entry offsets of the data buffer.
-- `const uint64_t* entries() const`: Get the number of entries of the data buffer.
+- `const uint32_t* get_offsets() const`: Get the entry offsets of the data stream.
+- `const uint64_t* entries() const`: Get the number of entries of the data stream.
 - `void debug_print( const size_t n = 100 ) const`: Print the next `n` bytes from the current cursor for debugging.
 
 ---
@@ -166,8 +166,8 @@ emitted when the `UPROOT_DEBUG` macro is defined at compile time **or** the
 // Will print "The reader name is Bob"
 debug_print("The reader name is %s", "Bob");
 
-// Call buffer.debug_print(50), print next 50 bytes from current cursor
-debug_print( buffer, 50 )
+// Call stream.debug_print(50), print next 50 bytes from current cursor
+debug_print( stream, 50 )
 ```
 
 ---
@@ -207,15 +207,15 @@ class OverrideStreamerReader(IReader):
         self.m_ints = array("i")       # int32
         self.m_doubles = array("d")    # float64
 
-    def read(self, buffer):
-        buffer.skip_TObject()                        # skip base class
-        self.m_ints.append(buffer.read_int32())      # m_int
+    def read(self, stream):
+        stream.skip_TObject()                        # skip base class
+        self.m_ints.append(stream.read_int32())      # m_int
 
-        mask = buffer.read_uint32()                  # custom mask
+        mask = stream.read_uint32()                  # custom mask
         if mask != 0x12345678:
             raise RuntimeError(f"Unexpected mask: {mask:#x}")
 
-        self.m_doubles.append(buffer.read_double())  # m_double
+        self.m_doubles.append(stream.read_double())  # m_double
 
     def data(self):
         return np.asarray(self.m_ints), np.asarray(self.m_doubles)
@@ -243,16 +243,16 @@ class OverrideStreamerReader : public IReader {
         , m_data_ints( std::make_shared<std::vector<int>>() )
         , m_data_doubles( std::make_shared<std::vector<double>>() ) {}
 
-    void read( BinaryBuffer& buffer ) {
-        buffer.skip_TObject();                          // skip base class
-        m_data_ints->push_back( buffer.read<int>() );   // m_int
+    void read( BinaryStream& stream ) {
+        stream.skip_TObject();                          // skip base class
+        m_data_ints->push_back( stream.read<int>() );   // m_int
 
-        auto mask = buffer.read<uint32_t>();             // custom mask
+        auto mask = stream.read<uint32_t>();             // custom mask
         if ( mask != 0x12345678 )
             throw std::runtime_error( "Unexpected mask: " +
                                       std::to_string( mask ) );
 
-        m_data_doubles->push_back( buffer.read<double>() ); // m_double
+        m_data_doubles->push_back( stream.read<double>() ); // m_double
     }
 
     py::object data() const {
@@ -312,10 +312,10 @@ class TArrayReader : public IReader {
         , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) )
         , m_data( std::make_shared<std::vector<T>>() ) {}
 
-    void read( BinaryBuffer& buffer ) override {
-        auto fSize = buffer.read<uint32_t>();
+    void read( BinaryStream& stream ) override {
+        auto fSize = stream.read<uint32_t>();
         m_offsets->push_back( m_offsets->back() + fSize );
-        for ( auto i = 0; i < fSize; i++ ) { m_data->push_back( buffer.read<T>() ); }
+        for ( auto i = 0; i < fSize; i++ ) { m_data->push_back( stream.read<T>() ); }
     }
 
     py::object data() const override {

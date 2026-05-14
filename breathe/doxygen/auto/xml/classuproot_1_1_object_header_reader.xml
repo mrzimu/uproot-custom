@@ -62,27 +62,27 @@
         </inbodydescription>
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1185" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1185" bodyend="1186"/>
       </memberdef>
-      <memberdef kind="function" id="classuproot_1_1_object_header_reader_1a3977dd06e768f11b799e7b896d778d4f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+      <memberdef kind="function" id="classuproot_1_1_object_header_reader_1abf0aba2e09a990e3afc56208cf7294ae" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>void</type>
         <definition>void uproot::ObjectHeaderReader::read</definition>
-        <argsstring>(BinaryBuffer &amp;buffer) override</argsstring>
+        <argsstring>(BinaryStream &amp;stream) override</argsstring>
         <name>read</name>
         <qualifiedname>uproot::ObjectHeaderReader::read</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_reader_1af7b6cdf7293548710230ee82ff9706d8">read</reimplements>
+        <reimplements refid="classuproot_1_1_i_reader_1a59918d6716b8704a2becc06d0829cfca">read</reimplements>
         <param>
-          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
-          <declname>buffer</declname>
+          <type><ref refid="classuproot_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
+          <declname>stream</declname>
         </param>
         <briefdescription>
-<para>Read the object header from the buffer, then delegate to m_element_reader to read the object content. </para>
+<para>Read the object header from the stream, then delegate to m_element_reader to read the object content. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>buffer</parametername>
+<parametername>stream</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The binary buffer to read from. </para>
+<para>The binary stream to read from. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -149,10 +149,10 @@
       <member refid="classuproot_1_1_i_reader_1aae3ebcf2974166ec9eb868528759dbc9" prot="protected" virt="non-virtual"><scope>uproot::ObjectHeaderReader</scope><name>m_name</name></member>
       <member refid="classuproot_1_1_i_reader_1a94ec0db0c0012df8317add7519a0c299" prot="public" virt="virtual"><scope>uproot::ObjectHeaderReader</scope><name>name</name></member>
       <member refid="classuproot_1_1_object_header_reader_1ae998232093b6ca2e31a3df60ffacc1b8" prot="public" virt="non-virtual"><scope>uproot::ObjectHeaderReader</scope><name>ObjectHeaderReader</name></member>
-      <member refid="classuproot_1_1_object_header_reader_1a3977dd06e768f11b799e7b896d778d4f" prot="public" virt="virtual"><scope>uproot::ObjectHeaderReader</scope><name>read</name></member>
-      <member refid="classuproot_1_1_i_reader_1a0f59056370968271e27813bd0722eae4" prot="public" virt="virtual"><scope>uproot::ObjectHeaderReader</scope><name>read_many</name></member>
-      <member refid="classuproot_1_1_i_reader_1a4d01c9b32bed762117e148e997b2fb25" prot="public" virt="virtual"><scope>uproot::ObjectHeaderReader</scope><name>read_many_memberwise</name></member>
-      <member refid="classuproot_1_1_i_reader_1ab72b33c05c4e76a3f658b735f0068d66" prot="public" virt="virtual"><scope>uproot::ObjectHeaderReader</scope><name>read_until</name></member>
+      <member refid="classuproot_1_1_object_header_reader_1abf0aba2e09a990e3afc56208cf7294ae" prot="public" virt="virtual"><scope>uproot::ObjectHeaderReader</scope><name>read</name></member>
+      <member refid="classuproot_1_1_i_reader_1ac02e5679420f02084305414181d7423e" prot="public" virt="virtual"><scope>uproot::ObjectHeaderReader</scope><name>read_many</name></member>
+      <member refid="classuproot_1_1_i_reader_1a9d545434b78b4c427818b8986e82b056" prot="public" virt="virtual"><scope>uproot::ObjectHeaderReader</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot_1_1_i_reader_1a7e7b4068c2619fa1336e04ccbd07554b" prot="public" virt="virtual"><scope>uproot::ObjectHeaderReader</scope><name>read_until</name></member>
       <member refid="classuproot_1_1_i_reader_1a0e010e1426c196808a4ac5f4723637cc" prot="public" virt="virtual"><scope>uproot::ObjectHeaderReader</scope><name>~IReader</name></member>
     </listofallmembers>
   </compounddef>

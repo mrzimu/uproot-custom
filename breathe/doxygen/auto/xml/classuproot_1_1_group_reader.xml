@@ -62,27 +62,27 @@
         </inbodydescription>
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="859" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="859" bodyend="860"/>
       </memberdef>
-      <memberdef kind="function" id="classuproot_1_1_group_reader_1a1bd17ce1d079e6cb55d62c94a037f4a8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+      <memberdef kind="function" id="classuproot_1_1_group_reader_1ae41669b131fa228d16b912104c909a61" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>void</type>
         <definition>void uproot::GroupReader::read</definition>
-        <argsstring>(BinaryBuffer &amp;buffer) override</argsstring>
+        <argsstring>(BinaryStream &amp;stream) override</argsstring>
         <name>read</name>
         <qualifiedname>uproot::GroupReader::read</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_reader_1af7b6cdf7293548710230ee82ff9706d8">read</reimplements>
+        <reimplements refid="classuproot_1_1_i_reader_1a59918d6716b8704a2becc06d0829cfca">read</reimplements>
         <param>
-          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
-          <declname>buffer</declname>
+          <type><ref refid="classuproot_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
+          <declname>stream</declname>
         </param>
         <briefdescription>
-<para>Read all grouped elements from the buffer sequentially. </para>
+<para>Read all grouped elements from the stream sequentially. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>buffer</parametername>
+<parametername>stream</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The binary buffer to read from. </para>
+<para>The binary stream to read from. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -92,31 +92,31 @@
         </inbodydescription>
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="867" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="867" bodyend="875"/>
       </memberdef>
-      <memberdef kind="function" id="classuproot_1_1_group_reader_1ada5fb250a5829402744802ab012cc441" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
-        <type><ref refid="classuproot_1_1_group_reader_1a1bd17ce1d079e6cb55d62c94a037f4a8" kindref="member">uint32_t</ref></type>
+      <memberdef kind="function" id="classuproot_1_1_group_reader_1a82e31d203d982442eba8efc0c6b7f61f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classuproot_1_1_group_reader_1ae41669b131fa228d16b912104c909a61" kindref="member">uint32_t</ref></type>
         <definition>uint32_t uproot::GroupReader::read_many_memberwise</definition>
-        <argsstring>(BinaryBuffer &amp;buffer, const int64_t count) override</argsstring>
+        <argsstring>(BinaryStream &amp;stream, const int64_t count) override</argsstring>
         <name>read_many_memberwise</name>
         <qualifiedname>uproot::GroupReader::read_many_memberwise</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_reader_1a4d01c9b32bed762117e148e997b2fb25">read_many_memberwise</reimplements>
+        <reimplements refid="classuproot_1_1_i_reader_1a9d545434b78b4c427818b8986e82b056">read_many_memberwise</reimplements>
         <param>
-          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
-          <declname>buffer</declname>
+          <type><ref refid="classuproot_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
+          <declname>stream</declname>
         </param>
         <param>
-          <type><ref refid="classuproot_1_1_group_reader_1a1bd17ce1d079e6cb55d62c94a037f4a8" kindref="member">const</ref> <ref refid="classuproot_1_1_group_reader_1a1bd17ce1d079e6cb55d62c94a037f4a8" kindref="member">int64_t</ref></type>
+          <type><ref refid="classuproot_1_1_group_reader_1ae41669b131fa228d16b912104c909a61" kindref="member">const</ref> <ref refid="classuproot_1_1_group_reader_1ae41669b131fa228d16b912104c909a61" kindref="member">int64_t</ref></type>
           <declname>count</declname>
         </param>
         <briefdescription>
-<para>Read multiple grouped elements from the buffer sequentially in member-wise mode. This method calls <ref refid="classuproot_1_1_i_reader_1a0f59056370968271e27813bd0722eae4" kindref="member">IReader::read_many()</ref> of each grouped reader. </para>
+<para>Read multiple grouped elements from the stream sequentially in member-wise mode. This method calls <ref refid="classuproot_1_1_i_reader_1ac02e5679420f02084305414181d7423e" kindref="member">IReader::read_many()</ref> of each grouped reader. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>buffer</parametername>
+<parametername>stream</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The binary buffer to read from. </para>
+<para>The binary stream to read from. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -128,7 +128,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Number of objects read. Should be equal to <ref refid="classuproot_1_1_group_reader_1a1bd17ce1d079e6cb55d62c94a037f4a8" kindref="member">count</ref>. </para>
+<simplesect kind="return"><para>Number of objects read. Should be equal to <ref refid="classuproot_1_1_group_reader_1ae41669b131fa228d16b912104c909a61" kindref="member">count</ref>. </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -193,10 +193,10 @@
       <member refid="classuproot_1_1_group_reader_1a3d6706f13fb347e1f9b261892d733986" prot="private" virt="non-virtual"><scope>uproot::GroupReader</scope><name>m_element_readers</name></member>
       <member refid="classuproot_1_1_i_reader_1aae3ebcf2974166ec9eb868528759dbc9" prot="protected" virt="non-virtual"><scope>uproot::GroupReader</scope><name>m_name</name></member>
       <member refid="classuproot_1_1_i_reader_1a94ec0db0c0012df8317add7519a0c299" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>name</name></member>
-      <member refid="classuproot_1_1_group_reader_1a1bd17ce1d079e6cb55d62c94a037f4a8" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>read</name></member>
-      <member refid="classuproot_1_1_i_reader_1a0f59056370968271e27813bd0722eae4" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>read_many</name></member>
-      <member refid="classuproot_1_1_group_reader_1ada5fb250a5829402744802ab012cc441" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>read_many_memberwise</name></member>
-      <member refid="classuproot_1_1_i_reader_1ab72b33c05c4e76a3f658b735f0068d66" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>read_until</name></member>
+      <member refid="classuproot_1_1_group_reader_1ae41669b131fa228d16b912104c909a61" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>read</name></member>
+      <member refid="classuproot_1_1_i_reader_1ac02e5679420f02084305414181d7423e" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>read_many</name></member>
+      <member refid="classuproot_1_1_group_reader_1a82e31d203d982442eba8efc0c6b7f61f" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot_1_1_i_reader_1a7e7b4068c2619fa1336e04ccbd07554b" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>read_until</name></member>
       <member refid="classuproot_1_1_i_reader_1a0e010e1426c196808a4ac5f4723637cc" prot="public" virt="virtual"><scope>uproot::GroupReader</scope><name>~IReader</name></member>
     </listofallmembers>
   </compounddef>

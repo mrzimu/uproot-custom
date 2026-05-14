@@ -218,7 +218,7 @@ Our `TObjArrayReader` in Python can be implemented as follows:
 from array import array
 import numpy as np
 
-from uproot_custom.readers.python import IReader, BinaryBuffer
+from uproot_custom.readers.python import IReader, BinaryStream
 
 
 class TObjArrayReader(IReader):
@@ -227,20 +227,20 @@ class TObjArrayReader(IReader):
         self.element_reader = element_reader
         self.offsets = array("q", [0])
 
-    def read(self, buffer):
+    def read(self, stream):
         # Read TObjArray header
-        buffer.skip_fNBytes()
-        buffer.skip_fVersion()
-        buffer.skip_TObject()
-        buffer.read_TString()  # fName
-        fSize = buffer.read_uint32()
-        buffer.skip(4)  # fLowerBound
+        stream.skip_fNBytes()
+        stream.skip_fVersion()
+        stream.skip_TObject()
+        stream.read_TString()  # fName
+        fSize = stream.read_uint32()
+        stream.skip(4)  # fLowerBound
 
         # Record the new offset
         self.offsets.append(self.offsets[-1] + fSize)
 
         # Read the elements using the element reader
-        self.element_reader.read_many(buffer, fSize)
+        self.element_reader.read_many(stream, fSize)
 
     def data(self):
         offsets_array = np.asarray(self.offsets)
@@ -434,7 +434,7 @@ the same structure.
 
 ```{seealso}
 See [](../../tutorial/customize-factory-reader/port-to-cpp.md) for the full
-C++ reader API reference (IReader, BinaryBuffer, pybind11 bindings).
+C++ reader API reference (IReader, BinaryStream, pybind11 bindings).
 ```
 
 ```{code-block} cpp
@@ -452,16 +452,16 @@ class TObjArrayReader : public IReader {
         , m_element_reader( element_reader )
         , m_offsets( std::make_shared<std::vector<int64_t>>( 1, 0 ) ) {}
 
-    void read( BinaryBuffer& buffer ) override final {
-        buffer.skip_fNBytes();
-        buffer.skip_fVersion();
-        buffer.skip_TObject();
-        buffer.read_TString(); // fName
-        auto fSize = buffer.read<uint32_t>();
-        buffer.skip( 4 ); // fLowerBound
+    void read( BinaryStream& stream ) override final {
+        stream.skip_fNBytes();
+        stream.skip_fVersion();
+        stream.skip_TObject();
+        stream.read_TString(); // fName
+        auto fSize = stream.read<uint32_t>();
+        stream.skip( 4 ); // fLowerBound
 
         m_offsets->push_back( m_offsets->back() + fSize );
-        m_element_reader->read_many( buffer, fSize );
+        m_element_reader->read_many( stream, fSize );
     }
 
     py::object data() const override final {

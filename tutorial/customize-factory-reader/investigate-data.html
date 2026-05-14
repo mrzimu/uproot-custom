@@ -51,7 +51,7 @@
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../../_static/togglebutton.js?v=1ae7504c"></script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
@@ -716,7 +716,7 @@ members:</p>
 </section>
 <section id="obtaining-raw-binary-data">
 <span id="obtain-binary-data"></span><h3>Obtaining raw binary data<a class="headerlink" href="#obtaining-raw-binary-data" title="Link to this heading">#</a></h3>
-<p>Use <code class="docutils literal notranslate"><span class="pre">AsBinary</span></code> to pull the uninterpreted byte buffer of a branch:</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">AsBinary</span></code> to pull the uninterpreted byte stream of a branch:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot.interpretations.custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsBinary</span>
 
 <span class="n">raw_binary</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;my_tree/cstyle_array/m_simple_obj[3]&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">interpretation</span><span class="o">=</span><span class="n">AsBinary</span><span class="p">())</span>
@@ -786,15 +786,15 @@ The following two bytes <code class="docutils literal notranslate"><span class="
 <div class="tip dropdown admonition">
 <p class="admonition-title">Code example</p>
 <p>The built-in <code class="docutils literal notranslate"><span class="pre">TObjectReader::read</span></code> method:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="w"> </span><span class="n">BinaryBuffer</span><span class="o">&amp;</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">buffer</span><span class="p">.</span><span class="n">skip_fVersion</span><span class="p">();</span>
-<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">fUniqueID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">int32_t</span><span class="o">&gt;</span><span class="p">();</span>
-<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">fBits</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">();</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="w"> </span><span class="n">BinaryStream</span><span class="o">&amp;</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">stream</span><span class="p">.</span><span class="n">skip_fVersion</span><span class="p">();</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">fUniqueID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stream</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">int32_t</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">fBits</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">stream</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">();</span>
 
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">fBits</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">BinaryBuffer</span><span class="o">::</span><span class="n">kIsReferenced</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">fBits</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">BinaryStream</span><span class="o">::</span><span class="n">kIsReferenced</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">m_keep_data</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">m_pidf</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">uint16_t</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">);</span>
-<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">skip</span><span class="p">(</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">m_keep_data</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">m_pidf</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="w"> </span><span class="n">stream</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">uint16_t</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">);</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="n">stream</span><span class="p">.</span><span class="n">skip</span><span class="p">(</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">m_keep_data</span><span class="w"> </span><span class="p">)</span>

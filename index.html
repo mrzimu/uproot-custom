@@ -51,7 +51,7 @@
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js?v=1ae7504c"></script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
@@ -829,7 +829,7 @@ window.runMermaid = runMermaid;</script>
     ret_data --&gt; raw_data[(&quot;tuple, list, numpy arrays, ...&quot;)]
     raw_data --&gt; build_ak
     </pre><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">Reader</span></code> is a class that implements the logic to read data from binary buffers. It can be written in <strong>Python</strong> (for development and debugging) or <strong>C++</strong> (for production performance).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Reader</span></code> is a class that implements the logic to read data from binary streams. It can be written in <strong>Python</strong> (for development and debugging) or <strong>C++</strong> (for production performance).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Factory</span></code> is a Python class that creates, combines <code class="docutils literal notranslate"><span class="pre">Reader</span></code>s, and post-processes the data read by <code class="docutils literal notranslate"><span class="pre">Reader</span></code>s.</p></li>
 </ul>
 <p>This mechanism is implemented as <code class="docutils literal notranslate"><span class="pre">AsCustom</span></code> interpretation. This makes uproot-custom well compatible with Uproot.</p>

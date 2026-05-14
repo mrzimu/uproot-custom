@@ -51,7 +51,7 @@
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js?v=1ae7504c"></script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
@@ -473,20 +473,20 @@ reader to C++ for production speed.</p>
 <span class="linenos">10</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_ints</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">)</span>       <span class="c1"># int32</span>
 <span class="hll"><span class="linenos">11</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">)</span>    <span class="c1"># float64</span>
 </span><span class="hll"><span class="linenos">12</span>
-</span><span class="hll"><span class="linenos">13</span>    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
+</span><span class="hll"><span class="linenos">13</span>    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
 </span><span class="hll"><span class="linenos">14</span>        <span class="c1"># Skip TObject header</span>
-</span><span class="hll"><span class="linenos">15</span>        <span class="n">buffer</span><span class="o">.</span><span class="n">skip_TObject</span><span class="p">()</span>
+</span><span class="hll"><span class="linenos">15</span>        <span class="n">stream</span><span class="o">.</span><span class="n">skip_TObject</span><span class="p">()</span>
 </span><span class="hll"><span class="linenos">16</span>
 </span><span class="hll"><span class="linenos">17</span>        <span class="c1"># Read integer value</span>
-</span><span class="hll"><span class="linenos">18</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_ints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">read_int32</span><span class="p">())</span>
+</span><span class="hll"><span class="linenos">18</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_ints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stream</span><span class="o">.</span><span class="n">read_int32</span><span class="p">())</span>
 </span><span class="hll"><span class="linenos">19</span>
 </span><span class="hll"><span class="linenos">20</span>        <span class="c1"># Read a custom added mask value</span>
-</span><span class="hll"><span class="linenos">21</span>        <span class="n">mask</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+</span><span class="hll"><span class="linenos">21</span>        <span class="n">mask</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
 </span><span class="hll"><span class="linenos">22</span>        <span class="k">if</span> <span class="n">mask</span> <span class="o">!=</span> <span class="mh">0x12345678</span><span class="p">:</span>
 </span><span class="hll"><span class="linenos">23</span>            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: Unexpected mask value: </span><span class="si">{</span><span class="n">mask</span><span class="si">:</span><span class="s2">#x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span class="hll"><span class="linenos">24</span>
 </span><span class="hll"><span class="linenos">25</span>        <span class="c1"># Read double value</span>
-</span><span class="linenos">26</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">read_double</span><span class="p">())</span>
+</span><span class="linenos">26</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stream</span><span class="o">.</span><span class="n">read_double</span><span class="p">())</span>
 <span class="linenos">27</span>
 <span class="linenos">28</span>    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="linenos">29</span>        <span class="n">int_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_ints</span><span class="p">)</span>
@@ -637,7 +637,7 @@ order, and <code class="docutils literal notranslate"><span class="pre">data()</
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p>See <a class="reference internal" href="#../../tutorial/customize-factory-reader/port-to-cpp.md"><code class="xref myst docutils literal notranslate"><span class="pre">../../tutorial/customize-factory-reader/port-to-cpp.md</span></code></a> for the full
-C++ reader API reference (IReader, BinaryBuffer, pybind11 bindings).</p>
+C++ reader API reference (IReader, BinaryStream, pybind11 bindings).</p>
 </div>
 <div class="literal-block-wrapper docutils container" id="id3">
 <div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code> (C++) — same logic as the Python version</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
@@ -656,15 +656,15 @@ C++ reader API reference (IReader, BinaryBuffer, pybind11 bindings).</p>
 <span class="linenos">13</span><span class="w">        </span><span class="p">,</span><span class="w"> </span><span class="n">m_data_ints</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">)</span>
 <span class="linenos">14</span><span class="w">        </span><span class="p">,</span><span class="w"> </span><span class="n">m_data_doubles</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
 <span class="linenos">15</span>
-<span class="hll"><span class="linenos">16</span><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="w"> </span><span class="n">BinaryBuffer</span><span class="o">&amp;</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="hll"><span class="linenos">16</span><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="w"> </span><span class="n">BinaryStream</span><span class="o">&amp;</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 </span><span class="hll"><span class="linenos">17</span><span class="w">        </span><span class="c1">// Skip TObject header</span>
-</span><span class="hll"><span class="linenos">18</span><span class="w">        </span><span class="n">buffer</span><span class="p">.</span><span class="n">skip_TObject</span><span class="p">();</span>
+</span><span class="hll"><span class="linenos">18</span><span class="w">        </span><span class="n">stream</span><span class="p">.</span><span class="n">skip_TObject</span><span class="p">();</span>
 </span><span class="hll"><span class="linenos">19</span>
 </span><span class="hll"><span class="linenos">20</span><span class="w">        </span><span class="c1">// Read integer value</span>
-</span><span class="hll"><span class="linenos">21</span><span class="w">        </span><span class="n">m_data_ints</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">);</span>
+</span><span class="hll"><span class="linenos">21</span><span class="w">        </span><span class="n">m_data_ints</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="w"> </span><span class="n">stream</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">);</span>
 </span><span class="hll"><span class="linenos">22</span>
 </span><span class="hll"><span class="linenos">23</span><span class="w">        </span><span class="c1">// Read a custom added mask value</span>
-</span><span class="hll"><span class="linenos">24</span><span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">();</span>
+</span><span class="hll"><span class="linenos">24</span><span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stream</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">();</span>
 </span><span class="hll"><span class="linenos">25</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mh">0x12345678</span><span class="w"> </span><span class="p">)</span>
 </span><span class="hll"><span class="linenos">26</span><span class="w">        </span><span class="p">{</span>
 </span><span class="hll"><span class="linenos">27</span><span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="w"> </span><span class="s">&quot;Error: Unexpected mask value: &quot;</span><span class="w"> </span><span class="o">+</span>
@@ -672,7 +672,7 @@ C++ reader API reference (IReader, BinaryBuffer, pybind11 bindings).</p>
 </span><span class="hll"><span class="linenos">29</span><span class="w">        </span><span class="p">}</span>
 </span><span class="hll"><span class="linenos">30</span>
 </span><span class="hll"><span class="linenos">31</span><span class="w">        </span><span class="c1">// Read double value</span>
-</span><span class="hll"><span class="linenos">32</span><span class="w">        </span><span class="n">m_data_doubles</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">);</span>
+</span><span class="hll"><span class="linenos">32</span><span class="w">        </span><span class="n">m_data_doubles</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="w"> </span><span class="n">stream</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">);</span>
 </span><span class="hll"><span class="linenos">33</span><span class="w">    </span><span class="p">}</span>
 </span><span class="linenos">34</span>
 <span class="linenos">35</span><span class="w">    </span><span class="n">py</span><span class="o">::</span><span class="n">object</span><span class="w"> </span><span class="n">data</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>

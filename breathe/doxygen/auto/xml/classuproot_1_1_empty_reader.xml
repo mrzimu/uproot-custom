@@ -33,15 +33,15 @@
         </inbodydescription>
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1362" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1362" bodyend="1362"/>
       </memberdef>
-      <memberdef kind="function" id="classuproot_1_1_empty_reader_1afd8d0de3f3a450a930a59488bb3a4cc6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+      <memberdef kind="function" id="classuproot_1_1_empty_reader_1ab48fa2841d97106ee80c935edc06f2e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>void</type>
         <definition>void uproot::EmptyReader::read</definition>
-        <argsstring>(BinaryBuffer &amp;) override</argsstring>
+        <argsstring>(BinaryStream &amp;) override</argsstring>
         <name>read</name>
         <qualifiedname>uproot::EmptyReader::read</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_reader_1af7b6cdf7293548710230ee82ff9706d8">read</reimplements>
+        <reimplements refid="classuproot_1_1_i_reader_1a59918d6716b8704a2becc06d0829cfca">read</reimplements>
         <param>
-          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
+          <type><ref refid="classuproot_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
         </param>
         <briefdescription>
 <para>Do nothing. </para>
@@ -105,10 +105,10 @@
       <member refid="classuproot_1_1_i_reader_1aed13e9c0926be8e89422cf49efdcc752" prot="public" virt="non-virtual"><scope>uproot::EmptyReader</scope><name>IReader</name></member>
       <member refid="classuproot_1_1_i_reader_1aae3ebcf2974166ec9eb868528759dbc9" prot="protected" virt="non-virtual"><scope>uproot::EmptyReader</scope><name>m_name</name></member>
       <member refid="classuproot_1_1_i_reader_1a94ec0db0c0012df8317add7519a0c299" prot="public" virt="virtual"><scope>uproot::EmptyReader</scope><name>name</name></member>
-      <member refid="classuproot_1_1_empty_reader_1afd8d0de3f3a450a930a59488bb3a4cc6" prot="public" virt="virtual"><scope>uproot::EmptyReader</scope><name>read</name></member>
-      <member refid="classuproot_1_1_i_reader_1a0f59056370968271e27813bd0722eae4" prot="public" virt="virtual"><scope>uproot::EmptyReader</scope><name>read_many</name></member>
-      <member refid="classuproot_1_1_i_reader_1a4d01c9b32bed762117e148e997b2fb25" prot="public" virt="virtual"><scope>uproot::EmptyReader</scope><name>read_many_memberwise</name></member>
-      <member refid="classuproot_1_1_i_reader_1ab72b33c05c4e76a3f658b735f0068d66" prot="public" virt="virtual"><scope>uproot::EmptyReader</scope><name>read_until</name></member>
+      <member refid="classuproot_1_1_empty_reader_1ab48fa2841d97106ee80c935edc06f2e8" prot="public" virt="virtual"><scope>uproot::EmptyReader</scope><name>read</name></member>
+      <member refid="classuproot_1_1_i_reader_1ac02e5679420f02084305414181d7423e" prot="public" virt="virtual"><scope>uproot::EmptyReader</scope><name>read_many</name></member>
+      <member refid="classuproot_1_1_i_reader_1a9d545434b78b4c427818b8986e82b056" prot="public" virt="virtual"><scope>uproot::EmptyReader</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot_1_1_i_reader_1a7e7b4068c2619fa1336e04ccbd07554b" prot="public" virt="virtual"><scope>uproot::EmptyReader</scope><name>read_until</name></member>
       <member refid="classuproot_1_1_i_reader_1a0e010e1426c196808a4ac5f4723637cc" prot="public" virt="virtual"><scope>uproot::EmptyReader</scope><name>~IReader</name></member>
     </listofallmembers>
   </compounddef>

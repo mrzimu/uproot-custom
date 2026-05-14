@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
-  <compounddef id="structuproot_1_1_binary_buffer_1_1_ref_obj" kind="struct" language="C++" prot="public">
-    <compoundname>uproot::BinaryBuffer::RefObj</compoundname>
+  <compounddef id="structuproot_1_1_binary_stream_1_1_ref_obj" kind="struct" language="C++" prot="public">
+    <compoundname>uproot::BinaryStream::RefObj</compoundname>
     <sectiondef kind="public-attrib">
-      <memberdef kind="variable" id="structuproot_1_1_binary_buffer_1_1_ref_obj_1ab73f2b5c5485f821f8eb80bfce60623c" prot="public" static="no" mutable="no">
-        <type><ref refid="classuproot_1_1_binary_buffer_1af49068c121159f67dbbd4e76f043e477" kindref="member">int64_t</ref></type>
-        <definition>int64_t uproot::BinaryBuffer::RefObj::index</definition>
+      <memberdef kind="variable" id="structuproot_1_1_binary_stream_1_1_ref_obj_1a32a6f169e669316f39b831a056b2e94a" prot="public" static="no" mutable="no">
+        <type><ref refid="classuproot_1_1_binary_stream_1a367961b30b34ee429f92e9ded6b50c17" kindref="member">int64_t</ref></type>
+        <definition>int64_t uproot::BinaryStream::RefObj::index</definition>
         <argsstring></argsstring>
         <name>index</name>
-        <qualifiedname>uproot::BinaryBuffer::RefObj::index</qualifiedname>
+        <qualifiedname>uproot::BinaryStream::RefObj::index</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -24,7 +24,7 @@
     </detaileddescription>
     <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="71" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="71" bodyend="73"/>
     <listofallmembers>
-      <member refid="structuproot_1_1_binary_buffer_1_1_ref_obj_1ab73f2b5c5485f821f8eb80bfce60623c" prot="public" virt="non-virtual"><scope>uproot::BinaryBuffer::RefObj</scope><name>index</name></member>
+      <member refid="structuproot_1_1_binary_stream_1_1_ref_obj_1a32a6f169e669316f39b831a056b2e94a" prot="public" virt="non-virtual"><scope>uproot::BinaryStream::RefObj</scope><name>index</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

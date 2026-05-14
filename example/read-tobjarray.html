@@ -51,7 +51,7 @@
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js?v=1ae7504c"></script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
@@ -565,7 +565,7 @@ uproot-custom, and then show how to port the reader to C++.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">array</span><span class="w"> </span><span class="kn">import</span> <span class="n">array</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.readers.python</span><span class="w"> </span><span class="kn">import</span> <span class="n">IReader</span><span class="p">,</span> <span class="n">BinaryBuffer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.readers.python</span><span class="w"> </span><span class="kn">import</span> <span class="n">IReader</span><span class="p">,</span> <span class="n">BinaryStream</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">TObjArrayReader</span><span class="p">(</span><span class="n">IReader</span><span class="p">):</span>
@@ -574,20 +574,20 @@ uproot-custom, and then show how to port the reader to C++.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span> <span class="o">=</span> <span class="n">element_reader</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
         <span class="c1"># Read TObjArray header</span>
-        <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fNBytes</span><span class="p">()</span>
-        <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
-        <span class="n">buffer</span><span class="o">.</span><span class="n">skip_TObject</span><span class="p">()</span>
-        <span class="n">buffer</span><span class="o">.</span><span class="n">read_TString</span><span class="p">()</span>  <span class="c1"># fName</span>
-        <span class="n">fSize</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
-        <span class="n">buffer</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># fLowerBound</span>
+        <span class="n">stream</span><span class="o">.</span><span class="n">skip_fNBytes</span><span class="p">()</span>
+        <span class="n">stream</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
+        <span class="n">stream</span><span class="o">.</span><span class="n">skip_TObject</span><span class="p">()</span>
+        <span class="n">stream</span><span class="o">.</span><span class="n">read_TString</span><span class="p">()</span>  <span class="c1"># fName</span>
+        <span class="n">fSize</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+        <span class="n">stream</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># fLowerBound</span>
 
         <span class="c1"># Record the new offset</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">fSize</span><span class="p">)</span>
 
         <span class="c1"># Read the elements using the element reader</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">read_many</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">fSize</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">read_many</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">fSize</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">)</span>
@@ -758,7 +758,7 @@ the same structure.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p>See <a class="reference internal" href="#../../tutorial/customize-factory-reader/port-to-cpp.md"><code class="xref myst docutils literal notranslate"><span class="pre">../../tutorial/customize-factory-reader/port-to-cpp.md</span></code></a> for the full
-C++ reader API reference (IReader, BinaryBuffer, pybind11 bindings).</p>
+C++ reader API reference (IReader, BinaryStream, pybind11 bindings).</p>
 </div>
 <div class="literal-block-wrapper docutils container" id="id4">
 <div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">TObjArrayReader</span></code> (C++) — same logic as the Python version</span><a class="headerlink" href="#id4" title="Link to this code">#</a></div>
@@ -773,16 +773,16 @@ C++ reader API reference (IReader, BinaryBuffer, pybind11 bindings).</p>
 <span class="w">        </span><span class="p">,</span><span class="w"> </span><span class="n">m_element_reader</span><span class="p">(</span><span class="w"> </span><span class="n">element_reader</span><span class="w"> </span><span class="p">)</span>
 <span class="w">        </span><span class="p">,</span><span class="w"> </span><span class="n">m_offsets</span><span class="p">(</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
 
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="w"> </span><span class="n">BinaryBuffer</span><span class="o">&amp;</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">buffer</span><span class="p">.</span><span class="n">skip_fNBytes</span><span class="p">();</span>
-<span class="w">        </span><span class="n">buffer</span><span class="p">.</span><span class="n">skip_fVersion</span><span class="p">();</span>
-<span class="w">        </span><span class="n">buffer</span><span class="p">.</span><span class="n">skip_TObject</span><span class="p">();</span>
-<span class="w">        </span><span class="n">buffer</span><span class="p">.</span><span class="n">read_TString</span><span class="p">();</span><span class="w"> </span><span class="c1">// fName</span>
-<span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">fSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">();</span>
-<span class="w">        </span><span class="n">buffer</span><span class="p">.</span><span class="n">skip</span><span class="p">(</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="p">);</span><span class="w"> </span><span class="c1">// fLowerBound</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="w"> </span><span class="n">BinaryStream</span><span class="o">&amp;</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">stream</span><span class="p">.</span><span class="n">skip_fNBytes</span><span class="p">();</span>
+<span class="w">        </span><span class="n">stream</span><span class="p">.</span><span class="n">skip_fVersion</span><span class="p">();</span>
+<span class="w">        </span><span class="n">stream</span><span class="p">.</span><span class="n">skip_TObject</span><span class="p">();</span>
+<span class="w">        </span><span class="n">stream</span><span class="p">.</span><span class="n">read_TString</span><span class="p">();</span><span class="w"> </span><span class="c1">// fName</span>
+<span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">fSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stream</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">        </span><span class="n">stream</span><span class="p">.</span><span class="n">skip</span><span class="p">(</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="p">);</span><span class="w"> </span><span class="c1">// fLowerBound</span>
 
 <span class="w">        </span><span class="n">m_offsets</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="w"> </span><span class="n">m_offsets</span><span class="o">-&gt;</span><span class="n">back</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fSize</span><span class="w"> </span><span class="p">);</span>
-<span class="w">        </span><span class="n">m_element_reader</span><span class="o">-&gt;</span><span class="n">read_many</span><span class="p">(</span><span class="w"> </span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="n">fSize</span><span class="w"> </span><span class="p">);</span>
+<span class="w">        </span><span class="n">m_element_reader</span><span class="o">-&gt;</span><span class="n">read_many</span><span class="p">(</span><span class="w"> </span><span class="n">stream</span><span class="p">,</span><span class="w"> </span><span class="n">fSize</span><span class="w"> </span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="n">py</span><span class="o">::</span><span class="n">object</span><span class="w"> </span><span class="n">data</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="p">{</span>

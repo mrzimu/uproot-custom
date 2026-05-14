@@ -51,7 +51,7 @@
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../../_static/togglebutton.js?v=1ae7504c"></script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
@@ -377,7 +377,7 @@ recursively creates a tree of <code class="docutils literal notranslate"><span c
 hierarchy.</p></li>
 <li><p><strong>Build readers</strong> — each factory creates a corresponding <code class="docutils literal notranslate"><span class="pre">Reader</span></code> (Python
 or C++).</p></li>
-<li><p><strong>Read binary data</strong> — the composed reader graph walks the byte buffer.</p></li>
+<li><p><strong>Read binary data</strong> — the composed reader graph walks the byte stream.</p></li>
 <li><p><strong>Return raw data</strong> — leaf readers return <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays; parent readers
 assemble them into nested tuples / lists.</p></li>
 <li><p><strong>Build awkward arrays</strong> — factories convert the raw arrays into
@@ -504,20 +504,20 @@ fac.reader_backend = &quot;python&quot;
 <h2>Stage 3 &amp; 4: Read binary data and return results<a class="headerlink" href="#stage-3-4-read-binary-data-and-return-results" title="Link to this heading">#</a></h2>
 <p>The top-level reader drives sub-readers recursively. For instance,
 <code class="docutils literal notranslate"><span class="pre">AnyClassReader</span></code> reads its <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> + <code class="docutils literal notranslate"><span class="pre">fVersion</span></code> header, then asks each
-sub-reader to consume its portion of the buffer:</p>
+sub-reader to consume its portion of the stream:</p>
 <div class="literal-block-wrapper docutils container" id="id4">
 <div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">AnyClassReader.read</span></code> method (Python)</span><a class="headerlink" href="#id4" title="Link to this code">#</a></div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
-    <span class="n">fNBytes</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_fNBytes</span><span class="p">()</span>
-    <span class="n">start_pos</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
+    <span class="n">fNBytes</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_fNBytes</span><span class="p">()</span>
+    <span class="n">start_pos</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span>
     <span class="n">end_pos</span> <span class="o">=</span> <span class="n">start_pos</span> <span class="o">+</span> <span class="n">fNBytes</span>
 
-    <span class="n">buffer</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
+    <span class="n">stream</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
 <span class="hll">
 </span>    <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">:</span>
-        <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+        <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
 
-    <span class="k">assert</span> <span class="n">buffer</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">,</span> <span class="p">(</span>
+    <span class="k">assert</span> <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">,</span> <span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;AnyClassReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): Invalid read length!&quot;</span>
     <span class="p">)</span>
 </pre></div>
@@ -719,7 +719,7 @@ convert raw data to <code class="docutils literal notranslate"><span class="pre"
 <section id="stage-2-reader">
 <h3>Stage 2 — Reader<a class="headerlink" href="#stage-2-reader" title="Link to this heading">#</a></h3>
 <p>The reader implements the binary decoding logic. It reads every entry from
-the byte buffer and accumulates values in Python <code class="docutils literal notranslate"><span class="pre">array</span></code> objects, then
+the byte stream and accumulates values in Python <code class="docutils literal notranslate"><span class="pre">array</span></code> objects, then
 returns them as <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays.</p>
 <div class="literal-block-wrapper docutils container" id="id12">
 <div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code> — Python reader</span><a class="headerlink" href="#id12" title="Link to this code">#</a></div>
@@ -734,16 +734,16 @@ returns them as <code class="docutils literal notranslate"><span class="pre">num
 <span class="linenos"> 9</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_ints</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">)</span>       <span class="c1"># int32</span>
 <span class="linenos">10</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">)</span>    <span class="c1"># float64</span>
 <span class="linenos">11</span>
-<span class="linenos">12</span>    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
+<span class="linenos">12</span>    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
 <span class="linenos">13</span>        <span class="c1"># Stage 3 — read binary data</span>
-<span class="linenos">14</span>        <span class="n">buffer</span><span class="o">.</span><span class="n">skip_TObject</span><span class="p">()</span>                        <span class="c1"># skip base class</span>
-<span class="linenos">15</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_ints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">read_int32</span><span class="p">())</span>      <span class="c1"># m_int</span>
+<span class="linenos">14</span>        <span class="n">stream</span><span class="o">.</span><span class="n">skip_TObject</span><span class="p">()</span>                        <span class="c1"># skip base class</span>
+<span class="linenos">15</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_ints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stream</span><span class="o">.</span><span class="n">read_int32</span><span class="p">())</span>      <span class="c1"># m_int</span>
 <span class="linenos">16</span>
-<span class="linenos">17</span>        <span class="n">mask</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>                  <span class="c1"># custom mask</span>
+<span class="linenos">17</span>        <span class="n">mask</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>                  <span class="c1"># custom mask</span>
 <span class="linenos">18</span>        <span class="k">if</span> <span class="n">mask</span> <span class="o">!=</span> <span class="mh">0x12345678</span><span class="p">:</span>
 <span class="linenos">19</span>            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected mask: </span><span class="si">{</span><span class="n">mask</span><span class="si">:</span><span class="s2">#x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="linenos">20</span>
-<span class="linenos">21</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">read_double</span><span class="p">())</span>  <span class="c1"># m_double</span>
+<span class="linenos">21</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stream</span><span class="o">.</span><span class="n">read_double</span><span class="p">())</span>  <span class="c1"># m_double</span>
 <span class="linenos">22</span>
 <span class="linenos">23</span>    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="linenos">24</span>        <span class="c1"># Stage 4 — return raw numpy arrays</span>

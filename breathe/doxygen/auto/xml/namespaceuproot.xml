@@ -4,7 +4,7 @@
     <compoundname>uproot</compoundname>
     <innerclass refid="classuproot_1_1_any_class_reader" prot="public">uproot::AnyClassReader</innerclass>
     <innerclass refid="classuproot_1_1_any_pointer_reader" prot="public">uproot::AnyPointerReader</innerclass>
-    <innerclass refid="classuproot_1_1_binary_buffer" prot="public">uproot::BinaryBuffer</innerclass>
+    <innerclass refid="classuproot_1_1_binary_stream" prot="public">uproot::BinaryStream</innerclass>
     <innerclass refid="classuproot_1_1_c_style_array_reader" prot="public">uproot::CStyleArrayReader</innerclass>
     <innerclass refid="classuproot_1_1_empty_reader" prot="public">uproot::EmptyReader</innerclass>
     <innerclass refid="classuproot_1_1_group_reader" prot="public">uproot::GroupReader</innerclass>
@@ -18,6 +18,20 @@
     <innerclass refid="classuproot_1_1_t_object_reader" prot="public">uproot::TObjectReader</innerclass>
     <innerclass refid="classuproot_1_1_t_string_reader" prot="public">uproot::TStringReader</innerclass>
     <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="uproot-custom_8hh_1a50aab0d69425f4d84712d7a618ae99d6" prot="public" static="no">
+        <type><ref refid="classuproot_1_1_binary_stream" kindref="compound">BinaryStream</ref></type>
+        <definition>using uproot::BinaryBuffer = typedef BinaryStream</definition>
+        <argsstring></argsstring>
+        <name>BinaryBuffer</name>
+        <qualifiedname>uproot::BinaryBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="315" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="317" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="typedef" id="uproot-custom_8hh_1afd7c737977e42677a5925b515109b673" prot="public" static="no">
         <type><ref refid="classuproot_1_1_i_reader" kindref="compound">IReader</ref></type>
         <definition>using uproot::IElementReader = typedef IReader</definition>
@@ -33,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="415" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="416" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="420" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="421" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="uproot-custom_8hh_1a34831c4dca741b4dc14b07339ff379e7" prot="public" static="no">
         <type>shared_ptr&lt; <ref refid="classuproot_1_1_i_reader" kindref="compound">IReader</ref> &gt;</type>
@@ -51,7 +65,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="423" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="423" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="428" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="428" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="uproot-custom_8cc_1a161347aaa1050bb50c0609fb61a7e935" prot="public" static="no">
         <templateparamlist>
@@ -252,7 +266,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="441" column="16" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="441" bodyend="443"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="446" column="16" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="446" bodyend="448"/>
       </memberdef>
       <memberdef kind="function" id="uproot-custom_8hh_1adb84887bf6ef9f160a90c6fc7c32a591" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -320,7 +334,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="456" column="10" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="456" bodyend="459"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="461" column="10" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="461" bodyend="464"/>
       </memberdef>
       <memberdef kind="function" id="uproot-custom_8hh_1a8d651da24e026f25854373f8c8057b07" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <templateparamlist>
@@ -365,7 +379,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="476" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="476" bodyend="485"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="481" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="481" bodyend="490"/>
       </memberdef>
       <memberdef kind="function" id="uproot-custom_8hh_1a84d544a757ae5608b1e28e766f638584" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <templateparamlist>
@@ -422,17 +436,17 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="502" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="502" bodyend="509"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="507" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="507" bodyend="514"/>
       </memberdef>
-      <memberdef kind="function" id="uproot-custom_8hh_1a95fe378fbb5f2b33e677a4388d99c7d5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="uproot-custom_8hh_1a75abdbc88efdb394ea6ee3e6f7600569" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>void</type>
         <definition>void uproot::debug_printf</definition>
-        <argsstring>(uproot::BinaryBuffer &amp;buffer, const size_t n=100)</argsstring>
+        <argsstring>(uproot::BinaryStream &amp;stream, const size_t n=100)</argsstring>
         <name>debug_printf</name>
         <qualifiedname>uproot::debug_printf</qualifiedname>
         <param>
-          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">uproot::BinaryBuffer</ref> &amp;</type>
-          <declname>buffer</declname>
+          <type><ref refid="classuproot_1_1_binary_stream" kindref="compound">uproot::BinaryStream</ref> &amp;</type>
+          <declname>stream</declname>
         </param>
         <param>
           <type>const size_t</type>
@@ -440,15 +454,15 @@
           <defval>100</defval>
         </param>
         <briefdescription>
-<para>Debug print function for <ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref>. Prints only when macro or environment varialbe with name <computeroutput>UPROOT_DEBUG</computeroutput> is defined. Call <ref refid="classuproot_1_1_binary_buffer_1af8cbdbc65070e4b4f9ab5300ea0545cb" kindref="member">BinaryBuffer::debug_print()</ref> internally. </para>
+<para>Debug print function for <ref refid="classuproot_1_1_binary_stream" kindref="compound">BinaryStream</ref>. Prints only when macro or environment variable with name <computeroutput>UPROOT_DEBUG</computeroutput> is defined. Call <ref refid="classuproot_1_1_binary_stream_1acc54bbaea7158c7901da16cbce6c38c5" kindref="member">BinaryStream::debug_print()</ref> internally. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>buffer</parametername>
+<parametername>stream</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The <ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> to print. </para>
+<para>The <ref refid="classuproot_1_1_binary_stream" kindref="compound">BinaryStream</ref> to print. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -464,7 +478,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="519" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="519" bodyend="526"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="524" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="524" bodyend="531"/>
       </memberdef>
       <memberdef kind="function" id="uproot-custom_8cc_1abf0a513ba287e48acb2472d69a997a84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>py::object</type>
@@ -489,7 +503,7 @@
           <declname>reader</declname>
         </param>
         <briefdescription>
-<para>Read data from a binary buffer using the provided reader. </para>
+<para>Read data from a binary stream using the provided reader. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>

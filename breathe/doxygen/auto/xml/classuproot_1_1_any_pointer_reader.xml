@@ -20,7 +20,7 @@
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1020" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1020" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot_1_1_any_pointer_reader_1a232a794b45d4d6ebcd8e157f0f96c595" prot="private" static="no" mutable="no">
-        <type><ref refid="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b" kindref="member">int64_t</ref></type>
+        <type><ref refid="classuproot_1_1_any_pointer_reader_1aaeb9380e01b4d2aa6f3b5d19d1ed418a" kindref="member">int64_t</ref></type>
         <definition>int64_t uproot::AnyPointerReader::m_object_counter</definition>
         <argsstring></argsstring>
         <name>m_object_counter</name>
@@ -36,7 +36,7 @@
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1022" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1022" bodyend="1022"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot_1_1_any_pointer_reader_1a4159c581ec3db81fe24aa2b95ce9353b" prot="private" static="no" mutable="no">
-        <type>SharedVector&lt; <ref refid="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b" kindref="member">int64_t</ref> &gt;</type>
+        <type>SharedVector&lt; <ref refid="classuproot_1_1_any_pointer_reader_1aaeb9380e01b4d2aa6f3b5d19d1ed418a" kindref="member">int64_t</ref> &gt;</type>
         <definition>SharedVector&lt;int64_t&gt; uproot::AnyPointerReader::m_object_indexes</definition>
         <argsstring></argsstring>
         <name>m_object_indexes</name>
@@ -90,22 +90,22 @@
         </inbodydescription>
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1030" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1030" bodyend="1033"/>
       </memberdef>
-      <memberdef kind="function" id="classuproot_1_1_any_pointer_reader_1ae11309b3f66d027917a41c431b7352ca" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b" kindref="member">void</ref></type>
+      <memberdef kind="function" id="classuproot_1_1_any_pointer_reader_1abf9ccf62923563a62e301983eb9042e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classuproot_1_1_any_pointer_reader_1aaeb9380e01b4d2aa6f3b5d19d1ed418a" kindref="member">void</ref></type>
         <definition>void uproot::AnyPointerReader::check_cursor_position</definition>
-        <argsstring>(BinaryBuffer &amp;buffer, const uint32_t expected_nbytes, const uint8_t *expected_pos)</argsstring>
+        <argsstring>(BinaryStream &amp;stream, const uint32_t expected_nbytes, const uint8_t *expected_pos)</argsstring>
         <name>check_cursor_position</name>
         <qualifiedname>uproot::AnyPointerReader::check_cursor_position</qualifiedname>
         <param>
-          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
-          <declname>buffer</declname>
+          <type><ref refid="classuproot_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
+          <declname>stream</declname>
         </param>
         <param>
-          <type><ref refid="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b" kindref="member">const</ref> <ref refid="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b" kindref="member">uint32_t</ref></type>
+          <type><ref refid="classuproot_1_1_any_pointer_reader_1aaeb9380e01b4d2aa6f3b5d19d1ed418a" kindref="member">const</ref> <ref refid="classuproot_1_1_any_pointer_reader_1aaeb9380e01b4d2aa6f3b5d19d1ed418a" kindref="member">uint32_t</ref></type>
           <declname>expected_nbytes</declname>
         </param>
         <param>
-          <type><ref refid="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b" kindref="member">const</ref> <ref refid="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b" kindref="member">uint8_t</ref> *</type>
+          <type><ref refid="classuproot_1_1_any_pointer_reader_1aaeb9380e01b4d2aa6f3b5d19d1ed418a" kindref="member">const</ref> <ref refid="classuproot_1_1_any_pointer_reader_1aaeb9380e01b4d2aa6f3b5d19d1ed418a" kindref="member">uint8_t</ref> *</type>
           <declname>expected_pos</declname>
         </param>
         <briefdescription>
@@ -116,27 +116,27 @@
         </inbodydescription>
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1035" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1035" bodyend="1047"/>
       </memberdef>
-      <memberdef kind="function" id="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+      <memberdef kind="function" id="classuproot_1_1_any_pointer_reader_1aaeb9380e01b4d2aa6f3b5d19d1ed418a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>void</type>
         <definition>void uproot::AnyPointerReader::read</definition>
-        <argsstring>(BinaryBuffer &amp;buffer) override</argsstring>
+        <argsstring>(BinaryStream &amp;stream) override</argsstring>
         <name>read</name>
         <qualifiedname>uproot::AnyPointerReader::read</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_reader_1af7b6cdf7293548710230ee82ff9706d8">read</reimplements>
+        <reimplements refid="classuproot_1_1_i_reader_1a59918d6716b8704a2becc06d0829cfca">read</reimplements>
         <param>
-          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
-          <declname>buffer</declname>
+          <type><ref refid="classuproot_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
+          <declname>stream</declname>
         </param>
         <briefdescription>
-<para>Read an element from the buffer. </para>
+<para>Read an element from the stream. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>buffer</parametername>
+<parametername>stream</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The binary buffer to read from. </para>
+<para>The binary stream to read from. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -197,7 +197,7 @@
     <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1018" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1018" bodyend="1163"/>
     <listofallmembers>
       <member refid="classuproot_1_1_any_pointer_reader_1aa4e4d16e27d2a4faf66486fa59b2df4e" prot="public" virt="non-virtual"><scope>uproot::AnyPointerReader</scope><name>AnyPointerReader</name></member>
-      <member refid="classuproot_1_1_any_pointer_reader_1ae11309b3f66d027917a41c431b7352ca" prot="public" virt="non-virtual"><scope>uproot::AnyPointerReader</scope><name>check_cursor_position</name></member>
+      <member refid="classuproot_1_1_any_pointer_reader_1abf9ccf62923563a62e301983eb9042e8" prot="public" virt="non-virtual"><scope>uproot::AnyPointerReader</scope><name>check_cursor_position</name></member>
       <member refid="classuproot_1_1_any_pointer_reader_1a67a0fe00a4b66b37ea839a6083682247" prot="public" virt="virtual"><scope>uproot::AnyPointerReader</scope><name>data</name></member>
       <member refid="classuproot_1_1_i_reader_1aed13e9c0926be8e89422cf49efdcc752" prot="public" virt="non-virtual"><scope>uproot::AnyPointerReader</scope><name>IReader</name></member>
       <member refid="classuproot_1_1_any_pointer_reader_1a69b38d42158c133b02bbdb390d998962" prot="private" virt="non-virtual"><scope>uproot::AnyPointerReader</scope><name>m_class_name</name></member>
@@ -206,10 +206,10 @@
       <member refid="classuproot_1_1_any_pointer_reader_1a232a794b45d4d6ebcd8e157f0f96c595" prot="private" virt="non-virtual"><scope>uproot::AnyPointerReader</scope><name>m_object_counter</name></member>
       <member refid="classuproot_1_1_any_pointer_reader_1a4159c581ec3db81fe24aa2b95ce9353b" prot="private" virt="non-virtual"><scope>uproot::AnyPointerReader</scope><name>m_object_indexes</name></member>
       <member refid="classuproot_1_1_i_reader_1a94ec0db0c0012df8317add7519a0c299" prot="public" virt="virtual"><scope>uproot::AnyPointerReader</scope><name>name</name></member>
-      <member refid="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b" prot="public" virt="virtual"><scope>uproot::AnyPointerReader</scope><name>read</name></member>
-      <member refid="classuproot_1_1_i_reader_1a0f59056370968271e27813bd0722eae4" prot="public" virt="virtual"><scope>uproot::AnyPointerReader</scope><name>read_many</name></member>
-      <member refid="classuproot_1_1_i_reader_1a4d01c9b32bed762117e148e997b2fb25" prot="public" virt="virtual"><scope>uproot::AnyPointerReader</scope><name>read_many_memberwise</name></member>
-      <member refid="classuproot_1_1_i_reader_1ab72b33c05c4e76a3f658b735f0068d66" prot="public" virt="virtual"><scope>uproot::AnyPointerReader</scope><name>read_until</name></member>
+      <member refid="classuproot_1_1_any_pointer_reader_1aaeb9380e01b4d2aa6f3b5d19d1ed418a" prot="public" virt="virtual"><scope>uproot::AnyPointerReader</scope><name>read</name></member>
+      <member refid="classuproot_1_1_i_reader_1ac02e5679420f02084305414181d7423e" prot="public" virt="virtual"><scope>uproot::AnyPointerReader</scope><name>read_many</name></member>
+      <member refid="classuproot_1_1_i_reader_1a9d545434b78b4c427818b8986e82b056" prot="public" virt="virtual"><scope>uproot::AnyPointerReader</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot_1_1_i_reader_1a7e7b4068c2619fa1336e04ccbd07554b" prot="public" virt="virtual"><scope>uproot::AnyPointerReader</scope><name>read_until</name></member>
       <member refid="classuproot_1_1_i_reader_1a0e010e1426c196808a4ac5f4723637cc" prot="public" virt="virtual"><scope>uproot::AnyPointerReader</scope><name>~IReader</name></member>
     </listofallmembers>
   </compounddef>

@@ -5,12 +5,12 @@
     <basecompoundref refid="classuproot_1_1_i_reader" prot="public" virt="non-virtual">uproot::IReader</basecompoundref>
     <templateparamlist>
       <param>
-        <type><ref refid="classuproot_1_1_t_array_reader_1a93e03ee3c804e6efd1518b6f6bd453bc" kindref="member">typename</ref> <ref refid="classuproot_1_1_t_array_reader_1a93e03ee3c804e6efd1518b6f6bd453bc" kindref="member">T</ref></type>
+        <type><ref refid="classuproot_1_1_t_array_reader_1a5120a23714d59e0ced43a975d146ad61" kindref="member">typename</ref> <ref refid="classuproot_1_1_t_array_reader_1a5120a23714d59e0ced43a975d146ad61" kindref="member">T</ref></type>
       </param>
     </templateparamlist>
     <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classuproot_1_1_t_array_reader_1a1185e567d7bb4b1ccef6e0a7d8affa93" prot="private" static="no" mutable="no">
-        <type>SharedVector&lt; <ref refid="classuproot_1_1_t_array_reader_1a93e03ee3c804e6efd1518b6f6bd453bc" kindref="member">int64_t</ref> &gt;</type>
+        <type>SharedVector&lt; <ref refid="classuproot_1_1_t_array_reader_1a5120a23714d59e0ced43a975d146ad61" kindref="member">int64_t</ref> &gt;</type>
         <definition>SharedVector&lt;int64_t&gt; uproot::TArrayReader&lt; T &gt;::m_offsets</definition>
         <argsstring></argsstring>
         <name>m_offsets</name>
@@ -25,7 +25,7 @@
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="799" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="799" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot_1_1_t_array_reader_1a62ba29a0755852b8903e8fde1ddb8cd8" prot="private" static="no" mutable="no">
-        <type>SharedVector&lt; <ref refid="classuproot_1_1_t_array_reader_1a93e03ee3c804e6efd1518b6f6bd453bc" kindref="member">T</ref> &gt;</type>
+        <type>SharedVector&lt; <ref refid="classuproot_1_1_t_array_reader_1a5120a23714d59e0ced43a975d146ad61" kindref="member">T</ref> &gt;</type>
         <definition>SharedVector&lt;T&gt; uproot::TArrayReader&lt; T &gt;::m_data</definition>
         <argsstring></argsstring>
         <name>m_data</name>
@@ -70,27 +70,27 @@
         </inbodydescription>
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="808" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="808" bodyend="811"/>
       </memberdef>
-      <memberdef kind="function" id="classuproot_1_1_t_array_reader_1a93e03ee3c804e6efd1518b6f6bd453bc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+      <memberdef kind="function" id="classuproot_1_1_t_array_reader_1a5120a23714d59e0ced43a975d146ad61" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>void</type>
         <definition>void uproot::TArrayReader&lt; T &gt;::read</definition>
-        <argsstring>(BinaryBuffer &amp;buffer) override</argsstring>
+        <argsstring>(BinaryStream &amp;stream) override</argsstring>
         <name>read</name>
         <qualifiedname>uproot::TArrayReader::read</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_reader_1af7b6cdf7293548710230ee82ff9706d8">read</reimplements>
+        <reimplements refid="classuproot_1_1_i_reader_1a59918d6716b8704a2becc06d0829cfca">read</reimplements>
         <param>
-          <type><ref refid="classuproot_1_1_binary_buffer" kindref="compound">BinaryBuffer</ref> &amp;</type>
-          <declname>buffer</declname>
+          <type><ref refid="classuproot_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
+          <declname>stream</declname>
         </param>
         <briefdescription>
-<para>Read a TArray from the buffer. First reads the size (uint32_t) of the TArray, then reads the elements of the TArray. </para>
+<para>Read a TArray from the stream. First reads the size (uint32_t) of the TArray, then reads the elements of the TArray. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>buffer</parametername>
+<parametername>stream</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The binary buffer to read from. </para>
+<para>The binary stream to read from. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -167,10 +167,10 @@
       <member refid="classuproot_1_1_i_reader_1aae3ebcf2974166ec9eb868528759dbc9" prot="protected" virt="non-virtual"><scope>uproot::TArrayReader</scope><name>m_name</name></member>
       <member refid="classuproot_1_1_t_array_reader_1a1185e567d7bb4b1ccef6e0a7d8affa93" prot="private" virt="non-virtual"><scope>uproot::TArrayReader</scope><name>m_offsets</name></member>
       <member refid="classuproot_1_1_i_reader_1a94ec0db0c0012df8317add7519a0c299" prot="public" virt="virtual"><scope>uproot::TArrayReader</scope><name>name</name></member>
-      <member refid="classuproot_1_1_t_array_reader_1a93e03ee3c804e6efd1518b6f6bd453bc" prot="public" virt="virtual"><scope>uproot::TArrayReader</scope><name>read</name></member>
-      <member refid="classuproot_1_1_i_reader_1a0f59056370968271e27813bd0722eae4" prot="public" virt="virtual"><scope>uproot::TArrayReader</scope><name>read_many</name></member>
-      <member refid="classuproot_1_1_i_reader_1a4d01c9b32bed762117e148e997b2fb25" prot="public" virt="virtual"><scope>uproot::TArrayReader</scope><name>read_many_memberwise</name></member>
-      <member refid="classuproot_1_1_i_reader_1ab72b33c05c4e76a3f658b735f0068d66" prot="public" virt="virtual"><scope>uproot::TArrayReader</scope><name>read_until</name></member>
+      <member refid="classuproot_1_1_t_array_reader_1a5120a23714d59e0ced43a975d146ad61" prot="public" virt="virtual"><scope>uproot::TArrayReader</scope><name>read</name></member>
+      <member refid="classuproot_1_1_i_reader_1ac02e5679420f02084305414181d7423e" prot="public" virt="virtual"><scope>uproot::TArrayReader</scope><name>read_many</name></member>
+      <member refid="classuproot_1_1_i_reader_1a9d545434b78b4c427818b8986e82b056" prot="public" virt="virtual"><scope>uproot::TArrayReader</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot_1_1_i_reader_1a7e7b4068c2619fa1336e04ccbd07554b" prot="public" virt="virtual"><scope>uproot::TArrayReader</scope><name>read_until</name></member>
       <member refid="classuproot_1_1_t_array_reader_1a77fd7212f5ad71eb7f13ea9ec4b4cbc7" prot="public" virt="non-virtual"><scope>uproot::TArrayReader</scope><name>TArrayReader</name></member>
       <member refid="classuproot_1_1_i_reader_1a0e010e1426c196808a4ac5f4723637cc" prot="public" virt="virtual"><scope>uproot::TArrayReader</scope><name>~IReader</name></member>
     </listofallmembers>

@@ -3,8 +3,8 @@
   <compound refid="classuproot_1_1_any_class_reader" kind="class"><name>uproot::AnyClassReader</name>
     <member refid="classuproot_1_1_any_class_reader_1a677b67aa6398ee61628635d9a6954d72" kind="variable"><name>m_element_readers</name></member>
     <member refid="classuproot_1_1_any_class_reader_1a9a3db7a571c055dcc8dcc8d2acaab15c" kind="function"><name>AnyClassReader</name></member>
-    <member refid="classuproot_1_1_any_class_reader_1aa0e8fd9772e0505f248b0b37203afb61" kind="function"><name>read</name></member>
-    <member refid="classuproot_1_1_any_class_reader_1a7c9b451d8dac06276fda9a709913bba6" kind="function"><name>read_many_memberwise</name></member>
+    <member refid="classuproot_1_1_any_class_reader_1a4cb32c4236599a79ee69a5389ec6d862" kind="function"><name>read</name></member>
+    <member refid="classuproot_1_1_any_class_reader_1ac58d6659a599d7e10544bf5d42da0370" kind="function"><name>read_many_memberwise</name></member>
     <member refid="classuproot_1_1_any_class_reader_1ae8994380cf5a5a11fe734af389a75092" kind="function"><name>data</name></member>
   </compound>
   <compound refid="classuproot_1_1_any_pointer_reader" kind="class"><name>uproot::AnyPointerReader</name>
@@ -13,68 +13,68 @@
     <member refid="classuproot_1_1_any_pointer_reader_1a4159c581ec3db81fe24aa2b95ce9353b" kind="variable"><name>m_object_indexes</name></member>
     <member refid="classuproot_1_1_any_pointer_reader_1a69b38d42158c133b02bbdb390d998962" kind="variable"><name>m_class_name</name></member>
     <member refid="classuproot_1_1_any_pointer_reader_1aa4e4d16e27d2a4faf66486fa59b2df4e" kind="function"><name>AnyPointerReader</name></member>
-    <member refid="classuproot_1_1_any_pointer_reader_1ae11309b3f66d027917a41c431b7352ca" kind="function"><name>check_cursor_position</name></member>
-    <member refid="classuproot_1_1_any_pointer_reader_1a0f9ffeb94d00f1cfbd9a61bf844b063b" kind="function"><name>read</name></member>
+    <member refid="classuproot_1_1_any_pointer_reader_1abf9ccf62923563a62e301983eb9042e8" kind="function"><name>check_cursor_position</name></member>
+    <member refid="classuproot_1_1_any_pointer_reader_1aaeb9380e01b4d2aa6f3b5d19d1ed418a" kind="function"><name>read</name></member>
     <member refid="classuproot_1_1_any_pointer_reader_1a67a0fe00a4b66b37ea839a6083682247" kind="function"><name>data</name></member>
   </compound>
-  <compound refid="classuproot_1_1_binary_buffer" kind="class"><name>uproot::BinaryBuffer</name>
-    <member refid="classuproot_1_1_binary_buffer_1a4b70d27b36d1c1d1224c3d938fe3469f" kind="enum"><name>EStatusBits</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a4b70d27b36d1c1d1224c3d938fe3469fa1809e08f807cf72ca9ab8c3e95c958f2" kind="enumvalue"><name>kCanDelete</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a4b70d27b36d1c1d1224c3d938fe3469fa6312b886722b8ca4a2bca12ea71f217b" kind="enumvalue"><name>kMustCleanup</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a4b70d27b36d1c1d1224c3d938fe3469fa640f316cca36ff8f6870d8991aecfe00" kind="enumvalue"><name>kIsReferenced</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a4b70d27b36d1c1d1224c3d938fe3469fa3ee2a311401a546348bebc39f8fa7504" kind="enumvalue"><name>kHasUUID</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a4b70d27b36d1c1d1224c3d938fe3469fadb083aec5027b16e07254a62603f67d6" kind="enumvalue"><name>kCannotPick</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a4b70d27b36d1c1d1224c3d938fe3469fab9fb81d4298216d8f9ed52494dffc8d2" kind="enumvalue"><name>kNoContextMenu</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a4b70d27b36d1c1d1224c3d938fe3469fa0949c109c9a38f7eb1c57c8fb09246af" kind="enumvalue"><name>kInvalidObject</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1aa1eceb4f1645ea5faab2430201411987" kind="typedef"><name>Reference</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1acecfc0ad3e8fa5beeeebf15c666d3e78" kind="variable"><name>m_cursor</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1ab8b3af6d3eb6ec50bfcb983c0bb072aa" kind="variable"><name>m_entries</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a34417f2b5cf6b4d18689847cb031e459" kind="variable"><name>m_data</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a9dd5c924fb6ac7dff640dab9f1957b6c" kind="variable"><name>m_offsets</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1ade8a89e8d11c16bc1283618e145fe8fe" kind="variable"><name>m_initial_cursor_offset</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a7eead9b1d9d2e324d2bb48e8a29f85de" kind="variable"><name>m_refs</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1afb70d5deee6e37815b83d931d642dab3" kind="function"><name>BinaryBuffer</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1af49068c121159f67dbbd4e76f043e477" kind="function"><name>read</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a3464e07591ec32b89d49ad1051314bb3" kind="function"><name>read_fVersion</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1aceb9cb47214de1ba6828949207cfd119" kind="function"><name>read_fNBytes</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1ac13428943c87fa13fe1b272801319b18" kind="function"><name>read_null_terminated_string</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a208b9f5eef60e00581c0bdc5f2e4d622" kind="function"><name>read_obj_header</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1acd0329a0fb952f2125741d8efb8d43b4" kind="function"><name>read_TString</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a8249a13ad5afcd1843c5e08aad5ae004" kind="function"><name>skip</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a26345895df03d02487e7babf231cb49e" kind="function"><name>skip_fNBytes</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a4ac9566eee4e17ec65b2024bbe2d1d9b" kind="function"><name>skip_fVersion</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a8d3f7684b101f18b496df314ac1e8b18" kind="function"><name>skip_null_terminated_string</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a786f5cb2a4e22bdd8138524f022657c8" kind="function"><name>skip_obj_header</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1ac3a29c312cd136e2a4fa7fc3bef0f250" kind="function"><name>skip_TObject</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a79a1d1ce86da330b626dbc8e5b4d54e6" kind="function"><name>get_data</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1ac5b053d2636138eb05993074fcb5f4f3" kind="function"><name>get_cursor</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a9d9e22c3ed79b77a324998ea39c93079" kind="function"><name>get_offsets</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1a79ecf6e24168b992bb3a7bd4d3f9f54e" kind="function"><name>get_index</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1ad5e6c4512fb7503b56721a986f162a1f" kind="function"><name>get_initial_cursor_offset</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1af31a2383cade63dd2b82a19355bf5cdd" kind="function"><name>get_refs</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1acca674325dd882bce54b10f3bc144760" kind="function"><name>entries</name></member>
-    <member refid="classuproot_1_1_binary_buffer_1af8cbdbc65070e4b4f9ab5300ea0545cb" kind="function"><name>debug_print</name></member>
+  <compound refid="classuproot_1_1_binary_stream" kind="class"><name>uproot::BinaryStream</name>
+    <member refid="classuproot_1_1_binary_stream_1a117a0e727dca7900fa38f02c07c90624" kind="enum"><name>EStatusBits</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a117a0e727dca7900fa38f02c07c90624a7d70232adec5081b4adb717ee8d45a06" kind="enumvalue"><name>kCanDelete</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a117a0e727dca7900fa38f02c07c90624a459dcb6227a296afceb5040f230053f3" kind="enumvalue"><name>kMustCleanup</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a117a0e727dca7900fa38f02c07c90624ad1da5a30c951bede33eb230b7cca5e2f" kind="enumvalue"><name>kIsReferenced</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a117a0e727dca7900fa38f02c07c90624a814dd6a792c386fa1d6c83783cc69aac" kind="enumvalue"><name>kHasUUID</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a117a0e727dca7900fa38f02c07c90624a3796ce59ffecbddb22f19c7da26a150c" kind="enumvalue"><name>kCannotPick</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a117a0e727dca7900fa38f02c07c90624ae8ae94cc70151fabcb1dc7b469d221a3" kind="enumvalue"><name>kNoContextMenu</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a117a0e727dca7900fa38f02c07c90624afd4cd1176058469432c12093d7896e29" kind="enumvalue"><name>kInvalidObject</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a42f97248fc1a11a7100e2fd9d2e8ba22" kind="typedef"><name>Reference</name></member>
+    <member refid="classuproot_1_1_binary_stream_1ad99236b9a17be86ada1c88d996ccb455" kind="variable"><name>m_cursor</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a50f11c9c66f205b3ae7904c31abc349b" kind="variable"><name>m_entries</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a5dec13e9ee99951f69daff58c8a8fbf4" kind="variable"><name>m_data</name></member>
+    <member refid="classuproot_1_1_binary_stream_1ab69c453d0b6a7a6804451cb5f878d1d7" kind="variable"><name>m_offsets</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a91ffea8e3927b0d86c47414913726fc9" kind="variable"><name>m_initial_cursor_offset</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a1ea73cf1b95974b87ee3108edaaa851f" kind="variable"><name>m_refs</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a646e22ab67ffd9b1a089420a129702c2" kind="function"><name>BinaryStream</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a367961b30b34ee429f92e9ded6b50c17" kind="function"><name>read</name></member>
+    <member refid="classuproot_1_1_binary_stream_1ade85f436f770aedb5bfb185fb4c174ee" kind="function"><name>read_fVersion</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a62973243720badaa452c6ed09e329dc6" kind="function"><name>read_fNBytes</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a72a0f95a9c828cc88ee294d99a6e38f1" kind="function"><name>read_null_terminated_string</name></member>
+    <member refid="classuproot_1_1_binary_stream_1ad577e0e20c9584233ba1f2125832501f" kind="function"><name>read_obj_header</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a78def4de1a246024f5f9dcc03bd99a48" kind="function"><name>read_TString</name></member>
+    <member refid="classuproot_1_1_binary_stream_1aeb1b4355157d4fd1c1cb1586253bb0f7" kind="function"><name>skip</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a9e84d49a4c3e6f3bc95f7852358cd2d4" kind="function"><name>skip_fNBytes</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a35b0ee723f33742c6d2de24deb2ae4ca" kind="function"><name>skip_fVersion</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a1c66cab0d093d191d93e8969c816f9fd" kind="function"><name>skip_null_terminated_string</name></member>
+    <member refid="classuproot_1_1_binary_stream_1ab145e1acbf4b4e0c1ba26ed6a22e2c26" kind="function"><name>skip_obj_header</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a20087c88225971d1b887bb44900ca913" kind="function"><name>skip_TObject</name></member>
+    <member refid="classuproot_1_1_binary_stream_1adad4d2ecdb4f39d2eef1ae8e2c74dabb" kind="function"><name>get_data</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a66076b734a8070f697f9414fdef2305a" kind="function"><name>get_cursor</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a2df3666200b3f23b0587e9be988a570e" kind="function"><name>get_offsets</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a3ad1c11e922f2bb8fbe85465d219365f" kind="function"><name>get_index</name></member>
+    <member refid="classuproot_1_1_binary_stream_1affac1d5f706ce832a17211ec4ff8a67f" kind="function"><name>get_initial_cursor_offset</name></member>
+    <member refid="classuproot_1_1_binary_stream_1a723979de21af1822eca55f717d33d42f" kind="function"><name>get_refs</name></member>
+    <member refid="classuproot_1_1_binary_stream_1ab58f7bf4c4cf5c1fb7626df18200304e" kind="function"><name>entries</name></member>
+    <member refid="classuproot_1_1_binary_stream_1acc54bbaea7158c7901da16cbce6c38c5" kind="function"><name>debug_print</name></member>
   </compound>
   <compound refid="classuproot_1_1_c_style_array_reader" kind="class"><name>uproot::CStyleArrayReader</name>
     <member refid="classuproot_1_1_c_style_array_reader_1a5e7acfe91513eac48215cf646beccdaf" kind="variable"><name>m_flat_size</name></member>
     <member refid="classuproot_1_1_c_style_array_reader_1a00279cf319d1b35c3d40b8842aba517c" kind="variable"><name>m_offsets</name></member>
     <member refid="classuproot_1_1_c_style_array_reader_1af5aefae0ff1bdb02057cd65f753e11eb" kind="variable"><name>m_element_reader</name></member>
     <member refid="classuproot_1_1_c_style_array_reader_1a653a8d1adfd26d3db509e512e45d2b2a" kind="function"><name>CStyleArrayReader</name></member>
-    <member refid="classuproot_1_1_c_style_array_reader_1a4f4337c9fa35b608b436a2829ff8f4b9" kind="function"><name>read</name></member>
-    <member refid="classuproot_1_1_c_style_array_reader_1a7b5a74c75d74e7fda8c1a93124fc6672" kind="function"><name>read_many</name></member>
-    <member refid="classuproot_1_1_c_style_array_reader_1a8b0b383292419898d1b040222acc356e" kind="function"><name>read_until</name></member>
+    <member refid="classuproot_1_1_c_style_array_reader_1a20eecb6bca337266037131aa001bd6df" kind="function"><name>read</name></member>
+    <member refid="classuproot_1_1_c_style_array_reader_1af5999d31b013a15ee1269fb34d9fc6b5" kind="function"><name>read_many</name></member>
+    <member refid="classuproot_1_1_c_style_array_reader_1a0a2d3e71a211f538b962f22302f37c7b" kind="function"><name>read_until</name></member>
     <member refid="classuproot_1_1_c_style_array_reader_1a67f2a1a32309d9d09f47fc9acc5da3ad" kind="function"><name>data</name></member>
   </compound>
   <compound refid="classuproot_1_1_empty_reader" kind="class"><name>uproot::EmptyReader</name>
     <member refid="classuproot_1_1_empty_reader_1a094cc66caa8f951e34996debdc6dfd83" kind="function"><name>EmptyReader</name></member>
-    <member refid="classuproot_1_1_empty_reader_1afd8d0de3f3a450a930a59488bb3a4cc6" kind="function"><name>read</name></member>
+    <member refid="classuproot_1_1_empty_reader_1ab48fa2841d97106ee80c935edc06f2e8" kind="function"><name>read</name></member>
     <member refid="classuproot_1_1_empty_reader_1a13d3daa5c5a613446942498c57aa8b34" kind="function"><name>data</name></member>
   </compound>
   <compound refid="classuproot_1_1_group_reader" kind="class"><name>uproot::GroupReader</name>
     <member refid="classuproot_1_1_group_reader_1a3d6706f13fb347e1f9b261892d733986" kind="variable"><name>m_element_readers</name></member>
     <member refid="classuproot_1_1_group_reader_1ad60ff11f1a4685bf643a82ed5632c68f" kind="function"><name>GroupReader</name></member>
-    <member refid="classuproot_1_1_group_reader_1a1bd17ce1d079e6cb55d62c94a037f4a8" kind="function"><name>read</name></member>
-    <member refid="classuproot_1_1_group_reader_1ada5fb250a5829402744802ab012cc441" kind="function"><name>read_many_memberwise</name></member>
+    <member refid="classuproot_1_1_group_reader_1ae41669b131fa228d16b912104c909a61" kind="function"><name>read</name></member>
+    <member refid="classuproot_1_1_group_reader_1a82e31d203d982442eba8efc0c6b7f61f" kind="function"><name>read_many_memberwise</name></member>
     <member refid="classuproot_1_1_group_reader_1afca2b38e3e97ae1a55b16e2ed09f347f" kind="function"><name>data</name></member>
   </compound>
   <compound refid="classuproot_1_1_i_reader" kind="class"><name>uproot::IReader</name>
@@ -82,29 +82,29 @@
     <member refid="classuproot_1_1_i_reader_1aed13e9c0926be8e89422cf49efdcc752" kind="function"><name>IReader</name></member>
     <member refid="classuproot_1_1_i_reader_1a0e010e1426c196808a4ac5f4723637cc" kind="function"><name>~IReader</name></member>
     <member refid="classuproot_1_1_i_reader_1a94ec0db0c0012df8317add7519a0c299" kind="function"><name>name</name></member>
-    <member refid="classuproot_1_1_i_reader_1af7b6cdf7293548710230ee82ff9706d8" kind="function"><name>read</name></member>
+    <member refid="classuproot_1_1_i_reader_1a59918d6716b8704a2becc06d0829cfca" kind="function"><name>read</name></member>
     <member refid="classuproot_1_1_i_reader_1acd7126fde99fad7d3f497aaee23ae118" kind="function"><name>data</name></member>
-    <member refid="classuproot_1_1_i_reader_1a0f59056370968271e27813bd0722eae4" kind="function"><name>read_many</name></member>
-    <member refid="classuproot_1_1_i_reader_1ab72b33c05c4e76a3f658b735f0068d66" kind="function"><name>read_until</name></member>
-    <member refid="classuproot_1_1_i_reader_1a4d01c9b32bed762117e148e997b2fb25" kind="function"><name>read_many_memberwise</name></member>
+    <member refid="classuproot_1_1_i_reader_1ac02e5679420f02084305414181d7423e" kind="function"><name>read_many</name></member>
+    <member refid="classuproot_1_1_i_reader_1a7e7b4068c2619fa1336e04ccbd07554b" kind="function"><name>read_until</name></member>
+    <member refid="classuproot_1_1_i_reader_1a9d545434b78b4c427818b8986e82b056" kind="function"><name>read_many_memberwise</name></member>
   </compound>
   <compound refid="classuproot_1_1_object_header_reader" kind="class"><name>uproot::ObjectHeaderReader</name>
     <member refid="classuproot_1_1_object_header_reader_1aa86cd4dabfed16e902dd274dff2ac35f" kind="variable"><name>m_element_reader</name></member>
     <member refid="classuproot_1_1_object_header_reader_1ae998232093b6ca2e31a3df60ffacc1b8" kind="function"><name>ObjectHeaderReader</name></member>
-    <member refid="classuproot_1_1_object_header_reader_1a3977dd06e768f11b799e7b896d778d4f" kind="function"><name>read</name></member>
+    <member refid="classuproot_1_1_object_header_reader_1abf0aba2e09a990e3afc56208cf7294ae" kind="function"><name>read</name></member>
     <member refid="classuproot_1_1_object_header_reader_1a7a08392b5f052d1ca61ee1ff8e96bb0a" kind="function"><name>data</name></member>
   </compound>
   <compound refid="classuproot_1_1_primitive_reader" kind="class"><name>uproot::PrimitiveReader</name>
     <member refid="classuproot_1_1_primitive_reader_1a93232df780a212b4c75963ff9938ca69" kind="variable"><name>m_data</name></member>
     <member refid="classuproot_1_1_primitive_reader_1aeddcc53ec1e20f8d6d27cf6ee9b86935" kind="function"><name>PrimitiveReader</name></member>
-    <member refid="classuproot_1_1_primitive_reader_1a75d810204026eaa8b9318d45b3f745ed" kind="function"><name>read</name></member>
+    <member refid="classuproot_1_1_primitive_reader_1a2367eb2bf2e829f3832f3e16b8021f60" kind="function"><name>read</name></member>
     <member refid="classuproot_1_1_primitive_reader_1a564fb5fa2c44e21c0c8275e92f683dde" kind="function"><name>data</name></member>
   </compound>
-  <compound refid="structuproot_1_1_binary_buffer_1_1_ref_cls" kind="struct"><name>uproot::BinaryBuffer::RefCls</name>
-    <member refid="structuproot_1_1_binary_buffer_1_1_ref_cls_1a17751561362f743764c9b71bee95e10b" kind="variable"><name>name</name></member>
+  <compound refid="structuproot_1_1_binary_stream_1_1_ref_cls" kind="struct"><name>uproot::BinaryStream::RefCls</name>
+    <member refid="structuproot_1_1_binary_stream_1_1_ref_cls_1af25fec51bd7b79bbce557d048b043f36" kind="variable"><name>name</name></member>
   </compound>
-  <compound refid="structuproot_1_1_binary_buffer_1_1_ref_obj" kind="struct"><name>uproot::BinaryBuffer::RefObj</name>
-    <member refid="structuproot_1_1_binary_buffer_1_1_ref_obj_1ab73f2b5c5485f821f8eb80bfce60623c" kind="variable"><name>index</name></member>
+  <compound refid="structuproot_1_1_binary_stream_1_1_ref_obj" kind="struct"><name>uproot::BinaryStream::RefObj</name>
+    <member refid="structuproot_1_1_binary_stream_1_1_ref_obj_1a32a6f169e669316f39b831a056b2e94a" kind="variable"><name>index</name></member>
   </compound>
   <compound refid="classuproot_1_1_s_t_l_map_reader" kind="class"><name>uproot::STLMapReader</name>
     <member refid="classuproot_1_1_s_t_l_map_reader_1adb692a36d7af74c0986017a24a3d9661" kind="variable"><name>m_with_header</name></member>
@@ -114,12 +114,12 @@
     <member refid="classuproot_1_1_s_t_l_map_reader_1a1306f00d1d2e759e9b3d690007582b1c" kind="variable"><name>m_value_reader</name></member>
     <member refid="classuproot_1_1_s_t_l_map_reader_1a5a1809c447f32fd4884f1bc18f7bea84" kind="function"><name>STLMapReader</name></member>
     <member refid="classuproot_1_1_s_t_l_map_reader_1a99d92512e696a12fdd452d7ae9b08a45" kind="function"><name>check_objwise_memberwise</name></member>
-    <member refid="classuproot_1_1_s_t_l_map_reader_1abd02830a58f1b696a25c8567756574f7" kind="function"><name>read_element_version</name></member>
-    <member refid="classuproot_1_1_s_t_l_map_reader_1a0d6eba27490472777f70bcd2fe36492a" kind="function"><name>read_body</name></member>
-    <member refid="classuproot_1_1_s_t_l_map_reader_1a17fc5c2e0a81e7c7b3d676e892bf3e8c" kind="function"><name>read</name></member>
-    <member refid="classuproot_1_1_s_t_l_map_reader_1afff1fe3a5f48b7c86ae42e2ae0d13772" kind="function"><name>read_many</name></member>
-    <member refid="classuproot_1_1_s_t_l_map_reader_1ad7f3e43954f6e2c659e87d97e5cba2b3" kind="function"><name>read_until</name></member>
-    <member refid="classuproot_1_1_s_t_l_map_reader_1a94e46b88bc13e902d35d7c79a4e411b6" kind="function"><name>read_many_memberwise</name></member>
+    <member refid="classuproot_1_1_s_t_l_map_reader_1afb20652f721604645c23699935a78494" kind="function"><name>read_element_version</name></member>
+    <member refid="classuproot_1_1_s_t_l_map_reader_1afb6cead8cfdf6e547ce882a7e5694f61" kind="function"><name>read_body</name></member>
+    <member refid="classuproot_1_1_s_t_l_map_reader_1aef36d10a4187410fa8b4814971e35085" kind="function"><name>read</name></member>
+    <member refid="classuproot_1_1_s_t_l_map_reader_1a61cc9b0c7f1dd9b75735768e2698009b" kind="function"><name>read_many</name></member>
+    <member refid="classuproot_1_1_s_t_l_map_reader_1a4afec520d6cefbe82d4aa85c42a80a47" kind="function"><name>read_until</name></member>
+    <member refid="classuproot_1_1_s_t_l_map_reader_1adce4b61acbabf5cbf5608900b2c3c03f" kind="function"><name>read_many_memberwise</name></member>
     <member refid="classuproot_1_1_s_t_l_map_reader_1a889883808310bab80f589c0f862ffb6a" kind="function"><name>data</name></member>
   </compound>
   <compound refid="classuproot_1_1_s_t_l_seq_reader" kind="class"><name>uproot::STLSeqReader</name>
@@ -129,11 +129,11 @@
     <member refid="classuproot_1_1_s_t_l_seq_reader_1abad7c3ce55a325c61005161c5b86578d" kind="variable"><name>m_offsets</name></member>
     <member refid="classuproot_1_1_s_t_l_seq_reader_1ab9055c568aa137b763c9f52190ab9a80" kind="function"><name>STLSeqReader</name></member>
     <member refid="classuproot_1_1_s_t_l_seq_reader_1ac386c9ece7c9299e8a5673e2b8e310a3" kind="function"><name>check_objwise_memberwise</name></member>
-    <member refid="classuproot_1_1_s_t_l_seq_reader_1a9173b6d33dbedcf5ccd57b8e3cfa5bcf" kind="function"><name>read_element_version</name></member>
-    <member refid="classuproot_1_1_s_t_l_seq_reader_1a0ea19f37703df0ce987add7a6fd8fbb9" kind="function"><name>read_body</name></member>
-    <member refid="classuproot_1_1_s_t_l_seq_reader_1a73cc29d3a12261fad519bf8261d7befe" kind="function"><name>read</name></member>
-    <member refid="classuproot_1_1_s_t_l_seq_reader_1ab1ee392bd024724f9fe45c59880b0ca3" kind="function"><name>read_many</name></member>
-    <member refid="classuproot_1_1_s_t_l_seq_reader_1a862c178e643dd799d5aa5e150433aab9" kind="function"><name>read_until</name></member>
+    <member refid="classuproot_1_1_s_t_l_seq_reader_1a9fb9dfba8a15f3609e36ac491e8b2a0e" kind="function"><name>read_element_version</name></member>
+    <member refid="classuproot_1_1_s_t_l_seq_reader_1a7d7bf314841bdb3758fe0a5eaa4880b8" kind="function"><name>read_body</name></member>
+    <member refid="classuproot_1_1_s_t_l_seq_reader_1a5ed92829fa2943f5aa9aa507f49871cc" kind="function"><name>read</name></member>
+    <member refid="classuproot_1_1_s_t_l_seq_reader_1a8d9a6dd4dafa656f9e7c71b202977f1e" kind="function"><name>read_many</name></member>
+    <member refid="classuproot_1_1_s_t_l_seq_reader_1a5cb615c5fe74f9f2b02903d39914757b" kind="function"><name>read_until</name></member>
     <member refid="classuproot_1_1_s_t_l_seq_reader_1aa62fd58b0996d5f7ec36754f762dea4c" kind="function"><name>data</name></member>
   </compound>
   <compound refid="classuproot_1_1_s_t_l_string_reader" kind="class"><name>uproot::STLStringReader</name>
@@ -141,17 +141,17 @@
     <member refid="classuproot_1_1_s_t_l_string_reader_1a992f9914f3d7c8fd367ee42868d3c458" kind="variable"><name>m_offsets</name></member>
     <member refid="classuproot_1_1_s_t_l_string_reader_1a77eb5886388e7c1287caa120c5f0c30b" kind="variable"><name>m_data</name></member>
     <member refid="classuproot_1_1_s_t_l_string_reader_1a408f60c2831293d29cba32edb01f036a" kind="function"><name>STLStringReader</name></member>
-    <member refid="classuproot_1_1_s_t_l_string_reader_1ab26373bc42ef8a16f03da9564fbdd8aa" kind="function"><name>read_body</name></member>
-    <member refid="classuproot_1_1_s_t_l_string_reader_1a9b0043c6e4baf90a3178798783e784a7" kind="function"><name>read</name></member>
-    <member refid="classuproot_1_1_s_t_l_string_reader_1ac0fea963e1046f6ff02c31da806016c9" kind="function"><name>read_many</name></member>
-    <member refid="classuproot_1_1_s_t_l_string_reader_1a20de7e78f235ffb6befa3d62c36fa8c1" kind="function"><name>read_until</name></member>
+    <member refid="classuproot_1_1_s_t_l_string_reader_1ad3d3514daf70d51e67747d7c447ff569" kind="function"><name>read_body</name></member>
+    <member refid="classuproot_1_1_s_t_l_string_reader_1a6a210a21c2261cf39504c75376506cbe" kind="function"><name>read</name></member>
+    <member refid="classuproot_1_1_s_t_l_string_reader_1a5886c31ddae4e9e871ae8a559093ad11" kind="function"><name>read_many</name></member>
+    <member refid="classuproot_1_1_s_t_l_string_reader_1a4b4bfc2971b10f622fd755d4339a0c57" kind="function"><name>read_until</name></member>
     <member refid="classuproot_1_1_s_t_l_string_reader_1a70298c898d36af22f79f64bc06237409" kind="function"><name>data</name></member>
   </compound>
   <compound refid="classuproot_1_1_t_array_reader" kind="class"><name>uproot::TArrayReader</name>
     <member refid="classuproot_1_1_t_array_reader_1a1185e567d7bb4b1ccef6e0a7d8affa93" kind="variable"><name>m_offsets</name></member>
     <member refid="classuproot_1_1_t_array_reader_1a62ba29a0755852b8903e8fde1ddb8cd8" kind="variable"><name>m_data</name></member>
     <member refid="classuproot_1_1_t_array_reader_1a77fd7212f5ad71eb7f13ea9ec4b4cbc7" kind="function"><name>TArrayReader</name></member>
-    <member refid="classuproot_1_1_t_array_reader_1a93e03ee3c804e6efd1518b6f6bd453bc" kind="function"><name>read</name></member>
+    <member refid="classuproot_1_1_t_array_reader_1a5120a23714d59e0ced43a975d146ad61" kind="function"><name>read</name></member>
     <member refid="classuproot_1_1_t_array_reader_1abf6426d184be381efde323471c0dc5b7" kind="function"><name>data</name></member>
   </compound>
   <compound refid="classuproot_1_1_t_object_reader" kind="class"><name>uproot::TObjectReader</name>
@@ -161,7 +161,7 @@
     <member refid="classuproot_1_1_t_object_reader_1aec1a70d94bb7927f960013d94e522216" kind="variable"><name>m_pidf</name></member>
     <member refid="classuproot_1_1_t_object_reader_1ae530209a249e3d8c1cabf8a17e9e67bd" kind="variable"><name>m_pidf_offsets</name></member>
     <member refid="classuproot_1_1_t_object_reader_1a3506312f07159e7898d851ab62cd746f" kind="function"><name>TObjectReader</name></member>
-    <member refid="classuproot_1_1_t_object_reader_1a844f66ce30fc138119a2ae98bba1e1e9" kind="function"><name>read</name></member>
+    <member refid="classuproot_1_1_t_object_reader_1a539ec2ac94c9b7db46ea2fa1acd42e81" kind="function"><name>read</name></member>
     <member refid="classuproot_1_1_t_object_reader_1a621bd11de7afa6879305543c85158579" kind="function"><name>data</name></member>
   </compound>
   <compound refid="classuproot_1_1_t_string_reader" kind="class"><name>uproot::TStringReader</name>
@@ -169,12 +169,13 @@
     <member refid="classuproot_1_1_t_string_reader_1a4fd1d3bbc21057027b5f7f23a9691f1c" kind="variable"><name>m_data</name></member>
     <member refid="classuproot_1_1_t_string_reader_1a1c80c8b58e78b95c5e3f06b557ca2251" kind="variable"><name>m_offsets</name></member>
     <member refid="classuproot_1_1_t_string_reader_1a2fd8c79235e5aa6e069ddba72d12fa19" kind="function"><name>TStringReader</name></member>
-    <member refid="classuproot_1_1_t_string_reader_1adba2e5ff041d5e4f230ebec83e8b1d86" kind="function"><name>read</name></member>
-    <member refid="classuproot_1_1_t_string_reader_1a373591a98172b69837593718465ce5cc" kind="function"><name>read_many</name></member>
-    <member refid="classuproot_1_1_t_string_reader_1a113c3b1dd8d3bad2fa7356dd15f5a8dc" kind="function"><name>read_until</name></member>
+    <member refid="classuproot_1_1_t_string_reader_1a30b9197987458f8ad21295bdc0f3c674" kind="function"><name>read</name></member>
+    <member refid="classuproot_1_1_t_string_reader_1a0ee89572978bbdef0711474ed3ba0ced" kind="function"><name>read_many</name></member>
+    <member refid="classuproot_1_1_t_string_reader_1abae736b623d8d51593d6cc6f8f7f7839" kind="function"><name>read_until</name></member>
     <member refid="classuproot_1_1_t_string_reader_1a31f91ea1274a09e73e0cc36bf6b57153" kind="function"><name>data</name></member>
   </compound>
   <compound refid="namespaceuproot" kind="namespace"><name>uproot</name>
+    <member refid="uproot-custom_8hh_1a50aab0d69425f4d84712d7a618ae99d6" kind="typedef"><name>BinaryBuffer</name></member>
     <member refid="uproot-custom_8hh_1afd7c737977e42677a5925b515109b673" kind="typedef"><name>IElementReader</name></member>
     <member refid="uproot-custom_8hh_1a34831c4dca741b4dc14b07339ff379e7" kind="typedef"><name>SharedReader</name></member>
     <member refid="uproot-custom_8cc_1a161347aaa1050bb50c0609fb61a7e935" kind="typedef"><name>SharedVector</name></member>
@@ -190,7 +191,7 @@
     <member refid="uproot-custom_8hh_1adb84887bf6ef9f160a90c6fc7c32a591" kind="function"><name>declare_reader</name></member>
     <member refid="uproot-custom_8hh_1a8d651da24e026f25854373f8c8057b07" kind="function"><name>make_array</name></member>
     <member refid="uproot-custom_8hh_1a84d544a757ae5608b1e28e766f638584" kind="function"><name>debug_printf</name></member>
-    <member refid="uproot-custom_8hh_1a95fe378fbb5f2b33e677a4388d99c7d5" kind="function"><name>debug_printf</name></member>
+    <member refid="uproot-custom_8hh_1a75abdbc88efdb394ea6ee3e6f7600569" kind="function"><name>debug_printf</name></member>
     <member refid="uproot-custom_8cc_1abf0a513ba287e48acb2472d69a997a84" kind="function"><name>py_read_data</name></member>
     <member refid="uproot-custom_8cc_1aff2595789f541a1ffc8527b3d574a122" kind="function"><name>PYBIND11_MODULE</name></member>
   </compound>
