@@ -224,7 +224,7 @@ class GroupFactory(Factory):
 ### Generating awkward forms
 
 `awkward` forms describe the data structure without holding data, enabling
-lazy evaluation like `dask` and awkward virtual arrays. Form generation mirrors `make_awkward_content` but
+lazy evaluation functionality. Form generation mirrors `make_awkward_content` but
 needs no input data:
 
 ```{code-block} python
