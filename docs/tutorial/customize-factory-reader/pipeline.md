@@ -153,7 +153,7 @@ sub-reader to consume its portion of the stream:
 ```{code-block} python
 ---
 caption: "`AnyClassReader.read` method (Python)"
-emphasize-lines: 7
+emphasize-lines: 8
 ---
 def read(self, stream):
     fNBytes = stream.read_fNBytes()
@@ -224,7 +224,7 @@ class GroupFactory(Factory):
 ### Generating awkward forms
 
 `awkward` forms describe the data structure without holding data, enabling
-lazy evaluation with `dask`. Form generation mirrors `make_awkward_content` but
+lazy evaluation like `dask` and awkward virtual arrays. Form generation mirrors `make_awkward_content` but
 needs no input data:
 
 ```{code-block} python
@@ -350,7 +350,7 @@ class OverrideStreamerFactory(Factory):
         )
 
     def make_awkward_form(self):
-        # Stage 5b — describe the data layout for dask
+        # Stage 5b — describe the data layout for lazy evaluation
         return awkward.forms.RecordForm(
             [awkward.forms.NumpyForm("int32"),
              awkward.forms.NumpyForm("float64")],
