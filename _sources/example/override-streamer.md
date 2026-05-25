@@ -156,7 +156,7 @@ class OverrideStreamerReader(IReader):
 
 To use our `OverrideStreamerReader` and reconstruct the final `awkward` array, we need to implement a corresponding Factory. We can implement a Factory named `OverrideStreamerFactory` to do this.
 
-A Factory requires at least 3 methods: `build_factory`, `build_python_reader` and `make_awkward_content`. An optional method `make_awkward_form` can be implemented to enable `dask` functionality.
+A Factory requires at least 3 methods: `build_factory`, `build_python_reader` and `make_awkward_content`. An optional method `make_awkward_form` can be implemented to enable lazy evaluation functionality.
 
 First, import necessary modules:
 

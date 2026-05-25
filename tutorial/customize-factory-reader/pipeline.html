@@ -513,9 +513,9 @@ sub-reader to consume its portion of the stream:</p>
     <span class="n">end_pos</span> <span class="o">=</span> <span class="n">start_pos</span> <span class="o">+</span> <span class="n">fNBytes</span>
 
     <span class="n">stream</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
-<span class="hll">
-</span>    <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">:</span>
-        <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+
+<span class="hll">    <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">:</span>
+</span>        <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
 
     <span class="k">assert</span> <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">,</span> <span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;AnyClassReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): Invalid read length!&quot;</span>
@@ -572,7 +572,7 @@ the results:</p>
 <section id="generating-awkward-forms">
 <h3>Generating awkward forms<a class="headerlink" href="#generating-awkward-forms" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">awkward</span></code> forms describe the data structure without holding data, enabling
-lazy evaluation with <code class="docutils literal notranslate"><span class="pre">dask</span></code>. Form generation mirrors <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code> but
+lazy evaluation functionality. Form generation mirrors <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code> but
 needs no input data:</p>
 <div class="literal-block-wrapper docutils container" id="id8">
 <div class="code-block-caption"><span class="caption-text">Source code of <code class="docutils literal notranslate"><span class="pre">GroupFactory.make_awkward_form</span></code></span><a class="headerlink" href="#id8" title="Link to this code">#</a></div>
@@ -706,7 +706,7 @@ convert raw data to <code class="docutils literal notranslate"><span class="pre"
 <span class="linenos">26</span>        <span class="p">)</span>
 <span class="linenos">27</span>
 <span class="linenos">28</span>    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="linenos">29</span>        <span class="c1"># Stage 5b — describe the data layout for dask</span>
+<span class="linenos">29</span>        <span class="c1"># Stage 5b — describe the data layout for lazy evaluation</span>
 <span class="linenos">30</span>        <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">RecordForm</span><span class="p">(</span>
 <span class="linenos">31</span>            <span class="p">[</span><span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">),</span>
 <span class="linenos">32</span>             <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="s2">&quot;float64&quot;</span><span class="p">)],</span>
