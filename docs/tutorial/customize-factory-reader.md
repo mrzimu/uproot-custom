@@ -18,7 +18,7 @@ By the end of this tutorial you will have:
 
 - A **Python reader** that decodes binary data from the ROOT byte stream.
 - A **Python factory** that creates the reader, converts raw arrays into
-  `awkward` arrays, and describes the data layout for `dask`.
+  `awkward` arrays, and describes the data layout for lazy evaluation.
 - A **registration** step so Uproot picks up your custom code automatically.
 - A **C++ reader** for production-level performance.
 

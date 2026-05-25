@@ -268,8 +268,7 @@ an `awkward.contents.Content`.
 
 ### `make_awkward_form`
 
-Return an `awkward.forms.Form` that describes the data layout. This is used
-by `dask` for lazy evaluation.
+Return an `awkward.forms.Form` that describes the data layout. This is used for lazy evaluation.
 
 ```{seealso}
 [`awkward` forms reference](https://awkward-array.org/doc/main/reference/generated/ak.forms.Form.html)
