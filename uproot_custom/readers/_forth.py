@@ -97,6 +97,9 @@ def to_typecode(dtype_or_typecode: str) -> TYPECODE:
     raise ValueError(f"Unsupported dtype/typecode: {dtype_or_typecode}")
 
 
+_vm_cache: dict[str, ak.forth.ForthMachine64] = {}
+
+
 def read_data(data: bytes, offsets: np.ndarray, reader: IReader):
     read_single_evt_code = reader.compile()
 
@@ -139,7 +142,12 @@ def read_data(data: bytes, offsets: np.ndarray, reader: IReader):
 
     codes = _format_forth_codes(codes)
 
-    vm = ak.forth.ForthMachine64(codes)
+    if codes in _vm_cache:
+        vm = _vm_cache[codes]
+    else:
+        vm = ak.forth.ForthMachine64(codes)
+        _vm_cache[codes] = vm
+
     vm.run(
         {
             stream_data_token: data.copy(),
