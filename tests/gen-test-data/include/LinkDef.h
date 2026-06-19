@@ -1,9 +1,5 @@
 #ifdef __CLING__
 
-// #  pragma link off all globals;
-// #  pragma link off all classes;
-// #  pragma link off all functions;
-
 #    pragma link C++ class TComplicatedSTL + ;
 #    pragma link C++ class TSimpleObject + ;
 #    pragma link C++ class TCStyleArray + ;
@@ -18,4 +14,6 @@
 #    pragma link C++ class TNestedSTL + ;
 #    pragma link C++ class TPointers + ;
 #    pragma link C++ class TestPointerStruct + ;
+#    pragma link C++ class TPureStructChild + ;
+#    pragma link C++ class TPureStruct + ;
 #endif

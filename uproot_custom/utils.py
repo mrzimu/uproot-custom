@@ -37,8 +37,6 @@ def get_dims_from_branch(
 
 
 def get_top_type_name(type_name: str) -> str:
-    if type_name.endswith("*"):
-        type_name = type_name[:-1].strip()
     type_name = type_name.replace("std::", "").strip()
     return type_name.split("<")[0]
 

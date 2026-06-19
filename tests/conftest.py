@@ -339,6 +339,10 @@ br_pointers = [
     "/tree:branch/m_vec_ptr",
 ]
 
+br_pure_struct = [
+    "/tree:branch/m_vec_child_ptr",
+]
+
 for brs in [
     br_primitive,
     br_stl_string,
@@ -352,6 +356,7 @@ for brs in [
     br_stl_nested,
     br_stl_complicated,
     br_pointers,
+    br_pure_struct,
 ]:
     uproot_custom.AsCustom.target_branches |= set(brs)
 
@@ -374,6 +379,7 @@ def prepare_test_contexts():
         "root_objects",
         "cstyle_array",
         "pointers",
+        "pure_struct",
     ]:
         test_file = uproot.open(test_data_dir / f"test_{name}.root")
         test_branches = eval(f"br_{name}")
