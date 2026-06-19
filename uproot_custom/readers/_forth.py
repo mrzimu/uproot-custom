@@ -1375,7 +1375,7 @@ class AnyClassReader(IReader):
         chunks = [f"""
             {read_fNBytes()}
             {stream_data_token} pos + \\ stack: [end_pos]
-            {skip_fVersion()}
+            {read_fVersion()} 0= if {skip(4)} then \\ skip fCheckSum when fVersion is 0, stack: [end_pos]
             """]
 
         for r in self.element_readers:

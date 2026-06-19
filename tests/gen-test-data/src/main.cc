@@ -7,6 +7,7 @@
 #include "TComplicatedSTL.hh"
 #include "TNestedSTL.hh"
 #include "TPointers.hh"
+#include "TPureStruct.hh"
 #include "TRootObjects.hh"
 #include "TSTLArray.hh"
 #include "TSTLMap.hh"
@@ -242,6 +243,23 @@ void gen_Pointers() {
     f.Close();
 }
 
+void gen_TPureStruct() {
+    TFile f( "test_pure_struct.root", "RECREATE" );
+    TTree t( TREE_NAME, "tree" );
+
+    TPureStruct pure_struct;
+    t.Branch( "branch", &pure_struct );
+
+    for ( int i = 0; i < NUM_ENTRIES; i++ )
+    {
+        pure_struct = TPureStruct( i );
+        t.Fill();
+    }
+
+    t.Write();
+    f.Close();
+}
+
 int main() {
     cout << "Generating primitive data..." << endl;
     gen_primitive();
@@ -281,6 +299,9 @@ int main() {
 
     cout << "Generating pointers data..." << endl;
     gen_Pointers();
+
+    cout << "Generating pure struct data..." << endl;
+    gen_TPureStruct();
 
     return 0;
 }

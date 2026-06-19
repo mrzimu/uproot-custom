@@ -1369,6 +1369,10 @@ class AnyClassFactory(GroupFactory):
         item_path,
         **kwargs,
     ):
+        # Pointer types should be handled by AnyPointerFactory.
+        if top_type_name.endswith("*"):
+            return None
+
         sub_streamers: list = all_streamer_info[top_type_name]
         sub_factories = [build_factory(s, all_streamer_info, item_path) for s in sub_streamers]
         return cls(name=top_type_name, sub_factories=sub_factories)

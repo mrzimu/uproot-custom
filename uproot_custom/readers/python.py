@@ -556,8 +556,9 @@ class STLMapReader(IReader):
         fSize = stream.read_uint32()
         self.offsets.append(self.offsets[-1] + fSize)
 
+        debug_print()
         debug_print(
-            f"STLMapReader({self.name}): reading body, is_memberwise={is_memberwise}, fSize={fSize}\n"
+            f"STLMapReader({self.name}): reading body, is_memberwise={is_memberwise}, fSize={fSize}"
         )
         debug_print(stream)
 
@@ -762,7 +763,8 @@ class GroupReader(IReader):
 
     def read(self, stream):
         for reader in self.element_readers:
-            debug_print(f"GroupReader({self.name}) reading element {reader.name}:\n")
+            debug_print()
+            debug_print(f"GroupReader({self.name}) reading element {reader.name}:")
             debug_print(stream)
             reader.read(stream)
 
@@ -772,8 +774,9 @@ class GroupReader(IReader):
         ), f"Calling {self.name}.read_many_memberwise with negative count: {count} is not allowed"
 
         for reader in self.element_readers:
+            debug_print()
             debug_print(
-                f"GroupReader{self.name} reading many member-wise element {reader.name}:\n"
+                f"GroupReader({self.name}) reading many member-wise element {reader.name}:"
             )
             debug_print(stream)
             reader.read_many(stream, count)
@@ -794,10 +797,13 @@ class AnyClassReader(IReader):
         start_pos = stream.cursor
         end_pos = start_pos + fNBytes
 
-        stream.skip_fVersion()
+        fVersion = stream.read_fVersion()
+        if fVersion == 0:
+            stream.skip(4)
 
         for reader in self.element_readers:
-            debug_print(f"AnyClassReader({self.name}) reading element {reader.name}:\n")
+            debug_print()
+            debug_print(f"AnyClassReader({self.name}) reading element {reader.name}:")
             debug_print(stream)
             reader.read(stream)
 
@@ -812,8 +818,9 @@ class AnyClassReader(IReader):
         ), f"Calling {self.name}.read_many_memberwise with negative count: {count} is not allowed"
 
         for reader in self.element_readers:
+            debug_print()
             debug_print(
-                f"AnyClassReader{self.name} reading many member-wise element {reader.name}:\n"
+                f"AnyClassReader({self.name}) reading many member-wise element {reader.name}:"
             )
             debug_print(stream)
             reader.read_many(stream, count)
@@ -852,6 +859,10 @@ class AnyPointerReader(IReader):
         self.class_name = None
 
     def read(self, stream):
+        debug_print()
+        debug_print(f"AnyPointerReader({self.name}): reading pointer:")
+        debug_print(stream)
+
         start_pos = stream.cursor
         ref_begin = start_pos + stream.initial_cursor_position
         fNBytes = stream.read_uint32()
@@ -893,7 +904,11 @@ class AnyPointerReader(IReader):
                 return
 
         elif fTag == kNewClassTag:
+            debug_print()
+            debug_print(f"AnyPointerReader({self.name}): reading new class name:")
             class_name = stream.read_null_terminated_string()
+            debug_print(f"AnyPointerReader({self.name}): class name = {class_name}")
+
             if self.class_name is None:
                 self.class_name = class_name
             else:
@@ -905,6 +920,9 @@ class AnyPointerReader(IReader):
             ref_key = ref_begin + kMapOffset if fVersion > 0 else len(stream.refs) + 1
             stream.refs[ref_key] = _Reference(type="class", class_name=class_name)
 
+            debug_print(
+                f"AnyPointerReader({self.name}): reading element data with {self.element_reader.name} reader:"
+            )
             self.element_reader.read(stream)
             self.object_indexes.append(self.object_counter)
 
@@ -922,6 +940,9 @@ class AnyPointerReader(IReader):
                     f"Expected {self.class_name}, but got {class_name}"
                 )
 
+            debug_print(
+                f"AnyPointerReader({self.name}): reading element data with {self.element_reader.name} reader:"
+            )
             self.element_reader.read(stream)
             self.object_indexes.append(self.object_counter)
 
@@ -984,8 +1005,9 @@ class CStyleArrayReader(IReader):
         self.offsets = array("q", [0])
 
     def read(self, stream):
+        debug_print()
         debug_print(
-            f"CStyleArrayReader({self.name}): reading C-style array of flat_size={self.flat_size}\n"
+            f"CStyleArrayReader({self.name}): reading C-style array of flat_size={self.flat_size}"
         )
         debug_print(stream)
 

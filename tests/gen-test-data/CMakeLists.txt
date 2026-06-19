@@ -35,6 +35,7 @@ ROOT_GENERATE_DICTIONARY(MyRootDict
         ${CMAKE_CURRENT_LIST_DIR}/include/TSTLMapWithObj.hh
         ${CMAKE_CURRENT_LIST_DIR}/include/TNestedSTL.hh
         ${CMAKE_CURRENT_LIST_DIR}/include/TPointers.hh
+        ${CMAKE_CURRENT_LIST_DIR}/include/TPureStruct.hh
     LINKDEF ${CMAKE_CURRENT_LIST_DIR}/include/LinkDef.h
     MODULE gen-test-data
 )

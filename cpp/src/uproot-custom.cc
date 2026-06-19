@@ -946,11 +946,12 @@ namespace uproot {
          * @param stream The binary stream to read from.
          */
         void read( BinaryStream& stream ) override {
-            auto fNBytes  = stream.read_fNBytes();
-            auto fVersion = stream.read_fVersion();
-
+            auto fNBytes   = stream.read_fNBytes();
             auto start_pos = stream.get_cursor();
-            auto end_pos   = stream.get_cursor() + fNBytes - 2; // -2 for fVersion
+            auto end_pos   = stream.get_cursor() + fNBytes;
+
+            auto fVersion = stream.read_fVersion();
+            if ( fVersion == 0 ) stream.skip( 4 ); // skip checksum for fVersion 0
 
             for ( auto& reader : m_element_readers )
             {

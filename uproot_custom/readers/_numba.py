@@ -1133,7 +1133,9 @@ class AnyClassReader(IReader):
             "            start_pos = stream.cursor",
             "            end_pos = start_pos + fNBytes",
             "",
-            "            stream.skip_fVersion()",
+            "            fVersion = stream.read_fVersion()",
+            "            if fVersion == 0:",
+            "                stream.skip(4)",
             "",
         ]
         for reader in self.element_readers:
