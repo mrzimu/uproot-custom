@@ -21,4 +21,4 @@ make -j
 ./gen-test-data
 ```
 
-This will generate a series of data files in the `build` directory. You can then move these files to the `tests` directory of the uproot-custom package for use in testing.
+This will generate a series of data files in the `build` directory. You can then move these files to the `tests/data` directory of the uproot-custom package for use in testing.
