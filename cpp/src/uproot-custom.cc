@@ -12,7 +12,7 @@
 
 #include "uproot-custom/uproot-custom.hh"
 
-namespace uproot {
+namespace uproot_custom {
     using std::pair;
     using std::shared_ptr;
     using std::string;
@@ -1397,4 +1397,4 @@ namespace uproot {
         declare_reader<EmptyReader, string>( m, "EmptyReader" );
     }
 
-} // namespace uproot
+} // namespace uproot_custom

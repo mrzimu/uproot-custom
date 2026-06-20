@@ -33,19 +33,19 @@
  */
 #define IMPORT_UPROOT_CUSTOM_CPP pybind11::module_::import( "uproot_custom.cpp" );
 
-namespace uproot {
+namespace uproot_custom {
     namespace py = pybind11;
     using std::shared_ptr;
 
-    const uint32_t kNewClassTag    = 0xFFFFFFFF;
-    const uint32_t kClassMask      = 0x80000000; // OR the class index with this
-    const uint32_t kByteCountMask  = 0x40000000; // OR the byte count with this
-    const uint32_t kMaxMapCount    = 0x3FFFFFFE; // last valid fMapCount and byte count
-    const uint16_t kByteCountVMask = 0x4000;     // OR the version byte count with this
-    const uint16_t kMaxVersion     = 0x3FFF;     // highest possible version number
-    const int32_t kMapOffset = 2; // first 2 map entries are taken by null obj and self obj
+    constexpr uint32_t kNewClassTag    = 0xFFFFFFFF;
+    constexpr uint32_t kClassMask      = 0x80000000; // OR the class index with this
+    constexpr uint32_t kByteCountMask  = 0x40000000; // OR the byte count with this
+    constexpr uint32_t kMaxMapCount    = 0x3FFFFFFE; // last valid fMapCount and byte count
+    constexpr uint16_t kByteCountVMask = 0x4000;     // OR the version byte count with this
+    constexpr uint16_t kMaxVersion     = 0x3FFF;     // highest possible version number
+    constexpr int32_t kMapOffset = 2; // first 2 map entries are taken by null obj and self obj
 
-    const uint16_t kStreamedMemberWise = 1 << 14; // streamed member-wise mask
+    constexpr uint16_t kStreamedMemberWise = 1 << 14; // streamed member-wise mask
 
     class BinaryStream {
       public:
@@ -97,10 +97,9 @@ namespace uproot {
         const T read() {
             constexpr auto size = sizeof( T );
 
-            switch ( size )
+            if constexpr ( size == 1 ) return *reinterpret_cast<const T*>( m_cursor++ );
+            else if constexpr ( size == 2 )
             {
-            case 1: return *reinterpret_cast<const T*>( m_cursor++ );
-            case 2: {
                 union {
                     T value;
                     uint16_t bits;
@@ -110,7 +109,8 @@ namespace uproot {
                 val.bits = bswap16( val.bits );
                 return val.value;
             }
-            case 4: {
+            else if constexpr ( size == 4 )
+            {
                 union {
                     T value;
                     uint32_t bits;
@@ -120,7 +120,8 @@ namespace uproot {
                 val.bits = bswap32( val.bits );
                 return val.value;
             }
-            case 8: {
+            else if constexpr ( size == 8 )
+            {
                 union {
                     T value;
                     uint64_t bits;
@@ -130,9 +131,10 @@ namespace uproot {
                 val.bits = bswap64( val.bits );
                 return val.value;
             }
-            default:
-                throw std::runtime_error( "Unsupported type size: " + std::to_string( size ) );
-            }
+            else
+                static_assert(
+                    sizeof( T ) == 0,
+                    "read<T>: unsupported type size (only 1, 2, 4, 8 bytes allowed)" );
         }
 
         /**
@@ -168,15 +170,14 @@ namespace uproot {
         }
 
         /**
-         * @brief Read an object header from the stream. The object header has `fNBytes`,
+         * @brief Read an object's header from the stream. The object header has `fNBytes`,
          * `fVersion`, `fTag`. If `fTag == kNewClassTag`, then a null-terminated class name
          * follows.
          *
-         * @return The class name if the object is a new class, empty string
-         * otherwise.
+         * @return The class name if the object is a new class, empty string otherwise.
          */
         const std::string read_obj_header() {
-            read_fNBytes();
+            skip_fNBytes();
             auto fTag = read<uint32_t>();
             if ( fTag == kNewClassTag ) return read_null_terminated_string();
             else return std::string();
@@ -224,7 +225,7 @@ namespace uproot {
         }
 
         /**
-         * @brief Skip an object header in the stream. The object header has `fNBytes`,
+         * @brief Skip an object's header in the stream. The object header has `fNBytes`,
          * `fVersion`, `fTag`. If `fTag == kNewClassTag`, then a null-terminated class name
          * follows.
          */
@@ -240,7 +241,6 @@ namespace uproot {
          * follows.
          */
         void skip_TObject() {
-            // TODO: CanIgnoreTObjectStreamer() ?
             skip_fVersion();
             skip( 4 ); // fUniqueID
             auto fBits = read<uint32_t>();
@@ -496,8 +496,8 @@ namespace uproot {
     */
 
     /**
-     * @brief Debug print function. Prints only when macro or environment varialbe with name
-     * `UPROOT_DEBUG` is defined. Use this function like `printf()`.
+     * @brief Debug print function. Prints only when environment variable with name
+     * `UPROOT_CUSTOM_DEBUG` is defined. Use this function like `printf()`.
      *
      * @tparam Args Argument types. No need to specify explicitly.
      * @param msg The format string.
@@ -505,29 +505,29 @@ namespace uproot {
      */
     template <typename... Args>
     inline void debug_printf( const char* msg, Args... args ) {
-        bool do_print = getenv( "UPROOT_DEBUG" );
-#ifdef UPROOT_DEBUG
-        do_print = true;
-#endif
+        bool do_print = getenv( "UPROOT_CUSTOM_DEBUG" );
         if ( !do_print ) return;
         printf( msg, std::forward<Args>( args )... );
     }
 
     /**
-     * @brief Debug print function for BinaryStream. Prints only when macro or environment
-     * variable with name `UPROOT_DEBUG` is defined. Call @ref BinaryStream::debug_print()
-     * internally.
+     * @brief Debug print function for BinaryStream. Prints only when environment
+     * variable with name `UPROOT_CUSTOM_DEBUG` is defined. Call @ref
+     * BinaryStream::debug_print() internally.
      *
      * @param stream The BinaryStream to print.
      * @param n Number of bytes to print.
      */
-    inline void debug_printf( uproot::BinaryStream& stream, const size_t n = 100 ) {
-        bool do_print = getenv( "UPROOT_DEBUG" );
-#ifdef UPROOT_DEBUG
-        do_print = true;
-#endif
+    inline void debug_printf( uproot_custom::BinaryStream& stream, const size_t n = 100 ) {
+        bool do_print = getenv( "UPROOT_CUSTOM_DEBUG" );
         if ( !do_print ) return;
         stream.debug_print( n );
     }
 
-} // namespace uproot
+} // namespace uproot_custom
+
+// backward compatibility
+// TODO: remove the uproot namespace and use uproot_custom namespace directly in the future.
+namespace uproot {
+    using namespace uproot_custom;
+}
