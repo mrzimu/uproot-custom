@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
-  <compounddef id="classuproot_1_1_t_string_reader" kind="class" language="C++" prot="public">
-    <compoundname>uproot::TStringReader</compoundname>
-    <basecompoundref refid="classuproot_1_1_i_reader" prot="public" virt="non-virtual">uproot::IReader</basecompoundref>
+  <compounddef id="classuproot__custom_1_1_t_string_reader" kind="class" language="C++" prot="public">
+    <compoundname>uproot_custom::TStringReader</compoundname>
+    <basecompoundref refid="classuproot__custom_1_1_i_reader" prot="public" virt="non-virtual">uproot_custom::IReader</basecompoundref>
     <sectiondef kind="private-attrib">
-      <memberdef kind="variable" id="classuproot_1_1_t_string_reader_1aa39abf7205fb1c9e899503efe2381fee" prot="private" static="no" mutable="no">
-        <type><ref refid="classuproot_1_1_t_string_reader_1a30b9197987458f8ad21295bdc0f3c674" kindref="member">const</ref> <ref refid="classuproot_1_1_t_string_reader_1a30b9197987458f8ad21295bdc0f3c674" kindref="member">bool</ref></type>
-        <definition>const bool uproot::TStringReader::m_with_header</definition>
+      <memberdef kind="variable" id="classuproot__custom_1_1_t_string_reader_1a221005c1a332cbbf2822b0c6b4728ced" prot="private" static="no" mutable="no">
+        <type><ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">bool</ref></type>
+        <definition>const bool uproot_custom::TStringReader::m_with_header</definition>
         <argsstring></argsstring>
         <name>m_with_header</name>
-        <qualifiedname>uproot::TStringReader::m_with_header</qualifiedname>
+        <qualifiedname>uproot_custom::TStringReader::m_with_header</qualifiedname>
         <briefdescription>
 <para>Whether the TString has a <computeroutput>fNBytes+fVersion</computeroutput> header. </para>
         </briefdescription>
@@ -19,12 +19,12 @@
         </inbodydescription>
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="147" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="147" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classuproot_1_1_t_string_reader_1a4fd1d3bbc21057027b5f7f23a9691f1c" prot="private" static="no" mutable="no">
-        <type>SharedVector&lt; <ref refid="classuproot_1_1_t_string_reader_1a30b9197987458f8ad21295bdc0f3c674" kindref="member">uint8_t</ref> &gt;</type>
-        <definition>SharedVector&lt;uint8_t&gt; uproot::TStringReader::m_data</definition>
+      <memberdef kind="variable" id="classuproot__custom_1_1_t_string_reader_1a0d6f35493f3f1f9103f8b9422bf0e01f" prot="private" static="no" mutable="no">
+        <type>SharedVector&lt; <ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">uint8_t</ref> &gt;</type>
+        <definition>SharedVector&lt;uint8_t&gt; uproot_custom::TStringReader::m_data</definition>
         <argsstring></argsstring>
         <name>m_data</name>
-        <qualifiedname>uproot::TStringReader::m_data</qualifiedname>
+        <qualifiedname>uproot_custom::TStringReader::m_data</qualifiedname>
         <briefdescription>
 <para>Store the string data. </para>
         </briefdescription>
@@ -34,12 +34,12 @@
         </inbodydescription>
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="148" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="148" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classuproot_1_1_t_string_reader_1a1c80c8b58e78b95c5e3f06b557ca2251" prot="private" static="no" mutable="no">
-        <type>SharedVector&lt; <ref refid="classuproot_1_1_t_string_reader_1a30b9197987458f8ad21295bdc0f3c674" kindref="member">int64_t</ref> &gt;</type>
-        <definition>SharedVector&lt;int64_t&gt; uproot::TStringReader::m_offsets</definition>
+      <memberdef kind="variable" id="classuproot__custom_1_1_t_string_reader_1a1c74b332d5e88e1dd2d2afe849882f4f" prot="private" static="no" mutable="no">
+        <type>SharedVector&lt; <ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">int64_t</ref> &gt;</type>
+        <definition>SharedVector&lt;int64_t&gt; uproot_custom::TStringReader::m_offsets</definition>
         <argsstring></argsstring>
         <name>m_offsets</name>
-        <qualifiedname>uproot::TStringReader::m_offsets</qualifiedname>
+        <qualifiedname>uproot_custom::TStringReader::m_offsets</qualifiedname>
         <briefdescription>
 <para>Store the offsets for each string. </para>
         </briefdescription>
@@ -51,22 +51,22 @@
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
-      <memberdef kind="function" id="classuproot_1_1_t_string_reader_1a2fd8c79235e5aa6e069ddba72d12fa19" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="classuproot__custom_1_1_t_string_reader_1a386daa639c3c3da1490aa6497ccb32c1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type></type>
-        <definition>uproot::TStringReader::TStringReader</definition>
+        <definition>uproot_custom::TStringReader::TStringReader</definition>
         <argsstring>(string name, bool with_header)</argsstring>
         <name>TStringReader</name>
-        <qualifiedname>uproot::TStringReader::TStringReader</qualifiedname>
+        <qualifiedname>uproot_custom::TStringReader::TStringReader</qualifiedname>
         <param>
           <type>string</type>
           <declname>name</declname>
         </param>
         <param>
-          <type><ref refid="classuproot_1_1_t_string_reader_1a30b9197987458f8ad21295bdc0f3c674" kindref="member">bool</ref></type>
+          <type><ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">bool</ref></type>
           <declname>with_header</declname>
         </param>
         <briefdescription>
-<para>Construct a new <ref refid="classuproot_1_1_t_string_reader" kindref="compound">TStringReader</ref> object. </para>
+<para>Construct a new <ref refid="classuproot__custom_1_1_t_string_reader" kindref="compound">TStringReader</ref> object. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -92,15 +92,15 @@
         </inbodydescription>
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="158" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="158" bodyend="162"/>
       </memberdef>
-      <memberdef kind="function" id="classuproot_1_1_t_string_reader_1a30b9197987458f8ad21295bdc0f3c674" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+      <memberdef kind="function" id="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>void</type>
-        <definition>void uproot::TStringReader::read</definition>
+        <definition>void uproot_custom::TStringReader::read</definition>
         <argsstring>(BinaryStream &amp;stream) override</argsstring>
         <name>read</name>
-        <qualifiedname>uproot::TStringReader::read</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_reader_1a59918d6716b8704a2becc06d0829cfca">read</reimplements>
+        <qualifiedname>uproot_custom::TStringReader::read</qualifiedname>
+        <reimplements refid="classuproot__custom_1_1_i_reader_1ac8822798d3f8cb1a7a482be880148c7d">read</reimplements>
         <param>
-          <type><ref refid="classuproot_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
+          <type><ref refid="classuproot__custom_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
           <declname>stream</declname>
         </param>
         <briefdescription>
@@ -122,19 +122,19 @@
         </inbodydescription>
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="171" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="171" bodyend="177"/>
       </memberdef>
-      <memberdef kind="function" id="classuproot_1_1_t_string_reader_1a0ee89572978bbdef0711474ed3ba0ced" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
-        <type><ref refid="classuproot_1_1_t_string_reader_1a30b9197987458f8ad21295bdc0f3c674" kindref="member">uint32_t</ref></type>
-        <definition>uint32_t uproot::TStringReader::read_many</definition>
+      <memberdef kind="function" id="classuproot__custom_1_1_t_string_reader_1afe344550ba0fb096bc54e794d3043a18" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">uint32_t</ref></type>
+        <definition>uint32_t uproot_custom::TStringReader::read_many</definition>
         <argsstring>(BinaryStream &amp;stream, const int64_t count) override</argsstring>
         <name>read_many</name>
-        <qualifiedname>uproot::TStringReader::read_many</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_reader_1ac02e5679420f02084305414181d7423e">read_many</reimplements>
+        <qualifiedname>uproot_custom::TStringReader::read_many</qualifiedname>
+        <reimplements refid="classuproot__custom_1_1_i_reader_1aa85d5dd80295affa44accc13407f8ae3">read_many</reimplements>
         <param>
-          <type><ref refid="classuproot_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
+          <type><ref refid="classuproot__custom_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
           <declname>stream</declname>
         </param>
         <param>
-          <type><ref refid="classuproot_1_1_t_string_reader_1a30b9197987458f8ad21295bdc0f3c674" kindref="member">const</ref> <ref refid="classuproot_1_1_t_string_reader_1a30b9197987458f8ad21295bdc0f3c674" kindref="member">int64_t</ref></type>
+          <type><ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">int64_t</ref></type>
           <declname>count</declname>
         </param>
         <briefdescription>
@@ -166,19 +166,19 @@
         </inbodydescription>
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="187" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="187" bodyend="202"/>
       </memberdef>
-      <memberdef kind="function" id="classuproot_1_1_t_string_reader_1abae736b623d8d51593d6cc6f8f7f7839" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
-        <type><ref refid="classuproot_1_1_t_string_reader_1a30b9197987458f8ad21295bdc0f3c674" kindref="member">uint32_t</ref></type>
-        <definition>uint32_t uproot::TStringReader::read_until</definition>
+      <memberdef kind="function" id="classuproot__custom_1_1_t_string_reader_1a2a3f520ab0fd09829cf00e94e21d543f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">uint32_t</ref></type>
+        <definition>uint32_t uproot_custom::TStringReader::read_until</definition>
         <argsstring>(BinaryStream &amp;stream, const uint8_t *end_pos) override</argsstring>
         <name>read_until</name>
-        <qualifiedname>uproot::TStringReader::read_until</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_reader_1a7e7b4068c2619fa1336e04ccbd07554b">read_until</reimplements>
+        <qualifiedname>uproot_custom::TStringReader::read_until</qualifiedname>
+        <reimplements refid="classuproot__custom_1_1_i_reader_1a52b162cf71b6e4683dc69fa4f049380e">read_until</reimplements>
         <param>
-          <type><ref refid="classuproot_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
+          <type><ref refid="classuproot__custom_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
           <declname>stream</declname>
         </param>
         <param>
-          <type><ref refid="classuproot_1_1_t_string_reader_1a30b9197987458f8ad21295bdc0f3c674" kindref="member">const</ref> <ref refid="classuproot_1_1_t_string_reader_1a30b9197987458f8ad21295bdc0f3c674" kindref="member">uint8_t</ref> *</type>
+          <type><ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">uint8_t</ref> *</type>
           <declname>end_pos</declname>
         </param>
         <briefdescription>
@@ -210,13 +210,13 @@
         </inbodydescription>
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="213" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="213" bodyend="229"/>
       </memberdef>
-      <memberdef kind="function" id="classuproot_1_1_t_string_reader_1a31f91ea1274a09e73e0cc36bf6b57153" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+      <memberdef kind="function" id="classuproot__custom_1_1_t_string_reader_1adab0f0693fe03b85f9c7741d5d872ff0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>py::object</type>
-        <definition>py::object uproot::TStringReader::data</definition>
+        <definition>py::object uproot_custom::TStringReader::data</definition>
         <argsstring>() const override</argsstring>
         <name>data</name>
-        <qualifiedname>uproot::TStringReader::data</qualifiedname>
-        <reimplements refid="classuproot_1_1_i_reader_1acd7126fde99fad7d3f497aaee23ae118">data</reimplements>
+        <qualifiedname>uproot_custom::TStringReader::data</qualifiedname>
+        <reimplements refid="classuproot__custom_1_1_i_reader_1abe6fc7a4622ba3f2fd839e0ab6e7bc21">data</reimplements>
         <briefdescription>
 <para>Get the data read by the reader. This should be called after the whole reading process. </para>
         </briefdescription>
@@ -237,43 +237,43 @@
     </detaileddescription>
     <inheritancegraph>
       <node id="2">
-        <label>uproot::IReader</label>
-        <link refid="classuproot_1_1_i_reader"/>
+        <label>uproot_custom::IReader</label>
+        <link refid="classuproot__custom_1_1_i_reader"/>
       </node>
       <node id="1">
-        <label>uproot::TStringReader</label>
-        <link refid="classuproot_1_1_t_string_reader"/>
+        <label>uproot_custom::TStringReader</label>
+        <link refid="classuproot__custom_1_1_t_string_reader"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>
       <node id="2">
-        <label>uproot::IReader</label>
-        <link refid="classuproot_1_1_i_reader"/>
+        <label>uproot_custom::IReader</label>
+        <link refid="classuproot__custom_1_1_i_reader"/>
       </node>
       <node id="1">
-        <label>uproot::TStringReader</label>
-        <link refid="classuproot_1_1_t_string_reader"/>
+        <label>uproot_custom::TStringReader</label>
+        <link refid="classuproot__custom_1_1_t_string_reader"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
     </collaborationgraph>
     <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="145" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="145" bodyend="242"/>
     <listofallmembers>
-      <member refid="classuproot_1_1_t_string_reader_1a31f91ea1274a09e73e0cc36bf6b57153" prot="public" virt="virtual"><scope>uproot::TStringReader</scope><name>data</name></member>
-      <member refid="classuproot_1_1_i_reader_1aed13e9c0926be8e89422cf49efdcc752" prot="public" virt="non-virtual"><scope>uproot::TStringReader</scope><name>IReader</name></member>
-      <member refid="classuproot_1_1_t_string_reader_1a4fd1d3bbc21057027b5f7f23a9691f1c" prot="private" virt="non-virtual"><scope>uproot::TStringReader</scope><name>m_data</name></member>
-      <member refid="classuproot_1_1_i_reader_1aae3ebcf2974166ec9eb868528759dbc9" prot="protected" virt="non-virtual"><scope>uproot::TStringReader</scope><name>m_name</name></member>
-      <member refid="classuproot_1_1_t_string_reader_1a1c80c8b58e78b95c5e3f06b557ca2251" prot="private" virt="non-virtual"><scope>uproot::TStringReader</scope><name>m_offsets</name></member>
-      <member refid="classuproot_1_1_t_string_reader_1aa39abf7205fb1c9e899503efe2381fee" prot="private" virt="non-virtual"><scope>uproot::TStringReader</scope><name>m_with_header</name></member>
-      <member refid="classuproot_1_1_i_reader_1a94ec0db0c0012df8317add7519a0c299" prot="public" virt="virtual"><scope>uproot::TStringReader</scope><name>name</name></member>
-      <member refid="classuproot_1_1_t_string_reader_1a30b9197987458f8ad21295bdc0f3c674" prot="public" virt="virtual"><scope>uproot::TStringReader</scope><name>read</name></member>
-      <member refid="classuproot_1_1_t_string_reader_1a0ee89572978bbdef0711474ed3ba0ced" prot="public" virt="virtual"><scope>uproot::TStringReader</scope><name>read_many</name></member>
-      <member refid="classuproot_1_1_i_reader_1a9d545434b78b4c427818b8986e82b056" prot="public" virt="virtual"><scope>uproot::TStringReader</scope><name>read_many_memberwise</name></member>
-      <member refid="classuproot_1_1_t_string_reader_1abae736b623d8d51593d6cc6f8f7f7839" prot="public" virt="virtual"><scope>uproot::TStringReader</scope><name>read_until</name></member>
-      <member refid="classuproot_1_1_t_string_reader_1a2fd8c79235e5aa6e069ddba72d12fa19" prot="public" virt="non-virtual"><scope>uproot::TStringReader</scope><name>TStringReader</name></member>
-      <member refid="classuproot_1_1_i_reader_1a0e010e1426c196808a4ac5f4723637cc" prot="public" virt="virtual"><scope>uproot::TStringReader</scope><name>~IReader</name></member>
+      <member refid="classuproot__custom_1_1_t_string_reader_1adab0f0693fe03b85f9c7741d5d872ff0" prot="public" virt="virtual"><scope>uproot_custom::TStringReader</scope><name>data</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1ad69385766531eebfbd53945817ef88b2" prot="public" virt="non-virtual"><scope>uproot_custom::TStringReader</scope><name>IReader</name></member>
+      <member refid="classuproot__custom_1_1_t_string_reader_1a0d6f35493f3f1f9103f8b9422bf0e01f" prot="private" virt="non-virtual"><scope>uproot_custom::TStringReader</scope><name>m_data</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1ad76b2b787ce86e4e620a9566ba9c9897" prot="protected" virt="non-virtual"><scope>uproot_custom::TStringReader</scope><name>m_name</name></member>
+      <member refid="classuproot__custom_1_1_t_string_reader_1a1c74b332d5e88e1dd2d2afe849882f4f" prot="private" virt="non-virtual"><scope>uproot_custom::TStringReader</scope><name>m_offsets</name></member>
+      <member refid="classuproot__custom_1_1_t_string_reader_1a221005c1a332cbbf2822b0c6b4728ced" prot="private" virt="non-virtual"><scope>uproot_custom::TStringReader</scope><name>m_with_header</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a0056e5117c53b20ece09f8d8c44cf7dd" prot="public" virt="virtual"><scope>uproot_custom::TStringReader</scope><name>name</name></member>
+      <member refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" prot="public" virt="virtual"><scope>uproot_custom::TStringReader</scope><name>read</name></member>
+      <member refid="classuproot__custom_1_1_t_string_reader_1afe344550ba0fb096bc54e794d3043a18" prot="public" virt="virtual"><scope>uproot_custom::TStringReader</scope><name>read_many</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a0fb685f7b39765e0eac7b20510254fb3" prot="public" virt="virtual"><scope>uproot_custom::TStringReader</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot__custom_1_1_t_string_reader_1a2a3f520ab0fd09829cf00e94e21d543f" prot="public" virt="virtual"><scope>uproot_custom::TStringReader</scope><name>read_until</name></member>
+      <member refid="classuproot__custom_1_1_t_string_reader_1a386daa639c3c3da1490aa6497ccb32c1" prot="public" virt="non-virtual"><scope>uproot_custom::TStringReader</scope><name>TStringReader</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a04ba536e1869fb9dbe0983d88bfcd56f" prot="public" virt="virtual"><scope>uproot_custom::TStringReader</scope><name>~IReader</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

@@ -179,7 +179,7 @@ void TObjArray::Streamer(TBuffer &b)
 
 According to the `Streamer` method, the binary data contains:
 
-1. `Line 6`: The first 6 bytes are the `fNBytes`(uint32) +`fVersion(int16)` header ([refer to here](nbytes-version-header)).
+1. `Line 6`: The first 6 bytes are the `fNBytes` (uint32) +`fVersion` (int16) header ([refer to here](nbytes-version-header)).
 
 2. `Line 7-8`: Since the `fVersion` is `3` > `2`, the base class `TObject` is then streamed, which [takes 10 bytes](https://root.cern/doc/v636/tobject.html).
 
@@ -189,7 +189,7 @@ According to the `Streamer` method, the binary data contains:
 
 4. `Line 15`: The next 4 bytes is `fLowerBound` (int32), which is `[0, 0, 0, 0]`, i.e. `0`.
 
-5. `Line 19-25`: Loop over `nobjects` to read each object. Note that the `[255, 255, 255, 255]` indicates that the object's binary layout follows [this rule](https://root.cern/doc/v636/dobject.html). In uproot-custom, it can be handled by `ObjectHeaderFactory`.
+5. `Line 19-25`: Loop over `nobjects` to read each object. Note that the `[255, 255, 255, 255]` indicates that the objects are stored as pointer, whose binary layout follows [this rule](https://root.cern/doc/v636/dobject.html). In uproot-custom, it can be handled by `AnyPointerFactory`.
 
 ```{tip}
 For other `ROOT` built-in classes, it is suggested to check both the streamer information and the source code. If the `Streamer` method is not overridden, the streamer information is usually enough.
@@ -199,16 +199,15 @@ In summary, the binary data contains:
 
 - `TObjArray` header (`fNBytes`+`fVersion`+`TObject`+`fName`+`nobjects`+`fLowerBound`).
 - Loop over `nobjects` to read each object:
-    - `ObjectHeader` before each `TObjInObjArray` object.
+    - Pointer header before each `TObjInObjArray` object.
     - Data members of `TObjInObjArray` object.
 
 So we need such factories/readers to read the data:
 
 - `TObjArrayFactory`/`TObjArrayReader` to read `TObjArray` header and loop over `nobjects`.
-- `ObjectHeaderFactory`/`ObjectHeaderReader` to read `ObjectHeader`, which are already implemented in uproot-custom.
-- `AnyClassFactory`/`AnyClassReader` to read `TObjInObjArray` object, which are already implemented in uproot-custom.
+- `AnyPointerFactory`/`AnyPointerReader` to read the object stored as pointer, which are already implemented in uproot-custom. When the type name ends with `*`, `build_factory` automatically resolves to `AnyPointerFactory`, which in turn delegates to `AnyClassFactory` to read the pointed object's data members.
 
-The `TObjArrayFactory`/`TObjArrayReader` should be implemented by ourselves. Note that since we know the type of objects in the `TObjArray` is always `TObjInObjArray`, we can take just 1 `AnyClassFactory`/`AnyClassReader` as sub-factory/sub-reader to read all objects. This is also a process that embedding user-known rules.
+The `TObjArrayFactory`/`TObjArrayReader` should be implemented by ourselves. Since we know the type of objects in the `TObjArray` is always `TObjInObjArray`, we can pass `TObjInObjArray*` (with pointer suffix) to `build_factory`, and it will automatically create the appropriate `AnyPointerFactory` → `AnyClassFactory` chain to read all objects. This is also a process of embedding user-known rules.
 
 ## Step 2: Implement Python Reader to read binary data
 
@@ -254,15 +253,15 @@ class TObjArrayReader(IReader):
 
 - In `data` method, we return a tuple of `(offsets, element_data)`, where `offsets` is a 1D array of int64, `element_data` is the data returned by `element_reader`.
 
-```{important}
-You should always use `IReader.read_many` method to read multiple objects in one go, since some classes (e.g. `std::vector`) may have "1 header + multiple objects" structure.
+```{tip}
+You should use `IReader.read_many` method to read multiple objects in one go, since some classes (e.g. `std::vector`) may have "1 header + multiple objects" structure.
 ```
 
 ## Step 3: Implement Python Factory
 
 Similar to [Example 1](override-streamer.md), we need to identify the `TObjArray` branch and implement a corresponding Factory to use our `TObjArrayReader`.
 
-First, import necessary modules. Since we need to use `ObjectHeaderFactory` and `AnyClassFactory`, some extra imports are needed:
+First, import necessary modules:
 
 ```python
 import awkward.contents
@@ -273,7 +272,6 @@ from uproot_custom import (
     Factory,
     build_factory,
 )
-from uproot_custom.factories import AnyClassFactory, ObjectHeaderFactory
 ```
 
 ### Implement `build_factory`
@@ -283,11 +281,17 @@ In this example, we simply regard any `TObjArray` branch as our target branch. Y
 ```{code-block} python
 ---
 lineno-start: 1
-emphasize-lines: 3-4, 18-19, 21-29, 31-40
+emphasize-lines: 3-10, 28-29, 31-38
 ---
 class TObjArrayFactory(Factory):
     @classmethod
     def priority(cls):
+        """
+        Set a higher priority to ensure this factory is chosen first,
+        otherwise the pre-defined factory of `uproot-custom` may be selected.
+
+        The default priority is 10 for other factories.
+        """
         return 50
 
     @classmethod
@@ -299,41 +303,33 @@ class TObjArrayFactory(Factory):
         item_path: str,
         **kwargs,
     ):
+        # `top_type_name` is the type name of the top-level object.
         if top_type_name != "TObjArray":
             return None
 
+        # `item_path` is the path of the current item being processed.
+        # Since `TObjArray` is designed to store any object, we can adjust the `item_path`
+        # to point to the actual object type stored in the array.
         item_path = item_path.replace(".TObjArray*", "")
-        obj_typename = "TObjInObjArray"
+        obj_typename = "TObjInObjArray*"
 
-        sub_factories = []
-        for s in all_streamer_info[obj_typename]:
-            sub_factories.append(
-                build_factory(
-                    cur_streamer_info=s,
-                    all_streamer_info=all_streamer_info,
-                    item_path=f"{item_path}.{obj_typename}",
-                )
-            )
-
-        return cls(
-            name=cur_streamer_info["fName"],
-            element_factory=ObjectHeaderFactory(
-                name=obj_typename,
-                element_factory=AnyClassFactory(
-                    name=obj_typename,
-                    sub_factories=sub_factories,
-                ),
-            ),
+        element_factory = build_factory(
+            cur_streamer_info={
+                "fName": obj_typename,
+                "fTypeName": obj_typename,
+            },
+            all_streamer_info=all_streamer_info,
+            item_path=f"{item_path}.{obj_typename}",
         )
+
+        return cls(name=cur_streamer_info["fName"], element_factory=element_factory)
 ```
 
-- `Line 3-4`: Override `priority` method to give a higher priority than the factories with default priority `10`, so that our factory can be chosen first.
+- Line 3-10: Override `priority` method to give a higher priority than the factories with default priority 10, so that our factory can be chosen first.
 
-- `Line 18-19`: Fix the `item_path`, otherwise the `.TObjArray*` suffix will be kept to the final awkward arrays.
+- Line 28-29: Fix the `item_path`, otherwise the `.TObjArray*` suffix will be kept to the final awkward arrays. Set `obj_typename` to `TObjInObjArray*` with the `*` suffix so that `build_factory` automatically resolves to `AnyPointerFactory`.
 
-- `Line 21-29`: Prepare the `sub_configs` for `AnyClassFactory` to read `TObjInObjArray` objects.
-
-- `Line 31-40`: Combine `ObjectHeaderFactory` and `AnyClassFactory` as the `element_config` to read each object in the `TObjArray`.
+- Line 31-38: Call `build_factory` to build the element factory. The `*` suffix in `TObjInObjArray*` triggers `AnyPointerFactory`, which automatically handles the pointer header and delegates to `AnyClassFactory` for reading the actual data members. There is no need to manually construct `AnyPointerFactory` or `AnyClassFactory` — `build_factory` handles the entire chain automatically.
 
 ### Implement constructor
 
@@ -359,9 +355,9 @@ def build_python_reader(self):
     return TObjArrayReader(self.name, element_reader)
 ```
 
-- In `Line 2`, we use `self.element_factory.build_python_reader` to create the `element_reader`. Here, `ObjectHeaderFactory`, then `AnyClassFactory` are called to create corresponding sub-readers.
+- In line 2, we use `self.element_factory.build_python_reader` to create the `element_reader`. Here, `AnyPointerFactory.build_python_reader` is called (since `TObjInObjArray*` matched `AnyPointerFactory`), which in turn calls `AnyClassFactory.build_python_reader` to create the reader chain.
 
-- In `Line 3`, we just create an instance of `TObjArrayReader`, passing the `element_reader` to it.
+- In line 3, we just create an instance of `TObjArrayReader`, passing the `element_reader` to it.
 
 ### Implement `make_awkward_content`
 
@@ -391,6 +387,8 @@ def make_awkward_form(self):
         element_form,
     )
 ```
+
+This will be used when users try to access the array lazily, e.g. using `uproot.dask` or `b.array(virtual=True)`.
 
 ## Step 4: Register target branch and the Factory
 
@@ -433,7 +431,7 @@ version** — the same fields read in the same order, and `data()` returning
 the same structure.
 
 ```{seealso}
-See [](../../tutorial/customize-factory-reader/port-to-cpp.md) for the full
+See [](../tutorial/customize-factory-reader/port-to-cpp.md) for the full
 C++ reader API reference (IReader, BinaryStream, pybind11 bindings).
 ```
 
@@ -493,7 +491,6 @@ default C++ backend for production:
 ```python
 import uproot_custom.factories as fac
 fac.reader_backend = "cpp"  # this is the default, so you can also just remove the line
-```
 ```
 
 The factory's `make_awkward_content` and `make_awkward_form` remain exactly

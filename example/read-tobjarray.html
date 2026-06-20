@@ -530,12 +530,12 @@ uproot-custom, and then show how to port the reader to C++.</p>
 </div>
 <p>According to the <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method, the binary data contains:</p>
 <ol class="arabic simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">6</span></code>: The first 6 bytes are the <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code>(uint32) +<code class="docutils literal notranslate"><span class="pre">fVersion(int16)</span></code> header (<a class="reference internal" href="../tutorial/customize-factory-reader/investigate-data.html#nbytes-version-header"><span class="std std-ref">refer to here</span></a>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">6</span></code>: The first 6 bytes are the <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> (uint32) +<code class="docutils literal notranslate"><span class="pre">fVersion</span></code> (int16) header (<a class="reference internal" href="../tutorial/customize-factory-reader/investigate-data.html#nbytes-version-header"><span class="std std-ref">refer to here</span></a>).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">7-8</span></code>: Since the <code class="docutils literal notranslate"><span class="pre">fVersion</span></code> is <code class="docutils literal notranslate"><span class="pre">3</span></code> &gt; <code class="docutils literal notranslate"><span class="pre">2</span></code>, the base class <code class="docutils literal notranslate"><span class="pre">TObject</span></code> is then streamed, which <a class="reference external" href="https://root.cern/doc/v636/tobject.html">takes 10 bytes</a>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">9-10</span></code>: Since the <code class="docutils literal notranslate"><span class="pre">fVersion</span></code> is <code class="docutils literal notranslate"><span class="pre">3</span></code> &gt; <code class="docutils literal notranslate"><span class="pre">1</span></code>, the next part is <code class="docutils literal notranslate"><span class="pre">fName</span></code> (<code class="docutils literal notranslate"><span class="pre">TString</span></code>).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">14</span></code>: The next 4 bytes is <code class="docutils literal notranslate"><span class="pre">nobjects</span></code> (int32), which is <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">1]</span></code>, i.e. <code class="docutils literal notranslate"><span class="pre">1</span></code>. This means there is one object in this <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">15</span></code>: The next 4 bytes is <code class="docutils literal notranslate"><span class="pre">fLowerBound</span></code> (int32), which is <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0]</span></code>, i.e. <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">19-25</span></code>: Loop over <code class="docutils literal notranslate"><span class="pre">nobjects</span></code> to read each object. Note that the <code class="docutils literal notranslate"><span class="pre">[255,</span> <span class="pre">255,</span> <span class="pre">255,</span> <span class="pre">255]</span></code> indicates that the object’s binary layout follows <a class="reference external" href="https://root.cern/doc/v636/dobject.html">this rule</a>. In uproot-custom, it can be handled by <code class="docutils literal notranslate"><span class="pre">ObjectHeaderFactory</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">19-25</span></code>: Loop over <code class="docutils literal notranslate"><span class="pre">nobjects</span></code> to read each object. Note that the <code class="docutils literal notranslate"><span class="pre">[255,</span> <span class="pre">255,</span> <span class="pre">255,</span> <span class="pre">255]</span></code> indicates that the objects are stored as pointer, whose binary layout follows <a class="reference external" href="https://root.cern/doc/v636/dobject.html">this rule</a>. In uproot-custom, it can be handled by <code class="docutils literal notranslate"><span class="pre">AnyPointerFactory</span></code>.</p></li>
 </ol>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
@@ -546,7 +546,7 @@ uproot-custom, and then show how to port the reader to C++.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> header (<code class="docutils literal notranslate"><span class="pre">fNBytes</span></code>+<code class="docutils literal notranslate"><span class="pre">fVersion</span></code>+<code class="docutils literal notranslate"><span class="pre">TObject</span></code>+<code class="docutils literal notranslate"><span class="pre">fName</span></code>+<code class="docutils literal notranslate"><span class="pre">nobjects</span></code>+<code class="docutils literal notranslate"><span class="pre">fLowerBound</span></code>).</p></li>
 <li><p>Loop over <code class="docutils literal notranslate"><span class="pre">nobjects</span></code> to read each object:</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">ObjectHeader</span></code> before each <code class="docutils literal notranslate"><span class="pre">TObjInObjArray</span></code> object.</p></li>
+<li><p>Pointer header before each <code class="docutils literal notranslate"><span class="pre">TObjInObjArray</span></code> object.</p></li>
 <li><p>Data members of <code class="docutils literal notranslate"><span class="pre">TObjInObjArray</span></code> object.</p></li>
 </ul>
 </li>
@@ -554,10 +554,9 @@ uproot-custom, and then show how to port the reader to C++.</p>
 <p>So we need such factories/readers to read the data:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">TObjArrayFactory</span></code>/<code class="docutils literal notranslate"><span class="pre">TObjArrayReader</span></code> to read <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> header and loop over <code class="docutils literal notranslate"><span class="pre">nobjects</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ObjectHeaderFactory</span></code>/<code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader</span></code> to read <code class="docutils literal notranslate"><span class="pre">ObjectHeader</span></code>, which are already implemented in uproot-custom.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code>/<code class="docutils literal notranslate"><span class="pre">AnyClassReader</span></code> to read <code class="docutils literal notranslate"><span class="pre">TObjInObjArray</span></code> object, which are already implemented in uproot-custom.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AnyPointerFactory</span></code>/<code class="docutils literal notranslate"><span class="pre">AnyPointerReader</span></code> to read the object stored as pointer, which are already implemented in uproot-custom. When the type name ends with <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">build_factory</span></code> automatically resolves to <code class="docutils literal notranslate"><span class="pre">AnyPointerFactory</span></code>, which in turn delegates to <code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code> to read the pointed object’s data members.</p></li>
 </ul>
-<p>The <code class="docutils literal notranslate"><span class="pre">TObjArrayFactory</span></code>/<code class="docutils literal notranslate"><span class="pre">TObjArrayReader</span></code> should be implemented by ourselves. Note that since we know the type of objects in the <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> is always <code class="docutils literal notranslate"><span class="pre">TObjInObjArray</span></code>, we can take just 1 <code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code>/<code class="docutils literal notranslate"><span class="pre">AnyClassReader</span></code> as sub-factory/sub-reader to read all objects. This is also a process that embedding user-known rules.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TObjArrayFactory</span></code>/<code class="docutils literal notranslate"><span class="pre">TObjArrayReader</span></code> should be implemented by ourselves. Since we know the type of objects in the <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> is always <code class="docutils literal notranslate"><span class="pre">TObjInObjArray</span></code>, we can pass <code class="docutils literal notranslate"><span class="pre">TObjInObjArray*</span></code> (with pointer suffix) to <code class="docutils literal notranslate"><span class="pre">build_factory</span></code>, and it will automatically create the appropriate <code class="docutils literal notranslate"><span class="pre">AnyPointerFactory</span></code> → <code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code> chain to read all objects. This is also a process of embedding user-known rules.</p>
 </section>
 <section id="step-2-implement-python-reader-to-read-binary-data">
 <h2>Step 2: Implement Python Reader to read binary data<a class="headerlink" href="#step-2-implement-python-reader-to-read-binary-data" title="Link to this heading">#</a></h2>
@@ -600,15 +599,15 @@ uproot-custom, and then show how to port the reader to C++.</p>
 <li><p>In <code class="docutils literal notranslate"><span class="pre">read</span></code> method, we read the <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> header, then call <code class="docutils literal notranslate"><span class="pre">element_reader.read_many</span></code> to read multiple <code class="docutils literal notranslate"><span class="pre">TObjInObjArray</span></code> objects in one go. Also, we record the offsets of each event in <code class="docutils literal notranslate"><span class="pre">offsets</span></code>.</p></li>
 <li><p>In <code class="docutils literal notranslate"><span class="pre">data</span></code> method, we return a tuple of <code class="docutils literal notranslate"><span class="pre">(offsets,</span> <span class="pre">element_data)</span></code>, where <code class="docutils literal notranslate"><span class="pre">offsets</span></code> is a 1D array of int64, <code class="docutils literal notranslate"><span class="pre">element_data</span></code> is the data returned by <code class="docutils literal notranslate"><span class="pre">element_reader</span></code>.</p></li>
 </ul>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>You should always use <code class="docutils literal notranslate"><span class="pre">IReader.read_many</span></code> method to read multiple objects in one go, since some classes (e.g. <code class="docutils literal notranslate"><span class="pre">std::vector</span></code>) may have “1 header + multiple objects” structure.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You should use <code class="docutils literal notranslate"><span class="pre">IReader.read_many</span></code> method to read multiple objects in one go, since some classes (e.g. <code class="docutils literal notranslate"><span class="pre">std::vector</span></code>) may have “1 header + multiple objects” structure.</p>
 </div>
 </section>
 <section id="step-3-implement-python-factory">
 <h2>Step 3: Implement Python Factory<a class="headerlink" href="#step-3-implement-python-factory" title="Link to this heading">#</a></h2>
 <p>Similar to <a class="reference internal" href="override-streamer.html"><span class="std std-doc">Example 1</span></a>, we need to identify the <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> branch and implement a corresponding Factory to use our <code class="docutils literal notranslate"><span class="pre">TObjArrayReader</span></code>.</p>
-<p>First, import necessary modules. Since we need to use <code class="docutils literal notranslate"><span class="pre">ObjectHeaderFactory</span></code> and <code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code>, some extra imports are needed:</p>
+<p>First, import necessary modules:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">awkward.contents</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">awkward.forms</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">awkward.index</span>
@@ -617,7 +616,6 @@ uproot-custom, and then show how to port the reader to C++.</p>
     <span class="n">Factory</span><span class="p">,</span>
     <span class="n">build_factory</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.factories</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnyClassFactory</span><span class="p">,</span> <span class="n">ObjectHeaderFactory</span>
 </pre></div>
 </div>
 <section id="implement-build-factory">
@@ -626,50 +624,49 @@ uproot-custom, and then show how to port the reader to C++.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">class</span><span class="w"> </span><span class="nc">TObjArrayFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
 <span class="linenos"> 2</span>    <span class="nd">@classmethod</span>
 <span class="hll"><span class="linenos"> 3</span>    <span class="k">def</span><span class="w"> </span><span class="nf">priority</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-</span><span class="hll"><span class="linenos"> 4</span>        <span class="k">return</span> <span class="mi">50</span>
-</span><span class="linenos"> 5</span>
-<span class="linenos"> 6</span>    <span class="nd">@classmethod</span>
-<span class="linenos"> 7</span>    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
-<span class="linenos"> 8</span>        <span class="bp">cls</span><span class="p">,</span>
-<span class="linenos"> 9</span>        <span class="n">top_type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-<span class="linenos">10</span>        <span class="n">cur_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
-<span class="linenos">11</span>        <span class="n">all_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
-<span class="linenos">12</span>        <span class="n">item_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-<span class="linenos">13</span>        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-<span class="linenos">14</span>    <span class="p">):</span>
-<span class="linenos">15</span>        <span class="k">if</span> <span class="n">top_type_name</span> <span class="o">!=</span> <span class="s2">&quot;TObjArray&quot;</span><span class="p">:</span>
-<span class="linenos">16</span>            <span class="k">return</span> <span class="kc">None</span>
-<span class="linenos">17</span>
-<span class="hll"><span class="linenos">18</span>        <span class="n">item_path</span> <span class="o">=</span> <span class="n">item_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.TObjArray*&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-</span><span class="hll"><span class="linenos">19</span>        <span class="n">obj_typename</span> <span class="o">=</span> <span class="s2">&quot;TObjInObjArray&quot;</span>
-</span><span class="linenos">20</span>
-<span class="hll"><span class="linenos">21</span>        <span class="n">sub_factories</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class="hll"><span class="linenos">22</span>        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">all_streamer_info</span><span class="p">[</span><span class="n">obj_typename</span><span class="p">]:</span>
-</span><span class="hll"><span class="linenos">23</span>            <span class="n">sub_factories</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-</span><span class="hll"><span class="linenos">24</span>                <span class="n">build_factory</span><span class="p">(</span>
-</span><span class="hll"><span class="linenos">25</span>                    <span class="n">cur_streamer_info</span><span class="o">=</span><span class="n">s</span><span class="p">,</span>
-</span><span class="hll"><span class="linenos">26</span>                    <span class="n">all_streamer_info</span><span class="o">=</span><span class="n">all_streamer_info</span><span class="p">,</span>
-</span><span class="hll"><span class="linenos">27</span>                    <span class="n">item_path</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">item_path</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">obj_typename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-</span><span class="hll"><span class="linenos">28</span>                <span class="p">)</span>
-</span><span class="hll"><span class="linenos">29</span>            <span class="p">)</span>
+</span><span class="hll"><span class="linenos"> 4</span><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span class="hll"><span class="linenos"> 5</span><span class="sd">        Set a higher priority to ensure this factory is chosen first,</span>
+</span><span class="hll"><span class="linenos"> 6</span><span class="sd">        otherwise the pre-defined factory of `uproot-custom` may be selected.</span>
+</span><span class="hll"><span class="linenos"> 7</span>
+</span><span class="hll"><span class="linenos"> 8</span><span class="sd">        The default priority is 10 for other factories.</span>
+</span><span class="hll"><span class="linenos"> 9</span><span class="sd">        &quot;&quot;&quot;</span>
+</span><span class="hll"><span class="linenos">10</span>        <span class="k">return</span> <span class="mi">50</span>
+</span><span class="linenos">11</span>
+<span class="linenos">12</span>    <span class="nd">@classmethod</span>
+<span class="linenos">13</span>    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+<span class="linenos">14</span>        <span class="bp">cls</span><span class="p">,</span>
+<span class="linenos">15</span>        <span class="n">top_type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="linenos">16</span>        <span class="n">cur_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+<span class="linenos">17</span>        <span class="n">all_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+<span class="linenos">18</span>        <span class="n">item_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="linenos">19</span>        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="linenos">20</span>    <span class="p">):</span>
+<span class="linenos">21</span>        <span class="c1"># `top_type_name` is the type name of the top-level object.</span>
+<span class="linenos">22</span>        <span class="k">if</span> <span class="n">top_type_name</span> <span class="o">!=</span> <span class="s2">&quot;TObjArray&quot;</span><span class="p">:</span>
+<span class="linenos">23</span>            <span class="k">return</span> <span class="kc">None</span>
+<span class="linenos">24</span>
+<span class="linenos">25</span>        <span class="c1"># `item_path` is the path of the current item being processed.</span>
+<span class="linenos">26</span>        <span class="c1"># Since `TObjArray` is designed to store any object, we can adjust the `item_path`</span>
+<span class="linenos">27</span>        <span class="c1"># to point to the actual object type stored in the array.</span>
+<span class="hll"><span class="linenos">28</span>        <span class="n">item_path</span> <span class="o">=</span> <span class="n">item_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.TObjArray*&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos">29</span>        <span class="n">obj_typename</span> <span class="o">=</span> <span class="s2">&quot;TObjInObjArray*&quot;</span>
 </span><span class="linenos">30</span>
-<span class="hll"><span class="linenos">31</span>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
-</span><span class="hll"><span class="linenos">32</span>            <span class="n">name</span><span class="o">=</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">],</span>
-</span><span class="hll"><span class="linenos">33</span>            <span class="n">element_factory</span><span class="o">=</span><span class="n">ObjectHeaderFactory</span><span class="p">(</span>
-</span><span class="hll"><span class="linenos">34</span>                <span class="n">name</span><span class="o">=</span><span class="n">obj_typename</span><span class="p">,</span>
-</span><span class="hll"><span class="linenos">35</span>                <span class="n">element_factory</span><span class="o">=</span><span class="n">AnyClassFactory</span><span class="p">(</span>
-</span><span class="hll"><span class="linenos">36</span>                    <span class="n">name</span><span class="o">=</span><span class="n">obj_typename</span><span class="p">,</span>
-</span><span class="hll"><span class="linenos">37</span>                    <span class="n">sub_factories</span><span class="o">=</span><span class="n">sub_factories</span><span class="p">,</span>
-</span><span class="hll"><span class="linenos">38</span>                <span class="p">),</span>
-</span><span class="hll"><span class="linenos">39</span>            <span class="p">),</span>
-</span><span class="hll"><span class="linenos">40</span>        <span class="p">)</span>
-</span></pre></div>
+<span class="hll"><span class="linenos">31</span>        <span class="n">element_factory</span> <span class="o">=</span> <span class="n">build_factory</span><span class="p">(</span>
+</span><span class="hll"><span class="linenos">32</span>            <span class="n">cur_streamer_info</span><span class="o">=</span><span class="p">{</span>
+</span><span class="hll"><span class="linenos">33</span>                <span class="s2">&quot;fName&quot;</span><span class="p">:</span> <span class="n">obj_typename</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">34</span>                <span class="s2">&quot;fTypeName&quot;</span><span class="p">:</span> <span class="n">obj_typename</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">35</span>            <span class="p">},</span>
+</span><span class="hll"><span class="linenos">36</span>            <span class="n">all_streamer_info</span><span class="o">=</span><span class="n">all_streamer_info</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">37</span>            <span class="n">item_path</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">item_path</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">obj_typename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">38</span>        <span class="p">)</span>
+</span><span class="linenos">39</span>
+<span class="linenos">40</span>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">],</span> <span class="n">element_factory</span><span class="o">=</span><span class="n">element_factory</span><span class="p">)</span>
+</pre></div>
 </div>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">3-4</span></code>: Override <code class="docutils literal notranslate"><span class="pre">priority</span></code> method to give a higher priority than the factories with default priority <code class="docutils literal notranslate"><span class="pre">10</span></code>, so that our factory can be chosen first.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">18-19</span></code>: Fix the <code class="docutils literal notranslate"><span class="pre">item_path</span></code>, otherwise the <code class="docutils literal notranslate"><span class="pre">.TObjArray*</span></code> suffix will be kept to the final awkward arrays.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">21-29</span></code>: Prepare the <code class="docutils literal notranslate"><span class="pre">sub_configs</span></code> for <code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code> to read <code class="docutils literal notranslate"><span class="pre">TObjInObjArray</span></code> objects.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">31-40</span></code>: Combine <code class="docutils literal notranslate"><span class="pre">ObjectHeaderFactory</span></code> and <code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code> as the <code class="docutils literal notranslate"><span class="pre">element_config</span></code> to read each object in the <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code>.</p></li>
+<li><p>Line 3-10: Override <code class="docutils literal notranslate"><span class="pre">priority</span></code> method to give a higher priority than the factories with default priority 10, so that our factory can be chosen first.</p></li>
+<li><p>Line 28-29: Fix the <code class="docutils literal notranslate"><span class="pre">item_path</span></code>, otherwise the <code class="docutils literal notranslate"><span class="pre">.TObjArray*</span></code> suffix will be kept to the final awkward arrays. Set <code class="docutils literal notranslate"><span class="pre">obj_typename</span></code> to <code class="docutils literal notranslate"><span class="pre">TObjInObjArray*</span></code> with the <code class="docutils literal notranslate"><span class="pre">*</span></code> suffix so that <code class="docutils literal notranslate"><span class="pre">build_factory</span></code> automatically resolves to <code class="docutils literal notranslate"><span class="pre">AnyPointerFactory</span></code>.</p></li>
+<li><p>Line 31-38: Call <code class="docutils literal notranslate"><span class="pre">build_factory</span></code> to build the element factory. The <code class="docutils literal notranslate"><span class="pre">*</span></code> suffix in <code class="docutils literal notranslate"><span class="pre">TObjInObjArray*</span></code> triggers <code class="docutils literal notranslate"><span class="pre">AnyPointerFactory</span></code>, which automatically handles the pointer header and delegates to <code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code> for reading the actual data members. There is no need to manually construct <code class="docutils literal notranslate"><span class="pre">AnyPointerFactory</span></code> or <code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code> — <code class="docutils literal notranslate"><span class="pre">build_factory</span></code> handles the entire chain automatically.</p></li>
 </ul>
 </section>
 <section id="implement-constructor">
@@ -690,8 +687,8 @@ uproot-custom, and then show how to port the reader to C++.</p>
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>In <code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">2</span></code>, we use <code class="docutils literal notranslate"><span class="pre">self.element_factory.build_python_reader</span></code> to create the <code class="docutils literal notranslate"><span class="pre">element_reader</span></code>. Here, <code class="docutils literal notranslate"><span class="pre">ObjectHeaderFactory</span></code>, then <code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code> are called to create corresponding sub-readers.</p></li>
-<li><p>In <code class="docutils literal notranslate"><span class="pre">Line</span> <span class="pre">3</span></code>, we just create an instance of <code class="docutils literal notranslate"><span class="pre">TObjArrayReader</span></code>, passing the <code class="docutils literal notranslate"><span class="pre">element_reader</span></code> to it.</p></li>
+<li><p>In line 2, we use <code class="docutils literal notranslate"><span class="pre">self.element_factory.build_python_reader</span></code> to create the <code class="docutils literal notranslate"><span class="pre">element_reader</span></code>. Here, <code class="docutils literal notranslate"><span class="pre">AnyPointerFactory.build_python_reader</span></code> is called (since <code class="docutils literal notranslate"><span class="pre">TObjInObjArray*</span></code> matched <code class="docutils literal notranslate"><span class="pre">AnyPointerFactory</span></code>), which in turn calls <code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_python_reader</span></code> to create the reader chain.</p></li>
+<li><p>In line 3, we just create an instance of <code class="docutils literal notranslate"><span class="pre">TObjArrayReader</span></code>, passing the <code class="docutils literal notranslate"><span class="pre">element_reader</span></code> to it.</p></li>
 </ul>
 </section>
 <section id="implement-make-awkward-content">
@@ -719,6 +716,7 @@ uproot-custom, and then show how to port the reader to C++.</p>
     <span class="p">)</span>
 </pre></div>
 </div>
+<p>This will be used when users try to access the array lazily, e.g. using <code class="docutils literal notranslate"><span class="pre">uproot.dask</span></code> or <code class="docutils literal notranslate"><span class="pre">b.array(virtual=True)</span></code>.</p>
 </section>
 </section>
 <section id="step-4-register-target-branch-and-the-factory">
@@ -757,7 +755,7 @@ version</strong> — the same fields read in the same order, and <code class="do
 the same structure.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p>See <a class="reference internal" href="#../../tutorial/customize-factory-reader/port-to-cpp.md"><code class="xref myst docutils literal notranslate"><span class="pre">../../tutorial/customize-factory-reader/port-to-cpp.md</span></code></a> for the full
+<p>See <a class="reference internal" href="../tutorial/customize-factory-reader/port-to-cpp.html"><span class="std std-doc">Port readers to C++</span></a> for the full
 C++ reader API reference (IReader, BinaryStream, pybind11 bindings).</p>
 </div>
 <div class="literal-block-wrapper docutils container" id="id4">
@@ -813,12 +811,9 @@ default C++ backend for production:</p>
 <span class="n">fac</span><span class="o">.</span><span class="n">reader_backend</span> <span class="o">=</span> <span class="s2">&quot;cpp&quot;</span>  <span class="c1"># this is the default, so you can also just remove the line</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-The factory&#39;s `make_awkward_content` and `make_awkward_form` remain exactly
+<p>The factory’s <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code> and <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code> remain exactly
 the same — they work identically regardless of which backend is used,
-because both readers return data in the same structure.
-</pre></div>
-</div>
+because both readers return data in the same structure.</p>
 </section>
 </section>
 

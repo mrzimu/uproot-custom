@@ -1,0 +1,300 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classuproot__custom_1_1_c_style_array_reader" kind="class" language="C++" prot="public">
+    <compoundname>uproot_custom::CStyleArrayReader</compoundname>
+    <basecompoundref refid="classuproot__custom_1_1_i_reader" prot="public" virt="non-virtual">uproot_custom::IReader</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classuproot__custom_1_1_c_style_array_reader_1a1bdde589e07b586e25ebeb887b5b24a1" prot="private" static="no" mutable="no">
+        <type><ref refid="classuproot__custom_1_1_c_style_array_reader_1aab8b2ffca5c9c9fc3383c0b8a8caf9a4" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_c_style_array_reader_1aab8b2ffca5c9c9fc3383c0b8a8caf9a4" kindref="member">int64_t</ref></type>
+        <definition>const int64_t uproot_custom::CStyleArrayReader::m_flat_size</definition>
+        <argsstring></argsstring>
+        <name>m_flat_size</name>
+        <qualifiedname>uproot_custom::CStyleArrayReader::m_flat_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flatten size of the array. If negative, means variable size. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1177" column="23" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuproot__custom_1_1_c_style_array_reader_1aa7b5dcdd81010bdfd2a96c3bca88280e" prot="private" static="no" mutable="no">
+        <type>SharedVector&lt; <ref refid="classuproot__custom_1_1_c_style_array_reader_1aab8b2ffca5c9c9fc3383c0b8a8caf9a4" kindref="member">int64_t</ref> &gt;</type>
+        <definition>SharedVector&lt;int64_t&gt; uproot_custom::CStyleArrayReader::m_offsets</definition>
+        <argsstring></argsstring>
+        <name>m_offsets</name>
+        <qualifiedname>uproot_custom::CStyleArrayReader::m_offsets</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Store the offsets for each array (only used when variable size). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1179" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuproot__custom_1_1_c_style_array_reader_1ae214ed476b9e6e4109c45cfa41f15ff8" prot="private" static="no" mutable="no">
+        <type>SharedReader</type>
+        <definition>SharedReader uproot_custom::CStyleArrayReader::m_element_reader</definition>
+        <argsstring></argsstring>
+        <name>m_element_reader</name>
+        <qualifiedname>uproot_custom::CStyleArrayReader::m_element_reader</qualifiedname>
+        <briefdescription>
+<para>Reader for the array elements. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1181" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classuproot__custom_1_1_c_style_array_reader_1adae5dc704e206ed061a229da9a9d077f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>uproot_custom::CStyleArrayReader::CStyleArrayReader</definition>
+        <argsstring>(string name, const int64_t flat_size, SharedReader element_reader)</argsstring>
+        <name>CStyleArrayReader</name>
+        <qualifiedname>uproot_custom::CStyleArrayReader::CStyleArrayReader</qualifiedname>
+        <param>
+          <type>string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="classuproot__custom_1_1_c_style_array_reader_1aab8b2ffca5c9c9fc3383c0b8a8caf9a4" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_c_style_array_reader_1aab8b2ffca5c9c9fc3383c0b8a8caf9a4" kindref="member">int64_t</ref></type>
+          <declname>flat_size</declname>
+        </param>
+        <param>
+          <type>SharedReader</type>
+          <declname>element_reader</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new <ref refid="classuproot__custom_1_1_c_style_array_reader" kindref="compound">CStyleArrayReader</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the reader. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>flat_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flatten size of the array. If negative, means variable size. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>element_reader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reader for the array elements. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1191" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1191" bodyend="1195"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot__custom_1_1_c_style_array_reader_1aab8b2ffca5c9c9fc3383c0b8a8caf9a4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void uproot_custom::CStyleArrayReader::read</definition>
+        <argsstring>(BinaryStream &amp;stream) override</argsstring>
+        <name>read</name>
+        <qualifiedname>uproot_custom::CStyleArrayReader::read</qualifiedname>
+        <reimplements refid="classuproot__custom_1_1_i_reader_1ac8822798d3f8cb1a7a482be880148c7d">read</reimplements>
+        <param>
+          <type><ref refid="classuproot__custom_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <briefdescription>
+<para>Read the array from the stream. If m_flat_size is positive, calls <ref refid="classuproot__custom_1_1_i_reader_1aa85d5dd80295affa44accc13407f8ae3" kindref="member">IReader::read_many()</ref> function of m_element_reader. Otherwise, reads until the end of the current entry in the stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary stream to read from. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1204" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1204" bodyend="1227"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot__custom_1_1_c_style_array_reader_1a2fec18b074e947d740895cd38f50f3bb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classuproot__custom_1_1_c_style_array_reader_1aab8b2ffca5c9c9fc3383c0b8a8caf9a4" kindref="member">uint32_t</ref></type>
+        <definition>uint32_t uproot_custom::CStyleArrayReader::read_many</definition>
+        <argsstring>(BinaryStream &amp;stream, const int64_t count) override</argsstring>
+        <name>read_many</name>
+        <qualifiedname>uproot_custom::CStyleArrayReader::read_many</qualifiedname>
+        <reimplements refid="classuproot__custom_1_1_i_reader_1aa85d5dd80295affa44accc13407f8ae3">read_many</reimplements>
+        <param>
+          <type><ref refid="classuproot__custom_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type><ref refid="classuproot__custom_1_1_c_style_array_reader_1aab8b2ffca5c9c9fc3383c0b8a8caf9a4" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_c_style_array_reader_1aab8b2ffca5c9c9fc3383c0b8a8caf9a4" kindref="member">int64_t</ref></type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Read multiple arrays from the stream. Only supported when m_flat_size is positive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary stream to read from. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of arrays to read. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of arrays read. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1237" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1237" bodyend="1255"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot__custom_1_1_c_style_array_reader_1a32a25c4d14c1a85fdc0f3b158d463b66" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classuproot__custom_1_1_c_style_array_reader_1aab8b2ffca5c9c9fc3383c0b8a8caf9a4" kindref="member">uint32_t</ref></type>
+        <definition>uint32_t uproot_custom::CStyleArrayReader::read_until</definition>
+        <argsstring>(BinaryStream &amp;stream, const uint8_t *end_pos) override</argsstring>
+        <name>read_until</name>
+        <qualifiedname>uproot_custom::CStyleArrayReader::read_until</qualifiedname>
+        <reimplements refid="classuproot__custom_1_1_i_reader_1a52b162cf71b6e4683dc69fa4f049380e">read_until</reimplements>
+        <param>
+          <type><ref refid="classuproot__custom_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type><ref refid="classuproot__custom_1_1_c_style_array_reader_1aab8b2ffca5c9c9fc3383c0b8a8caf9a4" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_c_style_array_reader_1aab8b2ffca5c9c9fc3383c0b8a8caf9a4" kindref="member">uint8_t</ref> *</type>
+          <declname>end_pos</declname>
+        </param>
+        <briefdescription>
+<para>Read arrays from the stream until reaching the end position. Not supported. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary stream to read from. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The end position to stop reading. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of arrays read.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Always thrown since this method is not supported. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1266" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1266" bodyend="1268"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot__custom_1_1_c_style_array_reader_1a4d8276a6fecee93ac0dbd31bf095700c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>py::object</type>
+        <definition>py::object uproot_custom::CStyleArrayReader::data</definition>
+        <argsstring>() const override</argsstring>
+        <name>data</name>
+        <qualifiedname>uproot_custom::CStyleArrayReader::data</qualifiedname>
+        <reimplements refid="classuproot__custom_1_1_i_reader_1abe6fc7a4622ba3f2fd839e0ab6e7bc21">data</reimplements>
+        <briefdescription>
+<para>Get the data read by the reader. This should be called after the whole reading process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>If m_flat_size is positive, directly return the data from m_element_reader. Otherwise, return a tuple contains: (offsets, elements_data). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1277" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1277" bodyend="1285"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Reader for C-style arrays and std::array. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>uproot_custom::CStyleArrayReader</label>
+        <link refid="classuproot__custom_1_1_c_style_array_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>uproot_custom::IReader</label>
+        <link refid="classuproot__custom_1_1_i_reader"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>uproot_custom::CStyleArrayReader</label>
+        <link refid="classuproot__custom_1_1_c_style_array_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>uproot_custom::IReader</label>
+        <link refid="classuproot__custom_1_1_i_reader"/>
+      </node>
+    </collaborationgraph>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1175" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1175" bodyend="1286"/>
+    <listofallmembers>
+      <member refid="classuproot__custom_1_1_c_style_array_reader_1adae5dc704e206ed061a229da9a9d077f" prot="public" virt="non-virtual"><scope>uproot_custom::CStyleArrayReader</scope><name>CStyleArrayReader</name></member>
+      <member refid="classuproot__custom_1_1_c_style_array_reader_1a4d8276a6fecee93ac0dbd31bf095700c" prot="public" virt="virtual"><scope>uproot_custom::CStyleArrayReader</scope><name>data</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1ad69385766531eebfbd53945817ef88b2" prot="public" virt="non-virtual"><scope>uproot_custom::CStyleArrayReader</scope><name>IReader</name></member>
+      <member refid="classuproot__custom_1_1_c_style_array_reader_1ae214ed476b9e6e4109c45cfa41f15ff8" prot="private" virt="non-virtual"><scope>uproot_custom::CStyleArrayReader</scope><name>m_element_reader</name></member>
+      <member refid="classuproot__custom_1_1_c_style_array_reader_1a1bdde589e07b586e25ebeb887b5b24a1" prot="private" virt="non-virtual"><scope>uproot_custom::CStyleArrayReader</scope><name>m_flat_size</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1ad76b2b787ce86e4e620a9566ba9c9897" prot="protected" virt="non-virtual"><scope>uproot_custom::CStyleArrayReader</scope><name>m_name</name></member>
+      <member refid="classuproot__custom_1_1_c_style_array_reader_1aa7b5dcdd81010bdfd2a96c3bca88280e" prot="private" virt="non-virtual"><scope>uproot_custom::CStyleArrayReader</scope><name>m_offsets</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a0056e5117c53b20ece09f8d8c44cf7dd" prot="public" virt="virtual"><scope>uproot_custom::CStyleArrayReader</scope><name>name</name></member>
+      <member refid="classuproot__custom_1_1_c_style_array_reader_1aab8b2ffca5c9c9fc3383c0b8a8caf9a4" prot="public" virt="virtual"><scope>uproot_custom::CStyleArrayReader</scope><name>read</name></member>
+      <member refid="classuproot__custom_1_1_c_style_array_reader_1a2fec18b074e947d740895cd38f50f3bb" prot="public" virt="virtual"><scope>uproot_custom::CStyleArrayReader</scope><name>read_many</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a0fb685f7b39765e0eac7b20510254fb3" prot="public" virt="virtual"><scope>uproot_custom::CStyleArrayReader</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot__custom_1_1_c_style_array_reader_1a32a25c4d14c1a85fdc0f3b158d463b66" prot="public" virt="virtual"><scope>uproot_custom::CStyleArrayReader</scope><name>read_until</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a04ba536e1869fb9dbe0983d88bfcd56f" prot="public" virt="virtual"><scope>uproot_custom::CStyleArrayReader</scope><name>~IReader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

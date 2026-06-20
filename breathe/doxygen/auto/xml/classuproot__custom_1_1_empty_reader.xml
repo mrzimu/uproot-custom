@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classuproot__custom_1_1_empty_reader" kind="class" language="C++" prot="public">
+    <compoundname>uproot_custom::EmptyReader</compoundname>
+    <basecompoundref refid="classuproot__custom_1_1_i_reader" prot="public" virt="non-virtual">uproot_custom::IReader</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classuproot__custom_1_1_empty_reader_1a70dd6ab2b8f6507a9594c9c957b3b843" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>uproot_custom::EmptyReader::EmptyReader</definition>
+        <argsstring>(string name)</argsstring>
+        <name>EmptyReader</name>
+        <qualifiedname>uproot_custom::EmptyReader::EmptyReader</qualifiedname>
+        <param>
+          <type>string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new <ref refid="classuproot__custom_1_1_empty_reader" kindref="compound">EmptyReader</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the reader. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1304" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1304" bodyend="1304"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot__custom_1_1_empty_reader_1a80059af575099ae0a261f2ff36f8ed7b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void uproot_custom::EmptyReader::read</definition>
+        <argsstring>(BinaryStream &amp;) override</argsstring>
+        <name>read</name>
+        <qualifiedname>uproot_custom::EmptyReader::read</qualifiedname>
+        <reimplements refid="classuproot__custom_1_1_i_reader_1ac8822798d3f8cb1a7a482be880148c7d">read</reimplements>
+        <param>
+          <type><ref refid="classuproot__custom_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
+        </param>
+        <briefdescription>
+<para>Do nothing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1309" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1309" bodyend="1309"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot__custom_1_1_empty_reader_1a14c29d7b2e83c99cb3edb8bd4b44c431" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>py::object</type>
+        <definition>py::object uproot_custom::EmptyReader::data</definition>
+        <argsstring>() const override</argsstring>
+        <name>data</name>
+        <qualifiedname>uproot_custom::EmptyReader::data</qualifiedname>
+        <reimplements refid="classuproot__custom_1_1_i_reader_1abe6fc7a4622ba3f2fd839e0ab6e7bc21">data</reimplements>
+        <briefdescription>
+<para>Return None. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1314" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1314" bodyend="1314"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Reader that does nothing and returns None. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>uproot_custom::EmptyReader</label>
+        <link refid="classuproot__custom_1_1_empty_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>uproot_custom::IReader</label>
+        <link refid="classuproot__custom_1_1_i_reader"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>uproot_custom::EmptyReader</label>
+        <link refid="classuproot__custom_1_1_empty_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>uproot_custom::IReader</label>
+        <link refid="classuproot__custom_1_1_i_reader"/>
+      </node>
+    </collaborationgraph>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1297" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1297" bodyend="1315"/>
+    <listofallmembers>
+      <member refid="classuproot__custom_1_1_empty_reader_1a14c29d7b2e83c99cb3edb8bd4b44c431" prot="public" virt="virtual"><scope>uproot_custom::EmptyReader</scope><name>data</name></member>
+      <member refid="classuproot__custom_1_1_empty_reader_1a70dd6ab2b8f6507a9594c9c957b3b843" prot="public" virt="non-virtual"><scope>uproot_custom::EmptyReader</scope><name>EmptyReader</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1ad69385766531eebfbd53945817ef88b2" prot="public" virt="non-virtual"><scope>uproot_custom::EmptyReader</scope><name>IReader</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1ad76b2b787ce86e4e620a9566ba9c9897" prot="protected" virt="non-virtual"><scope>uproot_custom::EmptyReader</scope><name>m_name</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a0056e5117c53b20ece09f8d8c44cf7dd" prot="public" virt="virtual"><scope>uproot_custom::EmptyReader</scope><name>name</name></member>
+      <member refid="classuproot__custom_1_1_empty_reader_1a80059af575099ae0a261f2ff36f8ed7b" prot="public" virt="virtual"><scope>uproot_custom::EmptyReader</scope><name>read</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1aa85d5dd80295affa44accc13407f8ae3" prot="public" virt="virtual"><scope>uproot_custom::EmptyReader</scope><name>read_many</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a0fb685f7b39765e0eac7b20510254fb3" prot="public" virt="virtual"><scope>uproot_custom::EmptyReader</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a52b162cf71b6e4683dc69fa4f049380e" prot="public" virt="virtual"><scope>uproot_custom::EmptyReader</scope><name>read_until</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a04ba536e1869fb9dbe0983d88bfcd56f" prot="public" virt="virtual"><scope>uproot_custom::EmptyReader</scope><name>~IReader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

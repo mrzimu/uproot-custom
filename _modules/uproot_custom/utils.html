@@ -775,8 +775,6 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="get_top_type_name">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.utils.get_top_type_name">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_top_type_name</span><span class="p">(</span><span class="n">type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">type_name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">):</span>
-        <span class="n">type_name</span> <span class="o">=</span> <span class="n">type_name</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="n">type_name</span> <span class="o">=</span> <span class="n">type_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;std::&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">type_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;&lt;&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 

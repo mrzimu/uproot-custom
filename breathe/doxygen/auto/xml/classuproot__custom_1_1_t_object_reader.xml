@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classuproot__custom_1_1_t_object_reader" kind="class" language="C++" prot="public">
+    <compoundname>uproot_custom::TObjectReader</compoundname>
+    <basecompoundref refid="classuproot__custom_1_1_i_reader" prot="public" virt="non-virtual">uproot_custom::IReader</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classuproot__custom_1_1_t_object_reader_1aad074aa886339fc21de79d5a57709d2e" prot="private" static="no" mutable="no">
+        <type><ref refid="classuproot__custom_1_1_t_object_reader_1ad5da86c41b86791523eeead3e170e5a8" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_t_object_reader_1ad5da86c41b86791523eeead3e170e5a8" kindref="member">bool</ref></type>
+        <definition>const bool uproot_custom::TObjectReader::m_keep_data</definition>
+        <argsstring></argsstring>
+        <name>m_keep_data</name>
+        <qualifiedname>uproot_custom::TObjectReader::m_keep_data</qualifiedname>
+        <briefdescription>
+<para>Whether to keep the read data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="70" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuproot__custom_1_1_t_object_reader_1a1ae3b029adc608a75fd004dab5da6048" prot="private" static="no" mutable="no">
+        <type>SharedVector&lt; <ref refid="classuproot__custom_1_1_t_object_reader_1ad5da86c41b86791523eeead3e170e5a8" kindref="member">int32_t</ref> &gt;</type>
+        <definition>SharedVector&lt;int32_t&gt; uproot_custom::TObjectReader::m_unique_id</definition>
+        <argsstring></argsstring>
+        <name>m_unique_id</name>
+        <qualifiedname>uproot_custom::TObjectReader::m_unique_id</qualifiedname>
+        <briefdescription>
+<para>Store fUniqueID values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="71" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuproot__custom_1_1_t_object_reader_1a9dbb0cc514188c610f3d07675995699f" prot="private" static="no" mutable="no">
+        <type>SharedVector&lt; <ref refid="classuproot__custom_1_1_t_object_reader_1ad5da86c41b86791523eeead3e170e5a8" kindref="member">uint32_t</ref> &gt;</type>
+        <definition>SharedVector&lt;uint32_t&gt; uproot_custom::TObjectReader::m_bits</definition>
+        <argsstring></argsstring>
+        <name>m_bits</name>
+        <qualifiedname>uproot_custom::TObjectReader::m_bits</qualifiedname>
+        <briefdescription>
+<para>Store fBits values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="72" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuproot__custom_1_1_t_object_reader_1ab9910090e8ee7ca22945ec8b5d8adba0" prot="private" static="no" mutable="no">
+        <type>SharedVector&lt; <ref refid="classuproot__custom_1_1_t_object_reader_1ad5da86c41b86791523eeead3e170e5a8" kindref="member">uint16_t</ref> &gt;</type>
+        <definition>SharedVector&lt;uint16_t&gt; uproot_custom::TObjectReader::m_pidf</definition>
+        <argsstring></argsstring>
+        <name>m_pidf</name>
+        <qualifiedname>uproot_custom::TObjectReader::m_pidf</qualifiedname>
+        <briefdescription>
+<para>Store pidf values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="73" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuproot__custom_1_1_t_object_reader_1a5b7a10123689b731da388f71c9263d68" prot="private" static="no" mutable="no">
+        <type>SharedVector&lt; <ref refid="classuproot__custom_1_1_t_object_reader_1ad5da86c41b86791523eeead3e170e5a8" kindref="member">int64_t</ref> &gt;</type>
+        <definition>SharedVector&lt;int64_t&gt; uproot_custom::TObjectReader::m_pidf_offsets</definition>
+        <argsstring></argsstring>
+        <name>m_pidf_offsets</name>
+        <qualifiedname>uproot_custom::TObjectReader::m_pidf_offsets</qualifiedname>
+        <briefdescription>
+<para>Store offsets for pidf. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="74" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classuproot__custom_1_1_t_object_reader_1a4e102245ff116a8fe0a5d1d83bbd2be4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>uproot_custom::TObjectReader::TObjectReader</definition>
+        <argsstring>(string name, bool keep_data)</argsstring>
+        <name>TObjectReader</name>
+        <qualifiedname>uproot_custom::TObjectReader::TObjectReader</qualifiedname>
+        <param>
+          <type>string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="classuproot__custom_1_1_t_object_reader_1ad5da86c41b86791523eeead3e170e5a8" kindref="member">bool</ref></type>
+          <declname>keep_data</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new <ref refid="classuproot__custom_1_1_t_object_reader" kindref="compound">TObjectReader</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the reader </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keep_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to keep the read data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="83" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="83" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot__custom_1_1_t_object_reader_1ad5da86c41b86791523eeead3e170e5a8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void uproot_custom::TObjectReader::read</definition>
+        <argsstring>(BinaryStream &amp;stream) override</argsstring>
+        <name>read</name>
+        <qualifiedname>uproot_custom::TObjectReader::read</qualifiedname>
+        <reimplements refid="classuproot__custom_1_1_i_reader_1ac8822798d3f8cb1a7a482be880148c7d">read</reimplements>
+        <param>
+          <type><ref refid="classuproot__custom_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <briefdescription>
+<para>Read a TObject from the stream. A TObject contains <computeroutput>fVersion</computeroutput> (int16_t), <computeroutput>fUniqueID</computeroutput> (int32_t), <computeroutput>fBits</computeroutput> (uint32_t). If <computeroutput>fBits &amp; kIsReferenced</computeroutput>, then a <computeroutput>pidf</computeroutput> (uint16_t) follows. If m_keep_data is true, the read data will be stored. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary stream to read from </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="99" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="99" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot__custom_1_1_t_object_reader_1a299f3062b1b37f5f95f01d0b6a4e3637" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>py::object</type>
+        <definition>py::object uproot_custom::TObjectReader::data</definition>
+        <argsstring>() const override</argsstring>
+        <name>data</name>
+        <qualifiedname>uproot_custom::TObjectReader::data</qualifiedname>
+        <reimplements refid="classuproot__custom_1_1_i_reader_1abe6fc7a4622ba3f2fd839e0ab6e7bc21">data</reimplements>
+        <briefdescription>
+<para>Get the data read by the reader. This should be called after the whole reading process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>If m_keep_data is true, returns a tuple of numpy arrays: (unique_id, bits, pidf, pidf_offsets). Otherwise, returns None. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="125" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="125" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Reader for TObject. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>uproot_custom::IReader</label>
+        <link refid="classuproot__custom_1_1_i_reader"/>
+      </node>
+      <node id="1">
+        <label>uproot_custom::TObjectReader</label>
+        <link refid="classuproot__custom_1_1_t_object_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>uproot_custom::IReader</label>
+        <link refid="classuproot__custom_1_1_i_reader"/>
+      </node>
+      <node id="1">
+        <label>uproot_custom::TObjectReader</label>
+        <link refid="classuproot__custom_1_1_t_object_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="68" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="68" bodyend="134"/>
+    <listofallmembers>
+      <member refid="classuproot__custom_1_1_t_object_reader_1a299f3062b1b37f5f95f01d0b6a4e3637" prot="public" virt="virtual"><scope>uproot_custom::TObjectReader</scope><name>data</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1ad69385766531eebfbd53945817ef88b2" prot="public" virt="non-virtual"><scope>uproot_custom::TObjectReader</scope><name>IReader</name></member>
+      <member refid="classuproot__custom_1_1_t_object_reader_1a9dbb0cc514188c610f3d07675995699f" prot="private" virt="non-virtual"><scope>uproot_custom::TObjectReader</scope><name>m_bits</name></member>
+      <member refid="classuproot__custom_1_1_t_object_reader_1aad074aa886339fc21de79d5a57709d2e" prot="private" virt="non-virtual"><scope>uproot_custom::TObjectReader</scope><name>m_keep_data</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1ad76b2b787ce86e4e620a9566ba9c9897" prot="protected" virt="non-virtual"><scope>uproot_custom::TObjectReader</scope><name>m_name</name></member>
+      <member refid="classuproot__custom_1_1_t_object_reader_1ab9910090e8ee7ca22945ec8b5d8adba0" prot="private" virt="non-virtual"><scope>uproot_custom::TObjectReader</scope><name>m_pidf</name></member>
+      <member refid="classuproot__custom_1_1_t_object_reader_1a5b7a10123689b731da388f71c9263d68" prot="private" virt="non-virtual"><scope>uproot_custom::TObjectReader</scope><name>m_pidf_offsets</name></member>
+      <member refid="classuproot__custom_1_1_t_object_reader_1a1ae3b029adc608a75fd004dab5da6048" prot="private" virt="non-virtual"><scope>uproot_custom::TObjectReader</scope><name>m_unique_id</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a0056e5117c53b20ece09f8d8c44cf7dd" prot="public" virt="virtual"><scope>uproot_custom::TObjectReader</scope><name>name</name></member>
+      <member refid="classuproot__custom_1_1_t_object_reader_1ad5da86c41b86791523eeead3e170e5a8" prot="public" virt="virtual"><scope>uproot_custom::TObjectReader</scope><name>read</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1aa85d5dd80295affa44accc13407f8ae3" prot="public" virt="virtual"><scope>uproot_custom::TObjectReader</scope><name>read_many</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a0fb685f7b39765e0eac7b20510254fb3" prot="public" virt="virtual"><scope>uproot_custom::TObjectReader</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a52b162cf71b6e4683dc69fa4f049380e" prot="public" virt="virtual"><scope>uproot_custom::TObjectReader</scope><name>read_until</name></member>
+      <member refid="classuproot__custom_1_1_t_object_reader_1a4e102245ff116a8fe0a5d1d83bbd2be4" prot="public" virt="non-virtual"><scope>uproot_custom::TObjectReader</scope><name>TObjectReader</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a04ba536e1869fb9dbe0983d88bfcd56f" prot="public" virt="virtual"><scope>uproot_custom::TObjectReader</scope><name>~IReader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

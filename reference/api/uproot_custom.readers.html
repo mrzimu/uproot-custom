@@ -355,7 +355,6 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.Int32Reader"><code class="docutils literal notranslate"><span class="pre">Int32Reader</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.Int64Reader"><code class="docutils literal notranslate"><span class="pre">Int64Reader</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.Int8Reader"><code class="docutils literal notranslate"><span class="pre">Int8Reader</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.ObjectHeaderReader"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.STLMapReader"><code class="docutils literal notranslate"><span class="pre">STLMapReader</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.STLSeqReader"><code class="docutils literal notranslate"><span class="pre">STLSeqReader</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.STLStringReader"><code class="docutils literal notranslate"><span class="pre">STLStringReader</span></code></a></li>
@@ -438,11 +437,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.IReader.read_many"><code class="docutils literal notranslate"><span class="pre">IReader.read_many()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.IReader.read_many_memberwise"><code class="docutils literal notranslate"><span class="pre">IReader.read_many_memberwise()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.IReader.read_until"><code class="docutils literal notranslate"><span class="pre">IReader.read_until()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.ObjectHeaderReader"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.ObjectHeaderReader.data"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader.data()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.ObjectHeaderReader.read"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader.read()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.PrimitiveReader"><code class="docutils literal notranslate"><span class="pre">PrimitiveReader</span></code></a><ul class="nav section-nav flex-column">
@@ -600,12 +594,6 @@
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="uproot_custom.readers.cpp.ObjectHeaderReader">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">ObjectHeaderReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.ObjectHeaderReader" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
-</dd></dl>
-
-<dl class="py class">
 <dt class="sig sig-object py" id="uproot_custom.readers.cpp.STLMapReader">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">STLMapReader</span></span><a class="headerlink" href="#uproot_custom.readers.cpp.STLMapReader" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.cpp.IReader" title="uproot_custom.cpp.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
@@ -697,7 +685,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="uproot_custom.readers.cpp.read_data">
-<span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">read_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data:</span> <span class="pre">typing.Annotated[numpy.typing.ArrayLike,</span> <span class="pre">numpy.uint8],</span> <span class="pre">offsets:</span> <span class="pre">typing.Annotated[numpy.typing.ArrayLike,</span> <span class="pre">numpy.uint32],</span> <span class="pre">cursor_offset:</span> <span class="pre">typing.SupportsInt</span> <span class="pre">|</span> <span class="pre">typing.SupportsIndex,</span> <span class="pre">reader:</span> <span class="pre">uproot::IReader</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="headerlink" href="#uproot_custom.readers.cpp.read_data" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.cpp.</span></span><span class="sig-name descname"><span class="pre">read_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data:</span> <span class="pre">typing.Annotated[numpy.typing.ArrayLike,</span> <span class="pre">numpy.uint8],</span> <span class="pre">offsets:</span> <span class="pre">typing.Annotated[numpy.typing.ArrayLike,</span> <span class="pre">numpy.uint32],</span> <span class="pre">cursor_offset:</span> <span class="pre">typing.SupportsInt</span> <span class="pre">|</span> <span class="pre">typing.SupportsIndex,</span> <span class="pre">reader:</span> <span class="pre">uproot_custom::IReader</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="headerlink" href="#uproot_custom.readers.cpp.read_data" title="Link to this definition">#</a></dt>
 <dd><p>Read data from a binary stream</p>
 </dd></dl>
 
@@ -987,22 +975,6 @@
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="uproot_custom.readers.python.ObjectHeaderReader">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.python.</span></span><span class="sig-name descname"><span class="pre">ObjectHeaderReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_reader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><span class="pre">IReader</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#ObjectHeaderReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.ObjectHeaderReader" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.readers.python.ObjectHeaderReader.data">
-<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#ObjectHeaderReader.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.ObjectHeaderReader.data" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.readers.python.ObjectHeaderReader.read">
-<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#ObjectHeaderReader.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.ObjectHeaderReader.read" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt class="sig sig-object py" id="uproot_custom.readers.python.PrimitiveReader">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.python.</span></span><span class="sig-name descname"><span class="pre">PrimitiveReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'bool'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'uint8'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'uint16'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'uint32'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'uint64'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'int8'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'int16'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'int32'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'int64'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'float32'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'float64'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/python.html#PrimitiveReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.python.PrimitiveReader" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">IReader</span></code></a></p>
@@ -1274,7 +1246,6 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.Int32Reader"><code class="docutils literal notranslate"><span class="pre">Int32Reader</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.Int64Reader"><code class="docutils literal notranslate"><span class="pre">Int64Reader</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.Int8Reader"><code class="docutils literal notranslate"><span class="pre">Int8Reader</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.ObjectHeaderReader"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.STLMapReader"><code class="docutils literal notranslate"><span class="pre">STLMapReader</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.STLSeqReader"><code class="docutils literal notranslate"><span class="pre">STLSeqReader</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.STLStringReader"><code class="docutils literal notranslate"><span class="pre">STLStringReader</span></code></a></li>
@@ -1357,11 +1328,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.IReader.read_many"><code class="docutils literal notranslate"><span class="pre">IReader.read_many()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.IReader.read_many_memberwise"><code class="docutils literal notranslate"><span class="pre">IReader.read_many_memberwise()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.IReader.read_until"><code class="docutils literal notranslate"><span class="pre">IReader.read_until()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.ObjectHeaderReader"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.ObjectHeaderReader.data"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader.data()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.ObjectHeaderReader.read"><code class="docutils literal notranslate"><span class="pre">ObjectHeaderReader.read()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.python.PrimitiveReader"><code class="docutils literal notranslate"><span class="pre">PrimitiveReader</span></code></a><ul class="nav section-nav flex-column">

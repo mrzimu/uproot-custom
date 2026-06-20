@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classuproot__custom_1_1_primitive_reader" kind="class" language="C++" prot="public">
+    <compoundname>uproot_custom::PrimitiveReader</compoundname>
+    <basecompoundref refid="classuproot__custom_1_1_i_reader" prot="public" virt="non-virtual">uproot_custom::IReader</basecompoundref>
+    <templateparamlist>
+      <param>
+        <type><ref refid="classuproot__custom_1_1_primitive_reader_1adc2632b9f8851aa585a27205aa390416" kindref="member">typename</ref> <ref refid="classuproot__custom_1_1_primitive_reader_1adc2632b9f8851aa585a27205aa390416" kindref="member">T</ref></type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classuproot__custom_1_1_primitive_reader_1a6f4333efcd972f0c8a4416036ac5566d" prot="private" static="no" mutable="no">
+        <type>SharedVector&lt; <ref refid="classuproot__custom_1_1_primitive_reader_1adc2632b9f8851aa585a27205aa390416" kindref="member">T</ref> &gt;</type>
+        <definition>SharedVector&lt;T&gt; uproot_custom::PrimitiveReader&lt; T &gt;::m_data</definition>
+        <argsstring></argsstring>
+        <name>m_data</name>
+        <qualifiedname>uproot_custom::PrimitiveReader::m_data</qualifiedname>
+        <briefdescription>
+<para>Store the read data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="33" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classuproot__custom_1_1_primitive_reader_1ace406b37bb85672486af41052a93a5ed" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>uproot_custom::PrimitiveReader&lt; T &gt;::PrimitiveReader</definition>
+        <argsstring>(string name)</argsstring>
+        <name>PrimitiveReader</name>
+        <qualifiedname>uproot_custom::PrimitiveReader::PrimitiveReader</qualifiedname>
+        <param>
+          <type>string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new <ref refid="classuproot__custom_1_1_primitive_reader" kindref="compound">PrimitiveReader</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the reader </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="41" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="41" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot__custom_1_1_primitive_reader_1adc2632b9f8851aa585a27205aa390416" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void uproot_custom::PrimitiveReader&lt; T &gt;::read</definition>
+        <argsstring>(BinaryStream &amp;stream) override</argsstring>
+        <name>read</name>
+        <qualifiedname>uproot_custom::PrimitiveReader::read</qualifiedname>
+        <reimplements refid="classuproot__custom_1_1_i_reader_1ac8822798d3f8cb1a7a482be880148c7d">read</reimplements>
+        <param>
+          <type><ref refid="classuproot__custom_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <briefdescription>
+<para>Read a value from the stream and store it. Only reads one value at a time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary stream to read from </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="49" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot__custom_1_1_primitive_reader_1a21cbab4885f936a5e4b3dfd230c6f7b0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>py::object</type>
+        <definition>py::object uproot_custom::PrimitiveReader&lt; T &gt;::data</definition>
+        <argsstring>() const override</argsstring>
+        <name>data</name>
+        <qualifiedname>uproot_custom::PrimitiveReader::data</qualifiedname>
+        <reimplements refid="classuproot__custom_1_1_i_reader_1abe6fc7a4622ba3f2fd839e0ab6e7bc21">data</reimplements>
+        <briefdescription>
+<para>Get the read data as a numpy array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Numpy array containing the read data </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="56" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Reader for primitive types. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Primitive type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>uproot_custom::IReader</label>
+        <link refid="classuproot__custom_1_1_i_reader"/>
+      </node>
+      <node id="1">
+        <label>uproot_custom::PrimitiveReader&lt; T &gt;</label>
+        <link refid="classuproot__custom_1_1_primitive_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>uproot_custom::IReader</label>
+        <link refid="classuproot__custom_1_1_i_reader"/>
+      </node>
+      <node id="1">
+        <label>uproot_custom::PrimitiveReader&lt; T &gt;</label>
+        <link refid="classuproot__custom_1_1_primitive_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="31" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="31" bodyend="57"/>
+    <listofallmembers>
+      <member refid="classuproot__custom_1_1_primitive_reader_1a21cbab4885f936a5e4b3dfd230c6f7b0" prot="public" virt="virtual"><scope>uproot_custom::PrimitiveReader</scope><name>data</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1ad69385766531eebfbd53945817ef88b2" prot="public" virt="non-virtual"><scope>uproot_custom::PrimitiveReader</scope><name>IReader</name></member>
+      <member refid="classuproot__custom_1_1_primitive_reader_1a6f4333efcd972f0c8a4416036ac5566d" prot="private" virt="non-virtual"><scope>uproot_custom::PrimitiveReader</scope><name>m_data</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1ad76b2b787ce86e4e620a9566ba9c9897" prot="protected" virt="non-virtual"><scope>uproot_custom::PrimitiveReader</scope><name>m_name</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a0056e5117c53b20ece09f8d8c44cf7dd" prot="public" virt="virtual"><scope>uproot_custom::PrimitiveReader</scope><name>name</name></member>
+      <member refid="classuproot__custom_1_1_primitive_reader_1ace406b37bb85672486af41052a93a5ed" prot="public" virt="non-virtual"><scope>uproot_custom::PrimitiveReader</scope><name>PrimitiveReader</name></member>
+      <member refid="classuproot__custom_1_1_primitive_reader_1adc2632b9f8851aa585a27205aa390416" prot="public" virt="virtual"><scope>uproot_custom::PrimitiveReader</scope><name>read</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1aa85d5dd80295affa44accc13407f8ae3" prot="public" virt="virtual"><scope>uproot_custom::PrimitiveReader</scope><name>read_many</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a0fb685f7b39765e0eac7b20510254fb3" prot="public" virt="virtual"><scope>uproot_custom::PrimitiveReader</scope><name>read_many_memberwise</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a52b162cf71b6e4683dc69fa4f049380e" prot="public" virt="virtual"><scope>uproot_custom::PrimitiveReader</scope><name>read_until</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a04ba536e1869fb9dbe0983d88bfcd56f" prot="public" virt="virtual"><scope>uproot_custom::PrimitiveReader</scope><name>~IReader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

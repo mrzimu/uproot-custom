@@ -1443,8 +1443,9 @@ window.runMermaid = runMermaid;</script>
         <span class="n">fSize</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">fSize</span><span class="p">)</span>
 
+        <span class="n">debug_print</span><span class="p">()</span>
         <span class="n">debug_print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;STLMapReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): reading body, is_memberwise=</span><span class="si">{</span><span class="n">is_memberwise</span><span class="si">}</span><span class="s2">, fSize=</span><span class="si">{</span><span class="n">fSize</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;STLMapReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): reading body, is_memberwise=</span><span class="si">{</span><span class="n">is_memberwise</span><span class="si">}</span><span class="s2">, fSize=</span><span class="si">{</span><span class="n">fSize</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
         <span class="n">debug_print</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
 
@@ -1697,7 +1698,8 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.GroupReader.read">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">:</span>
-            <span class="n">debug_print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GroupReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) reading element </span><span class="si">{</span><span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">debug_print</span><span class="p">()</span>
+            <span class="n">debug_print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GroupReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) reading element </span><span class="si">{</span><span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
             <span class="n">debug_print</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
             <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span></div>
 
@@ -1710,8 +1712,9 @@ window.runMermaid = runMermaid;</script>
         <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Calling </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.read_many_memberwise with negative count: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> is not allowed&quot;</span>
 
         <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">:</span>
+            <span class="n">debug_print</span><span class="p">()</span>
             <span class="n">debug_print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;GroupReader</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> reading many member-wise element </span><span class="si">{</span><span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;GroupReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) reading many member-wise element </span><span class="si">{</span><span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">:&quot;</span>
             <span class="p">)</span>
             <span class="n">debug_print</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
             <span class="n">reader</span><span class="o">.</span><span class="n">read_many</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
@@ -1741,10 +1744,13 @@ window.runMermaid = runMermaid;</script>
         <span class="n">start_pos</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span>
         <span class="n">end_pos</span> <span class="o">=</span> <span class="n">start_pos</span> <span class="o">+</span> <span class="n">fNBytes</span>
 
-        <span class="n">stream</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
+        <span class="n">fVersion</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">fVersion</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">stream</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">:</span>
-            <span class="n">debug_print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AnyClassReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) reading element </span><span class="si">{</span><span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">debug_print</span><span class="p">()</span>
+            <span class="n">debug_print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AnyClassReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) reading element </span><span class="si">{</span><span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
             <span class="n">debug_print</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
             <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
 
@@ -1762,8 +1768,9 @@ window.runMermaid = runMermaid;</script>
         <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Calling </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.read_many_memberwise with negative count: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> is not allowed&quot;</span>
 
         <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">:</span>
+            <span class="n">debug_print</span><span class="p">()</span>
             <span class="n">debug_print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;AnyClassReader</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> reading many member-wise element </span><span class="si">{</span><span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;AnyClassReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) reading many member-wise element </span><span class="si">{</span><span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">:&quot;</span>
             <span class="p">)</span>
             <span class="n">debug_print</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
             <span class="n">reader</span><span class="o">.</span><span class="n">read_many</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
@@ -1811,6 +1818,10 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="AnyPointerReader.read">
 <a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.AnyPointerReader.read">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
+        <span class="n">debug_print</span><span class="p">()</span>
+        <span class="n">debug_print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AnyPointerReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): reading pointer:&quot;</span><span class="p">)</span>
+        <span class="n">debug_print</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+
         <span class="n">start_pos</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span>
         <span class="n">ref_begin</span> <span class="o">=</span> <span class="n">start_pos</span> <span class="o">+</span> <span class="n">stream</span><span class="o">.</span><span class="n">initial_cursor_position</span>
         <span class="n">fNBytes</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
@@ -1852,7 +1863,11 @@ window.runMermaid = runMermaid;</script>
                 <span class="k">return</span>
 
         <span class="k">elif</span> <span class="n">fTag</span> <span class="o">==</span> <span class="n">kNewClassTag</span><span class="p">:</span>
+            <span class="n">debug_print</span><span class="p">()</span>
+            <span class="n">debug_print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AnyPointerReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): reading new class name:&quot;</span><span class="p">)</span>
             <span class="n">class_name</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_null_terminated_string</span><span class="p">()</span>
+            <span class="n">debug_print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AnyPointerReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): class name = </span><span class="si">{</span><span class="n">class_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span> <span class="o">=</span> <span class="n">class_name</span>
             <span class="k">else</span><span class="p">:</span>
@@ -1864,6 +1879,9 @@ window.runMermaid = runMermaid;</script>
             <span class="n">ref_key</span> <span class="o">=</span> <span class="n">ref_begin</span> <span class="o">+</span> <span class="n">kMapOffset</span> <span class="k">if</span> <span class="n">fVersion</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">stream</span><span class="o">.</span><span class="n">refs</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="n">stream</span><span class="o">.</span><span class="n">refs</span><span class="p">[</span><span class="n">ref_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">_Reference</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;class&quot;</span><span class="p">,</span> <span class="n">class_name</span><span class="o">=</span><span class="n">class_name</span><span class="p">)</span>
 
+            <span class="n">debug_print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;AnyPointerReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): reading element data with </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> reader:&quot;</span>
+            <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">object_indexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object_counter</span><span class="p">)</span>
 
@@ -1881,6 +1899,9 @@ window.runMermaid = runMermaid;</script>
                     <span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">class_name</span><span class="si">}</span><span class="s2">, but got </span><span class="si">{</span><span class="n">class_name</span><span class="si">}</span><span class="s2">&quot;</span>
                 <span class="p">)</span>
 
+            <span class="n">debug_print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;AnyPointerReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): reading element data with </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> reader:&quot;</span>
+            <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">object_indexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object_counter</span><span class="p">)</span>
 
@@ -1907,48 +1928,6 @@ window.runMermaid = runMermaid;</script>
 
 
 
-<div class="viewcode-block" id="ObjectHeaderReader">
-<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.ObjectHeaderReader">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ObjectHeaderReader</span><span class="p">(</span><span class="n">IReader</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">element_reader</span><span class="p">:</span> <span class="n">IReader</span><span class="p">):</span>
-        <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="s2">&quot;ObjectHeaderReader is deprecated and will be removed in a future version. &quot;</span>
-            <span class="s2">&quot;Use BinaryStream.read_obj_header() directly in your reader instead.&quot;</span><span class="p">,</span>
-            <span class="ne">DeprecationWarning</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span> <span class="o">=</span> <span class="n">element_reader</span>
-
-<div class="viewcode-block" id="ObjectHeaderReader.read">
-<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.ObjectHeaderReader.read">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
-        <span class="n">fNBytes</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_fNBytes</span><span class="p">()</span>
-        <span class="n">start_pos</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span>
-        <span class="n">end_pos</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+</span> <span class="n">fNBytes</span>
-
-        <span class="n">fTag</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_int32</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">fTag</span> <span class="o">==</span> <span class="n">kNewClassTag</span><span class="p">:</span>
-            <span class="n">stream</span><span class="o">.</span><span class="n">skip_null_terminated_string</span><span class="p">()</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-
-        <span class="k">assert</span> <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">,</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;ObjectHeaderReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): Invalid read length! Expect </span><span class="si">{</span><span class="n">fNBytes</span><span class="si">}</span><span class="s2"> bytes, &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;but read </span><span class="si">{</span><span class="n">stream</span><span class="o">.</span><span class="n">cursor</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_pos</span><span class="si">}</span><span class="s2"> bytes.&quot;</span>
-        <span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="ObjectHeaderReader.data">
-<a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.ObjectHeaderReader.data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span><span class="o">.</span><span class="n">data</span><span class="p">()</span></div>
-</div>
-
-
-
 <div class="viewcode-block" id="CStyleArrayReader">
 <a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.CStyleArrayReader">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CStyleArrayReader</span><span class="p">(</span><span class="n">IReader</span><span class="p">):</span>
@@ -1961,8 +1940,9 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="CStyleArrayReader.read">
 <a class="viewcode-back" href="../../../reference/api/uproot_custom.readers.html#uproot_custom.readers.python.CStyleArrayReader.read">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
+        <span class="n">debug_print</span><span class="p">()</span>
         <span class="n">debug_print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;CStyleArrayReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): reading C-style array of flat_size=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">flat_size</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;CStyleArrayReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): reading C-style array of flat_size=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">flat_size</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
         <span class="n">debug_print</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
 

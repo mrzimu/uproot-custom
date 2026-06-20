@@ -2376,6 +2376,10 @@ window.runMermaid = runMermaid;</script>
         <span class="n">item_path</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
+        <span class="c1"># Pointer types should be handled by AnyPointerFactory.</span>
+        <span class="k">if</span> <span class="n">top_type_name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
         <span class="n">sub_streamers</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">all_streamer_info</span><span class="p">[</span><span class="n">top_type_name</span><span class="p">]</span>
         <span class="n">sub_factories</span> <span class="o">=</span> <span class="p">[</span><span class="n">build_factory</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">all_streamer_info</span><span class="p">,</span> <span class="n">item_path</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sub_streamers</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">top_type_name</span><span class="p">,</span> <span class="n">sub_factories</span><span class="o">=</span><span class="n">sub_factories</span><span class="p">)</span></div>
@@ -2505,99 +2509,6 @@ window.runMermaid = runMermaid;</script>
     <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">inner_form</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">make_awkward_form</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">IndexedOptionForm</span><span class="p">(</span><span class="s2">&quot;i64&quot;</span><span class="p">,</span> <span class="n">inner_form</span><span class="p">)</span></div>
-</div>
-
-
-
-<div class="viewcode-block" id="ObjectHeaderFactory">
-<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ObjectHeaderFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class reads object header:</span>
-<span class="sd">    1. fNBytes</span>
-<span class="sd">    2. fTag</span>
-<span class="sd">    3. if (fTag == -1) null-terminated-string</span>
-
-<span class="sd">    If will be called automatically if no other factory matches.</span>
-<span class="sd">    Also, it can be manually used to read object header.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-<div class="viewcode-block" id="ObjectHeaderFactory.build_factory">
-<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.build_factory">[docs]</a>
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span>
-        <span class="n">top_type_name</span><span class="p">,</span>
-        <span class="n">cur_streamer_info</span><span class="p">,</span>
-        <span class="n">all_streamer_info</span><span class="p">,</span>
-        <span class="n">item_path</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This factory will always match items. If one needs to use this factory,</span>
-<span class="sd">        instatiate it directly.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
-
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">element_factory</span><span class="p">:</span> <span class="n">Factory</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span> <span class="o">=</span> <span class="n">element_factory</span>
-
-        <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="s2">&quot;ObjectHeaderFactory is deprecated and will be removed in future versions. &quot;</span>
-            <span class="s2">&quot;Please use AnyPointerFactory instead.&quot;</span><span class="p">,</span>
-            <span class="ne">FutureWarning</span><span class="p">,</span>
-        <span class="p">)</span>
-
-<div class="viewcode-block" id="ObjectHeaderFactory.build_cpp_reader">
-<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.build_cpp_reader">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">ObjectHeaderReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">element_reader</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="ObjectHeaderFactory.build_python_reader">
-<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.build_python_reader">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">ObjectHeaderReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">element_reader</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="ObjectHeaderFactory.build_forth_reader">
-<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.build_forth_reader">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_forth_reader</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">buffer_holder</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">BufferHolder</span><span class="p">,</span>
-    <span class="p">):</span>
-        <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_forth_reader</span><span class="p">(</span><span class="n">buffer_holder</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">ObjectHeaderReader</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">element_reader</span><span class="p">,</span> <span class="n">buffer_holder</span>
-        <span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="ObjectHeaderFactory.build_numba_reader">
-<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.build_numba_reader">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">build_numba_reader</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">ctx</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">CompilationContext</span><span class="p">,</span>
-    <span class="p">):</span>
-        <span class="n">element_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">build_numba_reader</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_numba</span><span class="o">.</span><span class="n">ObjectHeaderReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">element_reader</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="ObjectHeaderFactory.make_awkward_content">
-<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.make_awkward_content">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">make_awkward_content</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="ObjectHeaderFactory.make_awkward_form">
-<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.ObjectHeaderFactory.make_awkward_form">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">make_awkward_form</span><span class="p">()</span></div>
 </div>
 
 

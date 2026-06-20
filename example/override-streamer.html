@@ -471,9 +471,9 @@ reader to C++ for production speed.</p>
 <span class="linenos"> 8</span>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 <span class="linenos"> 9</span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 <span class="linenos">10</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_ints</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">)</span>       <span class="c1"># int32</span>
-<span class="hll"><span class="linenos">11</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">)</span>    <span class="c1"># float64</span>
-</span><span class="hll"><span class="linenos">12</span>
-</span><span class="hll"><span class="linenos">13</span>    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
+<span class="linenos">11</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">)</span>    <span class="c1"># float64</span>
+<span class="linenos">12</span>
+<span class="hll"><span class="linenos">13</span>    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
 </span><span class="hll"><span class="linenos">14</span>        <span class="c1"># Skip TObject header</span>
 </span><span class="hll"><span class="linenos">15</span>        <span class="n">stream</span><span class="o">.</span><span class="n">skip_TObject</span><span class="p">()</span>
 </span><span class="hll"><span class="linenos">16</span>
@@ -486,8 +486,8 @@ reader to C++ for production speed.</p>
 </span><span class="hll"><span class="linenos">23</span>            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: Unexpected mask value: </span><span class="si">{</span><span class="n">mask</span><span class="si">:</span><span class="s2">#x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span class="hll"><span class="linenos">24</span>
 </span><span class="hll"><span class="linenos">25</span>        <span class="c1"># Read double value</span>
-</span><span class="linenos">26</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stream</span><span class="o">.</span><span class="n">read_double</span><span class="p">())</span>
-<span class="linenos">27</span>
+</span><span class="hll"><span class="linenos">26</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stream</span><span class="o">.</span><span class="n">read_double</span><span class="p">())</span>
+</span><span class="linenos">27</span>
 <span class="linenos">28</span>    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="linenos">29</span>        <span class="n">int_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_ints</span><span class="p">)</span>
 <span class="linenos">30</span>        <span class="n">double_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span><span class="p">)</span>
@@ -575,7 +575,7 @@ reader to C++ for production speed.</p>
     <span class="p">)</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">raw_data</span></code> is the object returned by the <code class="docutils literal notranslate"><span class="pre">data</span></code> method of the Reader. In our example, it is a tuple containing 2 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays, as illustrated <a class="reference internal" href="#override-streamer-2-np"><span class="std std-ref">above</span></a>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">raw_data</span></code> is the object returned by the <code class="docutils literal notranslate"><span class="pre">data</span></code> method of the Reader. In our example, it is a tuple containing two <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays, as illustrated <a class="reference internal" href="#override-streamer-2-np"><span class="std std-ref">above</span></a>.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p>Refer to <a class="reference external" href="https://awkward-array.org/doc/main/user-guide/how-to-create-constructors.html"><code class="docutils literal notranslate"><span class="pre">awkward</span></code> direct constructors</a> for more details about <code class="docutils literal notranslate"><span class="pre">awkward</span></code> contents.</p>
@@ -594,6 +594,7 @@ reader to C++ for production speed.</p>
     <span class="p">)</span>
 </pre></div>
 </div>
+<p>This will be used when users try to access the array lazily, e.g. using <code class="docutils literal notranslate"><span class="pre">uproot.dask</span></code> or <code class="docutils literal notranslate"><span class="pre">b.array(virtual=True)</span></code>.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p>Refer to <a class="reference external" href="https://awkward-array.org/doc/main/reference/generated/ak.forms.Form.html">awkward forms</a> for more details about <code class="docutils literal notranslate"><span class="pre">awkward</span></code> forms.</p>
@@ -636,7 +637,7 @@ reading logic as the Python version</strong> — the same fields read in the sam
 order, and <code class="docutils literal notranslate"><span class="pre">data()</span></code> returning the same structure.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p>See <a class="reference internal" href="#../../tutorial/customize-factory-reader/port-to-cpp.md"><code class="xref myst docutils literal notranslate"><span class="pre">../../tutorial/customize-factory-reader/port-to-cpp.md</span></code></a> for the full
+<p>See <a class="reference internal" href="../tutorial/customize-factory-reader/port-to-cpp.html"><span class="std std-doc">Port readers to C++</span></a> for the full
 C++ reader API reference (IReader, BinaryStream, pybind11 bindings).</p>
 </div>
 <div class="literal-block-wrapper docutils container" id="id3">
@@ -708,12 +709,9 @@ default C++ backend for production:</p>
 <span class="n">fac</span><span class="o">.</span><span class="n">reader_backend</span> <span class="o">=</span> <span class="s2">&quot;cpp&quot;</span>  <span class="c1"># this is the default, so you can also just remove the line</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-The factory&#39;s `make_awkward_content` and `make_awkward_form` remain exactly
+<p>The factory’s <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code> and <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code> remain exactly
 the same — they work identically regardless of which backend is used,
-because both readers return data in the same structure.
-</pre></div>
-</div>
+because both readers return data in the same structure.</p>
 </section>
 </section>
 

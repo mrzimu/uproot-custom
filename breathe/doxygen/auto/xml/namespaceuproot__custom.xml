@@ -1,0 +1,568 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceuproot__custom" kind="namespace" language="C++">
+    <compoundname>uproot_custom</compoundname>
+    <innerclass refid="classuproot__custom_1_1_any_class_reader" prot="public">uproot_custom::AnyClassReader</innerclass>
+    <innerclass refid="classuproot__custom_1_1_any_pointer_reader" prot="public">uproot_custom::AnyPointerReader</innerclass>
+    <innerclass refid="classuproot__custom_1_1_binary_stream" prot="public">uproot_custom::BinaryStream</innerclass>
+    <innerclass refid="classuproot__custom_1_1_c_style_array_reader" prot="public">uproot_custom::CStyleArrayReader</innerclass>
+    <innerclass refid="classuproot__custom_1_1_empty_reader" prot="public">uproot_custom::EmptyReader</innerclass>
+    <innerclass refid="classuproot__custom_1_1_group_reader" prot="public">uproot_custom::GroupReader</innerclass>
+    <innerclass refid="classuproot__custom_1_1_i_reader" prot="public">uproot_custom::IReader</innerclass>
+    <innerclass refid="classuproot__custom_1_1_primitive_reader" prot="public">uproot_custom::PrimitiveReader</innerclass>
+    <innerclass refid="classuproot__custom_1_1_s_t_l_map_reader" prot="public">uproot_custom::STLMapReader</innerclass>
+    <innerclass refid="classuproot__custom_1_1_s_t_l_seq_reader" prot="public">uproot_custom::STLSeqReader</innerclass>
+    <innerclass refid="classuproot__custom_1_1_s_t_l_string_reader" prot="public">uproot_custom::STLStringReader</innerclass>
+    <innerclass refid="classuproot__custom_1_1_t_array_reader" prot="public">uproot_custom::TArrayReader</innerclass>
+    <innerclass refid="classuproot__custom_1_1_t_object_reader" prot="public">uproot_custom::TObjectReader</innerclass>
+    <innerclass refid="classuproot__custom_1_1_t_string_reader" prot="public">uproot_custom::TStringReader</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="uproot-custom_8hh_1a3f27c79f9c302f810e6533bde71c9615" prot="public" static="no">
+        <type><ref refid="classuproot__custom_1_1_binary_stream" kindref="compound">BinaryStream</ref></type>
+        <definition>using uproot_custom::BinaryBuffer = typedef BinaryStream</definition>
+        <argsstring></argsstring>
+        <name>BinaryBuffer</name>
+        <qualifiedname>uproot_custom::BinaryBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="315" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="uproot-custom_8hh_1ac267922ed7d50f9aea550ec0de37519c" prot="public" static="no">
+        <type><ref refid="classuproot__custom_1_1_i_reader" kindref="compound">IReader</ref></type>
+        <definition>using uproot_custom::IElementReader = typedef IReader</definition>
+        <argsstring></argsstring>
+        <name>IElementReader</name>
+        <qualifiedname>uproot_custom::IElementReader</qualifiedname>
+        <briefdescription>
+<para>Deprecated alias for <ref refid="classuproot__custom_1_1_i_reader" kindref="compound">IReader</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="deprecated_1_deprecated000001"><xreftitle>Deprecated</xreftitle><xrefdescription><para>Use <ref refid="classuproot__custom_1_1_i_reader" kindref="compound">IReader</ref> instead. </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="420" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="421" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="uproot-custom_8hh_1a8e338464b423cadc5b023ab37d7bb343" prot="public" static="no">
+        <type>shared_ptr&lt; <ref refid="classuproot__custom_1_1_i_reader" kindref="compound">IReader</ref> &gt;</type>
+        <definition>using uproot_custom::SharedReader = typedef shared_ptr&lt;IReader&gt;</definition>
+        <argsstring></argsstring>
+        <name>SharedReader</name>
+        <qualifiedname>uproot_custom::SharedReader</qualifiedname>
+        <briefdescription>
+<para>Shortcut for shared pointer to <ref refid="classuproot__custom_1_1_i_reader" kindref="compound">IReader</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>When a reader requires another reader as a member, it must use <computeroutput>std::shared_ptr&lt;<ref refid="classuproot__custom_1_1_i_reader" kindref="compound">IReader</ref>&gt;</computeroutput> to properly handle lifetime management. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="428" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="428" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="uproot-custom_8cc_1aef683b74f8d3a1217eff9c38d4c7f373" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>shared_ptr&lt; vector&lt; T &gt; &gt;</type>
+        <definition>using uproot_custom::SharedVector = typedef shared_ptr&lt;vector&lt;T&gt; &gt;</definition>
+        <argsstring></argsstring>
+        <name>SharedVector</name>
+        <qualifiedname>uproot_custom::SharedVector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="23" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="23" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="uproot-custom_8hh_1a2340067e12053415f0a8d1783ccff66a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr uint32_t</type>
+        <definition>constexpr uint32_t uproot_custom::kNewClassTag</definition>
+        <argsstring></argsstring>
+        <name>kNewClassTag</name>
+        <qualifiedname>uproot_custom::kNewClassTag</qualifiedname>
+        <initializer>= 0xFFFFFFFF</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="40" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="uproot-custom_8hh_1a58e727a42e1e12e1565ed8e50287cf0e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr uint32_t</type>
+        <definition>constexpr uint32_t uproot_custom::kClassMask</definition>
+        <argsstring></argsstring>
+        <name>kClassMask</name>
+        <qualifiedname>uproot_custom::kClassMask</qualifiedname>
+        <initializer>= 0x80000000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="41" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="uproot-custom_8hh_1ad1984130ee0b8ac37feb6e50f978a3fc" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr uint32_t</type>
+        <definition>constexpr uint32_t uproot_custom::kByteCountMask</definition>
+        <argsstring></argsstring>
+        <name>kByteCountMask</name>
+        <qualifiedname>uproot_custom::kByteCountMask</qualifiedname>
+        <initializer>= 0x40000000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="42" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="uproot-custom_8hh_1a3a6e9d5cf255cd71de15d0ae07f88be2" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr uint32_t</type>
+        <definition>constexpr uint32_t uproot_custom::kMaxMapCount</definition>
+        <argsstring></argsstring>
+        <name>kMaxMapCount</name>
+        <qualifiedname>uproot_custom::kMaxMapCount</qualifiedname>
+        <initializer>= 0x3FFFFFFE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="43" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="uproot-custom_8hh_1a2308f698d228615dbf3a3dfe83809033" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr uint16_t</type>
+        <definition>constexpr uint16_t uproot_custom::kByteCountVMask</definition>
+        <argsstring></argsstring>
+        <name>kByteCountVMask</name>
+        <qualifiedname>uproot_custom::kByteCountVMask</qualifiedname>
+        <initializer>= 0x4000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="44" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="uproot-custom_8hh_1a4ca1cc9525cc6e90bb586bedf17e1f5b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr uint16_t</type>
+        <definition>constexpr uint16_t uproot_custom::kMaxVersion</definition>
+        <argsstring></argsstring>
+        <name>kMaxVersion</name>
+        <qualifiedname>uproot_custom::kMaxVersion</qualifiedname>
+        <initializer>= 0x3FFF</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="45" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="uproot-custom_8hh_1ae8ee4b7bb0e5d5ba7ee34a4b09f8f357" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr int32_t</type>
+        <definition>constexpr int32_t uproot_custom::kMapOffset</definition>
+        <argsstring></argsstring>
+        <name>kMapOffset</name>
+        <qualifiedname>uproot_custom::kMapOffset</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="46" column="23" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="uproot-custom_8hh_1a919235b9916a77d7816144742f09b358" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr uint16_t</type>
+        <definition>constexpr uint16_t uproot_custom::kStreamedMemberWise</definition>
+        <argsstring></argsstring>
+        <name>kStreamedMemberWise</name>
+        <qualifiedname>uproot_custom::kStreamedMemberWise</qualifiedname>
+        <initializer>= 1 &lt;&lt; 14</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="48" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="uproot-custom_8hh_1af9dea1ffa9f743dec38690c0fb890dc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename ReaderType</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>shared_ptr&lt; ReaderType &gt;</type>
+        <definition>shared_ptr&lt; ReaderType &gt; uproot_custom::CreateReader</definition>
+        <argsstring>(Args... args)</argsstring>
+        <name>CreateReader</name>
+        <qualifiedname>uproot_custom::CreateReader</qualifiedname>
+        <param>
+          <type>Args...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+<para>Helper function to create a shared pointer to a reader. Pybind11 requires shared_ptr to handle object lifetime correctly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>ReaderType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the reader. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The argument types for the reader constructor. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The arguments for the reader constructor. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The shared pointer to the created reader. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="446" column="16" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="446" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="uproot-custom_8hh_1a7dc55e709aacb505251d2465c508a700" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename ReaderType</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void uproot_custom::declare_reader</definition>
+        <argsstring>(py::module &amp;m, const char *name)</argsstring>
+        <name>declare_reader</name>
+        <qualifiedname>uproot_custom::declare_reader</qualifiedname>
+        <param>
+          <type>py::module &amp;</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Helper function to declare a reader class in a pybind11 module. Automatically wraps the class&apos; constructor to return a shared_ptr. User should always use this function to declare reader classes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>ReaderType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the reader. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The argument types for the reader constructor. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The declaring pybind11 module. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the reader class in Python. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="461" column="10" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="461" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="uproot-custom_8hh_1a7604ce6513ed4be3cc922dc94383b6c6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>py::array_t&lt; T &gt;</type>
+        <definition>py::array_t&lt; T &gt; uproot_custom::make_array</definition>
+        <argsstring>(shared_ptr&lt; std::vector&lt; T &gt; &gt; seq)</argsstring>
+        <name>make_array</name>
+        <qualifiedname>uproot_custom::make_array</qualifiedname>
+        <param>
+          <type>shared_ptr&lt; std::vector&lt; T &gt; &gt;</type>
+          <declname>seq</declname>
+        </param>
+        <briefdescription>
+<para>Convert a shared pointer to a std::vector&lt;T&gt; to a numpy array without copying. User can use this function to return numpy arrays from reader&apos;s data() method. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The element type of the vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The shared pointer to the std::vector&lt;T&gt;. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The numpy array wrapping the vector data. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="481" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="481" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="uproot-custom_8hh_1a462fa53f1230e91aa986934ae68dfacd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void uproot_custom::debug_printf</definition>
+        <argsstring>(const char *msg, Args... args)</argsstring>
+        <name>debug_printf</name>
+        <qualifiedname>uproot_custom::debug_printf</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>msg</declname>
+        </param>
+        <param>
+          <type>Args...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+<para>Debug print function. Prints only when environment variable with name <computeroutput>UPROOT_CUSTOM_DEBUG</computeroutput> is defined. Use this function like <computeroutput>printf()</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Argument types. No need to specify explicitly. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The format string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Arguments to format. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="507" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="507" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="uproot-custom_8hh_1aea384cde4cf84d1f480087af3d2b61e7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void uproot_custom::debug_printf</definition>
+        <argsstring>(uproot_custom::BinaryStream &amp;stream, const size_t n=100)</argsstring>
+        <name>debug_printf</name>
+        <qualifiedname>uproot_custom::debug_printf</qualifiedname>
+        <param>
+          <type><ref refid="classuproot__custom_1_1_binary_stream" kindref="compound">uproot_custom::BinaryStream</ref> &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const size_t</type>
+          <declname>n</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Debug print function for <ref refid="classuproot__custom_1_1_binary_stream" kindref="compound">BinaryStream</ref>. Prints only when environment variable with name <computeroutput>UPROOT_CUSTOM_DEBUG</computeroutput> is defined. Call <ref refid="classuproot__custom_1_1_binary_stream_1af81277db18234ae648b326b5e4ce5bdd" kindref="member">BinaryStream::debug_print()</ref> internally. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="classuproot__custom_1_1_binary_stream" kindref="compound">BinaryStream</ref> to print. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to print. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="521" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="521" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="uproot-custom_8cc_1a78f2057fecf7042ebd7ec7a8a8e713a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>py::object</type>
+        <definition>py::object uproot_custom::py_read_data</definition>
+        <argsstring>(py::array_t&lt; uint8_t &gt; data, py::array_t&lt; uint32_t &gt; offsets, uint32_t cursor_offset, SharedReader reader)</argsstring>
+        <name>py_read_data</name>
+        <qualifiedname>uproot_custom::py_read_data</qualifiedname>
+        <param>
+          <type>py::array_t&lt; uint8_t &gt;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>py::array_t&lt; uint32_t &gt;</type>
+          <declname>offsets</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>cursor_offset</declname>
+        </param>
+        <param>
+          <type>SharedReader</type>
+          <declname>reader</declname>
+        </param>
+        <briefdescription>
+<para>Read data from a binary stream using the provided reader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Binary data as a numpy array of uint8_t </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>offsets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Offsets for each entry as a numpy array of uint32_t </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to the top-level reader </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>(Possibly nested) numpy array containing the read data </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1331" column="16" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1331" bodyend="1352"/>
+      </memberdef>
+      <memberdef kind="function" id="uproot-custom_8cc_1aeecea1c20102e153fb11c401511b06ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>uproot_custom::PYBIND11_MODULE</definition>
+        <argsstring>(cpp, m)</argsstring>
+        <name>PYBIND11_MODULE</name>
+        <qualifiedname>uproot_custom::PYBIND11_MODULE</qualifiedname>
+        <param>
+          <type>cpp</type>
+        </param>
+        <param>
+          <type>m</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="1354" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="1354" bodyend="1398"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="36" column="1"/>
+  </compounddef>
+</doxygen>
