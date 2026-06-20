@@ -1168,41 +1168,6 @@ class AnyClassReader(IReader):
         return [reader.data() for reader in self.element_readers]
 
 
-class ObjectHeaderReader(IReader):
-    def __init__(self, name: str, context: CompilationContext, element_reader: IReader):
-        super().__init__(name, context)
-        self.element_reader = element_reader
-
-    def register_context(self):
-        self.element_reader.register_context()
-        super().register_context()
-
-    def read(self):
-        return f"""
-        def {self.read_id}(self, stream):
-            fNBytes = stream.read_fNBytes()
-            start_pos = stream.cursor
-            end_pos = stream.cursor + fNBytes
-
-            fTag = stream.read_uint32()
-            if fTag == {kNewClassTag}:
-                stream.skip_null_terminated_string()
-
-            self.{self.element_reader.read_id}(stream)
-
-            assert stream.cursor == end_pos, (
-                "ObjectHeaderReader({self.name}): Invalid read length! Expect "
-                + str(fNBytes)
-                + " bytes, but read "
-                + str(stream.cursor - start_pos)
-                + " bytes."
-            )
-        """
-
-    def data(self):
-        return self.element_reader.data()
-
-
 class CStyleArrayReader(IReader):
     def __init__(
         self,
