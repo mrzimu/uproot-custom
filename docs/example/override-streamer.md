@@ -112,7 +112,7 @@ We implement a Python Reader named `OverrideStreamerReader`:
 ```{code-block} python
 ---
 lineno-start: 1
-emphasize-lines: 11-25
+emphasize-lines: 13-26
 ---
 from array import array
 import numpy as np
@@ -235,7 +235,7 @@ def make_awkward_content(self, raw_data):
     )
 ```
 
-The `raw_data` is the object returned by the `data` method of the Reader. In our example, it is a tuple containing 2 `numpy` arrays, as illustrated [above](override-streamer-2-np).
+The `raw_data` is the object returned by the `data` method of the Reader. In our example, it is a tuple containing two `numpy` arrays, as illustrated [above](override-streamer-2-np).
 
 ```{seealso}
 Refer to [`awkward` direct constructors](https://awkward-array.org/doc/main/user-guide/how-to-create-constructors.html) for more details about `awkward` contents.
@@ -255,6 +255,8 @@ def make_awkward_form(self):
         ["m_int", "m_double"],
     )
 ```
+
+This will be used when users try to access the array lazily, e.g. using `uproot.dask` or `b.array(virtual=True)`.
 
 ```{seealso}
 Refer to [awkward forms](https://awkward-array.org/doc/main/reference/generated/ak.forms.Form.html) for more details about `awkward` forms.
@@ -301,7 +303,7 @@ reading logic as the Python version** — the same fields read in the same
 order, and `data()` returning the same structure.
 
 ```{seealso}
-See [](../../tutorial/customize-factory-reader/port-to-cpp.md) for the full
+See [](../tutorial/customize-factory-reader/port-to-cpp.md) for the full
 C++ reader API reference (IReader, BinaryStream, pybind11 bindings).
 ```
 
@@ -379,7 +381,6 @@ default C++ backend for production:
 ```python
 import uproot_custom.factories as fac
 fac.reader_backend = "cpp"  # this is the default, so you can also just remove the line
-```
 ```
 
 The factory's `make_awkward_content` and `make_awkward_form` remain exactly

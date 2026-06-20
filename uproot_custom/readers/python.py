@@ -964,39 +964,6 @@ class AnyPointerReader(IReader):
         return element_data, object_indexes_array
 
 
-class ObjectHeaderReader(IReader):
-    def __init__(self, name: str, element_reader: IReader):
-        import warnings
-
-        warnings.warn(
-            "ObjectHeaderReader is deprecated and will be removed in a future version. "
-            "Use BinaryStream.read_obj_header() directly in your reader instead.",
-            DeprecationWarning,
-        )
-
-        super().__init__(name)
-        self.element_reader = element_reader
-
-    def read(self, stream):
-        fNBytes = stream.read_fNBytes()
-        start_pos = stream.cursor
-        end_pos = stream.cursor + fNBytes
-
-        fTag = stream.read_int32()
-        if fTag == kNewClassTag:
-            stream.skip_null_terminated_string()
-
-        self.element_reader.read(stream)
-
-        assert stream.cursor == end_pos, (
-            f"ObjectHeaderReader({self.name}): Invalid read length! Expect {fNBytes} bytes, "
-            f"but read {stream.cursor - start_pos} bytes."
-        )
-
-    def data(self):
-        return self.element_reader.data()
-
-
 class CStyleArrayReader(IReader):
     def __init__(self, name: str, flat_size: int, element_reader: IReader):
         super().__init__(name)
