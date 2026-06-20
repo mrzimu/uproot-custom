@@ -170,24 +170,17 @@ namespace uproot_custom {
         }
 
         /**
-         * @brief Read pointer header from the stream. The pointer header has `fNBytes`,
+         * @brief Read an object's header from the stream. The object header has `fNBytes`,
          * `fVersion`, `fTag`. If `fTag == kNewClassTag`, then a null-terminated class name
          * follows.
          *
-         * @return The class name if the pointer is a new class, empty string
-         * otherwise.
+         * @return The class name if the object is a new class, empty string otherwise.
          */
-        const std::string read_ptr_header() {
+        const std::string read_obj_header() {
             skip_fNBytes();
             auto fTag = read<uint32_t>();
             if ( fTag == kNewClassTag ) return read_null_terminated_string();
             else return std::string();
-        }
-
-        [[deprecated( "read_obj_header has been renamed to read_ptr_header, use "
-                      "read_ptr_header instead." )]] const std::string
-        read_obj_header() {
-            return read_ptr_header();
         }
 
         /**
@@ -232,20 +225,14 @@ namespace uproot_custom {
         }
 
         /**
-         * @brief Skip a pointer header in the stream. The pointer header has `fNBytes`,
+         * @brief Skip an object's header in the stream. The object header has `fNBytes`,
          * `fVersion`, `fTag`. If `fTag == kNewClassTag`, then a null-terminated class name
          * follows.
          */
-        void skip_ptr_header() {
+        void skip_obj_header() {
             skip_fNBytes();
             auto fTag = read<uint32_t>();
             if ( fTag == kNewClassTag ) skip_null_terminated_string();
-        }
-
-        [[deprecated( "skip_obj_header has been renamed to skip_ptr_header, use "
-                      "skip_ptr_header instead." )]] void
-        skip_obj_header() {
-            skip_ptr_header();
         }
 
         /**
