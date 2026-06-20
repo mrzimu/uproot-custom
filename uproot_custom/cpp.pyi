@@ -113,13 +113,6 @@ class AnyPointerReader(IReader):
         element_reader: IReader,
     ) -> None: ...
 
-class ObjectHeaderReader(IReader):
-    def __init__(
-        self,
-        name: str,
-        element_reader: IReader,
-    ) -> None: ...
-
 class CStyleArrayReader(IReader):
     def __init__(
         self,

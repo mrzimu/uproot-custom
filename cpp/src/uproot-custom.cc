@@ -1170,65 +1170,6 @@ namespace uproot {
     */
 
     /**
-     * @brief Wrapper reader for object headers.
-     */
-    class ObjectHeaderReader : public IReader {
-      private:
-        SharedReader m_element_reader; ///< Reader for the object content.
-
-      public:
-        /**
-         * @brief Construct a new Object Header Reader object
-         *
-         * @param name Name of the reader.
-         * @param element_reader Reader for the object content.
-         */
-        ObjectHeaderReader( string name, SharedReader element_reader )
-            : IReader( name ), m_element_reader( element_reader ) {}
-
-        /**
-         * @brief Read the object header from the stream, then delegate to @ref
-         * m_element_reader to read the object content.
-         *
-         * @param stream The binary stream to read from.
-         */
-        void read( BinaryStream& stream ) override {
-            auto nbytes    = stream.read_fNBytes();
-            auto start_pos = stream.get_cursor();
-            auto end_pos   = stream.get_cursor() + nbytes;
-
-            auto fTag = stream.read<int32_t>();
-            if ( fTag == kNewClassTag )
-            { auto fTypename = stream.read_null_terminated_string(); }
-
-            m_element_reader->read( stream );
-
-            if ( stream.get_cursor() != end_pos )
-            {
-                stringstream msg;
-                msg << "ObjectHeaderReader: Invalid read length for "
-                    << m_element_reader->name() << "! Expect " << end_pos - start_pos
-                    << ", got " << stream.get_cursor() - start_pos;
-                throw std::runtime_error( msg.str() );
-            }
-        }
-
-        /**
-         * @brief Get the data read by the reader. This should be called after the whole
-         * reading process.
-         *
-         * @return Directly return the data from @ref m_element_reader.
-         */
-        py::object data() const override { return m_element_reader->data(); }
-    };
-
-    /*
-    -----------------------------------------------------------------------------
-    -----------------------------------------------------------------------------
-    -----------------------------------------------------------------------------
-    */
-
-    /**
      * @brief Reader for C-style arrays and std::array.
      */
     class CStyleArrayReader : public IReader {
@@ -1451,7 +1392,6 @@ namespace uproot {
         declare_reader<GroupReader, string, vector<SharedReader>>( m, "GroupReader" );
         declare_reader<AnyClassReader, string, vector<SharedReader>>( m, "AnyClassReader" );
         declare_reader<AnyPointerReader, string, SharedReader>( m, "AnyPointerReader" );
-        declare_reader<ObjectHeaderReader, string, SharedReader>( m, "ObjectHeaderReader" );
         declare_reader<CStyleArrayReader, string, int64_t, SharedReader>(
             m, "CStyleArrayReader" );
         declare_reader<EmptyReader, string>( m, "EmptyReader" );
