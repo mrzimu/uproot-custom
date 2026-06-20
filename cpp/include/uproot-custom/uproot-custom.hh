@@ -528,4 +528,6 @@ namespace uproot_custom {
 
 // backward compatibility
 // TODO: remove the uproot namespace and use uproot_custom namespace directly in the future.
-namespace uproot = uproot_custom;
+namespace uproot {
+    using namespace uproot_custom;
+}
