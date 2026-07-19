@@ -20,13 +20,8 @@ from uproot_custom.utils import (
     get_top_type_name,
 )
 
-try:
-    import uproot_custom.readers._numba
-except ImportError:
-    pass
-
-registered_factories: set[type["Factory"]] = set()
-reader_backend: Literal["cpp", "python", "forth", "numba"] = "cpp"
+registered_factories: set[type[Factory]] = set()
+reader_backend: Literal["cpp", "python", "forth"] = "cpp"
 
 
 def _objwise_or_memberwise_to_text(
@@ -44,7 +39,7 @@ def build_factory(
     all_streamer_info: dict,
     item_path: str = "",
     **kwargs,
-) -> "Factory":
+) -> Factory:
     """
     Generate factory with a given streamer information.
 
@@ -121,18 +116,6 @@ def read_branch(
         buffer_holder = uproot_custom.readers._forth.BufferHolder()
         reader = factory.build_forth_reader(buffer_holder)
         raw_data = uproot_custom.readers._forth.read_data(data, offsets, reader)
-
-    elif reader_backend == "numba":
-        warnings.warn(
-            '"numba" reader is only for testing and benchmarking. It is not recommended for production use.',
-            UserWarning,
-        )
-
-        ctx = uproot_custom.readers._numba.CompilationContext()
-        reader = factory.build_numba_reader(ctx)
-        raw_data = uproot_custom.readers._numba.read_data(
-            data, offsets, reader, id(branch), ctx
-        )
 
     else:
         raise ValueError(f"Unknown reader backend: {reader_backend}.")
@@ -237,21 +220,6 @@ class Factory:
             An instance of `uproot_custom.readers.forth.IReader`.
         """
         raise NotImplementedError("build_forth_reader not implemented.")
-
-    def build_numba_reader(
-        self,
-        ctx: uproot_custom.readers._numba.CompilationContext,
-    ):
-        """
-        Build concrete Numba reader.
-
-        Args:
-            ctx: An instance of `CompilationContext` to register buffers and store other compilation information.
-
-        Returns:
-            An instance of `uproot_custom.readers.numba.IReader`.
-        """
-        raise NotImplementedError("build_numba_reader not implemented.")
 
     def make_awkward_content(
         self,
@@ -392,12 +360,6 @@ class PrimitiveFactory(Factory):
         return uproot_custom.readers._forth.PrimitiveReader(
             self.name, self.dtype, buffer_holder
         )
-
-    def build_numba_reader(
-        self,
-        ctx: uproot_custom.readers._numba.CompilationContext,
-    ):
-        return uproot_custom.readers._numba.PrimitiveReader(self.name, ctx, self.dtype)
 
     def make_awkward_content(self, raw_data: np.ndarray):
         if self.dtype == "bool":
@@ -647,29 +609,6 @@ class STLMapFactory(Factory):
             buffer_holder,
         )
 
-    def build_numba_reader(
-        self,
-        ctx: uproot_custom.readers._numba.CompilationContext,
-    ):
-        is_obj_wise = self.objwise_or_memberwise == 0
-
-        if is_obj_wise:
-            self.key_factory.with_header = False
-            self.val_factory.with_header = False
-
-        objwise_or_memberwise = _objwise_or_memberwise_to_text(self.objwise_or_memberwise)
-        key_numba_reader = self.key_factory.build_numba_reader(ctx)
-        val_numba_reader = self.val_factory.build_numba_reader(ctx)
-
-        return uproot_custom.readers._numba.STLMapReader(
-            self.name,
-            ctx,
-            self.with_header,
-            objwise_or_memberwise,
-            key_numba_reader,
-            val_numba_reader,
-        )
-
     def make_awkward_content(self, raw_data):
         offsets, key_raw_data, val_raw_data = raw_data
         key_content = self.key_factory.make_awkward_content(key_raw_data)
@@ -742,16 +681,6 @@ class STLStringFactory(Factory):
             self.name,
             self.with_header,
             buffer_holder,
-        )
-
-    def build_numba_reader(
-        self,
-        ctx: uproot_custom.readers._numba.CompilationContext,
-    ):
-        return uproot_custom.readers._numba.STLStringReader(
-            self.name,
-            ctx,
-            self.with_header,
         )
 
     def make_awkward_content(self, raw_data):
@@ -829,12 +758,6 @@ class TArrayFactory(Factory):
     ):
         return uproot_custom.readers._forth.TArrayReader(self.name, self.dtype, buffer_holder)
 
-    def build_numba_reader(
-        self,
-        ctx: uproot_custom.readers._numba.CompilationContext,
-    ):
-        return uproot_custom.readers._numba.TArrayReader(self.name, ctx, self.dtype)
-
     def make_awkward_content(self, raw_data):
         offsets, data = raw_data
         return awkward.contents.ListOffsetArray(
@@ -885,12 +808,6 @@ class TStringFactory(Factory):
         return uproot_custom.readers._forth.TStringReader(
             self.name, self.with_header, buffer_holder
         )
-
-    def build_numba_reader(
-        self,
-        ctx: uproot_custom.readers._numba.CompilationContext,
-    ):
-        return uproot_custom.readers._numba.TStringReader(self.name, ctx, self.with_header)
 
     def make_awkward_content(self, raw_data):
         offsets, data = raw_data
@@ -970,16 +887,6 @@ class TObjectFactory(Factory):
             self.name,
             self.keep_data,
             buffer_holder,
-        )
-
-    def build_numba_reader(
-        self,
-        ctx: uproot_custom.readers._numba.CompilationContext,
-    ):
-        return uproot_custom.readers._numba.TObjectReader(
-            self.name,
-            ctx,
-            self.keep_data,
         )
 
     def make_awkward_content(self, raw_data):
@@ -1120,18 +1027,6 @@ class CStyleArrayFactory(Factory):
             buffer_holder,
         )
 
-    def build_numba_reader(
-        self,
-        ctx: uproot_custom.readers._numba.CompilationContext,
-    ):
-        element_reader = self.element_factory.build_numba_reader(ctx)
-        return uproot_custom.readers._numba.CStyleArrayReader(
-            self.name,
-            ctx,
-            self.flat_size,
-            element_reader,
-        )
-
     def make_awkward_content(self, raw_data):
         if self.flat_size < 0:
             element_raw_data = raw_data[1]
@@ -1214,13 +1109,6 @@ class GroupFactory(Factory):
     ):
         sub_readers = [s.build_forth_reader(buffer_holder) for s in self.sub_factories]
         return uproot_custom.readers._forth.GroupReader(self.name, sub_readers, buffer_holder)
-
-    def build_numba_reader(
-        self,
-        ctx: uproot_custom.readers._numba.CompilationContext,
-    ):
-        sub_readers = [s.build_numba_reader(ctx) for s in self.sub_factories]
-        return uproot_custom.readers._numba.GroupReader(self.name, ctx, sub_readers)
 
     def make_awkward_content(self, raw_data):
         sub_configs = self.sub_factories
@@ -1346,13 +1234,6 @@ class AnyClassFactory(GroupFactory):
             self.name, sub_readers, buffer_holder
         )
 
-    def build_numba_reader(
-        self,
-        ctx: uproot_custom.readers._numba.CompilationContext,
-    ):
-        sub_readers = [s.build_numba_reader(ctx) for s in self.sub_factories]
-        return uproot_custom.readers._numba.AnyClassReader(self.name, ctx, sub_readers)
-
 
 class AnyPointerFactory(Factory):
     """
@@ -1454,12 +1335,6 @@ class EmptyFactory(Factory):
         buffer_holder: uproot_custom.readers._forth.BufferHolder,
     ):
         return uproot_custom.readers._forth.EmptyReader(self.name, buffer_holder)
-
-    def build_numba_reader(
-        self,
-        ctx: uproot_custom.readers._numba.CompilationContext,
-    ):
-        return uproot_custom.readers._numba.EmptyReader(self.name, ctx)
 
     def make_awkward_content(self, raw_data):
         return awkward.contents.EmptyArray()
