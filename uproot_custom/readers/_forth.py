@@ -676,23 +676,13 @@ class STLSeqReader(IReader):
         self,
         name: str,
         with_header: bool,
-        objwise_or_memberwise: Literal["auto", "obj-wise", "member-wise"],
         element_reader: IReader,
         buffer_holder: BufferHolder,
     ):
         super().__init__(name, buffer_holder)
 
         self.with_header = with_header
-        self.objwise_or_memberwise = objwise_or_memberwise
         self.element_reader = element_reader
-
-        self.objwise_or_memberwise_flag = {
-            "obj-wise": 0,
-            "member-wise": 1,
-            "auto": 2,
-        }[self.objwise_or_memberwise]
-        self.with_header_flag = 1 if self.with_header else 0
-
         self.offsets_token = self.register_buffer("offsets", "q")
 
     def compile(self):
@@ -700,27 +690,6 @@ class STLSeqReader(IReader):
         \\ initialize offsets with 0
         0 {self.offsets_token} <- stack
         """ + super().compile()
-
-    def check_objwise_memberwise(self):
-        # stack: [is_memberwise] --> []
-        if self.objwise_or_memberwise == "auto":
-            res = "drop"
-
-        else:
-            another = "member-wise" if self.objwise_or_memberwise == "obj-wise" else "obj-wise"
-
-            res = f"""\\ stack: [is_memberwise]
-            {self.objwise_or_memberwise_flag} = invert
-            if
-                ." STLSeqReader({self.name}) expected {self.objwise_or_memberwise} but got {another}" .
-                halt
-            then
-            """
-
-        return _format_method_code(
-            textwrap.dedent(res),
-            f"{self.name}.check_objwise_memberwise",
-        )
 
     def read_body(self):
         """
@@ -763,7 +732,6 @@ class STLSeqReader(IReader):
         {skip_fNBytes()}
 
         {read_fVersion()} {kStreamedMemberwise} and \\ stack: [is_memberwise]
-        dup {self.check_objwise_memberwise()} \\ stack: [is_memberwise]
 
         dup
         if
@@ -776,46 +744,9 @@ class STLSeqReader(IReader):
     def read_many(self):
         with_header_block = ""
         if self.with_header:
-            with_header_block = f"""\\ stack: [is_memberwise_old]
+            with_header_block = f"""\\ stack: [default is_memberwise(False)]
                 {skip_fNBytes()}
-
-                drop {read_fVersion()} {kStreamedMemberwise} and \\ stack: [is_memberwise_new]
-                dup {self.check_objwise_memberwise()} \\ stack: [is_memberwise_new]
-            """
-
-        negative_count_block = ""
-        if self.with_header:
-            negative_count_block = f"""
-            {read_fNBytes()}        \\ stack: [count(-1), fNBytes]
-            {stream_data_token} pos +    \\ stack: [count(-1), end_pos]
-
-            {read_fVersion()}           \\ stack: [count(-1), end_pos, version]
-            {kStreamedMemberwise} and   \\ stack: [count(-1), end_pos, is_memberwise]
-
-            dup {self.check_objwise_memberwise()} \\ stack: [count(-1), end_pos, is_memberwise]
-
-            dup if
-                {skip(2)}
-            then
-
-            0 \\ stack: [count(-1), end_pos, is_memberwise, 0] - counter for number of items read
-            begin
-                rot \\ stack: [count(-1), is_memberwise, counter, end_pos]
-                dup {stream_data_token} pos = invert \\ stack: [count(-1), is_memberwise, counter, end_pos, not_at_end]
-            while                   \\ stack: [count(-1), is_memberwise, counter, end_pos]
-                rot dup             \\ stack: [count(-1), counter, end_pos, is_memberwise, is_memberwise]
-                {self.read_body()}  \\ stack: [count(-1), counter, end_pos, is_memberwise]
-                rot 1+              \\ stack: [count(-1), end_pos, is_memberwise, counter+1]
-            repeat
-            \\ stack: [count(-1), end_pos, is_memberwise, counter]
-
-            rot rot drop drop   \\ stack: [count(-1), counter]
-            swap drop           \\ stack: [counter]
-            """
-        else:
-            negative_count_block = f"""
-            ." STLSeqReader({self.name}).read_many called with negative count expects with_header=True" .
-            halt
+                drop {read_fVersion()} {kStreamedMemberwise} and \\ stack: [new is_memberwise]
             """
 
         return f"""\\ stack: [count]
@@ -828,44 +759,37 @@ class STLSeqReader(IReader):
             exit
         then
 
-        dup 0 <
-        if
-            {negative_count_block}
-        else
-            {1 if self.objwise_or_memberwise_flag==1 else 0} \\ stack: [count, is_memberwise], 1 is member-wise flag
+        0 \\ stack: [count, is_memberwise(False)]
 
-            {debug_print(f'." STLSeqReader({self.name}) read_many[1]:" cr ." - data:"')}
+        {debug_print(f'." STLSeqReader({self.name}) read_many[1]:" cr ." - data:"')}
+        {debug_print_input(stream_data_token)}
+        {debug_print('." - stack: " .s cr')}
+
+        {with_header_block} \\ stack: [count, is_memberwise]
+
+        {debug_print(f'." STLSeqReader({self.name}) read_many[2]:" cr ." - data:"')}
+        {debug_print_input(stream_data_token)}
+        {debug_print('." - stack: " .s cr')}
+
+        dup if {skip(2)} then \\ stack: [count, is_memberwise]
+
+        over \\ stack: [count, is_memberwise, count]
+        0 do \\ stack: [count, is_memberwise]
+            {debug_print(f'." STLSeqReader({self.name}) before read_body:" cr ." - data:"')}
             {debug_print_input(stream_data_token)}
             {debug_print('." - stack: " .s cr')}
+            dup {self.read_body()}
+        loop \\ stack: [count, is_memberwise]
 
-            {with_header_block} \\ stack: [count, is_memberwise]
-
-            {debug_print(f'." STLSeqReader({self.name}) read_many[2]:" cr ." - data:"')}
-            {debug_print_input(stream_data_token)}
-            {debug_print('." - stack: " .s cr')}
-
-            dup if {skip(2)} then \\ stack: [count, is_memberwise]
-
-            over \\ stack: [count, is_memberwise, count]
-            0 do \\ stack: [count, is_memberwise]
-                {debug_print(f'." STLSeqReader({self.name}) before read_body:" cr ." - data:"')}
-                {debug_print_input(stream_data_token)}
-                {debug_print('." - stack: " .s cr')}
-                dup {self.read_body()}
-            loop \\ stack: [count, is_memberwise]
-
-            drop \\ stack: [count]
-        then
+        drop \\ stack: [count]
         """
 
     def read_until(self):
         with_header_block = ""
         if self.with_header:
             with_header_block = f"""
-            {skip_fNBytes()} \\ stack: [is_memberwise_old]
-
-            drop {read_fVersion()} {kStreamedMemberwise} and \\ stack: [is_memberwise_new]
-            dup {self.check_objwise_memberwise()} \\ stack: [is_memberwise_new]
+            {skip_fNBytes()} \\ stack: [default is_memberwise(False)]
+            drop {read_fVersion()} {kStreamedMemberwise} and \\ stack: [new is_memberwise]
             """
 
         return f"""\\ stack: [end_pos]
@@ -876,7 +800,7 @@ class STLSeqReader(IReader):
             exit
         then
 
-        {self.objwise_or_memberwise_flag} \\ stack: [end_pos, is_memberwise]
+        0 \\ stack: [end_pos, is_memberwise(False)]
 
         {with_header_block} \\ stack: [end_pos, is_memberwise]
 
@@ -941,28 +865,6 @@ class STLMapReader(IReader):
         0 {self.offsets_token} <- stack
         """ + super().compile()
 
-    def check_objwise_memberwise(self):
-        """
-        stack: [is_memberwise] -> []
-        """
-        if self.objwise_or_memberwise == "auto":
-            return "drop"
-
-        another = "member-wise" if self.objwise_or_memberwise == "obj-wise" else "obj-wise"
-        res = f"""
-        \\ stack: [is_memberwise]
-        {self.objwise_or_memberwise_flag} = invert
-        if
-            ." STLMapReader({self.name}) expected {self.objwise_or_memberwise} but got {another}" .
-            halt
-        then
-        """
-
-        return _format_method_code(
-            textwrap.dedent(res),
-            f"{self.name}.check_objwise_memberwise",
-        )
-
     def read_body(self):
         """
         stack: [is_memberwise] -> []
@@ -1006,8 +908,6 @@ class STLMapReader(IReader):
         {skip(6)}
 
         {kStreamedMemberwise} and \\ stack: [is_memberwise]
-        dup {self.check_objwise_memberwise()}
-
         {self.read_body()}
         """
 
@@ -1020,46 +920,9 @@ class STLMapReader(IReader):
             {skip(6)}
 
             {kStreamedMemberwise} and
-            dup {self.check_objwise_memberwise()}
-            """
-
-        negative_count_block = ""
-        if self.with_header:
-            negative_count_block = f"""
-            {read_fNBytes()}        \\ stack: [count(-1), fNBytes]
-            {stream_data_token} pos +    \\ stack: [count(-1), end_pos]
-
-            {read_fVersion()}       \\ stack: [count(-1), end_pos, version]
-            {skip(6)}
-            {kStreamedMemberwise} and \\ stack: [count(-1), end_pos, is_memberwise]
-
-            dup {self.check_objwise_memberwise()} \\ stack: [count(-1), end_pos, is_memberwise]
-
-            0 \\ stack: [count(-1), end_pos, is_memberwise, count]
-            begin
-                rot \\ stack: [count(-1), is_memberwise, count, end_pos]
-                dup {stream_data_token} pos >
-            while
-                rot \\ stack: [count(-1), count, end_pos, is_memberwise]
-                dup \\ stack: [count(-1), count, end_pos, is_memberwise, is_memberwise]
-                {self.read_body()}  \\ stack: [count(-1), count, end_pos, is_memberwise]
-                rot \\ stack: [count(-1), end_pos, is_memberwise, count]
-                1+  \\ stack: [count(-1), end_pos, is_memberwise, count+1]
-            repeat
-
-            \\ stack: [count(-1), end_pos, is_memberwise, count]
-
-            rot rot drop drop
-            swap drop
-            """
-        else:
-            negative_count_block = f"""
-            ." STLMapReader({self.name}).read_many called with negative count expecting with_header=True" .
-            halt
             """
 
         return f"""\\ stack: [count]
-
         {debug_print(f'." In STLMapReader({self.name}) read_many:" cr ." - data: "')}
         {debug_print_input(stream_data_token)}
         {debug_print('." - stack: " .s cr')}
@@ -1071,38 +934,29 @@ class STLMapReader(IReader):
             exit
         then
 
-        dup 0 <
-        if
-            {negative_count_block}
-        else
-            {self.objwise_or_memberwise_flag} 1 = \\ stack: [count, is_memberwise]
+        0 \\ stack: [count, is_memberwise(False)]
 
-            {with_header_block} \\ stack: [count, is_memberwise]
+        {with_header_block} \\ stack: [count, is_memberwise]
 
-            over 0 do
-                {debug_print(f'." STLMapReader({self.name}) read_many begin statement, stack: " .s cr')}
-                dup {self.read_body()}
-            loop
+        over 0 do
+            {debug_print(f'." STLMapReader({self.name}) read_many begin statement, stack: " .s cr')}
+            dup {self.read_body()}
+        loop
 
-            drop
-        then
+        drop
         """
 
     def read_until(self):
         with_header_block = f"{self.with_header_flag}"
         if self.with_header:
             with_header_block = f"""
-            \\ stack: [end_pos, is_memberwise_old]
+            \\ stack: [end_pos, default is_memberwise(False)]
             drop
 
             {skip_fNBytes()}
             {read_fVersion()}
             {skip(6)}
-            {kStreamedMemberwise} and
-            \\ stack: [end_pos, is_memberwise_new]
-
-            dup {self.check_objwise_memberwise()}
-            \\ stack: [end_pos, is_memberwise_new]
+            {kStreamedMemberwise} and \\ stack: [end_pos, new is_memberwise]
             """
 
         return f"""\\ stack: [end_pos]
@@ -1113,7 +967,7 @@ class STLMapReader(IReader):
             exit
         then
 
-        {self.objwise_or_memberwise_flag} 1 = \\ stack: [end_pos, is_memberwise]
+        0 \\ stack: [end_pos, is_memberwise(False)]
 
         {with_header_block}
 
@@ -1131,18 +985,6 @@ class STLMapReader(IReader):
         repeat
 
         drop swap drop
-        """
-
-    def read_many_memberwise(self):
-        return f"""\\ stack: [count]
-        dup 0 <
-        if
-            ." Calling {self.name}.read_many_memberwise with negative count is not allowed" .
-            halt
-        then
-
-        1 dup {self.check_objwise_memberwise()} drop
-        {self.read_many_token}
         """
 
     def data(self):
@@ -1181,7 +1023,7 @@ class STLStringReader(IReader):
 
         \\ stack: [fSize]
         dup {self.offsets_token} +<- stack
-        {read_many_number('B', self.data_token)}
+        {read_many_number("B", self.data_token)}
         """
 
         res = _format_method_code(
@@ -1484,7 +1326,7 @@ class CStyleArrayReader(IReader):
         {self.offsets_token} +<- stack
 
         {debug_print_input(stream_data_token)}
-        {debug_print(f'{stream_data_token} pos . {stream_evt_end_pos_token} @ . cr')}
+        {debug_print(f"{stream_data_token} pos . {stream_evt_end_pos_token} @ . cr")}
         """
 
     def read_many(self):

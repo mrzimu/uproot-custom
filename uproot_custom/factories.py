@@ -446,6 +446,7 @@ class STLSeqFactory(Factory):
         cur_streamer_info,
         all_streamer_info,
         item_path,
+        in_std_array=False,
         **kwargs,
     ):
         """
@@ -466,6 +467,7 @@ class STLSeqFactory(Factory):
             element_info,
             all_streamer_info,
             item_path,
+            in_std_array=in_std_array,
         )
 
         if isinstance(element_factory, (STLSeqFactory, STLMapFactory, STLStringFactory)):
@@ -473,7 +475,7 @@ class STLSeqFactory(Factory):
 
         return cls(
             name=fName,
-            with_header=True,
+            with_header=not in_std_array,
             objwise_or_memberwise=-1,
             element_factory=element_factory,
         )
@@ -495,17 +497,14 @@ class STLSeqFactory(Factory):
         return uproot_custom.readers.cpp.STLSeqReader(
             self.name,
             self.with_header,
-            self.objwise_or_memberwise,
             element_reader,
         )
 
     def build_python_reader(self):
-        objwise_or_memberwise = _objwise_or_memberwise_to_text(self.objwise_or_memberwise)
         element_reader = self.element_factory.build_python_reader()
         return uproot_custom.readers.python.STLSeqReader(
             self.name,
             self.with_header,
-            objwise_or_memberwise,
             element_reader,
         )
 
@@ -513,28 +512,12 @@ class STLSeqFactory(Factory):
         self,
         buffer_holder: uproot_custom.readers._forth.BufferHolder,
     ):
-        objwise_or_memberwise = _objwise_or_memberwise_to_text(self.objwise_or_memberwise)
         element_reader = self.element_factory.build_forth_reader(buffer_holder)
         return uproot_custom.readers._forth.STLSeqReader(
             self.name,
             self.with_header,
-            objwise_or_memberwise,
             element_reader,
             buffer_holder,
-        )
-
-    def build_numba_reader(
-        self,
-        ctx: uproot_custom.readers._numba.CompilationContext,
-    ):
-        objwise_or_memberwise = _objwise_or_memberwise_to_text(self.objwise_or_memberwise)
-        element_reader = self.element_factory.build_numba_reader(ctx)
-        return uproot_custom.readers._numba.STLSeqReader(
-            self.name,
-            ctx,
-            self.with_header,
-            objwise_or_memberwise,
-            element_reader,
         )
 
     def make_awkward_content(self, raw_data):
@@ -567,6 +550,7 @@ class STLMapFactory(Factory):
         cur_streamer_info,
         all_streamer_info,
         item_path,
+        in_std_array=False,
         **kwargs,
     ):
         """
@@ -589,12 +573,16 @@ class STLMapFactory(Factory):
             "fTypeName": val_type_name,
         }
 
-        key_factory = build_factory(key_info, all_streamer_info, item_path)
-        val_factory = build_factory(val_info, all_streamer_info, item_path)
+        key_factory = build_factory(
+            key_info, all_streamer_info, item_path, in_std_array=in_std_array
+        )
+        val_factory = build_factory(
+            val_info, all_streamer_info, item_path, in_std_array=in_std_array
+        )
 
         return cls(
             name=fName,
-            with_header=True,
+            with_header=not in_std_array,
             objwise_or_memberwise=-1,
             key_factory=key_factory,
             val_factory=val_factory,
@@ -615,38 +603,23 @@ class STLMapFactory(Factory):
         self.val_factory = val_factory
 
     def build_cpp_reader(self):
-        is_obj_wise = self.objwise_or_memberwise == 0
-
-        if is_obj_wise:
-            self.key_factory.with_header = False
-            self.val_factory.with_header = False
-
         key_cpp_reader = self.key_factory.build_cpp_reader()
         val_cpp_reader = self.val_factory.build_cpp_reader()
 
         return uproot_custom.readers.cpp.STLMapReader(
             self.name,
             self.with_header,
-            self.objwise_or_memberwise,
             key_cpp_reader,
             val_cpp_reader,
         )
 
     def build_python_reader(self):
-        is_obj_wise = self.objwise_or_memberwise == 0
-
-        if is_obj_wise:
-            self.key_factory.with_header = False
-            self.val_factory.with_header = False
-
-        objwise_or_memberwise = _objwise_or_memberwise_to_text(self.objwise_or_memberwise)
         key_python_reader = self.key_factory.build_python_reader()
         val_python_reader = self.val_factory.build_python_reader()
 
         return uproot_custom.readers.python.STLMapReader(
             self.name,
             self.with_header,
-            objwise_or_memberwise,
             key_python_reader,
             val_python_reader,
         )
@@ -734,6 +707,7 @@ class STLStringFactory(Factory):
         cur_streamer_info,
         all_streamer_info,
         item_path,
+        in_std_array=False,
         **kwargs,
     ):
         if top_type_name != "string":
@@ -741,7 +715,7 @@ class STLStringFactory(Factory):
 
         return cls(
             name=cur_streamer_info["fName"],
-            with_header=True,
+            with_header=not in_std_array,
         )
 
     def __init__(self, name: str, with_header: bool):
@@ -1044,7 +1018,7 @@ class TObjectFactory(Factory):
 
 class CStyleArrayFactory(Factory):
     """
-    This class reads a C-style array from a binary parser.
+    This class reads a C-style fixed/flexible array and std::array from a binary parser.
     """
 
     @classmethod
@@ -1060,38 +1034,34 @@ class CStyleArrayFactory(Factory):
         item_path,
         **kwargs,
     ):
-        fTypeName = cur_streamer_info.get("fTypeName", "")
-        dims = ()
+        is_jagged = False
         if kwargs.get("called_from_top", False):
             branch = kwargs["branch"]
-            dims, is_jagged = get_dims_from_branch(branch)
-            if is_jagged and not fTypeName.endswith("[]"):
-                fTypeName += "[]"
+            _, is_jagged = get_dims_from_branch(branch)
 
-        if not fTypeName.endswith("[]") and cur_streamer_info.get("fArrayDim", 0) == 0:
+        if not is_jagged and cur_streamer_info.get("fArrayDim", 0) == 0:
             return None
 
         fName = cur_streamer_info["fName"]
         fArrayDim = cur_streamer_info.get("fArrayDim", None)
         fMaxIndex = cur_streamer_info.get("fMaxIndex", None)
 
-        if fTypeName.endswith("[]"):
+        if is_jagged:
             flat_size = -1
         else:
-            assert fArrayDim is not None, f"fArrayDim cannot be None for {item_path}."
-            assert fMaxIndex is not None, f"fMaxIndex cannot be None for {item_path}."
             flat_size = np.prod(fMaxIndex[:fArrayDim])
 
         element_streamer_info = cur_streamer_info.copy()
         element_streamer_info["fArrayDim"] = 0
-        while fTypeName.endswith("[]"):
-            fTypeName = fTypeName[:-2]
-        element_streamer_info["fTypeName"] = fTypeName
 
+        # When stored in std::array, there is no header for vector and map and their elements.
+        # So we used `in_std_array` to tell the element factory to skip header.
+        # By so far, we use fType==82 to identify std::array.
         element_factory = build_factory(
             element_streamer_info,
             all_streamer_info,
             item_path=item_path,
+            in_std_array=cur_streamer_info.get("fType", -1) == 82,
         )
 
         # When TString is stored in C-style or std array, it has a "fNByte+fVersion" header.
@@ -1099,24 +1069,6 @@ class CStyleArrayFactory(Factory):
             element_factory.with_header = True
 
         assert flat_size != 0, "flatten_size cannot be 0."
-
-        # When stored in std::array
-        # [1] There is no header for vector and map.
-        # [2] Map is object-wise serialized.
-        # By so far, we use fType==82 to identify std::array.
-        if (
-            isinstance(
-                element_factory,
-                (
-                    STLSeqFactory,
-                    STLMapFactory,
-                    STLStringFactory,
-                ),
-            )
-            and cur_streamer_info.get("fType", -1) == 82
-        ):
-            element_factory.with_header = False
-            element_factory.objwise_or_memberwise = 0  # -1: auto, 0: obj-wise, 1: member-wise
 
         return cls(
             name=fName,
