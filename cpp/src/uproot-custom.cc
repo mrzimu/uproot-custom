@@ -262,8 +262,6 @@ namespace uproot_custom {
          *
          * @param name Name of the reader.
          * @param with_header Whether the sequence has a `fNBytes+fVersion` header.
-         * @param objwise_or_memberwise Object-wise or member-wise reading mode.
-         *        -1: auto, 0: obj-wise, 1: member-wise.
          * @param element_reader Reader for the elements of the sequence.
          */
         STLSeqReader( string name, bool with_header, SharedReader element_reader )
@@ -333,7 +331,7 @@ namespace uproot_custom {
             bool is_memberwise = false;
             if ( m_with_header )
             {
-                stream.read_fNBytes();
+                stream.skip_fNBytes();
                 auto fVersion = stream.read_fVersion();
                 is_memberwise = fVersion & kStreamedMemberWise;
             }
@@ -357,7 +355,7 @@ namespace uproot_custom {
             bool is_memberwise = false;
             if ( m_with_header )
             {
-                auto fNBytes  = stream.read_fNBytes();
+                stream.skip_fNBytes();
                 auto fVersion = stream.read_fVersion();
                 is_memberwise = fVersion & kStreamedMemberWise;
             }
@@ -401,8 +399,6 @@ namespace uproot_custom {
          *
          * @param name Name of the reader.
          * @param with_header Whether the map has a `fNBytes+fVersion` header.
-         * @param objwise_or_memberwise Object-wise or member-wise reading mode.
-         *        -1: auto, 0: obj-wise, 1: member-wise.
          * @param key_reader Reader for the keys of the map.
          * @param value_reader Reader for the values of the map.
          */
