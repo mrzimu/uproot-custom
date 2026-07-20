@@ -109,31 +109,3 @@ def test_forth_cstyle_array_jagged_uses_event_end_pos():
     assert f"{_forth.stream_evt_end_pos_token} @" in codes
     assert forth_element.read_until_token in codes
     assert forth_reader.offsets_token in codes
-
-
-def test_numba(test_contexts, subtests, monkeypatch):
-    pytest.importorskip("numba")
-
-    numba_test_names = [
-        "primitive",
-        "stl_string",
-        "stl_sequence",
-        "stl_map",
-        "root_objects",
-        "cstyle_array",
-        "stl_array",
-        "stl_seq_with_obj",
-        "stl_map_with_obj",
-        "stl_nested",
-        "stl_complicated",
-    ]
-
-    numba_contexts = {
-        test_name: ctx
-        for (test_name, ctx) in test_contexts.items()
-        if test_name in numba_test_names
-    }
-
-    monkeypatch.setattr(uproot_custom.factories, "reader_backend", "numba")
-    with pytest.warns(UserWarning):
-        _test_helper(numba_contexts, subtests)

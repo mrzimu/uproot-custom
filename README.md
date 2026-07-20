@@ -3,7 +3,7 @@
 Uproot-custom is an extension of [Uproot](https://uproot.readthedocs.io/en/latest/basic.html) that provides an enhanced way to read custom classes stored in `TTree`.
 
 > [!WARNING]
-> Because of earlier mistakes in version management, the `v2.x.x` series should still be treated as a development version rather than a stable release.
+> Because of earlier mistakes in version management, the `v2.x.x` series should still be treated as a development version rather than a stable release. Please specify a minor version when using Uproot-custom as a dependency (e.g., `uproot-custom==2.5.*`) to avoid unexpected breaking changes.
 
 ## What uproot-custom can do
 

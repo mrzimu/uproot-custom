@@ -253,9 +253,8 @@ namespace uproot_custom {
     class STLSeqReader : public IReader {
       private:
         const bool m_with_header; ///< Whether the sequence has a `fNBytes+fVersion` header.
-        const int m_objwise_or_memberwise{ -1 }; ///< -1: auto, 0: obj-wise, 1: member-wise
-        SharedReader m_element_reader;           ///< Reader for the elements of the sequence.
-        SharedVector<int64_t> m_offsets;         ///< Store the offsets for each sequence.
+        SharedReader m_element_reader;   ///< Reader for the elements of the sequence.
+        SharedVector<int64_t> m_offsets; ///< Store the offsets for each sequence.
 
       public:
         /**
@@ -263,31 +262,13 @@ namespace uproot_custom {
          *
          * @param name Name of the reader.
          * @param with_header Whether the sequence has a `fNBytes+fVersion` header.
-         * @param objwise_or_memberwise Object-wise or member-wise reading mode.
-         *        -1: auto, 0: obj-wise, 1: member-wise.
          * @param element_reader Reader for the elements of the sequence.
          */
-        STLSeqReader( string name, bool with_header, int objwise_or_memberwise,
-                      SharedReader element_reader )
+        STLSeqReader( string name, bool with_header, SharedReader element_reader )
             : IReader( name )
             , m_with_header( with_header )
-            , m_objwise_or_memberwise( objwise_or_memberwise )
             , m_element_reader( element_reader )
             , m_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) ) {}
-
-        /**
-         * @brief Check if the reading mode matches the expected mode.
-         *
-         * @param is_memberwise Whether the current reading mode is member-wise.
-         */
-        void check_objwise_memberwise( const bool is_memberwise ) {
-            if ( m_objwise_or_memberwise == 0 && is_memberwise )
-                throw std::runtime_error( "STLSeqReader(" + name() +
-                                          "): Expect obj-wise, got member-wise!" );
-            if ( m_objwise_or_memberwise == 1 && !is_memberwise )
-                throw std::runtime_error( "STLSeqReader(" + name() +
-                                          "): Expect member-wise, got obj-wise!" );
-        }
 
         /**
          * @brief Read the element version and checksum from the stream.
@@ -331,7 +312,6 @@ namespace uproot_custom {
             stream.read_fNBytes();
             auto fVersion      = stream.read_fVersion();
             bool is_memberwise = fVersion & kStreamedMemberWise;
-            check_objwise_memberwise( is_memberwise );
             if ( is_memberwise ) read_element_version( stream );
             read_body( stream, is_memberwise );
         }
@@ -347,42 +327,18 @@ namespace uproot_custom {
          */
         uint32_t read_many( BinaryStream& stream, const int64_t count ) override {
             if ( count == 0 ) return 0;
-            else if ( count < 0 )
+
+            bool is_memberwise = false;
+            if ( m_with_header )
             {
-                if ( !m_with_header )
-                    throw std::runtime_error( "STLSeqReader::read with negative count only "
-                                              "supported when with_header is true!" );
-
-                auto fNBytes       = stream.read_fNBytes();
-                auto end_pos       = stream.get_cursor() + fNBytes;
-                auto fVersion      = stream.read_fVersion();
-                bool is_memberwise = fVersion & kStreamedMemberWise;
-                check_objwise_memberwise( is_memberwise );
-                if ( is_memberwise ) read_element_version( stream );
-
-                uint32_t cur_count = 0;
-                while ( stream.get_cursor() < end_pos )
-                {
-                    read_body( stream, is_memberwise );
-                    cur_count++;
-                }
-                return cur_count;
+                stream.skip_fNBytes();
+                auto fVersion = stream.read_fVersion();
+                is_memberwise = fVersion & kStreamedMemberWise;
             }
-            else
-            {
-                bool is_memberwise = m_objwise_or_memberwise == 1;
-                if ( m_with_header )
-                {
-                    stream.read_fNBytes();
-                    auto fVersion = stream.read_fVersion();
-                    is_memberwise = fVersion & kStreamedMemberWise;
-                    check_objwise_memberwise( is_memberwise );
-                }
-                if ( is_memberwise ) read_element_version( stream );
+            if ( is_memberwise ) read_element_version( stream );
 
-                for ( auto i = 0; i < count; i++ ) { read_body( stream, is_memberwise ); }
-                return count;
-            }
+            for ( auto i = 0; i < count; i++ ) { read_body( stream, is_memberwise ); }
+            return count;
         }
 
         /**
@@ -396,13 +352,12 @@ namespace uproot_custom {
          */
         uint32_t read_until( BinaryStream& stream, const uint8_t* end_pos ) override {
             if ( stream.get_cursor() == end_pos ) return 0;
-            bool is_memberwise = m_objwise_or_memberwise == 1;
+            bool is_memberwise = false;
             if ( m_with_header )
             {
-                auto fNBytes  = stream.read_fNBytes();
+                stream.skip_fNBytes();
                 auto fVersion = stream.read_fVersion();
                 is_memberwise = fVersion & kStreamedMemberWise;
-                check_objwise_memberwise( is_memberwise );
             }
             if ( is_memberwise ) read_element_version( stream );
 
@@ -433,11 +388,10 @@ namespace uproot_custom {
      */
     class STLMapReader : public IReader {
       private:
-        const bool m_with_header; ///< Whether the map has a `fNBytes+fVersion` header.
-        const int m_objwise_or_memberwise{ -1 }; ///< -1: auto, 0: obj-wise, 1: member-wise
-        SharedVector<int64_t> m_offsets;         ///< Store the offsets for each map.
-        SharedReader m_key_reader;               ///< Reader for the keys of the map.
-        SharedReader m_value_reader;             ///< Reader for the values of the map.
+        const bool m_with_header;        ///< Whether the map has a `fNBytes+fVersion` header.
+        SharedVector<int64_t> m_offsets; ///< Store the offsets for each map.
+        SharedReader m_key_reader;       ///< Reader for the keys of the map.
+        SharedReader m_value_reader;     ///< Reader for the values of the map.
 
       public:
         /**
@@ -445,33 +399,16 @@ namespace uproot_custom {
          *
          * @param name Name of the reader.
          * @param with_header Whether the map has a `fNBytes+fVersion` header.
-         * @param objwise_or_memberwise Object-wise or member-wise reading mode.
-         *        -1: auto, 0: obj-wise, 1: member-wise.
          * @param key_reader Reader for the keys of the map.
          * @param value_reader Reader for the values of the map.
          */
-        STLMapReader( string name, bool with_header, int objwise_or_memberwise,
-                      SharedReader key_reader, SharedReader value_reader )
+        STLMapReader( string name, bool with_header, SharedReader key_reader,
+                      SharedReader value_reader )
             : IReader( name )
             , m_with_header( with_header )
-            , m_objwise_or_memberwise( objwise_or_memberwise )
             , m_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) )
             , m_key_reader( key_reader )
             , m_value_reader( value_reader ) {}
-
-        /**
-         * @brief Check if the reading mode matches the expected mode.
-         *
-         * @param is_memberwise Whether the current reading mode is member-wise.
-         */
-        void check_objwise_memberwise( const bool is_memberwise ) {
-            if ( m_objwise_or_memberwise == 0 && is_memberwise )
-                throw std::runtime_error( "STLMapReader(" + name() +
-                                          "): Expect obj-wise, got member-wise!" );
-            if ( m_objwise_or_memberwise == 1 && !is_memberwise )
-                throw std::runtime_error( "STLMapReader(" + name() +
-                                          "): Expect member-wise, got obj-wise!" );
-        }
 
         /**
          * @brief Read the element version and checksum from the stream.
@@ -527,7 +464,6 @@ namespace uproot_custom {
             read_element_version( stream );
 
             bool is_memberwise = fVersion & kStreamedMemberWise;
-            check_objwise_memberwise( is_memberwise );
             read_body( stream, is_memberwise );
         }
 
@@ -543,44 +479,19 @@ namespace uproot_custom {
          */
         uint32_t read_many( BinaryStream& stream, const int64_t count ) override {
             if ( count == 0 ) return 0;
-            else if ( count < 0 )
-            {
-                if ( !m_with_header )
-                    throw std::runtime_error( "STLMapReader::read with negative count only "
-                                              "supported when with_header is true!" );
 
+            bool is_memberwise = false;
+            if ( m_with_header )
+            {
                 auto fNBytes  = stream.read_fNBytes();
                 auto fVersion = stream.read_fVersion();
                 read_element_version( stream );
-                bool is_memberwise = fVersion & kStreamedMemberWise;
-                check_objwise_memberwise( is_memberwise );
 
-                auto end_pos = stream.get_cursor() + fNBytes - 8;
-
-                uint32_t cur_count = 0;
-                while ( stream.get_cursor() < end_pos )
-                {
-                    read_body( stream, is_memberwise );
-                    cur_count++;
-                }
-                return cur_count;
+                is_memberwise = fVersion & kStreamedMemberWise;
             }
-            else
-            {
-                bool is_memberwise = m_objwise_or_memberwise == 1;
-                if ( m_with_header )
-                {
-                    auto fNBytes  = stream.read_fNBytes();
-                    auto fVersion = stream.read_fVersion();
-                    read_element_version( stream );
 
-                    is_memberwise = fVersion & kStreamedMemberWise;
-                    check_objwise_memberwise( is_memberwise );
-                }
-
-                for ( auto i = 0; i < count; i++ ) { read_body( stream, is_memberwise ); }
-                return count;
-            }
+            for ( auto i = 0; i < count; i++ ) { read_body( stream, is_memberwise ); }
+            return count;
         }
 
         /**
@@ -595,7 +506,7 @@ namespace uproot_custom {
         uint32_t read_until( BinaryStream& stream, const uint8_t* end_pos ) override {
             if ( stream.get_cursor() == end_pos ) return 0;
 
-            bool is_memberwise = m_objwise_or_memberwise == 1;
+            bool is_memberwise = false;
             if ( m_with_header )
             {
                 stream.read_fNBytes();
@@ -603,7 +514,6 @@ namespace uproot_custom {
                 read_element_version( stream );
 
                 is_memberwise = fVersion & kStreamedMemberWise;
-                check_objwise_memberwise( is_memberwise );
             }
 
             uint32_t cur_count = 0;
@@ -613,27 +523,6 @@ namespace uproot_custom {
                 cur_count++;
             }
             return cur_count;
-        }
-
-        /**
-         * @brief Read multiple maps from the stream in member-wise mode.
-         *
-         * @param stream The binary stream to read from.
-         * @param count Number of maps to read. If negative, throws an error.
-         * @return Number of maps read.
-         */
-        virtual uint32_t read_many_memberwise( BinaryStream& stream,
-                                               const int64_t count ) override {
-            if ( count < 0 )
-            {
-                stringstream msg;
-                msg << name() << "::read_many_memberwise with negative count: " << count;
-                throw std::runtime_error( msg.str() );
-            }
-
-            bool is_memberwise = true;
-            check_objwise_memberwise( is_memberwise );
-            return read_many( stream, count );
         }
 
         /**
@@ -713,34 +602,15 @@ namespace uproot_custom {
          */
         uint32_t read_many( BinaryStream& stream, const int64_t count ) override {
             if ( count == 0 ) return 0;
-            else if ( count < 0 )
+
+            if ( m_with_header )
             {
-                if ( !m_with_header )
-                    throw std::runtime_error( "STLStringReader::read with negative count only "
-                                              "supported when with_header is true!" );
                 auto fNBytes  = stream.read_fNBytes();
                 auto fVersion = stream.read_fVersion();
-
-                auto end_pos       = stream.get_cursor() + fNBytes - 2; // -2 for fVersion
-                uint32_t cur_count = 0;
-                while ( stream.get_cursor() < end_pos )
-                {
-                    read_body( stream );
-                    cur_count++;
-                }
-                return cur_count;
             }
-            else
-            {
-                if ( m_with_header )
-                {
-                    auto fNBytes  = stream.read_fNBytes();
-                    auto fVersion = stream.read_fVersion();
-                }
 
-                for ( auto i = 0; i < count; i++ ) { read_body( stream ); }
-                return count;
-            }
+            for ( auto i = 0; i < count; i++ ) { read_body( stream ); }
+            return count;
         }
 
         /**
@@ -1373,8 +1243,8 @@ namespace uproot_custom {
         declare_reader<PrimitiveReader<double>, string>( m, "DoubleReader" );
 
         // STL readers
-        declare_reader<STLSeqReader, string, bool, int, SharedReader>( m, "STLSeqReader" );
-        declare_reader<STLMapReader, string, bool, int, SharedReader, SharedReader>(
+        declare_reader<STLSeqReader, string, bool, SharedReader>( m, "STLSeqReader" );
+        declare_reader<STLMapReader, string, bool, SharedReader, SharedReader>(
             m, "STLMapReader" );
         declare_reader<STLStringReader, string, bool>( m, "STLStringReader" );
 

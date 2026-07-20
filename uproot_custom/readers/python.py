@@ -355,10 +355,7 @@ class TStringReader(IReader):
         self.offsets.append(len(self._data))
 
     def read_many(self, stream, count):
-        assert (
-            count >= 0
-        ), f"Calling {self.name}.read_many with negative count: {count} is not allowed"
-
+        # if count==0, always no header
         if count == 0:
             return 0
 
@@ -392,30 +389,12 @@ class TStringReader(IReader):
 
 
 class STLSeqReader(IReader):
-    def __init__(
-        self,
-        name: str,
-        with_header: bool,
-        objwise_or_memberwise: Literal["auto", "obj-wise", "member-wise"],
-        element_reader: IReader,
-    ):
+    def __init__(self, name: str, with_header: bool, element_reader: IReader):
         super().__init__(name)
 
         self.with_header = with_header
-        self.objwise_or_memberwise = objwise_or_memberwise
         self.element_reader = element_reader
         self.offsets = array("q", [0])
-
-    def check_objwise_memberwise(self, is_memberwise: bool):
-        if self.objwise_or_memberwise == "obj-wise" and is_memberwise:
-            raise ValueError(
-                f"STLSeqReader({self.name}) expected obj-wise reading but got member-wise"
-            )
-
-        if self.objwise_or_memberwise == "member-wise" and not is_memberwise:
-            raise ValueError(
-                f"STLSeqReader({self.name}) expected member-wise reading but got obj-wise"
-            )
 
     def read_element_version(self, stream: BinaryStream):
         version = stream.read_fVersion()
@@ -429,7 +408,7 @@ class STLSeqReader(IReader):
         self.offsets.append(self.offsets[-1] + fSize)
 
         debug_print(
-            f"STLSeqReader({self.name}): reading body, is_memberwise={is_memberwise}, fSize={fSize}\n"
+            f"STLSeqReader({self.name}): reading body, is_memberwise={is_memberwise}, fSize={fSize}"
         )
         debug_print(stream)
 
@@ -443,7 +422,6 @@ class STLSeqReader(IReader):
 
         fVersion = stream.read_fVersion()
         is_memberwise = bool(fVersion & kStreamedMemberwise)
-        self.check_objwise_memberwise(is_memberwise)
 
         if is_memberwise:
             self.read_element_version(stream)
@@ -454,34 +432,12 @@ class STLSeqReader(IReader):
         if count == 0:
             return 0
 
-        elif count < 0:
-            assert (
-                self.with_header
-            ), f"STLSeqReader({self.name}).read_many called with negative count expects with_header=True"
-
-            fNBytes = stream.read_fNBytes()
-            end_pos = stream.cursor + fNBytes
-
-            fVersion = stream.read_fVersion()
-            is_memberwise = bool(fVersion & kStreamedMemberwise)
-            self.check_objwise_memberwise(is_memberwise)
-
-            if is_memberwise:
-                self.read_element_version(stream)
-
-            cur_count = 0
-            while stream.cursor < end_pos:
-                self.read_body(stream, is_memberwise)
-                cur_count += 1
-            return cur_count
-
         else:
-            is_memberwise = self.objwise_or_memberwise == "member-wise"
+            is_memberwise = False
             if self.with_header:
                 stream.skip_fNBytes()
                 fVersion = stream.read_fVersion()
                 is_memberwise = bool(fVersion & kStreamedMemberwise)
-                self.check_objwise_memberwise(is_memberwise)
 
             if is_memberwise:
                 self.read_element_version(stream)
@@ -494,13 +450,11 @@ class STLSeqReader(IReader):
         if stream.cursor == end_pos:
             return 0
 
-        is_memberwise = self.objwise_or_memberwise == "member-wise"
-
+        is_memberwise = False
         if self.with_header:
             stream.skip_fNBytes()
             fVersion = stream.read_fVersion()
             is_memberwise = bool(fVersion & kStreamedMemberwise)
-            self.check_objwise_memberwise(is_memberwise)
 
         if is_memberwise:
             self.read_element_version(stream)
@@ -522,28 +476,15 @@ class STLMapReader(IReader):
         self,
         name: str,
         with_header: bool,
-        objwise_or_memberwise: Literal["auto", "obj-wise", "member-wise"],
         key_reader: IReader,
         value_reader: IReader,
     ):
         super().__init__(name)
 
         self.with_header = with_header
-        self.objwise_or_memberwise = objwise_or_memberwise
         self.key_reader = key_reader
         self.value_reader = value_reader
         self.offsets = array("q", [0])
-
-    def check_objwise_memberwise(self, is_memberwise: bool):
-        if self.objwise_or_memberwise == "obj-wise" and is_memberwise:
-            raise ValueError(
-                f"STLMapReader({self.name}) expected obj-wise reading but got member-wise"
-            )
-
-        if self.objwise_or_memberwise == "member-wise" and not is_memberwise:
-            raise ValueError(
-                f"STLMapReader({self.name}) expected member-wise reading but got obj-wise"
-            )
 
     def read_element_version(self, stream: BinaryStream):
         version = stream.read_fVersion()
@@ -577,79 +518,43 @@ class STLMapReader(IReader):
         self.read_element_version(stream)
 
         is_memberwise = bool(fVersion & kStreamedMemberwise)
-        self.check_objwise_memberwise(is_memberwise)
         self.read_body(stream, is_memberwise)
 
     def read_many(self, stream, count):
         if count == 0:
             return 0
 
-        elif count < 0:
-            assert (
-                self.with_header
-            ), f"STLMapReader({self.name}).read_many called with negative count expecting with_header=True"
-
-            fNBytes = stream.read_fNBytes()
-            end_pos = stream.cursor + fNBytes
+        is_memberwise = False
+        if self.with_header:
+            stream.skip_fNBytes()
 
             fVersion = stream.read_fVersion()
+            is_memberwise = bool(fVersion & kStreamedMemberwise)
 
             self.read_element_version(stream)
 
-            is_memberwise = bool(fVersion & kStreamedMemberwise)
-            self.check_objwise_memberwise(is_memberwise)
-
-            cur_count = 0
-            while stream.cursor < end_pos:
-                self.read_body(stream, is_memberwise)
-                cur_count += 1
-            return cur_count
-
-        else:
-            is_memberwise = self.objwise_or_memberwise == "member-wise"
-            if self.with_header:
-                stream.skip_fNBytes()
-                fVersion = stream.read_fVersion()
-
-                self.read_element_version(stream)
-
-                is_memberwise = bool(fVersion & kStreamedMemberwise)
-                self.check_objwise_memberwise(is_memberwise)
-
-            for _ in range(count):
-                self.read_body(stream, is_memberwise)
-            return count
+        for _ in range(count):
+            self.read_body(stream, is_memberwise)
+        return count
 
     def read_until(self, stream, end_pos):
         if stream.cursor == end_pos:
             return 0
 
-        is_memberwise = self.objwise_or_memberwise == "member-wise"
-
+        is_memberwise = False
         if self.with_header:
             stream.skip_fNBytes()
+
             fVersion = stream.read_fVersion()
+            is_memberwise = bool(fVersion & kStreamedMemberwise)
 
             self.read_element_version(stream)
-
-            is_memberwise = bool(fVersion & kStreamedMemberwise)
-            self.check_objwise_memberwise(is_memberwise)
 
         count = 0
         while stream.cursor < end_pos:
             self.read_body(stream, is_memberwise)
             count += 1
         return count
-
-    def read_many_memberwise(self, stream, count):
-        assert (
-            count >= 0
-        ), f"Calling {self.name}.read_many_memberwise with negative count: {count} is not allowed"
-
-        is_memberwise = True
-
-        self.check_objwise_memberwise(is_memberwise)
-        return self.read_many(stream, count)
 
     def data(self):
         offsets_array = np.asarray(self.offsets)
@@ -685,30 +590,13 @@ class STLStringReader(IReader):
         if count == 0:
             return 0
 
-        elif count < 0:
-            assert (
-                self.with_header
-            ), f"STLStringReader({self.name}).read_many called with negative count expecting with_header=True"
-
-            fNBytes = stream.read_fNBytes()
-            end_pos = stream.cursor + fNBytes
-
+        if self.with_header:
+            stream.skip_fNBytes()
             stream.skip_fVersion()
 
-            cur_count = 0
-            while stream.cursor < end_pos:
-                self.read_body(stream)
-                cur_count += 1
-            return cur_count
-
-        else:
-            if self.with_header:
-                stream.skip_fNBytes()
-                stream.skip_fVersion()
-
-            for _ in range(count):
-                self.read_body(stream)
-            return count
+        for _ in range(count):
+            self.read_body(stream)
+        return count
 
     def read_until(self, stream, end_pos):
         if stream.cursor == end_pos:
@@ -1002,7 +890,6 @@ class CStyleArrayReader(IReader):
 
         for _ in range(count):
             self.element_reader.read_many(stream, self.flat_size)
-
         return count
 
     def read_until(self, stream, end_pos):
@@ -1039,7 +926,7 @@ def read_data(
 
         assert end_pos == offsets[i_evt + 1], (
             f"read_data: Invalid read length for {reader.name} at entry {i_evt}! Expect "
-            f"{stream.offsets[i_evt + 1]-stream.offsets[i_evt]} bytes, but read {end_pos - start_pos} bytes."
+            f"{stream.offsets[i_evt + 1] - stream.offsets[i_evt]} bytes, but read {end_pos - start_pos} bytes."
         )
 
     return reader.data()
