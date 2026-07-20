@@ -27,21 +27,21 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=4418a689" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
@@ -56,6 +56,7 @@
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/uproot_custom';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="uproot_custom.readers package" href="uproot_custom.readers.html" />
@@ -63,20 +64,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+  
+  
+  
   
   <dialog id="pst-search-dialog">
     
@@ -102,7 +109,51 @@
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
     </header>
   
 
@@ -305,11 +356,18 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div>
 
 
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
@@ -337,10 +395,10 @@
                 <h2> Contents </h2>
             </div>
             <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subpackages">Subpackages</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.AsCustom">uproot_custom.AsCustom module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.AsCustom">uproot_custom.AsCustom module</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom"><code class="docutils literal notranslate"><span class="pre">AsCustom</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom.awkward_form"><code class="docutils literal notranslate"><span class="pre">AsCustom.awkward_form()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom.basket_array"><code class="docutils literal notranslate"><span class="pre">AsCustom.basket_array()</span></code></a></li>
@@ -353,12 +411,11 @@
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.factories">uproot_custom.factories module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.factories">uproot_custom.factories module</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory.priority"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.priority()</span></code></a></li>
 </ul>
@@ -383,7 +440,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.make_awkward_form()</span></code></a></li>
@@ -394,7 +450,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.make_awkward_form()</span></code></a></li>
@@ -404,7 +459,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">Factory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.build_factory"><code class="docutils literal notranslate"><span class="pre">Factory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">Factory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">Factory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">Factory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">Factory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">Factory.make_awkward_form()</span></code></a></li>
@@ -415,7 +469,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">GroupFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">GroupFactory.make_awkward_form()</span></code></a></li>
@@ -425,7 +478,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.cpp_reader_map"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.cpp_reader_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.ftype2dtype"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.ftype2dtype</span></code></a></li>
@@ -438,7 +490,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.make_awkward_form()</span></code></a></li>
@@ -449,7 +500,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.make_awkward_form()</span></code></a></li>
@@ -460,7 +510,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.make_awkward_form()</span></code></a></li>
@@ -470,7 +519,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.make_awkward_form()</span></code></a></li>
@@ -481,7 +529,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.keep_data_itempaths"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.keep_data_itempaths</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.make_awkward_content()</span></code></a></li>
@@ -492,7 +539,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">TStringFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">TStringFactory.make_awkward_form()</span></code></a></li>
@@ -503,7 +549,7 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.read_branch_awkward_form"><code class="docutils literal notranslate"><span class="pre">read_branch_awkward_form()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.utils">uproot_custom.utils module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.utils">uproot_custom.utils module</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.utils.get_dims_from_branch"><code class="docutils literal notranslate"><span class="pre">get_dims_from_branch()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.utils.get_map_key_val_typenames"><code class="docutils literal notranslate"><span class="pre">get_map_key_val_typenames()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.utils.get_sequence_element_typename"><code class="docutils literal notranslate"><span class="pre">get_sequence_element_typename()</span></code></a></li>
@@ -511,12 +557,11 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.utils.regularize_object_path"><code class="docutils literal notranslate"><span class="pre">regularize_object_path()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom">Module contents</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom">Module contents</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AnyClassFactory"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AnyClassFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AnyClassFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AnyClassFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AnyClassFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AnyClassFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AnyClassFactory.priority"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.priority()</span></code></a></li>
 </ul>
@@ -552,7 +597,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.CStyleArrayFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.CStyleArrayFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.CStyleArrayFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.CStyleArrayFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.CStyleArrayFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.CStyleArrayFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.CStyleArrayFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.make_awkward_form()</span></code></a></li>
@@ -563,7 +607,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.EmptyFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.EmptyFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.EmptyFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.EmptyFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.EmptyFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.EmptyFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.EmptyFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.make_awkward_form()</span></code></a></li>
@@ -573,7 +616,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.Factory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">Factory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.Factory.build_factory"><code class="docutils literal notranslate"><span class="pre">Factory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.Factory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">Factory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.Factory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">Factory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.Factory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">Factory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.Factory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">Factory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.Factory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">Factory.make_awkward_form()</span></code></a></li>
@@ -584,7 +626,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.GroupFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.GroupFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.GroupFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.GroupFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.GroupFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.GroupFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">GroupFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.GroupFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">GroupFactory.make_awkward_form()</span></code></a></li>
@@ -594,7 +635,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.PrimitiveFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.PrimitiveFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.PrimitiveFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.PrimitiveFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.PrimitiveFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.PrimitiveFactory.cpp_reader_map"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.cpp_reader_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.PrimitiveFactory.ftype2dtype"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.ftype2dtype</span></code></a></li>
@@ -607,7 +647,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLMapFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLMapFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLMapFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLMapFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLMapFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLMapFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLMapFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.make_awkward_form()</span></code></a></li>
@@ -618,7 +657,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLSeqFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLSeqFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLSeqFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLSeqFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLSeqFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLSeqFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLSeqFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.make_awkward_form()</span></code></a></li>
@@ -629,7 +667,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLStringFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLStringFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLStringFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLStringFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLStringFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLStringFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLStringFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.make_awkward_form()</span></code></a></li>
@@ -639,7 +676,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TArrayFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TArrayFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TArrayFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TArrayFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TArrayFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TArrayFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TArrayFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.make_awkward_form()</span></code></a></li>
@@ -650,7 +686,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TObjectFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TObjectFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TObjectFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TObjectFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TObjectFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TObjectFactory.keep_data_itempaths"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.keep_data_itempaths</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TObjectFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.make_awkward_content()</span></code></a></li>
@@ -661,7 +696,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TStringFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TStringFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TStringFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TStringFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TStringFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TStringFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">TStringFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TStringFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">TStringFactory.make_awkward_form()</span></code></a></li>
@@ -796,18 +830,15 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader"><code class="docutils literal notranslate"><span class="pre">STLMapReader</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.check_objwise_memberwise"><code class="docutils literal notranslate"><span class="pre">STLMapReader.check_objwise_memberwise()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.data"><code class="docutils literal notranslate"><span class="pre">STLMapReader.data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.read"><code class="docutils literal notranslate"><span class="pre">STLMapReader.read()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.read_body"><code class="docutils literal notranslate"><span class="pre">STLMapReader.read_body()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.read_element_version"><code class="docutils literal notranslate"><span class="pre">STLMapReader.read_element_version()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.read_many"><code class="docutils literal notranslate"><span class="pre">STLMapReader.read_many()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.read_many_memberwise"><code class="docutils literal notranslate"><span class="pre">STLMapReader.read_many_memberwise()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader.read_until"><code class="docutils literal notranslate"><span class="pre">STLMapReader.read_until()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader"><code class="docutils literal notranslate"><span class="pre">STLSeqReader</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader.check_objwise_memberwise"><code class="docutils literal notranslate"><span class="pre">STLSeqReader.check_objwise_memberwise()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader.data"><code class="docutils literal notranslate"><span class="pre">STLSeqReader.data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader.read"><code class="docutils literal notranslate"><span class="pre">STLSeqReader.read()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.readers.html#uproot_custom.readers.python.STLSeqReader.read_body"><code class="docutils literal notranslate"><span class="pre">STLSeqReader.read_body()</span></code></a></li>
@@ -1004,20 +1035,6 @@ instatiate it directly.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.factories.AnyClassFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#AnyClassFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.AnyClassFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="uproot_custom.factories.AnyClassFactory.build_python_reader">
 <span class="sig-name descname"><span class="pre">build_python_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#AnyClassFactory.build_python_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.AnyClassFactory.build_python_reader" title="Link to this definition">#</a></dt>
 <dd><p>Build concrete Python reader.</p>
@@ -1188,7 +1205,7 @@ instatiate it directly.</p>
 <dt class="sig sig-object py" id="uproot_custom.factories.CStyleArrayFactory">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">uproot_custom.factories.</span></span><span class="sig-name descname"><span class="pre">CStyleArrayFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_factory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><span class="pre">Factory</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">flat_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fMaxIndex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fArrayDim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#CStyleArrayFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.CStyleArrayFactory" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><code class="xref py py-class docutils literal notranslate"><span class="pre">Factory</span></code></a></p>
-<p>This class reads a C-style array from a binary parser.</p>
+<p>This class reads a C-style fixed/flexible array and std::array from a binary parser.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="uproot_custom.factories.CStyleArrayFactory.build_cpp_reader">
 <span class="sig-name descname"><span class="pre">build_cpp_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#CStyleArrayFactory.build_cpp_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.CStyleArrayFactory.build_cpp_reader" title="Link to this definition">#</a></dt>
@@ -1236,20 +1253,6 @@ item.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instance of <cite>uproot_custom.readers.forth.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.factories.CStyleArrayFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#CStyleArrayFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.CStyleArrayFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1338,20 +1341,6 @@ instatiate it directly.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instance of <cite>uproot_custom.readers.forth.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.factories.EmptyFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#EmptyFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.EmptyFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1460,20 +1449,6 @@ item.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.factories.Factory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#Factory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.Factory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="uproot_custom.factories.Factory.build_python_reader">
 <span class="sig-name descname"><span class="pre">build_python_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="uproot_custom.readers.html#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><span class="pre">IReader</span></a></span></span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#Factory.build_python_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.Factory.build_python_reader" title="Link to this definition">#</a></dt>
 <dd><p>Build concrete Python reader.</p>
@@ -1563,20 +1538,6 @@ instatiate it directly.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.factories.GroupFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#GroupFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.GroupFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="uproot_custom.factories.GroupFactory.build_python_reader">
 <span class="sig-name descname"><span class="pre">build_python_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#GroupFactory.build_python_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.GroupFactory.build_python_reader" title="Link to this definition">#</a></dt>
 <dd><p>Build concrete Python reader.</p>
@@ -1651,20 +1612,6 @@ instatiate it directly.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instance of <cite>uproot_custom.readers.forth.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.factories.PrimitiveFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#PrimitiveFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.PrimitiveFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1746,7 +1693,7 @@ instatiate it directly.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="uproot_custom.factories.STLMapFactory.build_factory">
-<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLMapFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLMapFactory.build_factory" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_std_array</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLMapFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLMapFactory.build_factory" title="Link to this definition">#</a></dt>
 <dd><p>Return when <cite>top_type_name</cite> is in <cite>cls.target_types</cite>.</p>
 </dd></dl>
 
@@ -1760,20 +1707,6 @@ instatiate it directly.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instance of <cite>uproot_custom.readers.forth.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.factories.STLMapFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLMapFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLMapFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1845,7 +1778,7 @@ instatiate it directly.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="uproot_custom.factories.STLSeqFactory.build_factory">
-<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLSeqFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLSeqFactory.build_factory" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_std_array</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLSeqFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLSeqFactory.build_factory" title="Link to this definition">#</a></dt>
 <dd><p>Return when <cite>top_type_name</cite> is in <cite>cls.target_types</cite>.</p>
 </dd></dl>
 
@@ -1859,20 +1792,6 @@ instatiate it directly.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instance of <cite>uproot_custom.readers.forth.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.factories.STLSeqFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLSeqFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLSeqFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1944,7 +1863,7 @@ instatiate it directly.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="uproot_custom.factories.STLStringFactory.build_factory">
-<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLStringFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLStringFactory.build_factory" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_std_array</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLStringFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLStringFactory.build_factory" title="Link to this definition">#</a></dt>
 <dd><p>Return an instance of this factory when current item matches this factory,
 otherwise return <cite>None</cite>.</p>
 <dl class="field-list simple">
@@ -1978,20 +1897,6 @@ item.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instance of <cite>uproot_custom.readers.forth.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.factories.STLStringFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLStringFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.STLStringFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2074,20 +1979,6 @@ Corresponding dtype is int8, int16, int32, int64, int64, float32, and float64 re
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instance of <cite>uproot_custom.readers.forth.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.factories.TArrayFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TArrayFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.TArrayFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2179,20 +2070,6 @@ will always return <cite>None</cite>.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instance of <cite>uproot_custom.readers.forth.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.factories.TObjectFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TObjectFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.TObjectFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2298,20 +2175,6 @@ item.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instance of <cite>uproot_custom.readers.forth.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.factories.TStringFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TStringFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.factories.TStringFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2456,20 +2319,6 @@ instatiate it directly.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instance of <cite>uproot_custom.readers.forth.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.AnyClassFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#AnyClassFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.AnyClassFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2757,7 +2606,7 @@ instatiate it directly.</p>
 <dt class="sig sig-object py" id="uproot_custom.CStyleArrayFactory">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">uproot_custom.</span></span><span class="sig-name descname"><span class="pre">CStyleArrayFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_factory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><span class="pre">Factory</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">flat_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fMaxIndex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fArrayDim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#CStyleArrayFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.CStyleArrayFactory" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#uproot_custom.factories.Factory" title="uproot_custom.factories.Factory"><code class="xref py py-class docutils literal notranslate"><span class="pre">Factory</span></code></a></p>
-<p>This class reads a C-style array from a binary parser.</p>
+<p>This class reads a C-style fixed/flexible array and std::array from a binary parser.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="uproot_custom.CStyleArrayFactory.build_cpp_reader">
 <span class="sig-name descname"><span class="pre">build_cpp_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#CStyleArrayFactory.build_cpp_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.CStyleArrayFactory.build_cpp_reader" title="Link to this definition">#</a></dt>
@@ -2805,20 +2654,6 @@ item.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instance of <cite>uproot_custom.readers.forth.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.CStyleArrayFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#CStyleArrayFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.CStyleArrayFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2907,20 +2742,6 @@ instatiate it directly.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instance of <cite>uproot_custom.readers.forth.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.EmptyFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#EmptyFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.EmptyFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3029,20 +2850,6 @@ item.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.Factory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#Factory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.Factory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="uproot_custom.Factory.build_python_reader">
 <span class="sig-name descname"><span class="pre">build_python_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="uproot_custom.readers.html#uproot_custom.readers.python.IReader" title="uproot_custom.readers.python.IReader"><span class="pre">IReader</span></a></span></span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#Factory.build_python_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.Factory.build_python_reader" title="Link to this definition">#</a></dt>
 <dd><p>Build concrete Python reader.</p>
@@ -3132,20 +2939,6 @@ instatiate it directly.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.GroupFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#GroupFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.GroupFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="uproot_custom.GroupFactory.build_python_reader">
 <span class="sig-name descname"><span class="pre">build_python_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#GroupFactory.build_python_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.GroupFactory.build_python_reader" title="Link to this definition">#</a></dt>
 <dd><p>Build concrete Python reader.</p>
@@ -3220,20 +3013,6 @@ instatiate it directly.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instance of <cite>uproot_custom.readers.forth.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.PrimitiveFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#PrimitiveFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.PrimitiveFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3315,7 +3094,7 @@ instatiate it directly.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="uproot_custom.STLMapFactory.build_factory">
-<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLMapFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.STLMapFactory.build_factory" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_std_array</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLMapFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.STLMapFactory.build_factory" title="Link to this definition">#</a></dt>
 <dd><p>Return when <cite>top_type_name</cite> is in <cite>cls.target_types</cite>.</p>
 </dd></dl>
 
@@ -3329,20 +3108,6 @@ instatiate it directly.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instance of <cite>uproot_custom.readers.forth.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.STLMapFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLMapFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.STLMapFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3414,7 +3179,7 @@ instatiate it directly.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="uproot_custom.STLSeqFactory.build_factory">
-<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLSeqFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.STLSeqFactory.build_factory" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_std_array</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLSeqFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.STLSeqFactory.build_factory" title="Link to this definition">#</a></dt>
 <dd><p>Return when <cite>top_type_name</cite> is in <cite>cls.target_types</cite>.</p>
 </dd></dl>
 
@@ -3428,20 +3193,6 @@ instatiate it directly.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instance of <cite>uproot_custom.readers.forth.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.STLSeqFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLSeqFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.STLSeqFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3513,7 +3264,7 @@ instatiate it directly.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="uproot_custom.STLStringFactory.build_factory">
-<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLStringFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.STLStringFactory.build_factory" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">build_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cur_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_streamer_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_std_array</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLStringFactory.build_factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.STLStringFactory.build_factory" title="Link to this definition">#</a></dt>
 <dd><p>Return an instance of this factory when current item matches this factory,
 otherwise return <cite>None</cite>.</p>
 <dl class="field-list simple">
@@ -3547,20 +3298,6 @@ item.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instance of <cite>uproot_custom.readers.forth.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.STLStringFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#STLStringFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.STLStringFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3643,20 +3380,6 @@ Corresponding dtype is int8, int16, int32, int64, int64, float32, and float64 re
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instance of <cite>uproot_custom.readers.forth.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.TArrayFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TArrayFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.TArrayFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3748,20 +3471,6 @@ will always return <cite>None</cite>.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instance of <cite>uproot_custom.readers.forth.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.TObjectFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TObjectFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.TObjectFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3867,20 +3576,6 @@ item.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An instance of <cite>uproot_custom.readers.forth.IReader</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uproot_custom.TStringFactory.build_numba_reader">
-<span class="sig-name descname"><span class="pre">build_numba_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uproot_custom.readers._numba.CompilationContext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/factories.html#TStringFactory.build_numba_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.TStringFactory.build_numba_reader" title="Link to this definition">#</a></dt>
-<dd><p>Build concrete Numba reader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ctx</strong> – An instance of <cite>CompilationContext</cite> to register buffers and store other compilation information.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of <cite>uproot_custom.readers.numba.IReader</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4001,10 +3696,10 @@ item.</p>
     <i class="fa-solid fa-list"></i> Contents
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subpackages">Subpackages</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.AsCustom">uproot_custom.AsCustom module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.AsCustom">uproot_custom.AsCustom module</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom"><code class="docutils literal notranslate"><span class="pre">AsCustom</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom.awkward_form"><code class="docutils literal notranslate"><span class="pre">AsCustom.awkward_form()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AsCustom.AsCustom.basket_array"><code class="docutils literal notranslate"><span class="pre">AsCustom.basket_array()</span></code></a></li>
@@ -4017,12 +3712,11 @@ item.</p>
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.factories">uproot_custom.factories module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.factories">uproot_custom.factories module</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.AnyClassFactory.priority"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.priority()</span></code></a></li>
 </ul>
@@ -4047,7 +3741,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.CStyleArrayFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.make_awkward_form()</span></code></a></li>
@@ -4058,7 +3751,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.EmptyFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.make_awkward_form()</span></code></a></li>
@@ -4068,7 +3760,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">Factory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.build_factory"><code class="docutils literal notranslate"><span class="pre">Factory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">Factory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">Factory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">Factory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">Factory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.Factory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">Factory.make_awkward_form()</span></code></a></li>
@@ -4079,7 +3770,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">GroupFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.GroupFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">GroupFactory.make_awkward_form()</span></code></a></li>
@@ -4089,7 +3779,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.cpp_reader_map"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.cpp_reader_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.PrimitiveFactory.ftype2dtype"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.ftype2dtype</span></code></a></li>
@@ -4102,7 +3791,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLMapFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.make_awkward_form()</span></code></a></li>
@@ -4113,7 +3801,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLSeqFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.make_awkward_form()</span></code></a></li>
@@ -4124,7 +3811,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.STLStringFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.make_awkward_form()</span></code></a></li>
@@ -4134,7 +3820,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TArrayFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.make_awkward_form()</span></code></a></li>
@@ -4145,7 +3830,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.keep_data_itempaths"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.keep_data_itempaths</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TObjectFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.make_awkward_content()</span></code></a></li>
@@ -4156,7 +3840,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">TStringFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.TStringFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">TStringFactory.make_awkward_form()</span></code></a></li>
@@ -4167,7 +3850,7 @@ item.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.factories.read_branch_awkward_form"><code class="docutils literal notranslate"><span class="pre">read_branch_awkward_form()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.utils">uproot_custom.utils module</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.utils">uproot_custom.utils module</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.utils.get_dims_from_branch"><code class="docutils literal notranslate"><span class="pre">get_dims_from_branch()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.utils.get_map_key_val_typenames"><code class="docutils literal notranslate"><span class="pre">get_map_key_val_typenames()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.utils.get_sequence_element_typename"><code class="docutils literal notranslate"><span class="pre">get_sequence_element_typename()</span></code></a></li>
@@ -4175,12 +3858,11 @@ item.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.utils.regularize_object_path"><code class="docutils literal notranslate"><span class="pre">regularize_object_path()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom">Module contents</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom">Module contents</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AnyClassFactory"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AnyClassFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AnyClassFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AnyClassFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AnyClassFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AnyClassFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.AnyClassFactory.priority"><code class="docutils literal notranslate"><span class="pre">AnyClassFactory.priority()</span></code></a></li>
 </ul>
@@ -4216,7 +3898,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.CStyleArrayFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.CStyleArrayFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.CStyleArrayFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.CStyleArrayFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.CStyleArrayFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.CStyleArrayFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.CStyleArrayFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory.make_awkward_form()</span></code></a></li>
@@ -4227,7 +3908,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.EmptyFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.EmptyFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.EmptyFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.EmptyFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.EmptyFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.EmptyFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.EmptyFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">EmptyFactory.make_awkward_form()</span></code></a></li>
@@ -4237,7 +3917,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.Factory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">Factory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.Factory.build_factory"><code class="docutils literal notranslate"><span class="pre">Factory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.Factory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">Factory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.Factory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">Factory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.Factory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">Factory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.Factory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">Factory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.Factory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">Factory.make_awkward_form()</span></code></a></li>
@@ -4248,7 +3927,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.GroupFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.GroupFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.GroupFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.GroupFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.GroupFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">GroupFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.GroupFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">GroupFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.GroupFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">GroupFactory.make_awkward_form()</span></code></a></li>
@@ -4258,7 +3936,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.PrimitiveFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.PrimitiveFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.PrimitiveFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.PrimitiveFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.PrimitiveFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.PrimitiveFactory.cpp_reader_map"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.cpp_reader_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.PrimitiveFactory.ftype2dtype"><code class="docutils literal notranslate"><span class="pre">PrimitiveFactory.ftype2dtype</span></code></a></li>
@@ -4271,7 +3948,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLMapFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLMapFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLMapFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLMapFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLMapFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLMapFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLMapFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">STLMapFactory.make_awkward_form()</span></code></a></li>
@@ -4282,7 +3958,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLSeqFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLSeqFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLSeqFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLSeqFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLSeqFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLSeqFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLSeqFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">STLSeqFactory.make_awkward_form()</span></code></a></li>
@@ -4293,7 +3968,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLStringFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLStringFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLStringFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLStringFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLStringFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLStringFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.STLStringFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">STLStringFactory.make_awkward_form()</span></code></a></li>
@@ -4303,7 +3977,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TArrayFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TArrayFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TArrayFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TArrayFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TArrayFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TArrayFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TArrayFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">TArrayFactory.make_awkward_form()</span></code></a></li>
@@ -4314,7 +3987,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TObjectFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TObjectFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TObjectFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TObjectFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TObjectFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TObjectFactory.keep_data_itempaths"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.keep_data_itempaths</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TObjectFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">TObjectFactory.make_awkward_content()</span></code></a></li>
@@ -4325,7 +3997,6 @@ item.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TStringFactory.build_cpp_reader"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_cpp_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TStringFactory.build_factory"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_factory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TStringFactory.build_forth_reader"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_forth_reader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TStringFactory.build_numba_reader"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_numba_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TStringFactory.build_python_reader"><code class="docutils literal notranslate"><span class="pre">TStringFactory.build_python_reader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TStringFactory.make_awkward_content"><code class="docutils literal notranslate"><span class="pre">TStringFactory.make_awkward_content()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.TStringFactory.make_awkward_form"><code class="docutils literal notranslate"><span class="pre">TStringFactory.make_awkward_form()</span></code></a></li>
@@ -4383,8 +4054,8 @@ By Mingrun Li
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
 
   <footer class="bd-footer">
   </footer>

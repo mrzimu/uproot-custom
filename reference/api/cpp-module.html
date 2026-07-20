@@ -27,21 +27,21 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=4418a689" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
@@ -56,6 +56,7 @@
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/api/cpp-module';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Example 1: Streamer method is overridden" href="../../example/override-streamer.html" />
@@ -63,20 +64,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+  
+  
+  
   
   <dialog id="pst-search-dialog">
     
@@ -102,7 +109,51 @@
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
     </header>
   
 
@@ -305,11 +356,18 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div>
 
 
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
@@ -337,8 +395,8 @@
                 <h2> Contents </h2>
             </div>
             <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv413uproot_custom"><code class="docutils literal notranslate"><span class="pre">uproot_custom</span></code></a><ul class="visible nav section-nav flex-column">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv413uproot_custom"><code class="docutils literal notranslate"><span class="pre">uproot_custom</span></code></a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN13uproot_custom12SharedVectorE"><code class="docutils literal notranslate"><span class="pre">SharedVector</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12py_read_dataEN2py7array_tI7uint8_tEEN2py7array_tI8uint32_tEE8uint32_t12SharedReader"><code class="docutils literal notranslate"><span class="pre">py_read_data()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom15PYBIND11_MODULEE3cpp1m"><code class="docutils literal notranslate"><span class="pre">PYBIND11_MODULE()</span></code></a></li>
@@ -394,25 +452,21 @@
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReaderE"><code class="docutils literal notranslate"><span class="pre">uproot_custom::STLMapReader</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader12STLMapReaderE6stringbi12SharedReader12SharedReader"><code class="docutils literal notranslate"><span class="pre">STLMapReader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader24check_objwise_memberwiseEKb"><code class="docutils literal notranslate"><span class="pre">check_objwise_memberwise()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader12STLMapReaderE6stringb12SharedReader12SharedReader"><code class="docutils literal notranslate"><span class="pre">STLMapReader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader20read_element_versionER12BinaryStream"><code class="docutils literal notranslate"><span class="pre">read_element_version()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader9read_bodyER12BinaryStreamb"><code class="docutils literal notranslate"><span class="pre">read_body()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader4readER12BinaryStream"><code class="docutils literal notranslate"><span class="pre">read()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader9read_manyER12BinaryStreamK7int64_t"><code class="docutils literal notranslate"><span class="pre">read_many()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader10read_untilER12BinaryStreamPK7uint8_t"><code class="docutils literal notranslate"><span class="pre">read_until()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader20read_many_memberwiseER12BinaryStreamK7int64_t"><code class="docutils literal notranslate"><span class="pre">read_many_memberwise()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK13uproot_custom12STLMapReader4dataEv"><code class="docutils literal notranslate"><span class="pre">data()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader13m_with_headerE"><code class="docutils literal notranslate"><span class="pre">m_with_header</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader23m_objwise_or_memberwiseE"><code class="docutils literal notranslate"><span class="pre">m_objwise_or_memberwise</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader9m_offsetsE"><code class="docutils literal notranslate"><span class="pre">m_offsets</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader12m_key_readerE"><code class="docutils literal notranslate"><span class="pre">m_key_reader</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader14m_value_readerE"><code class="docutils literal notranslate"><span class="pre">m_value_reader</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReaderE"><code class="docutils literal notranslate"><span class="pre">uproot_custom::STLSeqReader</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader12STLSeqReaderE6stringbi12SharedReader"><code class="docutils literal notranslate"><span class="pre">STLSeqReader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader24check_objwise_memberwiseEKb"><code class="docutils literal notranslate"><span class="pre">check_objwise_memberwise()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader12STLSeqReaderE6stringb12SharedReader"><code class="docutils literal notranslate"><span class="pre">STLSeqReader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader20read_element_versionER12BinaryStream"><code class="docutils literal notranslate"><span class="pre">read_element_version()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader9read_bodyER12BinaryStreamb"><code class="docutils literal notranslate"><span class="pre">read_body()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader4readER12BinaryStream"><code class="docutils literal notranslate"><span class="pre">read()</span></code></a></li>
@@ -420,7 +474,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader10read_untilER12BinaryStreamPK7uint8_t"><code class="docutils literal notranslate"><span class="pre">read_until()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK13uproot_custom12STLSeqReader4dataEv"><code class="docutils literal notranslate"><span class="pre">data()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader13m_with_headerE"><code class="docutils literal notranslate"><span class="pre">m_with_header</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader23m_objwise_or_memberwiseE"><code class="docutils literal notranslate"><span class="pre">m_objwise_or_memberwise</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader16m_element_readerE"><code class="docutils literal notranslate"><span class="pre">m_element_reader</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader9m_offsetsE"><code class="docutils literal notranslate"><span class="pre">m_offsets</span></code></a></li>
 </ul>
@@ -927,29 +980,17 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12STLMapReader12STLMapReaderE6stringbi12SharedReader12SharedReader">
-<span id="_CPPv3N13uproot_custom12STLMapReader12STLMapReaderE6stringbi12SharedReader12SharedReader"></span><span id="_CPPv2N13uproot_custom12STLMapReader12STLMapReaderE6stringbi12SharedReader12SharedReader"></span><span id="uproot_custom::STLMapReader::STLMapReader__string.b.i.SharedReader.SharedReader"></span><span class="target" id="classuproot__custom_1_1_s_t_l_map_reader_1a29fbf6b5e891bbecf916b794e825b6bf"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">STLMapReader</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">with_header</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">objwise_or_memberwise</span></span>, <a class="reference internal" href="cpp-api.html#_CPPv4N13uproot_custom12SharedReaderE" title="uproot_custom::SharedReader"><span class="n"><span class="pre">SharedReader</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">key_reader</span></span>, <a class="reference internal" href="cpp-api.html#_CPPv4N13uproot_custom12SharedReaderE" title="uproot_custom::SharedReader"><span class="n"><span class="pre">SharedReader</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value_reader</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13uproot_custom12STLMapReader12STLMapReaderE6stringbi12SharedReader12SharedReader" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12STLMapReader12STLMapReaderE6stringb12SharedReader12SharedReader">
+<span id="_CPPv3N13uproot_custom12STLMapReader12STLMapReaderE6stringb12SharedReader12SharedReader"></span><span id="_CPPv2N13uproot_custom12STLMapReader12STLMapReaderE6stringb12SharedReader12SharedReader"></span><span id="uproot_custom::STLMapReader::STLMapReader__string.b.SharedReader.SharedReader"></span><span class="target" id="classuproot__custom_1_1_s_t_l_map_reader_1a477f15ac5557ba0e8463349ecf3a6252"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">STLMapReader</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">with_header</span></span>, <a class="reference internal" href="cpp-api.html#_CPPv4N13uproot_custom12SharedReaderE" title="uproot_custom::SharedReader"><span class="n"><span class="pre">SharedReader</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">key_reader</span></span>, <a class="reference internal" href="cpp-api.html#_CPPv4N13uproot_custom12SharedReaderE" title="uproot_custom::SharedReader"><span class="n"><span class="pre">SharedReader</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value_reader</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13uproot_custom12STLMapReader12STLMapReaderE6stringb12SharedReader12SharedReader" title="Link to this definition">#</a><br /></dt>
 <dd><p>Construct a new STLMapReader object. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> – Name of the reader. </p></li>
 <li><p><strong>with_header</strong> – Whether the map has a <code class="docutils literal notranslate"><span class="pre">fNBytes+fVersion</span></code> header. </p></li>
-<li><p><strong>objwise_or_memberwise</strong> – Object-wise or member-wise reading mode. -1: auto, 0: obj-wise, 1: member-wise. </p></li>
 <li><p><strong>key_reader</strong> – Reader for the keys of the map. </p></li>
 <li><p><strong>value_reader</strong> – Reader for the values of the map. </p></li>
 </ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12STLMapReader24check_objwise_memberwiseEKb">
-<span id="_CPPv3N13uproot_custom12STLMapReader24check_objwise_memberwiseEKb"></span><span id="_CPPv2N13uproot_custom12STLMapReader24check_objwise_memberwiseEKb"></span><span id="uproot_custom::STLMapReader::check_objwise_memberwise__bC"></span><span class="target" id="classuproot__custom_1_1_s_t_l_map_reader_1a9aa1d33a206bc1671da9ebd238043728"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">check_objwise_memberwise</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">is_memberwise</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13uproot_custom12STLMapReader24check_objwise_memberwiseEKb" title="Link to this definition">#</a><br /></dt>
-<dd><p>Check if the reading mode matches the expected mode. </p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>is_memberwise</strong> – Whether the current reading mode is member-wise. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -1028,23 +1069,6 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12STLMapReader20read_many_memberwiseER12BinaryStreamK7int64_t">
-<span id="_CPPv3N13uproot_custom12STLMapReader20read_many_memberwiseER12BinaryStreamK7int64_t"></span><span id="_CPPv2N13uproot_custom12STLMapReader20read_many_memberwiseER12BinaryStreamK7int64_t"></span><span id="uproot_custom::STLMapReader::read_many_memberwise__BinaryStreamR.int64_tC"></span><span class="target" id="classuproot__custom_1_1_s_t_l_map_reader_1aa5a8bd6b52def81d3eacabf2ba7e6265"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_many_memberwise</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="cpp-api.html#_CPPv4N13uproot_custom12BinaryStreamE" title="uproot_custom::BinaryStream"><span class="n"><span class="pre">BinaryStream</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stream</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">count</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12STLMapReader20read_many_memberwiseER12BinaryStreamK7int64_t" title="Link to this definition">#</a><br /></dt>
-<dd><p>Read multiple maps from the stream in member-wise mode. </p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>stream</strong> – The binary stream to read from. </p></li>
-<li><p><strong>count</strong> – Number of maps to read. If negative, throws an error. </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Number of maps read. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK13uproot_custom12STLMapReader4dataEv">
 <span id="_CPPv3NK13uproot_custom12STLMapReader4dataEv"></span><span id="_CPPv2NK13uproot_custom12STLMapReader4dataEv"></span><span id="uproot_custom::STLMapReader::dataC"></span><span class="target" id="classuproot__custom_1_1_s_t_l_map_reader_1a7bc930983bba52402af53d8d819d56b4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">py</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">object</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">data</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK13uproot_custom12STLMapReader4dataEv" title="Link to this definition">#</a><br /></dt>
 <dd><p>Get the data read by the reader. This should be called after the whole reading process. </p>
@@ -1062,12 +1086,6 @@
 <dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12STLMapReader13m_with_headerE">
 <span id="_CPPv3N13uproot_custom12STLMapReader13m_with_headerE"></span><span id="_CPPv2N13uproot_custom12STLMapReader13m_with_headerE"></span><span id="uproot_custom::STLMapReader::m_with_header__bC"></span><span class="target" id="classuproot__custom_1_1_s_t_l_map_reader_1a029e4fd66fc192cd91ef2ed5647bc5ff"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_with_header</span></span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12STLMapReader13m_with_headerE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Whether the map has a <code class="docutils literal notranslate"><span class="pre">fNBytes+fVersion</span></code> header. </p>
-</dd></dl>
-
-<dl class="cpp var">
-<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12STLMapReader23m_objwise_or_memberwiseE">
-<span id="_CPPv3N13uproot_custom12STLMapReader23m_objwise_or_memberwiseE"></span><span id="_CPPv2N13uproot_custom12STLMapReader23m_objwise_or_memberwiseE"></span><span id="uproot_custom::STLMapReader::m_objwise_or_memberwise__iC"></span><span class="target" id="classuproot__custom_1_1_s_t_l_map_reader_1ae33571e7c0499479d24921ccc212600e"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_objwise_or_memberwise</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12STLMapReader23m_objwise_or_memberwiseE" title="Link to this definition">#</a><br /></dt>
-<dd><p>-1: auto, 0: obj-wise, 1: member-wise </p>
 </dd></dl>
 
 <dl class="cpp var">
@@ -1098,28 +1116,16 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12STLSeqReader12STLSeqReaderE6stringbi12SharedReader">
-<span id="_CPPv3N13uproot_custom12STLSeqReader12STLSeqReaderE6stringbi12SharedReader"></span><span id="_CPPv2N13uproot_custom12STLSeqReader12STLSeqReaderE6stringbi12SharedReader"></span><span id="uproot_custom::STLSeqReader::STLSeqReader__string.b.i.SharedReader"></span><span class="target" id="classuproot__custom_1_1_s_t_l_seq_reader_1a7770c232f11c59339ef8f537def555a0"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">STLSeqReader</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">with_header</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">objwise_or_memberwise</span></span>, <a class="reference internal" href="cpp-api.html#_CPPv4N13uproot_custom12SharedReaderE" title="uproot_custom::SharedReader"><span class="n"><span class="pre">SharedReader</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">element_reader</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13uproot_custom12STLSeqReader12STLSeqReaderE6stringbi12SharedReader" title="Link to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12STLSeqReader12STLSeqReaderE6stringb12SharedReader">
+<span id="_CPPv3N13uproot_custom12STLSeqReader12STLSeqReaderE6stringb12SharedReader"></span><span id="_CPPv2N13uproot_custom12STLSeqReader12STLSeqReaderE6stringb12SharedReader"></span><span id="uproot_custom::STLSeqReader::STLSeqReader__string.b.SharedReader"></span><span class="target" id="classuproot__custom_1_1_s_t_l_seq_reader_1acf33bbd5e5426f512951a70d079c0c59"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">STLSeqReader</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">name</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">with_header</span></span>, <a class="reference internal" href="cpp-api.html#_CPPv4N13uproot_custom12SharedReaderE" title="uproot_custom::SharedReader"><span class="n"><span class="pre">SharedReader</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">element_reader</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13uproot_custom12STLSeqReader12STLSeqReaderE6stringb12SharedReader" title="Link to this definition">#</a><br /></dt>
 <dd><p>Construct a new STLSeqReader object. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> – Name of the reader. </p></li>
 <li><p><strong>with_header</strong> – Whether the sequence has a <code class="docutils literal notranslate"><span class="pre">fNBytes+fVersion</span></code> header. </p></li>
-<li><p><strong>objwise_or_memberwise</strong> – Object-wise or member-wise reading mode. -1: auto, 0: obj-wise, 1: member-wise. </p></li>
 <li><p><strong>element_reader</strong> – Reader for the elements of the sequence. </p></li>
 </ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12STLSeqReader24check_objwise_memberwiseEKb">
-<span id="_CPPv3N13uproot_custom12STLSeqReader24check_objwise_memberwiseEKb"></span><span id="_CPPv2N13uproot_custom12STLSeqReader24check_objwise_memberwiseEKb"></span><span id="uproot_custom::STLSeqReader::check_objwise_memberwise__bC"></span><span class="target" id="classuproot__custom_1_1_s_t_l_seq_reader_1ad166bbb39dcbf358f0f78d71f9a319a5"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">check_objwise_memberwise</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">is_memberwise</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13uproot_custom12STLSeqReader24check_objwise_memberwiseEKb" title="Link to this definition">#</a><br /></dt>
-<dd><p>Check if the reading mode matches the expected mode. </p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>is_memberwise</strong> – Whether the current reading mode is member-wise. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -1215,12 +1221,6 @@
 <dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12STLSeqReader13m_with_headerE">
 <span id="_CPPv3N13uproot_custom12STLSeqReader13m_with_headerE"></span><span id="_CPPv2N13uproot_custom12STLSeqReader13m_with_headerE"></span><span id="uproot_custom::STLSeqReader::m_with_header__bC"></span><span class="target" id="classuproot__custom_1_1_s_t_l_seq_reader_1a65e096b4f024e2b64f3943f88639efc0"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_with_header</span></span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12STLSeqReader13m_with_headerE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Whether the sequence has a <code class="docutils literal notranslate"><span class="pre">fNBytes+fVersion</span></code> header. </p>
-</dd></dl>
-
-<dl class="cpp var">
-<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12STLSeqReader23m_objwise_or_memberwiseE">
-<span id="_CPPv3N13uproot_custom12STLSeqReader23m_objwise_or_memberwiseE"></span><span id="_CPPv2N13uproot_custom12STLSeqReader23m_objwise_or_memberwiseE"></span><span id="uproot_custom::STLSeqReader::m_objwise_or_memberwise__iC"></span><span class="target" id="classuproot__custom_1_1_s_t_l_seq_reader_1a94dfea3bc5282a51e7c2fad9ab8e29e2"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_objwise_or_memberwise</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12STLSeqReader23m_objwise_or_memberwiseE" title="Link to this definition">#</a><br /></dt>
-<dd><p>-1: auto, 0: obj-wise, 1: member-wise </p>
 </dd></dl>
 
 <dl class="cpp var">
@@ -1639,8 +1639,8 @@
     <i class="fa-solid fa-list"></i> Contents
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv413uproot_custom"><code class="docutils literal notranslate"><span class="pre">uproot_custom</span></code></a><ul class="visible nav section-nav flex-column">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv413uproot_custom"><code class="docutils literal notranslate"><span class="pre">uproot_custom</span></code></a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN13uproot_custom12SharedVectorE"><code class="docutils literal notranslate"><span class="pre">SharedVector</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12py_read_dataEN2py7array_tI7uint8_tEEN2py7array_tI8uint32_tEE8uint32_t12SharedReader"><code class="docutils literal notranslate"><span class="pre">py_read_data()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom15PYBIND11_MODULEE3cpp1m"><code class="docutils literal notranslate"><span class="pre">PYBIND11_MODULE()</span></code></a></li>
@@ -1696,25 +1696,21 @@
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReaderE"><code class="docutils literal notranslate"><span class="pre">uproot_custom::STLMapReader</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader12STLMapReaderE6stringbi12SharedReader12SharedReader"><code class="docutils literal notranslate"><span class="pre">STLMapReader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader24check_objwise_memberwiseEKb"><code class="docutils literal notranslate"><span class="pre">check_objwise_memberwise()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader12STLMapReaderE6stringb12SharedReader12SharedReader"><code class="docutils literal notranslate"><span class="pre">STLMapReader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader20read_element_versionER12BinaryStream"><code class="docutils literal notranslate"><span class="pre">read_element_version()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader9read_bodyER12BinaryStreamb"><code class="docutils literal notranslate"><span class="pre">read_body()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader4readER12BinaryStream"><code class="docutils literal notranslate"><span class="pre">read()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader9read_manyER12BinaryStreamK7int64_t"><code class="docutils literal notranslate"><span class="pre">read_many()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader10read_untilER12BinaryStreamPK7uint8_t"><code class="docutils literal notranslate"><span class="pre">read_until()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader20read_many_memberwiseER12BinaryStreamK7int64_t"><code class="docutils literal notranslate"><span class="pre">read_many_memberwise()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK13uproot_custom12STLMapReader4dataEv"><code class="docutils literal notranslate"><span class="pre">data()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader13m_with_headerE"><code class="docutils literal notranslate"><span class="pre">m_with_header</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader23m_objwise_or_memberwiseE"><code class="docutils literal notranslate"><span class="pre">m_objwise_or_memberwise</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader9m_offsetsE"><code class="docutils literal notranslate"><span class="pre">m_offsets</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader12m_key_readerE"><code class="docutils literal notranslate"><span class="pre">m_key_reader</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLMapReader14m_value_readerE"><code class="docutils literal notranslate"><span class="pre">m_value_reader</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReaderE"><code class="docutils literal notranslate"><span class="pre">uproot_custom::STLSeqReader</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader12STLSeqReaderE6stringbi12SharedReader"><code class="docutils literal notranslate"><span class="pre">STLSeqReader()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader24check_objwise_memberwiseEKb"><code class="docutils literal notranslate"><span class="pre">check_objwise_memberwise()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader12STLSeqReaderE6stringb12SharedReader"><code class="docutils literal notranslate"><span class="pre">STLSeqReader()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader20read_element_versionER12BinaryStream"><code class="docutils literal notranslate"><span class="pre">read_element_version()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader9read_bodyER12BinaryStreamb"><code class="docutils literal notranslate"><span class="pre">read_body()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader4readER12BinaryStream"><code class="docutils literal notranslate"><span class="pre">read()</span></code></a></li>
@@ -1722,7 +1718,6 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader10read_untilER12BinaryStreamPK7uint8_t"><code class="docutils literal notranslate"><span class="pre">read_until()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK13uproot_custom12STLSeqReader4dataEv"><code class="docutils literal notranslate"><span class="pre">data()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader13m_with_headerE"><code class="docutils literal notranslate"><span class="pre">m_with_header</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader23m_objwise_or_memberwiseE"><code class="docutils literal notranslate"><span class="pre">m_objwise_or_memberwise</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader16m_element_readerE"><code class="docutils literal notranslate"><span class="pre">m_element_reader</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uproot_custom12STLSeqReader9m_offsetsE"><code class="docutils literal notranslate"><span class="pre">m_offsets</span></code></a></li>
 </ul>
@@ -1819,8 +1814,8 @@ By Mingrun Li
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
 
   <footer class="bd-footer">
   </footer>

@@ -273,7 +273,6 @@ header + multiple data objects&quot; format. This method can be overridden to ha
         <argsstring>(BinaryStream &amp;stream, const int64_t count)</argsstring>
         <name>read_many_memberwise</name>
         <qualifiedname>uproot_custom::IReader::read_many_memberwise</qualifiedname>
-        <reimplementedby refid="classuproot__custom_1_1_s_t_l_map_reader_1aa5a8bd6b52def81d3eacabf2ba7e6265">read_many_memberwise</reimplementedby>
         <reimplementedby refid="classuproot__custom_1_1_group_reader_1a9260d0bfa20b8652210a185b6129e86e">read_many_memberwise</reimplementedby>
         <reimplementedby refid="classuproot__custom_1_1_any_class_reader_1a52e591769ef71f07902aa75479e37099">read_many_memberwise</reimplementedby>
         <param>

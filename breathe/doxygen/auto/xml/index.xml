@@ -102,27 +102,22 @@
   </compound>
   <compound refid="classuproot__custom_1_1_s_t_l_map_reader" kind="class"><name>uproot_custom::STLMapReader</name>
     <member refid="classuproot__custom_1_1_s_t_l_map_reader_1a029e4fd66fc192cd91ef2ed5647bc5ff" kind="variable"><name>m_with_header</name></member>
-    <member refid="classuproot__custom_1_1_s_t_l_map_reader_1ae33571e7c0499479d24921ccc212600e" kind="variable"><name>m_objwise_or_memberwise</name></member>
     <member refid="classuproot__custom_1_1_s_t_l_map_reader_1aa44ac80785b950c99c7c4c4af3c99b88" kind="variable"><name>m_offsets</name></member>
     <member refid="classuproot__custom_1_1_s_t_l_map_reader_1a0722d7b193b5664c7a6536de68ed08d3" kind="variable"><name>m_key_reader</name></member>
     <member refid="classuproot__custom_1_1_s_t_l_map_reader_1a6ac1de249d968795e4c8d291d60bfb0b" kind="variable"><name>m_value_reader</name></member>
-    <member refid="classuproot__custom_1_1_s_t_l_map_reader_1a29fbf6b5e891bbecf916b794e825b6bf" kind="function"><name>STLMapReader</name></member>
-    <member refid="classuproot__custom_1_1_s_t_l_map_reader_1a9aa1d33a206bc1671da9ebd238043728" kind="function"><name>check_objwise_memberwise</name></member>
+    <member refid="classuproot__custom_1_1_s_t_l_map_reader_1a477f15ac5557ba0e8463349ecf3a6252" kind="function"><name>STLMapReader</name></member>
     <member refid="classuproot__custom_1_1_s_t_l_map_reader_1afbdf1bfb3d0dd0d1b45e9db94db7b076" kind="function"><name>read_element_version</name></member>
     <member refid="classuproot__custom_1_1_s_t_l_map_reader_1a77b10785adc9462a1eb2d995ce1b80f9" kind="function"><name>read_body</name></member>
     <member refid="classuproot__custom_1_1_s_t_l_map_reader_1ac4f4a9d70ffe6461dd8adafb38806457" kind="function"><name>read</name></member>
     <member refid="classuproot__custom_1_1_s_t_l_map_reader_1a91559744d24b5da98ac1ed0459d287d3" kind="function"><name>read_many</name></member>
     <member refid="classuproot__custom_1_1_s_t_l_map_reader_1a29fa829f8df31a22861c4745d4bfe21e" kind="function"><name>read_until</name></member>
-    <member refid="classuproot__custom_1_1_s_t_l_map_reader_1aa5a8bd6b52def81d3eacabf2ba7e6265" kind="function"><name>read_many_memberwise</name></member>
     <member refid="classuproot__custom_1_1_s_t_l_map_reader_1a7bc930983bba52402af53d8d819d56b4" kind="function"><name>data</name></member>
   </compound>
   <compound refid="classuproot__custom_1_1_s_t_l_seq_reader" kind="class"><name>uproot_custom::STLSeqReader</name>
     <member refid="classuproot__custom_1_1_s_t_l_seq_reader_1a65e096b4f024e2b64f3943f88639efc0" kind="variable"><name>m_with_header</name></member>
-    <member refid="classuproot__custom_1_1_s_t_l_seq_reader_1a94dfea3bc5282a51e7c2fad9ab8e29e2" kind="variable"><name>m_objwise_or_memberwise</name></member>
     <member refid="classuproot__custom_1_1_s_t_l_seq_reader_1a1f46507162cb2647167624af4403fc31" kind="variable"><name>m_element_reader</name></member>
     <member refid="classuproot__custom_1_1_s_t_l_seq_reader_1ac5e95ce1e4530bdabb01ed1d1829cad6" kind="variable"><name>m_offsets</name></member>
-    <member refid="classuproot__custom_1_1_s_t_l_seq_reader_1a7770c232f11c59339ef8f537def555a0" kind="function"><name>STLSeqReader</name></member>
-    <member refid="classuproot__custom_1_1_s_t_l_seq_reader_1ad166bbb39dcbf358f0f78d71f9a319a5" kind="function"><name>check_objwise_memberwise</name></member>
+    <member refid="classuproot__custom_1_1_s_t_l_seq_reader_1acf33bbd5e5426f512951a70d079c0c59" kind="function"><name>STLSeqReader</name></member>
     <member refid="classuproot__custom_1_1_s_t_l_seq_reader_1adda6b33ef8f4c7c5ba896f8cf611abf4" kind="function"><name>read_element_version</name></member>
     <member refid="classuproot__custom_1_1_s_t_l_seq_reader_1a8acfcabee19686649ce8b03764d6c0d2" kind="function"><name>read_body</name></member>
     <member refid="classuproot__custom_1_1_s_t_l_seq_reader_1aae869fee6e3a5b7355a63752fbcf5898" kind="function"><name>read</name></member>
