@@ -1089,7 +1089,7 @@ class GroupFactory(Factory):
         Never match items. If one needs to use this factory,
         instatiate it directly.
         """
-        return None
+        return
 
     def __init__(self, name: str, sub_factories: list[Factory]):
         super().__init__(name)
@@ -1322,7 +1322,7 @@ class EmptyFactory(Factory):
         This factory will never match items. If one needs to use this factory,
         instatiate it directly.
         """
-        return None
+        return
 
     def build_cpp_reader(self):
         return uproot_custom.readers.cpp.EmptyReader(self.name)

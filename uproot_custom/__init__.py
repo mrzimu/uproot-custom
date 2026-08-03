@@ -27,9 +27,9 @@ from uproot_custom.utils import regularize_object_path
 uproot.register_interpretation(AsCustom)
 
 __all__ = [
-    "AsCustom",
     "AnyClassFactory",
     "AnyPointerFactory",
+    "AsCustom",
     "BaseObjectFactory",
     "CStyleArrayFactory",
     "EmptyFactory",
