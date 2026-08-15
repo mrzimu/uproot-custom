@@ -146,5 +146,13 @@ def run_doxygen_and_apidoc():
 def setup(app):
     app.connect("builder-inited", lambda app: run_doxygen_and_apidoc())
 
+    # Limit in-page TOC depth to show only h2 headings for the binary-format reference page.
+    app.connect("html-page-context", _override_toc_depth)
+
+
+def _override_toc_depth(app, pagename, templatename, context, doctree):
+    if pagename == "reference/binary-format":
+        context["theme_show_toc_level"] = 1
+
 
 run_doxygen_and_apidoc()
