@@ -396,9 +396,48 @@
             </div>
             <nav aria-label="Page">
                 <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c-style-arrays-and-std-array">C-style arrays and <code class="docutils literal notranslate"><span class="pre">std::array</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#class-correspondence">Class correspondence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-header-patterns">Common header patterns</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fnbytes-4-bytes-uint32"><code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> (4 bytes, uint32)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fversion-2-bytes-int16"><code class="docutils literal notranslate"><span class="pre">fVersion</span></code> (2 bytes, int16)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fnbytes-fversion-header-object-header"><code class="docutils literal notranslate"><span class="pre">fNBytes</span> <span class="pre">+</span> <span class="pre">fVersion</span></code> header (object header)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kstreamedmemberwise-flag-bit-14-of-fversion"><code class="docutils literal notranslate"><span class="pre">kStreamedMemberwise</span></code> flag (bit 14 of <code class="docutils literal notranslate"><span class="pre">fVersion</span></code>)</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#primitive-types">Primitive types</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-like-stl-containers">Sequence-like STL containers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#std-string"><code class="docutils literal notranslate"><span class="pre">std::string</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tstring">TString</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tarray">TArray</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#std-vector-and-other-stl-sequences"><code class="docutils literal notranslate"><span class="pre">std::vector</span></code> (and other STL sequences)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-element">Single element</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-style-array-of-stl-containers">C-style array of STL containers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#std-array-of-stl-containers">std::array of STL containers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#member-wise-vs-object-wise">Member-wise vs object-wise</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#std-map-and-other-stl-maps"><code class="docutils literal notranslate"><span class="pre">std::map</span></code> (and other STL maps)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tobject">TObject</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c-style-array-std-array">C-style array / <code class="docutils literal notranslate"><span class="pre">std::array</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-c-style-array-std-array-modifies-contained-types">How C-style array / <code class="docutils literal notranslate"><span class="pre">std::array</span></code> modifies contained types</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fixed-size">Fixed-size</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jagged-variable-length">Jagged / variable-length</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#awkward-reconstruction">Awkward reconstruction</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#any-class">Any class</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#member-wise-reading">Member-wise reading</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#base-class">Base class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pointer-t">Pointer (<code class="docutils literal notranslate"><span class="pre">T*</span></code>)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#read-object-any">read_object_any</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Awkward reconstruction</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-streamer-info-fields-reference">Appendix: Streamer info fields reference</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-ftype-values">Common <code class="docutils literal notranslate"><span class="pre">fType</span></code> values</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -417,48 +456,170 @@
 <p>This page is a growing checklist. Use it alongside the walkthrough in
 <a class="reference internal" href="../tutorial/customize-factory-reader/investigate-data.html"><span class="std std-doc">Investigate your data</span></a> when inspecting bytes.</p>
 </div>
-<p>This section lists the binary format of some common classes. Data are stored in
-big-endian format.</p>
+<p>This section describes the binary format of common ROOT classes, organized by the
+class categories that <code class="docutils literal notranslate"><span class="pre">uproot-custom</span></code> handles. Each category corresponds to a
+pipeline component that matches a C++ type from streamer
+information and navigates the binary bytes.</p>
+<p>Data are stored in <strong>big-endian</strong> format.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>These formats are summarized by me, and may not be complete or accurate. If you find any mistakes, you are welcome to open an issue or a PR to correct them.</p>
+<p>These formats are summarized by me, and may not be complete or accurate. If you
+find any mistakes, you are welcome to open an issue or a PR to correct them.</p>
 </div>
-<section id="c-style-arrays-and-std-array">
-<h2>C-style arrays and <code class="docutils literal notranslate"><span class="pre">std::array</span></code><a class="headerlink" href="#c-style-arrays-and-std-array" title="Link to this heading">#</a></h2>
-<p>C-style arrays are those data members defined as <code class="docutils literal notranslate"><span class="pre">T</span> <span class="pre">m_data[N]</span></code>. When data members are stored as C-style arrays or <code class="docutils literal notranslate"><span class="pre">std::array</span></code>, the streaming rules may be different. In the following sections, both cases are listed.</p>
-<p>For both C-style arrays and <code class="docutils literal notranslate"><span class="pre">std::array</span></code>, you can identify them by checking the <code class="docutils literal notranslate"><span class="pre">fArrayDim</span></code> field in the streamer information. <code class="docutils literal notranslate"><span class="pre">fArrayDim</span></code> indicates the number of dimensions of the array. The concrete dimensions are stored in the <code class="docutils literal notranslate"><span class="pre">fMaxIndex</span></code> field as an array of 5 integers.</p>
-<p>For example, for a data member defined as <code class="docutils literal notranslate"><span class="pre">T</span> <span class="pre">m_data[3][4]</span></code>, the streamer information will have <code class="docutils literal notranslate"><span class="pre">fArrayDim</span></code> equal to 2, and <code class="docutils literal notranslate"><span class="pre">fMaxIndex</span></code> equal to <code class="docutils literal notranslate"><span class="pre">[3,</span> <span class="pre">4,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0]</span></code>.</p>
+<section id="class-correspondence">
+<h2>Class correspondence<a class="headerlink" href="#class-correspondence" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>Matches</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Primitive types</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bool</span></code>, <code class="docutils literal notranslate"><span class="pre">char</span></code>, <code class="docutils literal notranslate"><span class="pre">short</span></code>, <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">long</span></code>, <code class="docutils literal notranslate"><span class="pre">float</span></code>, <code class="docutils literal notranslate"><span class="pre">double</span></code>, <code class="docutils literal notranslate"><span class="pre">uint*</span></code>, <code class="docutils literal notranslate"><span class="pre">int*_t</span></code>, <code class="docutils literal notranslate"><span class="pre">uint*_t</span></code>, <code class="docutils literal notranslate"><span class="pre">Bool_t</span></code>, <code class="docutils literal notranslate"><span class="pre">Char_t</span></code>, …</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">std::string</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">std::string</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TString</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TString</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TArray</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TArrayC</span></code>, <code class="docutils literal notranslate"><span class="pre">TArrayS</span></code>, <code class="docutils literal notranslate"><span class="pre">TArrayI</span></code>, <code class="docutils literal notranslate"><span class="pre">TArrayL</span></code>, <code class="docutils literal notranslate"><span class="pre">TArrayL64</span></code>, <code class="docutils literal notranslate"><span class="pre">TArrayF</span></code>, <code class="docutils literal notranslate"><span class="pre">TArrayD</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">std::vector</span></code> (and other STL sequences)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">std::vector</span></code>, <code class="docutils literal notranslate"><span class="pre">std::list</span></code>, <code class="docutils literal notranslate"><span class="pre">std::set</span></code>, <code class="docutils literal notranslate"><span class="pre">std::multiset</span></code>, <code class="docutils literal notranslate"><span class="pre">std::unordered_set</span></code>, <code class="docutils literal notranslate"><span class="pre">std::unordered_multiset</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">std::map</span></code> (and other STL maps)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">std::map</span></code>, <code class="docutils literal notranslate"><span class="pre">std::unordered_map</span></code>, <code class="docutils literal notranslate"><span class="pre">std::multimap</span></code>, <code class="docutils literal notranslate"><span class="pre">std::unordered_multimap</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TObject</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TObject</span></code> as base class (fType=66)</p></td>
+</tr>
+<tr class="row-odd"><td><p>C-style array / <code class="docutils literal notranslate"><span class="pre">std::array</span></code></p></td>
+<td><p>C-style arrays (<code class="docutils literal notranslate"><span class="pre">T</span> <span class="pre">m_data[N]</span></code>) and <code class="docutils literal notranslate"><span class="pre">std::array</span></code> (<code class="docutils literal notranslate"><span class="pre">fArrayDim</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> or jagged)</p></td>
+</tr>
+<tr class="row-even"><td><p>Any class</p></td>
+<td><p>Arbitrary class objects (fType=0 or no special fType)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Base class</p></td>
+<td><p>Base class embedding (fType=0 with <code class="docutils literal notranslate"><span class="pre">BASE</span></code> typename)</p></td>
+</tr>
+<tr class="row-even"><td><p>Pointer (<code class="docutils literal notranslate"><span class="pre">T*</span></code>)</p></td>
+<td><p>Pointer-to-object (<code class="docutils literal notranslate"><span class="pre">fType</span></code> in {63, 64, 68, 69} or <code class="docutils literal notranslate"><span class="pre">fTypeName</span></code> ends with <code class="docutils literal notranslate"><span class="pre">*</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Group</p></td>
+<td><p>Explicit grouping of sub-readers (never auto-matched)</p></td>
+</tr>
+<tr class="row-even"><td><p>Empty</p></td>
+<td><p>Placeholder (never auto-matched)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </section>
-<section id="primitive-types">
-<h2>Primitive types<a class="headerlink" href="#primitive-types" title="Link to this heading">#</a></h2>
-<p>A common streamer information of primitive types is as follows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;@fUniqueID&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
- <span class="s1">&#39;@fBits&#39;</span><span class="p">:</span> <span class="mi">16777216</span><span class="p">,</span>
- <span class="s1">&#39;fName&#39;</span><span class="p">:</span> <span class="s1">&#39;m_int&#39;</span><span class="p">,</span>
- <span class="s1">&#39;fTitle&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
- <span class="s1">&#39;fType&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
- <span class="s1">&#39;fSize&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
- <span class="s1">&#39;fArrayLength&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
- <span class="s1">&#39;fArrayDim&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
- <span class="s1">&#39;fMaxIndex&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;&gt;i4&#39;</span><span class="p">),</span>
- <span class="s1">&#39;fTypeName&#39;</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span><span class="p">}</span>
+<section id="common-header-patterns">
+<h2>Common header patterns<a class="headerlink" href="#common-header-patterns" title="Link to this heading">#</a></h2>
+<p>Several binary patterns appear repeatedly across different types. They are
+summarized here for reference.</p>
+<section id="fnbytes-4-bytes-uint32">
+<h3><code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> (4 bytes, uint32)<a class="headerlink" href="#fnbytes-4-bytes-uint32" title="Link to this heading">#</a></h3>
+<p>A 4-byte big-endian unsigned integer whose high bit (<code class="docutils literal notranslate"><span class="pre">kByteCountMask</span> <span class="pre">=</span> <span class="pre">0x40000000</span></code>)
+is <strong>always set</strong>. The actual byte count is <code class="docutils literal notranslate"><span class="pre">fNBytes</span> <span class="pre">&amp;</span> <span class="pre">~kByteCountMask</span></code>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>Example:<span class="w"> </span><span class="nv">fNBytes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span>
+<span class="go">64, 0, 0, 12 → byte_count = 12 (64 is the high bit set)</span>
 </pre></div>
 </div>
-<p>For primitive types, data are directly written in binary format:</p>
+</section>
+<section id="fversion-2-bytes-int16">
+<h3><code class="docutils literal notranslate"><span class="pre">fVersion</span></code> (2 bytes, int16)<a class="headerlink" href="#fversion-2-bytes-int16" title="Link to this heading">#</a></h3>
+<p>A 2-byte big-endian signed integer indicating the class version. When <code class="docutils literal notranslate"><span class="pre">fVersion</span> <span class="pre">==</span> <span class="pre">0</span></code>,
+a 4-byte checksum follows immediately.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>Example:<span class="w"> </span><span class="nv">fVersion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span>
+<span class="go">0, 3</span>
+
+<span class="gp"># </span>Example:<span class="w"> </span><span class="nv">fVersion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">(</span>with<span class="w"> </span>checksum<span class="o">)</span>
+<span class="go">0, 0, 255, 255, 255, 255 → fVersion=0, checksum=0xFFFFFFFF</span>
+</pre></div>
+</div>
+</section>
+<section id="fnbytes-fversion-header-object-header">
+<h3><code class="docutils literal notranslate"><span class="pre">fNBytes</span> <span class="pre">+</span> <span class="pre">fVersion</span></code> header (object header)<a class="headerlink" href="#fnbytes-fversion-header-object-header" title="Link to this heading">#</a></h3>
+<p>Almost every non-trivial class object is prefixed with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[fNBytes: uint32] [fVersion: int16] [checksum?: uint32 if fVersion==0]
+</pre></div>
+</div>
+</section>
+<section id="kstreamedmemberwise-flag-bit-14-of-fversion">
+<h3><code class="docutils literal notranslate"><span class="pre">kStreamedMemberwise</span></code> flag (bit 14 of <code class="docutils literal notranslate"><span class="pre">fVersion</span></code>)<a class="headerlink" href="#kstreamedmemberwise-flag-bit-14-of-fversion" title="Link to this heading">#</a></h3>
+<p>When <code class="docutils literal notranslate"><span class="pre">fVersion</span> <span class="pre">&amp;</span> <span class="pre">(1</span> <span class="pre">&lt;&lt;</span> <span class="pre">14)</span> <span class="pre">!=</span> <span class="pre">0</span></code> (i.e. <code class="docutils literal notranslate"><span class="pre">fVersion</span></code> has <code class="docutils literal notranslate"><span class="pre">0x4000</span></code> set, so the high byte has the <code class="docutils literal notranslate"><span class="pre">0x40</span></code> bit set), the object is stored in <strong>member-wise</strong> order — all
+values of the first member, then all values of the second member, etc. The default
+is <strong>object-wise</strong> order — each object’s members are stored contiguously.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="primitive-types">
+<h2>Primitive types<a class="headerlink" href="#primitive-types" title="Link to this heading">#</a></h2>
+<p><strong>Matches:</strong> <code class="docutils literal notranslate"><span class="pre">bool</span></code>, <code class="docutils literal notranslate"><span class="pre">char</span></code>, <code class="docutils literal notranslate"><span class="pre">short</span></code>, <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">long</span></code>, <code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">long</span></code>, <code class="docutils literal notranslate"><span class="pre">float</span></code>, <code class="docutils literal notranslate"><span class="pre">double</span></code>,
+and their <code class="docutils literal notranslate"><span class="pre">signed</span></code>/<code class="docutils literal notranslate"><span class="pre">unsigned</span></code> variants, <code class="docutils literal notranslate"><span class="pre">int*_t</span></code>/<code class="docutils literal notranslate"><span class="pre">uint*_t</span></code>, ROOT typedefs (<code class="docutils literal notranslate"><span class="pre">Bool_t</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Int_t</span></code>, …).</p>
+<p><strong>Identification:</strong> <code class="docutils literal notranslate"><span class="pre">fType</span></code> in {1,2,3,4,5,8,11,12,13,14,16,17,18} or <code class="docutils literal notranslate"><span class="pre">fTypeName</span></code>
+matches a known primitive type name.</p>
+<p>Primitive types are stored as <strong>raw big-endian bytes</strong> with no length prefix or header.</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id2">
+<caption><span class="caption-text">Primitive type sizes</span><a class="headerlink" href="#id2" title="Link to this table">#</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Size (bytes)</p></th>
+<th class="head"><p>struct format</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+<td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&gt;B</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">char</span></code> / <code class="docutils literal notranslate"><span class="pre">int8_t</span></code> / <code class="docutils literal notranslate"><span class="pre">uint8_t</span></code></p></td>
+<td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&gt;b</span></code> / <code class="docutils literal notranslate"><span class="pre">&gt;B</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">short</span></code> / <code class="docutils literal notranslate"><span class="pre">int16_t</span></code> / <code class="docutils literal notranslate"><span class="pre">uint16_t</span></code></p></td>
+<td><p>2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&gt;h</span></code> / <code class="docutils literal notranslate"><span class="pre">&gt;H</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">int</span></code> / <code class="docutils literal notranslate"><span class="pre">int32_t</span></code> / <code class="docutils literal notranslate"><span class="pre">uint32_t</span></code></p></td>
+<td><p>4</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&gt;i</span></code> / <code class="docutils literal notranslate"><span class="pre">&gt;I</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">long</span></code> / <code class="docutils literal notranslate"><span class="pre">int64_t</span></code> / <code class="docutils literal notranslate"><span class="pre">uint64_t</span></code></p></td>
+<td><p>8</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&gt;q</span></code> / <code class="docutils literal notranslate"><span class="pre">&gt;Q</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>4</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&gt;f</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">double</span></code></p></td>
+<td><p>8</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&gt;d</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
 <label class="sd-tab-label" for="sd-tab-item-0">
 single element</label><div class="sd-tab-content docutils">
-<div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">m_int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span>
 <span class="kt">uint16_t</span><span class="w"> </span><span class="n">m_uint16</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">65535</span><span class="p">;</span>
 <span class="kt">double</span><span class="w"> </span><span class="n">m_double</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.14159</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
-<div class="literal-block-wrapper docutils container" id="id2">
-<div class="code-block-caption"><span class="caption-text">Binary format</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">Binary format</span><a class="headerlink" href="#id4" title="Link to this code">#</a></div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>m_int
 <span class="go">0, 0, 0, 42</span>
 
@@ -474,16 +635,16 @@ single element</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
 <label class="sd-tab-label" for="sd-tab-item-1">
 C-style array and std::array</label><div class="sd-tab-content docutils">
-<div class="literal-block-wrapper docutils container" id="id3">
-<div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id5" title="Link to this code">#</a></div>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">m_int</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">};</span>
 <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint16_t</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_uint16</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">65535</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">42</span><span class="w"> </span><span class="p">};</span>
 <span class="kt">double</span><span class="w"> </span><span class="n">m_double</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">};</span>
 </pre></div>
 </div>
 </div>
-<div class="literal-block-wrapper docutils container" id="id4">
-<div class="code-block-caption"><span class="caption-text">Binary format</span><a class="headerlink" href="#id4" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">Binary format</span><a class="headerlink" href="#id6" title="Link to this code">#</a></div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>m_int<span class="o">[</span><span class="m">3</span><span class="o">]</span>
 <span class="go">0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3</span>
 
@@ -497,24 +658,164 @@ C-style array and std::array</label><div class="sd-tab-content docutils">
 </div>
 </div>
 </div>
-<!-- TODO: Test nested std::array -->
 </section>
-<section id="sequence-like-stl-containers">
-<h2>Sequence-like STL containers<a class="headerlink" href="#sequence-like-stl-containers" title="Link to this heading">#</a></h2>
-<p>“Sequence-like” STL containers include <code class="docutils literal notranslate"><span class="pre">std::vector</span></code>, <code class="docutils literal notranslate"><span class="pre">std::list</span></code>, <code class="docutils literal notranslate"><span class="pre">std::set</span></code>, etc. They all store one kind of data. In <code class="docutils literal notranslate"><span class="pre">ROOT</span></code>, they are all stored as a sequence of elements, with a <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code>+<code class="docutils literal notranslate"><span class="pre">fVersioni</span></code> header, a 4-byte length prefix, then the elements.</p>
+<hr class="docutils" />
+<section id="std-string">
+<h2><code class="docutils literal notranslate"><span class="pre">std::string</span></code><a class="headerlink" href="#std-string" title="Link to this heading">#</a></h2>
+<p><strong>Matches:</strong> <code class="docutils literal notranslate"><span class="pre">std::string</span></code> (<code class="docutils literal notranslate"><span class="pre">fTypeName</span></code> starts with <code class="docutils literal notranslate"><span class="pre">string</span></code>).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">length</span><span class="p">:</span> <span class="n">uint8</span><span class="p">]</span> <span class="p">[</span><span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>If the first byte is <code class="docutils literal notranslate"><span class="pre">255</span></code>, the length is instead a 4-byte <code class="docutils literal notranslate"><span class="pre">uint32</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">255</span><span class="p">:</span> <span class="n">uint8</span><span class="p">]</span> <span class="p">[</span><span class="n">length</span><span class="p">:</span> <span class="n">uint32</span><span class="p">]</span> <span class="p">[</span><span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>When wrapped in a C-style or <code class="docutils literal notranslate"><span class="pre">std::array</span></code>, a <code class="docutils literal notranslate"><span class="pre">fNBytes</span> <span class="pre">+</span> <span class="pre">fVersion</span></code> header may
+precede the string data — see <a class="reference internal" href="#c-style-array-stdarray"><span class="xref myst">C-style array / <code class="docutils literal notranslate"><span class="pre">std::array</span></code></span></a>.</p>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id7" title="Link to this code">#</a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">m_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text">Binary format</span><a class="headerlink" href="#id8" title="Link to this code">#</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>m_str<span class="w"> </span><span class="o">(</span><span class="s2">&quot;Hello&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="w"> </span>bytes<span class="o">)</span>
+<span class="go">5, 72, 101, 108, 108, 111</span>
+<span class="go">|  H    e    l    l    o</span>
+</pre></div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="tstring">
+<h2>TString<a class="headerlink" href="#tstring" title="Link to this heading">#</a></h2>
+<p><strong>Matches:</strong> <code class="docutils literal notranslate"><span class="pre">TString</span></code> (ROOT’s string class).</p>
+<p>Unlike <code class="docutils literal notranslate"><span class="pre">std::string</span></code>, <code class="docutils literal notranslate"><span class="pre">TString</span></code> does <strong>not</strong> have a <code class="docutils literal notranslate"><span class="pre">fNBytes</span> <span class="pre">+</span> <span class="pre">fVersion</span></code> header
+by default. However, when stored inside a C-style or <code class="docutils literal notranslate"><span class="pre">std::array</span></code>, the header is
+present.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">length</span><span class="p">:</span> <span class="n">uint8</span><span class="p">]</span> <span class="p">[</span><span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>If the first byte is <code class="docutils literal notranslate"><span class="pre">255</span></code>, the length is instead a 4-byte <code class="docutils literal notranslate"><span class="pre">uint32</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">255</span><span class="p">:</span> <span class="n">uint8</span><span class="p">]</span> <span class="p">[</span><span class="n">length</span><span class="p">:</span> <span class="n">uint32</span><span class="p">]</span> <span class="p">[</span><span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id9" title="Link to this code">#</a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">TString</span><span class="w"> </span><span class="n">m_tstr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ROOT&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id10">
+<div class="code-block-caption"><span class="caption-text">Binary format</span><a class="headerlink" href="#id10" title="Link to this code">#</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>m_tstr<span class="w"> </span><span class="o">(</span><span class="s2">&quot;ROOT&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="w"> </span>bytes<span class="o">)</span>
+<span class="go">4, 82, 79, 79, 84</span>
+<span class="go">|  R   O   O   T</span>
+</pre></div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="tarray">
+<h2>TArray<a class="headerlink" href="#tarray" title="Link to this heading">#</a></h2>
+<p><strong>Matches:</strong> <code class="docutils literal notranslate"><span class="pre">TArrayC</span></code>, <code class="docutils literal notranslate"><span class="pre">TArrayS</span></code>, <code class="docutils literal notranslate"><span class="pre">TArrayI</span></code>, <code class="docutils literal notranslate"><span class="pre">TArrayL</span></code>, <code class="docutils literal notranslate"><span class="pre">TArrayL64</span></code>, <code class="docutils literal notranslate"><span class="pre">TArrayF</span></code>,
+<code class="docutils literal notranslate"><span class="pre">TArrayD</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">length</span><span class="p">:</span> <span class="n">uint32</span><span class="p">]</span> <span class="p">[</span><span class="n">data</span><span class="p">:</span> <span class="n">element</span><span class="o">*</span><span class="n">length</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table" id="id11">
+<caption><span class="caption-text">TArray type mapping</span><a class="headerlink" href="#id11" title="Link to this table">#</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>Element dtype</p></th>
+<th class="head"><p>Element size</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TArrayC</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int8</span></code></p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TArrayS</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int16</span></code></p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TArrayI</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int32</span></code></p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TArrayL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int64</span></code></p></td>
+<td><p>8</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TArrayL64</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int64</span></code></p></td>
+<td><p>8</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TArrayF</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float32</span></code></p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TArrayD</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float64</span></code></p></td>
+<td><p>8</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="literal-block-wrapper docutils container" id="id12">
+<div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id12" title="Link to this code">#</a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">TArrayI</span><span class="w"> </span><span class="n">m_arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id13">
+<div class="code-block-caption"><span class="caption-text">Binary format</span><a class="headerlink" href="#id13" title="Link to this code">#</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>m_arr<span class="w"> </span><span class="o">(</span><span class="m">3</span><span class="w"> </span>elements<span class="o">)</span>
+<span class="go">0, 0, 0, 3, 0, 0, 0, 10, 0, 0, 0, 20, 0, 0, 0, 30</span>
+<span class="go">|  length |  element 1   |  element 2   |  element 3</span>
+</pre></div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="std-vector-and-other-stl-sequences">
+<h2><code class="docutils literal notranslate"><span class="pre">std::vector</span></code> (and other STL sequences)<a class="headerlink" href="#std-vector-and-other-stl-sequences" title="Link to this heading">#</a></h2>
+<p><strong>Matches:</strong> <code class="docutils literal notranslate"><span class="pre">std::vector</span></code>, <code class="docutils literal notranslate"><span class="pre">std::list</span></code>, <code class="docutils literal notranslate"><span class="pre">std::set</span></code>, <code class="docutils literal notranslate"><span class="pre">std::multiset</span></code>,
+<code class="docutils literal notranslate"><span class="pre">std::unordered_set</span></code>, <code class="docutils literal notranslate"><span class="pre">std::unordered_multiset</span></code>.</p>
+<p><strong>Identification:</strong> <code class="docutils literal notranslate"><span class="pre">fTypeName</span></code> starts with one of the <code class="docutils literal notranslate"><span class="pre">target_types</span></code> names.</p>
+<section id="single-element">
+<h3>Single element<a class="headerlink" href="#single-element" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[fNBytes: uint32] [fVersion: int16] [checksum?: uint32]
+[length: uint32] [element 1] [element 2] ... [element N]
+</pre></div>
+</div>
+</section>
+<section id="c-style-array-of-stl-containers">
+<h3>C-style array of STL containers<a class="headerlink" href="#c-style-array-of-stl-containers" title="Link to this heading">#</a></h3>
+<p>When storing as a C-style array (e.g. <code class="docutils literal notranslate"><span class="pre">std::vector&lt;int&gt;</span> <span class="pre">m_vec[2]</span></code>), the outer
+<code class="docutils literal notranslate"><span class="pre">fNBytes</span> <span class="pre">+</span> <span class="pre">fVersion</span></code> header is kept, and each element is stored as a separate
+sequence with its own length prefix.</p>
+</section>
+<section id="std-array-of-stl-containers">
+<h3>std::array of STL containers<a class="headerlink" href="#std-array-of-stl-containers" title="Link to this heading">#</a></h3>
+<p>When storing as <code class="docutils literal notranslate"><span class="pre">std::array</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">std::array&lt;std::vector&lt;int&gt;,</span> <span class="pre">2&gt;</span></code>), there is
+<strong>no</strong> outer <code class="docutils literal notranslate"><span class="pre">fNBytes</span> <span class="pre">+</span> <span class="pre">fVersion</span></code> header. Each element is stored as a sequence
+with its own length prefix.</p>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
 <label class="sd-tab-label" for="sd-tab-item-2">
 single element</label><div class="sd-tab-content docutils">
-<div class="literal-block-wrapper docutils container" id="id5">
-<div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id5" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id14">
+<div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id14" title="Link to this code">#</a></div>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_vec_int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">};</span>
 <span class="n">std</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="kt">uint16_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_list_uint16</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">65535</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">42</span><span class="w"> </span><span class="p">};</span>
 </pre></div>
 </div>
 </div>
-<div class="literal-block-wrapper docutils container" id="id6">
-<div class="code-block-caption"><span class="caption-text">Binary format</span><a class="headerlink" href="#id6" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id15">
+<div class="code-block-caption"><span class="caption-text">Binary format</span><a class="headerlink" href="#id15" title="Link to this code">#</a></div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>m_vec_int
 <span class="go">64, x, x, x, 0, x, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3</span>
 <span class="go">fNBytes+fVersion |  length   |            3 elements            |</span>
@@ -529,16 +830,15 @@ single element</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
 <label class="sd-tab-label" for="sd-tab-item-3">
 C-style array</label><div class="sd-tab-content docutils">
-<p>When storing as C-style array, the <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code>+<code class="docutils literal notranslate"><span class="pre">fVersion</span></code> header is kept, and each element is stored as a sequence with its own length prefix.</p>
-<div class="literal-block-wrapper docutils container" id="id7">
-<div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id7" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id16">
+<div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id16" title="Link to this code">#</a></div>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint16_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_vec_uint16</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">};</span>
 </pre></div>
 </div>
 </div>
-<div class="literal-block-wrapper docutils container" id="id8">
-<div class="code-block-caption"><span class="caption-text">Binary format</span><a class="headerlink" href="#id8" title="Link to this code">#</a></div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>m_vec_int<span class="o">[</span><span class="m">2</span><span class="o">]</span>
+<div class="literal-block-wrapper docutils container" id="id17">
+<div class="code-block-caption"><span class="caption-text">Binary format</span><a class="headerlink" href="#id17" title="Link to this code">#</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>m_vec_uint16<span class="o">[</span><span class="m">2</span><span class="o">]</span>
 <span class="go">64, x, x, x, 0, x, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 0, 4, 0, 0, 0, 5</span>
 <span class="go">fNBytes+fVersion |  length   |            3 elements             |  length   |      2 elements      |</span>
 </pre></div>
@@ -548,16 +848,15 @@ C-style array</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-4" name="sd-tab-set-1" type="radio">
 <label class="sd-tab-label" for="sd-tab-item-4">
 std::array</label><div class="sd-tab-content docutils">
-<p>When storing as <code class="docutils literal notranslate"><span class="pre">std::array</span></code>, there is no <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code>+<code class="docutils literal notranslate"><span class="pre">fVersion</span></code> header, each element is stored as a sequence with its own length prefix.</p>
-<div class="literal-block-wrapper docutils container" id="id9">
-<div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id9" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id18">
+<div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id18" title="Link to this code">#</a></div>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint16_t</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_arr_vec_uint16</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">};</span>
 </pre></div>
 </div>
 </div>
-<div class="literal-block-wrapper docutils container" id="id10">
-<div class="code-block-caption"><span class="caption-text">Binary format</span><a class="headerlink" href="#id10" title="Link to this code">#</a></div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>m_arr_vec_uint16
+<div class="literal-block-wrapper docutils container" id="id19">
+<div class="code-block-caption"><span class="caption-text">Binary format</span><a class="headerlink" href="#id19" title="Link to this code">#</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>m_arr_vec_uint16<span class="w"> </span><span class="o">(</span>no<span class="w"> </span>outer<span class="w"> </span>header<span class="o">)</span>
 <span class="go">0, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 0, 4, 0, 0, 0, 5</span>
 <span class="go">|  length |            3 elements             |  length   |      2 elements      |</span>
 </pre></div>
@@ -565,6 +864,347 @@ std::array</label><div class="sd-tab-content docutils">
 </div>
 </div>
 </div>
+</section>
+<section id="member-wise-vs-object-wise">
+<h3>Member-wise vs object-wise<a class="headerlink" href="#member-wise-vs-object-wise" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">fVersion</span></code> field may have the <code class="docutils literal notranslate"><span class="pre">kStreamedMemberwise</span></code> bit (bit 14) set. When
+set, the elements are stored member-wise: all first members of each element,
+then all second members, etc. This is handled by the <code class="docutils literal notranslate"><span class="pre">read_many_memberwise</span></code> methods
+in the reader hierarchy.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="std-map-and-other-stl-maps">
+<h2><code class="docutils literal notranslate"><span class="pre">std::map</span></code> (and other STL maps)<a class="headerlink" href="#std-map-and-other-stl-maps" title="Link to this heading">#</a></h2>
+<p><strong>Matches:</strong> <code class="docutils literal notranslate"><span class="pre">std::map</span></code>, <code class="docutils literal notranslate"><span class="pre">std::unordered_map</span></code>, <code class="docutils literal notranslate"><span class="pre">std::multimap</span></code>,
+<code class="docutils literal notranslate"><span class="pre">std::unordered_multimap</span></code>.</p>
+<p><strong>Identification:</strong> <code class="docutils literal notranslate"><span class="pre">fTypeName</span></code> starts with one of the <code class="docutils literal notranslate"><span class="pre">target_types</span></code> names.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[fNBytes: uint32] [fVersion: int16] [checksum?: uint32]
+[length: uint32] [key 1] [val 1] [key 2] [val 2] ... [key N] [val N]
+</pre></div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id20">
+<div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id20" title="Link to this code">#</a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">1.5f</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mf">2.5f</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mf">3.5f</span><span class="p">}</span><span class="w"> </span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id21">
+<div class="code-block-caption"><span class="caption-text">Binary format (object-wise)</span><a class="headerlink" href="#id21" title="Link to this code">#</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>m_map
+<span class="go">64, x, x, x, 0, x, 0, 0, 0, 3, 0, 0, 0, 1, 63, 192, 0, 0, 0, 0, 0, 2, 64, 32, 0, 0, 0, 0, 0, 3, 64, 96, 0, 0</span>
+<span class="go">fNBytes+fVersion |  length |  key 1 |   val 1   |  key 2 |   val 2   |  key 3 |   val 3</span>
+</pre></div>
+</div>
+</div>
+<p>When <code class="docutils literal notranslate"><span class="pre">kStreamedMemberwise</span></code> is set, keys and values are stored separately:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[fNBytes: uint32] [fVersion: int16] [elem_version: int16] [elem_checksum?: uint32]
+[length: uint32] [key 1] [key 2] ... [key N] [val 1] [val 2] ... [val N]
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="tobject">
+<h2>TObject<a class="headerlink" href="#tobject" title="Link to this heading">#</a></h2>
+<p><strong>Matches:</strong> <code class="docutils literal notranslate"><span class="pre">TObject</span></code> as a base class (<code class="docutils literal notranslate"><span class="pre">fType=66</span></code>).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[fVersion: int16] [fUniqueID: uint32] [fBits: uint32] [pidf?: uint16]
+</pre></div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id22">
+<div class="code-block-caption"><span class="caption-text">Binary format</span><a class="headerlink" href="#id22" title="Link to this code">#</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>TObject
+<span class="go">0, 3, 0, 0, 0, 42, 0, 0, 0, 0</span>
+<span class="go">fVer | fUniqueID  |   fBits</span>
+</pre></div>
+</div>
+</div>
+<p>By default the data is discarded (<code class="docutils literal notranslate"><span class="pre">keep_data=False</span></code>), producing an
+<code class="docutils literal notranslate"><span class="pre">EmptyArray</span></code> in the output.</p>
+</section>
+<hr class="docutils" />
+<section id="c-style-array-std-array">
+<h2>C-style array / <code class="docutils literal notranslate"><span class="pre">std::array</span></code><a class="headerlink" href="#c-style-array-std-array" title="Link to this heading">#</a></h2>
+<p><strong>Matches:</strong> Data members with <code class="docutils literal notranslate"><span class="pre">fArrayDim</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> (C-style arrays or <code class="docutils literal notranslate"><span class="pre">std::array</span></code>),
+or jagged branches (variable-length arrays).</p>
+<p><strong>Identification:</strong> <code class="docutils literal notranslate"><span class="pre">fArrayDim</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> in the streamer info, or <code class="docutils literal notranslate"><span class="pre">is_jagged=True</span></code>
+from <code class="docutils literal notranslate"><span class="pre">get_dims_from_branch</span></code>. The dimensions are stored in <code class="docutils literal notranslate"><span class="pre">fMaxIndex[0..fArrayDim-1]</span></code>.</p>
+<p><strong>Priority:</strong> 20 (evaluated before other categories, so it wraps the element
+correctly).</p>
+<section id="how-c-style-array-std-array-modifies-contained-types">
+<h3>How C-style array / <code class="docutils literal notranslate"><span class="pre">std::array</span></code> modifies contained types<a class="headerlink" href="#how-c-style-array-std-array-modifies-contained-types" title="Link to this heading">#</a></h3>
+<p>The element is wrapped by an <em>element handler</em> for the contained type. When the array
+is <code class="docutils literal notranslate"><span class="pre">std::array</span></code> (identified by <code class="docutils literal notranslate"><span class="pre">fType=82</span></code>), the element is called with
+<code class="docutils literal notranslate"><span class="pre">in_std_array=True</span></code>, which suppresses the <code class="docutils literal notranslate"><span class="pre">fNBytes</span> <span class="pre">+</span> <span class="pre">fVersion</span></code> header for
+<code class="docutils literal notranslate"><span class="pre">std::vector</span></code> (and other STL sequences), <code class="docutils literal notranslate"><span class="pre">std::map</span></code> (and other STL maps), and <code class="docutils literal notranslate"><span class="pre">std::string</span></code>.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">TString</span></code> is inside a C-style or <code class="docutils literal notranslate"><span class="pre">std::array</span></code>, its <code class="docutils literal notranslate"><span class="pre">with_header</span></code> flag is
+set to <code class="docutils literal notranslate"><span class="pre">True</span></code> (unlike standalone <code class="docutils literal notranslate"><span class="pre">TString</span></code>).</p>
+</section>
+<section id="fixed-size">
+<h3>Fixed-size<a class="headerlink" href="#fixed-size" title="Link to this heading">#</a></h3>
+<p>Elements are concatenated with no separators or length prefixes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">element</span> <span class="mi">1</span><span class="p">]</span> <span class="p">[</span><span class="n">element</span> <span class="mi">2</span><span class="p">]</span> <span class="o">...</span> <span class="p">[</span><span class="n">element</span> <span class="n">N</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="jagged-variable-length">
+<h3>Jagged / variable-length<a class="headerlink" href="#jagged-variable-length" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">element</span> <span class="mi">1</span><span class="p">]</span> <span class="p">[</span><span class="n">element</span> <span class="mi">2</span><span class="p">]</span> <span class="o">...</span> <span class="p">[</span><span class="n">element</span> <span class="n">N</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The entry boundaries are determined by the entry offsets array, not by a
+fixed count. The reader reads elements until it reaches the next entry’s
+start offset.</p>
+</section>
+<section id="awkward-reconstruction">
+<h3>Awkward reconstruction<a class="headerlink" href="#awkward-reconstruction" title="Link to this heading">#</a></h3>
+<p>For fixed-size arrays, the flat elements are wrapped in <code class="docutils literal notranslate"><span class="pre">RegularArray</span></code> layers
+corresponding to the dimensions in <code class="docutils literal notranslate"><span class="pre">fMaxIndex</span></code>. For jagged arrays, a
+<code class="docutils literal notranslate"><span class="pre">ListOffsetArray</span></code> wraps the elements.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="any-class">
+<h2>Any class<a class="headerlink" href="#any-class" title="Link to this heading">#</a></h2>
+<p><strong>Matches:</strong> Any class object that is not handled by a more specific category.
+This is the <strong>fallback</strong> (priority=0).</p>
+<p><strong>Identification:</strong> <code class="docutils literal notranslate"><span class="pre">fTypeName</span></code> is a class name found in <code class="docutils literal notranslate"><span class="pre">all_streamer_info</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">fTypeName</span></code> does not end with <code class="docutils literal notranslate"><span class="pre">*</span></code> (pointer types go to Pointer (<code class="docutils literal notranslate"><span class="pre">T*</span></code>)).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[fNBytes: uint32] [fVersion: int16] [checksum?: uint32 if fVersion==0]
+[member 1 data] [member 2 data] ... [member N data]
+</pre></div>
+</div>
+<p>The total size of member data must equal <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> — the reader verifies this
+with an assertion.</p>
+<div class="literal-block-wrapper docutils container" id="id23">
+<div class="code-block-caption"><span class="caption-text">Example class definition</span><a class="headerlink" href="#id23" title="Link to this code">#</a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">   </span><span class="n">m_a</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">m_b</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id24">
+<div class="code-block-caption"><span class="caption-text">Binary format for MyClass{m_a=42, m_b=3.14f}</span><a class="headerlink" href="#id24" title="Link to this code">#</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span><span class="nv">fNBytes</span><span class="o">=</span><span class="m">8</span>,<span class="w"> </span><span class="nv">fVersion</span><span class="o">=</span><span class="m">1</span>
+<span class="go">0, 0, 0, 8, 0, 1, 0, 0, 0, 42, 64, 72, 245, 195</span>
+<span class="go">fNBytes   |fVer|  m_a=42    |  m_b=3.14f</span>
+</pre></div>
+</div>
+</div>
+<section id="member-wise-reading">
+<h3>Member-wise reading<a class="headerlink" href="#member-wise-reading" title="Link to this heading">#</a></h3>
+<p>When reading in member-wise mode, all values of member 1 are read first,
+then all values of member 2, etc. — rather than reading each object as a whole.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="base-class">
+<h2>Base class<a class="headerlink" href="#base-class" title="Link to this heading">#</a></h2>
+<p><strong>Matches:</strong> Base class embedding, identified by <code class="docutils literal notranslate"><span class="pre">fType=0</span></code> and <code class="docutils literal notranslate"><span class="pre">fTypeName=&quot;BASE&quot;</span></code>.</p>
+<p>The binary format is the same as the base class’s members concatenated —
+<strong>no additional <code class="docutils literal notranslate"><span class="pre">fNBytes</span> <span class="pre">+</span> <span class="pre">fVersion</span></code> header</strong> is added by the base class itself.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">base</span> <span class="n">member</span> <span class="mi">1</span> <span class="n">data</span><span class="p">]</span> <span class="p">[</span><span class="n">base</span> <span class="n">member</span> <span class="mi">2</span> <span class="n">data</span><span class="p">]</span> <span class="o">...</span> <span class="p">[</span><span class="n">base</span> <span class="n">member</span> <span class="n">N</span> <span class="n">data</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="pointer-t">
+<h2>Pointer (<code class="docutils literal notranslate"><span class="pre">T*</span></code>)<a class="headerlink" href="#pointer-t" title="Link to this heading">#</a></h2>
+<p><strong>Matches:</strong> Pointer-to-object members: <code class="docutils literal notranslate"><span class="pre">fType</span></code> in {63 (<code class="docutils literal notranslate"><span class="pre">kObjectp</span></code>), 64
+(<code class="docutils literal notranslate"><span class="pre">kObjectP</span></code>), 68 (<code class="docutils literal notranslate"><span class="pre">kAnyp</span></code>), 69 (<code class="docutils literal notranslate"><span class="pre">kAnyP</span></code>)} or <code class="docutils literal notranslate"><span class="pre">fTypeName</span></code> ends with <code class="docutils literal notranslate"><span class="pre">*</span></code>.</p>
+<p><strong>Priority:</strong> 15 (evaluated after C-style array / <code class="docutils literal notranslate"><span class="pre">std::array</span></code> but before most others).</p>
+<section id="read-object-any">
+<h3>read_object_any<a class="headerlink" href="#read-object-any" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[bcnt: uint32] [tag: uint32?] [classname?: null-terminated string] [object data?]
+</pre></div>
+</div>
+<p>Two cases for the first bytes:</p>
+<ol class="arabic simple">
+<li><p><strong>Versioned</strong> (<code class="docutils literal notranslate"><span class="pre">bcnt</span> <span class="pre">&amp;</span> <span class="pre">kByteCountMask</span> <span class="pre">!=</span> <span class="pre">0</span></code> and <code class="docutils literal notranslate"><span class="pre">bcnt</span> <span class="pre">!=</span> <span class="pre">kNewClassTag</span></code>):
+<code class="docutils literal notranslate"><span class="pre">fNBytes</span> <span class="pre">=</span> <span class="pre">bcnt</span> <span class="pre">&amp;</span> <span class="pre">~kByteCountMask</span></code>, then <code class="docutils literal notranslate"><span class="pre">tag</span> <span class="pre">=</span> <span class="pre">read_uint32()</span></code>.</p></li>
+<li><p><strong>Unversioned</strong> (<code class="docutils literal notranslate"><span class="pre">bcnt</span> <span class="pre">&amp;</span> <span class="pre">kByteCountMask</span> <span class="pre">==</span> <span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">bcnt</span> <span class="pre">==</span> <span class="pre">kNewClassTag</span></code>):
+<code class="docutils literal notranslate"><span class="pre">tag</span> <span class="pre">=</span> <span class="pre">bcnt</span></code>, <code class="docutils literal notranslate"><span class="pre">fNBytes</span> <span class="pre">=</span> <span class="pre">0</span></code>.</p></li>
+</ol>
+<p>Then the tag is interpreted:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>tag value</p></th>
+<th class="head"><p>Meaning</p></th>
+<th class="head"><p>Action</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p>Null pointer</p></td>
+<td><p>Store <code class="docutils literal notranslate"><span class="pre">-1</span></code> as index</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">kAnyP</span></code> (unsupported)</p></td>
+<td><p>Raise <code class="docutils literal notranslate"><span class="pre">NotImplementedError</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tag</span> <span class="pre">&amp;</span> <span class="pre">kClassMask</span> <span class="pre">==</span> <span class="pre">0</span></code> (nonzero)</p></td>
+<td><p>Reference to a previously-read object</p></td>
+<td><p>Look up <code class="docutils literal notranslate"><span class="pre">stream.refs[tag]</span></code>, store the object index</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kNewClassTag</span></code> (0xFFFFFFFF)</p></td>
+<td><p>New class, new object</p></td>
+<td><p>Read null-terminated classname, register class ref, read object data, register object ref, increment counter</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tag</span> <span class="pre">&amp;</span> <span class="pre">kClassMask</span> <span class="pre">!=</span> <span class="pre">0</span></code></p></td>
+<td><p>Known class, new object</p></td>
+<td><p>Read object data, register object ref, increment counter</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The reference table (<code class="docutils literal notranslate"><span class="pre">stream.refs</span></code>) maps <code class="docutils literal notranslate"><span class="pre">ref_begin</span> <span class="pre">+</span> <span class="pre">kMapOffset</span></code> (versioned) or
+<code class="docutils literal notranslate"><span class="pre">len(stream.refs)</span> <span class="pre">+</span> <span class="pre">1</span></code> (unversioned) to a <code class="docutils literal notranslate"><span class="pre">_Reference</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id25">
+<div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id25" title="Link to this code">#</a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">MyClass</span><span class="o">*</span><span class="w"> </span><span class="n">m_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MyClass</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span><span class="w"> </span><span class="mf">3.14f</span><span class="p">);</span><span class="w">  </span><span class="c1">// non-null pointer</span>
+<span class="n">MyClass</span><span class="o">*</span><span class="w"> </span><span class="n">m_null</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">nullptr</span><span class="p">;</span><span class="w">                  </span><span class="c1">// null pointer</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id26">
+<div class="code-block-caption"><span class="caption-text">Binary format (versioned, new class)</span><a class="headerlink" href="#id26" title="Link to this code">#</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>m_ptr:<span class="w"> </span><span class="nv">bcnt</span><span class="o">=</span>0x40000014,<span class="w"> </span><span class="nv">tag</span><span class="o">=</span>kNewClassTag
+<span class="go">64, 0, 0, 20, 255, 255, 255, 255, 77, 121, 67, 108, 97, 115, 115, 0, 0, 0, 0, 8, 0, 1, 0, 0, 0, 42, 64, 72, 245, 195</span>
+<span class="go">fNBytes=20  |  kNewClassTag   | &quot;MyClass\0&quot;                    |   MyClass object data</span>
+
+<span class="gp"># </span>m_null:<span class="w"> </span><span class="nv">bcnt</span><span class="o">=</span><span class="m">0</span>,<span class="w"> </span><span class="nv">tag</span><span class="o">=</span><span class="m">0</span>
+<span class="go">0, 0, 0, 0</span>
+<span class="go">tag=0 (null)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="id1">
+<h3>Awkward reconstruction<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>Pointer (<code class="docutils literal notranslate"><span class="pre">T*</span></code>) produces an <code class="docutils literal notranslate"><span class="pre">IndexedOptionArray</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">element_idxs[i]</span> <span class="pre">==</span> <span class="pre">-1</span></code> → null pointer (None)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">element_idxs[i]</span> <span class="pre">&gt;=</span> <span class="pre">0</span></code> → index into the element content array</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="appendix-streamer-info-fields-reference">
+<h2>Appendix: Streamer info fields reference<a class="headerlink" href="#appendix-streamer-info-fields-reference" title="Link to this heading">#</a></h2>
+<p>Key fields in the streamer information dictionary:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fName</span></code></p></td>
+<td><p>string</p></td>
+<td><p>Data member name</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fType</span></code></p></td>
+<td><p>int</p></td>
+<td><p>Type code (see below)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fTypeName</span></code></p></td>
+<td><p>string</p></td>
+<td><p>C++ type name (e.g. <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">vector&lt;float&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">MyClass</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fSize</span></code></p></td>
+<td><p>int</p></td>
+<td><p>Size in bytes (for primitive types)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fArrayDim</span></code></p></td>
+<td><p>int</p></td>
+<td><p>Number of array dimensions (0 = scalar)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fMaxIndex</span></code></p></td>
+<td><p>int[5]</p></td>
+<td><p>Size of each dimension</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fArrayLength</span></code></p></td>
+<td><p>int</p></td>
+<td><p>Total number of elements</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="common-ftype-values">
+<h3>Common <code class="docutils literal notranslate"><span class="pre">fType</span></code> values<a class="headerlink" href="#common-ftype-values" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>fType</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">BASE</span></code> (base class) or class object</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">char</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">short</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">long</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">double</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>11</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">char</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>12</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">short</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>13</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>14</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">long</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>16</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">long</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>17</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">long</span> <span class="pre">long</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>18</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>63</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">kObjectp</span></code> (pointer to TObject)</p></td>
+</tr>
+<tr class="row-odd"><td><p>64</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">kObjectP</span></code> (pointer to TObject)</p></td>
+</tr>
+<tr class="row-even"><td><p>66</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TObject</span></code> base class</p></td>
+</tr>
+<tr class="row-odd"><td><p>68</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">kAnyp</span></code> (pointer to any object)</p></td>
+</tr>
+<tr class="row-even"><td><p>69</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">kAnyP</span></code> (pointer to any object)</p></td>
+</tr>
+<tr class="row-odd"><td><p>82</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">std::array</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
 </section>
 </section>
 
@@ -615,9 +1255,48 @@ std::array</label><div class="sd-tab-content docutils">
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c-style-arrays-and-std-array">C-style arrays and <code class="docutils literal notranslate"><span class="pre">std::array</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#class-correspondence">Class correspondence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-header-patterns">Common header patterns</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fnbytes-4-bytes-uint32"><code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> (4 bytes, uint32)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fversion-2-bytes-int16"><code class="docutils literal notranslate"><span class="pre">fVersion</span></code> (2 bytes, int16)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fnbytes-fversion-header-object-header"><code class="docutils literal notranslate"><span class="pre">fNBytes</span> <span class="pre">+</span> <span class="pre">fVersion</span></code> header (object header)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kstreamedmemberwise-flag-bit-14-of-fversion"><code class="docutils literal notranslate"><span class="pre">kStreamedMemberwise</span></code> flag (bit 14 of <code class="docutils literal notranslate"><span class="pre">fVersion</span></code>)</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#primitive-types">Primitive types</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-like-stl-containers">Sequence-like STL containers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#std-string"><code class="docutils literal notranslate"><span class="pre">std::string</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tstring">TString</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tarray">TArray</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#std-vector-and-other-stl-sequences"><code class="docutils literal notranslate"><span class="pre">std::vector</span></code> (and other STL sequences)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-element">Single element</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-style-array-of-stl-containers">C-style array of STL containers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#std-array-of-stl-containers">std::array of STL containers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#member-wise-vs-object-wise">Member-wise vs object-wise</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#std-map-and-other-stl-maps"><code class="docutils literal notranslate"><span class="pre">std::map</span></code> (and other STL maps)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tobject">TObject</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c-style-array-std-array">C-style array / <code class="docutils literal notranslate"><span class="pre">std::array</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-c-style-array-std-array-modifies-contained-types">How C-style array / <code class="docutils literal notranslate"><span class="pre">std::array</span></code> modifies contained types</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fixed-size">Fixed-size</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jagged-variable-length">Jagged / variable-length</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#awkward-reconstruction">Awkward reconstruction</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#any-class">Any class</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#member-wise-reading">Member-wise reading</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#base-class">Base class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pointer-t">Pointer (<code class="docutils literal notranslate"><span class="pre">T*</span></code>)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#read-object-any">read_object_any</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Awkward reconstruction</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-streamer-info-fields-reference">Appendix: Streamer info fields reference</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-ftype-values">Common <code class="docutils literal notranslate"><span class="pre">fType</span></code> values</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

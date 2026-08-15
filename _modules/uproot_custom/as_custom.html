@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>uproot_custom.AsCustom &#8212; uproot-custom</title>
+    <title>uproot_custom.as_custom &#8212; uproot-custom</title>
   
   
   
@@ -410,7 +410,7 @@ mermaid.initialize(
 
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/uproot_custom/AsCustom';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/uproot_custom/as_custom';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -701,8 +701,10 @@ window.runMermaid = runMermaid;</script>
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <h1>Source code for uproot_custom.AsCustom</h1><div class="highlight"><pre>
+  <h1>Source code for uproot_custom.as_custom</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">awkward</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ak</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -716,9 +718,9 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="AsCustom">
-<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom">[docs]</a>
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.as_custom.AsCustom">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AsCustom</span><span class="p">(</span><span class="n">uproot</span><span class="o">.</span><span class="n">interpretation</span><span class="o">.</span><span class="n">custom</span><span class="o">.</span><span class="n">CustomInterpretation</span><span class="p">):</span>
-    <span class="n">target_branches</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">target_branches</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -773,7 +775,7 @@ window.runMermaid = runMermaid;</script>
             <span class="bp">self</span><span class="o">.</span><span class="n">all_streamer_info</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur_infos</span>
 
 <div class="viewcode-block" id="AsCustom.match_branch">
-<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom.match_branch">[docs]</a>
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.as_custom.AsCustom.match_branch">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">match_branch</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
@@ -830,7 +832,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;AsCustom(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">typename</span><span class="si">}</span><span class="s2">)&quot;</span>
 
 <div class="viewcode-block" id="AsCustom.final_array">
-<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom.final_array">[docs]</a>
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.as_custom.AsCustom.final_array">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">final_array</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">basket_arrays</span><span class="p">,</span>
@@ -860,7 +862,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="AsCustom.basket_array">
-<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom.basket_array">[docs]</a>
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.as_custom.AsCustom.basket_array">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">basket_array</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">data</span><span class="p">,</span>
@@ -897,7 +899,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="AsCustom.awkward_form">
-<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.AsCustom.AsCustom.awkward_form">[docs]</a>
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.as_custom.AsCustom.awkward_form">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">awkward_form</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">file</span><span class="p">,</span>

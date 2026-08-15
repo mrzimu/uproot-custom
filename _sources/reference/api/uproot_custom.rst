@@ -12,10 +12,10 @@ Subpackages
 Submodules
 ----------
 
-uproot\_custom.AsCustom module
-------------------------------
+uproot\_custom.as\_custom module
+--------------------------------
 
-.. automodule:: uproot_custom.AsCustom
+.. automodule:: uproot_custom.as_custom
    :members:
    :show-inheritance:
    :undoc-members:

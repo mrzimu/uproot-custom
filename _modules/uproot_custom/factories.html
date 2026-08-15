@@ -705,7 +705,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Literal</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">awkward</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ak</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">awkward.contents</span>
@@ -883,7 +883,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">all_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
         <span class="n">item_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Factory</span><span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Factory</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return an instance of this factory when current item matches this factory,</span>
 <span class="sd">        otherwise return `None`.</span>
@@ -986,7 +986,7 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="PrimitiveFactory">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.PrimitiveFactory">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PrimitiveFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
-    <span class="n">typename2dtype</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">typename2dtype</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
         <span class="c1"># builtin</span>
         <span class="s2">&quot;bool&quot;</span><span class="p">:</span> <span class="s2">&quot;bool&quot;</span><span class="p">,</span>
         <span class="s2">&quot;char&quot;</span><span class="p">:</span> <span class="s2">&quot;int8&quot;</span><span class="p">,</span>
@@ -1029,7 +1029,7 @@ window.runMermaid = runMermaid;</script>
         <span class="s2">&quot;Double_t&quot;</span><span class="p">:</span> <span class="s2">&quot;float64&quot;</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="n">ftype2dtype</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">ftype2dtype</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
         <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;int8&quot;</span><span class="p">,</span>
         <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;int16&quot;</span><span class="p">,</span>
         <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;int32&quot;</span><span class="p">,</span>
@@ -1045,7 +1045,7 @@ window.runMermaid = runMermaid;</script>
         <span class="mi">18</span><span class="p">:</span> <span class="s2">&quot;bool&quot;</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="n">cpp_reader_map</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">cpp_reader_map</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;bool&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">UInt8Reader</span><span class="p">,</span>
         <span class="s2">&quot;int8&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">Int8Reader</span><span class="p">,</span>
         <span class="s2">&quot;int16&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">Int16Reader</span><span class="p">,</span>
@@ -1151,7 +1151,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    This factory reads sequence-like STL containers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">target_types</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">target_types</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
         <span class="s2">&quot;vector&quot;</span><span class="p">,</span>
         <span class="s2">&quot;array&quot;</span><span class="p">,</span>
         <span class="s2">&quot;list&quot;</span><span class="p">,</span>
@@ -1284,7 +1284,12 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    This class reads mapping-like STL containers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">target_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;map&quot;</span><span class="p">,</span> <span class="s2">&quot;unordered_map&quot;</span><span class="p">,</span> <span class="s2">&quot;multimap&quot;</span><span class="p">,</span> <span class="s2">&quot;unordered_multimap&quot;</span><span class="p">]</span>
+    <span class="n">target_types</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;map&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;unordered_map&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;multimap&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;unordered_multimap&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
 
 <div class="viewcode-block" id="STLMapFactory.build_factory">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.STLMapFactory.build_factory">[docs]</a>
@@ -1530,7 +1535,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Corresponding dtype is int8, int16, int32, int64, int64, float32, and float64 respectively.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">typename2dtype</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">typename2dtype</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;TArrayC&quot;</span><span class="p">:</span> <span class="s2">&quot;int8&quot;</span><span class="p">,</span>
         <span class="s2">&quot;TArrayS&quot;</span><span class="p">:</span> <span class="s2">&quot;int16&quot;</span><span class="p">,</span>
         <span class="s2">&quot;TArrayI&quot;</span><span class="p">:</span> <span class="s2">&quot;int32&quot;</span><span class="p">,</span>
@@ -1699,7 +1704,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Whether keep TObject data.</span>
-    <span class="n">keep_data_itempaths</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">keep_data_itempaths</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
 <div class="viewcode-block" id="TObjectFactory.build_factory">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.TObjectFactory.build_factory">[docs]</a>
@@ -2001,7 +2006,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Never match items. If one needs to use this factory,</span>
 <span class="sd">        instatiate it directly.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
+        <span class="k">return</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sub_factories</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Factory</span><span class="p">]):</span>
@@ -2209,7 +2214,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># kObjectp=63, kObjectP=64, kAnyp=68, kAnyP=69</span>
-    <span class="n">_POINTER_FTYPES</span> <span class="o">=</span> <span class="p">{</span><span class="mi">63</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">68</span><span class="p">,</span> <span class="mi">69</span><span class="p">}</span>
+    <span class="n">_POINTER_FTYPES</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">63</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">68</span><span class="p">,</span> <span class="mi">69</span><span class="p">}</span>
 
 <div class="viewcode-block" id="AnyPointerFactory.priority">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.AnyPointerFactory.priority">[docs]</a>
@@ -2309,7 +2314,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        This factory will never match items. If one needs to use this factory,</span>
 <span class="sd">        instatiate it directly.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
+        <span class="k">return</span></div>
 
 
 <div class="viewcode-block" id="EmptyFactory.build_cpp_reader">
