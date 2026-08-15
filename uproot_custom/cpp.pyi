@@ -5,7 +5,6 @@ At present, this module contains only type hints for C++ reader
 classes used in uproot for parsing ROOT file formats.
 """
 
-
 import numpy as np
 
 class IReader:
