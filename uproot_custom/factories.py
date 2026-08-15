@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import warnings
-from typing import Any, Literal, Union
+from typing import Any, ClassVar, Literal
 
 import awkward as ak
 import awkward.contents
@@ -163,7 +163,7 @@ class Factory:
         all_streamer_info: dict,
         item_path: str,
         **kwargs,
-    ) -> Union[None, Factory]:
+    ) -> Factory | None:
         """
         Return an instance of this factory when current item matches this factory,
         otherwise return `None`.
@@ -247,7 +247,7 @@ class Factory:
 
 
 class PrimitiveFactory(Factory):
-    typename2dtype = {
+    typename2dtype: ClassVar[dict[str, str]] = {
         # builtin
         "bool": "bool",
         "char": "int8",
@@ -290,7 +290,7 @@ class PrimitiveFactory(Factory):
         "Double_t": "float64",
     }
 
-    ftype2dtype = {
+    ftype2dtype: ClassVar[dict[int, str]] = {
         1: "int8",
         2: "int16",
         3: "int32",
@@ -306,7 +306,7 @@ class PrimitiveFactory(Factory):
         18: "bool",
     }
 
-    cpp_reader_map = {
+    cpp_reader_map: ClassVar[dict[str, type]] = {
         "bool": uproot_custom.readers.cpp.UInt8Reader,
         "int8": uproot_custom.readers.cpp.Int8Reader,
         "int16": uproot_custom.readers.cpp.Int16Reader,
@@ -391,7 +391,7 @@ class STLSeqFactory(Factory):
     This factory reads sequence-like STL containers.
     """
 
-    target_types = [
+    target_types: ClassVar[list[str]] = [
         "vector",
         "array",
         "list",
@@ -503,7 +503,12 @@ class STLMapFactory(Factory):
     This class reads mapping-like STL containers.
     """
 
-    target_types = ["map", "unordered_map", "multimap", "unordered_multimap"]
+    target_types: ClassVar[list[str]] = [
+        "map",
+        "unordered_map",
+        "multimap",
+        "unordered_multimap",
+    ]
 
     @classmethod
     def build_factory(
@@ -707,7 +712,7 @@ class TArrayFactory(Factory):
     Corresponding dtype is int8, int16, int32, int64, int64, float32, and float64 respectively.
     """
 
-    typename2dtype = {
+    typename2dtype: ClassVar[dict[str, str]] = {
         "TArrayC": "int8",
         "TArrayS": "int16",
         "TArrayI": "int32",
@@ -834,7 +839,7 @@ class TObjectFactory(Factory):
     """
 
     # Whether keep TObject data.
-    keep_data_itempaths: set[str] = set()
+    keep_data_itempaths: ClassVar[set[str]] = set()
 
     @classmethod
     def build_factory(
@@ -1089,7 +1094,7 @@ class GroupFactory(Factory):
         Never match items. If one needs to use this factory,
         instatiate it directly.
         """
-        return None
+        return
 
     def __init__(self, name: str, sub_factories: list[Factory]):
         super().__init__(name)
@@ -1245,7 +1250,7 @@ class AnyPointerFactory(Factory):
     """
 
     # kObjectp=63, kObjectP=64, kAnyp=68, kAnyP=69
-    _POINTER_FTYPES = {63, 64, 68, 69}
+    _POINTER_FTYPES: ClassVar[set[int]] = {63, 64, 68, 69}
 
     @classmethod
     def priority(cls):
@@ -1322,7 +1327,7 @@ class EmptyFactory(Factory):
         This factory will never match items. If one needs to use this factory,
         instatiate it directly.
         """
-        return None
+        return
 
     def build_cpp_reader(self):
         return uproot_custom.readers.cpp.EmptyReader(self.name)

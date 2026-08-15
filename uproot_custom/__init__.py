@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import uproot
 
-from uproot_custom.AsCustom import AsCustom
+from uproot_custom.as_custom import AsCustom
 from uproot_custom.factories import (
     AnyClassFactory,
     AnyPointerFactory,
@@ -27,9 +27,9 @@ from uproot_custom.utils import regularize_object_path
 uproot.register_interpretation(AsCustom)
 
 __all__ = [
-    "AsCustom",
     "AnyClassFactory",
     "AnyPointerFactory",
+    "AsCustom",
     "BaseObjectFactory",
     "CStyleArrayFactory",
     "EmptyFactory",

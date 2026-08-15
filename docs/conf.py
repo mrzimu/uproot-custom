@@ -128,6 +128,7 @@ def run_doxygen():
         cwd=working_dir,
         capture_output=True,
         text=True,
+        check=False,
     )
 
     if result.returncode != 0:

@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import contextlib
 import os
 import shutil
 import struct
 import textwrap
 from array import array
 from dataclasses import dataclass
-from typing import Any, Callable, Literal, Optional
+from typing import Any, Callable, Literal
 
 import numpy as np
 from numpy.typing import NDArray
@@ -30,8 +31,8 @@ if "UPROOT_DEBUG" in os.environ:
 @dataclass
 class _Reference:
     type: Literal["object", "class"]
-    class_name: Optional[str] = None
-    object_index: Optional[int] = None
+    class_name: str | None = None
+    object_index: int | None = None
 
 
 class BinaryStream:
@@ -189,12 +190,9 @@ class BinaryStream:
             res = res[:-1]
 
         width = 76
-        try:
+        with contextlib.suppress(Exception):
             width, _ = shutil.get_terminal_size()
             width = max(40, width - 4)
-        except Exception:
-            # Ignore errors if terminal size cannot be determined; use default width
-            pass
 
         wrapper = textwrap.TextWrapper(
             width=width,
