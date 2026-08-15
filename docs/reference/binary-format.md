@@ -73,7 +73,7 @@ Almost every non-trivial class object is prefixed with:
 
 ### `kStreamedMemberwise` flag (bit 14 of `fVersion`)
 
-When `fVersion & (1 << 14) != 0` (i.e. the first byte is `64`), the object is stored in **member-wise** order — all
+When `fVersion & (1 << 14) != 0` (i.e. `fVersion` has `0x4000` set, so the high byte has the `0x40` bit set), the object is stored in **member-wise** order — all
 values of the first member, then all values of the second member, etc. The default
 is **object-wise** order — each object's members are stored contiguously.
 
