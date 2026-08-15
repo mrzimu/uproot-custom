@@ -153,61 +153,61 @@ def read_data(data: bytes, offsets: np.ndarray, reader: IReader):
     return reader.data()
 
 
-def read_number(typecode: TYPECODE, target: str = None):
+def read_number(typecode: TYPECODE, target: str | None = None):
     if target is not None:
         return f"{stream_data_token} !{typecode}-> {target}"
     else:
         return f"{stream_data_token} !{typecode}-> stack"
 
 
-def read_many_number(typecode: TYPECODE, target: str = None):
+def read_many_number(typecode: TYPECODE, target: str | None = None):
     if target is not None:
         return f"{stream_data_token} #!{typecode}-> {target}"
     else:
         return f"{stream_data_token} #!{typecode}-> stack"
 
 
-def read_bool(target: str = None):
+def read_bool(target: str | None = None):
     return read_number("B", target)
 
 
-def read_int8(target: str = None):
+def read_int8(target: str | None = None):
     return read_number("b", target)
 
 
-def read_uint8(target: str = None):
+def read_uint8(target: str | None = None):
     return read_number("B", target)
 
 
-def read_int16(target: str = None):
+def read_int16(target: str | None = None):
     return read_number("h", target)
 
 
-def read_uint16(target: str = None):
+def read_uint16(target: str | None = None):
     return read_number("H", target)
 
 
-def read_int32(target: str = None):
+def read_int32(target: str | None = None):
     return read_number("i", target)
 
 
-def read_uint32(target: str = None):
+def read_uint32(target: str | None = None):
     return read_number("I", target)
 
 
-def read_int64(target: str = None):
+def read_int64(target: str | None = None):
     return read_number("q", target)
 
 
-def read_uint64(target: str = None):
+def read_uint64(target: str | None = None):
     return read_number("Q", target)
 
 
-def read_float(target: str = None):
+def read_float(target: str | None = None):
     return read_number("f", target)
 
 
-def read_double(target: str = None):
+def read_double(target: str | None = None):
     return read_number("d", target)
 
 

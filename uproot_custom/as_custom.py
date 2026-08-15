@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import ClassVar
+
 import awkward as ak
 import numpy as np
 import uproot
@@ -12,7 +14,7 @@ from uproot_custom.utils import get_dims_from_branch, regularize_object_path
 
 
 class AsCustom(uproot.interpretation.custom.CustomInterpretation):
-    target_branches: set[str] = set()
+    target_branches: ClassVar[set[str]] = set()
 
     def __init__(
         self,

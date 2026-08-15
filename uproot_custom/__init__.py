@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import uproot
 
-from uproot_custom.AsCustom import AsCustom
+from uproot_custom.as_custom import AsCustom
 from uproot_custom.factories import (
     AnyClassFactory,
     AnyPointerFactory,
