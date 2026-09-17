@@ -9,7 +9,7 @@ import uproot.behaviors.TBranch
 import uproot.interpretation.custom
 from uproot.behaviors.TBranch import _branch_clean_name
 
-from uproot_custom.factories import read_branch, read_branch_awkward_form
+from uproot_custom.factories import Factory, read_branch_with_factory, build_factory
 from uproot_custom.utils import get_dims_from_branch, regularize_object_path
 
 
@@ -38,6 +38,7 @@ class AsCustom(uproot.interpretation.custom.CustomInterpretation):
         self._context = context
         self._simplify = simplify
         self._typename = None
+        self._factory: Factory | None = None
 
         # try to fix streamer, due to a reverted PR https://github.com/scikit-hep/uproot5/pull/1505
         if branch.streamer is None:
@@ -67,6 +68,15 @@ class AsCustom(uproot.interpretation.custom.CustomInterpretation):
         for k, v in branch.file.streamers.items():
             cur_infos = [i.all_members for i in next(iter(v.values())).member("fElements")]
             self.all_streamer_info[k] = cur_infos
+
+        self.cls_streamer_info: dict = {}
+        if self._branch.streamer is None:
+            self.cls_streamer_info = {
+                "fName": self._branch.name,
+                "fTypeName": self.typename,
+            }
+        else:
+            self.cls_streamer_info = self._branch.streamer.all_members
 
     @classmethod
     def match_branch(
@@ -116,6 +126,21 @@ class AsCustom(uproot.interpretation.custom.CustomInterpretation):
         """
         return id(self)
 
+    @property
+    def factory(self) -> Factory:
+        if self._factory is None:
+            full_branch_path = regularize_object_path(self._branch.object_path)
+
+            self._factory = build_factory(
+                cur_streamer_info=self.cls_streamer_info,
+                all_streamer_info=self.all_streamer_info,
+                item_path=full_branch_path,
+                called_from_top=True,
+                branch=self._branch,
+            )
+
+        return self._factory
+
     def __repr__(self) -> str:
         """
         The string representation of the interpretation.
@@ -163,24 +188,12 @@ class AsCustom(uproot.interpretation.custom.CustomInterpretation):
         assert library.name == "ak", "Only awkward arrays are supported"
         assert branch is self._branch, "Branch mismatch"
 
-        full_branch_path = regularize_object_path(self._branch.object_path)
-
-        if self._branch.streamer is None:
-            cls_streamer_info = {
-                "fName": self._branch.name,
-                "fTypeName": self.typename,
-            }
-        else:
-            cls_streamer_info = self._branch.streamer.all_members
-
-        return read_branch(
-            self._branch,
+        return read_branch_with_factory(
+            self.factory,
             data,
             byte_offsets,
             cursor_offset,
-            cls_streamer_info,
-            self.all_streamer_info,
-            full_branch_path,
+            nbyte=self.cls_streamer_info.get("fSize"),
         )
 
     def awkward_form(
@@ -193,20 +206,4 @@ class AsCustom(uproot.interpretation.custom.CustomInterpretation):
         breadcrumbs=(),
     ):
         assert file is self._branch.file, "File mismatch"
-
-        full_branch_path = regularize_object_path(self._branch.object_path)
-
-        if self._branch.streamer is None:
-            cls_streamer_info = {
-                "fName": self._branch.name,
-                "fTypeName": self.typename,
-            }
-        else:
-            cls_streamer_info = self._branch.streamer.all_members
-
-        return read_branch_awkward_form(
-            self._branch,
-            cls_streamer_info,
-            self.all_streamer_info,
-            full_branch_path,
-        )
+        return self.factory.make_awkward_form()
