@@ -1218,7 +1218,7 @@ namespace uproot_custom {
      *
      * @param data Binary data as a numpy array of uint8_t
      * @param offsets Offsets for each entry as a numpy array of uint32_t
-     * @param cursor_offset Initial cursor position offset within each entry's data range.
+     * @param cursor_offset Offset of the first byte in data relative to the original stream, used to calculate reference offsets.
      * @param reader Shared pointer to the top-level reader
      * @return (Possibly nested) numpy array containing the read data
      */
