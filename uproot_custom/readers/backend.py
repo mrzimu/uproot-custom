@@ -7,7 +7,7 @@ from typing import Literal
 _BACKEND_OPTIONS = frozenset({"cpp", "python", "forth"})
 _BACKEND_TYPE = Literal["cpp", "python", "forth"]
 
-_backend: _BACKEND_TYPE = "cpp"
+_backend: _BACKEND_TYPE | None = None
 
 
 def get() -> _BACKEND_TYPE:
@@ -26,6 +26,7 @@ def get() -> _BACKEND_TYPE:
         ValueError: If the `UPROOT_CUSTOM_READER_BACKEND` environment
             variable is set to an unrecognized value.
     """
+    global _backend
     if _backend is not None:
         return _backend
 
@@ -35,7 +36,8 @@ def get() -> _BACKEND_TYPE:
             f"Unknown reader backend: {env!r} (from $UPROOT_CUSTOM_READER_BACKEND). "
             f"Valid backends: {sorted(_BACKEND_OPTIONS)}."
         )
-    return env
+    _backend = env
+    return _backend
 
 
 def set(backend: _BACKEND_TYPE) -> None:
