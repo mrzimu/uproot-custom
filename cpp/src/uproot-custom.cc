@@ -91,7 +91,7 @@ namespace uproot_custom {
         /**
          * @brief Read a TObject from the stream. A TObject contains `fVersion` (int16_t),
          * `fUniqueID` (int32_t), `fBits` (uint32_t). If `fBits & kIsReferenced`, then a `pidf`
-         * (uint16_t) follows. If @ref m_keep_data is true, the read data
+         * (uint16_t) follows. If m_keep_data is true, the read data
          * will be stored.
          *
          * @param stream The binary stream to read from
@@ -119,7 +119,7 @@ namespace uproot_custom {
          * @brief Get the data read by the reader. This should be called after the whole
          * reading process.
          *
-         * @return If @ref m_keep_data is true, returns a tuple of numpy arrays: (unique_id,
+         * @return If m_keep_data is true, returns a tuple of numpy arrays: (unique_id,
          * bits, pidf, pidf_offsets). Otherwise, returns None.
          */
         py::object data() const override {
@@ -163,7 +163,7 @@ namespace uproot_custom {
 
         /**
          * @brief Read a TString from the stream. A TString starts with a uint8_t size. If the
-         * size is 255, then a uint32_t size follows. Then the string data follows. It @ref
+         * size is 255, then a uint32_t size follows. Then the string data follows. If
          * m_with_header is true, read a `fNBytes+fVersion` header before reading the TString.
          *
          * @param stream The binary stream to read from.
@@ -177,7 +177,7 @@ namespace uproot_custom {
         }
 
         /**
-         * @brief Read multiple TStrings from the stream. If @ref m_with_header is true, only
+         * @brief Read multiple TStrings from the stream. If m_with_header is true, only
          * read `fNBytes+fVersion` header once before reading multiple TStrings.
          *
          * @param stream The binary stream to read from.
@@ -202,7 +202,7 @@ namespace uproot_custom {
         }
 
         /**
-         * @brief Read TStrings from the stream until reaching the end position. If @ref
+         * @brief Read TStrings from the stream until reaching the end position. If
          * m_with_header is true, only read `fNBytes+fVersion` header once before reading
          * TStrings.
          *
@@ -285,7 +285,7 @@ namespace uproot_custom {
 
         /**
          * @brief Read the body of the sequence from the stream. First reads the size
-         * (uint32_t) of the sequence, then calls @ref m_element_reader to read the elements.
+         * (uint32_t) of the sequence, then calls m_element_reader to read the elements.
          *
          * @param stream The binary stream to read from.
          * @param is_memberwise Whether the current reading mode is member-wise.
@@ -303,7 +303,7 @@ namespace uproot_custom {
         }
 
         /**
-         * @brief Read a sequence from the stream. If @ref m_with_header is true, reads a
+         * @brief Read a sequence from the stream. If m_with_header is true, reads a
          * `fNBytes+fVersion` header. Then calls @ref read_body() to read the sequence body.
          *
          * @param stream The binary stream to read from.
@@ -317,7 +317,7 @@ namespace uproot_custom {
         }
 
         /**
-         * @brief Read multiple sequences from the stream. If @ref m_with_header is true,
+         * @brief Read multiple sequences from the stream. If m_with_header is true,
          * reads a `fNBytes+fVersion` header once before reading multiple sequences.
          *
          * @param stream The binary stream to read from.
@@ -342,7 +342,7 @@ namespace uproot_custom {
         }
 
         /**
-         * @brief Read sequences from the stream until reaching the end position. If @ref
+         * @brief Read sequences from the stream until reaching the end position. If
          * m_with_header is true, reads a `fNBytes+fVersion` header once before reading
          * sequences. If data is stored member-wise, skips 2 bytes after the header.
          *
@@ -425,7 +425,7 @@ namespace uproot_custom {
 
         /**
          * @brief Read the body of the map from the stream. First reads the size
-         * (uint32_t) of the map, then calls @ref m_key_reader and @ref m_value_reader
+         * (uint32_t) of the map, then calls m_key_reader and m_value_reader
          * to read the keys and values. If member-wise, reads all keys first, then all values.
          * Otherwise, reads key-value pairs one by one.
          *
@@ -468,7 +468,7 @@ namespace uproot_custom {
         }
 
         /**
-         * @brief Read multiple maps from the stream. If @ref m_with_header is true,
+         * @brief Read multiple maps from the stream. If m_with_header is true,
          * reads a `fNBytes+fVersion` header and element version/checksum once before
          * reading multiple maps.
          *
@@ -495,7 +495,7 @@ namespace uproot_custom {
         }
 
         /**
-         * @brief Read maps from the stream until reaching the end position. If @ref
+         * @brief Read maps from the stream until reaching the end position. If
          * m_with_header is true, reads a `fNBytes+fVersion` header and element
          * version/checksum once before reading maps.
          *
@@ -577,7 +577,7 @@ namespace uproot_custom {
         }
 
         /**
-         * @brief Read a string from the stream. If @ref m_with_header is true, reads a
+         * @brief Read a string from the stream. If m_with_header is true, reads a
          * `fNBytes+fVersion` header before reading the string body.
          *
          * @param stream The binary stream to read from.
@@ -592,7 +592,7 @@ namespace uproot_custom {
         }
 
         /**
-         * @brief Read multiple strings from the stream. If @ref m_with_header is true,
+         * @brief Read multiple strings from the stream. If m_with_header is true,
          * reads a `fNBytes+fVersion` header once before reading multiple strings.
          *
          * @param stream The binary stream to read from.
@@ -614,7 +614,7 @@ namespace uproot_custom {
         }
 
         /**
-         * @brief Read strings from the stream until reaching the end position. If @ref
+         * @brief Read strings from the stream until reaching the end position. If
          * m_with_header is true, reads a `fNBytes+fVersion` header once before reading
          * strings.
          *
@@ -886,6 +886,13 @@ namespace uproot_custom {
     -----------------------------------------------------------------------------
     */
 
+    /**
+     * @brief Reader for TObject pointers that may reference other objects.
+     *
+     * Handles the reading of objects through ROOT's pointer mechanism, resolving
+     * class references, object references, and inline objects. Maintains an index
+     * mapping for each object read.
+     */
     class AnyPointerReader : public IReader {
       private:
         SharedReader m_element_reader; ///< Reader for the object content.
@@ -898,11 +905,27 @@ namespace uproot_custom {
         string m_class_name{}; ///< Store the class name of the object
 
       public:
+        /**
+         * @brief Construct a new AnyPointerReader object.
+         *
+         * @param name Name of the reader.
+         * @param element_reader Reader for the object content.
+         */
         AnyPointerReader( string name, SharedReader element_reader )
             : IReader( name )
             , m_element_reader( element_reader )
             , m_object_indexes( std::make_shared<vector<int64_t>>() ) {}
 
+        /**
+         * @brief Check that the cursor is at the expected position after reading.
+         *
+         * Throws a runtime error if the cursor doesn't match the expected position,
+         * indicating a mismatch in the number of bytes read.
+         *
+         * @param stream The binary stream to check.
+         * @param expected_nbytes The expected number of bytes read.
+         * @param expected_pos The expected cursor position after reading.
+         */
         void check_cursor_position( BinaryStream& stream, const uint32_t expected_nbytes,
                                     const uint8_t* expected_pos ) {
             if ( stream.get_cursor() != expected_pos )
@@ -1065,8 +1088,8 @@ namespace uproot_custom {
             , m_element_reader( element_reader ) {}
 
         /**
-         * @brief Read the array from the stream. If @ref m_flat_size is positive, calls @ref
-         * IReader::read_many() function of @ref m_element_reader. Otherwise, reads
+         * @brief Read the array from the stream. If m_flat_size is positive, calls @ref
+         * IReader::read_many() function of m_element_reader. Otherwise, reads
          * until the end of the current entry in the stream.
          *
          * @param stream The binary stream to read from.
@@ -1097,7 +1120,7 @@ namespace uproot_custom {
         }
 
         /**
-         * @brief Read multiple arrays from the stream. Only supported when @ref m_flat_size
+         * @brief Read multiple arrays from the stream. Only supported when m_flat_size
          * is positive.
          *
          * @param stream The binary stream to read from.
@@ -1141,7 +1164,7 @@ namespace uproot_custom {
          * @brief Get the data read by the reader. This should be called after the whole
          * reading process.
          *
-         * @return If @ref m_flat_size is positive, directly return the data from @ref
+         * @return If m_flat_size is positive, directly return the data from
          * m_element_reader. Otherwise, return a tuple contains: (offsets, elements_data).
          */
         py::object data() const override {
@@ -1195,6 +1218,7 @@ namespace uproot_custom {
      *
      * @param data Binary data as a numpy array of uint8_t
      * @param offsets Offsets for each entry as a numpy array of uint32_t
+     * @param cursor_offset Initial cursor position offset within each entry's data range.
      * @param reader Shared pointer to the top-level reader
      * @return (Possibly nested) numpy array containing the read data
      */
