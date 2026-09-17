@@ -282,8 +282,8 @@ Don't forget to switch to the Python backend during development, since the
 default backend is C++:
 
 ```python
-import uproot_custom.factories as fac
-fac.reader_backend = "python"  # default is "cpp"
+from uproot_custom.readers import backend
+backend.set("python")  # default is "cpp"
 ```
 
 ## Step 5: Read data with Uproot
@@ -375,12 +375,12 @@ def build_cpp_reader(self):
 ```
 
 After adding `build_cpp_reader`, simply remove the
-`fac.reader_backend = "python"` line (or set it back to `"cpp"`) to use the
+``backend.set("python")`` line (or change it to ``backend.set("cpp")``) to use the
 default C++ backend for production:
 
 ```python
-import uproot_custom.factories as fac
-fac.reader_backend = "cpp"  # this is the default, so you can also just remove the line
+from uproot_custom.readers import backend
+backend.set("cpp")  # this is the default, so you can also just remove the line
 ```
 
 The factory's `make_awkward_content` and `make_awkward_form` remain exactly

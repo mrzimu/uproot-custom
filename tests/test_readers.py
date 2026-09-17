@@ -3,8 +3,7 @@ import numpy as np
 import pytest
 from numpy.testing import assert_array_equal
 
-import uproot_custom.factories
-from uproot_custom.readers import _forth
+from uproot_custom.readers import _forth, backend
 
 
 def _test_helper(test_contexts, subtests):
@@ -16,17 +15,17 @@ def _test_helper(test_contexts, subtests):
                 test_file[sub_branch].array()
 
 
-def test_python(test_contexts, subtests, monkeypatch):
-    monkeypatch.setattr(uproot_custom.factories, "reader_backend", "python")
-    _test_helper(test_contexts, subtests)
+def test_python(test_contexts, subtests):
+    with backend.use("python"):
+        _test_helper(test_contexts, subtests)
 
 
-def test_cpp(test_contexts, subtests, monkeypatch):
-    monkeypatch.setattr(uproot_custom.factories, "reader_backend", "cpp")
-    _test_helper(test_contexts, subtests)
+def test_cpp(test_contexts, subtests):
+    with backend.use("cpp"):
+        _test_helper(test_contexts, subtests)
 
 
-def test_forth(test_contexts, subtests, monkeypatch):
+def test_forth(test_contexts, subtests):
     forth_test_names = [
         "primitive",
         "stl_string",
@@ -47,8 +46,7 @@ def test_forth(test_contexts, subtests, monkeypatch):
         if test_name in forth_test_names
     }
 
-    monkeypatch.setattr(uproot_custom.factories, "reader_backend", "forth")
-    with pytest.warns(UserWarning):
+    with backend.use("forth"), pytest.warns(UserWarning):
         _test_helper(forth_contexts, subtests)
 
 

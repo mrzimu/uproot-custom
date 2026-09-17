@@ -122,11 +122,11 @@ factory. Each factory delegates to its sub-factories to build sub-readers, then
 combines them into a parent reader.
 
 ```{important}
-The default reader backend is **C++** (`uproot_custom.factories.reader_backend = "cpp"`).
+The default reader backend is **C++** (``backend.get()`` returns ``"cpp"``).
 During development, you must explicitly switch to the Python backend:
 
-    import uproot_custom.factories as fac
-    fac.reader_backend = "python"
+    from uproot_custom.readers import backend
+    backend.set("python")
 ```
 
 ```{code-block} python
@@ -407,10 +407,10 @@ lineno-start: 1
 ---
 import uproot
 import uproot_custom
-import uproot_custom.factories as fac
+from uproot_custom.readers import backend
 
 # During development, use the Python backend
-fac.reader_backend = "python"
+backend.set("python")
 
 # Register the target branch and the custom factory
 uproot_custom.AsCustom.target_branches |= {
