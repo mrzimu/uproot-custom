@@ -1088,7 +1088,7 @@ namespace uproot_custom {
             , m_element_reader( element_reader ) {}
 
         /**
-         * @brief Read the array from the stream. If m_flat_size is positive, calls @ref
+         * @brief Read the array from the stream. If m_flat_size is non-negative, calls @ref
          * IReader::read_many() function of m_element_reader. Otherwise, reads
          * until the end of the current entry in the stream.
          *
