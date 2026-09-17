@@ -93,7 +93,9 @@ def run_sphinx_apidoc():
 
     for module in apidoc_modules:
         cmd = [
-            "sphinx-apidoc",
+            sys.executable,
+            "-m",
+            "sphinx.ext.apidoc",
             "-o",
             str(Path(__file__).parent / module["destination"]),
             str(Path(__file__).parent / module["path"]),
@@ -153,6 +155,3 @@ def setup(app):
 def _override_toc_depth(app, pagename, templatename, context, doctree):
     if pagename == "reference/binary-format":
         context["theme_show_toc_level"] = 1
-
-
-run_doxygen_and_apidoc()

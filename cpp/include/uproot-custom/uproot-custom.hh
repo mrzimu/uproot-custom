@@ -47,8 +47,17 @@ namespace uproot_custom {
 
     constexpr uint16_t kStreamedMemberWise = 1 << 14; // streamed member-wise mask
 
+    /**
+     * @brief A binary stream reader that wraps numpy arrays for efficient ROOT binary parsing.
+     *
+     * Provides endianness-aware reading of primitive types and manages references
+     * between objects during deserialization.
+     */
     class BinaryStream {
       public:
+        /**
+         * @brief Status bits for TObject, used to track object state flags.
+         */
         enum EStatusBits {
             kCanDelete = 1ULL << 0, ///< if object in a list can be deleted
             // 2 is taken by TDataMember
@@ -64,20 +73,30 @@ namespace uproot_custom {
                              << 13 ///< if object ctor succeeded but object should not be used
         };
 
+        /**
+         * @brief Reference to a class by name.
+         */
         struct RefCls {
-            std::string name;
+            std::string name; ///< The name of the referenced class.
         };
 
+        /**
+         * @brief Reference to an object by index.
+         */
         struct RefObj {
-            int64_t index;
+            int64_t index; ///< The index of the referenced object.
         };
 
+        /**
+         * @brief A variant type representing either a class reference or an object reference.
+         */
         using Reference = std::variant<RefCls, RefObj>;
 
         /**
          * @brief Construct a BinaryStream from numpy arrays.
          * @param data A numpy array of uint8_t containing the raw data.
          * @param offsets A numpy array of uint32_t containing the offsets for each entry.
+         * @param initial_cursor_position Initial cursor position offset for the stream.
          */
         BinaryStream( py::array_t<uint8_t> data, py::array_t<uint32_t> offsets,
                       uint32_t initial_cursor_position )
