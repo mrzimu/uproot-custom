@@ -11,6 +11,7 @@ import numpy as np
 import uproot
 
 import uproot_custom.readers._forth
+import uproot_custom.readers.backend
 import uproot_custom.readers.cpp
 import uproot_custom.readers.python
 from uproot_custom.utils import (
@@ -21,7 +22,6 @@ from uproot_custom.utils import (
 )
 
 registered_factories: set[type[Factory]] = set()
-reader_backend: Literal["cpp", "python", "forth"] = "cpp"
 
 
 def _objwise_or_memberwise_to_text(
@@ -99,15 +99,17 @@ def read_branch(
         nbyte = cur_streamer_info["fSize"]
         offsets = np.arange(data.size // nbyte + 1, dtype=np.uint32) * nbyte
 
-    if reader_backend == "cpp":
+    backend_val = uproot_custom.readers.backend.get()
+
+    if backend_val == "cpp":
         reader = factory.build_cpp_reader()
         raw_data = uproot_custom.readers.cpp.read_data(data, offsets, cursor_offset, reader)
 
-    elif reader_backend == "python":
+    elif backend_val == "python":
         reader = factory.build_python_reader()
         raw_data = uproot_custom.readers.python.read_data(data, offsets, cursor_offset, reader)
 
-    elif reader_backend == "forth":
+    elif backend_val == "forth":
         warnings.warn(
             '"forth" reader is only for testing and benchmarking. It is not recommended for production use.',
             UserWarning,
@@ -118,7 +120,7 @@ def read_branch(
         raw_data = uproot_custom.readers._forth.read_data(data, offsets, reader)
 
     else:
-        raise ValueError(f"Unknown reader backend: {reader_backend}.")
+        raise ValueError(f"Unknown reader backend: {backend_val}.")
 
     return factory.make_awkward_content(raw_data)
 

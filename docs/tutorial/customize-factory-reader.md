@@ -6,10 +6,10 @@ for example, a class that overrides its `Streamer` method or uses an
 unsupported data layout.
 
 ```{important}
-The default reader backend is **C++**. During development, you must explicitly
-set `uproot_custom.factories.reader_backend = "python"` to use your Python
-reader. Once the Python reader is validated, port it to C++ and switch back to
-the default C++ backend.
+The default reader backend is **C++**. During development, you should explicitly
+use ``backend.set("python")`` or ``with backend.use("python"):`` to use your
+Python reader. Once the Python reader is validated, port it to C++ and switch
+back to the default C++ backend.
 ```
 
 ## What you will build
