@@ -50,7 +50,7 @@ classifiers = [
   "Topic :: Utilities"
 ]
 dependencies = ["uproot>=5.6.7", "numpy", "awkward>=2.8.0"]
-description = "uproot extension for reading custom classes"
+description = "Uproot extension for reading custom classes"
 dynamic = ["version"]
 name = "uproot-custom"
 readme = "README.md"
