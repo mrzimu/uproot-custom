@@ -9,7 +9,7 @@ import uproot.behaviors.TBranch
 import uproot.interpretation.custom
 from uproot.behaviors.TBranch import _branch_clean_name
 
-from uproot_custom.factories import Factory, read_branch_with_factory, build_factory
+from uproot_custom.factories import Factory, build_factory, read_branch_with_factory
 from uproot_custom.utils import get_dims_from_branch, regularize_object_path
 
 
