@@ -234,7 +234,6 @@
 <li class="toctree-l4"><a class="reference internal" href="api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
 </ul>
@@ -674,13 +673,13 @@ C-style array and std::array</label><div class="sd-tab-content docutils">
 precede the string data — see <a class="reference internal" href="#c-style-array-stdarray"><span class="xref myst">C-style array / <code class="docutils literal notranslate"><span class="pre">std::array</span></code></span></a>.</p>
 <div class="literal-block-wrapper docutils container" id="id7">
 <div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id7" title="Link to this code">#</a></div>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">m_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">m_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Hello"</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 <div class="literal-block-wrapper docutils container" id="id8">
 <div class="code-block-caption"><span class="caption-text">Binary format</span><a class="headerlink" href="#id8" title="Link to this code">#</a></div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>m_str<span class="w"> </span><span class="o">(</span><span class="s2">&quot;Hello&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="w"> </span>bytes<span class="o">)</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>m_str<span class="w"> </span><span class="o">(</span><span class="s2">"Hello"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="w"> </span>bytes<span class="o">)</span>
 <span class="go">5, 72, 101, 108, 108, 111</span>
 <span class="go">|  H    e    l    l    o</span>
 </pre></div>
@@ -703,13 +702,13 @@ present.</p>
 </div>
 <div class="literal-block-wrapper docutils container" id="id9">
 <div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id9" title="Link to this code">#</a></div>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">TString</span><span class="w"> </span><span class="n">m_tstr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ROOT&quot;</span><span class="p">;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">TString</span><span class="w"> </span><span class="n">m_tstr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"ROOT"</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 <div class="literal-block-wrapper docutils container" id="id10">
 <div class="code-block-caption"><span class="caption-text">Binary format</span><a class="headerlink" href="#id10" title="Link to this code">#</a></div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>m_tstr<span class="w"> </span><span class="o">(</span><span class="s2">&quot;ROOT&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="w"> </span>bytes<span class="o">)</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>m_tstr<span class="w"> </span><span class="o">(</span><span class="s2">"ROOT"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="w"> </span>bytes<span class="o">)</span>
 <span class="go">4, 82, 79, 79, 84</span>
 <span class="go">|  R   O   O   T</span>
 </pre></div>
@@ -1071,7 +1070,7 @@ then all values of member 2, etc. — rather than reading each object as a whole
 <div class="code-block-caption"><span class="caption-text">Binary format (versioned, new class)</span><a class="headerlink" href="#id26" title="Link to this code">#</a></div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>m_ptr:<span class="w"> </span><span class="nv">bcnt</span><span class="o">=</span>0x40000014,<span class="w"> </span><span class="nv">tag</span><span class="o">=</span>kNewClassTag
 <span class="go">64, 0, 0, 20, 255, 255, 255, 255, 77, 121, 67, 108, 97, 115, 115, 0, 0, 0, 0, 8, 0, 1, 0, 0, 0, 42, 64, 72, 245, 195</span>
-<span class="go">fNBytes=20  |  kNewClassTag   | &quot;MyClass\0&quot;                    |   MyClass object data</span>
+<span class="go">fNBytes=20  |  kNewClassTag   | "MyClass\0"                    |   MyClass object data</span>
 
 <span class="gp"># </span>m_null:<span class="w"> </span><span class="nv">bcnt</span><span class="o">=</span><span class="m">0</span>,<span class="w"> </span><span class="nv">tag</span><span class="o">=</span><span class="m">0</span>
 <span class="go">0, 0, 0, 0</span>

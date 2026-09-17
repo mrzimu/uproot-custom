@@ -234,7 +234,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../reference/api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="../../reference/api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
 </ul>
@@ -562,7 +561,7 @@ garbage collector.</p>
 enabled, the module-level <code class="docutils literal notranslate"><span class="pre">debug_print</span></code> function becomes an alias for
 <code class="docutils literal notranslate"><span class="pre">print</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;UPROOT_DEBUG&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"UPROOT_DEBUG"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"1"</span>
 
 <span class="c1"># Now debug_print(...) calls will produce output</span>
 </pre></div>
@@ -665,51 +664,51 @@ At minimum it must accept a <code class="docutils literal notranslate"><span cla
 stripped (e.g. <code class="docutils literal notranslate"><span class="pre">vector</span></code> for <code class="docutils literal notranslate"><span class="pre">std::vector&lt;std::map&lt;int,</span> <span class="pre">float&gt;&gt;</span></code>).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">cur_streamer_info:</span> <span class="pre">dict</span></code> — the streamer dictionary for the current data
 member. Use it to decide whether this factory is applicable. Example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;@fUniqueID&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-<span class="s1">&#39;@fBits&#39;</span><span class="p">:</span> <span class="mi">16777216</span><span class="p">,</span>
-<span class="s1">&#39;fName&#39;</span><span class="p">:</span> <span class="s1">&#39;m_int&#39;</span><span class="p">,</span>
-<span class="s1">&#39;fTitle&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-<span class="s1">&#39;fType&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-<span class="s1">&#39;fSize&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-<span class="s1">&#39;fArrayLength&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-<span class="s1">&#39;fArrayDim&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-<span class="s1">&#39;fMaxIndex&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;&gt;i4&#39;</span><span class="p">),</span>
-<span class="s1">&#39;fTypeName&#39;</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span><span class="p">}</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">'@fUniqueID'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="s1">'@fBits'</span><span class="p">:</span> <span class="mi">16777216</span><span class="p">,</span>
+<span class="s1">'fName'</span><span class="p">:</span> <span class="s1">'m_int'</span><span class="p">,</span>
+<span class="s1">'fTitle'</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span>
+<span class="s1">'fType'</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+<span class="s1">'fSize'</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+<span class="s1">'fArrayLength'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="s1">'fArrayDim'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="s1">'fMaxIndex'</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">'&gt;i4'</span><span class="p">),</span>
+<span class="s1">'fTypeName'</span><span class="p">:</span> <span class="s1">'int'</span><span class="p">}</span>
 </pre></div>
 </div>
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">all_streamer_info:</span> <span class="pre">dict</span></code> — maps every class name to the list of its
 members’ streamer dictionaries. Use it to look up nested classes:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">all_streamer_info</span><span class="p">[</span><span class="s2">&quot;TSimpleObject&quot;</span><span class="p">]</span>
-<span class="go">[{&#39;@fUniqueID&#39;: 0,</span>
-<span class="go">&#39;@fBits&#39;: 16777216,</span>
-<span class="go">&#39;fName&#39;: &#39;TObject&#39;,</span>
-<span class="go">&#39;fTitle&#39;: &#39;Basic ROOT object&#39;,</span>
-<span class="go">&#39;fType&#39;: 66,</span>
-<span class="go">&#39;fSize&#39;: 0,</span>
-<span class="go">&#39;fArrayLength&#39;: 0,</span>
-<span class="go">&#39;fArrayDim&#39;: 0,</span>
-<span class="go">&#39;fMaxIndex&#39;: array([          0, -1877229523,           0,           0,           0],</span>
-<span class="go">        dtype=&#39;&gt;i4&#39;),</span>
-<span class="go">&#39;fTypeName&#39;: &#39;BASE&#39;,</span>
-<span class="go">&#39;fBaseVersion&#39;: 1},</span>
-<span class="go">{&#39;@fUniqueID&#39;: 0,</span>
-<span class="go">&#39;@fBits&#39;: 16777216,</span>
-<span class="go">&#39;fName&#39;: &#39;m_int&#39;,</span>
-<span class="go">&#39;fTitle&#39;: &#39;&#39;,</span>
-<span class="go">&#39;fType&#39;: 3,</span>
-<span class="go">&#39;fSize&#39;: 4,</span>
-<span class="go">&#39;fArrayLength&#39;: 0,</span>
-<span class="go">&#39;fArrayDim&#39;: 0,</span>
-<span class="go">&#39;fMaxIndex&#39;: array([0, 0, 0, 0, 0], dtype=&#39;&gt;i4&#39;),</span>
-<span class="go">&#39;fTypeName&#39;: &#39;int&#39;},</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">all_streamer_info</span><span class="p">[</span><span class="s2">"TSimpleObject"</span><span class="p">]</span>
+<span class="go">[{'@fUniqueID': 0,</span>
+<span class="go">'@fBits': 16777216,</span>
+<span class="go">'fName': 'TObject',</span>
+<span class="go">'fTitle': 'Basic ROOT object',</span>
+<span class="go">'fType': 66,</span>
+<span class="go">'fSize': 0,</span>
+<span class="go">'fArrayLength': 0,</span>
+<span class="go">'fArrayDim': 0,</span>
+<span class="go">'fMaxIndex': array([          0, -1877229523,           0,           0,           0],</span>
+<span class="go">        dtype='&gt;i4'),</span>
+<span class="go">'fTypeName': 'BASE',</span>
+<span class="go">'fBaseVersion': 1},</span>
+<span class="go">{'@fUniqueID': 0,</span>
+<span class="go">'@fBits': 16777216,</span>
+<span class="go">'fName': 'm_int',</span>
+<span class="go">'fTitle': '',</span>
+<span class="go">'fType': 3,</span>
+<span class="go">'fSize': 4,</span>
+<span class="go">'fArrayLength': 0,</span>
+<span class="go">'fArrayDim': 0,</span>
+<span class="go">'fMaxIndex': array([0, 0, 0, 0, 0], dtype='&gt;i4'),</span>
+<span class="go">'fTypeName': 'int'},</span>
 <span class="go">...</span>
 <span class="go">]</span>
 </pre></div>
 </div>
 <p>Build sub-factories for nested members:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sub_factories</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">all_streamer_info</span><span class="p">[</span><span class="s2">&quot;TSimpleObject&quot;</span><span class="p">]:</span>
+<span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">all_streamer_info</span><span class="p">[</span><span class="s2">"TSimpleObject"</span><span class="p">]:</span>
     <span class="n">sub_fac</span> <span class="o">=</span> <span class="n">build_factory</span><span class="p">(</span><span class="n">member</span><span class="p">)</span>
     <span class="n">sub_factories</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub_fac</span><span class="p">)</span>
 </pre></div>
@@ -768,7 +767,7 @@ offsets and data using Python’s <code class="docutils literal notranslate"><sp
         <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typecode</span> <span class="o">=</span> <span class="n">DTYPE_TO_TYPECODE</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">typecode</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">"q"</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">buffer_reader</span> <span class="o">=</span> <span class="n">DTYPE_TO_READER</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
@@ -778,7 +777,7 @@ offsets and data using Python’s <code class="docutils literal notranslate"><sp
             <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buffer_reader</span><span class="p">(</span><span class="n">stream</span><span class="p">))</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span>
+        <span class="n">offsets_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"int64"</span><span class="p">)</span>
         <span class="n">data_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">tobytes</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">offsets_array</span><span class="p">,</span> <span class="n">data_array</span>
 </pre></div>
@@ -796,21 +795,21 @@ typed Python reader, and converts the offsets + data arrays into an <code class=
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.readers.python</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">TArrayFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    This class reads TArray from a binary paerser.</span>
 
 <span class="sd">    TArray includes TArrayC, TArrayS, TArrayI, TArrayL, TArrayL64, TArrayF, and TArrayD.</span>
 <span class="sd">    Corresponding dtype is int8, int16, int32, int64, int64, float32, and float64 respectively.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">typename2dtype</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;TArrayC&quot;</span><span class="p">:</span> <span class="s2">&quot;int8&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;TArrayS&quot;</span><span class="p">:</span> <span class="s2">&quot;int16&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;TArrayI&quot;</span><span class="p">:</span> <span class="s2">&quot;int32&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;TArrayL&quot;</span><span class="p">:</span> <span class="s2">&quot;int64&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;TArrayL64&quot;</span><span class="p">:</span> <span class="s2">&quot;int64&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;TArrayF&quot;</span><span class="p">:</span> <span class="s2">&quot;float32&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;TArrayD&quot;</span><span class="p">:</span> <span class="s2">&quot;float64&quot;</span><span class="p">,</span>
+        <span class="s2">"TArrayC"</span><span class="p">:</span> <span class="s2">"int8"</span><span class="p">,</span>
+        <span class="s2">"TArrayS"</span><span class="p">:</span> <span class="s2">"int16"</span><span class="p">,</span>
+        <span class="s2">"TArrayI"</span><span class="p">:</span> <span class="s2">"int32"</span><span class="p">,</span>
+        <span class="s2">"TArrayL"</span><span class="p">:</span> <span class="s2">"int64"</span><span class="p">,</span>
+        <span class="s2">"TArrayL64"</span><span class="p">:</span> <span class="s2">"int64"</span><span class="p">,</span>
+        <span class="s2">"TArrayF"</span><span class="p">:</span> <span class="s2">"float32"</span><span class="p">,</span>
+        <span class="s2">"TArrayD"</span><span class="p">:</span> <span class="s2">"float64"</span><span class="p">,</span>
     <span class="p">}</span>
 
     <span class="nd">@classmethod</span>
@@ -822,14 +821,14 @@ typed Python reader, and converts the offsets + data arrays into an <code class=
         <span class="n">item_path</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Return when `top_type_name` is in `cls.typenames`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">top_type_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">typename2dtype</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
 
         <span class="n">dtype</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">typename2dtype</span><span class="p">[</span><span class="n">top_type_name</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">"fName"</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
@@ -837,12 +836,12 @@ typed Python reader, and converts the offsets + data arrays into an <code class=
 
     <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">&quot;int8&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayCReader</span><span class="p">,</span>
-            <span class="s2">&quot;int16&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArraySReader</span><span class="p">,</span>
-            <span class="s2">&quot;int32&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayIReader</span><span class="p">,</span>
-            <span class="s2">&quot;int64&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayLReader</span><span class="p">,</span>
-            <span class="s2">&quot;float32&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayFReader</span><span class="p">,</span>
-            <span class="s2">&quot;float64&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayDReader</span><span class="p">,</span>
+            <span class="s2">"int8"</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayCReader</span><span class="p">,</span>
+            <span class="s2">"int16"</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArraySReader</span><span class="p">,</span>
+            <span class="s2">"int32"</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayIReader</span><span class="p">,</span>
+            <span class="s2">"int64"</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayLReader</span><span class="p">,</span>
+            <span class="s2">"float32"</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayFReader</span><span class="p">,</span>
+            <span class="s2">"float64"</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayDReader</span><span class="p">,</span>
         <span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -856,7 +855,7 @@ typed Python reader, and converts the offsets + data arrays into an <code class=
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">ListOffsetForm</span><span class="p">(</span><span class="s2">&quot;i64&quot;</span><span class="p">,</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">ListOffsetForm</span><span class="p">(</span><span class="s2">"i64"</span><span class="p">,</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>

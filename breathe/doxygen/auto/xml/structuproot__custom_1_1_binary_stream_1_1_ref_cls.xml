@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="structuproot__custom_1_1_binary_stream_1_1_ref_cls" kind="struct" language="C++" prot="public">
     <compoundname>uproot_custom::BinaryStream::RefCls</compoundname>
+    <includes refid="uproot-custom_8hh" local="no">uproot-custom.hh</includes>
     <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="structuproot__custom_1_1_binary_stream_1_1_ref_cls_1af8fab2e42011c28acb71de3b3636084b" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -10,15 +11,17 @@
         <name>name</name>
         <qualifiedname>uproot_custom::BinaryStream::RefCls::name</qualifiedname>
         <briefdescription>
+<para>The name of the referenced class. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="68" column="25" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="68" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="80" column="25" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="80" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
+<para>Reference to a class by name. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
@@ -34,7 +37,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="67" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="67" bodyend="69"/>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="79" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="79" bodyend="81"/>
     <listofallmembers>
       <member refid="structuproot__custom_1_1_binary_stream_1_1_ref_cls_1af8fab2e42011c28acb71de3b3636084b" prot="public" virt="non-virtual"><scope>uproot_custom::BinaryStream::RefCls</scope><name>name</name></member>
     </listofallmembers>

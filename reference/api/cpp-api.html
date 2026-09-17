@@ -234,7 +234,6 @@
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.readers.html">uproot_custom.readers package</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
 </ul>
@@ -676,12 +675,17 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStreamE">
 <span id="_CPPv3N13uproot_custom12BinaryStreamE"></span><span id="_CPPv2N13uproot_custom12BinaryStreamE"></span><span id="uproot_custom::BinaryStream"></span><span class="target" id="classuproot__custom_1_1_binary_stream"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BinaryStream</span></span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStreamE" title="Link to this definition">#</a><br /></dt>
-<dd><div class="breathe-sectiondef docutils container">
+<dd><div class="docutils container">
+<em>#include &lt;uproot-custom.hh&gt;</em></div>
+<p>A binary stream reader that wraps numpy arrays for efficient ROOT binary parsing. </p>
+<p>Provides endianness-aware reading of primitive types and manages references between objects during deserialization. </p>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
 <dl class="cpp enum">
 <dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream11EStatusBitsE">
 <span id="_CPPv3N13uproot_custom12BinaryStream11EStatusBitsE"></span><span id="_CPPv2N13uproot_custom12BinaryStream11EStatusBitsE"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1a125b71eeed0baa9a7a546c56581f0211"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">EStatusBits</span></span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream11EStatusBitsE" title="Link to this definition">#</a><br /></dt>
-<dd><p><em>Values:</em></p>
+<dd><p>Status bits for TObject, used to track object state flags. </p>
+<p><em>Values:</em></p>
 <dl class="cpp enumerator">
 <dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream11EStatusBits10kCanDeleteE">
 <span id="_CPPv3N13uproot_custom12BinaryStream11EStatusBits10kCanDeleteE"></span><span id="_CPPv2N13uproot_custom12BinaryStream11EStatusBits10kCanDeleteE"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1a125b71eeed0baa9a7a546c56581f0211a92bcdd0dacb1d7113f9b3558661f33ad"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kCanDelete</span></span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream11EStatusBits10kCanDeleteE" title="Link to this definition">#</a><br /></dt>
@@ -729,7 +733,8 @@
 <dl class="cpp type">
 <dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream9ReferenceE">
 <span id="_CPPv3N13uproot_custom12BinaryStream9ReferenceE"></span><span id="_CPPv2N13uproot_custom12BinaryStream9ReferenceE"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1a82d455d4d88d74160a59c122c023d480"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Reference</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">variant</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream6RefClsE" title="uproot_custom::BinaryStream::RefCls"><span class="n"><span class="pre">RefCls</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream6RefObjE" title="uproot_custom::BinaryStream::RefObj"><span class="n"><span class="pre">RefObj</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream9ReferenceE" title="Link to this definition">#</a><br /></dt>
-<dd></dd></dl>
+<dd><p>A variant type representing either a class reference or an object reference. </p>
+</dd></dl>
 
 </div>
 <div class="breathe-sectiondef docutils container">
@@ -743,6 +748,7 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> – A numpy array of uint8_t containing the raw data. </p></li>
 <li><p><strong>offsets</strong> – A numpy array of uint32_t containing the offsets for each entry. </p></li>
+<li><p><strong>initial_cursor_position</strong> – Initial cursor position offset for the stream. </p></li>
 </ul>
 </dd>
 </dl>
@@ -972,12 +978,16 @@
 <dl class="cpp struct">
 <dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream6RefClsE">
 <span id="_CPPv3N13uproot_custom12BinaryStream6RefClsE"></span><span id="_CPPv2N13uproot_custom12BinaryStream6RefClsE"></span><span id="uproot_custom::BinaryStream::RefCls"></span><span class="target" id="structuproot__custom_1_1_binary_stream_1_1_ref_cls"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RefCls</span></span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream6RefClsE" title="Link to this definition">#</a><br /></dt>
-<dd><div class="breathe-sectiondef docutils container">
+<dd><div class="docutils container">
+<em>#include &lt;uproot-custom.hh&gt;</em></div>
+<p>Reference to a class by name. </p>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream6RefCls4nameE">
 <span id="_CPPv3N13uproot_custom12BinaryStream6RefCls4nameE"></span><span id="_CPPv2N13uproot_custom12BinaryStream6RefCls4nameE"></span><span id="uproot_custom::BinaryStream::RefCls::name__ss"></span><span class="target" id="structuproot__custom_1_1_binary_stream_1_1_ref_cls_1af8fab2e42011c28acb71de3b3636084b"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">name</span></span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream6RefCls4nameE" title="Link to this definition">#</a><br /></dt>
-<dd></dd></dl>
+<dd><p>The name of the referenced class. </p>
+</dd></dl>
 
 </div>
 </dd></dl>
@@ -985,12 +995,16 @@
 <dl class="cpp struct">
 <dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream6RefObjE">
 <span id="_CPPv3N13uproot_custom12BinaryStream6RefObjE"></span><span id="_CPPv2N13uproot_custom12BinaryStream6RefObjE"></span><span id="uproot_custom::BinaryStream::RefObj"></span><span class="target" id="structuproot__custom_1_1_binary_stream_1_1_ref_obj"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RefObj</span></span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream6RefObjE" title="Link to this definition">#</a><br /></dt>
-<dd><div class="breathe-sectiondef docutils container">
+<dd><div class="docutils container">
+<em>#include &lt;uproot-custom.hh&gt;</em></div>
+<p>Reference to an object by index. </p>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream6RefObj5indexE">
 <span id="_CPPv3N13uproot_custom12BinaryStream6RefObj5indexE"></span><span id="_CPPv2N13uproot_custom12BinaryStream6RefObj5indexE"></span><span id="uproot_custom::BinaryStream::RefObj::index__int64_t"></span><span class="target" id="structuproot__custom_1_1_binary_stream_1_1_ref_obj_1a567e5039aaecabfd04dd1925847d6ab3"></span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">index</span></span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream6RefObj5indexE" title="Link to this definition">#</a><br /></dt>
-<dd></dd></dl>
+<dd><p>The index of the referenced object. </p>
+</dd></dl>
 
 </div>
 </dd></dl>

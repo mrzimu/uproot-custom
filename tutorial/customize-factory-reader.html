@@ -234,7 +234,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="../reference/api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
 </ul>
@@ -418,10 +417,10 @@ for example, a class that overrides its <code class="docutils literal notranslat
 unsupported data layout.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>The default reader backend is <strong>C++</strong>. During development, you must explicitly
-set <code class="docutils literal notranslate"><span class="pre">uproot_custom.factories.reader_backend</span> <span class="pre">=</span> <span class="pre">&quot;python&quot;</span></code> to use your Python
-reader. Once the Python reader is validated, port it to C++ and switch back to
-the default C++ backend.</p>
+<p>The default reader backend is <strong>C++</strong>. During development, you should explicitly
+use <code class="docutils literal notranslate"><span class="pre">backend.set(&quot;python&quot;)</span></code> or <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">backend.use(&quot;python&quot;):</span></code> to use your
+Python reader. Once the Python reader is validated, port it to C++ and switch
+back to the default C++ backend.</p>
 </div>
 <section id="what-you-will-build">
 <h2>What you will build<a class="headerlink" href="#what-you-will-build" title="Link to this heading">#</a></h2>

@@ -234,7 +234,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../reference/api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="../../reference/api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
 </ul>
@@ -505,7 +504,7 @@ methods:</p>
 <span class="linenos">30</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span>
 <span class="linenos">31</span><span class="w">        </span><span class="p">{</span>
 <span class="linenos">32</span><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">stringstream</span><span class="w"> </span><span class="n">msg</span><span class="p">;</span>
-<span class="linenos">33</span><span class="w">            </span><span class="n">msg</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">name</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;::read_many_memberwise with negative count: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<span class="linenos">33</span><span class="w">            </span><span class="n">msg</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">name</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"::read_many_memberwise with negative count: "</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
 <span class="linenos">34</span><span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="w"> </span><span class="n">msg</span><span class="p">.</span><span class="n">str</span><span class="p">()</span><span class="w"> </span><span class="p">);</span>
 <span class="linenos">35</span><span class="w">        </span><span class="p">}</span>
 <span class="linenos">36</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">read_many</span><span class="p">(</span><span class="w"> </span><span class="n">stream</span><span class="p">,</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="p">);</span>
@@ -574,7 +573,7 @@ into a <code class="docutils literal notranslate"><span class="pre">numpy</span>
 <p>Uproot-custom uses <code class="docutils literal notranslate"><span class="pre">pybind11</span></code> for bindings. The <code class="docutils literal notranslate"><span class="pre">declare_reader</span></code> helper
 simplifies declaration:</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">PYBIND11_MODULE</span><span class="p">(</span><span class="w"> </span><span class="n">my_cpp_reader</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">declare_reader</span><span class="o">&lt;</span><span class="n">MyReaderClass</span><span class="p">,</span><span class="w"> </span><span class="n">constructor_arg1_type</span><span class="p">,</span><span class="w"> </span><span class="n">constructor_arg2_type</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;MyReaderClass&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">declare_reader</span><span class="o">&lt;</span><span class="n">MyReaderClass</span><span class="p">,</span><span class="w"> </span><span class="n">constructor_arg1_type</span><span class="p">,</span><span class="w"> </span><span class="n">constructor_arg2_type</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">"MyReaderClass"</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -593,8 +592,8 @@ simplifies declaration:</p>
 <p>Use the <code class="docutils literal notranslate"><span class="pre">debug_print</span></code> helper for conditional logging. Messages are only
 emitted when the <code class="docutils literal notranslate"><span class="pre">UPROOT_DEBUG</span></code> macro is defined at compile time <strong>or</strong> the
 <code class="docutils literal notranslate"><span class="pre">UPROOT_DEBUG</span></code> environment variable is set at runtime:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Will print &quot;The reader name is Bob&quot;</span>
-<span class="n">debug_print</span><span class="p">(</span><span class="s">&quot;The reader name is %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bob&quot;</span><span class="p">);</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Will print "The reader name is Bob"</span>
+<span class="n">debug_print</span><span class="p">(</span><span class="s">"The reader name is %s"</span><span class="p">,</span><span class="w"> </span><span class="s">"Bob"</span><span class="p">);</span>
 
 <span class="c1">// Call stream.debug_print(50), print next 50 bytes from current cursor</span>
 <span class="n">debug_print</span><span class="p">(</span><span class="w"> </span><span class="n">stream</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="p">)</span>
@@ -630,8 +629,8 @@ Python</label><div class="sd-tab-content docutils">
 <span class="linenos"> 6</span><span class="k">class</span><span class="w"> </span><span class="nc">OverrideStreamerReader</span><span class="p">(</span><span class="n">IReader</span><span class="p">):</span>
 <span class="linenos"> 7</span>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 <span class="linenos"> 8</span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-<span class="linenos"> 9</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_ints</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">)</span>       <span class="c1"># int32</span>
-<span class="linenos">10</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">)</span>    <span class="c1"># float64</span>
+<span class="linenos"> 9</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_ints</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">"i"</span><span class="p">)</span>       <span class="c1"># int32</span>
+<span class="linenos">10</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">"d"</span><span class="p">)</span>    <span class="c1"># float64</span>
 <span class="linenos">11</span>
 <span class="linenos">12</span>    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
 <span class="linenos">13</span>        <span class="n">stream</span><span class="o">.</span><span class="n">skip_TObject</span><span class="p">()</span>                        <span class="c1"># skip base class</span>
@@ -639,7 +638,7 @@ Python</label><div class="sd-tab-content docutils">
 <span class="linenos">15</span>
 <span class="linenos">16</span>        <span class="n">mask</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>                  <span class="c1"># custom mask</span>
 <span class="linenos">17</span>        <span class="k">if</span> <span class="n">mask</span> <span class="o">!=</span> <span class="mh">0x12345678</span><span class="p">:</span>
-<span class="linenos">18</span>            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected mask: </span><span class="si">{</span><span class="n">mask</span><span class="si">:</span><span class="s2">#x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">18</span>            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unexpected mask: </span><span class="si">{</span><span class="n">mask</span><span class="si">:</span><span class="s2">#x</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="linenos">19</span>
 <span class="linenos">20</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stream</span><span class="o">.</span><span class="n">read_double</span><span class="p">())</span>  <span class="c1"># m_double</span>
 <span class="linenos">21</span>
@@ -658,7 +657,7 @@ C++</label><div class="sd-tab-content docutils">
 <span class="linenos"> 2</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span>
 <span class="linenos"> 3</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
 <span class="linenos"> 4</span>
-<span class="linenos"> 5</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;uproot-custom/uproot-custom.hh&quot;</span>
+<span class="linenos"> 5</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">"uproot-custom/uproot-custom.hh"</span>
 <span class="linenos"> 6</span>
 <span class="linenos"> 7</span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">uproot</span><span class="p">;</span>
 <span class="linenos"> 8</span>
@@ -675,7 +674,7 @@ C++</label><div class="sd-tab-content docutils">
 <span class="linenos">19</span>
 <span class="linenos">20</span><span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stream</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">();</span><span class="w">             </span><span class="c1">// custom mask</span>
 <span class="linenos">21</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mh">0x12345678</span><span class="w"> </span><span class="p">)</span>
-<span class="linenos">22</span><span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="w"> </span><span class="s">&quot;Unexpected mask: &quot;</span><span class="w"> </span><span class="o">+</span>
+<span class="linenos">22</span><span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="w"> </span><span class="s">"Unexpected mask: "</span><span class="w"> </span><span class="o">+</span>
 <span class="linenos">23</span><span class="w">                                      </span><span class="n">std</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">);</span>
 <span class="linenos">24</span>
 <span class="linenos">25</span><span class="w">        </span><span class="n">m_data_doubles</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="w"> </span><span class="n">stream</span><span class="p">.</span><span class="n">read</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">);</span><span class="w"> </span><span class="c1">// m_double</span>
@@ -692,7 +691,7 @@ C++</label><div class="sd-tab-content docutils">
 <span class="linenos">36</span><span class="p">};</span>
 <span class="linenos">37</span>
 <span class="linenos">38</span><span class="n">PYBIND11_MODULE</span><span class="p">(</span><span class="w"> </span><span class="n">my_reader_cpp</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="linenos">39</span><span class="w">    </span><span class="n">declare_reader</span><span class="o">&lt;</span><span class="n">OverrideStreamerReader</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;OverrideStreamerReader&quot;</span><span class="w"> </span><span class="p">);</span>
+<span class="linenos">39</span><span class="w">    </span><span class="n">declare_reader</span><span class="o">&lt;</span><span class="n">OverrideStreamerReader</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">"OverrideStreamerReader"</span><span class="w"> </span><span class="p">);</span>
 <span class="linenos">40</span><span class="p">}</span>
 </pre></div>
 </div>
@@ -754,12 +753,12 @@ C++</label><div class="sd-tab-content docutils">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TArrayFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
 <span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">build_cpp_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span class="hll">        <span class="k">return</span> <span class="p">{</span>
-</span><span class="hll">            <span class="s2">&quot;int8&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayCReader</span><span class="p">,</span>
-</span><span class="hll">            <span class="s2">&quot;int16&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArraySReader</span><span class="p">,</span>
-</span><span class="hll">            <span class="s2">&quot;int32&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayIReader</span><span class="p">,</span>
-</span><span class="hll">            <span class="s2">&quot;int64&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayLReader</span><span class="p">,</span>
-</span><span class="hll">            <span class="s2">&quot;float32&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayFReader</span><span class="p">,</span>
-</span><span class="hll">            <span class="s2">&quot;float64&quot;</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayDReader</span><span class="p">,</span>
+</span><span class="hll">            <span class="s2">"int8"</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayCReader</span><span class="p">,</span>
+</span><span class="hll">            <span class="s2">"int16"</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArraySReader</span><span class="p">,</span>
+</span><span class="hll">            <span class="s2">"int32"</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayIReader</span><span class="p">,</span>
+</span><span class="hll">            <span class="s2">"int64"</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayLReader</span><span class="p">,</span>
+</span><span class="hll">            <span class="s2">"float32"</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayFReader</span><span class="p">,</span>
+</span><span class="hll">            <span class="s2">"float64"</span><span class="p">:</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">TArrayDReader</span><span class="p">,</span>
 </span><span class="hll">        <span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 </span><span class="hll">
 </span><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -775,12 +774,12 @@ C++</label><div class="sd-tab-content docutils">
 <h2>Switching to the C++ backend<a class="headerlink" href="#switching-to-the-c-backend" title="Link to this heading">#</a></h2>
 <p>After implementing <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code>, switch the backend to use
 C++ readers:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.factories</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fac</span>
-<span class="n">fac</span><span class="o">.</span><span class="n">reader_backend</span> <span class="o">=</span> <span class="s2">&quot;cpp&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.readers</span><span class="w"> </span><span class="kn">import</span> <span class="n">backend</span>
+<span class="n">backend</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"cpp"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Since <code class="docutils literal notranslate"><span class="pre">&quot;cpp&quot;</span></code> is the default value, you can simply remove any explicit
-<code class="docutils literal notranslate"><span class="pre">fac.reader_backend</span> <span class="pre">=</span> <span class="pre">&quot;python&quot;</span></code> that was set during development.</p>
+<code class="docutils literal notranslate"><span class="pre">backend.set(&quot;python&quot;)</span></code> that was set during development.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p>See <a class="reference internal" href="../../reference/reader-backends.html"><span class="std std-doc">Reader backends</span></a> for a full discussion of backend

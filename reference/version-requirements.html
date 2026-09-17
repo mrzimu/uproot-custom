@@ -234,7 +234,6 @@
 <li class="toctree-l4"><a class="reference internal" href="api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
 </ul>
@@ -437,7 +436,7 @@ and keep it out of the deployed environment.</p>
 <p>If the version of <code class="docutils literal notranslate"><span class="pre">pybind11</span></code> differs between the one used to build uproot-custom
 and the one used to build your C++ readers, an exception like below may be
 raised when importing your extension module:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">ImportError</span><span class="p">:</span> <span class="n">generic_type</span><span class="p">:</span> <span class="nb">type</span> <span class="s2">&quot;xxx&quot;</span> <span class="n">referenced</span> <span class="n">unknown</span> <span class="n">base</span> <span class="nb">type</span> <span class="s2">&quot;uproot::IReader&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">ImportError</span><span class="p">:</span> <span class="n">generic_type</span><span class="p">:</span> <span class="nb">type</span> <span class="s2">"xxx"</span> <span class="n">referenced</span> <span class="n">unknown</span> <span class="n">base</span> <span class="nb">type</span> <span class="s2">"uproot::IReader"</span>
 </pre></div>
 </div>
 <p>To avoid this issue, build your C++ readers with the same minor version of

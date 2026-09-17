@@ -4,6 +4,14 @@ uproot\_custom.readers package
 Submodules
 ----------
 
+uproot\_custom.readers.backend module
+-------------------------------------
+
+.. automodule:: uproot_custom.readers.backend
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 uproot\_custom.readers.cpp module
 ---------------------------------
 

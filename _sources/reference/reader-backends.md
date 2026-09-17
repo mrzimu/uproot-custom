@@ -11,30 +11,40 @@ Uproot-custom supports two reader backends:
 
 ## How backend selection works
 
-`uproot_custom.factories.reader_backend` controls which backend `AsCustom` uses
-when materializing readers. **The default value is `"cpp"`**. The value is
-read at build time of the factory tree.
+`uproot_custom.readers.backend` controls which backend `AsCustom` uses
+when materializing readers. **The default value is `"cpp"`**. It can be
+changed via:
+
+- The ``UPROOT_CUSTOM_READER_BACKEND`` environment variable (e.g.
+  ``UPROOT_CUSTOM_READER_BACKEND=python``).
+- ``backend.set("python")`` to set it programmatically.
+- ``with backend.use("python"):`` to switch temporarily with a context
+  manager.
 
 ```python
-import uproot_custom.factories as fac
+from uproot_custom.readers import backend
 
 # During development: switch to the Python backend
-fac.reader_backend = "python"
+backend.set("python")
 
 # ... develop, debug, read arrays ...
 
+# Or temporarily switch for a specific block:
+with backend.use("python"):
+    branch.array()
+
 # For production: use C++ readers (the default)
-fac.reader_backend = "cpp"
+backend.set("cpp")
 ```
 
-Set the backend **before** opening files or reading branches so that factories
+Set the backend **before** reading branches so that factories
 build the correct reader implementations.
 
 ```{important}
-The default backend is **C++**. When developing a new reader, you must
-explicitly set `fac.reader_backend = "python"` to use your Python reader.
-Once the Python reader is validated, port it to C++ and switch back to the
-default C++ backend for production.
+The default backend is **C++**. When developing a new reader, you should
+explicitly use ``backend.set("python")`` or ``with backend.use("python"):``
+to use your Python reader. Once the Python reader is validated, port it
+to C++ and switch back to the default C++ backend for production.
 ```
 
 ## When to use each backend
@@ -61,7 +71,8 @@ for the C++ API and pybind11 bindings.
 
 ## Troubleshooting
 
-- If you see `Unknown reader backend` errors, ensure `reader_backend` is either
-  `"cpp"` or `"python"`.
-- If imports fail for C++ readers (pybind11 module missing), either rebuild the
-  extension (e.g., `pip install -e .`) or switch to the Python backend.
+- If you see `Unknown reader backend` errors, ensure the backend is either
+  `"cpp"` or `"python"`. Check ``backend.get()``, ``$UPROOT_CUSTOM_READER_BACKEND``
+  and any ``backend.set()`` calls.
+- If imports fail for C++ readers, either rebuild the
+  extension or switch to the Python backend.

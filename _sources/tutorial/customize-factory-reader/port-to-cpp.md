@@ -358,12 +358,12 @@ After implementing `build_cpp_reader`, switch the backend to use
 C++ readers:
 
 ```python
-import uproot_custom.factories as fac
-fac.reader_backend = "cpp"
+from uproot_custom.readers import backend
+backend.set("cpp")
 ```
 
 Since `"cpp"` is the default value, you can simply remove any explicit
-`fac.reader_backend = "python"` that was set during development.
+``backend.set("python")`` that was set during development.
 
 ```{seealso}
 See [](../../reference/reader-backends.md) for a full discussion of backend

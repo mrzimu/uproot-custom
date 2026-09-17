@@ -234,7 +234,6 @@
 <li class="toctree-l4"><a class="reference internal" href="api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
 </ul>
@@ -424,28 +423,39 @@ and when no C++ toolchain is available.</p></li>
 </ul>
 <section id="how-backend-selection-works">
 <h2>How backend selection works<a class="headerlink" href="#how-backend-selection-works" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">uproot_custom.factories.reader_backend</span></code> controls which backend <code class="docutils literal notranslate"><span class="pre">AsCustom</span></code> uses
-when materializing readers. <strong>The default value is <code class="docutils literal notranslate"><span class="pre">&quot;cpp&quot;</span></code></strong>. The value is
-read at build time of the factory tree.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.factories</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fac</span>
+<p><code class="docutils literal notranslate"><span class="pre">uproot_custom.readers.backend</span></code> controls which backend <code class="docutils literal notranslate"><span class="pre">AsCustom</span></code> uses
+when materializing readers. <strong>The default value is <code class="docutils literal notranslate"><span class="pre">&quot;cpp&quot;</span></code></strong>. It can be
+changed via:</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">UPROOT_CUSTOM_READER_BACKEND</span></code> environment variable (e.g.
+<code class="docutils literal notranslate"><span class="pre">UPROOT_CUSTOM_READER_BACKEND=python</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">backend.set(&quot;python&quot;)</span></code> to set it programmatically.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">backend.use(&quot;python&quot;):</span></code> to switch temporarily with a context
+manager.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.readers</span><span class="w"> </span><span class="kn">import</span> <span class="n">backend</span>
 
 <span class="c1"># During development: switch to the Python backend</span>
-<span class="n">fac</span><span class="o">.</span><span class="n">reader_backend</span> <span class="o">=</span> <span class="s2">&quot;python&quot;</span>
+<span class="n">backend</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"python"</span><span class="p">)</span>
 
 <span class="c1"># ... develop, debug, read arrays ...</span>
 
+<span class="c1"># Or temporarily switch for a specific block:</span>
+<span class="k">with</span> <span class="n">backend</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"python"</span><span class="p">):</span>
+    <span class="n">branch</span><span class="o">.</span><span class="n">array</span><span class="p">()</span>
+
 <span class="c1"># For production: use C++ readers (the default)</span>
-<span class="n">fac</span><span class="o">.</span><span class="n">reader_backend</span> <span class="o">=</span> <span class="s2">&quot;cpp&quot;</span>
+<span class="n">backend</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"cpp"</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Set the backend <strong>before</strong> opening files or reading branches so that factories
+<p>Set the backend <strong>before</strong> reading branches so that factories
 build the correct reader implementations.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>The default backend is <strong>C++</strong>. When developing a new reader, you must
-explicitly set <code class="docutils literal notranslate"><span class="pre">fac.reader_backend</span> <span class="pre">=</span> <span class="pre">&quot;python&quot;</span></code> to use your Python reader.
-Once the Python reader is validated, port it to C++ and switch back to the
-default C++ backend for production.</p>
+<p>The default backend is <strong>C++</strong>. When developing a new reader, you should
+explicitly use <code class="docutils literal notranslate"><span class="pre">backend.set(&quot;python&quot;)</span></code> or <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">backend.use(&quot;python&quot;):</span></code>
+to use your Python reader. Once the Python reader is validated, port it
+to C++ and switch back to the default C++ backend for production.</p>
 </div>
 </section>
 <section id="when-to-use-each-backend">
@@ -477,10 +487,11 @@ for the C++ API and pybind11 bindings.</p>
 <section id="troubleshooting">
 <h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>If you see <code class="docutils literal notranslate"><span class="pre">Unknown</span> <span class="pre">reader</span> <span class="pre">backend</span></code> errors, ensure <code class="docutils literal notranslate"><span class="pre">reader_backend</span></code> is either
-<code class="docutils literal notranslate"><span class="pre">&quot;cpp&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;python&quot;</span></code>.</p></li>
-<li><p>If imports fail for C++ readers (pybind11 module missing), either rebuild the
-extension (e.g., <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code>) or switch to the Python backend.</p></li>
+<li><p>If you see <code class="docutils literal notranslate"><span class="pre">Unknown</span> <span class="pre">reader</span> <span class="pre">backend</span></code> errors, ensure the backend is either
+<code class="docutils literal notranslate"><span class="pre">&quot;cpp&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;python&quot;</span></code>. Check <code class="docutils literal notranslate"><span class="pre">backend.get()</span></code>, <code class="docutils literal notranslate"><span class="pre">$UPROOT_CUSTOM_READER_BACKEND</span></code>
+and any <code class="docutils literal notranslate"><span class="pre">backend.set()</span></code> calls.</p></li>
+<li><p>If imports fail for C++ readers, either rebuild the
+extension or switch to the Python backend.</p></li>
 </ul>
 </section>
 </section>

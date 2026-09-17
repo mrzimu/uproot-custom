@@ -234,7 +234,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../reference/api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="../../reference/api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
 </ul>
@@ -453,19 +452,19 @@ returns a non-<code class="docutils literal notranslate"><span class="pre">None<
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
     <span class="n">cur_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">all_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
-    <span class="n">item_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">item_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Factory&quot;</span><span class="p">:</span>
-    <span class="n">fName</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Factory"</span><span class="p">:</span>
+    <span class="n">fName</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">"fName"</span><span class="p">]</span>
 
     <span class="n">top_type_name</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">get_top_type_name</span><span class="p">(</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fTypeName&quot;</span><span class="p">])</span>
-        <span class="k">if</span> <span class="s2">&quot;fTypeName&quot;</span> <span class="ow">in</span> <span class="n">cur_streamer_info</span>
+        <span class="n">get_top_type_name</span><span class="p">(</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">"fTypeName"</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">"fTypeName"</span> <span class="ow">in</span> <span class="n">cur_streamer_info</span>
         <span class="k">else</span> <span class="kc">None</span>
     <span class="p">)</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;called_from_top&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="n">item_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">item_path</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">fName</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"called_from_top"</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="n">item_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">item_path</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">fName</span><span class="si">}</span><span class="s2">"</span>
 
 <span class="hll">    <span class="k">for</span> <span class="n">factory_class</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">registered_factories</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">priority</span><span class="p">(),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 </span><span class="hll">        <span class="n">factory_instance</span> <span class="o">=</span> <span class="n">factory_class</span><span class="o">.</span><span class="n">build_factory</span><span class="p">(</span>
@@ -478,7 +477,7 @@ returns a non-<code class="docutils literal notranslate"><span class="pre">None<
 </span><span class="hll">        <span class="k">if</span> <span class="n">factory_instance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 </span><span class="hll">            <span class="k">return</span> <span class="n">factory_instance</span>
 </span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown type: </span><span class="si">{</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s1">&#39;fTypeName&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">item_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown type: </span><span class="si">{</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s1">'fTypeName'</span><span class="p">]</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">item_path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -511,18 +510,18 @@ streamer information:</p>
 (using the <a class="reference internal" href="investigate-data.html#simple-obj-streamer-info"><span class="std std-ref">streamer information</span></a> as input) looks
 like this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">AnyClassFactory</span><span class="p">,</span>
-    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;TSimpleObject&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;sub_factories&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span><span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">TObjectFactory</span><span class="p">,</span>    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;TObject&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">PrimitiveFactory</span><span class="p">,</span>  <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;m_int&quot;</span><span class="p">,</span>            <span class="s2">&quot;dtype&quot;</span><span class="p">:</span> <span class="s2">&quot;int32&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">STLStringFactory</span><span class="p">,</span>  <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;m_str&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">CStyleArrayFactory</span><span class="p">,</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;m_arr_int&quot;</span><span class="p">,</span>        <span class="s2">&quot;flat_size&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">STLSeqFactory</span><span class="p">,</span>     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;m_vec_double&quot;</span><span class="p">,</span>     <span class="s2">&quot;element&quot;</span><span class="p">:</span> <span class="s2">&quot;PrimitiveFactory(float64)&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">STLMapFactory</span><span class="p">,</span>     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;m_map_int_double&quot;</span><span class="p">,</span> <span class="s2">&quot;key/val&quot;</span><span class="p">:</span> <span class="s2">&quot;Primitive/Primitive&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">STLMapFactory</span><span class="p">,</span>     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;m_map_str_str&quot;</span><span class="p">,</span>    <span class="s2">&quot;key/val&quot;</span><span class="p">:</span> <span class="s2">&quot;STLString/TString&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">TStringFactory</span><span class="p">,</span>    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;m_tstr&quot;</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">&quot;factory&quot;</span><span class="p">:</span> <span class="n">TArrayFactory</span><span class="p">,</span>     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;m_tarr_int&quot;</span><span class="p">,</span>       <span class="s2">&quot;dtype&quot;</span><span class="p">:</span> <span class="s2">&quot;int32&quot;</span><span class="p">},</span>
+    <span class="s2">"factory"</span><span class="p">:</span> <span class="n">AnyClassFactory</span><span class="p">,</span>
+    <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"TSimpleObject"</span><span class="p">,</span>
+    <span class="s2">"sub_factories"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s2">"factory"</span><span class="p">:</span> <span class="n">TObjectFactory</span><span class="p">,</span>    <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"TObject"</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">"factory"</span><span class="p">:</span> <span class="n">PrimitiveFactory</span><span class="p">,</span>  <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"m_int"</span><span class="p">,</span>            <span class="s2">"dtype"</span><span class="p">:</span> <span class="s2">"int32"</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">"factory"</span><span class="p">:</span> <span class="n">STLStringFactory</span><span class="p">,</span>  <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"m_str"</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">"factory"</span><span class="p">:</span> <span class="n">CStyleArrayFactory</span><span class="p">,</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"m_arr_int"</span><span class="p">,</span>        <span class="s2">"flat_size"</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">"factory"</span><span class="p">:</span> <span class="n">STLSeqFactory</span><span class="p">,</span>     <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"m_vec_double"</span><span class="p">,</span>     <span class="s2">"element"</span><span class="p">:</span> <span class="s2">"PrimitiveFactory(float64)"</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">"factory"</span><span class="p">:</span> <span class="n">STLMapFactory</span><span class="p">,</span>     <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"m_map_int_double"</span><span class="p">,</span> <span class="s2">"key/val"</span><span class="p">:</span> <span class="s2">"Primitive/Primitive"</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">"factory"</span><span class="p">:</span> <span class="n">STLMapFactory</span><span class="p">,</span>     <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"m_map_str_str"</span><span class="p">,</span>    <span class="s2">"key/val"</span><span class="p">:</span> <span class="s2">"STLString/TString"</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">"factory"</span><span class="p">:</span> <span class="n">TStringFactory</span><span class="p">,</span>    <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"m_tstr"</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">"factory"</span><span class="p">:</span> <span class="n">TArrayFactory</span><span class="p">,</span>     <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"m_tarr_int"</span><span class="p">,</span>       <span class="s2">"dtype"</span><span class="p">:</span> <span class="s2">"int32"</span><span class="p">},</span>
     <span class="p">],</span>
 <span class="p">}</span>
 </pre></div>
@@ -538,10 +537,10 @@ factory. Each factory delegates to its sub-factories to build sub-readers, then
 combines them into a parent reader.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>The default reader backend is <strong>C++</strong> (<code class="docutils literal notranslate"><span class="pre">uproot_custom.factories.reader_backend</span> <span class="pre">=</span> <span class="pre">&quot;cpp&quot;</span></code>).
+<p>The default reader backend is <strong>C++</strong> (<code class="docutils literal notranslate"><span class="pre">backend.get()</span></code> returns <code class="docutils literal notranslate"><span class="pre">&quot;cpp&quot;</span></code>).
 During development, you must explicitly switch to the Python backend:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import uproot_custom.factories as fac
-fac.reader_backend = &quot;python&quot;
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>from uproot_custom.readers import backend
+backend.set("python")
 </pre></div>
 </div>
 </div>
@@ -576,7 +575,7 @@ sub-reader to consume its portion of the stream:</p>
 </span>        <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
 
     <span class="k">assert</span> <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">,</span> <span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;AnyClassReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): Invalid read length!&quot;</span>
+        <span class="sa">f</span><span class="s2">"AnyClassReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): Invalid read length!"</span>
     <span class="p">)</span>
 </pre></div>
 </div>
@@ -746,9 +745,9 @@ convert raw data to <code class="docutils literal notranslate"><span class="pre"
 <span class="linenos"> 8</span>    <span class="nd">@classmethod</span>
 <span class="linenos"> 9</span>    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">top_type_name</span><span class="p">,</span> <span class="n">cur_streamer_info</span><span class="p">,</span>
 <span class="linenos">10</span>                      <span class="n">all_streamer_info</span><span class="p">,</span> <span class="n">item_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="linenos">11</span>        <span class="k">if</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;TOverrideStreamer&quot;</span><span class="p">:</span>
+<span class="linenos">11</span>        <span class="k">if</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">"fName"</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">"TOverrideStreamer"</span><span class="p">:</span>
 <span class="linenos">12</span>            <span class="k">return</span> <span class="kc">None</span>
-<span class="linenos">13</span>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">])</span>
+<span class="linenos">13</span>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">"fName"</span><span class="p">])</span>
 <span class="linenos">14</span>
 <span class="linenos">15</span>    <span class="k">def</span><span class="w"> </span><span class="nf">build_python_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="linenos">16</span>        <span class="c1"># Stage 2 — create the reader</span>
@@ -760,15 +759,15 @@ convert raw data to <code class="docutils literal notranslate"><span class="pre"
 <span class="linenos">22</span>        <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">RecordArray</span><span class="p">(</span>
 <span class="linenos">23</span>            <span class="p">[</span><span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">NumpyArray</span><span class="p">(</span><span class="n">int_array</span><span class="p">),</span>
 <span class="linenos">24</span>             <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">NumpyArray</span><span class="p">(</span><span class="n">double_array</span><span class="p">)],</span>
-<span class="linenos">25</span>            <span class="p">[</span><span class="s2">&quot;m_int&quot;</span><span class="p">,</span> <span class="s2">&quot;m_double&quot;</span><span class="p">],</span>
+<span class="linenos">25</span>            <span class="p">[</span><span class="s2">"m_int"</span><span class="p">,</span> <span class="s2">"m_double"</span><span class="p">],</span>
 <span class="linenos">26</span>        <span class="p">)</span>
 <span class="linenos">27</span>
 <span class="linenos">28</span>    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="linenos">29</span>        <span class="c1"># Stage 5b — describe the data layout for lazy evaluation</span>
 <span class="linenos">30</span>        <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">RecordForm</span><span class="p">(</span>
-<span class="linenos">31</span>            <span class="p">[</span><span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">),</span>
-<span class="linenos">32</span>             <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="s2">&quot;float64&quot;</span><span class="p">)],</span>
-<span class="linenos">33</span>            <span class="p">[</span><span class="s2">&quot;m_int&quot;</span><span class="p">,</span> <span class="s2">&quot;m_double&quot;</span><span class="p">],</span>
+<span class="linenos">31</span>            <span class="p">[</span><span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="s2">"int32"</span><span class="p">),</span>
+<span class="linenos">32</span>             <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="s2">"float64"</span><span class="p">)],</span>
+<span class="linenos">33</span>            <span class="p">[</span><span class="s2">"m_int"</span><span class="p">,</span> <span class="s2">"m_double"</span><span class="p">],</span>
 <span class="linenos">34</span>        <span class="p">)</span>
 </pre></div>
 </div>
@@ -789,8 +788,8 @@ returns them as <code class="docutils literal notranslate"><span class="pre">num
 <span class="linenos"> 6</span><span class="k">class</span><span class="w"> </span><span class="nc">OverrideStreamerReader</span><span class="p">(</span><span class="n">IReader</span><span class="p">):</span>
 <span class="linenos"> 7</span>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 <span class="linenos"> 8</span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-<span class="linenos"> 9</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_ints</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">)</span>       <span class="c1"># int32</span>
-<span class="linenos">10</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">)</span>    <span class="c1"># float64</span>
+<span class="linenos"> 9</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_ints</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">"i"</span><span class="p">)</span>       <span class="c1"># int32</span>
+<span class="linenos">10</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">"d"</span><span class="p">)</span>    <span class="c1"># float64</span>
 <span class="linenos">11</span>
 <span class="linenos">12</span>    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
 <span class="linenos">13</span>        <span class="c1"># Stage 3 — read binary data</span>
@@ -799,7 +798,7 @@ returns them as <code class="docutils literal notranslate"><span class="pre">num
 <span class="linenos">16</span>
 <span class="linenos">17</span>        <span class="n">mask</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>                  <span class="c1"># custom mask</span>
 <span class="linenos">18</span>        <span class="k">if</span> <span class="n">mask</span> <span class="o">!=</span> <span class="mh">0x12345678</span><span class="p">:</span>
-<span class="linenos">19</span>            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected mask: </span><span class="si">{</span><span class="n">mask</span><span class="si">:</span><span class="s2">#x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">19</span>            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unexpected mask: </span><span class="si">{</span><span class="n">mask</span><span class="si">:</span><span class="s2">#x</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="linenos">20</span>
 <span class="linenos">21</span>        <span class="bp">self</span><span class="o">.</span><span class="n">m_doubles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stream</span><span class="o">.</span><span class="n">read_double</span><span class="p">())</span>  <span class="c1"># m_double</span>
 <span class="linenos">22</span>
@@ -817,21 +816,21 @@ returns them as <code class="docutils literal notranslate"><span class="pre">num
 <div class="code-block-caption"><span class="caption-text">Registration and usage</span><a class="headerlink" href="#id13" title="Link to this code">#</a></div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
 <span class="linenos"> 2</span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom</span>
-<span class="linenos"> 3</span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.factories</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fac</span>
+<span class="linenos"> 3</span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.readers</span><span class="w"> </span><span class="kn">import</span> <span class="n">backend</span>
 <span class="linenos"> 4</span>
 <span class="linenos"> 5</span><span class="c1"># During development, use the Python backend</span>
-<span class="linenos"> 6</span><span class="n">fac</span><span class="o">.</span><span class="n">reader_backend</span> <span class="o">=</span> <span class="s2">&quot;python&quot;</span>
+<span class="linenos"> 6</span><span class="n">backend</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"python"</span><span class="p">)</span>
 <span class="linenos"> 7</span>
 <span class="linenos"> 8</span><span class="c1"># Register the target branch and the custom factory</span>
 <span class="linenos"> 9</span><span class="n">uproot_custom</span><span class="o">.</span><span class="n">AsCustom</span><span class="o">.</span><span class="n">target_branches</span> <span class="o">|=</span> <span class="p">{</span>
-<span class="linenos">10</span>    <span class="s2">&quot;/my_tree:override_streamer&quot;</span><span class="p">,</span>
+<span class="linenos">10</span>    <span class="s2">"/my_tree:override_streamer"</span><span class="p">,</span>
 <span class="linenos">11</span><span class="p">}</span>
 <span class="linenos">12</span><span class="n">uproot_custom</span><span class="o">.</span><span class="n">registered_factories</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">OverrideStreamerFactory</span><span class="p">)</span>
 <span class="linenos">13</span>
 <span class="linenos">14</span><span class="c1"># Read the data — Uproot will automatically invoke our factory/reader</span>
-<span class="linenos">15</span><span class="n">arr</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;demo_data.root&quot;</span><span class="p">)[</span><span class="s2">&quot;my_tree:override_streamer&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">array</span><span class="p">()</span>
-<span class="linenos">16</span><span class="n">arr</span><span class="o">.</span><span class="n">m_int</span>    <span class="c1"># &lt;Array [0, 1, 2, ...] type=&#39;100 * int32&#39;&gt;</span>
-<span class="linenos">17</span><span class="n">arr</span><span class="o">.</span><span class="n">m_double</span> <span class="c1"># &lt;Array [0.0, 3.14, 6.28, ...] type=&#39;100 * float64&#39;&gt;</span>
+<span class="linenos">15</span><span class="n">arr</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">"demo_data.root"</span><span class="p">)[</span><span class="s2">"my_tree:override_streamer"</span><span class="p">]</span><span class="o">.</span><span class="n">array</span><span class="p">()</span>
+<span class="linenos">16</span><span class="n">arr</span><span class="o">.</span><span class="n">m_int</span>    <span class="c1"># &lt;Array [0, 1, 2, ...] type='100 * int32'&gt;</span>
+<span class="linenos">17</span><span class="n">arr</span><span class="o">.</span><span class="n">m_double</span> <span class="c1"># &lt;Array [0.0, 3.14, 6.28, ...] type='100 * float64'&gt;</span>
 </pre></div>
 </div>
 </div>

@@ -58,6 +58,8 @@
 
 
 
+
+
 const initStyles = () => {
     const defaultStyle = document.createElement('style');
     defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
@@ -585,7 +587,6 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l4"><a class="reference internal" href="reference/api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="reference/api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
 </ul>
@@ -1150,16 +1151,18 @@ window.runMermaid = runMermaid;</script>
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.backend.get">get() (in module uproot_custom.readers.backend)</a>
+</li>
       <li><a href="reference/api/uproot_custom.html#uproot_custom.utils.get_dims_from_branch">get_dims_from_branch() (in module uproot_custom.utils)</a>
 </li>
       <li><a href="reference/api/uproot_custom.html#uproot_custom.utils.get_map_key_val_typenames">get_map_key_val_typenames() (in module uproot_custom.utils)</a>
 </li>
       <li><a href="reference/api/uproot_custom.html#uproot_custom.utils.get_sequence_element_typename">get_sequence_element_typename() (in module uproot_custom.utils)</a>
 </li>
-      <li><a href="reference/api/uproot_custom.html#uproot_custom.utils.get_top_type_name">get_top_type_name() (in module uproot_custom.utils)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/api/uproot_custom.html#uproot_custom.utils.get_top_type_name">get_top_type_name() (in module uproot_custom.utils)</a>
+</li>
       <li><a href="reference/api/uproot_custom.html#uproot_custom.GroupFactory">GroupFactory (class in uproot_custom)</a>
 
       <ul>
@@ -1333,6 +1336,8 @@ window.runMermaid = runMermaid;</script>
         <li><a href="reference/api/uproot_custom.html#module-uproot_custom.factories">uproot_custom.factories</a>
 </li>
         <li><a href="reference/api/uproot_custom.readers.html#module-uproot_custom.readers">uproot_custom.readers</a>
+</li>
+        <li><a href="reference/api/uproot_custom.readers.html#module-uproot_custom.readers.backend">uproot_custom.readers.backend</a>
 </li>
         <li><a href="reference/api/uproot_custom.readers.html#module-uproot_custom.readers.cpp">uproot_custom.readers.cpp</a>
 </li>
@@ -1523,6 +1528,8 @@ window.runMermaid = runMermaid;</script>
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.backend.set">set() (in module uproot_custom.readers.backend)</a>
+</li>
       <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryStream.skip">skip() (uproot_custom.readers.python.BinaryStream method)</a>
 </li>
       <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.BinaryStream.skip_fNBytes">skip_fNBytes() (uproot_custom.readers.python.BinaryStream method)</a>
@@ -1541,14 +1548,14 @@ window.runMermaid = runMermaid;</script>
         <li><a href="reference/api/uproot_custom.html#uproot_custom.factories.STLMapFactory">(class in uproot_custom.factories)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.cpp.STLMapReader">STLMapReader (class in uproot_custom.readers.cpp)</a>
 
       <ul>
         <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.python.STLMapReader">(class in uproot_custom.readers.python)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/api/uproot_custom.html#uproot_custom.STLSeqFactory">STLSeqFactory (class in uproot_custom)</a>
 
       <ul>
@@ -1680,7 +1687,7 @@ window.runMermaid = runMermaid;</script>
         <li><a href="reference/api/uproot_custom.html#module-uproot_custom">module</a>
 </li>
       </ul></li>
-      <li><a href="reference/api/cpp-api.html#_CPPv413uproot_custom">uproot_custom (C++ type)</a>, <a href="reference/api/cpp-module.html#_CPPv413uproot_custom">[1]</a>
+      <li><a href="reference/api/cpp-api.html#_CPPv413uproot_custom">uproot_custom (C++ type)</a>
 </li>
       <li>
     uproot_custom.as_custom
@@ -1704,6 +1711,13 @@ window.runMermaid = runMermaid;</script>
 </li>
       </ul></li>
       <li>
+    uproot_custom.readers.backend
+
+      <ul>
+        <li><a href="reference/api/uproot_custom.readers.html#module-uproot_custom.readers.backend">module</a>
+</li>
+      </ul></li>
+      <li>
     uproot_custom.readers.cpp
 
       <ul>
@@ -1724,36 +1738,6 @@ window.runMermaid = runMermaid;</script>
         <li><a href="reference/api/uproot_custom.html#module-uproot_custom.utils">module</a>
 </li>
       </ul></li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom14AnyClassReaderE">uproot_custom::AnyClassReader (C++ class)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom14AnyClassReader14AnyClassReaderE6string6vectorI12SharedReaderE">uproot_custom::AnyClassReader::AnyClassReader (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4NK13uproot_custom14AnyClassReader4dataEv">uproot_custom::AnyClassReader::data (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom14AnyClassReader17m_element_readersE">uproot_custom::AnyClassReader::m_element_readers (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom14AnyClassReader4readER12BinaryStream">uproot_custom::AnyClassReader::read (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom14AnyClassReader20read_many_memberwiseER12BinaryStreamK7int64_t">uproot_custom::AnyClassReader::read_many_memberwise (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom16AnyPointerReaderE">uproot_custom::AnyPointerReader (C++ class)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom16AnyPointerReader16AnyPointerReaderE6string12SharedReader">uproot_custom::AnyPointerReader::AnyPointerReader (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom16AnyPointerReader21check_cursor_positionER12BinaryStreamK8uint32_tPK7uint8_t">uproot_custom::AnyPointerReader::check_cursor_position (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4NK13uproot_custom16AnyPointerReader4dataEv">uproot_custom::AnyPointerReader::data (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom16AnyPointerReader12m_class_nameE">uproot_custom::AnyPointerReader::m_class_name (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom16AnyPointerReader16m_element_readerE">uproot_custom::AnyPointerReader::m_element_reader (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom16AnyPointerReader16m_object_counterE">uproot_custom::AnyPointerReader::m_object_counter (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom16AnyPointerReader16m_object_indexesE">uproot_custom::AnyPointerReader::m_object_indexes (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom16AnyPointerReader4readER12BinaryStream">uproot_custom::AnyPointerReader::read (C++ function)</a>
-</li>
       <li><a href="reference/api/cpp-api.html#_CPPv4N13uproot_custom12BinaryBufferE">uproot_custom::BinaryBuffer (C++ type)</a>
 </li>
       <li><a href="reference/api/cpp-api.html#_CPPv4N13uproot_custom12BinaryStreamE">uproot_custom::BinaryStream (C++ class)</a>
@@ -1798,6 +1782,8 @@ window.runMermaid = runMermaid;</script>
 </li>
       <li><a href="reference/api/cpp-api.html#_CPPv4N13uproot_custom12BinaryStream9m_entriesE">uproot_custom::BinaryStream::m_entries (C++ member)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/api/cpp-api.html#_CPPv4N13uproot_custom12BinaryStream23m_initial_cursor_offsetE">uproot_custom::BinaryStream::m_initial_cursor_offset (C++ member)</a>
 </li>
       <li><a href="reference/api/cpp-api.html#_CPPv4N13uproot_custom12BinaryStream9m_offsetsE">uproot_custom::BinaryStream::m_offsets (C++ member)</a>
@@ -1840,49 +1826,9 @@ window.runMermaid = runMermaid;</script>
 </li>
       <li><a href="reference/api/cpp-api.html#_CPPv4I0DpEN13uproot_custom12CreateReaderE10shared_ptrI10ReaderTypeEDp4Args">uproot_custom::CreateReader (C++ function)</a>
 </li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom17CStyleArrayReaderE">uproot_custom::CStyleArrayReader (C++ class)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom17CStyleArrayReader17CStyleArrayReaderE6stringK7int64_t12SharedReader">uproot_custom::CStyleArrayReader::CStyleArrayReader (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4NK13uproot_custom17CStyleArrayReader4dataEv">uproot_custom::CStyleArrayReader::data (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom17CStyleArrayReader16m_element_readerE">uproot_custom::CStyleArrayReader::m_element_reader (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom17CStyleArrayReader11m_flat_sizeE">uproot_custom::CStyleArrayReader::m_flat_size (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom17CStyleArrayReader9m_offsetsE">uproot_custom::CStyleArrayReader::m_offsets (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom17CStyleArrayReader4readER12BinaryStream">uproot_custom::CStyleArrayReader::read (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom17CStyleArrayReader9read_manyER12BinaryStreamK7int64_t">uproot_custom::CStyleArrayReader::read_many (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom17CStyleArrayReader10read_untilER12BinaryStreamPK7uint8_t">uproot_custom::CStyleArrayReader::read_until (C++ function)</a>
-</li>
       <li><a href="reference/api/cpp-api.html#_CPPv4IDpEN13uproot_custom12debug_printfEvPKcDp4Args">uproot_custom::debug_printf (C++ function)</a>, <a href="reference/api/cpp-api.html#_CPPv4N13uproot_custom12debug_printfERN13uproot_custom12BinaryStreamEK6size_t">[1]</a>
 </li>
       <li><a href="reference/api/cpp-api.html#_CPPv4I0DpEN13uproot_custom14declare_readerEvRN2py6moduleEPKc">uproot_custom::declare_reader (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom11EmptyReaderE">uproot_custom::EmptyReader (C++ class)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4NK13uproot_custom11EmptyReader4dataEv">uproot_custom::EmptyReader::data (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom11EmptyReader11EmptyReaderE6string">uproot_custom::EmptyReader::EmptyReader (C++ function)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom11EmptyReader4readER12BinaryStream">uproot_custom::EmptyReader::read (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom11GroupReaderE">uproot_custom::GroupReader (C++ class)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4NK13uproot_custom11GroupReader4dataEv">uproot_custom::GroupReader::data (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom11GroupReader11GroupReaderE6string6vectorI12SharedReaderE">uproot_custom::GroupReader::GroupReader (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom11GroupReader17m_element_readersE">uproot_custom::GroupReader::m_element_readers (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom11GroupReader4readER12BinaryStream">uproot_custom::GroupReader::read (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom11GroupReader20read_many_memberwiseER12BinaryStreamK7int64_t">uproot_custom::GroupReader::read_many_memberwise (C++ function)</a>
 </li>
       <li><a href="reference/api/cpp-api.html#_CPPv4N13uproot_custom14IElementReaderE">uproot_custom::IElementReader (C++ type)</a>
 </li>
@@ -1924,137 +1870,9 @@ window.runMermaid = runMermaid;</script>
 </li>
       <li><a href="reference/api/cpp-api.html#_CPPv4I0EN13uproot_custom10make_arrayEN2py7array_tI1TEE10shared_ptrINSt6vectorI1TEEE">uproot_custom::make_array (C++ function)</a>
 </li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4I0EN13uproot_custom15PrimitiveReaderE">uproot_custom::PrimitiveReader (C++ class)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4NK13uproot_custom15PrimitiveReader4dataEv">uproot_custom::PrimitiveReader::data (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom15PrimitiveReader6m_dataE">uproot_custom::PrimitiveReader::m_data (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom15PrimitiveReader15PrimitiveReaderE6string">uproot_custom::PrimitiveReader::PrimitiveReader (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom15PrimitiveReader4readER12BinaryStream">uproot_custom::PrimitiveReader::read (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12py_read_dataEN2py7array_tI7uint8_tEEN2py7array_tI8uint32_tEE8uint32_t12SharedReader">uproot_custom::py_read_data (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom15PYBIND11_MODULEE3cpp1m">uproot_custom::PYBIND11_MODULE (C++ function)</a>
-</li>
       <li><a href="reference/api/cpp-api.html#_CPPv4N13uproot_custom12SharedReaderE">uproot_custom::SharedReader (C++ type)</a>
 </li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4I0EN13uproot_custom12SharedVectorE">uproot_custom::SharedVector (C++ type)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLMapReaderE">uproot_custom::STLMapReader (C++ class)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4NK13uproot_custom12STLMapReader4dataEv">uproot_custom::STLMapReader::data (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLMapReader12m_key_readerE">uproot_custom::STLMapReader::m_key_reader (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLMapReader9m_offsetsE">uproot_custom::STLMapReader::m_offsets (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLMapReader14m_value_readerE">uproot_custom::STLMapReader::m_value_reader (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLMapReader13m_with_headerE">uproot_custom::STLMapReader::m_with_header (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLMapReader4readER12BinaryStream">uproot_custom::STLMapReader::read (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLMapReader9read_bodyER12BinaryStreamb">uproot_custom::STLMapReader::read_body (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLMapReader20read_element_versionER12BinaryStream">uproot_custom::STLMapReader::read_element_version (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLMapReader9read_manyER12BinaryStreamK7int64_t">uproot_custom::STLMapReader::read_many (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLMapReader10read_untilER12BinaryStreamPK7uint8_t">uproot_custom::STLMapReader::read_until (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLMapReader12STLMapReaderE6stringb12SharedReader12SharedReader">uproot_custom::STLMapReader::STLMapReader (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLSeqReaderE">uproot_custom::STLSeqReader (C++ class)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4NK13uproot_custom12STLSeqReader4dataEv">uproot_custom::STLSeqReader::data (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLSeqReader16m_element_readerE">uproot_custom::STLSeqReader::m_element_reader (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLSeqReader9m_offsetsE">uproot_custom::STLSeqReader::m_offsets (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLSeqReader13m_with_headerE">uproot_custom::STLSeqReader::m_with_header (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLSeqReader4readER12BinaryStream">uproot_custom::STLSeqReader::read (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLSeqReader9read_bodyER12BinaryStreamb">uproot_custom::STLSeqReader::read_body (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLSeqReader20read_element_versionER12BinaryStream">uproot_custom::STLSeqReader::read_element_version (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLSeqReader9read_manyER12BinaryStreamK7int64_t">uproot_custom::STLSeqReader::read_many (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLSeqReader10read_untilER12BinaryStreamPK7uint8_t">uproot_custom::STLSeqReader::read_until (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12STLSeqReader12STLSeqReaderE6stringb12SharedReader">uproot_custom::STLSeqReader::STLSeqReader (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom15STLStringReaderE">uproot_custom::STLStringReader (C++ class)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4NK13uproot_custom15STLStringReader4dataEv">uproot_custom::STLStringReader::data (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom15STLStringReader6m_dataE">uproot_custom::STLStringReader::m_data (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom15STLStringReader9m_offsetsE">uproot_custom::STLStringReader::m_offsets (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom15STLStringReader13m_with_headerE">uproot_custom::STLStringReader::m_with_header (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom15STLStringReader4readER12BinaryStream">uproot_custom::STLStringReader::read (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom15STLStringReader9read_bodyER12BinaryStream">uproot_custom::STLStringReader::read_body (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom15STLStringReader9read_manyER12BinaryStreamK7int64_t">uproot_custom::STLStringReader::read_many (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom15STLStringReader10read_untilER12BinaryStreamPK7uint8_t">uproot_custom::STLStringReader::read_until (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom15STLStringReader15STLStringReaderE6stringb">uproot_custom::STLStringReader::STLStringReader (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4I0EN13uproot_custom12TArrayReaderE">uproot_custom::TArrayReader (C++ class)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4NK13uproot_custom12TArrayReader4dataEv">uproot_custom::TArrayReader::data (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12TArrayReader6m_dataE">uproot_custom::TArrayReader::m_data (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12TArrayReader9m_offsetsE">uproot_custom::TArrayReader::m_offsets (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12TArrayReader4readER12BinaryStream">uproot_custom::TArrayReader::read (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom12TArrayReader12TArrayReaderE6string">uproot_custom::TArrayReader::TArrayReader (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom13TObjectReaderE">uproot_custom::TObjectReader (C++ class)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4NK13uproot_custom13TObjectReader4dataEv">uproot_custom::TObjectReader::data (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom13TObjectReader6m_bitsE">uproot_custom::TObjectReader::m_bits (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom13TObjectReader11m_keep_dataE">uproot_custom::TObjectReader::m_keep_data (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom13TObjectReader6m_pidfE">uproot_custom::TObjectReader::m_pidf (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom13TObjectReader14m_pidf_offsetsE">uproot_custom::TObjectReader::m_pidf_offsets (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom13TObjectReader11m_unique_idE">uproot_custom::TObjectReader::m_unique_id (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom13TObjectReader4readER12BinaryStream">uproot_custom::TObjectReader::read (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom13TObjectReader13TObjectReaderE6stringb">uproot_custom::TObjectReader::TObjectReader (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom13TStringReaderE">uproot_custom::TStringReader (C++ class)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4NK13uproot_custom13TStringReader4dataEv">uproot_custom::TStringReader::data (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom13TStringReader6m_dataE">uproot_custom::TStringReader::m_data (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom13TStringReader9m_offsetsE">uproot_custom::TStringReader::m_offsets (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom13TStringReader13m_with_headerE">uproot_custom::TStringReader::m_with_header (C++ member)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom13TStringReader4readER12BinaryStream">uproot_custom::TStringReader::read (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom13TStringReader9read_manyER12BinaryStreamK7int64_t">uproot_custom::TStringReader::read_many (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom13TStringReader10read_untilER12BinaryStreamPK7uint8_t">uproot_custom::TStringReader::read_until (C++ function)</a>
-</li>
-      <li><a href="reference/api/cpp-module.html#_CPPv4N13uproot_custom13TStringReader13TStringReaderE6stringb">uproot_custom::TStringReader::TStringReader (C++ function)</a>
+      <li><a href="reference/api/uproot_custom.readers.html#uproot_custom.readers.backend.use">use() (in module uproot_custom.readers.backend)</a>
 </li>
   </ul></td>
 </tr></table>

@@ -104,7 +104,7 @@
           <declname>stream</declname>
         </param>
         <briefdescription>
-<para>Read a TString from the stream. A TString starts with a uint8_t size. If the size is 255, then a uint32_t size follows. Then the string data follows. It m_with_header is true, read a <computeroutput>fNBytes+fVersion</computeroutput> header before reading the TString. </para>
+<para>Read a TString from the stream. A TString starts with a uint8_t size. If the size is 255, then a uint32_t size follows. Then the string data follows. If m_with_header is true, read a <computeroutput>fNBytes+fVersion</computeroutput> header before reading the TString. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>

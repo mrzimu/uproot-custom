@@ -233,7 +233,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../reference/api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="../reference/api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
 </ul>
@@ -495,7 +494,7 @@ uproot-custom, and then show how to port the reader to C++.</p>
 <span class="w">        </span><span class="c1">// preallocate space for 5 elements</span>
 <span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="w"> </span><span class="p">)</span>
 <span class="w">        </span><span class="p">{</span>
-<span class="w">            </span><span class="c1">// This will lead to memory leak, but it&#39;s just an example.</span>
+<span class="w">            </span><span class="c1">// This will lead to memory leak, but it's just an example.</span>
 <span class="w">            </span><span class="n">m_obj_array</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TObjInObjArray</span><span class="p">(</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">);</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
@@ -510,7 +509,7 @@ uproot-custom, and then show how to port the reader to C++.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">uc</span>
 <span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">br</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;demo_data.root&quot;</span><span class="p">)[</span><span class="s2">&quot;my_tree:obj_with_obj_array/m_obj_array&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">br</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">"demo_data.root"</span><span class="p">)[</span><span class="s2">"my_tree:obj_with_obj_array/m_obj_array"</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bin_arr</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">interpretation</span><span class="o">=</span><span class="n">uc</span><span class="o">.</span><span class="n">AsBinary</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">evt1</span> <span class="o">=</span> <span class="n">bin_arr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">evt1</span>
@@ -629,7 +628,7 @@ uproot-custom, and then show how to port the reader to C++.</p>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">element_reader</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">element_reader</span> <span class="o">=</span> <span class="n">element_reader</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">"q"</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
         <span class="c1"># Read TObjArray header</span>
@@ -682,12 +681,12 @@ uproot-custom, and then show how to port the reader to C++.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">class</span><span class="w"> </span><span class="nc">TObjArrayFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
 <span class="linenos"> 2</span>    <span class="nd">@classmethod</span>
 <span class="hll"><span class="linenos"> 3</span>    <span class="k">def</span><span class="w"> </span><span class="nf">priority</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-</span><span class="hll"><span class="linenos"> 4</span><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span class="hll"><span class="linenos"> 4</span><span class="w">        </span><span class="sd">"""</span>
 </span><span class="hll"><span class="linenos"> 5</span><span class="sd">        Set a higher priority to ensure this factory is chosen first,</span>
 </span><span class="hll"><span class="linenos"> 6</span><span class="sd">        otherwise the pre-defined factory of `uproot-custom` may be selected.</span>
 </span><span class="hll"><span class="linenos"> 7</span>
 </span><span class="hll"><span class="linenos"> 8</span><span class="sd">        The default priority is 10 for other factories.</span>
-</span><span class="hll"><span class="linenos"> 9</span><span class="sd">        &quot;&quot;&quot;</span>
+</span><span class="hll"><span class="linenos"> 9</span><span class="sd">        """</span>
 </span><span class="hll"><span class="linenos">10</span>        <span class="k">return</span> <span class="mi">50</span>
 </span><span class="linenos">11</span>
 <span class="linenos">12</span>    <span class="nd">@classmethod</span>
@@ -700,25 +699,25 @@ uproot-custom, and then show how to port the reader to C++.</p>
 <span class="linenos">19</span>        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="linenos">20</span>    <span class="p">):</span>
 <span class="linenos">21</span>        <span class="c1"># `top_type_name` is the type name of the top-level object.</span>
-<span class="linenos">22</span>        <span class="k">if</span> <span class="n">top_type_name</span> <span class="o">!=</span> <span class="s2">&quot;TObjArray&quot;</span><span class="p">:</span>
+<span class="linenos">22</span>        <span class="k">if</span> <span class="n">top_type_name</span> <span class="o">!=</span> <span class="s2">"TObjArray"</span><span class="p">:</span>
 <span class="linenos">23</span>            <span class="k">return</span> <span class="kc">None</span>
 <span class="linenos">24</span>
 <span class="linenos">25</span>        <span class="c1"># `item_path` is the path of the current item being processed.</span>
 <span class="linenos">26</span>        <span class="c1"># Since `TObjArray` is designed to store any object, we can adjust the `item_path`</span>
 <span class="linenos">27</span>        <span class="c1"># to point to the actual object type stored in the array.</span>
-<span class="hll"><span class="linenos">28</span>        <span class="n">item_path</span> <span class="o">=</span> <span class="n">item_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.TObjArray*&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-</span><span class="hll"><span class="linenos">29</span>        <span class="n">obj_typename</span> <span class="o">=</span> <span class="s2">&quot;TObjInObjArray*&quot;</span>
+<span class="hll"><span class="linenos">28</span>        <span class="n">item_path</span> <span class="o">=</span> <span class="n">item_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">".TObjArray*"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos">29</span>        <span class="n">obj_typename</span> <span class="o">=</span> <span class="s2">"TObjInObjArray*"</span>
 </span><span class="linenos">30</span>
 <span class="hll"><span class="linenos">31</span>        <span class="n">element_factory</span> <span class="o">=</span> <span class="n">build_factory</span><span class="p">(</span>
 </span><span class="hll"><span class="linenos">32</span>            <span class="n">cur_streamer_info</span><span class="o">=</span><span class="p">{</span>
-</span><span class="hll"><span class="linenos">33</span>                <span class="s2">&quot;fName&quot;</span><span class="p">:</span> <span class="n">obj_typename</span><span class="p">,</span>
-</span><span class="hll"><span class="linenos">34</span>                <span class="s2">&quot;fTypeName&quot;</span><span class="p">:</span> <span class="n">obj_typename</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">33</span>                <span class="s2">"fName"</span><span class="p">:</span> <span class="n">obj_typename</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">34</span>                <span class="s2">"fTypeName"</span><span class="p">:</span> <span class="n">obj_typename</span><span class="p">,</span>
 </span><span class="hll"><span class="linenos">35</span>            <span class="p">},</span>
 </span><span class="hll"><span class="linenos">36</span>            <span class="n">all_streamer_info</span><span class="o">=</span><span class="n">all_streamer_info</span><span class="p">,</span>
-</span><span class="hll"><span class="linenos">37</span>            <span class="n">item_path</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">item_path</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">obj_typename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">37</span>            <span class="n">item_path</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">item_path</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">obj_typename</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
 </span><span class="hll"><span class="linenos">38</span>        <span class="p">)</span>
 </span><span class="linenos">39</span>
-<span class="linenos">40</span>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">&quot;fName&quot;</span><span class="p">],</span> <span class="n">element_factory</span><span class="o">=</span><span class="n">element_factory</span><span class="p">)</span>
+<span class="linenos">40</span>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">"fName"</span><span class="p">],</span> <span class="n">element_factory</span><span class="o">=</span><span class="n">element_factory</span><span class="p">)</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -769,7 +768,7 @@ uproot-custom, and then show how to port the reader to C++.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="n">element_form</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_factory</span><span class="o">.</span><span class="n">make_awkward_form</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">ListOffsetForm</span><span class="p">(</span>
-        <span class="s2">&quot;i64&quot;</span><span class="p">,</span>
+        <span class="s2">"i64"</span><span class="p">,</span>
         <span class="n">element_form</span><span class="p">,</span>
     <span class="p">)</span>
 </pre></div>
@@ -784,7 +783,7 @@ uproot-custom, and then show how to port the reader to C++.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">registered_factories</span><span class="p">,</span> <span class="n">AsCustom</span>
 
 <span class="n">AsCustom</span><span class="o">.</span><span class="n">target_branches</span> <span class="o">|=</span> <span class="p">{</span>
-    <span class="s2">&quot;/my_tree:obj_with_obj_array/m_obj_array&quot;</span><span class="p">,</span>
+    <span class="s2">"/my_tree:obj_with_obj_array/m_obj_array"</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">registered_factories</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">TObjArrayFactory</span><span class="p">)</span>
@@ -792,15 +791,15 @@ uproot-custom, and then show how to port the reader to C++.</p>
 </div>
 <p>Don’t forget to switch to the Python backend during development, since the
 default backend is C++:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.factories</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fac</span>
-<span class="n">fac</span><span class="o">.</span><span class="n">reader_backend</span> <span class="o">=</span> <span class="s2">&quot;python&quot;</span>  <span class="c1"># default is &quot;cpp&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.readers</span><span class="w"> </span><span class="kn">import</span> <span class="n">backend</span>
+<span class="n">backend</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"python"</span><span class="p">)</span>  <span class="c1"># default is "cpp"</span>
 </pre></div>
 </div>
 </section>
 <section id="step-5-read-data-with-uproot">
 <h2>Step 5: Read data with Uproot<a class="headerlink" href="#step-5-read-data-with-uproot" title="Link to this heading">#</a></h2>
 <p>Now we can read the data using Uproot as usual:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;demo_data.root&quot;</span><span class="p">)[</span><span class="s2">&quot;my_tree:obj_with_obj_array/m_obj_array&quot;</span><span class="p">]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">"demo_data.root"</span><span class="p">)[</span><span class="s2">"my_tree:obj_with_obj_array/m_obj_array"</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">array</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -849,7 +848,7 @@ C++ reader API reference (IReader, BinaryStream, pybind11 bindings).</p>
 <span class="p">};</span>
 
 <span class="n">PYBIND11_MODULE</span><span class="p">(</span><span class="w"> </span><span class="n">my_reader_cpp</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">declare_reader</span><span class="o">&lt;</span><span class="n">TObjArrayReader</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">SharedReader</span><span class="o">&gt;</span><span class="p">(</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;TObjArrayReader&quot;</span><span class="w"> </span><span class="p">);</span>
+<span class="w">    </span><span class="n">declare_reader</span><span class="o">&lt;</span><span class="n">TObjArrayReader</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">SharedReader</span><span class="o">&gt;</span><span class="p">(</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">"TObjArrayReader"</span><span class="w"> </span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -863,10 +862,10 @@ C++ reader API reference (IReader, BinaryStream, pybind11 bindings).</p>
 </pre></div>
 </div>
 <p>After adding <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code>, simply remove the
-<code class="docutils literal notranslate"><span class="pre">fac.reader_backend</span> <span class="pre">=</span> <span class="pre">&quot;python&quot;</span></code> line (or set it back to <code class="docutils literal notranslate"><span class="pre">&quot;cpp&quot;</span></code>) to use the
+<code class="docutils literal notranslate"><span class="pre">backend.set(&quot;python&quot;)</span></code> line (or change it to <code class="docutils literal notranslate"><span class="pre">backend.set(&quot;cpp&quot;)</span></code>) to use the
 default C++ backend for production:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom.factories</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fac</span>
-<span class="n">fac</span><span class="o">.</span><span class="n">reader_backend</span> <span class="o">=</span> <span class="s2">&quot;cpp&quot;</span>  <span class="c1"># this is the default, so you can also just remove the line</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.readers</span><span class="w"> </span><span class="kn">import</span> <span class="n">backend</span>
+<span class="n">backend</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"cpp"</span><span class="p">)</span>  <span class="c1"># this is the default, so you can also just remove the line</span>
 </pre></div>
 </div>
 <p>The factory’s <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code> and <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code> remain exactly

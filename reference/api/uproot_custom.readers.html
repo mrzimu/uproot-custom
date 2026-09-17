@@ -59,7 +59,7 @@
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="uproot_custom.cpp module" href="cpp-module.html" />
+    <link rel="next" title="Example 1: Streamer method is overridden" href="../../example/override-streamer.html" />
     <link rel="prev" title="uproot_custom package" href="uproot_custom.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -234,7 +234,6 @@
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">uproot_custom.readers package</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
 </ul>
@@ -397,6 +396,12 @@
             <nav aria-label="Page">
                 <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.readers.backend">uproot_custom.readers.backend module</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.backend.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.backend.set"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.backend.use"><code class="docutils literal notranslate"><span class="pre">use()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.readers.cpp">uproot_custom.readers.cpp module</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.AnyClassReader"><code class="docutils literal notranslate"><span class="pre">AnyClassReader</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.AnyPointerReader"><code class="docutils literal notranslate"><span class="pre">AnyPointerReader</span></code></a></li>
@@ -565,6 +570,68 @@
 <h1>uproot_custom.readers package<a class="headerlink" href="#uproot-custom-readers-package" title="Link to this heading">#</a></h1>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+</section>
+<section id="module-uproot_custom.readers.backend">
+<span id="uproot-custom-readers-backend-module"></span><h2>uproot_custom.readers.backend module<a class="headerlink" href="#module-uproot_custom.readers.backend" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="uproot_custom.readers.backend.get">
+<span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.backend.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'cpp'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'python'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'forth'</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/uproot_custom/readers/backend.html#get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.backend.get" title="Link to this definition">#</a></dt>
+<dd><p>Return the current reader backend.</p>
+<p>The backend is resolved in the following order of priority:
+explicitly set value via <a class="reference internal" href="#uproot_custom.readers.backend.set" title="uproot_custom.readers.backend.set"><code class="xref py py-func docutils literal notranslate"><span class="pre">set()</span></code></a> &gt;
+<cite>UPROOT_CUSTOM_READER_BACKEND</cite> environment variable &gt;
+default <cite>“cpp”</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The current reader backend (<cite>“cpp”</cite>, <cite>“python”</cite>, or <cite>“forth”</cite>).</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the <cite>UPROOT_CUSTOM_READER_BACKEND</cite> environment
+    variable is set to an unrecognized value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="uproot_custom.readers.backend.set">
+<span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.backend.</span></span><span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'cpp'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'python'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'forth'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/readers/backend.html#set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.backend.set" title="Link to this definition">#</a></dt>
+<dd><p>Set the current reader backend.</p>
+<p>This overrides the <cite>UPROOT_CUSTOM_READER_BACKEND</cite> environment
+variable and the default <cite>“cpp”</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>backend</strong> – The reader backend to use. Must be one of <cite>“cpp”</cite>,
+<cite>“python”</cite>, or <cite>“forth”</cite>.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If <em>backend</em> is not a recognized reader backend.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="uproot_custom.readers.backend.use">
+<span class="sig-prename descclassname"><span class="pre">uproot_custom.readers.backend.</span></span><span class="sig-name descname"><span class="pre">use</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'cpp'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'python'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'forth'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/readers/backend.html#use"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.readers.backend.use" title="Link to this definition">#</a></dt>
+<dd><p>Context manager to temporarily switch the reader backend.</p>
+<p>The original backend is restored when exiting the <cite>with</cite> block.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.readers</span><span class="w"> </span><span class="kn">import</span> <span class="n">backend</span>
+
+<span class="k">with</span> <span class="n">backend</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"python"</span><span class="p">):</span>
+    <span class="n">branch</span><span class="o">.</span><span class="n">array</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>backend</strong> – The reader backend to use within the context.
+Must be one of <cite>“cpp”</cite>, <cite>“python”</cite>, or <cite>“forth”</cite>.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If <em>backend</em> is not a recognized reader backend.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-uproot_custom.readers.cpp">
 <span id="uproot-custom-readers-cpp-module"></span><h2>uproot_custom.readers.cpp module<a class="headerlink" href="#module-uproot_custom.readers.cpp" title="Link to this heading">#</a></h2>
@@ -1243,11 +1310,11 @@
       </div>
     </a>
     <a class="right-next"
-       href="cpp-module.html"
+       href="../../example/override-streamer.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">uproot_custom.cpp module</p>
+        <p class="prev-next-title">Example 1: <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method is overridden</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1270,6 +1337,12 @@
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.readers.backend">uproot_custom.readers.backend module</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.backend.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.backend.set"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.backend.use"><code class="docutils literal notranslate"><span class="pre">use()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-uproot_custom.readers.cpp">uproot_custom.readers.cpp module</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.AnyClassReader"><code class="docutils literal notranslate"><span class="pre">AnyClassReader</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uproot_custom.readers.cpp.AnyPointerReader"><code class="docutils literal notranslate"><span class="pre">AnyPointerReader</span></code></a></li>

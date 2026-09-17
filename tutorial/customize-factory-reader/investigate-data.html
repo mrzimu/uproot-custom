@@ -234,7 +234,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../reference/api/uproot_custom.readers.html">uproot_custom.readers package</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="../../reference/api/cpp-module.html">C++ reference</a></li>
 </ul>
 </details></li>
 </ul>
@@ -455,14 +454,14 @@ Understanding this metadata is the first step toward implementing a reader.</p>
 <span class="w">  </span><span class="k">private</span><span class="o">:</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">m_int</span><span class="p">{</span><span class="w"> </span><span class="mi">32</span><span class="w"> </span><span class="p">};</span>
 
-<span class="w">    </span><span class="n">string</span><span class="w"> </span><span class="n">m_str</span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Hello, ROOT!&quot;</span><span class="w"> </span><span class="p">};</span>
+<span class="w">    </span><span class="n">string</span><span class="w"> </span><span class="n">m_str</span><span class="p">{</span><span class="w"> </span><span class="s">"Hello, ROOT!"</span><span class="w"> </span><span class="p">};</span>
 <span class="w">    </span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_arr_int</span><span class="p">{</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">101</span><span class="p">,</span><span class="w"> </span><span class="mi">102</span><span class="p">,</span><span class="w"> </span><span class="mi">103</span><span class="p">,</span><span class="w"> </span><span class="mi">104</span><span class="w"> </span><span class="p">};</span>
 <span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_vec_double</span><span class="p">{</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0</span><span class="w"> </span><span class="p">};</span>
 
 <span class="w">    </span><span class="n">map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_map_int_double</span><span class="p">{</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">};</span>
-<span class="w">    </span><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">TString</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_map_str_str</span><span class="p">{</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Apple&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;B&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Banana&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Cat&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">};</span>
+<span class="w">    </span><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">TString</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_map_str_str</span><span class="p">{</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">"A"</span><span class="p">,</span><span class="w"> </span><span class="s">"Apple"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">"B"</span><span class="p">,</span><span class="w"> </span><span class="s">"Banana"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">"C"</span><span class="p">,</span><span class="w"> </span><span class="s">"Cat"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">};</span>
 
-<span class="w">    </span><span class="n">TString</span><span class="w"> </span><span class="n">m_tstr</span><span class="p">{</span><span class="w"> </span><span class="s">&quot;Hello, ROOT!&quot;</span><span class="w"> </span><span class="p">};</span>
+<span class="w">    </span><span class="n">TString</span><span class="w"> </span><span class="n">m_tstr</span><span class="p">{</span><span class="w"> </span><span class="s">"Hello, ROOT!"</span><span class="w"> </span><span class="p">};</span>
 <span class="w">    </span><span class="n">TArrayI</span><span class="w"> </span><span class="n">m_tarr_int</span><span class="p">{</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">};</span>
 
 <span class="w">  </span><span class="k">public</span><span class="o">:</span>
@@ -492,21 +491,21 @@ Understanding this metadata is the first step toward implementing a reader.</p>
 <p>Uproot exposes all streamers stored in a file via <code class="docutils literal notranslate"><span class="pre">f.file.streamers</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
 
-<span class="n">f</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;file.root&quot;</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">"file.root"</span><span class="p">)</span>
 <span class="n">f</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">streamers</span>
 </pre></div>
 </div>
 <div class="literal-block-wrapper docutils container" id="id3">
 <div class="code-block-caption"><span class="caption-text">Output (truncated)</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">{&#39;TNamed&#39;: {1: &lt;TStreamerInfo for TNamed version 1 at 0x74083a52a840&gt;},</span>
-<span class="go"> &#39;TObject&#39;: {1: &lt;TStreamerInfo for TObject version 1 at 0x74083a52b140&gt;},</span>
-<span class="go"> &#39;TList&#39;: {5: &lt;TStreamerInfo for TList version 5 at 0x74083a52bbf0&gt;},</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">{'TNamed': {1: &lt;TStreamerInfo for TNamed version 1 at 0x74083a52a840&gt;},</span>
+<span class="go"> 'TObject': {1: &lt;TStreamerInfo for TObject version 1 at 0x74083a52b140&gt;},</span>
+<span class="go"> 'TList': {5: &lt;TStreamerInfo for TList version 5 at 0x74083a52bbf0&gt;},</span>
 <span class="go"> ...}</span>
 </pre></div>
 </div>
 </div>
 <p>Look up a specific class by name. The version number is the dictionary key:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">streamers</span><span class="p">[</span><span class="s2">&quot;TSimpleObject&quot;</span><span class="p">]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">streamers</span><span class="p">[</span><span class="s2">"TSimpleObject"</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="literal-block-wrapper docutils container" id="id4">
@@ -524,7 +523,7 @@ Understanding this metadata is the first step toward implementing a reader.</p>
 <section id="human-readable-summary">
 <h3>Human-readable summary<a class="headerlink" href="#human-readable-summary" title="Link to this heading">#</a></h3>
 <p>Call <code class="docutils literal notranslate"><span class="pre">show()</span></code> for a compact overview:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">streamer</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">streamers</span><span class="p">[</span><span class="s2">&quot;TSimpleObject&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">streamer</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">streamers</span><span class="p">[</span><span class="s2">"TSimpleObject"</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">streamer</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -546,19 +545,19 @@ Understanding this metadata is the first step toward implementing a reader.</p>
 <section id="detailed-member-attributes">
 <h3>Detailed member attributes<a class="headerlink" href="#detailed-member-attributes" title="Link to this heading">#</a></h3>
 <p>For the full details, use <code class="docutils literal notranslate"><span class="pre">all_members</span></code>:</p>
-<div class="highlight-python notranslate" id="simple-obj-streamer-info"><div class="highlight"><pre><span></span><span class="n">streamer</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">streamers</span><span class="p">[</span><span class="s2">&quot;TSimpleObject&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<div class="highlight-python notranslate" id="simple-obj-streamer-info"><div class="highlight"><pre><span></span><span class="n">streamer</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">streamers</span><span class="p">[</span><span class="s2">"TSimpleObject"</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">streamer</span><span class="o">.</span><span class="n">all_members</span>
 </pre></div>
 </div>
 <div class="literal-block-wrapper docutils container" id="id6">
 <div class="code-block-caption"><span class="caption-text">Output</span><a class="headerlink" href="#id6" title="Link to this code">#</a></div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">{&#39;@fUniqueID&#39;: 0,</span>
-<span class="go"> &#39;@fBits&#39;: 16842752,</span>
-<span class="go"> &#39;fName&#39;: &#39;TSimpleObject&#39;,</span>
-<span class="go"> &#39;fTitle&#39;: &#39;&#39;,</span>
-<span class="go"> &#39;fCheckSum&#39;: 2574715488,</span>
-<span class="go"> &#39;fClassVersion&#39;: 1,</span>
-<span class="go"> &#39;fElements&#39;: &lt;TObjArray of 9 items at 0x74083a583b90&gt;}</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">{'@fUniqueID': 0,</span>
+<span class="go"> '@fBits': 16842752,</span>
+<span class="go"> 'fName': 'TSimpleObject',</span>
+<span class="go"> 'fTitle': '',</span>
+<span class="go"> 'fCheckSum': 2574715488,</span>
+<span class="go"> 'fClassVersion': 1,</span>
+<span class="go"> 'fElements': &lt;TObjArray of 9 items at 0x74083a583b90&gt;}</span>
 </pre></div>
 </div>
 </div>
@@ -568,106 +567,106 @@ Understanding this metadata is the first step toward implementing a reader.</p>
 </div>
 <div class="literal-block-wrapper docutils container" id="id7">
 <span id="all-streamer-info-output"></span><div class="code-block-caption"><span class="caption-text">Output</span><a class="headerlink" href="#id7" title="Link to this code">#</a></div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">[{&#39;@fUniqueID&#39;: 0,</span>
-<span class="go">  &#39;@fBits&#39;: 16777216,</span>
-<span class="go">  &#39;fName&#39;: &#39;TObject&#39;,</span>
-<span class="go">  &#39;fTitle&#39;: &#39;Basic ROOT object&#39;,</span>
-<span class="go">  &#39;fType&#39;: 66,</span>
-<span class="go">  &#39;fSize&#39;: 0,</span>
-<span class="go">  &#39;fArrayLength&#39;: 0,</span>
-<span class="go">  &#39;fArrayDim&#39;: 0,</span>
-<span class="go">  &#39;fMaxIndex&#39;: array([          0, -1877229523,           0,           0,           0],</span>
-<span class="go">        dtype=&#39;&gt;i4&#39;),</span>
-<span class="go">  &#39;fTypeName&#39;: &#39;BASE&#39;,</span>
-<span class="go">  &#39;fBaseVersion&#39;: 1},</span>
-<span class="go"> {&#39;@fUniqueID&#39;: 0,</span>
-<span class="go">  &#39;@fBits&#39;: 16777216,</span>
-<span class="go">  &#39;fName&#39;: &#39;m_int&#39;,</span>
-<span class="go">  &#39;fTitle&#39;: &#39;&#39;,</span>
-<span class="go">  &#39;fType&#39;: 3,</span>
-<span class="go">  &#39;fSize&#39;: 4,</span>
-<span class="go">  &#39;fArrayLength&#39;: 0,</span>
-<span class="go">  &#39;fArrayDim&#39;: 0,</span>
-<span class="go">  &#39;fMaxIndex&#39;: array([0, 0, 0, 0, 0], dtype=&#39;&gt;i4&#39;),</span>
-<span class="go">  &#39;fTypeName&#39;: &#39;int&#39;},</span>
-<span class="go"> {&#39;@fUniqueID&#39;: 0,</span>
-<span class="go">  &#39;@fBits&#39;: 16777216,</span>
-<span class="go">  &#39;fName&#39;: &#39;m_str&#39;,</span>
-<span class="go">  &#39;fTitle&#39;: &#39;&#39;,</span>
-<span class="go">  &#39;fType&#39;: 500,</span>
-<span class="go">  &#39;fSize&#39;: 32,</span>
-<span class="go">  &#39;fArrayLength&#39;: 0,</span>
-<span class="go">  &#39;fArrayDim&#39;: 0,</span>
-<span class="go">  &#39;fMaxIndex&#39;: array([0, 0, 0, 0, 0], dtype=&#39;&gt;i4&#39;),</span>
-<span class="go">  &#39;fTypeName&#39;: &#39;string&#39;,</span>
-<span class="go">  &#39;fSTLtype&#39;: 365,</span>
-<span class="go">  &#39;fCtype&#39;: 365},</span>
-<span class="go"> {&#39;@fUniqueID&#39;: 0,</span>
-<span class="go">  &#39;@fBits&#39;: 16777216,</span>
-<span class="go">  &#39;fName&#39;: &#39;m_arr_int&#39;,</span>
-<span class="go">  &#39;fTitle&#39;: &#39;&#39;,</span>
-<span class="go">  &#39;fType&#39;: 3,</span>
-<span class="go">  &#39;fSize&#39;: 20,</span>
-<span class="go">  &#39;fArrayLength&#39;: 5,</span>
-<span class="go">  &#39;fArrayDim&#39;: 1,</span>
-<span class="go">  &#39;fMaxIndex&#39;: array([5, 0, 0, 0, 0], dtype=&#39;&gt;i4&#39;),</span>
-<span class="go">  &#39;fTypeName&#39;: &#39;int&#39;},</span>
-<span class="go"> {&#39;@fUniqueID&#39;: 0,</span>
-<span class="go">  &#39;@fBits&#39;: 16777216,</span>
-<span class="go">  &#39;fName&#39;: &#39;m_vec_double&#39;,</span>
-<span class="go">  &#39;fTitle&#39;: &#39;&#39;,</span>
-<span class="go">  &#39;fType&#39;: 500,</span>
-<span class="go">  &#39;fSize&#39;: 24,</span>
-<span class="go">  &#39;fArrayLength&#39;: 0,</span>
-<span class="go">  &#39;fArrayDim&#39;: 0,</span>
-<span class="go">  &#39;fMaxIndex&#39;: array([0, 0, 0, 0, 0], dtype=&#39;&gt;i4&#39;),</span>
-<span class="go">  &#39;fTypeName&#39;: &#39;vector&lt;double&gt;&#39;,</span>
-<span class="go">  &#39;fSTLtype&#39;: 1,</span>
-<span class="go">  &#39;fCtype&#39;: 8},</span>
-<span class="go"> {&#39;@fUniqueID&#39;: 0,</span>
-<span class="go">  &#39;@fBits&#39;: 16777216,</span>
-<span class="go">  &#39;fName&#39;: &#39;m_map_int_double&#39;,</span>
-<span class="go">  &#39;fTitle&#39;: &#39;&#39;,</span>
-<span class="go">  &#39;fType&#39;: 500,</span>
-<span class="go">  &#39;fSize&#39;: 48,</span>
-<span class="go">  &#39;fArrayLength&#39;: 0,</span>
-<span class="go">  &#39;fArrayDim&#39;: 0,</span>
-<span class="go">  &#39;fMaxIndex&#39;: array([0, 0, 0, 0, 0], dtype=&#39;&gt;i4&#39;),</span>
-<span class="go">  &#39;fTypeName&#39;: &#39;map&lt;int,double&gt;&#39;,</span>
-<span class="go">  &#39;fSTLtype&#39;: 4,</span>
-<span class="go">  &#39;fCtype&#39;: 61},</span>
-<span class="go"> {&#39;@fUniqueID&#39;: 0,</span>
-<span class="go">  &#39;@fBits&#39;: 16777216,</span>
-<span class="go">  &#39;fName&#39;: &#39;m_map_str_str&#39;,</span>
-<span class="go">  &#39;fTitle&#39;: &#39;&#39;,</span>
-<span class="go">  &#39;fType&#39;: 500,</span>
-<span class="go">  &#39;fSize&#39;: 48,</span>
-<span class="go">  &#39;fArrayLength&#39;: 0,</span>
-<span class="go">  &#39;fArrayDim&#39;: 0,</span>
-<span class="go">  &#39;fMaxIndex&#39;: array([0, 0, 0, 0, 0], dtype=&#39;&gt;i4&#39;),</span>
-<span class="go">  &#39;fTypeName&#39;: &#39;map&lt;string,TString&gt;&#39;,</span>
-<span class="go">  &#39;fSTLtype&#39;: 4,</span>
-<span class="go">  &#39;fCtype&#39;: 61},</span>
-<span class="go"> {&#39;@fUniqueID&#39;: 0,</span>
-<span class="go">  &#39;@fBits&#39;: 16777216,</span>
-<span class="go">  &#39;fName&#39;: &#39;m_tstr&#39;,</span>
-<span class="go">  &#39;fTitle&#39;: &#39;&#39;,</span>
-<span class="go">  &#39;fType&#39;: 65,</span>
-<span class="go">  &#39;fSize&#39;: 24,</span>
-<span class="go">  &#39;fArrayLength&#39;: 0,</span>
-<span class="go">  &#39;fArrayDim&#39;: 0,</span>
-<span class="go">  &#39;fMaxIndex&#39;: array([0, 0, 0, 0, 0], dtype=&#39;&gt;i4&#39;),</span>
-<span class="go">  &#39;fTypeName&#39;: &#39;TString&#39;},</span>
-<span class="go"> {&#39;@fUniqueID&#39;: 0,</span>
-<span class="go">  &#39;@fBits&#39;: 16777216,</span>
-<span class="go">  &#39;fName&#39;: &#39;m_tarr_int&#39;,</span>
-<span class="go">  &#39;fTitle&#39;: &#39;&#39;,</span>
-<span class="go">  &#39;fType&#39;: 62,</span>
-<span class="go">  &#39;fSize&#39;: 24,</span>
-<span class="go">  &#39;fArrayLength&#39;: 0,</span>
-<span class="go">  &#39;fArrayDim&#39;: 0,</span>
-<span class="go">  &#39;fMaxIndex&#39;: array([0, 0, 0, 0, 0], dtype=&#39;&gt;i4&#39;),</span>
-<span class="go">  &#39;fTypeName&#39;: &#39;TArrayI&#39;}]</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">[{'@fUniqueID': 0,</span>
+<span class="go">  '@fBits': 16777216,</span>
+<span class="go">  'fName': 'TObject',</span>
+<span class="go">  'fTitle': 'Basic ROOT object',</span>
+<span class="go">  'fType': 66,</span>
+<span class="go">  'fSize': 0,</span>
+<span class="go">  'fArrayLength': 0,</span>
+<span class="go">  'fArrayDim': 0,</span>
+<span class="go">  'fMaxIndex': array([          0, -1877229523,           0,           0,           0],</span>
+<span class="go">        dtype='&gt;i4'),</span>
+<span class="go">  'fTypeName': 'BASE',</span>
+<span class="go">  'fBaseVersion': 1},</span>
+<span class="go"> {'@fUniqueID': 0,</span>
+<span class="go">  '@fBits': 16777216,</span>
+<span class="go">  'fName': 'm_int',</span>
+<span class="go">  'fTitle': '',</span>
+<span class="go">  'fType': 3,</span>
+<span class="go">  'fSize': 4,</span>
+<span class="go">  'fArrayLength': 0,</span>
+<span class="go">  'fArrayDim': 0,</span>
+<span class="go">  'fMaxIndex': array([0, 0, 0, 0, 0], dtype='&gt;i4'),</span>
+<span class="go">  'fTypeName': 'int'},</span>
+<span class="go"> {'@fUniqueID': 0,</span>
+<span class="go">  '@fBits': 16777216,</span>
+<span class="go">  'fName': 'm_str',</span>
+<span class="go">  'fTitle': '',</span>
+<span class="go">  'fType': 500,</span>
+<span class="go">  'fSize': 32,</span>
+<span class="go">  'fArrayLength': 0,</span>
+<span class="go">  'fArrayDim': 0,</span>
+<span class="go">  'fMaxIndex': array([0, 0, 0, 0, 0], dtype='&gt;i4'),</span>
+<span class="go">  'fTypeName': 'string',</span>
+<span class="go">  'fSTLtype': 365,</span>
+<span class="go">  'fCtype': 365},</span>
+<span class="go"> {'@fUniqueID': 0,</span>
+<span class="go">  '@fBits': 16777216,</span>
+<span class="go">  'fName': 'm_arr_int',</span>
+<span class="go">  'fTitle': '',</span>
+<span class="go">  'fType': 3,</span>
+<span class="go">  'fSize': 20,</span>
+<span class="go">  'fArrayLength': 5,</span>
+<span class="go">  'fArrayDim': 1,</span>
+<span class="go">  'fMaxIndex': array([5, 0, 0, 0, 0], dtype='&gt;i4'),</span>
+<span class="go">  'fTypeName': 'int'},</span>
+<span class="go"> {'@fUniqueID': 0,</span>
+<span class="go">  '@fBits': 16777216,</span>
+<span class="go">  'fName': 'm_vec_double',</span>
+<span class="go">  'fTitle': '',</span>
+<span class="go">  'fType': 500,</span>
+<span class="go">  'fSize': 24,</span>
+<span class="go">  'fArrayLength': 0,</span>
+<span class="go">  'fArrayDim': 0,</span>
+<span class="go">  'fMaxIndex': array([0, 0, 0, 0, 0], dtype='&gt;i4'),</span>
+<span class="go">  'fTypeName': 'vector&lt;double&gt;',</span>
+<span class="go">  'fSTLtype': 1,</span>
+<span class="go">  'fCtype': 8},</span>
+<span class="go"> {'@fUniqueID': 0,</span>
+<span class="go">  '@fBits': 16777216,</span>
+<span class="go">  'fName': 'm_map_int_double',</span>
+<span class="go">  'fTitle': '',</span>
+<span class="go">  'fType': 500,</span>
+<span class="go">  'fSize': 48,</span>
+<span class="go">  'fArrayLength': 0,</span>
+<span class="go">  'fArrayDim': 0,</span>
+<span class="go">  'fMaxIndex': array([0, 0, 0, 0, 0], dtype='&gt;i4'),</span>
+<span class="go">  'fTypeName': 'map&lt;int,double&gt;',</span>
+<span class="go">  'fSTLtype': 4,</span>
+<span class="go">  'fCtype': 61},</span>
+<span class="go"> {'@fUniqueID': 0,</span>
+<span class="go">  '@fBits': 16777216,</span>
+<span class="go">  'fName': 'm_map_str_str',</span>
+<span class="go">  'fTitle': '',</span>
+<span class="go">  'fType': 500,</span>
+<span class="go">  'fSize': 48,</span>
+<span class="go">  'fArrayLength': 0,</span>
+<span class="go">  'fArrayDim': 0,</span>
+<span class="go">  'fMaxIndex': array([0, 0, 0, 0, 0], dtype='&gt;i4'),</span>
+<span class="go">  'fTypeName': 'map&lt;string,TString&gt;',</span>
+<span class="go">  'fSTLtype': 4,</span>
+<span class="go">  'fCtype': 61},</span>
+<span class="go"> {'@fUniqueID': 0,</span>
+<span class="go">  '@fBits': 16777216,</span>
+<span class="go">  'fName': 'm_tstr',</span>
+<span class="go">  'fTitle': '',</span>
+<span class="go">  'fType': 65,</span>
+<span class="go">  'fSize': 24,</span>
+<span class="go">  'fArrayLength': 0,</span>
+<span class="go">  'fArrayDim': 0,</span>
+<span class="go">  'fMaxIndex': array([0, 0, 0, 0, 0], dtype='&gt;i4'),</span>
+<span class="go">  'fTypeName': 'TString'},</span>
+<span class="go"> {'@fUniqueID': 0,</span>
+<span class="go">  '@fBits': 16777216,</span>
+<span class="go">  'fName': 'm_tarr_int',</span>
+<span class="go">  'fTitle': '',</span>
+<span class="go">  'fType': 62,</span>
+<span class="go">  'fSize': 24,</span>
+<span class="go">  'fArrayLength': 0,</span>
+<span class="go">  'fArrayDim': 0,</span>
+<span class="go">  'fMaxIndex': array([0, 0, 0, 0, 0], dtype='&gt;i4'),</span>
+<span class="go">  'fTypeName': 'TArrayI'}]</span>
 </pre></div>
 </div>
 </div>
@@ -728,26 +727,26 @@ example, storing <code class="docutils literal notranslate"><span class="pre">TS
 per member:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
 
-<span class="n">f</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;demo_data.root&quot;</span><span class="p">)</span>
-<span class="n">f</span><span class="p">[</span><span class="s2">&quot;my_tree/simple_obj&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">"demo_data.root"</span><span class="p">)</span>
+<span class="n">f</span><span class="p">[</span><span class="s2">"my_tree/simple_obj"</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <div class="literal-block-wrapper docutils container" id="id8">
 <div class="code-block-caption"><span class="caption-text">Output</span><a class="headerlink" href="#id8" title="Link to this code">#</a></div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">name                                     | typename                 | interpretation</span>
 <span class="go">-----------------------------------------+--------------------------+-------------------------------</span>
-<span class="go">simple_obj                               | TSimpleObject            | AsGroup(&lt;TBranchElement &#39;simpl</span>
-<span class="go">TObject                                  | (group of fUniqueID:u... | AsGroup(&lt;TBranchElement &#39;TO...</span>
-<span class="go">TObject/fUniqueID                        | uint32_t                 | AsDtype(&#39;&gt;u4&#39;)</span>
-<span class="go">TObject/fBits                            | uint32_t                 | AsDtype(&#39;&gt;u4&#39;)</span>
-<span class="go">m_int                                    | int32_t                  | AsDtype(&#39;&gt;i4&#39;)</span>
+<span class="go">simple_obj                               | TSimpleObject            | AsGroup(&lt;TBranchElement 'simpl</span>
+<span class="go">TObject                                  | (group of fUniqueID:u... | AsGroup(&lt;TBranchElement 'TO...</span>
+<span class="go">TObject/fUniqueID                        | uint32_t                 | AsDtype('&gt;u4')</span>
+<span class="go">TObject/fBits                            | uint32_t                 | AsDtype('&gt;u4')</span>
+<span class="go">m_int                                    | int32_t                  | AsDtype('&gt;i4')</span>
 <span class="go">m_str                                    | std::string              | AsStrings(header_bytes=6)</span>
-<span class="go">m_arr_int[5]                             | int32_t[5]               | AsDtype(&quot;(&#39;&gt;i4&#39;, (5,))&quot;)</span>
-<span class="go">m_vec_double                             | std::vector&lt;double&gt;      | AsJagged(AsDtype(&#39;&gt;f8&#39;), he...</span>
-<span class="go">m_map_int_double                         | map&lt;int,double&gt;          | AsGroup(&lt;TBranchElement &#39;m_...</span>
-<span class="go">m_map_int_double/m_map_int_double.first  | int32_t[]                | AsJagged(AsDtype(&#39;&gt;i4&#39;))</span>
-<span class="go">m_map_int_double/m_map_int_double.second | double[]                 | AsJagged(AsDtype(&#39;&gt;f8&#39;))</span>
-<span class="go">m_map_str_str                            | map&lt;string,TString&gt;      | AsGroup(&lt;TBranchElement &#39;m_...</span>
+<span class="go">m_arr_int[5]                             | int32_t[5]               | AsDtype("('&gt;i4', (5,))")</span>
+<span class="go">m_vec_double                             | std::vector&lt;double&gt;      | AsJagged(AsDtype('&gt;f8'), he...</span>
+<span class="go">m_map_int_double                         | map&lt;int,double&gt;          | AsGroup(&lt;TBranchElement 'm_...</span>
+<span class="go">m_map_int_double/m_map_int_double.first  | int32_t[]                | AsJagged(AsDtype('&gt;i4'))</span>
+<span class="go">m_map_int_double/m_map_int_double.second | double[]                 | AsJagged(AsDtype('&gt;f8'))</span>
+<span class="go">m_map_str_str                            | map&lt;string,TString&gt;      | AsGroup(&lt;TBranchElement 'm_...</span>
 <span class="go">m_map_str_str/m_map_str_str.first        | std::string[]            | AsObjects(AsArray(True, Fal...</span>
 <span class="go">m_map_str_str/m_map_str_str.second       | TString                  | AsStrings()</span>
 <span class="go">m_tstr                                   | TString                  | AsStrings()</span>
@@ -759,7 +758,7 @@ per member:</p>
 <p>However, when the class is stored as a c-style array element — for instance,
 <code class="docutils literal notranslate"><span class="pre">TCStyleArray</span></code> defined <a class="reference internal" href="#demo-classes"><span class="xref myst">above</span></a> — ROOT does <strong>not</strong> split the
 members:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;my_tree/cstyle_array&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">[</span><span class="s2">"my_tree/cstyle_array"</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <div class="literal-block-wrapper docutils container" id="id9">
@@ -777,7 +776,7 @@ members:</p>
 <p>Use <code class="docutils literal notranslate"><span class="pre">AsBinary</span></code> to pull the uninterpreted byte stream of a branch:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot.interpretations.custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsBinary</span>
 
-<span class="n">raw_binary</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;my_tree/cstyle_array/m_simple_obj[3]&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">interpretation</span><span class="o">=</span><span class="n">AsBinary</span><span class="p">())</span>
+<span class="n">raw_binary</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">"my_tree/cstyle_array/m_simple_obj[3]"</span><span class="p">]</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">interpretation</span><span class="o">=</span><span class="n">AsBinary</span><span class="p">())</span>
 
 <span class="c1"># Binary data of entry 0</span>
 <span class="n">raw_binary</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
