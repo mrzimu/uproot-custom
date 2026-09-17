@@ -797,6 +797,10 @@ window.runMermaid = runMermaid;</script>
     <span class="n">all_streamer_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]],</span>
     <span class="n">item_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
 <span class="p">):</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="s2">"read_branch is deprecated, use read_branch_with_factory instead."</span><span class="p">,</span> <span class="ne">DeprecationWarning</span>
+    <span class="p">)</span>
+
     <span class="n">factory</span> <span class="o">=</span> <span class="n">build_factory</span><span class="p">(</span>
         <span class="n">cur_streamer_info</span><span class="p">,</span>
         <span class="n">all_streamer_info</span><span class="p">,</span>
@@ -807,6 +811,47 @@ window.runMermaid = runMermaid;</script>
 
     <span class="k">if</span> <span class="n">offsets</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">nbyte</span> <span class="o">=</span> <span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">"fSize"</span><span class="p">]</span>
+        <span class="n">offsets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="n">nbyte</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span> <span class="o">*</span> <span class="n">nbyte</span>
+
+    <span class="n">backend_val</span> <span class="o">=</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">backend_val</span> <span class="o">==</span> <span class="s2">"cpp"</span><span class="p">:</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">build_cpp_reader</span><span class="p">()</span>
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">cpp</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">cursor_offset</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">backend_val</span> <span class="o">==</span> <span class="s2">"python"</span><span class="p">:</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">build_python_reader</span><span class="p">()</span>
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">cursor_offset</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">backend_val</span> <span class="o">==</span> <span class="s2">"forth"</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s1">'"forth" reader is only for testing and benchmarking. It is not recommended for production use.'</span><span class="p">,</span>
+            <span class="ne">UserWarning</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">buffer_holder</span> <span class="o">=</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">BufferHolder</span><span class="p">()</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">build_forth_reader</span><span class="p">(</span><span class="n">buffer_holder</span><span class="p">)</span>
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">_forth</span><span class="o">.</span><span class="n">read_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown reader backend: </span><span class="si">{</span><span class="n">backend_val</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">factory</span><span class="o">.</span><span class="n">make_awkward_content</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="read_branch_with_factory">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.factories.read_branch_with_factory">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_branch_with_factory</span><span class="p">(</span>
+    <span class="n">factory</span><span class="p">:</span> <span class="n">Factory</span><span class="p">,</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">],</span>
+    <span class="n">offsets</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">cursor_offset</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">nbyte</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="k">if</span> <span class="n">offsets</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">nbyte</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"nbyte must be specified if offsets is None"</span><span class="p">)</span>
         <span class="n">offsets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="n">nbyte</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span> <span class="o">*</span> <span class="n">nbyte</span>
 
     <span class="n">backend_val</span> <span class="o">=</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">readers</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>

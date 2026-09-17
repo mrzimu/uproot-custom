@@ -714,7 +714,7 @@ window.runMermaid = runMermaid;</script>
 <span class="kn">import</span><span class="w"> </span><span class="nn">uproot.interpretation.custom</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">uproot.behaviors.TBranch</span><span class="w"> </span><span class="kn">import</span> <span class="n">_branch_clean_name</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.factories</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_branch</span><span class="p">,</span> <span class="n">read_branch_awkward_form</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.factories</span><span class="w"> </span><span class="kn">import</span> <span class="n">Factory</span><span class="p">,</span> <span class="n">build_factory</span><span class="p">,</span> <span class="n">read_branch_with_factory</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_dims_from_branch</span><span class="p">,</span> <span class="n">regularize_object_path</span>
 
 
@@ -745,6 +745,7 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">_context</span> <span class="o">=</span> <span class="n">context</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_simplify</span> <span class="o">=</span> <span class="n">simplify</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_typename</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="p">:</span> <span class="n">Factory</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># try to fix streamer, due to a reverted PR https://github.com/scikit-hep/uproot5/pull/1505</span>
         <span class="k">if</span> <span class="n">branch</span><span class="o">.</span><span class="n">streamer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -774,6 +775,15 @@ window.runMermaid = runMermaid;</script>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">branch</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">streamers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">cur_infos</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">all_members</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span><span class="o">.</span><span class="n">member</span><span class="p">(</span><span class="s2">"fElements"</span><span class="p">)]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">all_streamer_info</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">cur_infos</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cls_streamer_info</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="o">.</span><span class="n">streamer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cls_streamer_info</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">"fName"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">"fTypeName"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">typename</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cls_streamer_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">all_members</span>
 
 <div class="viewcode-block" id="AsCustom.match_branch">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.as_custom.AsCustom.match_branch">[docs]</a>
@@ -825,6 +835,21 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        The cache key of the interpretation.</span>
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">factory</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Factory</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">full_branch_path</span> <span class="o">=</span> <span class="n">regularize_object_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="o">.</span><span class="n">object_path</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span> <span class="o">=</span> <span class="n">build_factory</span><span class="p">(</span>
+                <span class="n">cur_streamer_info</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cls_streamer_info</span><span class="p">,</span>
+                <span class="n">all_streamer_info</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">all_streamer_info</span><span class="p">,</span>
+                <span class="n">item_path</span><span class="o">=</span><span class="n">full_branch_path</span><span class="p">,</span>
+                <span class="n">called_from_top</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">branch</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
@@ -878,24 +903,12 @@ window.runMermaid = runMermaid;</script>
         <span class="k">assert</span> <span class="n">library</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">"ak"</span><span class="p">,</span> <span class="s2">"Only awkward arrays are supported"</span>
         <span class="k">assert</span> <span class="n">branch</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="p">,</span> <span class="s2">"Branch mismatch"</span>
 
-        <span class="n">full_branch_path</span> <span class="o">=</span> <span class="n">regularize_object_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="o">.</span><span class="n">object_path</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="o">.</span><span class="n">streamer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">cls_streamer_info</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">"fName"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                <span class="s2">"fTypeName"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">typename</span><span class="p">,</span>
-            <span class="p">}</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">cls_streamer_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">all_members</span>
-
-        <span class="k">return</span> <span class="n">read_branch</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="p">,</span>
+        <span class="k">return</span> <span class="n">read_branch_with_factory</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">factory</span><span class="p">,</span>
             <span class="n">data</span><span class="p">,</span>
             <span class="n">byte_offsets</span><span class="p">,</span>
             <span class="n">cursor_offset</span><span class="p">,</span>
-            <span class="n">cls_streamer_info</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">all_streamer_info</span><span class="p">,</span>
-            <span class="n">full_branch_path</span><span class="p">,</span>
+            <span class="n">nbyte</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cls_streamer_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"fSize"</span><span class="p">),</span>
         <span class="p">)</span></div>
 
 
@@ -911,23 +924,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">breadcrumbs</span><span class="o">=</span><span class="p">(),</span>
     <span class="p">):</span>
         <span class="k">assert</span> <span class="n">file</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="s2">"File mismatch"</span>
-
-        <span class="n">full_branch_path</span> <span class="o">=</span> <span class="n">regularize_object_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="o">.</span><span class="n">object_path</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="o">.</span><span class="n">streamer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">cls_streamer_info</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">"fName"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                <span class="s2">"fTypeName"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">typename</span><span class="p">,</span>
-            <span class="p">}</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">cls_streamer_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="o">.</span><span class="n">streamer</span><span class="o">.</span><span class="n">all_members</span>
-
-        <span class="k">return</span> <span class="n">read_branch_awkward_form</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_branch</span><span class="p">,</span>
-            <span class="n">cls_streamer_info</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">all_streamer_info</span><span class="p">,</span>
-            <span class="n">full_branch_path</span><span class="p">,</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">make_awkward_form</span><span class="p">()</span></div>
 </div>
 
 </pre></div>
