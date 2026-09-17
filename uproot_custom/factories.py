@@ -87,6 +87,10 @@ def read_branch(
     all_streamer_info: dict[str, list[dict]],
     item_path: str = "",
 ):
+    warnings.warn(
+        "read_branch is deprecated, use read_branch_with_factory instead.", DeprecationWarning
+    )
+
     factory = build_factory(
         cur_streamer_info,
         all_streamer_info,
@@ -97,6 +101,44 @@ def read_branch(
 
     if offsets is None:
         nbyte = cur_streamer_info["fSize"]
+        offsets = np.arange(data.size // nbyte + 1, dtype=np.uint32) * nbyte
+
+    backend_val = uproot_custom.readers.backend.get()
+
+    if backend_val == "cpp":
+        reader = factory.build_cpp_reader()
+        raw_data = uproot_custom.readers.cpp.read_data(data, offsets, cursor_offset, reader)
+
+    elif backend_val == "python":
+        reader = factory.build_python_reader()
+        raw_data = uproot_custom.readers.python.read_data(data, offsets, cursor_offset, reader)
+
+    elif backend_val == "forth":
+        warnings.warn(
+            '"forth" reader is only for testing and benchmarking. It is not recommended for production use.',
+            UserWarning,
+        )
+
+        buffer_holder = uproot_custom.readers._forth.BufferHolder()
+        reader = factory.build_forth_reader(buffer_holder)
+        raw_data = uproot_custom.readers._forth.read_data(data, offsets, reader)
+
+    else:
+        raise ValueError(f"Unknown reader backend: {backend_val}.")
+
+    return factory.make_awkward_content(raw_data)
+
+
+def read_branch_with_factory(
+    factory: Factory,
+    data: np.ndarray[np.uint8],
+    offsets: np.ndarray,
+    cursor_offset: int,
+    nbyte: int | None = None,
+):
+    if offsets is None:
+        if nbyte is None:
+            raise ValueError("nbyte must be specified if offsets is None")
         offsets = np.arange(data.size // nbyte + 1, dtype=np.uint32) * nbyte
 
     backend_val = uproot_custom.readers.backend.get()
