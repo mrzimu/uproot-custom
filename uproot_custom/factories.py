@@ -87,6 +87,10 @@ def read_branch(
     all_streamer_info: dict[str, list[dict]],
     item_path: str = "",
 ):
+    warnings.warn(
+        "read_branch is deprecated, use read_branch_with_factory instead.", DeprecationWarning
+    )
+
     factory = build_factory(
         cur_streamer_info,
         all_streamer_info,
