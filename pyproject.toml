@@ -48,7 +48,7 @@ classifiers = [
   "Topic :: Software Development",
   "Topic :: Utilities"
 ]
-dependencies = ["uproot>=5.6.7", "numpy", "awkward>=2.8.0"]
+dependencies = ["uproot>=5.6.7", "numpy", "awkward>=2.8.0", "detree-vm"]
 description = "Uproot extension for reading custom classes"
 dynamic = ["version"]
 name = "uproot-custom"
@@ -58,12 +58,6 @@ urls = { "Homepage" = "https://github.com/mrzimu/uproot-custom" }
 
 [project.entry-points."cmake.root"]
 uproot-custom = "uproot_custom.share.cmake"
-
-[project.optional-dependencies]
-# The experimental detree reader backend compiles native readers and
-# executes them on the standalone Detree virtual machine.  The other backends
-# do not need this.
-detree = ["detree-vm"]
 
 [tool.black]
 exclude = "/(build|dist|env|.git|.tox|.eggs|.venv)/"
