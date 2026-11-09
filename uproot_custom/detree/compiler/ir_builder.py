@@ -127,7 +127,7 @@ class IRFunctionBuilder:
             self.emit(nodes.Assign(_value(rd), _value(ra)))
         elif op in (Op.ZEXT8, Op.ZEXT16, Op.ZEXT32, Op.SEXT8, Op.SEXT16, Op.SEXT32):
             kind = "zext" if op.name.startswith("ZEXT") else "sext"
-            width = int(op.name[-2:])
+            width = int(op.name[4:])
             self.emit(nodes.Assign(_value(rd), nodes.Cast(kind, width, _value(ra))))
         elif op in _ARITHMETIC or op in _COMPARISONS or op in _UNARY:
             self._emit_expr(op, rd, ra, rb)
