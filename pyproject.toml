@@ -23,7 +23,7 @@ ipynb = ["ipykernel"]
 numba = ["numba", "black", "pytest-xdist"]
 
 [project]
-authors = [{name = "Mingrun Li", email = "mrli@ihep.ac.cn"}]
+authors = [{ name = "Mingrun Li", email = "mrli@ihep.ac.cn" }]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
@@ -55,7 +55,7 @@ dynamic = ["version"]
 name = "uproot-custom"
 readme = "README.md"
 requires-python = ">=3.9, <3.15"
-urls = {"Homepage" = "https://github.com/mrzimu/uproot-custom"}
+urls = { "Homepage" = "https://github.com/mrzimu/uproot-custom" }
 
 [project.entry-points."cmake.root"]
 uproot-custom = "uproot_custom.share.cmake"
