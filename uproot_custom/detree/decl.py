@@ -3,10 +3,11 @@ from __future__ import annotations
 import ast
 import inspect
 import textwrap
+from typing import Literal
 
 import numpy as np
 
-from uproot_custom.consts import _MISSING, TYPECODE
+from uproot_custom.consts import _MISSING, DTYPE_TO_TYPECODE, TYPECODE
 from uproot_custom.detree.bufferproxy import BufferProxy
 from uproot_custom.detree.stream import Stream
 
@@ -116,30 +117,70 @@ def _check_typecode(typecode):
     return typecode
 
 
+def _to_typecode(value):
+    """
+    Normalise a buffer's element type to a fixed-width typecode.
+
+    Accepts a typecode (``"i"``), a NumPy dtype (``np.int32``,
+    ``np.dtype("i4")``) or a dtype string (``"int32"``, ``"<i4"``).  A dtype
+    name is looked up by its normalised name, so byte order and aliases do not
+    matter; only the fixed-width dtypes the machine can read are accepted.
+    """
+    if isinstance(value, str):
+        if value in _BUFFER_TYPECODES:
+            return value
+        if value in ("l", "L"):
+            # A single letter reads as a typecode first; ``l``/``L`` are the
+            # platform-dependent codes the machine has no coercer for.
+            raise TypeError(
+                f"Buffer: unsupported typecode {value!r}; "
+                f"use one of {', '.join(_BUFFER_TYPECODES)}"
+            )
+
+    try:
+        name = np.dtype(value).name
+    except (TypeError, ValueError):
+        raise TypeError(f"Buffer: {value!r} is not a typecode or a NumPy dtype") from None
+
+    if name not in DTYPE_TO_TYPECODE:
+        raise TypeError(
+            f"Buffer: unsupported dtype {value!r}; "
+            f"use one of {', '.join(sorted(DTYPE_TO_TYPECODE))}"
+        )
+    return DTYPE_TO_TYPECODE[name]
+
+
 class Buffer(_Field):
+    """
+    A typed buffer that a read path appends to.
+
+    The element type is a ``struct`` typecode (``"i"``), a NumPy dtype
+    (``np.int32``, ``np.dtype("i4")``) or a dtype string (``"int32"``); all
+    forms normalise to the fixed-width typecode the machine stores.
+    """
+
     def __init__(
         self,
-        typecode: TYPECODE | None = None,
+        type: TYPECODE | np.dtype | type | str | None = None,
         *,
         init=(),
         from_const: str | None = None,
-        kind: str = "data",
+        kind: Literal["data", "offsets"] = "data",
     ):
-        if typecode is None and from_const is None:
-            raise TypeError("Buffer: pass a typecode or name a Const field in from_const")
-        if kind not in ("data", "offsets", "count"):
-            raise TypeError("Buffer: kind must be 'data', 'offsets', or 'count'")
-        if typecode is not None:
-            _check_typecode(typecode)
+        if type is None and from_const is None:
+            raise TypeError("Buffer: pass a type or name a Const field in from_const")
+        if kind not in ("data", "offsets"):
+            raise TypeError("Buffer: kind must be 'data' or 'offsets'")
 
-        self.typecode = typecode
+        self.typecode = None if type is None else _to_typecode(type)
         self.init = tuple(init)
         self.from_const = from_const
         self.kind = kind
 
     def resolve_typecode(self, reader) -> TYPECODE:
         """
-        The typecode of this buffer in *reader*, after its constants are set.
+        The normalised typecode of this buffer in *reader*, after its
+        constants are set.
 
         A reader whose element type is a constructor argument (a primitive, a
         `TArray`) names that `Const` field in `from_const`, so one class

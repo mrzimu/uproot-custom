@@ -9,7 +9,8 @@ constants and sub-readers as fields and leaves `read` free of allocation and
 of `raise`, which is what lets the JIT compile it.
 
 Buffers are declared with a `struct` typecode (`"i"`, `"q"`, `"d"`,
-...), not a NumPy dtype name; `Buf` maps the typecode to the array dtype.
+...), a NumPy dtype or a dtype string; `Buffer` normalises all three to one
+fixed-width typecode and `Buf` maps it to the array dtype.
 
 Nothing is interpreted at run time: `read` / `read_many` / `read_until` /
 `read_many_memberwise` exist only as source for the frontend, and `data`

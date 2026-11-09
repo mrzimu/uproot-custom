@@ -134,13 +134,37 @@ def test_buffer_from_const_follows_the_constant():
 
 
 def test_buffer_requires_a_typecode_or_a_constant():
-    with pytest.raises(TypeError, match="pass a typecode or name a Const"):
+    with pytest.raises(TypeError, match="pass a type or name a Const"):
         Buffer()
 
 
 def test_buffer_rejects_a_platform_dependent_typecode():
     with pytest.raises(TypeError, match="unsupported typecode"):
         Buffer("l")
+
+
+def test_buffer_accepts_a_numpy_dtype():
+    assert Buffer(np.int32).typecode == "i"
+    assert Buffer(np.uint64).typecode == "Q"
+    assert Buffer(np.float32).typecode == "f"
+    assert Buffer(np.bool_).typecode == "B"
+    assert Buffer(np.dtype("int16")).typecode == "h"
+    assert Buffer(np.dtype("<f8")).typecode == "d"
+
+
+def test_buffer_accepts_a_dtype_string():
+    assert Buffer("int64").typecode == "q"
+    assert Buffer("uint8").typecode == "B"
+    assert Buffer("float64").typecode == "d"
+    assert Buffer("<u4").typecode == "I"
+    assert Buffer(">i2").typecode == "h"
+
+
+def test_buffer_rejects_an_unsupported_dtype():
+    with pytest.raises(TypeError, match="unsupported dtype"):
+        Buffer(np.complex128)
+    with pytest.raises(TypeError, match="is not a typecode or a NumPy dtype"):
+        Buffer(object())
 
 
 def test_builtin_readers_resolve_their_element_typecode():

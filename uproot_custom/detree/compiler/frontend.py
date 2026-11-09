@@ -74,7 +74,6 @@ BUFFER_DTYPES = {
 BUFFER_KINDS = {
     "data": BufferKind.DATA,
     "offsets": BufferKind.OFFSETS,
-    "count": BufferKind.COUNT,
 }
 
 BINARY_OPS = {
