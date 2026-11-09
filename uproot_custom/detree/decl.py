@@ -259,7 +259,7 @@ class Reader:
 
         # combine ancestor's fields with the declared fields, override any with the same name
         names = {f.name for f in declared} | inherited_names
-        fields = tuple([f for f in inherited if f.name not in names] + declared)
+        fields = inherited + tuple(declared)
 
         for bad in ("read", "data", "read_many", "read_until", "read_many_memberwise"):
             if bad in names:
