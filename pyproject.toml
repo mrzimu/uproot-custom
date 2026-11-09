@@ -20,7 +20,6 @@ docs = [
   "breathe"
 ]
 ipynb = ["ipykernel"]
-numba = ["numba", "black", "pytest-xdist"]
 
 [project]
 authors = [{ name = "Mingrun Li", email = "mrli@ihep.ac.cn" }]
@@ -49,7 +48,7 @@ classifiers = [
   "Topic :: Software Development",
   "Topic :: Utilities"
 ]
-dependencies = ["uproot>=5.6.7", "numpy", "awkward>=2.8.0"]
+dependencies = ["uproot>=5.6.7", "numpy", "awkward>=2.8.0", "detree-vm"]
 description = "Uproot extension for reading custom classes"
 dynamic = ["version"]
 name = "uproot-custom"
@@ -68,10 +67,13 @@ target-version = ["py39", "py310", "py311", "py312", "py313", "py314"]
 [tool.cibuildwheel]
 build = ["cp*-manylinux_x86_64", "cp*-macosx_arm64", "cp*-win_amd64"]
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
 [tool.scikit-build]
 build-dir = "build/{wheel_tag}"
 cmake.build-type = "Release"
-cmake.source-dir = "cpp"
+cmake.source-dir = "kernel"
 metadata.version.provider = "scikit_build_core.metadata.setuptools_scm"
 sdist.exclude = ["tools"]
 sdist.include = ["uproot_custom/_version.py"]

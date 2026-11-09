@@ -1,15 +1,9 @@
 # Customize Reader & Factory
 
-This tutorial walks you through implementing a custom `Factory` and `Reader`
-pair for a ROOT class that uproot-custom's built-in factories cannot handle —
-for example, a class that overrides its `Streamer` method or uses an
-unsupported data layout.
+This tutorial walks you through implementing a custom `Factory` and `Reader` pair for a ROOT class that uproot-custom's built-in factories cannot handle — for example, a class that overrides its `Streamer` method or uses an unsupported data layout.
 
 ```{important}
-The default reader backend is **C++**. During development, you should explicitly
-use ``backend.set("python")`` or ``with backend.use("python"):`` to use your
-Python reader. Once the Python reader is validated, port it to C++ and switch
-back to the default C++ backend.
+The default reader backend is **C++**. During development, you should explicitly use `uc.set_backend("python")` or `with uc.use_backend("python"):` to use your Python reader. Once the Python reader is validated, port it to C++ and switch back to the default C++ backend.
 ```
 
 ## What you will build
@@ -17,8 +11,7 @@ back to the default C++ backend.
 By the end of this tutorial you will have:
 
 - A **Python reader** that decodes binary data from the ROOT byte stream.
-- A **Python factory** that creates the reader, converts raw arrays into
-  `awkward` arrays, and describes the data layout for lazy evaluation.
+- A **Python factory** that creates the reader, converts raw arrays into `awkward` arrays, and describes the data layout for lazy evaluation.
 - A **registration** step so Uproot picks up your custom code automatically.
 - A **C++ reader** for production-level performance.
 
@@ -28,8 +21,7 @@ By the end of this tutorial you will have:
 ---
 class: note
 ---
-- A Python toolchain capable of building Python packages (e.g. `pip`,
-  `setuptools`, `scikit-build-core`)
+- A Python toolchain capable of building Python packages (e.g. `pip`, `setuptools`, `scikit-build-core`)
 - **C++17 compatible compiler** (e.g., GCC ≥ 7, Clang ≥ 5, MSVC ≥ 19.15) for building C++ readers
 - CMake ≥ 3.20 for building native extensions
 ```
@@ -47,9 +39,7 @@ Follow the pages below in order. Each page builds on the previous one:
 | 5 | [Port readers to C++](customize-factory-reader/port-to-cpp.md) | Port the reader logic to C++ for production speed. |
 
 ```{tip}
-If you are in a hurry, start with **Step 1** to see the big picture and a
-complete minimal example you can adapt. Then jump to **Step 4** to set up
-your project and fill in the details using the API reference in **Step 3**.
+If you are in a hurry, start with **Step 1** to see the big picture and a complete minimal example you can adapt. Then jump to **Step 4** to set up your project and fill in the details using the API reference in **Step 3**.
 ```
 
 ```{toctree}

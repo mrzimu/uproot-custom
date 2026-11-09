@@ -12,12 +12,14 @@ from typing import Any, Callable, Literal
 import numpy as np
 from numpy.typing import NDArray
 
-kNewClassTag = 0xFFFFFFFF
-kByteCountMask = 0x40000000
-kClassMask = 0x80000000
-kIsReferenced = 1 << 4
-kStreamedMemberwise = 1 << 14
-kMapOffset = 2
+from uproot_custom.consts import (
+    kByteCountMask,
+    kClassMask,
+    kIsReferenced,
+    kMapOffset,
+    kNewClassTag,
+    kStreamedMemberwise,
+)
 
 
 def debug_print(*args, **kwargs):

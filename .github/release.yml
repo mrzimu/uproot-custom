@@ -1,8 +1,8 @@
 changelog:
   categories:
-    - title: C++ API Changes
+    - title: Breaking Changes
       labels:
-        - break cpp
+        - break
     - title: New Features
       labels:
         - feature

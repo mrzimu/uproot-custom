@@ -1,4 +1,4 @@
-# Introduction
+# Uproot-custom
 
 Uproot-custom is an extension of [Uproot](https://uproot.readthedocs.io/en/latest/basic.html) that provides an enhanced way to read custom classes stored in `TTree`.
 
@@ -28,7 +28,7 @@ flowchart TD
         fac --> build_ak(["construct awkward arrays"])
     end
 
-    subgraph reader_field["Reader (Python or C++)"]
+    subgraph reader_field["Reader (Python, C++, or detree-compiled)"]
         direction TB
         build_reader --> reader["Reader"]
         reader --> read_bin(["read binary data"])
@@ -39,13 +39,13 @@ flowchart TD
     raw_data --> build_ak
 ```
 
-- `Reader` is a class that implements the logic to read data from binary streams. It can be written in **Python** (for development and debugging) or **C++** (for production performance).
+- `Reader` is a class that implements the logic to read data from binary streams. It can be written in **Python** (for development and debugging), **C++** (for production performance), or as a declarative reader that the experimental **detree** backend compiles and runs on the Detree virtual machine.
 - `Factory` is a Python class that creates, combines `Reader`s, and post-processes the data read by `Reader`s.
 
-This mechanism is implemented as `AsCustom` interpretation. This makes uproot-custom well compatible with Uproot.
+This mechanism is implemented as `AsCustom` interpretation. The byte-level reader is selected by the reader backend (`cpp` by default, `python`, `forth`, or `detree`). This makes uproot-custom well compatible with Uproot.
 
 ```{tip}
-Users can implement their own Factory and Reader, register them to uproot-custom. Start with a **Python reader** for rapid prototyping, then port the logic to **C++** for production speed. The default reader backend is C++; during development, explicitly set the backend to Python. An example of implementing a custom Factory / Reader can be found in [the example repository](https://github.com/mrzimu/uproot-custom-example).
+Users can implement their own Factory and Reader, register them to uproot-custom. Start with a **Python reader** for rapid prototyping, then port the logic to **C++** for production speed. The default reader backend is C++; during development, explicitly set the backend to Python. An experimental `detree` backend compiles a declarative reader tree and runs it on the Detree virtual machine. An example of implementing a custom Factory / Reader can be found in [the example repository](https://github.com/mrzimu/uproot-custom-example).
 ```
 
 ```{note}
@@ -58,14 +58,6 @@ maxdepth: 2
 hidden: true
 ---
 get-started
-```
-
-```{toctree}
----
-maxdepth: 2
-hidden: true
-caption: Customization
----
 tutorial/customize-factory-reader
 ```
 
@@ -78,6 +70,7 @@ caption: Reference
 reference/version-requirements
 reference/binary-format
 reference/reader-backends
+reference/detree-stack
 reference/api
 ```
 

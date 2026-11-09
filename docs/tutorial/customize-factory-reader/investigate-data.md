@@ -1,27 +1,21 @@
 # Investigate your data
 
-Before writing a custom reader or factory, you need to understand two things
-about the branch you want to read:
+Before writing a custom reader or factory, you need to understand two things about the branch you want to read:
 
-1. **Streamer information** — the metadata that describes the class layout
-   (field names, types, nesting).
+1. **Streamer information** — the metadata that describes the class layout (field names, types, nesting).
 2. **Binary format** — the raw byte sequence that ROOT writes for each entry.
 
-This page covers both topics in order. By the end you will know exactly what
-bytes your reader must consume.
+This page covers both topics in order. By the end you will know exactly what bytes your reader must consume.
 
 ---
 
 ## Streamer information
 
-When ROOT writes a custom class to a file, it also writes the class's *streamer
-information*: a machine-readable description of every data member and its type.
-Understanding this metadata is the first step toward implementing a reader.
+When ROOT writes a custom class to a file, it also writes the class's *streamer information*: a machine-readable description of every data member and its type. Understanding this metadata is the first step toward implementing a reader.
 
 ### Demo classes
 
-Throughout this page we use two demo classes, `TSimpleObject` and
-`TCStyleArray`:
+Throughout this page we use two demo classes, `TSimpleObject` and `TCStyleArray`:
 
 ```{code-block} cpp
 ---
@@ -98,8 +92,7 @@ caption: Output
 ```
 
 ```{seealso}
-All Uproot streamer classes are documented in
-[the Uproot documentation](https://uproot.readthedocs.io/en/latest/uproot.streamers.html).
+All Uproot streamer classes are documented in [the Uproot documentation](https://uproot.readthedocs.io/en/latest/uproot.streamers.html).
 ```
 
 ### Human-readable summary
@@ -270,16 +263,12 @@ Each dictionary maps to one data member of `TSimpleObject`. Key attributes:
 | `fMaxIndex` | Maximum index per dimension |
 
 ```{note}
-The [ROOT streamer-info reference](https://root.cern/doc/v636/streamerinfo.html)
-documents these attributes, though some details may be outdated.
+The [ROOT streamer-info reference](https://root.cern/doc/v636/streamerinfo.html) documents these attributes, though some details may be outdated.
 ```
 
 ### Streamer information in uproot-custom
 
-Uproot-custom rearranges the raw Uproot streamer information into a more
-convenient format: a dictionary mapping class names to the list of their data
-members' streamer dictionaries. This rearranged dictionary is what gets passed
-to `Factory.build_factory`.
+Uproot-custom rearranges the raw Uproot streamer information into a more convenient format: a dictionary mapping class names to the list of their data members' streamer dictionaries. This rearranged dictionary is what gets passed to `Factory.build_factory`.
 
 ```{seealso}
 See [](method-build-factory) for the exact signature and format.
@@ -289,15 +278,11 @@ See [](method-build-factory) for the exact signature and format.
 
 ## Binary data
 
-With the streamer information in hand, the next step is to inspect the actual
-bytes ROOT writes for each entry. This lets you validate your understanding of
-the layout before writing any reader code.
+With the streamer information in hand, the next step is to inspect the actual bytes ROOT writes for each entry. This lets you validate your understanding of the layout before writing any reader code.
 
 ### Object splitting
 
-ROOT usually *splits* top-level data members into separate sub-branches. For
-example, storing `TSimpleObject` directly in a `TTree` produces one sub-branch
-per member:
+ROOT usually *splits* top-level data members into separate sub-branches. For example, storing `TSimpleObject` directly in a `TTree` produces one sub-branch per member:
 
 ```python
 import uproot
@@ -331,9 +316,7 @@ m_tarr_int                               | TArrayI                  | AsObjects(
 
 Uproot handles split branches natively, so this case rarely needs uproot-custom.
 
-However, when the class is stored as a c-style array element — for instance,
-`TCStyleArray` defined [above](#demo-classes) — ROOT does **not** split the
-members:
+However, when the class is stored as a c-style array element — for instance, `TCStyleArray` defined [above](#demo-classes) — ROOT does **not** split the members:
 
 ```python
 f["my_tree/cstyle_array"].show()
@@ -377,8 +360,7 @@ This `uint8` array is exactly what your reader will receive.
 ### Understanding the byte layout
 
 ```{note}
-The streaming rules below are summarized empirically. If you find inaccuracies,
-please open an issue or pull request.
+The streaming rules below are summarized empirically. If you find inaccuracies, please open an issue or pull request.
 ```
 
 (nbytes-version-header)=
@@ -391,15 +373,11 @@ Many ROOT objects begin with a **6-byte header**:
 | `fNBytes`  | 4 bytes | `uint32_t` | Remaining byte count (including `fVersion`). The high bit `0x40000000` is always set as a validity marker. |
 | `fVersion` | 2 bytes | `int16_t`  | Class version |
 
-For the first entry above, the first four bytes `64, 0, 0, 223` form `fNBytes`.
-The leading `64` corresponds to the `0x40000000` mask. Stripping the mask gives
-`0x000000DF` = **223**, so the next 223 bytes make up this `TSimpleObject`.
-The following two bytes `0, 1` are the `fVersion` = **1**.
+For the first entry above, the first four bytes `64, 0, 0, 223` form `fNBytes`. The leading `64` corresponds to the `0x40000000` mask. Stripping the mask gives `0x000000DF` = **223**, so the next 223 bytes make up this `TSimpleObject`. The following two bytes `0, 1` are the `fVersion` = **1**.
 
 #### Base class (`TObject`)
 
-After the header, ROOT writes base-class data first. `TObject` contains
-([reference](https://root.cern/doc/v636/tobject.html)):
+After the header, ROOT writes base-class data first. `TObject` contains ([reference](https://root.cern/doc/v636/tobject.html)):
 
 1. `fVersion` (`int16_t`)
 2. `fUniqueID` (`int32_t`)
@@ -443,11 +421,9 @@ After the base class, data members appear in streamer order:
 - `m_str` — `fNBytes` + `fVersion` + length-prefixed content (`std::string`).
 - And so on for every member listed in the [streamer output above](#all-streamer-info-output).
 
-Follow the streamer information member by member and you can decode the entire
-binary payload.
+Follow the streamer information member by member and you can decode the entire binary payload.
 
-[](../../reference/binary-format) provides a summary of the binary formats for
-common ROOT types — useful reference material when implementing your own reader.
+[](../../reference/binary-format) provides a summary of the binary formats for common ROOT types — useful reference material when implementing your own reader.
 
 ---
 
@@ -455,7 +431,5 @@ common ROOT types — useful reference material when implementing your own reade
 ---
 class: hint
 ---
-You now know how to inspect streamer information and decode binary bytes.
-Move on to [Reader & factory interface](reader-and-factory.md) to learn
-the Python APIs and study a full worked example.
+You now know how to inspect streamer information and decode binary bytes. Move on to [Reader & factory interface](reader-and-factory.md) to learn the Python APIs and study a full worked example.
 ```

@@ -47,10 +47,10 @@ html_theme_options = {
     "show_navbar_depth": 2,
     "navigation_depth": 2,
     "show_toc_level": 2,
-    "home_page_in_toc": True,
+    "home_page_in_toc": False,
 }
 
-html_title = "uproot-custom"
+html_title = "Uproot-custom"
 
 # -- Options for mermaid extension -----------------------------------------------
 # https://sphinxcontrib-mermaid-demo.readthedocs.io/en/latest/index.html
@@ -113,7 +113,7 @@ breathe_projects = {
 }
 breathe_default_project = "uproot_custom_cpp"
 breathe_projects_source = {
-    "auto": ("../cpp", ["include/uproot-custom/uproot-custom.hh", "src/uproot-custom.cc"]),
+    "auto": ("../kernel", ["include/uproot-custom/uproot-custom.hh", "src/uproot-custom.cc"]),
 }
 
 sys.path.insert(0, str(Path(__file__).parent.parent.resolve() / "doxygen" / "xml"))

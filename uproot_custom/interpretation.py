@@ -1,3 +1,26 @@
+"""
+The uproot plumbing the `AsCustom` interpretation needs, and nothing else.
+
+An uproot `Interpretation` has to answer five questions: does this branch match
+(`match_branch`), what is its C++ type name, how is it cached, how are the
+per-basket arrays joined, and what awkward form does it produce.  Answering them
+means reading the branch's streamer info and building a factory -- none of which
+depends on *how* the bytes are then decoded.
+
+`AsCustom` keeps that plumbing and delegates the byte-level read to the reader
+backend selected by `uproot_custom.backend`:
+
+* `cpp` -- the pybind11 readers in `uproot_custom.cpp` (the default);
+* `python` -- the pure-Python readers in `uproot_custom.python`;
+* `forth` -- the experimental Forth readers in `uproot_custom._forth`;
+* `detree` -- declarative readers in `uproot_custom.detree`, compiled to a
+  detree-vm module and executed on a Detree machine.
+
+A factory is the same on every backend: it decides which reader to build and
+how the raw data becomes an awkward array.  Only the byte-level reader differs,
+so a branch must produce the same array whichever backend runs it.
+"""
+
 from __future__ import annotations
 
 from typing import ClassVar
@@ -9,11 +32,22 @@ import uproot.behaviors.TBranch
 import uproot.interpretation.custom
 from uproot.behaviors.TBranch import _branch_clean_name
 
-from uproot_custom.factories import Factory, build_factory, read_branch_with_factory
+from uproot_custom.backend import get_backend
+from uproot_custom.factories import Factory, build_factory
 from uproot_custom.utils import get_dims_from_branch, regularize_object_path
 
 
 class AsCustom(uproot.interpretation.custom.CustomInterpretation):
+    """
+    What both interpretations share: the branch, its streamer info, its factory.
+
+    A subclass supplies its own `target_branches` set and its own
+    `basket_array`; everything else is here.
+    """
+
+    #: Branches this interpretation claims, as regularized object paths.  Every
+    #: subclass overrides it with its own set -- a shared one would make the two
+    #: interpretations claim each other's branches.
     target_branches: ClassVar[set[str]] = set()
 
     def __init__(
@@ -23,22 +57,25 @@ class AsCustom(uproot.interpretation.custom.CustomInterpretation):
         simplify: bool,
     ):
         """
-        Args:
-            branch (:doc:`uproot.behaviors.TBranch.TBranch`): The ``TBranch`` to
-                interpret as an array.
-            context (dict): Auxiliary data used in deserialization.
-            simplify (bool): If True, call
-                :ref:`uproot.interpretation.objects.AsObjects.simplify` on any
-                :doc:`uproot.interpretation.objects.AsObjects` to try to get a
-                more efficient interpretation.
+        Interpret one branch as an array.
 
-        Accept arguments from `uproot.interpretation.identify.interpretation_of`.
+        The arguments come from
+        `uproot.interpretation.identify.interpretation_of`.
+
+        Args:
+            branch: the `TBranch` to interpret as an array.
+            context: auxiliary data used in deserialization.
+            simplify: if True, call
+                `uproot.interpretation.objects.AsObjects.simplify` on any
+                `uproot.interpretation.objects.AsObjects` to try to get a
+                more efficient interpretation.
         """
         self._branch = branch
         self._context = context
         self._simplify = simplify
         self._typename = None
         self._factory: Factory | None = None
+        self._compiled_detree_codes = None
 
         # try to fix streamer, due to a reverted PR https://github.com/scikit-hep/uproot5/pull/1505
         if branch.streamer is None:
@@ -86,17 +123,22 @@ class AsCustom(uproot.interpretation.custom.CustomInterpretation):
         simplify: bool,
     ) -> bool:
         """
+        Return whether this interpretation applies to *branch*.
+
+        The arguments come from
+        `uproot.interpretation.identify.interpretation_of`.
+
         Args:
-            branch (:doc:`uproot.behaviors.TBranch.TBranch`): The ``TBranch`` to
-                interpret as an array.
-            context (dict): Auxiliary data used in deserialization.
-            simplify (bool): If True, call
-                :ref:`uproot.interpretation.objects.AsObjects.simplify` on any
-                :doc:`uproot.interpretation.objects.AsObjects` to try to get a
+            branch: the `TBranch` to interpret as an array.
+            context: auxiliary data used in deserialization.
+            simplify: if True, call
+                `uproot.interpretation.objects.AsObjects.simplify` on any
+                `uproot.interpretation.objects.AsObjects` to try to get a
                 more efficient interpretation.
 
-        Accept arguments from `uproot.interpretation.identify.interpretation_of`,
-        determine whether this interpretation can be applied to the given branch.
+        Returns:
+            True when the branch's regularized object path is registered for
+            this interpretation.
         """
         full_path = regularize_object_path(branch.object_path)
         return full_path in cls.target_branches
@@ -145,7 +187,7 @@ class AsCustom(uproot.interpretation.custom.CustomInterpretation):
         """
         The string representation of the interpretation.
         """
-        return f"AsCustom({self.typename})"
+        return f"{type(self).__name__}({self.typename})"
 
     def final_array(
         self,
@@ -176,8 +218,8 @@ class AsCustom(uproot.interpretation.custom.CustomInterpretation):
 
     def basket_array(
         self,
-        data,
-        byte_offsets,
+        data: np.ndarray,
+        byte_offsets: np.ndarray,
         basket,
         branch,
         context,
@@ -188,13 +230,64 @@ class AsCustom(uproot.interpretation.custom.CustomInterpretation):
         assert library.name == "ak", "Only awkward arrays are supported"
         assert branch is self._branch, "Branch mismatch"
 
-        return read_branch_with_factory(
-            self.factory,
-            data,
-            byte_offsets,
-            cursor_offset,
-            nbyte=self.cls_streamer_info.get("fSize"),
-        )
+        nbyte = self.cls_streamer_info.get("fSize")
+        if byte_offsets is None:
+            if nbyte is None:
+                raise ValueError("nbyte must be specified if offsets is None")
+            byte_offsets = np.arange(data.size // nbyte + 1, dtype=np.uint32) * nbyte
+
+        backend_val = get_backend()
+
+        if backend_val == "cpp":
+            import uproot_custom.cpp
+
+            reader = self.factory.build_cpp_reader()
+            raw_data = uproot_custom.cpp.read_data(data, byte_offsets, cursor_offset, reader)
+
+        elif backend_val == "python":
+            import uproot_custom.python
+
+            reader = self.factory.build_python_reader()
+            raw_data = uproot_custom.python.read_data(
+                data, byte_offsets, cursor_offset, reader
+            )
+
+        elif backend_val == "forth":
+            import warnings
+
+            import uproot_custom._forth
+
+            warnings.warn(
+                '"forth" reader is only for testing and benchmarking. It is not recommended for production use.',
+                UserWarning,
+            )
+
+            buffer_holder = uproot_custom._forth.BufferHolder()
+            reader = self.factory.build_forth_reader(buffer_holder)
+            raw_data = uproot_custom._forth.read_data(data, byte_offsets, reader)
+
+        elif backend_val == "detree":
+            from uproot_custom.detree.run import apply_outputs, compiled_for_reader, run
+
+            reader = self.factory.build_detree_reader()
+            if self._compiled_detree_codes is None:
+                self._compiled_detree_codes = compiled_for_reader(reader)
+
+            outputs, states = run(
+                self._compiled_detree_codes,
+                data,
+                byte_offsets,
+                cursor_offset,
+                nbyte=self.cls_streamer_info.get("fSize"),
+            )
+
+            apply_outputs(reader, outputs, states)
+            raw_data = reader.data()
+
+        else:
+            raise ValueError(f"Unknown reader backend: {backend_val}.")
+
+        return self.factory.make_awkward_content(raw_data)
 
     def awkward_form(
         self,
@@ -206,4 +299,8 @@ class AsCustom(uproot.interpretation.custom.CustomInterpretation):
         breadcrumbs=(),
     ):
         assert file is self._branch.file, "File mismatch"
+
         return self.factory.make_awkward_form()
+
+
+__all__ = ["AsCustom"]

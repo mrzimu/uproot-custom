@@ -4,23 +4,23 @@ import os
 from contextlib import contextmanager
 from typing import Literal
 
-_BACKEND_OPTIONS = frozenset({"cpp", "python", "forth"})
-_BACKEND_TYPE = Literal["cpp", "python", "forth"]
+_BACKEND_OPTIONS = frozenset({"cpp", "python", "forth", "detree"})
+_BACKEND_TYPE = Literal["cpp", "python", "forth", "detree"]
 
 _backend: _BACKEND_TYPE | None = None
 
 
-def get() -> _BACKEND_TYPE:
+def get_backend() -> _BACKEND_TYPE:
     """
     Return the current reader backend.
 
     The backend is resolved in the following order of priority:
-    explicitly set value via :func:`set` >
+    explicitly set value via :func:`set_backend` >
     `UPROOT_CUSTOM_READER_BACKEND` environment variable >
     default `"cpp"`.
 
     Returns:
-        The current reader backend (`"cpp"`, `"python"`, or `"forth"`).
+        The current reader backend (`"cpp"`, `"python"`, `"forth"`, or `"detree"`).
 
     Raises:
         ValueError: If the `UPROOT_CUSTOM_READER_BACKEND` environment
@@ -40,7 +40,7 @@ def get() -> _BACKEND_TYPE:
     return _backend
 
 
-def set(backend: _BACKEND_TYPE) -> None:
+def set_backend(backend: _BACKEND_TYPE) -> None:
     """
     Set the current reader backend.
 
@@ -49,7 +49,7 @@ def set(backend: _BACKEND_TYPE) -> None:
 
     Args:
         backend: The reader backend to use. Must be one of `"cpp"`,
-            `"python"`, or `"forth"`.
+            `"python"`, `"forth"`, or `"detree"`.
 
     Raises:
         ValueError: If *backend* is not a recognized reader backend.
@@ -65,7 +65,7 @@ def set(backend: _BACKEND_TYPE) -> None:
 
 
 @contextmanager
-def use(backend: _BACKEND_TYPE):
+def use_backend(backend: _BACKEND_TYPE):
     """
     Context manager to temporarily switch the reader backend.
 
@@ -73,21 +73,21 @@ def use(backend: _BACKEND_TYPE):
 
     Example::
 
-        from uproot_custom.readers import backend
+        import uproot_custom as uc
 
-        with backend.use("python"):
+        with uc.use_backend("python"):
             branch.array()
 
     Args:
         backend: The reader backend to use within the context.
-            Must be one of `"cpp"`, `"python"`, or `"forth"`.
+            Must be one of `"cpp"`, `"python"`, `"forth"`, or `"detree"`.
 
     Raises:
         ValueError: If *backend* is not a recognized reader backend.
     """
-    old = get()
-    set(backend)
+    old = get_backend()
+    set_backend(backend)
     try:
         yield
     finally:
-        set(old)
+        set_backend(old)

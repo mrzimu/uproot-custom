@@ -1,10 +1,11 @@
 """
-Type stubs for ROOT C++ reader classes.
+Python re-exports of the compiled ROOT C++ reader classes.
 
-This file contains only type hints without implementations.
+The extension module is `uproot_custom.cpp.kernel`; this package re-exports
+its names so `uproot_custom.cpp.read_data` keeps working.
 """
 
-from uproot_custom.cpp import (
+from uproot_custom.cpp.kernel import (
     AnyClassReader,
     AnyPointerReader,
     CStyleArrayReader,

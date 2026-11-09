@@ -1245,8 +1245,8 @@ namespace uproot_custom {
         return reader->data();
     }
 
-    PYBIND11_MODULE( cpp, m ) {
-        m.doc() = "C++ module for uproot-custom";
+    PYBIND11_MODULE( kernel, m ) {
+        m.doc() = "C++ kernel for uproot-custom";
 
         m.def( "read_data", &py_read_data, "Read data from a binary stream", py::arg( "data" ),
                py::arg( "offsets" ), py::arg( "cursor_offset" ), py::arg( "reader" ) );

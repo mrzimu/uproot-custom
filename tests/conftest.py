@@ -343,49 +343,62 @@ br_pure_struct = [
     "/tree:branch/m_vec_child_ptr",
 ]
 
-for brs in [
-    br_primitive,
-    br_stl_string,
-    br_stl_sequence,
-    br_stl_map,
-    br_root_objects,
-    br_cstyle_array,
-    br_stl_array,
-    br_stl_seq_with_obj,
-    br_stl_map_with_obj,
-    br_stl_nested,
-    br_stl_complicated,
-    br_pointers,
-    br_pure_struct,
-]:
+br_simple_obj = [
+    "/tree:branch/m_int",
+    "/tree:branch/m_str",
+    "/tree:branch/m_arr_int[5]",
+    "/tree:branch/m_vec_double",
+    "/tree:branch/m_map_int_double/m_map_int_double.first",
+    "/tree:branch/m_map_int_double/m_map_int_double.second",
+    "/tree:branch/m_map_str_str/m_map_str_str.first",
+    "/tree:branch/m_map_str_str/m_map_str_str.second",
+    "/tree:branch/m_tstr",
+    "/tree:branch/m_tarr_int",
+]
+
+#: Every fixture file under ``tests/data`` and the branches the tests claim on
+#: it.  ``simple_obj`` stores one object in a single top-level branch, so its
+#: member leaves are claimed individually; claiming the parent would hand
+#: uproot a branch with no baskets of its own.
+TEST_BRANCHES = {
+    "primitive": br_primitive,
+    "stl_string": br_stl_string,
+    "stl_sequence": br_stl_sequence,
+    "stl_map": br_stl_map,
+    "stl_array": br_stl_array,
+    "stl_seq_with_obj": br_stl_seq_with_obj,
+    "stl_map_with_obj": br_stl_map_with_obj,
+    "stl_nested": br_stl_nested,
+    "stl_complicated": br_stl_complicated,
+    "root_objects": br_root_objects,
+    "cstyle_array": br_cstyle_array,
+    "pointers": br_pointers,
+    "pure_struct": br_pure_struct,
+    "simple_obj": br_simple_obj,
+}
+
+for brs in TEST_BRANCHES.values():
     uproot_custom.AsCustom.target_branches |= set(brs)
 
 
 @pytest.fixture(scope="session")
-def prepare_test_contexts():
+def test_branches():
+    """
+    The fixture files and the branches the tests claim on them.
+    """
+    return TEST_BRANCHES
+
+
+@pytest.fixture(scope="session")
+def prepare_test_contexts(test_branches):
     test_data_dir = Path(__file__).parent / "data"
     test_contexts = {}
 
-    for name in [
-        "primitive",
-        "stl_string",
-        "stl_sequence",
-        "stl_map",
-        "stl_array",
-        "stl_seq_with_obj",
-        "stl_map_with_obj",
-        "stl_nested",
-        "stl_complicated",
-        "root_objects",
-        "cstyle_array",
-        "pointers",
-        "pure_struct",
-    ]:
+    for name, branches in test_branches.items():
         test_file = uproot.open(test_data_dir / f"test_{name}.root")
-        test_branches = eval(f"br_{name}")
         test_contexts[name] = {
             "file": test_file,
-            "branches": test_branches,
+            "branches": branches,
         }
 
     yield test_contexts

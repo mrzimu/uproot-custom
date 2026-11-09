@@ -1,20 +1,15 @@
 # Binary format of common classes
 
 ```{attention}
-This page is a growing checklist. Use it alongside the walkthrough in
-[](../tutorial/customize-factory-reader/investigate-data.md) when inspecting bytes.
+This page is a growing checklist. Use it alongside the walkthrough in [](../tutorial/customize-factory-reader/investigate-data.md) when inspecting bytes.
 ```
 
-This section describes the binary format of common ROOT classes, organized by the
-class categories that `uproot-custom` handles. Each category corresponds to a
-pipeline component that matches a C++ type from streamer
-information and navigates the binary bytes.
+This section describes the binary format of common ROOT classes, organized by the class categories that `uproot-custom` handles. Each category corresponds to a pipeline component that matches a C++ type from streamer information and navigates the binary bytes.
 
 Data are stored in **big-endian** format.
 
 ```{note}
-These formats are summarized by me, and may not be complete or accurate. If you
-find any mistakes, you are welcome to open an issue or a PR to correct them.
+These formats are summarized by me, and may not be complete or accurate. If you find any mistakes, you are welcome to open an issue or a PR to correct them.
 ```
 
 ## Class correspondence
@@ -37,13 +32,11 @@ find any mistakes, you are welcome to open an issue or a PR to correct them.
 
 ## Common header patterns
 
-Several binary patterns appear repeatedly across different types. They are
-summarized here for reference.
+Several binary patterns appear repeatedly across different types. They are summarized here for reference.
 
 ### `fNBytes` (4 bytes, uint32)
 
-A 4-byte big-endian unsigned integer whose high bit (`kByteCountMask = 0x40000000`)
-is **always set**. The actual byte count is `fNBytes & ~kByteCountMask`.
+A 4-byte big-endian unsigned integer whose high bit (`kByteCountMask = 0x40000000`) is **always set**. The actual byte count is `fNBytes & ~kByteCountMask`.
 
 ```console
 # Example: fNBytes = 12
@@ -52,8 +45,7 @@ is **always set**. The actual byte count is `fNBytes & ~kByteCountMask`.
 
 ### `fVersion` (2 bytes, int16)
 
-A 2-byte big-endian signed integer indicating the class version. When `fVersion == 0`,
-a 4-byte checksum follows immediately.
+A 2-byte big-endian signed integer indicating the class version. When `fVersion == 0`, a 4-byte checksum follows immediately.
 
 ```console
 # Example: fVersion = 3
@@ -73,20 +65,15 @@ Almost every non-trivial class object is prefixed with:
 
 ### `kStreamedMemberwise` flag (bit 14 of `fVersion`)
 
-When `fVersion & (1 << 14) != 0` (i.e. `fVersion` has `0x4000` set, so the high byte has the `0x40` bit set), the object is stored in **member-wise** order — all
-values of the first member, then all values of the second member, etc. The default
-is **object-wise** order — each object's members are stored contiguously.
+When `fVersion & (1 << 14) != 0` (i.e. `fVersion` has `0x4000` set, so the high byte has the `0x40` bit set), the object is stored in **member-wise** order — all values of the first member, then all values of the second member, etc. The default is **object-wise** order — each object's members are stored contiguously.
 
 ---
 
 ## Primitive types
 
-**Matches:** `bool`, `char`, `short`, `int`, `long`, `long long`, `float`, `double`,
-and their `signed`/`unsigned` variants, `int*_t`/`uint*_t`, ROOT typedefs (`Bool_t`,
-`Int_t`, …).
+**Matches:** `bool`, `char`, `short`, `int`, `long`, `long long`, `float`, `double`, and their `signed`/`unsigned` variants, `int*_t`/`uint*_t`, ROOT typedefs (`Bool_t`, `Int_t`, …).
 
-**Identification:** `fType` in {1,2,3,4,5,8,11,12,13,14,16,17,18} or `fTypeName`
-matches a known primitive type name.
+**Identification:** `fType` in {1,2,3,4,5,8,11,12,13,14,16,17,18} or `fTypeName` matches a known primitive type name.
 
 Primitive types are stored as **raw big-endian bytes** with no length prefix or header.
 
@@ -188,8 +175,7 @@ If the first byte is `255`, the length is instead a 4-byte `uint32`:
 [255: uint8] [length: uint32] [data: bytes...]
 ```
 
-When wrapped in a C-style or `std::array`, a `fNBytes + fVersion` header may
-precede the string data — see [C-style array / `std::array`](#c-style-array-stdarray).
+When wrapped in a C-style or `std::array`, a `fNBytes + fVersion` header may precede the string data — see [C-style array / `std::array`](#c-style-array-stdarray).
 
 ```{code-block} cpp
 ---
@@ -213,9 +199,7 @@ caption: Binary format
 
 **Matches:** `TString` (ROOT's string class).
 
-Unlike `std::string`, `TString` does **not** have a `fNBytes + fVersion` header
-by default. However, when stored inside a C-style or `std::array`, the header is
-present.
+Unlike `std::string`, `TString` does **not** have a `fNBytes + fVersion` header by default. However, when stored inside a C-style or `std::array`, the header is present.
 
 ```
 [length: uint8] [data: bytes...]
@@ -247,8 +231,7 @@ caption: Binary format
 
 ## TArray
 
-**Matches:** `TArrayC`, `TArrayS`, `TArrayI`, `TArrayL`, `TArrayL64`, `TArrayF`,
-`TArrayD`.
+**Matches:** `TArrayC`, `TArrayS`, `TArrayI`, `TArrayL`, `TArrayL64`, `TArrayF`, `TArrayD`.
 
 ```
 [length: uint32] [data: element*length]
@@ -303,8 +286,7 @@ caption: Binary format
 
 ## `std::vector` (and other STL sequences)
 
-**Matches:** `std::vector`, `std::list`, `std::set`, `std::multiset`,
-`std::unordered_set`, `std::unordered_multiset`.
+**Matches:** `std::vector`, `std::list`, `std::set`, `std::multiset`, `std::unordered_set`, `std::unordered_multiset`.
 
 **Identification:** `fTypeName` starts with one of the `target_types` names.
 
@@ -317,15 +299,11 @@ caption: Binary format
 
 ### C-style array of STL containers
 
-When storing as a C-style array (e.g. `std::vector<int> m_vec[2]`), the outer
-`fNBytes + fVersion` header is kept, and each element is stored as a separate
-sequence with its own length prefix.
+When storing as a C-style array (e.g. `std::vector<int> m_vec[2]`), the outer `fNBytes + fVersion` header is kept, and each element is stored as a separate sequence with its own length prefix.
 
 ### std::array of STL containers
 
-When storing as `std::array` (e.g. `std::array<std::vector<int>, 2>`), there is
-**no** outer `fNBytes + fVersion` header. Each element is stored as a sequence
-with its own length prefix.
+When storing as `std::array` (e.g. `std::array<std::vector<int>, 2>`), there is **no** outer `fNBytes + fVersion` header. Each element is stored as a sequence with its own length prefix.
 
 `````{tab-set}
 
@@ -391,17 +369,13 @@ caption: Binary format
 
 ### Member-wise vs object-wise
 
-The `fVersion` field may have the `kStreamedMemberwise` bit (bit 14) set. When
-set, the elements are stored member-wise: all first members of each element,
-then all second members, etc. This is handled by the `read_many_memberwise` methods
-in the reader hierarchy.
+The `fVersion` field may have the `kStreamedMemberwise` bit (bit 14) set. When set, the elements are stored member-wise: all first members of each element, then all second members, etc. This is handled by the `read_many_memberwise` methods in the reader hierarchy.
 
 ---
 
 ## `std::map` (and other STL maps)
 
-**Matches:** `std::map`, `std::unordered_map`, `std::multimap`,
-`std::unordered_multimap`.
+**Matches:** `std::map`, `std::unordered_map`, `std::multimap`, `std::unordered_multimap`.
 
 **Identification:** `fTypeName` starts with one of the `target_types` names.
 
@@ -452,31 +426,23 @@ caption: Binary format
 fVer | fUniqueID  |   fBits
 ```
 
-By default the data is discarded (`keep_data=False`), producing an
-`EmptyArray` in the output.
+By default the data is discarded (`keep_data=False`), producing an `EmptyArray` in the output.
 
 ---
 
 ## C-style array / `std::array`
 
-**Matches:** Data members with `fArrayDim > 0` (C-style arrays or `std::array`),
-or jagged branches (variable-length arrays).
+**Matches:** Data members with `fArrayDim > 0` (C-style arrays or `std::array`), or jagged branches (variable-length arrays).
 
-**Identification:** `fArrayDim > 0` in the streamer info, or `is_jagged=True`
-from `get_dims_from_branch`. The dimensions are stored in `fMaxIndex[0..fArrayDim-1]`.
+**Identification:** `fArrayDim > 0` in the streamer info, or `is_jagged=True` from `get_dims_from_branch`. The dimensions are stored in `fMaxIndex[0..fArrayDim-1]`.
 
-**Priority:** 20 (evaluated before other categories, so it wraps the element
-correctly).
+**Priority:** 20 (evaluated before other categories, so it wraps the element correctly).
 
 ### How C-style array / `std::array` modifies contained types
 
-The element is wrapped by an *element handler* for the contained type. When the array
-is `std::array` (identified by `fType=82`), the element is called with
-`in_std_array=True`, which suppresses the `fNBytes + fVersion` header for
-`std::vector` (and other STL sequences), `std::map` (and other STL maps), and `std::string`.
+The element is wrapped by an *element handler* for the contained type. When the array is `std::array` (identified by `fType=82`), the element is called with `in_std_array=True`, which suppresses the `fNBytes + fVersion` header for `std::vector` (and other STL sequences), `std::map` (and other STL maps), and `std::string`.
 
-When `TString` is inside a C-style or `std::array`, its `with_header` flag is
-set to `True` (unlike standalone `TString`).
+When `TString` is inside a C-style or `std::array`, its `with_header` flag is set to `True` (unlike standalone `TString`).
 
 ### Fixed-size
 
@@ -492,33 +458,26 @@ Elements are concatenated with no separators or length prefixes:
 [element 1] [element 2] ... [element N]
 ```
 
-The entry boundaries are determined by the entry offsets array, not by a
-fixed count. The reader reads elements until it reaches the next entry's
-start offset.
+The entry boundaries are determined by the entry offsets array, not by a fixed count. The reader reads elements until it reaches the next entry's start offset.
 
 ### Awkward reconstruction
 
-For fixed-size arrays, the flat elements are wrapped in `RegularArray` layers
-corresponding to the dimensions in `fMaxIndex`. For jagged arrays, a
-`ListOffsetArray` wraps the elements.
+For fixed-size arrays, the flat elements are wrapped in `RegularArray` layers corresponding to the dimensions in `fMaxIndex`. For jagged arrays, a `ListOffsetArray` wraps the elements.
 
 ---
 
 ## Any class
 
-**Matches:** Any class object that is not handled by a more specific category.
-This is the **fallback** (priority=0).
+**Matches:** Any class object that is not handled by a more specific category. This is the **fallback** (priority=0).
 
-**Identification:** `fTypeName` is a class name found in `all_streamer_info`,
-and `fTypeName` does not end with `*` (pointer types go to Pointer (`T*`)).
+**Identification:** `fTypeName` is a class name found in `all_streamer_info`, and `fTypeName` does not end with `*` (pointer types go to Pointer (`T*`)).
 
 ```
 [fNBytes: uint32] [fVersion: int16] [checksum?: uint32 if fVersion==0]
 [member 1 data] [member 2 data] ... [member N data]
 ```
 
-The total size of member data must equal `fNBytes` — the reader verifies this
-with an assertion.
+The total size of member data must equal `fNBytes` — the reader verifies this with an assertion.
 
 ```{code-block} cpp
 ---
@@ -541,8 +500,7 @@ fNBytes   |fVer|  m_a=42    |  m_b=3.14f
 
 ### Member-wise reading
 
-When reading in member-wise mode, all values of member 1 are read first,
-then all values of member 2, etc. — rather than reading each object as a whole.
+When reading in member-wise mode, all values of member 1 are read first, then all values of member 2, etc. — rather than reading each object as a whole.
 
 ---
 
@@ -550,8 +508,7 @@ then all values of member 2, etc. — rather than reading each object as a whole
 
 **Matches:** Base class embedding, identified by `fType=0` and `fTypeName="BASE"`.
 
-The binary format is the same as the base class's members concatenated —
-**no additional `fNBytes + fVersion` header** is added by the base class itself.
+The binary format is the same as the base class's members concatenated — **no additional `fNBytes + fVersion` header** is added by the base class itself.
 
 ```
 [base member 1 data] [base member 2 data] ... [base member N data]
@@ -561,8 +518,7 @@ The binary format is the same as the base class's members concatenated —
 
 ## Pointer (`T*`)
 
-**Matches:** Pointer-to-object members: `fType` in {63 (`kObjectp`), 64
-(`kObjectP`), 68 (`kAnyp`), 69 (`kAnyP`)} or `fTypeName` ends with `*`.
+**Matches:** Pointer-to-object members: `fType` in {63 (`kObjectp`), 64 (`kObjectP`), 68 (`kAnyp`), 69 (`kAnyP`)} or `fTypeName` ends with `*`.
 
 **Priority:** 15 (evaluated after C-style array / `std::array` but before most others).
 
@@ -574,11 +530,9 @@ The binary format is the same as the base class's members concatenated —
 
 Two cases for the first bytes:
 
-1. **Versioned** (`bcnt & kByteCountMask != 0` and `bcnt != kNewClassTag`):
-   `fNBytes = bcnt & ~kByteCountMask`, then `tag = read_uint32()`.
+1. **Versioned** (`bcnt & kByteCountMask != 0` and `bcnt != kNewClassTag`): `fNBytes = bcnt & ~kByteCountMask`, then `tag = read_uint32()`.
 
-2. **Unversioned** (`bcnt & kByteCountMask == 0` or `bcnt == kNewClassTag`):
-   `tag = bcnt`, `fNBytes = 0`.
+2. **Unversioned** (`bcnt & kByteCountMask == 0` or `bcnt == kNewClassTag`): `tag = bcnt`, `fNBytes = 0`.
 
 Then the tag is interpreted:
 
@@ -590,8 +544,7 @@ Then the tag is interpreted:
 | `kNewClassTag` (0xFFFFFFFF) | New class, new object | Read null-terminated classname, register class ref, read object data, register object ref, increment counter |
 | `tag & kClassMask != 0` | Known class, new object | Read object data, register object ref, increment counter |
 
-The reference table (`stream.refs`) maps `ref_begin + kMapOffset` (versioned) or
-`len(stream.refs) + 1` (unversioned) to a `_Reference`.
+The reference table (`stream.refs`) maps `ref_begin + kMapOffset` (versioned) or `len(stream.refs) + 1` (unversioned) to a `_Reference`.
 
 ```{code-block} cpp
 ---

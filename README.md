@@ -19,29 +19,29 @@ Uproot-custom uses a Reader / Factory mechanism to read classes:
 
 ```mermaid
 flowchart TD
-    subgraph py["Python field"]
-        direction TB
-        AsCustom -- Recursively generate --> fac["Factory (Primitive, STLVector, TString, ...)"]
-        fac["Factory (Primitive, STLVector, TString, ...)"] -- Optional --> form(["construct awkward forms"])
-        fac --> build_reader(["build corresponding reader"])
-        fac --> build_ak(["construct awkward arrays"])
-    end
+  subgraph py["Python field"]
+    direction TB
+    AsCustom -- Recursively generate --> fac["Factory (Primitive, STLVector, TString, ...)"]
+    fac["Factory (Primitive, STLVector, TString, ...)"] -- Optional --> form(["construct awkward forms"])
+    fac --> build_reader(["build corresponding reader"])
+    fac --> build_ak(["construct awkward arrays"])
+  end
 
-    subgraph reader_field["Reader (Python or C++)"]
-        direction TB
-        build_reader --> reader["Reader"]
-        reader --> read_bin(["read binary data"])
-        read_bin --> ret_data(["return data"])
-    end
+  subgraph reader_field["Reader (Python, C++, or detree-compiled)"]
+    direction TB
+    build_reader --> reader["Reader"]
+    reader --> read_bin(["read binary data"])
+    read_bin --> ret_data(["return data"])
+  end
 
-    ret_data --> raw_data[("tuple, list, numpy arrays, ...")]
-    raw_data --> build_ak
+  ret_data --> raw_data[("tuple, list, numpy arrays, ...")]
+  raw_data --> build_ak
 ```
 
-- `Reader` is a class that implements the logic to read data from binary streams. It can be written in **Python** (for development and debugging) or **C++** (for production performance).
+- `Reader` is a class that implements the logic to read data from binary streams. It can be written in **Python** (for development and debugging), **C++** (for production performance), or as a declarative reader that the experimental **detree** backend compiles and runs on the Detree virtual machine.
 - `Factory` is a Python class that creates, combines `Reader`s, and post-processes the data read by `Reader`s.
 
-This mechanism is implemented as `AsCustom` interpretation. This makes uproot-custom well compatible with Uproot.
+This mechanism is implemented as `AsCustom` interpretation. The byte-level reader is selected by the reader backend (`cpp` by default, `python`, `forth`, or `detree`). This makes uproot-custom well compatible with Uproot.
 
 > [!TIP]
 > Users can implement their own Factory and Reader, register them to uproot-custom. Start with a **Python reader** for rapid prototyping, then port the logic to **C++** for production speed. The default reader backend is C++; during development, explicitly set the backend to Python. An example of implementing a custom Factory / Reader can be found in [the example repository](https://github.com/mrzimu/uproot-custom-example).
@@ -53,6 +53,12 @@ This mechanism is implemented as `AsCustom` interpretation. This makes uproot-cu
 
 - **C++17 compatible compiler**: Required for building C++ readers and the uproot-custom extension module. The CMake configuration sets `CMAKE_CXX_STANDARD 17`.
 - **Python 3.9+**: Uproot-custom supports Python 3.9 through 3.14.
+
+## Detree reader backend
+
+`AsCustom` builds a reader tree for a branch; the reader backend decides who executes it. The experimental `detree` backend compiles the declarative reader tree to detree-vm IR, lets detree-vm optimize and lower it, and runs the resulting module on the Rust Detree machine.
+
+Select the backend globally with `UPROOT_CUSTOM_READER_BACKEND=detree` (or `uproot_custom.set_backend("detree")`), or locally with `with uproot_custom.use_backend("detree"):`. Detree-VM's official release will ship the Rust machine only. See the [Detree backend documentation](https://mrzimu.github.io/uproot-custom/reference/detree-stack.html) for the supported branches, the `build_detree_reader` contract, and the debugging workflow.
 
 ## Documentation
 
