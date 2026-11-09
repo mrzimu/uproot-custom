@@ -26,8 +26,8 @@ from uproot_custom.detree.stream import Stream
 
 def read_basket(
     reader: Reader,
-    data: np.ndarray[np.uint8],
-    offsets: np.ndarray,
+    data: bytes,
+    offsets: np.ndarray | None,
     cursor_offset=0,
     nbyte=None,
 ):
@@ -59,11 +59,7 @@ def read_basket(
     if offsets is None:
         if nbyte is None:
             raise ValueError("nbyte must be specified if offsets is None")
-        if isinstance(data, (bytes, bytearray, memoryview)):
-            size = len(data)
-        else:
-            size = np.asarray(data).size
-        offsets = np.arange(size // nbyte + 1, dtype=np.int64) * nbyte
+        offsets = np.arange(len(data) // nbyte + 1, dtype=np.int64) * nbyte
     offsets = np.asarray(offsets, dtype=np.int64)
 
     stream = Stream(data, offsets, cursor_offset)
@@ -80,8 +76,8 @@ def read_basket(
 
 def read_data(
     reader: Reader,
-    data: np.ndarray[np.uint8],
-    offsets: np.ndarray,
+    data: bytes,
+    offsets: np.ndarray | None,
     cursor_offset=0,
     nbyte=None,
 ):
