@@ -137,6 +137,12 @@ def read_branch_with_factory(
     cursor_offset: int,
     nbyte: int | None = None,
 ):
+    warnings.warn(
+        "read_branch_with_factory is deprecated. "
+        "Refer to `uproot_custom.interpretation.AsCustom.basket_array` instead.",
+        DeprecationWarning,
+    )
+
     if offsets is None:
         if nbyte is None:
             raise ValueError("nbyte must be specified if offsets is None")
