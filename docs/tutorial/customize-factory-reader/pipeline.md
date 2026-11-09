@@ -1,30 +1,20 @@
 # Pipeline overview
 
-This page explains the end-to-end pipeline that uproot-custom uses to turn
-ROOT binary data into `awkward` arrays. Understanding this pipeline will help
-you design your own factories and readers.
+This page explains the end-to-end pipeline that uproot-custom uses to turn ROOT binary data into `awkward` arrays. Understanding this pipeline will help you design your own factories and readers.
 
 At a high level the pipeline has five stages:
 
-1. **Build factories** — uproot-custom reads streamer information and
-   recursively creates a tree of `Factory` instances that mirror the class
-   hierarchy.
-2. **Build readers** — each factory creates a corresponding `Reader` (Python
-   or C++).
+1. **Build factories** — uproot-custom reads streamer information and recursively creates a tree of `Factory` instances that mirror the class hierarchy.
+2. **Build readers** — each factory creates a corresponding `Reader` (Python or C++).
 3. **Read binary data** — the composed reader graph walks the byte stream.
-4. **Return raw data** — leaf readers return `numpy` arrays; parent readers
-   assemble them into nested tuples / lists.
-5. **Build awkward arrays** — factories convert the raw arrays into
-   `awkward` contents and form the final `awkward` array.
+4. **Return raw data** — leaf readers return `numpy` arrays; parent readers assemble them into nested tuples / lists.
+5. **Build awkward arrays** — factories convert the raw arrays into `awkward` contents and form the final `awkward` array.
 
 ---
 
 ## Stage 1: Build factory instances
 
-When a branch is read, `AsCustom` calls `uproot_custom.factories.build_factory`.
-This function loops over all registered factory classes (highest priority first)
-and invokes each one's `build_factory` class method. The first class that
-returns a non-`None` instance wins.
+When a branch is read, `AsCustom` calls `uproot_custom.factories.build_factory`. This function loops over all registered factory classes (highest priority first) and invokes each one's `build_factory` class method. The first class that returns a non-`None` instance wins.
 
 ```{code-block} python
 ---
@@ -64,9 +54,7 @@ def build_factory(
 
 ### Recursive factory construction
 
-For composite classes such as `TSimpleObject`, `AnyClassFactory` matches and
-then **recursively** calls `build_factory` for every data member listed in the
-streamer information:
+For composite classes such as `TSimpleObject`, `AnyClassFactory` matches and then **recursively** calls `build_factory` for every data member listed in the streamer information:
 
 ```{code-block} python
 ---
@@ -90,9 +78,7 @@ class AnyClassFactory(GroupFactory):
         return cls(name=top_type_name, sub_factories=sub_factories)
 ```
 
-The resulting factory tree for `TSimpleObject`
-(using the [streamer information](simple-obj-streamer-info) as input) looks
-like this:
+The resulting factory tree for `TSimpleObject` (using the [streamer information](simple-obj-streamer-info) as input) looks like this:
 
 ```python
 {
@@ -116,18 +102,12 @@ like this:
 
 ## Stage 2: Build readers
 
-Once the factory tree is ready, `AsCustom` calls the method that matches the
-selected reader backend: `Factory.build_python_reader`, `build_cpp_reader`
-(the default), `build_forth_reader`, or `build_detree_reader`. Each factory
-delegates to its sub-factories to build sub-readers, then combines them into a
-parent reader.
+Once the factory tree is ready, `AsCustom` calls the method that matches the selected reader backend: `Factory.build_python_reader`, `build_cpp_reader` (the default), `build_forth_reader`, or `build_detree_reader`. Each factory delegates to its sub-factories to build sub-readers, then combines them into a parent reader.
 
 ```{important}
-The default reader backend is **C++** (`get_backend()` returns `"cpp"`).
-During development, you must explicitly switch to the Python backend:
+The default reader backend is **C++** (`get_backend()` returns `"cpp"`). During development, you must explicitly switch to the Python backend:
 
-    import uproot_custom as uc
-    uc.set_backend("python")
+    import uproot_custom as uc uc.set_backend("python")
 ```
 
 ```{code-block} python
@@ -147,9 +127,7 @@ class AnyClassFactory(GroupFactory):
 
 ## Stage 3 & 4: Read binary data and return results
 
-The top-level reader drives sub-readers recursively. For instance,
-`AnyClassReader` reads its `fNBytes` + `fVersion` header, then asks each
-sub-reader to consume its portion of the stream:
+The top-level reader drives sub-readers recursively. For instance, `AnyClassReader` reads its `fNBytes` + `fVersion` header, then asks each sub-reader to consume its portion of the stream:
 
 ```{code-block} python
 ---
@@ -171,9 +149,7 @@ def read(self, stream):
     )
 ```
 
-After all entries are read, the top-level reader's `data()` method collects
-results recursively — leaf readers return `numpy` arrays, and composite
-readers assemble them into nested tuples or lists:
+After all entries are read, the top-level reader's `data()` method collects results recursively — leaf readers return `numpy` arrays, and composite readers assemble them into nested tuples or lists:
 
 ```{code-block} python
 ---
@@ -195,10 +171,7 @@ def data(self):
 
 ## Stage 5: Build awkward arrays
 
-With the nested arrays available in Python, `AsCustom` calls
-`Factory.make_awkward_content` to reconstruct `awkward` contents. Each factory
-extracts its slice of the raw data, delegates to sub-factories, then combines
-the results:
+With the nested arrays available in Python, `AsCustom` calls `Factory.make_awkward_content` to reconstruct `awkward` contents. Each factory extracts its slice of the raw data, delegates to sub-factories, then combines the results:
 
 ```{code-block} python
 ---
@@ -224,9 +197,7 @@ class GroupFactory(Factory):
 
 ### Generating awkward forms
 
-`awkward` forms describe the data structure without holding data, enabling
-lazy evaluation functionality. Form generation mirrors `make_awkward_content` but
-needs no input data:
+`awkward` forms describe the data structure without holding data, enabling lazy evaluation functionality. Form generation mirrors `make_awkward_content` but needs no input data:
 
 ```{code-block} python
 ---
@@ -254,10 +225,7 @@ class GroupFactory(Factory):
 
 ## Complete example: putting it all together
 
-The five stages above may feel abstract. Below is a concrete, end-to-end
-example that walks through every stage. We use a demo class
-`TOverrideStreamer` that overrides the default ROOT `Streamer` method by
-inserting an extra mask between its two data members.
+The five stages above may feel abstract. Below is a concrete, end-to-end example that walks through every stage. We use a demo class `TOverrideStreamer` that overrides the default ROOT `Streamer` method by inserting an extra mask between its two data members.
 
 ```{code-block} cpp
 ---
@@ -272,8 +240,7 @@ class TOverrideStreamer : public TObject {
 };
 ```
 
-Its `Streamer` method is overridden to insert an extra mask (`0x12345678`)
-between `m_int` and `m_double`:
+Its `Streamer` method is overridden to insert an extra mask (`0x12345678`) between `m_int` and `m_double`:
 
 ```{code-block} cpp
 ---
@@ -309,14 +276,11 @@ Because of this override, the binary layout is:
 | *mask* | `uint32_t` | 4 bytes |
 | `m_double` | `double` | 8 bytes |
 
-The built-in reader cannot handle the extra mask, so we must implement a
-custom reader and factory.
+The built-in reader cannot handle the extra mask, so we must implement a custom reader and factory.
 
 ### Stage 1 — Factory
 
-The factory must implement four methods. `build_factory` matches on the
-class name and returns an instance; the remaining methods build readers and
-convert raw data to `awkward` arrays.
+The factory must implement four methods. `build_factory` matches on the class name and returns an instance; the remaining methods build readers and convert raw data to `awkward` arrays.
 
 ```{code-block} python
 ---
@@ -361,9 +325,7 @@ class OverrideStreamerFactory(Factory):
 
 ### Stage 2 — Reader
 
-The reader implements the binary decoding logic. It reads every entry from
-the byte stream and accumulates values in Python `array` objects, then
-returns them as `numpy` arrays.
+The reader implements the binary decoding logic. It reads every entry from the byte stream and accumulates values in Python `array` objects, then returns them as `numpy` arrays.
 
 ```{code-block} python
 ---
@@ -425,15 +387,11 @@ arr.m_double # <Array [0.0, 3.14, 6.28, ...] type='100 * float64'>
 ```
 
 ```{tip}
-In a real project, put the factory, reader, and registration code inside a
-Python package (see [](project-setup.md)). The registration is typically
-done in the package's `__init__.py` so that it happens automatically on
-import.
+In a real project, put the factory, reader, and registration code inside a Python package (see [](project-setup.md)). The registration is typically done in the package's `__init__.py` so that it happens automatically on import.
 ```
 
 ```{seealso}
-For a full walkthrough — including binary-data inspection and porting to C++
-— see [Example 1: Streamer method is overridden](../../example/override-streamer.md).
+For a full walkthrough — including binary-data inspection and porting to C++ — see [Example 1: Streamer method is overridden](../../example/override-streamer.md).
 ```
 
 ---
@@ -442,7 +400,5 @@ For a full walkthrough — including binary-data inspection and porting to C++
 ---
 class: hint
 ---
-Now that you understand the pipeline, move on to
-[Investigate your data](investigate-data.md) to learn how to inspect
-streamer information and raw binary bytes for the class you need to read.
+Now that you understand the pipeline, move on to [Investigate your data](investigate-data.md) to learn how to inspect streamer information and raw binary bytes for the class you need to read.
 ```

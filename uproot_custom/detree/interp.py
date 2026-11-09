@@ -1,5 +1,5 @@
 """
-Run a native reader tree in Python, without the virtual machine.
+Run a detree reader tree in Python, without the virtual machine.
 
 The reader's `read` / `read_many` / `read_until` / `read_many_memberwise`
 are ordinary Python methods; `uproot_custom.detree.compiler.frontend` only
@@ -43,7 +43,7 @@ def read_basket(
     own entry offset.
 
     Args:
-        reader: the native reader tree to run.
+        reader: the detree reader tree to run.
         data: the basket bytes.
         offsets: the entry offsets, or `None` to derive them from *nbyte*.
         cursor_offset: the basket's `fKeylen`, which is what uproot passes to
@@ -89,7 +89,7 @@ def read_data(
     Read one basket in Python and return whatever `reader.data()` returns.
 
     Args:
-        reader: the native reader tree to run.
+        reader: the detree reader tree to run.
         data: the basket bytes.
         offsets: the entry offsets, or `None` to derive them from *nbyte*.
         cursor_offset: the basket's `fKeylen`.

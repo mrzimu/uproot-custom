@@ -20,7 +20,6 @@ docs = [
   "breathe"
 ]
 ipynb = ["ipykernel"]
-numba = ["numba", "black", "pytest-xdist"]
 
 [project]
 authors = [{ name = "Mingrun Li", email = "mrli@ihep.ac.cn" }]
@@ -61,8 +60,9 @@ urls = { "Homepage" = "https://github.com/mrzimu/uproot-custom" }
 uproot-custom = "uproot_custom.share.cmake"
 
 [project.optional-dependencies]
-# The detree reader backend compiles native readers and executes them on the
-# standalone Detree virtual machine.  The other backends do not need this.
+# The experimental detree reader backend compiles native readers and
+# executes them on the standalone Detree virtual machine.  The other backends
+# do not need this.
 detree = ["detree-vm"]
 
 [tool.black]

@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-_CACHE = {}
+_CACHE: dict[str, bytes] = {}
 
 STATS = {"hits": 0, "misses": 0}
 
 
-def get(signature):
+def get(signature: str) -> bytes | None:
     compiled = _CACHE.get(signature)
     if compiled is None:
         STATS["misses"] += 1
@@ -14,9 +14,9 @@ def get(signature):
     return compiled
 
 
-def put(signature, compiled):
-    _CACHE[signature] = compiled
-    return compiled
+def put(signature: str, codes: bytes) -> bytes:
+    _CACHE[signature] = codes
+    return codes
 
 
 def size():

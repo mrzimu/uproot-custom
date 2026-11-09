@@ -3,12 +3,18 @@ from __future__ import annotations
 import os
 import re
 import textwrap
-from typing import Literal
+from typing import Literal, get_args
 
 import awkward as ak
 import numpy as np
 
-from uproot_custom.consts import kByteCountMask, kIsReferenced, kStreamedMemberwise
+from uproot_custom.consts import (
+    DTYPE_TO_TYPECODE,
+    TYPECODE,
+    kByteCountMask,
+    kIsReferenced,
+    kStreamedMemberwise,
+)
 
 stream_data_token = "__stream_data"
 stream_offset_token = "__stream_offset"
@@ -16,24 +22,9 @@ stream_ievt_token = "__stream_ievt"
 stream_nevt_token = "__stream_nevt"
 stream_evt_end_pos_token = "__stream_evt_end_pos"
 
-DTYPE_TO_TYPECODE = {
-    "uint8": "B",
-    "uint16": "H",
-    "uint32": "I",
-    "uint64": "Q",
-    "int8": "b",
-    "int16": "h",
-    "int32": "i",
-    "int64": "q",
-    "float32": "f",
-    "float64": "d",
-    "bool": "B",
-}
-
 _tmp_id = 0
 
-TYPECODE = Literal["B", "H", "I", "Q", "b", "h", "i", "q", "f", "d"]
-TYPECODE_SET = {"B", "H", "I", "Q", "b", "h", "i", "q", "f", "d"}
+TYPECODE_SET = set(get_args(TYPECODE))
 
 FORTH_OUTPUT_TYPE = Literal[
     "bool",

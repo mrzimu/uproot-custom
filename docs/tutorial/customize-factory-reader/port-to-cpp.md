@@ -1,23 +1,16 @@
 # Port readers to C++
 
-Once your Python reader is working correctly, you can port its logic to C++
-for significantly better performance. **The C++ reader only needs to keep the
-same reading logic as the Python version** — the same fields read in the same
-order, and `data()` returning the same structure — so porting is a
-straightforward, mechanical process.
+Once your Python reader is working correctly, you can port its logic to C++ for significantly better performance. **The C++ reader only needs to keep the same reading logic as the Python version** — the same fields read in the same order, and `data()` returning the same structure — so porting is a straightforward, mechanical process.
 
 ```{tip}
-Start with a Python reader for rapid prototyping and debugging. Once the
-logic is validated, transferring it to C++ is quick because the two readers
-share the same structure and only differ in language syntax.
+Start with a Python reader for rapid prototyping and debugging. Once the logic is validated, transferring it to C++ is quick because the two readers share the same structure and only differ in language syntax.
 ```
 
 ---
 
 ## C++ `IReader` base class
 
-Every C++ reader must inherit from `IReader` and implement two pure-virtual
-methods:
+Every C++ reader must inherit from `IReader` and implement two pure-virtual methods:
 
 | Method | Purpose |
 | ------ | ------- |
@@ -82,8 +75,7 @@ class IReader {
 
 ## C++ `BinaryStream`
 
-The C++ `BinaryStream` wraps a `uint8_t*` stream with the same convenience
-methods as the Python version:
+The C++ `BinaryStream` wraps a `uint8_t*` stream with the same convenience methods as the Python version:
 
 **Reading**
 - `const T read<T>()`: Read a value of type `T` from the stream, and advance the cursor.
@@ -112,16 +104,13 @@ methods as the Python version:
 
 ## Accepting sub-readers
 
-Composite readers (e.g. `STLSeqReader`) accept sub-readers for nested types.
-Pass sub-readers as `std::shared_ptr<IReader>` (aliased as `SharedReader`)
-because ownership is shared between C++ and Python.
+Composite readers (e.g. `STLSeqReader`) accept sub-readers for nested types. Pass sub-readers as `std::shared_ptr<IReader>` (aliased as `SharedReader`) because ownership is shared between C++ and Python.
 
 ---
 
 ## Zero-copy `numpy` conversion
 
-Use the `make_array` helper to convert a `std::shared_ptr<std::vector<T>>`
-into a `numpy` array **without copying**:
+Use the `make_array` helper to convert a `std::shared_ptr<std::vector<T>>` into a `numpy` array **without copying**:
 
 ```cpp
 std::shared_ptr<std::vector<int>> data = std::make_shared<std::vector<int>>();
@@ -136,8 +125,7 @@ py::array_t<int> np_array = make_array(data);
 
 ## Exposing a reader to Python
 
-Uproot-custom uses `pybind11` for bindings. The `declare_reader` helper
-simplifies declaration:
+Uproot-custom uses `pybind11` for bindings. The `declare_reader` helper simplifies declaration:
 
 ```cpp
 PYBIND11_MODULE( my_cpp_reader, m) {
@@ -158,9 +146,7 @@ from my_cpp_reader import MyReaderClass
 
 ## C++ debug output
 
-Use the `debug_print` helper for conditional logging. Messages are only
-emitted when the `UPROOT_DEBUG` macro is defined at compile time **or** the
-`UPROOT_DEBUG` environment variable is set at runtime:
+Use the `debug_print` helper for conditional logging. Messages are only emitted when the `UPROOT_DEBUG` macro is defined at compile time **or** the `UPROOT_DEBUG` environment variable is set at runtime:
 
 ```cpp
 // Will print "The reader name is Bob"
@@ -174,19 +160,13 @@ debug_print( stream, 50 )
 
 ## Adding `build_cpp_reader` to the factory
 
-Once the C++ reader is ready, add a `build_cpp_reader` method to the factory
-alongside the existing `build_python_reader`. This is the **only** Python-side
-change needed — `make_awkward_content` and `make_awkward_form` remain exactly
-the same, because both readers return data in the same structure.
+Once the C++ reader is ready, add a `build_cpp_reader` method to the factory alongside the existing `build_python_reader`. This is the **only** Python-side change needed — `make_awkward_content` and `make_awkward_form` remain exactly the same, because both readers return data in the same structure.
 
 ---
 
 ## Side-by-side comparison: `OverrideStreamerReader`
 
-The following tabs show the same `OverrideStreamerReader` (from the
-[pipeline example](pipeline.md#complete-example-putting-it-all-together))
-in Python and C++. Notice how the reading logic is identical — only the
-language syntax differs.
+The following tabs show the same `OverrideStreamerReader` (from the [pipeline example](pipeline.md#complete-example-putting-it-all-together)) in Python and C++. Notice how the reading logic is identical — only the language syntax differs.
 
 `````{tab-set}
 
@@ -293,8 +273,7 @@ class OverrideStreamerFactory(Factory):
 
 ## Worked example: `TArray` in C++
 
-Compare with the [Python version](reader-and-factory.md#worked-example-tarray)
-— the reading logic is identical; only the language syntax differs:
+Compare with the [Python version](reader-and-factory.md#worked-example-tarray) — the reading logic is identical; only the language syntax differs:
 
 ```{code-block} cpp
 ---
@@ -354,18 +333,15 @@ class TArrayFactory(Factory):
 
 ## Switching to the C++ backend
 
-After implementing `build_cpp_reader`, switch the backend to use
-C++ readers:
+After implementing `build_cpp_reader`, switch the backend to use C++ readers:
 
 ```python
 import uproot_custom as uc
 uc.set_backend("cpp")
 ```
 
-Since `"cpp"` is the default value, you can simply remove any explicit
-`uc.set_backend("python")` that was set during development.
+Since `"cpp"` is the default value, you can simply remove any explicit `uc.set_backend("python")` that was set during development.
 
 ```{seealso}
-See [](../../reference/reader-backends.md) for a full discussion of backend
-selection and troubleshooting.
+See [](../../reference/reader-backends.md) for a full discussion of backend selection and troubleshooting.
 ```

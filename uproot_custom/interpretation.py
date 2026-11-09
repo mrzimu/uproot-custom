@@ -75,7 +75,7 @@ class AsCustom(uproot.interpretation.custom.CustomInterpretation):
         self._simplify = simplify
         self._typename = None
         self._factory: Factory | None = None
-        self._compiled_detree_reader = None
+        self._compiled_detree_codes = None
 
         # try to fix streamer, due to a reverted PR https://github.com/scikit-hep/uproot5/pull/1505
         if branch.streamer is None:
@@ -270,11 +270,11 @@ class AsCustom(uproot.interpretation.custom.CustomInterpretation):
             from uproot_custom.detree.run import apply_outputs, compiled_for_reader, run
 
             reader = self.factory.build_detree_reader()
-            if self._compiled_detree_reader is None:
-                self._compiled_detree_reader = compiled_for_reader(reader)
+            if self._compiled_detree_codes is None:
+                self._compiled_detree_codes = compiled_for_reader(reader)
 
             outputs, states = run(
-                self._compiled_detree_reader,
+                self._compiled_detree_codes,
                 data,
                 byte_offsets,
                 cursor_offset,

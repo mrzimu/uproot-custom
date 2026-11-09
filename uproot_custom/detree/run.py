@@ -2,20 +2,19 @@
 What compiling produces, and the one seam that runs it.
 
 The frontend compiles a reader tree to detree-vm IR and `detree.compile`
-turns it into canonical module bytes.  A `Compiled` keeps those bytes,
-the decoded module, and one `detree.Machine` per backend and thread;
-the reader and the machine hold the only mutable per-basket state.
+turns it into canonical module bytes.  Those bytes are the artefact this
+module caches; a `detree.Machine` is built for every run, because a machine
+holds the mutable per-basket state and is not thread-safe.
 
-A machine is not thread-safe and detree-vm does not hand out a shared wrapper,
-so this module owns the per-thread machine cache.  `detree.Machine.run` resets
-the machine first, which is what lets one machine serve basket after basket.
+`detree.Machine.run` resets the machine it is called on, so a caller that
+keeps a machine can serve basket after basket; the read path here builds a
+fresh one instead, which keeps concurrent readers independent without a
+thread-local cache.
 """
 
 from __future__ import annotations
 
 import functools
-import threading
-from dataclasses import dataclass, field
 
 import numpy as np
 
@@ -62,84 +61,15 @@ def core():
 
 def backend_name():
     """
-    Which detree-vm machine `new_machine` and `run` select.
+    Which detree-vm machine `run` selects.
 
-    The choice is `uproot_custom.detree.get_impl`, so `set_impl` and
-    `use_impl` drive it and `UPROOT_CUSTOM_DETREE_BACKEND` seeds it.  The
-    import is deferred because the package's `__init__` imports this module
-    while it loads.
+    Detree-VM's official release ships the Rust machine only. The value comes
+    from `uproot_custom.detree.get_impl`, an internal test helper; the
+    environment variable it reads is only for development.
     """
     from uproot_custom.detree import get_impl
 
     return get_impl()
-
-
-@dataclass(frozen=True)
-class Compiled:
-    """
-    A compiled reader: detree-vm bytes, its module, and per-thread machines.
-
-    `data` is the canonical module a machine in this process (or another
-    language) takes.  `module` is decoded and validated once, so callers can
-    inspect the artefact without decoding the bytes again.
-
-    `detree.Machine` is not thread-safe, so the cache lives in a
-    `threading.local`: two threads running the same `Compiled` get two
-    machines, and a thread that switches backends gets one machine per backend.
-    """
-
-    data: bytes
-    module: object = field(default=None, repr=False, compare=False)
-    _machines: threading.local = field(
-        default_factory=threading.local, repr=False, compare=False
-    )
-
-    def __post_init__(self):
-        if self.module is None:
-            from detree.spec.module import Module
-            from detree.spec.validate import validate_module
-
-            module = Module.from_bytes(self.data)
-            validate_module(module)
-            object.__setattr__(self, "module", module)
-
-    def machine(self, backend=None):
-        """
-        The machine this thread uses for *backend*, built on first use.
-
-        The backend defaults to `backend_name()`, and a thread that switches
-        backends keeps its earlier machine, so outputs it still holds stay
-        readable.
-        """
-        name = backend_name() if backend is None else backend
-        machines = getattr(self._machines, "by_backend", None)
-        if machines is None:
-            machines = {}
-            self._machines.by_backend = machines
-        machine = machines.get(name)
-        if machine is None:
-            import detree
-
-            machine = detree.Machine(self.data, backend=name)
-            machines[name] = machine
-        return machine
-
-
-def new_machine(compiled: Compiled):
-    """
-    A fresh detree-vm machine for *compiled*, built for one call.
-
-    This is the one-shot form, useful for tests and for callers that do not
-    want a thread-local machine.  The read path uses `Compiled.machine`,
-    which caches one machine per thread and backend and resets it before every
-    basket.
-
-    Which implementation this returns is `backend_name`'s decision; all
-    backends start from a clean state, so the caller cannot tell them apart.
-    """
-    import detree
-
-    return detree.Machine(compiled.data, backend=backend_name())
 
 
 def _as_uint8(data):
@@ -154,25 +84,24 @@ def _as_uint8(data):
 
 
 def run(
-    compiled: Compiled,
-    data: bytes,
-    offsets: np.ndarray,
+    code: bytes,
+    data: bytes | np.ndarray,
+    offsets: np.ndarray | None,
     cursor_offset: int = 0,
     nbyte: int | None = None,
 ):
     """
-    Run *compiled* over one basket; return `(buffers, states)`.
+    Run *code* over one basket; return `(buffers, states)`.
 
     `buffers` is `{declared name: 1-D array}` and `states` is
     `{declared name: int | str | None}` (a name slot comes back decoded from
     the string arena, `None` when it is empty).
 
-    The machine is this thread's cached one (`Compiled.machine`), and
-    `detree.Machine.run` resets it before reading, so two threads may run the
-    same `Compiled` at the same time without sharing registers or buffers.
+    A fresh `detree.Machine` is built for every call, so two threads may run
+    the same module at the same time without sharing registers or buffers.
 
     Args:
-        compiled: the compiled reader to run.
+        code: the compiled reader bytes to run.
         data: the basket bytes.
         offsets: the entry offsets, or `None` to derive them from *nbyte*.
         cursor_offset: the basket's `fKeylen`.
@@ -182,23 +111,24 @@ def run(
     Returns:
         `(buffers, states)` as described above.
     """
+    import detree
+
     offsets = entry_offsets(data, offsets, nbyte)
-    machine = compiled.machine()
+    machine = detree.Machine(code, backend=backend_name())
     outputs = machine.run(_as_uint8(data), offsets, cursor_offset)
     return outputs, machine.state_values()
 
 
-def compiled_for_reader(reader: Reader) -> Compiled:
+def compiled_for_reader(reader: Reader) -> bytes:
     """
-    Return the cached compilation of a reader tree, compiling it on first use.
+    Return the cached compiled bytes of a reader tree, compiling it on first use.
     """
     signature = "ast:" + describe_reader(reader)
-    compiled = _cache_get(signature)
-    if compiled is None:
-        raw, _ = compile_reader(reader)
-        compiled = Compiled(data=raw)
-        _cache_put(signature, compiled)
-    return compiled
+    codes = _cache_get(signature)
+    if codes is None:
+        codes, _ = compile_reader(reader)
+        _cache_put(signature, codes)
+    return codes
 
 
 @functools.lru_cache(maxsize=64)
@@ -250,8 +180,8 @@ def apply_outputs(reader: Reader, outputs: dict, states=None, path="root"):
 
 def read_data(
     reader: Reader,
-    data: bytes,
-    offsets: np.ndarray,
+    data: bytes | np.ndarray,
+    offsets: np.ndarray | None,
     cursor_offset: int = 0,
     nbyte: int | None = None,
 ):
@@ -267,7 +197,7 @@ def read_data(
     previous call returned stay valid.
 
     Args:
-        reader: the native reader tree to compile and run.
+        reader: the detree reader tree to compile and run.
         data: the basket bytes.
         offsets: the entry offsets, or `None` to derive them from *nbyte*.
         cursor_offset: the basket's `fKeylen`.
@@ -278,19 +208,19 @@ def read_data(
         array, usually through the factory that built the reader.
     """
     reader.reset()
-    outputs, states = run(compiled_for_reader(reader), data, offsets, cursor_offset, nbyte)
+    outputs, states = run(
+        compiled_for_reader(reader), data, offsets, cursor_offset, nbyte=nbyte
+    )
     apply_outputs(reader, outputs, states)
     return reader.data()
 
 
 __all__ = [
-    "Compiled",
     "apply_outputs",
     "backend_name",
     "compiled_for_reader",
     "core",
     "entry_offsets",
-    "new_machine",
     "read_data",
     "run",
 ]

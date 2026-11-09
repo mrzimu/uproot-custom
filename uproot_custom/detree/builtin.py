@@ -1,12 +1,12 @@
 """
-The built-in readers, written in the JIT reader API.
+The built-in readers, written in the detree reader API.
 
 These are the same twelve reads as `uproot_custom.python`, kept
 separate on purpose: that module stays an independent implementation of the
 same format, so a disagreement between the two is a finding rather than a
 shared assumption.  What differs is that a reader here declares its buffers,
 constants and sub-readers as fields and leaves `read` free of allocation and
-of `raise`, which is what lets the JIT compile it.
+of `raise`, which is what lets the compiler lower it.
 
 Buffers are declared with a `struct` typecode (`"i"`, `"q"`, `"d"`,
 ...), a NumPy dtype or a dtype string; `Buffer` normalises all three to one

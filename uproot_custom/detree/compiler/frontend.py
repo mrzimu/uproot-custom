@@ -1090,7 +1090,7 @@ def compile_reader(reader):
     Compile a whole reader tree; return `(module bytes, signature)`.
 
     Args:
-        reader: the root of the native reader tree.
+        reader: the root of the detree reader tree.
 
     Returns:
         The canonical module bytes and the structural signature they were
@@ -1098,11 +1098,11 @@ def compile_reader(reader):
     """
     if not isinstance(reader, Reader):
         raise UnsupportedNode(
-            f"{type(reader).__name__} is not a native reader; the detree backend "
+            f"{type(reader).__name__} is not a detree reader; the detree backend "
             "only compiles classes built on uproot_custom.detree.decl.Reader"
         )
     for path, node in _walk(reader):
-        if not type(node).__dict__.get("__jit_checked__", False):
+        if not type(node).__dict__.get("__reader_checked__", False):
             raise UnsupportedNode(
                 f"{type(node).__name__} must be decorated with @reader", path
             )
@@ -1114,15 +1114,17 @@ def compile_reader(reader):
             if getattr(type(node), method) is not getattr(Reader, method):
                 compile_method(compiler, node, path, method)
         _emit_defaults(compiler, node, path)
-    module = compiler.build()
+    codes = compiler.build()
 
-    if os.environ.get("UPROOT_CUSTOM_JIT_DUMP_MODULES"):
+    if os.environ.get("UPROOT_CUSTOM_DETREE_DUMP_MODULES") or os.environ.get(
+        "UPROOT_CUSTOM_JIT_DUMP_MODULES"
+    ):
         from detree.spec.module import Module as IRModule
 
-        for i, ins in enumerate(IRModule.from_bytes(module).code):
+        for i, ins in enumerate(IRModule.from_bytes(codes).code):
             print(f"{i:04}: {ins}")
 
-    return module, describe_reader(reader)
+    return codes, describe_reader(reader)
 
 
 def _walk(reader, path="root"):

@@ -294,8 +294,8 @@ def test_reader_rejects_a_child_held_as_a_class_attribute():
 
 
 def test_a_decorated_reader_is_marked_compilable():
-    assert type(PrimitiveReader("p", typecode="i")).__dict__.get("__jit_checked__") is True
+    assert type(PrimitiveReader("p", typecode="i")).__dict__.get("__reader_checked__") is True
 
 
 def test_an_undecorated_reader_is_not_marked():
-    assert _Undecorated.__dict__.get("__jit_checked__", False) is False
+    assert _Undecorated.__dict__.get("__reader_checked__", False) is False

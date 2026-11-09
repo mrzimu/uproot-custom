@@ -5,7 +5,6 @@ The machine seam: backend selection, program caching, and detree execution.
 from __future__ import annotations
 
 import struct
-import threading
 
 import numpy as np
 import pytest
@@ -13,13 +12,7 @@ import pytest
 import uproot_custom.detree as dt
 from uproot_custom.detree.builtin import PrimitiveReader
 from uproot_custom.detree.compiler.frontend import compile_reader
-from uproot_custom.detree.run import (
-    Compiled,
-    backend_name,
-    entry_offsets,
-    new_machine,
-    run,
-)
+from uproot_custom.detree.run import backend_name, entry_offsets, run
 
 try:
     import detree
@@ -73,46 +66,44 @@ def test_the_backend_refuses_an_unknown_value(fresh_backend, monkeypatch):
         dt.set_impl("jit")
 
 
-def _compiled(reader):
-    raw, _ = compile_reader(reader)
-    return Compiled(data=raw)
+def _codes(reader):
+    codes, _ = compile_reader(reader)
+    return codes
 
 
-def test_a_compiled_reader_holds_detree_bytes_and_a_module():
-    compiled = _compiled(PrimitiveReader("p", typecode="i"))
+def test_the_compiled_bytes_are_a_detree_module():
+    codes = _codes(PrimitiveReader("p", typecode="i"))
 
-    assert compiled.data[:4] == b"DETR"
-    assert compiled.module.funcs[compiled.module.entry].name == "root.read"
-
-
-def test_every_basket_gets_a_machine_of_its_own():
-    compiled = _compiled(PrimitiveReader("p", typecode="i"))
-
-    assert new_machine(compiled) is not new_machine(compiled)
+    assert codes[:4] == b"DETR"
+    module = detree.spec.module.Module.from_bytes(codes)
+    detree.spec.validate.validate_module(module)
+    assert module.funcs[module.entry].name == "root.read"
 
 
-def test_one_thread_reuses_its_machine_and_another_thread_gets_its_own():
-    compiled = _compiled(PrimitiveReader("p", typecode="i"))
+def test_every_run_builds_a_machine_of_its_own(monkeypatch):
+    built = []
+    machine_class = detree.Machine
 
-    assert compiled.machine() is compiled.machine()
+    def factory(code, backend=None):
+        machine = machine_class(code, backend=backend)
+        built.append(machine)
+        return machine
 
-    seen = []
+    monkeypatch.setattr(detree, "Machine", factory)
+    codes = _codes(PrimitiveReader("p", typecode="i"))
 
-    def build():
-        seen.append(compiled.machine())
+    run(codes, struct.pack(">i", 1), [0, 4])
+    run(codes, struct.pack(">i", 2), [0, 4])
 
-    worker = threading.Thread(target=build)
-    worker.start()
-    worker.join()
-
-    assert seen[0] is not compiled.machine()
+    assert len(built) == 2
+    assert built[0] is not built[1]
 
 
-def test_one_compiled_reader_serves_basket_after_basket():
-    compiled = _compiled(PrimitiveReader("p", typecode="i"))
+def test_one_module_serves_basket_after_basket():
+    codes = _codes(PrimitiveReader("p", typecode="i"))
 
-    first, _ = run(compiled, struct.pack(">i", 1), [0, 4])
-    second, _ = run(compiled, struct.pack(">i", 2), [0, 4])
+    first, _ = run(codes, struct.pack(">i", 1), [0, 4])
+    second, _ = run(codes, struct.pack(">i", 2), [0, 4])
 
     np.testing.assert_array_equal(first["root:values"], [1])
     np.testing.assert_array_equal(second["root:values"], [2])
@@ -126,17 +117,25 @@ def test_entry_offsets_derive_fixed_width_offsets():
         entry_offsets(b"", None)
 
 
+def test_run_derives_fixed_width_offsets_from_nbyte():
+    codes = _codes(PrimitiveReader("p", typecode="i"))
+
+    outputs, _ = run(codes, struct.pack(">ii", 1, 2), None, nbyte=4)
+
+    np.testing.assert_array_equal(outputs["root:values"], [1, 2])
+
+
 @pytest.mark.skipif(not _available("cpp"), reason="the detree C++ machine is not built")
 def test_both_machines_produce_the_same_buffers():
-    reader = PrimitiveReader("p", typecode="i")
+    codes = _codes(PrimitiveReader("p", typecode="i"))
     payload = struct.pack(">iii", 1, -2, 3)
     offsets = np.array([0, 4, 8, 12], dtype=np.int64)
 
     with dt.use_impl("python"):
-        python_buffers, python_states = run(_compiled(reader), payload, offsets)
+        python_buffers, python_states = run(codes, payload, offsets)
 
     with dt.use_impl("cpp"):
-        cpp_buffers, cpp_states = run(_compiled(reader), payload, offsets)
+        cpp_buffers, cpp_states = run(codes, payload, offsets)
 
     assert python_buffers.keys() == cpp_buffers.keys()
     for name, values in python_buffers.items():
@@ -144,10 +143,18 @@ def test_both_machines_produce_the_same_buffers():
     assert python_states == cpp_states
 
 
-def test_new_machine_is_a_detree_machine():
-    compiled = _compiled(PrimitiveReader("p", typecode="i"))
+def test_run_selects_the_configured_machine(monkeypatch):
+    seen = []
+    machine_class = detree.Machine
 
-    machine = new_machine(compiled)
+    def factory(code, backend=None):
+        seen.append(backend)
+        return machine_class(code, backend=backend)
 
-    assert machine.backend == backend_name()
-    assert machine.isa == (detree.spec.isa.ISA_MAJOR, detree.spec.isa.ISA_MINOR)
+    monkeypatch.setattr(detree, "Machine", factory)
+    codes = _codes(PrimitiveReader("p", typecode="i"))
+
+    with dt.use_impl("python"):
+        run(codes, struct.pack(">i", 1), [0, 4])
+
+    assert seen == ["python"]

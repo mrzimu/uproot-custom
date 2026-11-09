@@ -186,10 +186,10 @@ def read_branch_awkward_form(
 
 class Factory:
     """
-    Base class of reader factories. Reader factory is in charge of
-    generating reader configuration tree, build an combine C++ reader
-    and reconstruct raw array from C++ reader into structured awkward
-    array.
+    Base class of reader factories.
+
+    A factory builds the reader tree for a branch and reconstructs the raw
+    arrays returned by the selected reader backend into an awkward array.
     """
 
     @classmethod
@@ -223,9 +223,8 @@ class Factory:
             item_path: path of the item being matched, for specific behavior.
 
         Returns:
-            A dictionary containing all necessary information of building
-            C++ reader and reconstruct raw data to awkward array for current
-            item.
+            A factory instance when this class matches the item, otherwise
+            `None`.
         """
         return None
 
@@ -254,7 +253,7 @@ class Factory:
         """
         Build the declarative reader the detree backend compiles.
 
-        There is deliberately no default: the detree backend needs a native
+        There is deliberately no default: the detree backend needs a detree
         reader, and the other backends (`cpp`, `python`, `forth`) do not use
         this method. A factory that does not implement it cannot be read with
         `UPROOT_CUSTOM_READER_BACKEND=detree`.
@@ -263,7 +262,7 @@ class Factory:
             An instance of `uproot_custom.detree.builtin.Reader`.
         """
         raise NotImplementedError(
-            f"{type(self).__name__} does not build a native reader; "
+            f"{type(self).__name__} does not implement build_detree_reader; "
             "use a different reader backend"
         )
 
@@ -287,10 +286,10 @@ class Factory:
         raw_data: Any,
     ) -> awkward.contents.Content:
         """
-        Reconstruct awkward contents with raw data returned from the C++ reader.
+        Reconstruct awkward contents with raw data returned by the reader backend.
 
         Args:
-            raw_data: Data returned from C++ reader.
+            raw_data: Data returned by the reader backend.
 
         Returns:
             The awkward content that builds the corresponding array.
@@ -1265,8 +1264,10 @@ class GroupFactory(Factory):
 
 class BaseObjectFactory(GroupFactory):
     """
-    This class reads base-object of an object. The base object has
-    fNBytes(uint32), fVersion(uint16) at the beginning.
+    This class reads the base-class part of an object.
+
+    A `BASE` member is the base class's members concatenated; it carries no
+    `fNBytes`/`fVersion` header of its own (`docs/reference/binary-format.md`).
     """
 
     @classmethod
@@ -1298,6 +1299,12 @@ class BaseObjectFactory(GroupFactory):
     def build_python_reader(self):
         sub_readers = [s.build_python_reader() for s in self.sub_factories]
         return uproot_custom.python.GroupReader(self.name, sub_readers)
+
+    def build_detree_reader(self):
+        return uproot_custom.detree.builtin.GroupReader(
+            self.name,
+            elements=tuple(s.build_detree_reader() for s in self.sub_factories),
+        )
 
     def build_forth_reader(
         self,

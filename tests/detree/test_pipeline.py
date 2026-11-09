@@ -4,12 +4,13 @@ The detree backend, exercised stage by stage.
 The fixture-wide comparison with the Python backend lives in
 `tests/test_readers.py`; this file walks the pipeline itself so a break is
 attributed to the stage that produced it: the awkward form, the compiled
-module, the refusal of a factory without a native reader, the per-branch
+module, the refusal of a factory without a detree reader, the per-branch
 compilation cache, and concurrent reads of one branch.
 """
 
 from __future__ import annotations
 
+import pickle
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -21,9 +22,10 @@ import uproot
 from uproot_custom import AsCustom
 from uproot_custom.backend import use_backend
 from uproot_custom.detree import cache
+from uproot_custom.detree.builtin import GroupReader
 from uproot_custom.detree.compiler.frontend import compile_reader, describe_reader
 from uproot_custom.detree.run import compiled_for_reader
-from uproot_custom.factories import Factory
+from uproot_custom.factories import BaseObjectFactory, Factory, PrimitiveFactory
 
 DATA = Path(__file__).parent.parent / "data"
 
@@ -77,19 +79,28 @@ def test_the_stages_are_wired():
             detree.spec.isa.BufferKind.DATA,
         ]
 
-        compiled = compiled_for_reader(reader)
-        assert compiled.data == raw
-        assert compiled.data[:4] == b"DETR"
-        assert compiled.module.funcs[compiled.module.entry].name == "root.read"
+        codes = compiled_for_reader(reader)
+        assert codes == raw
+        assert codes[:4] == b"DETR"
+        assert module.funcs[module.entry].name == "root.read"
 
         hits = cache.STATS["hits"]
-        assert compiled_for_reader(reader) is compiled
+        assert compiled_for_reader(reader) is codes
         assert cache.STATS["hits"] == hits + 1
 
 
 def test_a_factory_without_a_native_reader_is_refused():
-    with pytest.raises(NotImplementedError, match="does not build a native reader"):
+    with pytest.raises(NotImplementedError, match="does not implement build_detree_reader"):
         Factory("stub").build_detree_reader()
+
+
+def test_base_object_factory_builds_a_native_group_reader():
+    factory = BaseObjectFactory("TObject", [PrimitiveFactory("m_int", "int32")])
+
+    reader = factory.build_detree_reader()
+
+    assert isinstance(reader, GroupReader)
+    compile_reader(reader)
 
 
 def test_a_branch_without_a_native_reader_is_refused():
@@ -103,7 +114,9 @@ def test_a_branch_without_a_native_reader_is_refused():
 
         basket = entry.basket(0)
         library = uproot.interpretation.library.Awkward()
-        with pytest.raises(NotImplementedError, match="does not build a native reader"):
+        with pytest.raises(
+            NotImplementedError, match="does not implement build_detree_reader"
+        ):
             interpretation.basket_array(
                 basket.data,
                 basket.byte_offsets,
@@ -126,12 +139,28 @@ def test_the_compiled_reader_is_cached_on_the_branch():
     with use_backend("detree"), uproot.open(path) as file:
         entry = file[branch]
         entry.array(library="ak")
-        compiled = entry.interpretation._compiled_detree_reader
+        codes = entry.interpretation._compiled_detree_codes
+        assert isinstance(codes, bytes)
 
         entry.file._array_cache = None
         entry.array(library="ak")
 
-    assert entry.interpretation._compiled_detree_reader is compiled
+    assert entry.interpretation._compiled_detree_codes is codes
+
+
+def test_the_interpretation_remains_picklable_after_a_detree_read():
+    path = DATA / "test_primitive.root"
+    branch = "/tree:branch/m_int"
+
+    with use_backend("detree"), uproot.open(path) as file:
+        entry = file[branch]
+        entry.array(library="ak")
+        interpretation = entry.interpretation
+        assert isinstance(interpretation._compiled_detree_codes, bytes)
+
+        restored = pickle.loads(pickle.dumps(interpretation))
+
+    assert isinstance(restored, AsCustom)
 
 
 def test_switching_backends_returns_the_same_array():

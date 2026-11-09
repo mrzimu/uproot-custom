@@ -14,7 +14,7 @@ kMapOffset = 2
 
 _MISSING = object()
 
-TYPECODE = Literal["b", "B", "h", "H", "i", "I", "l", "L", "q", "Q", "f", "d"]
+TYPECODE = Literal["b", "B", "h", "H", "i", "I", "q", "Q", "f", "d"]
 TYPECODE_TO_DTYPE = {
     "b": np.int8,
     "B": np.uint8,
@@ -22,17 +22,15 @@ TYPECODE_TO_DTYPE = {
     "H": np.uint16,
     "i": np.int32,
     "I": np.uint32,
-    "l": np.int32,
-    "L": np.uint32,
     "q": np.int64,
     "Q": np.uint64,
     "f": np.float32,
     "d": np.float64,
 }
 
-#: numpy dtype name -> fixed-width ``struct`` typecode.  Only the codes whose
-#: ``array.array`` width matches the dtype: ``l``/``L`` are 8 bytes on Linux but
-#: map to a 32-bit numpy dtype here, and the machine has no coercer for them.
+#: numpy dtype name -> fixed-width ``struct`` typecode.  The platform-dependent
+#: ``l``/``L`` are deliberately absent: ``array.array`` makes them 8 bytes on
+#: Linux, and the machine has no coercer for them.
 DTYPE_TO_TYPECODE = {
     "bool": "B",
     "uint8": "B",

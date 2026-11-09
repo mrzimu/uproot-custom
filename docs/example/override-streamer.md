@@ -1,9 +1,6 @@
 # Example 1: `Streamer` method is overridden
 
-Goal: handle a class whose `Streamer` overrides the default layout by inserting
-an extra mask. We will inspect the bytes, write a Python reader, wrap it with a
-factory, register it, then read with Uproot. Finally, we show how to port the
-reader to C++ for production speed.
+Goal: handle a class whose `Streamer` overrides the default layout by inserting an extra mask. We will inspect the bytes, write a Python reader, wrap it with a factory, register it, then read with Uproot. Finally, we show how to port the reader to C++ for production speed.
 
 ```{seealso}
 A full example can be found in the [example repository](https://github.com/mrzimu/uproot-custom-example).
@@ -278,8 +275,7 @@ AsCustom.target_branches |= {
 registered_factories.add(OverrideStreamerFactory)
 ```
 
-Don't forget to switch to the Python backend during development, since the
-default backend is C++:
+Don't forget to switch to the Python backend during development, since the default backend is C++:
 
 ```python
 import uproot_custom as uc
@@ -297,14 +293,10 @@ Now we can read the data using Uproot as usual:
 
 ## Step 6: Port the reader to C++ for production speed
 
-Once the Python reader is working, you can port the same logic to C++ for
-significantly better performance. **The C++ reader only needs to keep the same
-reading logic as the Python version** — the same fields read in the same
-order, and `data()` returning the same structure.
+Once the Python reader is working, you can port the same logic to C++ for significantly better performance. **The C++ reader only needs to keep the same reading logic as the Python version** — the same fields read in the same order, and `data()` returning the same structure.
 
 ```{seealso}
-See [](../tutorial/customize-factory-reader/port-to-cpp.md) for the full
-C++ reader API reference (IReader, BinaryStream, pybind11 bindings).
+See [](../tutorial/customize-factory-reader/port-to-cpp.md) for the full C++ reader API reference (IReader, BinaryStream, pybind11 bindings).
 ```
 
 ```{code-block} cpp
@@ -374,15 +366,11 @@ def build_cpp_reader(self):
     return OverrideStreamerCppReader(self.name)
 ```
 
-After adding `build_cpp_reader`, simply remove the
-`uc.set_backend("python")` line (or change it to `uc.set_backend("cpp")`) to use the
-default C++ backend for production:
+After adding `build_cpp_reader`, simply remove the `uc.set_backend("python")` line (or change it to `uc.set_backend("cpp")`) to use the default C++ backend for production:
 
 ```python
 import uproot_custom as uc
 uc.set_backend("cpp")  # this is the default, so you can also just remove the line
 ```
 
-The factory's `make_awkward_content` and `make_awkward_form` remain exactly
-the same — they work identically regardless of which backend is used,
-because both readers return data in the same structure.
+The factory's `make_awkward_content` and `make_awkward_form` remain exactly the same — they work identically regardless of which backend is used, because both readers return data in the same structure.

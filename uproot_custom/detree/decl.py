@@ -232,7 +232,7 @@ class ChildDict(_Field):
 # -- Reader ----------------------------------------------------------------------
 class Reader:
     __fields__: tuple[_Field, ...] = ()
-    __jit_checked__ = False
+    __reader_checked__ = False
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
@@ -528,6 +528,6 @@ def reader(cls):
         _lint(cls, method, function)
         _check_assignments(cls, method, function)
 
-    cls.__jit_checked__ = True
+    cls.__reader_checked__ = True
 
     return cls

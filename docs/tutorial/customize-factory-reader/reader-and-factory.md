@@ -2,14 +2,10 @@
 
 Uproot-custom splits the work between two layers:
 
-- **Reader** — reads binary data from the ROOT byte stream. It can be written
-  in **Python** (for rapid development and debugging) or **C++** (for
-  production performance).
-- **Factory** (Python) — orchestrates readers, and converts their output into
-  `awkward` arrays.
+- **Reader** — reads binary data from the ROOT byte stream. It can be written in **Python** (for rapid development and debugging) or **C++** (for production performance).
+- **Factory** (Python) — orchestrates readers, and converts their output into `awkward` arrays.
 
-This page describes the Python reader and factory interfaces, then presents a
-worked example using the Python backend.
+This page describes the Python reader and factory interfaces, then presents a worked example using the Python backend.
 
 ---
 
@@ -17,16 +13,14 @@ worked example using the Python backend.
 
 ### Base class: `IReader`
 
-Every Python reader must inherit from `uproot_custom.python.IReader`
-and implement two methods:
+Every Python reader must inherit from `uproot_custom.python.IReader` and implement two methods:
 
 | Method | Purpose |
 | ------ | ------- |
 | `read(stream)` | Consume bytes from the stream for one entry. |
 | `data()` | Return all accumulated data as `numpy` arrays (or nested containers of them). |
 
-Three additional methods handle special reading patterns (override only when
-needed):
+Three additional methods handle special reading patterns (override only when needed):
 
 | Method | When it is called |
 | ------ | ----------------- |
@@ -72,8 +66,7 @@ Every reader requires a `name: str` for debug output.
 
 ### `BinaryStream`
 
-`BinaryStream` wraps a byte stream and provides convenience methods for
-reading ROOT binary data.
+`BinaryStream` wraps a byte stream and provides convenience methods for reading ROOT binary data.
 
 **Reading**
 - `read_uint8() → int`, `read_uint16()`, `read_uint32()`, `read_uint64()`: Read unsigned integers.
@@ -101,15 +94,11 @@ reading ROOT binary data.
 
 ### Accepting sub-readers
 
-Composite readers accept sub-readers for nested types.
-Pass sub-readers as `IReader` instances because they are managed by Python's
-garbage collector.
+Composite readers accept sub-readers for nested types. Pass sub-readers as `IReader` instances because they are managed by Python's garbage collector.
 
 ### Debug output
 
-Set the `UPROOT_DEBUG` environment variable to enable debug printing. When
-enabled, the module-level `debug_print` function becomes an alias for
-`print`:
+Set the `UPROOT_DEBUG` environment variable to enable debug printing. When enabled, the module-level `debug_print` function becomes an alias for `print`:
 
 ```python
 import os
@@ -130,8 +119,7 @@ def read(self, stream):
 
 ## Factory interface (Python)
 
-Every Python factory must inherit from `Factory` and implement four
-methods:
+Every Python factory must inherit from `Factory` and implement four methods:
 
 | Method | Purpose |
 | ------ | ------- |
@@ -141,17 +129,13 @@ methods:
 | `make_awkward_content(raw_data)` | Convert raw `numpy` data into an `awkward.contents.Content`. |
 | `make_awkward_form` | Return an `awkward.forms.Form` describing the data layout. |
 
-Uproot-custom iterates over all registered factory classes **sorted by
-`priority()` in descending order** and uses the first one whose
-`build_factory` returns a non-`None` result.
+Uproot-custom iterates over all registered factory classes **sorted by `priority()` in descending order** and uses the first one whose `build_factory` returns a non-`None` result.
 
 ### `priority` (classmethod)
 
-Controls the order in which factories are tried. Factories with **higher**
-priority are called first. The default value is `10`.
+Controls the order in which factories are tried. Factories with **higher** priority are called first. The default value is `10`.
 
-Override this method when your factory needs to run before or after the
-built-in ones:
+Override this method when your factory needs to run before or after the built-in ones:
 
 ```python
 class MySpecialFactory(Factory):
@@ -169,27 +153,21 @@ For reference, the built-in factories use the following priorities:
 | 0 | `AnyClassFactory` | Catch-all fallback — should run last. |
 
 ```{tip}
-When registering a custom factory that targets a specific class name, the
-default priority (`10`) is usually sufficient because `build_factory` already
-returns `None` for non-matching classes. Increase the priority only when your
-factory competes with a built-in factory for the same type name.
+When registering a custom factory that targets a specific class name, the default priority (`10`) is usually sufficient because `build_factory` already returns `None` for non-matching classes. Increase the priority only when your factory competes with a built-in factory for the same type name.
 ```
 
 ### Constructor
 
-The constructor receives all parameters needed for the three runtime methods.
-At minimum it must accept a `name` (usually `fName` from the streamer info).
+The constructor receives all parameters needed for the three runtime methods. At minimum it must accept a `name` (usually `fName` from the streamer info).
 
 (method-build-factory)=
 ### `build_factory` (classmethod)
 
 Called during factory-tree construction. Parameters:
 
-- `top_type_name: str` — the top-level type name, with `std::` prefixes
-  stripped (e.g. `vector` for `std::vector<std::map<int, float>>`).
+- `top_type_name: str` — the top-level type name, with `std::` prefixes stripped (e.g. `vector` for `std::vector<std::map<int, float>>`).
 
-- `cur_streamer_info: dict` — the streamer dictionary for the current data
-  member. Use it to decide whether this factory is applicable. Example:
+- `cur_streamer_info: dict` — the streamer dictionary for the current data member. Use it to decide whether this factory is applicable. Example:
 
     ```python
     {'@fUniqueID': 0,
@@ -204,8 +182,7 @@ Called during factory-tree construction. Parameters:
     'fTypeName': 'int'}
     ```
 
-- `all_streamer_info: dict` — maps every class name to the list of its
-  members' streamer dictionaries. Use it to look up nested classes:
+- `all_streamer_info: dict` — maps every class name to the list of its members' streamer dictionaries. Use it to look up nested classes:
 
     ```python
     >>> all_streamer_info["TSimpleObject"]
@@ -244,23 +221,19 @@ Called during factory-tree construction. Parameters:
         sub_factories.append(sub_fac)
     ```
 
-- `item_path: str` — the dot-separated path from the root to this node.
-  Useful for path-specific logic.
+- `item_path: str` — the dot-separated path from the root to this node. Useful for path-specific logic.
 
 - `**kwargs` — reserved for future use.
 
-**Return** an instance of the factory if the node matches, or `None` to pass
-to the next registered factory.
+**Return** an instance of the factory if the node matches, or `None` to pass to the next registered factory.
 
 ### `build_python_reader`
 
-Instantiate and return the Python reader. For composite factories, also build
-sub-readers and wire them together.
+Instantiate and return the Python reader. For composite factories, also build sub-readers and wire them together.
 
 ### `make_awkward_content(raw_data)`
 
-Convert `raw_data` (the value returned by the reader's `data()` method) into
-an `awkward.contents.Content`.
+Convert `raw_data` (the value returned by the reader's `data()` method) into an `awkward.contents.Content`.
 
 ```{seealso}
 [`awkward` direct constructors](https://awkward-array.org/doc/main/user-guide/how-to-create-constructors.html)
@@ -278,13 +251,11 @@ Return an `awkward.forms.Form` that describes the data layout. This is used for 
 
 ## Worked example: `TArray`
 
-Take the `TArrayReader` / `TArrayFactory` pair as a concrete example.
-`TArray` nodes store a `uint32_t` size followed by that many typed elements.
+Take the `TArrayReader` / `TArrayFactory` pair as a concrete example. `TArray` nodes store a `uint32_t` size followed by that many typed elements.
 
 ### Python reader
 
-`TArrayReader` reads `fSize`, then reads `fSize` elements. It accumulates
-offsets and data using Python's `array` module:
+`TArrayReader` reads `fSize`, then reads `fSize` elements. It accumulates offsets and data using Python's `array` module:
 
 ```{code-block} python
 ---
@@ -321,9 +292,7 @@ class TArrayReader(IReader):
 
 ### Python factory
 
-`TArrayFactory` matches any `TArray*` type name, creates the corresponding
-typed Python reader, and converts the offsets + data arrays into an `awkward`
-`ListOffsetArray`:
+`TArrayFactory` matches any `TArray*` type name, creates the corresponding typed Python reader, and converts the offsets + data arrays into an `awkward` `ListOffsetArray`:
 
 ```{code-block} python
 ---
@@ -400,17 +369,12 @@ class TArrayFactory(Factory):
 ---
 
 ```{seealso}
-Once your Python reader is working correctly, you can port the logic to C++
-for production performance. See [](port-to-cpp.md) for the C++ `IReader` API,
-`BinaryStream` reference, pybind11 bindings, and a worked C++ version of
-`TArrayReader`.
+Once your Python reader is working correctly, you can port the logic to C++ for production performance. See [](port-to-cpp.md) for the C++ `IReader` API, `BinaryStream` reference, pybind11 bindings, and a worked C++ version of `TArrayReader`.
 ```
 
 ```{admonition} Next step
 ---
 class: hint
 ---
-You now understand the Reader and Factory interfaces. Move on to
-[Project setup](project-setup.md) to create a proper Python package that
-wires your factory and reader together.
+You now understand the Reader and Factory interfaces. Move on to [Project setup](project-setup.md) to create a proper Python package that wires your factory and reader together.
 ```
