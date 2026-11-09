@@ -104,7 +104,8 @@ namespace uproot_custom {
             , m_offsets( static_cast<uint32_t*>( offsets.request().ptr ) )
             , m_initial_cursor_offset( initial_cursor_position )
             , m_entries( offsets.request().size - 1 )
-            , m_cursor( static_cast<uint8_t*>( data.request().ptr ) ) {}
+            , m_cursor( static_cast<uint8_t*>( data.request().ptr ) )
+            , m_debug_print( getenv( "UPROOT_CUSTOM_DEBUG" ) ) {}
 
         /**
          * @brief Read a value of type T from the stream, handling endianness.
@@ -313,7 +314,11 @@ namespace uproot_custom {
          *
          * @param n Number of bytes to print.
          */
-        void debug_print( const size_t n = 100 ) const {
+        void debug_print( size_t n = 100 ) const {
+            if ( !m_debug_print ) return;
+
+            n = std::min( n, static_cast<size_t>( m_data + m_offsets[m_entries] - m_cursor ) );
+
             for ( size_t i = 0; i < n; i++ ) { std::cout << (int)*( m_cursor + i ) << " "; }
             std::cout << std::endl;
         }
@@ -325,6 +330,7 @@ namespace uproot_custom {
         const uint32_t* m_offsets;              ///< entry offsets pointer
         const uint32_t m_initial_cursor_offset; ///< initial cursor position, used for
                                                 ///< calculating relative offsets
+        const bool m_debug_print;               ///< whether to print debug information
 
         std::map<uint32_t, Reference> m_refs; ///< offset -> reference, used for pointer
                                               ///< reading
@@ -347,6 +353,16 @@ namespace uproot_custom {
     class IReader {
       protected:
         const std::string m_name; ///< name of the reader
+        const bool m_debug_print; ///< whether to print debug information
+
+        template <typename... Args>
+        inline void debug_printf( const char* msg, Args... args ) const {
+            if ( m_debug_print ) printf( msg, args... );
+        }
+
+        inline void debug_printf( uproot_custom::BinaryStream& stream, const size_t n = 100 ) {
+            if ( m_debug_print ) stream.debug_print( n );
+        }
 
       public:
         /**
@@ -354,7 +370,8 @@ namespace uproot_custom {
          *
          * @param name Name of the reader.
          */
-        IReader( std::string name ) : m_name( name ) {}
+        IReader( std::string name )
+            : m_name( name ), m_debug_print( getenv( "UPROOT_CUSTOM_DEBUG" ) ) {}
 
         virtual ~IReader() = default;
 
@@ -516,7 +533,10 @@ namespace uproot_custom {
 
     /**
      * @brief Debug print function. Prints only when environment variable with name
-     * `UPROOT_CUSTOM_DEBUG` is defined. Use this function like `printf()`.
+     * `UPROOT_CUSTOM_DEBUG` is defined. Use this function like `printf()`. DO NOT
+     * use this function in `read()` methods of the reader, since it may significantly
+     * slow down the reading process due to frequently retrieving the environment
+     * variable.
      *
      * @tparam Args Argument types. No need to specify explicitly.
      * @param msg The format string.
@@ -537,9 +557,7 @@ namespace uproot_custom {
      * @param stream The BinaryStream to print.
      * @param n Number of bytes to print.
      */
-    inline void debug_printf( uproot_custom::BinaryStream& stream, const size_t n = 100 ) {
-        bool do_print = getenv( "UPROOT_CUSTOM_DEBUG" );
-        if ( !do_print ) return;
+    inline void debug_printf( uproot_custom::BinaryStream& stream, size_t n = 100 ) {
         stream.debug_print( n );
     }
 
