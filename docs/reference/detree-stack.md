@@ -6,14 +6,6 @@ The **detree** reader backend is one of the ways `AsCustom` can decode a branch.
 The detree backend is experimental. It is meant for validation, benchmarking, and experiments rather than for production analysis. The `cpp` backend remains the default and the supported production path. Detree-VM's official release will ship the Rust machine only.
 ```
 
-## Install
-
-Detree-VM is an optional dependency:
-
-```sh
-pip install "uproot-custom[detree]"
-```
-
 ## Writing a reader the detree backend can run
 
 A custom factory that only implements `build_python_reader` or `build_cpp_reader` can still be read by those backends. To make it work with the detree backend too, add `build_detree_reader`, returning a *detree reader*:

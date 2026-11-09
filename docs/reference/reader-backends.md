@@ -6,7 +6,7 @@
 | ------- | -------------- | --------------------- | ----- |
 | `cpp` | `build_cpp_reader` | pybind11 readers in `uproot_custom.cpp` | **Default**; recommended for production |
 | `python` | `build_python_reader` | pure-Python readers in `uproot_custom.python` | Development, debugging, no C++ toolchain |
-| `detree` | `build_detree_reader` | declarative readers in `uproot_custom.detree` | Compiles to a detree-vm module; experimental, optional dependency; Detree-VM ships the Rust machine |
+| `detree` | `build_detree_reader` | declarative readers in `uproot_custom.detree` | Compiles to a detree-vm module; experimental; Detree-VM ships the Rust machine |
 | `forth` | `build_forth_reader` | Forth readers in `uproot_custom._forth` | Development and benchmarking only; warns on use |
 
 ## How backend selection works
@@ -48,7 +48,7 @@ The default backend is **C++**. When developing a new reader, explicitly use `uc
   - You need to debug reader behavior interactively (e.g., step through Python readers or print stream state).
   - You are on a platform without a C++17 toolchain or cannot build the native extension.
 - Prefer **C++** for any real analysis, performance-sensitive jobs, or large datasets.
-- Use **detree** to experiment with the compiled reader path; see [the Detree reader backend](detree-stack.md). It is optional and experimental.
+- Use **detree** to experiment with the compiled reader path; see [the Detree reader backend](detree-stack.md). It is experimental.
 - Use **forth** only for development or benchmarking. It is not recommended for production and emits a `UserWarning` on every read.
 
 ## Writing custom factories for multiple backends

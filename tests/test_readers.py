@@ -42,7 +42,6 @@ def test_cpp(test_contexts, subtests):
 
 
 def test_detree(test_contexts, subtests):
-    pytest.importorskip("detree", reason="detree-vm is not installed")
     _test_helper(test_contexts, subtests, "detree")
 
 

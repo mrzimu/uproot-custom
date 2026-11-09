@@ -45,7 +45,7 @@ flowchart TD
 This mechanism is implemented as `AsCustom` interpretation. The byte-level reader is selected by the reader backend (`cpp` by default, `python`, `forth`, or `detree`). This makes uproot-custom well compatible with Uproot.
 
 ```{tip}
-Users can implement their own Factory and Reader, register them to uproot-custom. Start with a **Python reader** for rapid prototyping, then port the logic to **C++** for production speed. The default reader backend is C++; during development, explicitly set the backend to Python. An optional, experimental `detree` backend compiles a declarative reader tree and runs it on the Detree virtual machine. An example of implementing a custom Factory / Reader can be found in [the example repository](https://github.com/mrzimu/uproot-custom-example).
+Users can implement their own Factory and Reader, register them to uproot-custom. Start with a **Python reader** for rapid prototyping, then port the logic to **C++** for production speed. The default reader backend is C++; during development, explicitly set the backend to Python. An experimental `detree` backend compiles a declarative reader tree and runs it on the Detree virtual machine. An example of implementing a custom Factory / Reader can be found in [the example repository](https://github.com/mrzimu/uproot-custom-example).
 ```
 
 ```{note}

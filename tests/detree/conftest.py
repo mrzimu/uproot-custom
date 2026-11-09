@@ -1,11 +1,6 @@
 """
-Skip the detree-vm tests when the optional dependency is not installed.
+The detree-vm tests are part of the normal suite.
 
-The execution API lives in `uproot_custom.detree.run`, whose compiler imports
-`detree`; without the package there is nothing to exercise here.
+`detree-vm` is a regular dependency of uproot-custom, so these tests always
+run; a missing installation should fail rather than skip.
 """
-
-from importlib.util import find_spec
-
-if find_spec("detree") is None:
-    collect_ignore_glob = ["test_*.py"]

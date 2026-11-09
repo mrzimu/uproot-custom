@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import struct
 
+import detree
 import numpy as np
 import pytest
 
@@ -13,13 +14,6 @@ import uproot_custom.detree as dt
 from uproot_custom.detree.builtin import PrimitiveReader
 from uproot_custom.detree.compiler.frontend import compile_reader
 from uproot_custom.detree.run import backend_name, entry_offsets, run
-
-try:
-    import detree
-except ImportError:  # pragma: no cover - optional dependency
-    detree = None
-
-pytestmark = pytest.mark.skipif(detree is None, reason="detree-vm is not installed")
 
 
 def _available(name):

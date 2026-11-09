@@ -19,23 +19,23 @@ Uproot-custom uses a Reader / Factory mechanism to read classes:
 
 ```mermaid
 flowchart TD
-    subgraph py["Python field"]
-        direction TB
-        AsCustom -- Recursively generate --> fac["Factory (Primitive, STLVector, TString, ...)"]
-        fac["Factory (Primitive, STLVector, TString, ...)"] -- Optional --> form(["construct awkward forms"])
-        fac --> build_reader(["build corresponding reader"])
-        fac --> build_ak(["construct awkward arrays"])
-    end
+  subgraph py["Python field"]
+    direction TB
+    AsCustom -- Recursively generate --> fac["Factory (Primitive, STLVector, TString, ...)"]
+    fac["Factory (Primitive, STLVector, TString, ...)"] -- Optional --> form(["construct awkward forms"])
+    fac --> build_reader(["build corresponding reader"])
+    fac --> build_ak(["construct awkward arrays"])
+  end
 
-    subgraph reader_field["Reader (Python, C++, or detree-compiled)"]
-        direction TB
-        build_reader --> reader["Reader"]
-        reader --> read_bin(["read binary data"])
-        read_bin --> ret_data(["return data"])
-    end
+  subgraph reader_field["Reader (Python, C++, or detree-compiled)"]
+    direction TB
+    build_reader --> reader["Reader"]
+    reader --> read_bin(["read binary data"])
+    read_bin --> ret_data(["return data"])
+  end
 
-    ret_data --> raw_data[("tuple, list, numpy arrays, ...")]
-    raw_data --> build_ak
+  ret_data --> raw_data[("tuple, list, numpy arrays, ...")]
+  raw_data --> build_ak
 ```
 
 - `Reader` is a class that implements the logic to read data from binary streams. It can be written in **Python** (for development and debugging), **C++** (for production performance), or as a declarative reader that the experimental **detree** backend compiles and runs on the Detree virtual machine.
@@ -56,13 +56,9 @@ This mechanism is implemented as `AsCustom` interpretation. The byte-level reade
 
 ## Detree reader backend
 
-`AsCustom` builds a reader tree for a branch; the reader backend decides who executes it.  The `detree` backend compiles the declarative reader tree to detree-vm IR, lets detree-vm optimize and lower it, and runs the resulting module on the Rust Detree machine.  It is experimental and an optional runtime dependency (the `detree` extra):
+`AsCustom` builds a reader tree for a branch; the reader backend decides who executes it. The experimental `detree` backend compiles the declarative reader tree to detree-vm IR, lets detree-vm optimize and lower it, and runs the resulting module on the Rust Detree machine.
 
-```sh
-pip install "uproot-custom[detree]"
-```
-
-Select the backend globally with `UPROOT_CUSTOM_READER_BACKEND=detree` (or `uproot_custom.set_backend("detree")`), or locally with `with uproot_custom.use_backend("detree"):`.  Detree-VM's official release will ship the Rust machine only.  See the [Detree backend documentation](https://mrzimu.github.io/uproot-custom/reference/detree-stack.html) for the supported branches, the `build_detree_reader` contract, and the debugging workflow.
+Select the backend globally with `UPROOT_CUSTOM_READER_BACKEND=detree` (or `uproot_custom.set_backend("detree")`), or locally with `with uproot_custom.use_backend("detree"):`. Detree-VM's official release will ship the Rust machine only. See the [Detree backend documentation](https://mrzimu.github.io/uproot-custom/reference/detree-stack.html) for the supported branches, the `build_detree_reader` contract, and the debugging workflow.
 
 ## Documentation
 
