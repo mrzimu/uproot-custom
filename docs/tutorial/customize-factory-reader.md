@@ -7,7 +7,7 @@ unsupported data layout.
 
 ```{important}
 The default reader backend is **C++**. During development, you should explicitly
-use ``backend.set("python")`` or ``with backend.use("python"):`` to use your
+use `uc.set_backend("python")` or `with uc.use_backend("python"):` to use your
 Python reader. Once the Python reader is validated, port it to C++ and switch
 back to the default C++ backend.
 ```

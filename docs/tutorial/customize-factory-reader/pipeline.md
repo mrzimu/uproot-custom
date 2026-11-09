@@ -116,17 +116,18 @@ like this:
 
 ## Stage 2: Build readers
 
-Once the factory tree is ready, `AsCustom` calls `Factory.build_python_reader`
-(or `Factory.build_cpp_reader` when using the default C++ backend) on the root
-factory. Each factory delegates to its sub-factories to build sub-readers, then
-combines them into a parent reader.
+Once the factory tree is ready, `AsCustom` calls the method that matches the
+selected reader backend: `Factory.build_python_reader`, `build_cpp_reader`
+(the default), `build_forth_reader`, or `build_detree_reader`. Each factory
+delegates to its sub-factories to build sub-readers, then combines them into a
+parent reader.
 
 ```{important}
-The default reader backend is **C++** (``backend.get()`` returns ``"cpp"``).
+The default reader backend is **C++** (`get_backend()` returns `"cpp"`).
 During development, you must explicitly switch to the Python backend:
 
-    from uproot_custom.readers import backend
-    backend.set("python")
+    import uproot_custom as uc
+    uc.set_backend("python")
 ```
 
 ```{code-block} python
@@ -139,7 +140,7 @@ class AnyClassFactory(GroupFactory):
 
     def build_python_reader(self):
         sub_readers = [s.build_python_reader() for s in self.sub_factories]
-        return uproot_custom.readers.python.AnyClassReader(self.name, sub_readers)
+        return uproot_custom.python.AnyClassReader(self.name, sub_readers)
 ```
 
 ---
@@ -371,7 +372,7 @@ lineno-start: 1
 ---
 from array import array
 import numpy as np
-from uproot_custom.readers.python import IReader
+from uproot_custom.python import IReader
 
 
 class OverrideStreamerReader(IReader):
@@ -407,10 +408,9 @@ lineno-start: 1
 ---
 import uproot
 import uproot_custom
-from uproot_custom.readers import backend
 
 # During development, use the Python backend
-backend.set("python")
+uproot_custom.set_backend("python")
 
 # Register the target branch and the custom factory
 uproot_custom.AsCustom.target_branches |= {

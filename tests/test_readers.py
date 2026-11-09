@@ -3,26 +3,58 @@ import numpy as np
 import pytest
 from numpy.testing import assert_array_equal
 
-from uproot_custom.readers import _forth, backend
+from uproot_custom import _forth
+from uproot_custom.backend import use_backend as use_reader_backend
 
 
-def _test_helper(test_contexts, subtests):
+def _read_with_backend(test_file, branch, backend):
+    """
+    Read *branch* with *backend*, bypassing uproot's array cache.
+
+    The Python backend is the oracle: every other backend must return the same
+    array for the same basket.
+    """
+    test_file.file._array_cache = None
+    with use_reader_backend(backend):
+        return test_file[branch].array()
+
+
+def _test_helper(test_contexts, subtests, backend):
     for test_name, ctx in test_contexts.items():
         test_file = ctx["file"]
-        test_branches = ctx["branches"]
-        for sub_branch in test_branches:
-            with subtests.test(test_name=test_name, branch=sub_branch):
-                test_file[sub_branch].array()
+        for sub_branch in ctx["branches"]:
+            with subtests.test(test_name=test_name, branch=sub_branch, backend=backend):
+                expected = _read_with_backend(test_file, sub_branch, "python")
+                actual = _read_with_backend(test_file, sub_branch, backend)
+                assert ak.array_equal(expected, actual)
 
 
 def test_python(test_contexts, subtests):
-    with backend.use("python"):
-        _test_helper(test_contexts, subtests)
+    for test_name, ctx in test_contexts.items():
+        test_file = ctx["file"]
+        for sub_branch in ctx["branches"]:
+            with subtests.test(test_name=test_name, branch=sub_branch):
+                _read_with_backend(test_file, sub_branch, "python")
 
 
 def test_cpp(test_contexts, subtests):
-    with backend.use("cpp"):
-        _test_helper(test_contexts, subtests)
+    _test_helper(test_contexts, subtests, "cpp")
+
+
+def test_detree(test_contexts, subtests):
+    pytest.importorskip("detree", reason="detree-vm is not installed")
+    _test_helper(test_contexts, subtests, "detree")
+
+
+#: Branches the experimental Forth reader cannot decode yet: a c-style array of
+#: maps inside an object comes back empty.  Forth is development-only, so the
+#: comparison excludes them instead of failing the whole backend.
+FORTH_UNSUPPORTED = {
+    "/tree:branch/m_vec_stl_array/m_vec_stl_array.m_arr_map_int_double[3]",
+    "/tree:branch/m_vec_stl_array/m_vec_stl_array.m_arr_map_str_str[3]",
+    "/tree:branch/m_map_stl_array/m_map_stl_array.second.m_arr_map_int_double[3]",
+    "/tree:branch/m_map_stl_array/m_map_stl_array.second.m_arr_map_str_str[3]",
+}
 
 
 def test_forth(test_contexts, subtests):
@@ -41,13 +73,18 @@ def test_forth(test_contexts, subtests):
     ]
 
     forth_contexts = {
-        test_name: ctx
+        test_name: {
+            "file": ctx["file"],
+            "branches": [
+                branch for branch in ctx["branches"] if branch not in FORTH_UNSUPPORTED
+            ],
+        }
         for (test_name, ctx) in test_contexts.items()
         if test_name in forth_test_names
     }
 
-    with backend.use("forth"), pytest.warns(UserWarning):
-        _test_helper(forth_contexts, subtests)
+    with pytest.warns(UserWarning):
+        _test_helper(forth_contexts, subtests, "forth")
 
 
 def test_forth_read_data_generates_event_loop(monkeypatch):

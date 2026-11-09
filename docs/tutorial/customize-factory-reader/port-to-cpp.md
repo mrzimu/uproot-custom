@@ -198,7 +198,7 @@ lineno-start: 1
 ---
 from array import array
 import numpy as np
-from uproot_custom.readers.python import IReader
+from uproot_custom.python import IReader
 
 
 class OverrideStreamerReader(IReader):
@@ -336,16 +336,16 @@ emphasize-lines: 2-12
 class TArrayFactory(Factory):
     def build_cpp_reader(self):
         return {
-            "int8": uproot_custom.readers.cpp.TArrayCReader,
-            "int16": uproot_custom.readers.cpp.TArraySReader,
-            "int32": uproot_custom.readers.cpp.TArrayIReader,
-            "int64": uproot_custom.readers.cpp.TArrayLReader,
-            "float32": uproot_custom.readers.cpp.TArrayFReader,
-            "float64": uproot_custom.readers.cpp.TArrayDReader,
+            "int8": uproot_custom.cpp.TArrayCReader,
+            "int16": uproot_custom.cpp.TArraySReader,
+            "int32": uproot_custom.cpp.TArrayIReader,
+            "int64": uproot_custom.cpp.TArrayLReader,
+            "float32": uproot_custom.cpp.TArrayFReader,
+            "float64": uproot_custom.cpp.TArrayDReader,
         }[self.dtype](self.name)
 
     def build_python_reader(self):
-        return uproot_custom.readers.python.TArrayReader(self.name, self.dtype)
+        return uproot_custom.python.TArrayReader(self.name, self.dtype)
 
     # ... make_awkward_content and make_awkward_form remain unchanged
 ```
@@ -358,12 +358,12 @@ After implementing `build_cpp_reader`, switch the backend to use
 C++ readers:
 
 ```python
-from uproot_custom.readers import backend
-backend.set("cpp")
+import uproot_custom as uc
+uc.set_backend("cpp")
 ```
 
 Since `"cpp"` is the default value, you can simply remove any explicit
-``backend.set("python")`` that was set during development.
+`uc.set_backend("python")` that was set during development.
 
 ```{seealso}
 See [](../../reference/reader-backends.md) for a full discussion of backend

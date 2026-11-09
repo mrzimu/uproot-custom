@@ -8,10 +8,7 @@ from typing import Literal
 import awkward as ak
 import numpy as np
 
-kNewClassTag = 0xFFFFFFFF
-kByteCountMask = 0x40000000
-kIsReferenced = 1 << 4
-kStreamedMemberwise = 1 << 14
+from uproot_custom.consts import kByteCountMask, kIsReferenced, kStreamedMemberwise
 
 stream_data_token = "__stream_data"
 stream_offset_token = "__stream_offset"

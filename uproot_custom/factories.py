@@ -10,10 +10,11 @@ import awkward.index
 import numpy as np
 import uproot
 
-import uproot_custom.readers._forth
-import uproot_custom.readers.backend
-import uproot_custom.readers.cpp
-import uproot_custom.readers.python
+import uproot_custom._forth
+import uproot_custom.cpp
+import uproot_custom.detree.builtin
+import uproot_custom.python
+from uproot_custom.consts import DTYPE_TO_TYPECODE
 from uproot_custom.utils import (
     get_dims_from_branch,
     get_map_key_val_typenames,
@@ -41,12 +42,12 @@ def build_factory(
     **kwargs,
 ) -> Factory:
     """
-    Generate factory with a given streamer information.
+    Generate a factory with the given streamer information.
 
     Args:
-        cur_streamer_info (dict): Streamer information of current item.
-        all_streamer_info (dict): All streamer information.
-        item_path (str): Path to the item.
+        cur_streamer_info: streamer information of the current item.
+        all_streamer_info: streamer information of all types.
+        item_path: path to the item.
 
     Returns:
         An instance of `Factory`.
@@ -103,15 +104,15 @@ def read_branch(
         nbyte = cur_streamer_info["fSize"]
         offsets = np.arange(data.size // nbyte + 1, dtype=np.uint32) * nbyte
 
-    backend_val = uproot_custom.readers.backend.get()
+    backend_val = uproot_custom.get_backend()
 
     if backend_val == "cpp":
         reader = factory.build_cpp_reader()
-        raw_data = uproot_custom.readers.cpp.read_data(data, offsets, cursor_offset, reader)
+        raw_data = uproot_custom.cpp.read_data(data, offsets, cursor_offset, reader)
 
     elif backend_val == "python":
         reader = factory.build_python_reader()
-        raw_data = uproot_custom.readers.python.read_data(data, offsets, cursor_offset, reader)
+        raw_data = uproot_custom.python.read_data(data, offsets, cursor_offset, reader)
 
     elif backend_val == "forth":
         warnings.warn(
@@ -119,9 +120,9 @@ def read_branch(
             UserWarning,
         )
 
-        buffer_holder = uproot_custom.readers._forth.BufferHolder()
+        buffer_holder = uproot_custom._forth.BufferHolder()
         reader = factory.build_forth_reader(buffer_holder)
-        raw_data = uproot_custom.readers._forth.read_data(data, offsets, reader)
+        raw_data = uproot_custom._forth.read_data(data, offsets, reader)
 
     else:
         raise ValueError(f"Unknown reader backend: {backend_val}.")
@@ -141,15 +142,15 @@ def read_branch_with_factory(
             raise ValueError("nbyte must be specified if offsets is None")
         offsets = np.arange(data.size // nbyte + 1, dtype=np.uint32) * nbyte
 
-    backend_val = uproot_custom.readers.backend.get()
+    backend_val = uproot_custom.get_backend()
 
     if backend_val == "cpp":
         reader = factory.build_cpp_reader()
-        raw_data = uproot_custom.readers.cpp.read_data(data, offsets, cursor_offset, reader)
+        raw_data = uproot_custom.cpp.read_data(data, offsets, cursor_offset, reader)
 
     elif backend_val == "python":
         reader = factory.build_python_reader()
-        raw_data = uproot_custom.readers.python.read_data(data, offsets, cursor_offset, reader)
+        raw_data = uproot_custom.python.read_data(data, offsets, cursor_offset, reader)
 
     elif backend_val == "forth":
         warnings.warn(
@@ -157,9 +158,9 @@ def read_branch_with_factory(
             UserWarning,
         )
 
-        buffer_holder = uproot_custom.readers._forth.BufferHolder()
+        buffer_holder = uproot_custom._forth.BufferHolder()
         reader = factory.build_forth_reader(buffer_holder)
-        raw_data = uproot_custom.readers._forth.read_data(data, offsets, reader)
+        raw_data = uproot_custom._forth.read_data(data, offsets, reader)
 
     else:
         raise ValueError(f"Unknown reader backend: {backend_val}.")
@@ -213,14 +214,13 @@ class Factory:
         otherwise return `None`.
 
         Args:
-            top_type_name (str): Name of the top-level class of current item.
+            top_type_name: name of the top-level class of the current item.
                 For example, `vector<int>` -> `vector`.
-            cur_streamer_info (dict): Streamer information of current item.
-            all_streamer_info (dict): Dictionary storing streamer information
-                of all types. The key is the classname, pair is a dictionary
-                like `cur_streamer_info`.
-            item_path (str): Indicating which item is being matched. One can
-                use this variable to apply specific behavior.
+            cur_streamer_info: streamer information of the current item.
+            all_streamer_info: streamer information of all types, keyed by
+                class name; each value is a dictionary like
+                `cur_streamer_info`.
+            item_path: path of the item being matched, for specific behavior.
 
         Returns:
             A dictionary containing all necessary information of building
@@ -232,16 +232,16 @@ class Factory:
     def __init__(self, name: str):
         self.name = name
 
-    def build_cpp_reader(self) -> uproot_custom.readers.cpp.IReader:
+    def build_cpp_reader(self) -> uproot_custom.cpp.IReader:
         """
         Build concrete C++ reader.
 
         Returns:
-            An instance of `uproot_custom.readers.cpp.IReader`.
+            An instance of `uproot_custom.cpp.IReader`.
         """
         raise NotImplementedError("build_cpp_reader not implemented.")
 
-    def build_python_reader(self) -> uproot_custom.readers.python.IReader:
+    def build_python_reader(self) -> uproot_custom.python.IReader:
         """
         Build concrete Python reader.
 
@@ -250,18 +250,35 @@ class Factory:
         """
         raise NotImplementedError("build_python_reader not implemented.")
 
+    def build_detree_reader(self) -> uproot_custom.detree.builtin.Reader:
+        """
+        Build the declarative reader the detree backend compiles.
+
+        There is deliberately no default: the detree backend needs a native
+        reader, and the other backends (`cpp`, `python`, `forth`) do not use
+        this method. A factory that does not implement it cannot be read with
+        `UPROOT_CUSTOM_READER_BACKEND=detree`.
+
+        Returns:
+            An instance of `uproot_custom.detree.builtin.Reader`.
+        """
+        raise NotImplementedError(
+            f"{type(self).__name__} does not build a native reader; "
+            "use a different reader backend"
+        )
+
     def build_forth_reader(
         self,
-        buffer_holder: uproot_custom.readers._forth.BufferHolder,
-    ) -> uproot_custom.readers._forth.IReader:
+        buffer_holder: uproot_custom._forth.BufferHolder,
+    ) -> uproot_custom._forth.IReader:
         """
         Build concrete Forth reader.
 
         Args:
-            buffer_holder: An instance of `BufferHolder` to register buffers
+            buffer_holder: An instance of `BufferHolder` to register buffers.
 
         Returns:
-            An instance of `uproot_custom.readers.forth.IReader`.
+            An instance of `uproot_custom._forth.IReader`.
         """
         raise NotImplementedError("build_forth_reader not implemented.")
 
@@ -276,7 +293,7 @@ class Factory:
             raw_data: Data returned from C++ reader.
 
         Returns:
-            awkward.contents.Content: Awkward content to build corresponding array.
+            The awkward content that builds the corresponding array.
         """
         raise NotImplementedError("reconstruct_array not implemented.")
 
@@ -285,7 +302,7 @@ class Factory:
         Generate awkward form with tree configuration.
 
         Returns:
-            awkward.forms.Form: Awkward form of current item.
+            The awkward form of the current item.
         """
         raise NotImplementedError("gen_awkward_form not implemented.")
 
@@ -351,17 +368,17 @@ class PrimitiveFactory(Factory):
     }
 
     cpp_reader_map: ClassVar[dict[str, type]] = {
-        "bool": uproot_custom.readers.cpp.UInt8Reader,
-        "int8": uproot_custom.readers.cpp.Int8Reader,
-        "int16": uproot_custom.readers.cpp.Int16Reader,
-        "int32": uproot_custom.readers.cpp.Int32Reader,
-        "int64": uproot_custom.readers.cpp.Int64Reader,
-        "uint8": uproot_custom.readers.cpp.UInt8Reader,
-        "uint16": uproot_custom.readers.cpp.UInt16Reader,
-        "uint32": uproot_custom.readers.cpp.UInt32Reader,
-        "uint64": uproot_custom.readers.cpp.UInt64Reader,
-        "float32": uproot_custom.readers.cpp.FloatReader,
-        "float64": uproot_custom.readers.cpp.DoubleReader,
+        "bool": uproot_custom.cpp.UInt8Reader,
+        "int8": uproot_custom.cpp.Int8Reader,
+        "int16": uproot_custom.cpp.Int16Reader,
+        "int32": uproot_custom.cpp.Int32Reader,
+        "int64": uproot_custom.cpp.Int64Reader,
+        "uint8": uproot_custom.cpp.UInt8Reader,
+        "uint16": uproot_custom.cpp.UInt16Reader,
+        "uint32": uproot_custom.cpp.UInt32Reader,
+        "uint64": uproot_custom.cpp.UInt64Reader,
+        "float32": uproot_custom.cpp.FloatReader,
+        "float64": uproot_custom.cpp.DoubleReader,
     }
 
     @classmethod
@@ -374,7 +391,7 @@ class PrimitiveFactory(Factory):
         **kwargs,
     ):
         """
-        Return when `top_type_name` is primitive type.
+        Return when `top_type_name` is a primitive type.
         """
         dtype = cls.ftype2dtype.get(cur_streamer_info.get("fType", -1), None)
         if dtype is None:
@@ -395,15 +412,18 @@ class PrimitiveFactory(Factory):
         return self.cpp_reader_map[self.dtype](self.name)
 
     def build_python_reader(self):
-        return uproot_custom.readers.python.PrimitiveReader(self.name, self.dtype)
+        return uproot_custom.python.PrimitiveReader(self.name, self.dtype)
+
+    def build_detree_reader(self):
+        return uproot_custom.detree.builtin.PrimitiveReader(
+            self.name, typecode=DTYPE_TO_TYPECODE[self.dtype]
+        )
 
     def build_forth_reader(
         self,
-        buffer_holder: uproot_custom.readers._forth.BufferHolder,
+        buffer_holder: uproot_custom._forth.BufferHolder,
     ):
-        return uproot_custom.readers._forth.PrimitiveReader(
-            self.name, self.dtype, buffer_holder
-        )
+        return uproot_custom._forth.PrimitiveReader(self.name, self.dtype, buffer_holder)
 
     def make_awkward_content(self, raw_data: np.ndarray):
         if self.dtype == "bool":
@@ -500,7 +520,7 @@ class STLSeqFactory(Factory):
 
     def build_cpp_reader(self):
         element_reader = self.element_factory.build_cpp_reader()
-        return uproot_custom.readers.cpp.STLSeqReader(
+        return uproot_custom.cpp.STLSeqReader(
             self.name,
             self.with_header,
             element_reader,
@@ -508,18 +528,25 @@ class STLSeqFactory(Factory):
 
     def build_python_reader(self):
         element_reader = self.element_factory.build_python_reader()
-        return uproot_custom.readers.python.STLSeqReader(
+        return uproot_custom.python.STLSeqReader(
             self.name,
             self.with_header,
             element_reader,
         )
 
+    def build_detree_reader(self):
+        return uproot_custom.detree.builtin.STLSeqReader(
+            self.name,
+            with_header=self.with_header,
+            element=self.element_factory.build_detree_reader(),
+        )
+
     def build_forth_reader(
         self,
-        buffer_holder: uproot_custom.readers._forth.BufferHolder,
+        buffer_holder: uproot_custom._forth.BufferHolder,
     ):
         element_reader = self.element_factory.build_forth_reader(buffer_holder)
-        return uproot_custom.readers._forth.STLSeqReader(
+        return uproot_custom._forth.STLSeqReader(
             self.name,
             self.with_header,
             element_reader,
@@ -617,7 +644,7 @@ class STLMapFactory(Factory):
         key_cpp_reader = self.key_factory.build_cpp_reader()
         val_cpp_reader = self.val_factory.build_cpp_reader()
 
-        return uproot_custom.readers.cpp.STLMapReader(
+        return uproot_custom.cpp.STLMapReader(
             self.name,
             self.with_header,
             key_cpp_reader,
@@ -628,16 +655,24 @@ class STLMapFactory(Factory):
         key_python_reader = self.key_factory.build_python_reader()
         val_python_reader = self.val_factory.build_python_reader()
 
-        return uproot_custom.readers.python.STLMapReader(
+        return uproot_custom.python.STLMapReader(
             self.name,
             self.with_header,
             key_python_reader,
             val_python_reader,
         )
 
+    def build_detree_reader(self):
+        return uproot_custom.detree.builtin.STLMapReader(
+            self.name,
+            with_header=self.with_header,
+            key=self.key_factory.build_detree_reader(),
+            value=self.val_factory.build_detree_reader(),
+        )
+
     def build_forth_reader(
         self,
-        buffer_holder: uproot_custom.readers._forth.BufferHolder,
+        buffer_holder: uproot_custom._forth.BufferHolder,
     ):
         is_obj_wise = self.objwise_or_memberwise == 0
 
@@ -649,7 +684,7 @@ class STLMapFactory(Factory):
         key_forth_reader = self.key_factory.build_forth_reader(buffer_holder)
         val_forth_reader = self.val_factory.build_forth_reader(buffer_holder)
 
-        return uproot_custom.readers._forth.STLMapReader(
+        return uproot_custom._forth.STLMapReader(
             self.name,
             self.with_header,
             objwise_or_memberwise,
@@ -711,22 +746,27 @@ class STLStringFactory(Factory):
         self.with_header = with_header
 
     def build_cpp_reader(self):
-        return uproot_custom.readers.cpp.STLStringReader(
+        return uproot_custom.cpp.STLStringReader(
             self.name,
             self.with_header,
         )
 
     def build_python_reader(self):
-        return uproot_custom.readers.python.STLStringReader(
+        return uproot_custom.python.STLStringReader(
             self.name,
             self.with_header,
         )
 
+    def build_detree_reader(self):
+        return uproot_custom.detree.builtin.STLStringReader(
+            self.name, with_header=self.with_header
+        )
+
     def build_forth_reader(
         self,
-        buffer_holder: uproot_custom.readers._forth.BufferHolder,
+        buffer_holder: uproot_custom._forth.BufferHolder,
     ):
-        return uproot_custom.readers._forth.STLStringReader(
+        return uproot_custom._forth.STLStringReader(
             self.name,
             self.with_header,
             buffer_holder,
@@ -790,22 +830,27 @@ class TArrayFactory(Factory):
 
     def build_cpp_reader(self):
         return {
-            "int8": uproot_custom.readers.cpp.TArrayCReader,
-            "int16": uproot_custom.readers.cpp.TArraySReader,
-            "int32": uproot_custom.readers.cpp.TArrayIReader,
-            "int64": uproot_custom.readers.cpp.TArrayLReader,
-            "float32": uproot_custom.readers.cpp.TArrayFReader,
-            "float64": uproot_custom.readers.cpp.TArrayDReader,
+            "int8": uproot_custom.cpp.TArrayCReader,
+            "int16": uproot_custom.cpp.TArraySReader,
+            "int32": uproot_custom.cpp.TArrayIReader,
+            "int64": uproot_custom.cpp.TArrayLReader,
+            "float32": uproot_custom.cpp.TArrayFReader,
+            "float64": uproot_custom.cpp.TArrayDReader,
         }[self.dtype](self.name)
 
     def build_python_reader(self):
-        return uproot_custom.readers.python.TArrayReader(self.name, self.dtype)
+        return uproot_custom.python.TArrayReader(self.name, self.dtype)
+
+    def build_detree_reader(self):
+        return uproot_custom.detree.builtin.TArrayReader(
+            self.name, typecode=DTYPE_TO_TYPECODE[self.dtype]
+        )
 
     def build_forth_reader(
         self,
-        buffer_holder: uproot_custom.readers._forth.BufferHolder,
+        buffer_holder: uproot_custom._forth.BufferHolder,
     ):
-        return uproot_custom.readers._forth.TArrayReader(self.name, self.dtype, buffer_holder)
+        return uproot_custom._forth.TArrayReader(self.name, self.dtype, buffer_holder)
 
     def make_awkward_content(self, raw_data):
         offsets, data = raw_data
@@ -845,18 +890,21 @@ class TStringFactory(Factory):
         self.with_header = with_header
 
     def build_cpp_reader(self):
-        return uproot_custom.readers.cpp.TStringReader(self.name, self.with_header)
+        return uproot_custom.cpp.TStringReader(self.name, self.with_header)
 
     def build_python_reader(self):
-        return uproot_custom.readers.python.TStringReader(self.name, self.with_header)
+        return uproot_custom.python.TStringReader(self.name, self.with_header)
+
+    def build_detree_reader(self):
+        return uproot_custom.detree.builtin.TStringReader(
+            self.name, with_header=self.with_header
+        )
 
     def build_forth_reader(
         self,
-        buffer_holder: uproot_custom.readers._forth.BufferHolder,
+        buffer_holder: uproot_custom._forth.BufferHolder,
     ):
-        return uproot_custom.readers._forth.TStringReader(
-            self.name, self.with_header, buffer_holder
-        )
+        return uproot_custom._forth.TStringReader(self.name, self.with_header, buffer_holder)
 
     def make_awkward_content(self, raw_data):
         offsets, data = raw_data
@@ -895,10 +943,13 @@ class TObjectFactory(Factory):
         **kwargs,
     ):
         """
+        Match the `TObject` base record.
+
         The configuration contains:
-        - `factory`: cls
-        - `name: fName,
-        - `keep_data`: Whether keep data from TObject.
+
+        - `factory`: `cls`
+        - `name`: `fName`
+        - `keep_data`: whether to keep data from `TObject`.
         """
         if top_type_name != "BASE":
             return None
@@ -917,22 +968,25 @@ class TObjectFactory(Factory):
         self.keep_data = keep_data
 
     def build_cpp_reader(self):
-        return uproot_custom.readers.cpp.TObjectReader(
+        return uproot_custom.cpp.TObjectReader(
             self.name,
             self.keep_data,
         )
 
     def build_python_reader(self):
-        return uproot_custom.readers.python.TObjectReader(
+        return uproot_custom.python.TObjectReader(
             self.name,
             self.keep_data,
         )
 
+    def build_detree_reader(self):
+        return uproot_custom.detree.builtin.TObjectReader(self.name, keep_data=self.keep_data)
+
     def build_forth_reader(
         self,
-        buffer_holder: uproot_custom.readers._forth.BufferHolder,
+        buffer_holder: uproot_custom._forth.BufferHolder,
     ):
-        return uproot_custom.readers._forth.TObjectReader(
+        return uproot_custom._forth.TObjectReader(
             self.name,
             self.keep_data,
             buffer_holder,
@@ -1050,7 +1104,7 @@ class CStyleArrayFactory(Factory):
 
     def build_cpp_reader(self):
         element_reader = self.element_factory.build_cpp_reader()
-        return uproot_custom.readers.cpp.CStyleArrayReader(
+        return uproot_custom.cpp.CStyleArrayReader(
             self.name,
             self.flat_size,
             element_reader,
@@ -1058,18 +1112,25 @@ class CStyleArrayFactory(Factory):
 
     def build_python_reader(self):
         element_reader = self.element_factory.build_python_reader()
-        return uproot_custom.readers.python.CStyleArrayReader(
+        return uproot_custom.python.CStyleArrayReader(
             self.name,
             self.flat_size,
             element_reader,
         )
 
+    def build_detree_reader(self):
+        return uproot_custom.detree.builtin.CStyleArrayReader(
+            self.name,
+            flat_size=self.flat_size,
+            element=self.element_factory.build_detree_reader(),
+        )
+
     def build_forth_reader(
         self,
-        buffer_holder: uproot_custom.readers._forth.BufferHolder,
+        buffer_holder: uproot_custom._forth.BufferHolder,
     ):
         element_reader = self.element_factory.build_forth_reader(buffer_holder)
-        return uproot_custom.readers._forth.CStyleArrayReader(
+        return uproot_custom._forth.CStyleArrayReader(
             self.name,
             self.flat_size,
             element_reader,
@@ -1146,18 +1207,24 @@ class GroupFactory(Factory):
 
     def build_cpp_reader(self):
         sub_readers = [s.build_cpp_reader() for s in self.sub_factories]
-        return uproot_custom.readers.cpp.GroupReader(self.name, sub_readers)
+        return uproot_custom.cpp.GroupReader(self.name, sub_readers)
 
     def build_python_reader(self):
         sub_readers = [s.build_python_reader() for s in self.sub_factories]
-        return uproot_custom.readers.python.GroupReader(self.name, sub_readers)
+        return uproot_custom.python.GroupReader(self.name, sub_readers)
+
+    def build_detree_reader(self):
+        return uproot_custom.detree.builtin.GroupReader(
+            self.name,
+            elements=tuple(s.build_detree_reader() for s in self.sub_factories),
+        )
 
     def build_forth_reader(
         self,
-        buffer_holder: uproot_custom.readers._forth.BufferHolder,
+        buffer_holder: uproot_custom._forth.BufferHolder,
     ):
         sub_readers = [s.build_forth_reader(buffer_holder) for s in self.sub_factories]
-        return uproot_custom.readers._forth.GroupReader(self.name, sub_readers, buffer_holder)
+        return uproot_custom._forth.GroupReader(self.name, sub_readers, buffer_holder)
 
     def make_awkward_content(self, raw_data):
         sub_configs = self.sub_factories
@@ -1226,18 +1293,18 @@ class BaseObjectFactory(GroupFactory):
 
     def build_cpp_reader(self):
         sub_readers = [s.build_cpp_reader() for s in self.sub_factories]
-        return uproot_custom.readers.cpp.GroupReader(self.name, sub_readers)
+        return uproot_custom.cpp.GroupReader(self.name, sub_readers)
 
     def build_python_reader(self):
         sub_readers = [s.build_python_reader() for s in self.sub_factories]
-        return uproot_custom.readers.python.GroupReader(self.name, sub_readers)
+        return uproot_custom.python.GroupReader(self.name, sub_readers)
 
     def build_forth_reader(
         self,
-        buffer_holder: uproot_custom.readers._forth.BufferHolder,
+        buffer_holder: uproot_custom._forth.BufferHolder,
     ):
         sub_readers = [s.build_forth_reader(buffer_holder) for s in self.sub_factories]
-        return uproot_custom.readers._forth.GroupReader(self.name, sub_readers, buffer_holder)
+        return uproot_custom._forth.GroupReader(self.name, sub_readers, buffer_holder)
 
 
 class AnyClassFactory(GroupFactory):
@@ -1268,20 +1335,24 @@ class AnyClassFactory(GroupFactory):
 
     def build_cpp_reader(self):
         sub_readers = [s.build_cpp_reader() for s in self.sub_factories]
-        return uproot_custom.readers.cpp.AnyClassReader(self.name, sub_readers)
+        return uproot_custom.cpp.AnyClassReader(self.name, sub_readers)
 
     def build_python_reader(self):
         sub_readers = [s.build_python_reader() for s in self.sub_factories]
-        return uproot_custom.readers.python.AnyClassReader(self.name, sub_readers)
+        return uproot_custom.python.AnyClassReader(self.name, sub_readers)
+
+    def build_detree_reader(self):
+        return uproot_custom.detree.builtin.AnyClassReader(
+            self.name,
+            elements=tuple(s.build_detree_reader() for s in self.sub_factories),
+        )
 
     def build_forth_reader(
         self,
-        buffer_holder: uproot_custom.readers._forth.BufferHolder,
+        buffer_holder: uproot_custom._forth.BufferHolder,
     ):
         sub_readers = [s.build_forth_reader(buffer_holder) for s in self.sub_factories]
-        return uproot_custom.readers._forth.AnyClassReader(
-            self.name, sub_readers, buffer_holder
-        )
+        return uproot_custom._forth.AnyClassReader(self.name, sub_readers, buffer_holder)
 
 
 class AnyPointerFactory(Factory):
@@ -1334,11 +1405,16 @@ class AnyPointerFactory(Factory):
 
     def build_cpp_reader(self):
         element_reader = self.element_factory.build_cpp_reader()
-        return uproot_custom.readers.cpp.AnyPointerReader(self.name, element_reader)
+        return uproot_custom.cpp.AnyPointerReader(self.name, element_reader)
 
     def build_python_reader(self):
         element_reader = self.element_factory.build_python_reader()
-        return uproot_custom.readers.python.AnyPointerReader(self.name, element_reader)
+        return uproot_custom.python.AnyPointerReader(self.name, element_reader)
+
+    def build_detree_reader(self):
+        return uproot_custom.detree.builtin.AnyPointerReader(
+            self.name, element=self.element_factory.build_detree_reader()
+        )
 
     def make_awkward_content(self, raw_data):
         element_data, element_idxs = raw_data
@@ -1374,16 +1450,19 @@ class EmptyFactory(Factory):
         return
 
     def build_cpp_reader(self):
-        return uproot_custom.readers.cpp.EmptyReader(self.name)
+        return uproot_custom.cpp.EmptyReader(self.name)
 
     def build_python_reader(self):
-        return uproot_custom.readers.python.EmptyReader(self.name)
+        return uproot_custom.python.EmptyReader(self.name)
+
+    def build_detree_reader(self):
+        return uproot_custom.detree.builtin.EmptyReader(self.name)
 
     def build_forth_reader(
         self,
-        buffer_holder: uproot_custom.readers._forth.BufferHolder,
+        buffer_holder: uproot_custom._forth.BufferHolder,
     ):
-        return uproot_custom.readers._forth.EmptyReader(self.name, buffer_holder)
+        return uproot_custom._forth.EmptyReader(self.name, buffer_holder)
 
     def make_awkward_content(self, raw_data):
         return awkward.contents.EmptyArray()

@@ -4,7 +4,7 @@ Type stubs for ROOT C++ reader classes.
 This file contains only type hints without implementations.
 """
 
-from uproot_custom.cpp import (
+from uproot_custom.cpp.kernel import (
     AnyClassReader,
     AnyPointerReader,
     CStyleArrayReader,

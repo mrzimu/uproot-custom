@@ -17,7 +17,7 @@ worked example using the Python backend.
 
 ### Base class: `IReader`
 
-Every Python reader must inherit from `uproot_custom.readers.python.IReader`
+Every Python reader must inherit from `uproot_custom.python.IReader`
 and implement two methods:
 
 | Method | Purpose |
@@ -293,7 +293,7 @@ caption: "`TArrayReader` (Python)"
 from array import array
 import numpy as np
 
-from uproot_custom.readers.python import IReader, BinaryStream, DTYPE_TO_READER, DTYPE_TO_TYPECODE
+from uproot_custom.python import IReader, BinaryStream, DTYPE_TO_READER, DTYPE_TO_TYPECODE
 
 
 class TArrayReader(IReader):
@@ -329,7 +329,7 @@ typed Python reader, and converts the offsets + data arrays into an `awkward`
 ---
 caption: "`TArrayFactory`"
 ---
-import uproot_custom.readers.python
+import uproot_custom.python
 
 class TArrayFactory(Factory):
     """
@@ -373,16 +373,16 @@ class TArrayFactory(Factory):
 
     def build_cpp_reader(self):
         return {
-            "int8": uproot_custom.readers.cpp.TArrayCReader,
-            "int16": uproot_custom.readers.cpp.TArraySReader,
-            "int32": uproot_custom.readers.cpp.TArrayIReader,
-            "int64": uproot_custom.readers.cpp.TArrayLReader,
-            "float32": uproot_custom.readers.cpp.TArrayFReader,
-            "float64": uproot_custom.readers.cpp.TArrayDReader,
+            "int8": uproot_custom.cpp.TArrayCReader,
+            "int16": uproot_custom.cpp.TArraySReader,
+            "int32": uproot_custom.cpp.TArrayIReader,
+            "int64": uproot_custom.cpp.TArrayLReader,
+            "float32": uproot_custom.cpp.TArrayFReader,
+            "float64": uproot_custom.cpp.TArrayDReader,
         }[self.dtype](self.name)
 
     def build_python_reader(self):
-        return uproot_custom.readers.python.TArrayReader(self.name, self.dtype)
+        return uproot_custom.python.TArrayReader(self.name, self.dtype)
 
     def make_awkward_content(self, raw_data):
         offsets, data = raw_data

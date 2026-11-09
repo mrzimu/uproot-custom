@@ -54,6 +54,29 @@ This mechanism is implemented as `AsCustom` interpretation. This makes uproot-cu
 - **C++17 compatible compiler**: Required for building C++ readers and the uproot-custom extension module. The CMake configuration sets `CMAKE_CXX_STANDARD 17`.
 - **Python 3.9+**: Uproot-custom supports Python 3.9 through 3.14.
 
+## Detree reader backend
+
+`AsCustom` builds a reader tree for a branch; the reader backend decides who
+executes it.  The experimental `detree` backend compiles the declarative
+reader tree to detree-vm IR, lets detree-vm optimize and lower it, and runs the
+resulting module on a Detree machine.  It is an optional runtime dependency
+(the `detree` extra).  In this workspace, install the sibling checkout before
+the project:
+
+```sh
+DETREE_SHIP_BACKEND=both uv pip install -e ../detree-vm
+uv pip install -e . --group dev
+```
+
+Select the backend globally with `UPROOT_CUSTOM_READER_BACKEND=detree` (or
+`uproot_custom.set_backend("detree")`), or locally with
+`with uproot_custom.use_backend("detree"):`.  `UPROOT_CUSTOM_DETREE_BACKEND=python|cpp|rust`
+selects the machine (or call `uproot_custom.detree.set_impl`); without either,
+`rust` is used.  See
+the [Detree backend documentation](https://mrzimu.github.io/uproot-custom/reference/detree-stack.html)
+for the supported branches, the native-reader contract, and the debugging
+workflow.
+
 ## Documentation
 
 View the [documentation](https://mrzimu.github.io/uproot-custom/) for more details about customizing your own `reader`/`factory`, the architecture of uproot-custom, and build-only dependencies (e.g., `pybind11` is needed only at build time and should not be present in the runtime environment).

@@ -217,7 +217,7 @@ Our `TObjArrayReader` in Python can be implemented as follows:
 from array import array
 import numpy as np
 
-from uproot_custom.readers.python import IReader, BinaryStream
+from uproot_custom.python import IReader, BinaryStream
 
 
 class TObjArrayReader(IReader):
@@ -410,8 +410,8 @@ Don't forget to switch to the Python backend during development, since the
 default backend is C++:
 
 ```python
-from uproot_custom.readers import backend
-backend.set("python")  # default is "cpp"
+import uproot_custom as uc
+uc.set_backend("python")  # default is "cpp"
 ```
 
 ## Step 5: Read data with Uproot
@@ -485,12 +485,12 @@ def build_cpp_reader(self):
 ```
 
 After adding `build_cpp_reader`, simply remove the
-``backend.set("python")`` line (or change it to ``backend.set("cpp")``) to use the
+`uc.set_backend("python")` line (or change it to `uc.set_backend("cpp")`) to use the
 default C++ backend for production:
 
 ```python
-from uproot_custom.readers import backend
-backend.set("cpp")  # this is the default, so you can also just remove the line
+import uproot_custom as uc
+uc.set_backend("cpp")  # this is the default, so you can also just remove the line
 ```
 
 The factory's `make_awkward_content` and `make_awkward_form` remain exactly
