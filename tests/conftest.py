@@ -378,7 +378,7 @@ TEST_BRANCHES = {
 }
 
 for brs in TEST_BRANCHES.values():
-    uproot_custom.AsCustom.target_branches |= set(brs)
+    uproot_custom.claim(brs)
 
 
 @pytest.fixture(scope="session")

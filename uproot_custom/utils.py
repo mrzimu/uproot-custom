@@ -1,12 +1,39 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Iterable
 
 import uproot.behaviors.TBranch
 
 
 def regularize_object_path(object_path: str) -> str:
     return re.sub(r";[0-9]+", r"", object_path)
+
+
+def _regularized_paths(paths: str | Iterable[str], caller: str) -> tuple[str, ...]:
+    """
+    Regularize one object-path or an iterable of them.
+
+    Args:
+        paths: one object-path, or an iterable of them.
+        caller: name of the public function, used in the error message.
+
+    Returns:
+        The paths without their cycle number.
+
+    Raises:
+        TypeError: if an item is not a `str`.
+    """
+    if isinstance(paths, str):
+        paths = (paths,)
+
+    regularized = []
+    for cur in paths:
+        if not isinstance(cur, str):
+            raise TypeError(f"{caller}() takes object paths as str, not {type(cur).__name__}")
+        regularized.append(regularize_object_path(cur))
+
+    return tuple(regularized)
 
 
 _title_has_dims = re.compile(r"^([^\[\]]*)(\[[^\[\]]+\])+")
