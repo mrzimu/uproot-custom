@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="80" column="25" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="80" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" line="80" column="25" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" bodystart="80" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -25,7 +25,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="79" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="79" bodyend="81"/>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" line="79" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" bodystart="79" bodyend="81"/>
     <listofallmembers>
       <member refid="structuproot__custom_1_1_binary_stream_1_1_ref_cls_1af8fab2e42011c28acb71de3b3636084b" prot="public" virt="non-virtual"><scope>uproot_custom::BinaryStream::RefCls</scope><name>name</name></member>
     </listofallmembers>

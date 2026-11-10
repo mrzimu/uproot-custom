@@ -14,10 +14,10 @@
     <includes local="no">memory</includes>
     <includes local="no">string</includes>
     <includes local="no">variant</includes>
-    <includedby refid="uproot-custom_8cc" local="yes">/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc</includedby>
+    <includedby refid="uproot-custom_8cc" local="yes">/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc</includedby>
     <incdepgraph>
       <node id="1">
-        <label>/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh</label>
+        <label>/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh</label>
         <link refid="uproot-custom_8hh"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -101,7 +101,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="34" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="34" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" line="34" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" bodystart="34" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -445,6 +445,6 @@
 <codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">uproot_custom;</highlight></codeline>
 <codeline lineno="570"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh"/>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh"/>
   </compounddef>
 </doxygen>

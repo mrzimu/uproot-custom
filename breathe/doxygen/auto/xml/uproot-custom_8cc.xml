@@ -43,7 +43,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc</label>
+        <label>/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc</label>
         <link refid="uproot-custom_8cc"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -975,8 +975,8 @@
 <codeline lineno="1245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>reader-&gt;data();</highlight></codeline>
 <codeline lineno="1246"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="1247"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1248"><highlight class="normal"><sp/><sp/><sp/><sp/>PYBIND11_MODULE(<sp/>cpp,<sp/>m<sp/>)<sp/>{</highlight></codeline>
-<codeline lineno="1249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m.doc()<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;C++<sp/>module<sp/>for<sp/>uproot-custom&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1248"><highlight class="normal"><sp/><sp/><sp/><sp/>PYBIND11_MODULE(<sp/>kernel,<sp/>m<sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="1249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m.doc()<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;C++<sp/>kernel<sp/>for<sp/>uproot-custom&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="1250"><highlight class="normal"></highlight></codeline>
 <codeline lineno="1251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m.def(<sp/></highlight><highlight class="stringliteral">&quot;read_data&quot;</highlight><highlight class="normal">,<sp/>&amp;py_read_data,<sp/></highlight><highlight class="stringliteral">&quot;Read<sp/>data<sp/>from<sp/>a<sp/>binary<sp/>stream&quot;</highlight><highlight class="normal">,<sp/>py::arg(<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal"><sp/>),</highlight></codeline>
 <codeline lineno="1252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>py::arg(<sp/></highlight><highlight class="stringliteral">&quot;offsets&quot;</highlight><highlight class="normal"><sp/>),<sp/>py::arg(<sp/></highlight><highlight class="stringliteral">&quot;cursor_offset&quot;</highlight><highlight class="normal"><sp/>),<sp/>py::arg(<sp/></highlight><highlight class="stringliteral">&quot;reader&quot;</highlight><highlight class="normal"><sp/>)<sp/>);</highlight></codeline>
@@ -1023,6 +1023,6 @@
 <codeline lineno="1293"><highlight class="normal"></highlight></codeline>
 <codeline lineno="1294"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>uproot_custom</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
-    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc"/>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc"/>
   </compounddef>
 </doxygen>

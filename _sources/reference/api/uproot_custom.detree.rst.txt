@@ -1,0 +1,77 @@
+uproot\_custom.detree package
+=============================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 10
+
+   uproot_custom.detree.compiler
+
+Submodules
+----------
+
+uproot\_custom.detree.bufferproxy module
+----------------------------------------
+
+.. automodule:: uproot_custom.detree.bufferproxy
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+uproot\_custom.detree.builtin module
+------------------------------------
+
+.. automodule:: uproot_custom.detree.builtin
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+uproot\_custom.detree.cache module
+----------------------------------
+
+.. automodule:: uproot_custom.detree.cache
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+uproot\_custom.detree.decl module
+---------------------------------
+
+.. automodule:: uproot_custom.detree.decl
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+uproot\_custom.detree.interp module
+-----------------------------------
+
+.. automodule:: uproot_custom.detree.interp
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+uproot\_custom.detree.run module
+--------------------------------
+
+.. automodule:: uproot_custom.detree.run
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+uproot\_custom.detree.stream module
+-----------------------------------
+
+.. automodule:: uproot_custom.detree.stream
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: uproot_custom.detree
+   :members:
+   :show-inheritance:
+   :undoc-members:

@@ -186,19 +186,19 @@
     <member refid="uproot-custom_8hh_1a462fa53f1230e91aa986934ae68dfacd" kind="function"><name>debug_printf</name></member>
     <member refid="uproot-custom_8hh_1a22118dcb32c008a9f445cbd666f70133" kind="function"><name>debug_printf</name></member>
     <member refid="uproot-custom_8cc_1a78f2057fecf7042ebd7ec7a8a8e713a7" kind="function"><name>py_read_data</name></member>
-    <member refid="uproot-custom_8cc_1aeecea1c20102e153fb11c401511b06ed" kind="function"><name>PYBIND11_MODULE</name></member>
+    <member refid="uproot-custom_8cc_1ae27bf3baf5cf5bda1db21112b347b75b" kind="function"><name>PYBIND11_MODULE</name></member>
   </compound>
   <compound refid="uproot-custom_8hh" kind="file"><name>uproot-custom.hh</name>
     <member refid="uproot-custom_8hh_1a392ac9b641493f2271147294f98592ba" kind="define"><name>IMPORT_UPROOT_CUSTOM_CPP</name></member>
   </compound>
   <compound refid="uproot-custom_8cc" kind="file"><name>uproot-custom.cc</name>
   </compound>
-  <compound refid="dir_df511e5bd85cec96854b39d5e1c27aa8" kind="dir"><name>/home/runner/work/uproot-custom/uproot-custom/cpp</name>
+  <compound refid="dir_009f605b833ac4622acd6c3c0c26c0f0" kind="dir"><name>/home/runner/work/uproot-custom/uproot-custom/kernel/include</name>
   </compound>
-  <compound refid="dir_07f37e320deb3031a60f4b23b9c60eb5" kind="dir"><name>/home/runner/work/uproot-custom/uproot-custom/cpp/include</name>
+  <compound refid="dir_dc43877d82dd332f9fb2071fcca799d6" kind="dir"><name>/home/runner/work/uproot-custom/uproot-custom/kernel</name>
   </compound>
-  <compound refid="dir_7e72c7cf48e3493f8206cd364e6bc9f6" kind="dir"><name>/home/runner/work/uproot-custom/uproot-custom/cpp/src</name>
+  <compound refid="dir_3dd30a497388ee684638f120a124721c" kind="dir"><name>/home/runner/work/uproot-custom/uproot-custom/kernel/src</name>
   </compound>
-  <compound refid="dir_09a99c3ba1102f5ef37beec98271baab" kind="dir"><name>/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom</name>
+  <compound refid="dir_61619134264b1e0d03a10c1efd2c0f6b" kind="dir"><name>/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom</name>
   </compound>
 </doxygenindex>

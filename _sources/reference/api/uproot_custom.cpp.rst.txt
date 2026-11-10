@@ -1,0 +1,10 @@
+uproot\_custom.cpp package
+==========================
+
+Module contents
+---------------
+
+.. automodule:: uproot_custom.cpp
+   :members:
+   :show-inheritance:
+   :undoc-members:

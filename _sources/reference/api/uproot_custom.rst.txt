@@ -1,0 +1,70 @@
+uproot\_custom package
+======================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 10
+
+   uproot_custom.cpp
+   uproot_custom.detree
+
+Submodules
+----------
+
+uproot\_custom.backend module
+-----------------------------
+
+.. automodule:: uproot_custom.backend
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+uproot\_custom.consts module
+----------------------------
+
+.. automodule:: uproot_custom.consts
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+uproot\_custom.factories module
+-------------------------------
+
+.. automodule:: uproot_custom.factories
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+uproot\_custom.interpretation module
+------------------------------------
+
+.. automodule:: uproot_custom.interpretation
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+uproot\_custom.python module
+----------------------------
+
+.. automodule:: uproot_custom.python
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+uproot\_custom.utils module
+---------------------------
+
+.. automodule:: uproot_custom.utils
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: uproot_custom
+   :members:
+   :show-inheritance:
+   :undoc-members:

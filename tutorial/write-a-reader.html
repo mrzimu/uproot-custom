@@ -1,0 +1,904 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="Debug a reader" href="debug-a-reader.html"><link rel="prev" title="Investigate your data" href="investigate-data.html">
+
+    <!-- Generated with Sphinx 9.2.0 and Furo 2025.12.19 -->
+        <title>Write a Detree reader - Uproot-custom</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">Uproot-custom</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <span class="sidebar-brand-text">Uproot-custom</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Get started</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/how-it-works.html">How it works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/choosing-a-route.html">Choosing a technical route</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Write your own reader</a><input aria-label="Toggle navigation of Write your own reader" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="investigate-data.html">Investigate your data</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Write a Detree reader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug-a-reader.html">Debug a reader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="package-your-project.html">Package your project</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python + C++ route</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced/index.html">The Python + C++ route</a><input aria-label="Toggle navigation of The Python + C++ route" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/python-reader.html">Stage 1: the Python implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/cpp-reader.html">Stage 2: the C++ implementation</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/binary-format.html">Binary format of common classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/detree-dsl.html">Detree reader reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/version-requirements.html">Version requirements</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../reference/api.html">API documentation</a><input aria-label="Toggle navigation of API documentation" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reference/api/cpp-api.html">C++ API reference</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/api/uproot-custom-ref.html">Module reference</a><input aria-label="Toggle navigation of Module reference" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/api/uproot_custom.html">Python reference</a><input aria-label="Toggle navigation of Python reference" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/api/uproot_custom.cpp.html">uproot_custom.cpp package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../reference/api/uproot_custom.detree.html">uproot_custom.detree package</a><input aria-label="Toggle navigation of uproot_custom.detree package" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../reference/api/uproot_custom.detree.compiler.html">uproot_custom.detree.compiler package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../example/override-streamer.html">Example 1: <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method is overridden</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../example/read-tobjarray.html">Example 2: Read <code class="docutils literal notranslate"><span class="pre">TObjArray</span></code> with unique known type</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/mrzimu/uproot-custom/blob/main/docs/tutorial/write-a-reader.md?plain=true" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/mrzimu/uproot-custom/edit/main/docs/tutorial/write-a-reader.md" rel="edit" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="write-a-detree-reader">
+<h1>Write a Detree reader<a class="headerlink" href="#write-a-detree-reader" title="Link to this heading">¶</a></h1>
+<p>A branch is decoded by a <strong>reader</strong>, and a <strong>factory</strong> decides which reader a class gets. This page writes both for one class, <code class="docutils literal notranslate"><span class="pre">TOverrideStreamer</span></code>, whose <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method inserts an extra mask that the built-in factories cannot know about.</p>
+<p>The reader is a <em>Detree reader</em>: it declares its output buffers, constants and sub-readers as fields, and its <code class="docutils literal notranslate"><span class="pre">read</span></code> method is Python source that the compiler lowers to a detree-vm module. Nothing in <code class="docutils literal notranslate"><span class="pre">read</span></code> runs as Python during a read; <code class="docutils literal notranslate"><span class="pre">data</span></code> does, once per basket, to hand the filled buffers to the factory. This is the Detree route, the recommended one; the <a class="reference internal" href="../advanced/index.html"><span class="std std-doc">Python + C++ route</span></a> is the alternative.</p>
+<section id="what-you-will-build">
+<h2>What you will build<a class="headerlink" href="#what-you-will-build" title="Link to this heading">¶</a></h2>
+<p>By the end of this page you will have three pieces:</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Piece</p></th>
+<th class="head"><p>What it does</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>a <code class="docutils literal notranslate"><span class="pre">&#64;reader</span></code> class</p></td>
+<td><p>declares the buffers and decodes one entry of <code class="docutils literal notranslate"><span class="pre">TOverrideStreamer</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>a <code class="docutils literal notranslate"><span class="pre">Factory</span></code></p></td>
+<td><p>matches the class, builds the reader, and turns the buffers into an awkward record</p></td>
+</tr>
+<tr class="row-even"><td><p>a registration block</p></td>
+<td><p>adds the factory to <code class="docutils literal notranslate"><span class="pre">registered_factories</span></code> and claims the branch with <code class="docutils literal notranslate"><span class="pre">claim</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The branch then decodes to a record with two fields, the same on every backend.</p>
+</section>
+<section id="the-factory-api">
+<h2>The Factory API<a class="headerlink" href="#the-factory-api" title="Link to this heading">¶</a></h2>
+<p>Every factory inherits from <code class="docutils literal notranslate"><span class="pre">Factory</span></code>. Four methods matter, and one of them decides whether the class matches.</p>
+<p>Uproot-custom iterates over all registered factory classes <strong>sorted by <code class="docutils literal notranslate"><span class="pre">priority()</span></code> in descending order</strong> and uses the first one whose <code class="docutils literal notranslate"><span class="pre">build_factory</span></code> returns a non-<code class="docutils literal notranslate"><span class="pre">None</span></code> result.</p>
+<section id="priority-classmethod">
+<h3><code class="docutils literal notranslate"><span class="pre">priority</span></code> (classmethod)<a class="headerlink" href="#priority-classmethod" title="Link to this heading">¶</a></h3>
+<p>Controls the order in which factories are tried. Factories with <strong>higher</strong> priority are called first. The default value is <code class="docutils literal notranslate"><span class="pre">10</span></code>.</p>
+<p>Override this method when your factory needs to run before or after the built-in ones:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MySpecialFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">priority</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">20</span>   <span class="c1"># run before most built-in factories (default 10)</span>
+</pre></div>
+</div>
+<p>For reference, the built-in factories use the following priorities:</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Priority</p></th>
+<th class="head"><p>Factory</p></th>
+<th class="head"><p>Why</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>20</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CStyleArrayFactory</span></code></p></td>
+<td><p>Must match C-style arrays before other factories see the same type name.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>15</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AnyPointerFactory</span></code></p></td>
+<td><p>Must see an object pointer (<code class="docutils literal notranslate"><span class="pre">MyClass*</span></code>) before the factories that would treat it as an inline class and skip its pointer header.</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>10</p></td>
+<td><p>All other built-in factories</p></td>
+<td><p>Default.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code></p></td>
+<td><p>Catch-all fallback — should run last.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>When registering a custom factory that targets a specific class name, the default priority (<code class="docutils literal notranslate"><span class="pre">10</span></code>) is usually sufficient because <code class="docutils literal notranslate"><span class="pre">build_factory</span></code> already returns <code class="docutils literal notranslate"><span class="pre">None</span></code> for non-matching classes. Increase the priority only when your factory competes with a built-in factory for the same type name. The one to watch is a class that arrives behind a pointer: <code class="docutils literal notranslate"><span class="pre">AnyPointerFactory</span></code> runs at 15, so a factory that must own such a member needs a priority above 15.</p>
+</div>
+</section>
+<section id="constructor">
+<h3>Constructor<a class="headerlink" href="#constructor" title="Link to this heading">¶</a></h3>
+<p>The constructor receives all parameters needed by the reader-building and awkward-building methods. At minimum it must accept a <code class="docutils literal notranslate"><span class="pre">name</span></code> (usually <code class="docutils literal notranslate"><span class="pre">fName</span></code> from the streamer info).</p>
+</section>
+<section id="build-factory-classmethod">
+<span id="method-build-factory"></span><h3><code class="docutils literal notranslate"><span class="pre">build_factory</span></code> (classmethod)<a class="headerlink" href="#build-factory-classmethod" title="Link to this heading">¶</a></h3>
+<p>Called during factory-tree construction. Parameters:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">top_type_name:</span> <span class="pre">str</span></code> — the top-level type name, with <code class="docutils literal notranslate"><span class="pre">std::</span></code> prefixes stripped (e.g. <code class="docutils literal notranslate"><span class="pre">vector</span></code> for <code class="docutils literal notranslate"><span class="pre">std::vector&lt;std::map&lt;int,</span> <span class="pre">float&gt;&gt;</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cur_streamer_info:</span> <span class="pre">dict</span></code> — the streamer dictionary for the current data member. Use it to decide whether this factory is applicable. Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">'@fUniqueID'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="s1">'@fBits'</span><span class="p">:</span> <span class="mi">16777216</span><span class="p">,</span>
+<span class="s1">'fName'</span><span class="p">:</span> <span class="s1">'m_int'</span><span class="p">,</span>
+<span class="s1">'fTitle'</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span>
+<span class="s1">'fType'</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+<span class="s1">'fSize'</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+<span class="s1">'fArrayLength'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="s1">'fArrayDim'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="s1">'fMaxIndex'</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">'&gt;i4'</span><span class="p">),</span>
+<span class="s1">'fTypeName'</span><span class="p">:</span> <span class="s1">'int'</span><span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">all_streamer_info:</span> <span class="pre">dict</span></code> — maps every class name to the list of its members’ streamer dictionaries. Use it to look up nested classes:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">all_streamer_info</span><span class="p">[</span><span class="s2">"TSimpleObject"</span><span class="p">]</span>
+<span class="go">[{'@fUniqueID': 0,</span>
+<span class="go">'@fBits': 16777216,</span>
+<span class="go">'fName': 'TObject',</span>
+<span class="go">'fTitle': 'Basic ROOT object',</span>
+<span class="go">'fType': 66,</span>
+<span class="go">'fSize': 0,</span>
+<span class="go">'fArrayLength': 0,</span>
+<span class="go">'fArrayDim': 0,</span>
+<span class="go">'fMaxIndex': array([          0, -1877229523,           0,           0,           0],</span>
+<span class="go">        dtype='&gt;i4'),</span>
+<span class="go">'fTypeName': 'BASE',</span>
+<span class="go">'fBaseVersion': 1},</span>
+<span class="go">{'@fUniqueID': 0,</span>
+<span class="go">'@fBits': 16777216,</span>
+<span class="go">'fName': 'm_int',</span>
+<span class="go">'fTitle': '',</span>
+<span class="go">'fType': 3,</span>
+<span class="go">'fSize': 4,</span>
+<span class="go">'fArrayLength': 0,</span>
+<span class="go">'fArrayDim': 0,</span>
+<span class="go">'fMaxIndex': array([0, 0, 0, 0, 0], dtype='&gt;i4'),</span>
+<span class="go">'fTypeName': 'int'},</span>
+<span class="go">...</span>
+<span class="go">]</span>
+</pre></div>
+</div>
+<p>Build sub-factories for nested members:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sub_factories</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">all_streamer_info</span><span class="p">[</span><span class="s2">"TSimpleObject"</span><span class="p">]:</span>
+    <span class="n">sub_fac</span> <span class="o">=</span> <span class="n">build_factory</span><span class="p">(</span><span class="n">member</span><span class="p">)</span>
+    <span class="n">sub_factories</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub_fac</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">item_path:</span> <span class="pre">str</span></code> — the regularized object-path of the branch, plus one <code class="docutils literal notranslate"><span class="pre">.</span></code> and the member name for every level below it: <code class="docutils literal notranslate"><span class="pre">/my_tree:entry/m_obj</span></code>, then <code class="docutils literal notranslate"><span class="pre">/my_tree:entry/m_obj.m_sub</span></code>. An STL element reuses its member’s name, so the element of a <code class="docutils literal notranslate"><span class="pre">vector&lt;int&gt;</span> <span class="pre">m_vec</span></code> member sees <code class="docutils literal notranslate"><span class="pre">/my_tree:entry/m_vec.m_vec</span></code>. The path never contains a type name. Use it for path-specific logic, such as claiming a class in one branch only.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> — reserved for future use.</p></li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><code class="docutils literal notranslate"><span class="pre">cur_streamer_info</span></code> does not describe the same thing at every node:</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>The class is…</p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">fName</span></code></p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">fTypeName</span></code></p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">top_type_name</span></code></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>the whole branch</p></td>
+<td><p>the class name</p></td>
+<td><p>absent</p></td>
+<td><p>the class name</p></td>
+</tr>
+<tr class="row-odd"><td><p>one member of a split class</p></td>
+<td><p>the member name, e.g. <code class="docutils literal notranslate"><span class="pre">m_obj</span></code></p></td>
+<td><p>the class name, e.g. <code class="docutils literal notranslate"><span class="pre">TOverrideStreamer</span></code></p></td>
+<td><p>the class name</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Match on <code class="docutils literal notranslate"><span class="pre">top_type_name</span></code> when you mean “this class”:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">top_type_name</span> <span class="o">!=</span> <span class="s2">"TOverrideStreamer"</span><span class="p">:</span>
+    <span class="k">return</span> <span class="kc">None</span>
+<span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">"fName"</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Matching on <code class="docutils literal notranslate"><span class="pre">fName</span></code> works only when the class happens to be the whole branch. For a member it returns <code class="docutils literal notranslate"><span class="pre">None</span></code> without an error, the built-in <code class="docutils literal notranslate"><span class="pre">AnyClassFactory</span></code> takes the node, and the read fails later with a byte-count error that says nothing about the factory.</p>
+</div>
+<p><strong>Return</strong> an instance of the factory if the node matches, or <code class="docutils literal notranslate"><span class="pre">None</span></code> to pass to the next registered factory.</p>
+</section>
+<section id="build-detree-reader">
+<h3><code class="docutils literal notranslate"><span class="pre">build_detree_reader</span></code><a class="headerlink" href="#build-detree-reader" title="Link to this heading">¶</a></h3>
+<p>Return the reader for this node:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">build_detree_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">OverrideStreamerReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A composite factory builds its sub-readers first and passes them in:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">AnyClassFactory</span><span class="p">(</span><span class="n">GroupFactory</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_detree_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">detree</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">AnyClassReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">elements</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">build_detree_reader</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_factories</span><span class="p">),</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+<p>Each backend has its own method (<code class="docutils literal notranslate"><span class="pre">build_detree_reader</span></code>, <code class="docutils literal notranslate"><span class="pre">build_python_reader</span></code>, <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code>), and only the selected backend’s method is called. A factory may implement all three; the others are simply unused. See <a class="reference internal" href="../concepts/choosing-a-route.html"><span class="std std-doc">choosing a technical route</span></a>.</p>
+</section>
+<section id="make-awkward-content-raw-data">
+<h3><code class="docutils literal notranslate"><span class="pre">make_awkward_content(raw_data)</span></code><a class="headerlink" href="#make-awkward-content-raw-data" title="Link to this heading">¶</a></h3>
+<p>Convert <code class="docutils literal notranslate"><span class="pre">raw_data</span></code> (the value returned by the reader’s <code class="docutils literal notranslate"><span class="pre">data()</span></code> method) into an <code class="docutils literal notranslate"><span class="pre">awkward.contents.Content</span></code>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://awkward-array.org/doc/main/user-guide/how-to-create-constructors.html"><code class="docutils literal notranslate"><span class="pre">awkward</span></code> direct constructors</a></p>
+</div>
+</section>
+<section id="make-awkward-form">
+<h3><code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code><a class="headerlink" href="#make-awkward-form" title="Link to this heading">¶</a></h3>
+<p>Return an <code class="docutils literal notranslate"><span class="pre">awkward.forms.Form</span></code> that describes the data layout. This is used for lazy evaluation.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://awkward-array.org/doc/main/reference/generated/ak.forms.Form.html"><code class="docutils literal notranslate"><span class="pre">awkward</span></code> forms reference</a></p>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="the-detree-reader">
+<h2>The Detree reader<a class="headerlink" href="#the-detree-reader" title="Link to this heading">¶</a></h2>
+<p>A Detree reader is a class decorated with <code class="docutils literal notranslate"><span class="pre">&#64;reader</span></code> that inherits from <code class="docutils literal notranslate"><span class="pre">Reader</span></code> and declares what it produces:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.detree</span><span class="w"> </span><span class="kn">import</span> <span class="n">Buffer</span><span class="p">,</span> <span class="n">Reader</span><span class="p">,</span> <span class="n">reader</span>
+
+
+<span class="nd">@reader</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">OverrideStreamerReader</span><span class="p">(</span><span class="n">Reader</span><span class="p">):</span>
+    <span class="n">ints</span> <span class="o">=</span> <span class="n">Buffer</span><span class="p">(</span><span class="s2">"i"</span><span class="p">)</span>
+    <span class="n">doubles</span> <span class="o">=</span> <span class="n">Buffer</span><span class="p">(</span><span class="s2">"d"</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
+        <span class="n">stream</span><span class="o">.</span><span class="n">skip_TObject</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stream</span><span class="o">.</span><span class="n">read_int32</span><span class="p">())</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">mask</span> <span class="o">==</span> <span class="mh">0x12345678</span><span class="p">,</span> <span class="s2">"unexpected mask"</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">doubles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stream</span><span class="o">.</span><span class="n">read_double</span><span class="p">())</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ints</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">doubles</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="declaring-fields">
+<h3>Declaring fields<a class="headerlink" href="#declaring-fields" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Const(default,</span> <span class="pre">type=...,</span> <span class="pre">choices=...,</span> <span class="pre">ge=...,</span> <span class="pre">le=...)</span></code></p></td>
+<td><p>a constructor argument fixed for the branch; readable in <code class="docutils literal notranslate"><span class="pre">read</span></code>, never writable</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Buffer(type,</span> <span class="pre">*,</span> <span class="pre">init=(),</span> <span class="pre">from_const=None,</span> <span class="pre">kind=&quot;data&quot;)</span></code></p></td>
+<td><p>a typed output array; <code class="docutils literal notranslate"><span class="pre">type</span></code> is a <code class="docutils literal notranslate"><span class="pre">struct</span></code> typecode (<code class="docutils literal notranslate"><span class="pre">&quot;i&quot;</span></code>), a NumPy dtype (<code class="docutils literal notranslate"><span class="pre">np.int32</span></code>) or a dtype string (<code class="docutils literal notranslate"><span class="pre">&quot;int32&quot;</span></code>), and it is positional — <code class="docutils literal notranslate"><span class="pre">Buffer(typecode=...)</span></code> is not a keyword. <code class="docutils literal notranslate"><span class="pre">kind=&quot;offsets&quot;</span></code> marks a buffer of cumulative offsets that begins at its <code class="docutils literal notranslate"><span class="pre">init</span></code> value</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">State(type,</span> <span class="pre">init)</span></code></p></td>
+<td><p>a variable that survives the entries of one basket, reset to <code class="docutils literal notranslate"><span class="pre">init</span></code> when the reader is rebuilt for the next basket; the only kind of attribute a read path may assign</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Child()</span></code></p></td>
+<td><p>exactly one sub-reader</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ChildList()</span></code></p></td>
+<td><p>an ordered tuple of sub-readers; a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop over it is unrolled</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>See <a class="reference internal" href="../reference/detree-dsl.html"><span class="std std-doc">the Detree reference</span></a> for the full contract.</p>
+</section>
+<section id="the-read-path">
+<h3>The read path<a class="headerlink" href="#the-read-path" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">read</span></code> is compiled and runs once per entry inside the machine. Three rules cover almost everything:</p>
+<ul class="simple">
+<li><p>every <code class="docutils literal notranslate"><span class="pre">stream.*</span></code> call consumes bytes and advances the cursor — the methods mirror the Python <code class="docutils literal notranslate"><span class="pre">BinaryStream</span></code> one for one;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.&lt;buffer&gt;.append(value)</span></code> appends to a declared buffer; a local variable lives for one call, while a declared <code class="docutils literal notranslate"><span class="pre">State</span></code> survives to the next entry;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">assert</span></code> is the only way to fail. <code class="docutils literal notranslate"><span class="pre">raise</span></code> is rejected when the class is defined, so report a bad record as <code class="docutils literal notranslate"><span class="pre">assert</span> <span class="pre">condition,</span> <span class="pre">&quot;message&quot;</span></code>.</p></li>
+</ul>
+</section>
+<section id="data">
+<h3><code class="docutils literal notranslate"><span class="pre">data()</span></code><a class="headerlink" href="#data" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">data()</span></code> runs in Python, once per basket, after the machine has filled the buffers. It must return exactly the shape your factory’s <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code> expects — here a tuple of two arrays. Two readers of the same class must agree on that shape even if they decode the bytes differently, which is what makes the backends interchangeable.</p>
+</section>
+<section id="returning-it-from-the-factory">
+<h3>Returning it from the factory<a class="headerlink" href="#returning-it-from-the-factory" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">build_detree_reader</span></code> returns the reader instance, fully wired with its sub-readers. The factory does not read anything itself.</p>
+</section>
+</section>
+<section id="worked-example-tarray">
+<h2>Worked example: <code class="docutils literal notranslate"><span class="pre">TArray</span></code><a class="headerlink" href="#worked-example-tarray" title="Link to this heading">¶</a></h2>
+<p>Take the <code class="docutils literal notranslate"><span class="pre">TArrayFactory</span></code> as a concrete example of the factory side. <code class="docutils literal notranslate"><span class="pre">TArray</span></code> nodes store a <code class="docutils literal notranslate"><span class="pre">uint32_t</span></code> size followed by that many typed elements.</p>
+<section id="the-factory">
+<h3>The factory<a class="headerlink" href="#the-factory" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">TArrayFactory</span></code> matches any <code class="docutils literal notranslate"><span class="pre">TArray*</span></code> type name, creates the corresponding typed reader, and converts the offsets + data arrays into an <code class="docutils literal notranslate"><span class="pre">awkward</span></code> <code class="docutils literal notranslate"><span class="pre">ListOffsetArray</span></code>:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">TArrayFactory</span></code></span><a class="headerlink" href="#id1" title="Link to this code">¶</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">awkward</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">awkward</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ak</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">awkward.contents</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">awkward.forms</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">awkward.index</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">Factory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.consts</span><span class="w"> </span><span class="kn">import</span> <span class="n">DTYPE_TO_TYPECODE</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TArrayFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    This class reads TArray from a binary paerser.</span>
+
+<span class="sd">    TArray includes TArrayC, TArrayS, TArrayI, TArrayL, TArrayL64, TArrayF, and TArrayD.</span>
+<span class="sd">    Corresponding dtype is int8, int16, int32, int64, int64, float32, and float64 respectively.</span>
+<span class="sd">    """</span>
+
+    <span class="n">typename2dtype</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"TArrayC"</span><span class="p">:</span> <span class="s2">"int8"</span><span class="p">,</span>
+        <span class="s2">"TArrayS"</span><span class="p">:</span> <span class="s2">"int16"</span><span class="p">,</span>
+        <span class="s2">"TArrayI"</span><span class="p">:</span> <span class="s2">"int32"</span><span class="p">,</span>
+        <span class="s2">"TArrayL"</span><span class="p">:</span> <span class="s2">"int64"</span><span class="p">,</span>
+        <span class="s2">"TArrayL64"</span><span class="p">:</span> <span class="s2">"int64"</span><span class="p">,</span>
+        <span class="s2">"TArrayF"</span><span class="p">:</span> <span class="s2">"float32"</span><span class="p">,</span>
+        <span class="s2">"TArrayD"</span><span class="p">:</span> <span class="s2">"float64"</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_factory</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">top_type_name</span><span class="p">,</span>
+        <span class="n">cur_streamer_info</span><span class="p">,</span>
+        <span class="n">all_streamer_info</span><span class="p">,</span>
+        <span class="n">item_path</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Return when `top_type_name` is in `cls.typenames`.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">top_type_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">typename2dtype</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">dtype</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">typename2dtype</span><span class="p">[</span><span class="n">top_type_name</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">cur_streamer_info</span><span class="p">[</span><span class="s2">"fName"</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_detree_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">uproot_custom</span><span class="o">.</span><span class="n">detree</span><span class="o">.</span><span class="n">builtin</span><span class="o">.</span><span class="n">TArrayReader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">typecode</span><span class="o">=</span><span class="n">DTYPE_TO_TYPECODE</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">],</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
+        <span class="n">offsets</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">raw_data</span>
+        <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">ListOffsetArray</span><span class="p">(</span>
+            <span class="n">awkward</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">Index64</span><span class="p">(</span><span class="n">offsets</span><span class="p">),</span>
+            <span class="n">awkward</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">NumpyArray</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">ListOffsetForm</span><span class="p">(</span><span class="s2">"i64"</span><span class="p">,</span> <span class="n">ak</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">NumpyForm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="the-reader">
+<h3>The reader<a class="headerlink" href="#the-reader" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">TArrayReader</span></code> shows the other common shape: a <code class="docutils literal notranslate"><span class="pre">Const</span></code> that fixes the element type at construction, and a <code class="docutils literal notranslate"><span class="pre">Buffer</span></code> whose dtype comes from that constant. One class then serves every <code class="docutils literal notranslate"><span class="pre">TArray</span></code> variant.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.detree</span><span class="w"> </span><span class="kn">import</span> <span class="n">Buffer</span><span class="p">,</span> <span class="n">Const</span><span class="p">,</span> <span class="n">Reader</span><span class="p">,</span> <span class="n">reader</span>
+
+
+<span class="nd">@reader</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TArrayReader</span><span class="p">(</span><span class="n">Reader</span><span class="p">):</span>
+    <span class="n">typecode</span> <span class="o">=</span> <span class="n">Const</span><span class="p">(</span><span class="s2">"i"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">(</span><span class="s2">"b"</span><span class="p">,</span> <span class="s2">"B"</span><span class="p">,</span> <span class="s2">"h"</span><span class="p">,</span> <span class="s2">"H"</span><span class="p">,</span> <span class="s2">"i"</span><span class="p">,</span> <span class="s2">"I"</span><span class="p">,</span> <span class="s2">"q"</span><span class="p">,</span> <span class="s2">"Q"</span><span class="p">,</span> <span class="s2">"f"</span><span class="p">,</span> <span class="s2">"d"</span><span class="p">))</span>
+    <span class="n">offsets</span> <span class="o">=</span> <span class="n">Buffer</span><span class="p">(</span><span class="s2">"q"</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,),</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"offsets"</span><span class="p">)</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">Buffer</span><span class="p">(</span><span class="n">from_const</span><span class="o">=</span><span class="s2">"typecode"</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">size</span><span class="p">)</span>
+        <span class="n">stream</span><span class="o">.</span><span class="n">read_bulk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">kind=&quot;offsets&quot;</span></code> tells the compiler the buffer holds cumulative offsets, and <code class="docutils literal notranslate"><span class="pre">init=(0,)</span></code> gives the leading zero. <code class="docutils literal notranslate"><span class="pre">stream.read_bulk</span></code> reads <code class="docutils literal notranslate"><span class="pre">size</span></code> values in one call instead of a Python loop — the machine has an instruction for it, and the loop would not be compiled any faster.</p>
+</section>
+</section>
+<section id="register-and-read">
+<h2>Register and read<a class="headerlink" href="#register-and-read" title="Link to this heading">¶</a></h2>
+<p>Registration happens in two places, both before the branch’s interpretation is first computed — see <a class="reference internal" href="../getting-started.html#step-2-register-the-branch"><span class="std std-ref">get started</span></a>: the factory class goes into <code class="docutils literal notranslate"><span class="pre">registered_factories</span></code>, and the branch path goes to <code class="docutils literal notranslate"><span class="pre">uproot_custom.claim</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">uproot</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uproot_custom</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">uc</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">my_module.factories</span><span class="w"> </span><span class="kn">import</span> <span class="n">OverrideStreamerFactory</span>
+
+<span class="n">uc</span><span class="o">.</span><span class="n">registered_factories</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">OverrideStreamerFactory</span><span class="p">)</span>
+<span class="n">uc</span><span class="o">.</span><span class="n">claim</span><span class="p">(</span><span class="s2">"/my_tree:override_streamer/m_obj"</span><span class="p">)</span>
+
+<span class="n">uc</span><span class="o">.</span><span class="n">set_backend</span><span class="p">(</span><span class="s2">"detree"</span><span class="p">)</span>   <span class="c1"># the code default is cpp</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">uproot</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">"file.root"</span><span class="p">)</span>
+<span class="n">array</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">"my_tree/override_streamer/m_obj"</span><span class="p">]</span><span class="o">.</span><span class="n">array</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The branch’s interpretation now reads <code class="docutils literal notranslate"><span class="pre">AsCustom(TOverrideStreamer)</span></code>, and the array is a record with an <code class="docutils literal notranslate"><span class="pre">m_int</span></code> and an <code class="docutils literal notranslate"><span class="pre">m_double</span></code> field. The path is the branch’s <em>object-path</em>; <code class="docutils literal notranslate"><span class="pre">claim</span></code> drops the <code class="docutils literal notranslate"><span class="pre">;N</span></code> cycle number, so either form works, and <a class="reference internal" href="investigate-data.html"><span class="std std-doc">investigate your data</span></a> shows how to obtain it.</p>
+</section>
+<section id="what-the-compiler-accepts">
+<h2>What the compiler accepts<a class="headerlink" href="#what-the-compiler-accepts" title="Link to this heading">¶</a></h2>
+<p>The read path must stay inside a small subset of Python:</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Allowed</p></th>
+<th class="head"><p>Examples</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>statements</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">if</span></code>/<code class="docutils literal notranslate"><span class="pre">else</span></code>, <code class="docutils literal notranslate"><span class="pre">while</span></code>, <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">_</span> <span class="pre">in</span> <span class="pre">range(n)</span></code>, <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">child</span> <span class="pre">in</span> <span class="pre">self.&lt;ChildList&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">assert</span></code>, assignment to a local, a <code class="docutils literal notranslate"><span class="pre">State</span></code>, or <code class="docutils literal notranslate"><span class="pre">stream.cursor</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>expressions</p></td>
+<td><p>integer and boolean arithmetic and comparisons, <code class="docutils literal notranslate"><span class="pre">and</span></code>/<code class="docutils literal notranslate"><span class="pre">or</span></code>/<code class="docutils literal notranslate"><span class="pre">not</span></code>, <code class="docutils literal notranslate"><span class="pre">if</span></code> expressions, <code class="docutils literal notranslate"><span class="pre">bool()</span></code>, <code class="docutils literal notranslate"><span class="pre">int()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>buffers</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">buf.append(x)</span></code>, <code class="docutils literal notranslate"><span class="pre">len(buf)</span></code>, <code class="docutils literal notranslate"><span class="pre">buf[-1]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>stream</p></td>
+<td><p>the scalar <code class="docutils literal notranslate"><span class="pre">read_*</span></code> methods, <code class="docutils literal notranslate"><span class="pre">read_into</span></code>, <code class="docutils literal notranslate"><span class="pre">read_bulk</span></code>, <code class="docutils literal notranslate"><span class="pre">skip</span></code> and the <code class="docutils literal notranslate"><span class="pre">skip_*</span></code> helpers, <code class="docutils literal notranslate"><span class="pre">next_offset_after</span></code>, the reference helpers</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Not allowed</p></th>
+<th class="head"><p>Use instead</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>imports, <code class="docutils literal notranslate"><span class="pre">try</span></code>, <code class="docutils literal notranslate"><span class="pre">with</span></code>, <code class="docutils literal notranslate"><span class="pre">raise</span></code>, <code class="docutils literal notranslate"><span class="pre">lambda</span></code>, comprehensions</p></td>
+<td><p>none — rewrite the reader, or take the Python + C++ route</p></td>
+</tr>
+<tr class="row-odd"><td><p>dict, set, or list literals</p></td>
+<td><p>none</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">print</span></code>, numpy, <code class="docutils literal notranslate"><span class="pre">isinstance</span></code>, arbitrary function calls</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">data()</span></code>, which runs in Python</p></td>
+</tr>
+<tr class="row-odd"><td><p>writing a plain <code class="docutils literal notranslate"><span class="pre">self.&lt;attr&gt;</span></code></p></td>
+<td><p>declare it as <code class="docutils literal notranslate"><span class="pre">State(...)</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>A construct outside the subset fails with <code class="docutils literal notranslate"><span class="pre">ReaderContractError</span></code> when the class is defined, or <code class="docutils literal notranslate"><span class="pre">UnsupportedNode</span></code> when the reader is compiled, naming the method and line. The full tables are in the <a class="reference internal" href="../reference/detree-dsl.html#the-compilable-subset"><span class="std std-ref">Detree reference</span></a>.</p>
+<p>If the read path genuinely needs one of the constructs in the second table, Detree is the wrong route for that branch. The other route is <strong>Python + C++</strong>: write the reader as a Python <code class="docutils literal notranslate"><span class="pre">IReader</span></code> first (<a class="reference internal" href="../advanced/python-reader.html"><span class="std std-doc">stage 1</span></a>), then port the same logic to C++ (<a class="reference internal" href="../advanced/cpp-reader.html"><span class="std std-doc">stage 2</span></a>) because the Python half is too slow to ship. The factory, the registration and the awkward code stay unchanged, because a factory may implement <code class="docutils literal notranslate"><span class="pre">build_detree_reader</span></code> alongside <code class="docutils literal notranslate"><span class="pre">build_python_reader</span></code> and <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code> — only the selected backend’s method runs. <a class="reference internal" href="../concepts/choosing-a-route.html"><span class="std std-doc">Choosing a technical route</span></a> compares the two.</p>
+<p>This can be a per-branch decision. The backend is a runtime choice and the readers share one factory, so the branches that fit the subset keep running on Detree, and only the one that does not pays for the other route.</p>
+</section>
+<section id="when-it-fails">
+<h2>When it fails<a class="headerlink" href="#when-it-fails" title="Link to this heading">¶</a></h2>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>What you see</p></th>
+<th class="head"><p>Raised when</p></th>
+<th class="head"><p>Fix</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ReaderContractError:</span> <span class="pre">&lt;Class&gt;.&lt;method&gt;:</span> <span class="pre">line</span> <span class="pre">N:</span> <span class="pre">Try</span> <span class="pre">cannot</span> <span class="pre">be</span> <span class="pre">compiled</span></code></p></td>
+<td><p>a read path breaks the subset, at class definition time — so importing your module fails</p></td>
+<td><p>rewrite the read path, or take the Python + C++ route</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ReaderContractError:</span> <span class="pre">...</span> <span class="pre">source</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">available;</span> <span class="pre">readers</span> <span class="pre">must</span> <span class="pre">live</span> <span class="pre">in</span> <span class="pre">a</span> <span class="pre">.py</span> <span class="pre">file</span></code></p></td>
+<td><p>the reader was defined in a notebook or a REPL</p></td>
+<td><p>move it into a module</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">UnsupportedNode:</span> <span class="pre">&lt;Class&gt;</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">decorated</span> <span class="pre">with</span> <span class="pre">&#64;reader</span> <span class="pre">at</span> <span class="pre">root</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">build_detree_reader</span></code> returned a class without <code class="docutils literal notranslate"><span class="pre">&#64;reader</span></code></p></td>
+<td><p>decorate it</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">UnsupportedNode:</span> <span class="pre">...</span> <span class="pre">line</span> <span class="pre">N:</span> <span class="pre">...</span></code></p></td>
+<td><p>a construct the per-method check did not catch, found while compiling</p></td>
+<td><p>rewrite it, or take the Python + C++ route</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">detree.spec.errors.AssertionFailed:</span> <span class="pre">&lt;your</span> <span class="pre">message&gt;</span> <span class="pre">function=...</span> <span class="pre">ip=...</span> <span class="pre">cursor=...</span></code></p></td>
+<td><p>an <code class="docutils literal notranslate"><span class="pre">assert</span></code> in a read path failed</p></td>
+<td><p>the message is yours; <code class="docutils literal notranslate"><span class="pre">cursor</span></code> says how far the read got</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">detree.spec.errors.InvalidByteCount:</span> <span class="pre">fNBytes=...</span> <span class="pre">lacks</span> <span class="pre">kByteCountMask</span></code></p></td>
+<td><p>the read is out of step with the bytes, usually a header consumed in the wrong place</p></td>
+<td><p>compare against the raw bytes and check the field before it</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>A failed <code class="docutils literal notranslate"><span class="pre">assert</span></code> looks different under the two executors: the machine raises <code class="docutils literal notranslate"><span class="pre">AssertionFailed</span></code> with the position attached, while <code class="docutils literal notranslate"><span class="pre">uproot_custom.detree.interp</span></code> raises a plain <code class="docutils literal notranslate"><span class="pre">AssertionError</span></code> carrying only your message. That difference is the quickest way to tell which executor produced an error.</p>
+</section>
+<section id="next-steps">
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="debug-a-reader.html"><span class="std std-doc">Debug a reader</span></a> — compile without a file and compare the two executors.</p></li>
+<li><p><a class="reference internal" href="package-your-project.html"><span class="std std-doc">Package your project</span></a> — ship the factory and reader.</p></li>
+<li><p><a class="reference internal" href="../reference/detree-dsl.html"><span class="std std-doc">Detree reference</span></a> — every field and the whole compilable subset.</p></li>
+</ul>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="debug-a-reader.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Debug a reader</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="investigate-data.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Investigate your data</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Mingrun Li
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Write a Detree reader</a><ul>
+<li><a class="reference internal" href="#what-you-will-build">What you will build</a></li>
+<li><a class="reference internal" href="#the-factory-api">The Factory API</a><ul>
+<li><a class="reference internal" href="#priority-classmethod"><code class="docutils literal notranslate"><span class="pre">priority</span></code> (classmethod)</a></li>
+<li><a class="reference internal" href="#constructor">Constructor</a></li>
+<li><a class="reference internal" href="#build-factory-classmethod"><code class="docutils literal notranslate"><span class="pre">build_factory</span></code> (classmethod)</a></li>
+<li><a class="reference internal" href="#build-detree-reader"><code class="docutils literal notranslate"><span class="pre">build_detree_reader</span></code></a></li>
+<li><a class="reference internal" href="#make-awkward-content-raw-data"><code class="docutils literal notranslate"><span class="pre">make_awkward_content(raw_data)</span></code></a></li>
+<li><a class="reference internal" href="#make-awkward-form"><code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-detree-reader">The Detree reader</a><ul>
+<li><a class="reference internal" href="#declaring-fields">Declaring fields</a></li>
+<li><a class="reference internal" href="#the-read-path">The read path</a></li>
+<li><a class="reference internal" href="#data"><code class="docutils literal notranslate"><span class="pre">data()</span></code></a></li>
+<li><a class="reference internal" href="#returning-it-from-the-factory">Returning it from the factory</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#worked-example-tarray">Worked example: <code class="docutils literal notranslate"><span class="pre">TArray</span></code></a><ul>
+<li><a class="reference internal" href="#the-factory">The factory</a></li>
+<li><a class="reference internal" href="#the-reader">The reader</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#register-and-read">Register and read</a></li>
+<li><a class="reference internal" href="#what-the-compiler-accepts">What the compiler accepts</a></li>
+<li><a class="reference internal" href="#when-it-fails">When it fails</a></li>
+<li><a class="reference internal" href="#next-steps">Next steps</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    </body>
+</html>

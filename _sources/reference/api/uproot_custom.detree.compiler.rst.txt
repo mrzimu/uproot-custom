@@ -1,0 +1,29 @@
+uproot\_custom.detree.compiler package
+======================================
+
+Submodules
+----------
+
+uproot\_custom.detree.compiler.frontend module
+----------------------------------------------
+
+.. automodule:: uproot_custom.detree.compiler.frontend
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+uproot\_custom.detree.compiler.ir\_builder module
+-------------------------------------------------
+
+.. automodule:: uproot_custom.detree.compiler.ir_builder
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: uproot_custom.detree.compiler
+   :members:
+   :show-inheritance:
+   :undoc-members:

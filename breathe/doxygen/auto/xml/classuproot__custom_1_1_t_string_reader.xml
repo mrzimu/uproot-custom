@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="147" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="147" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="147" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="147" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot__custom_1_1_t_string_reader_1a0d6f35493f3f1f9103f8b9422bf0e01f" prot="private" static="no" mutable="no">
         <type>SharedVector&lt; uint8_t &gt;</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="148" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="148" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="148" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="148" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot__custom_1_1_t_string_reader_1a1c74b332d5e88e1dd2d2afe849882f4f" prot="private" static="no" mutable="no">
         <type>SharedVector&lt; int64_t &gt;</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="149" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="149" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="149" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="149" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -90,7 +90,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="158" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="158" bodyend="162"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="158" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="158" bodyend="162"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>void</type>
@@ -120,7 +120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="171" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="171" bodyend="177"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="171" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="171" bodyend="177"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_t_string_reader_1afe344550ba0fb096bc54e794d3043a18" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>uint32_t</type>
@@ -164,7 +164,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="187" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="187" bodyend="202"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="187" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="187" bodyend="202"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_t_string_reader_1a2a3f520ab0fd09829cf00e94e21d543f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>uint32_t</type>
@@ -208,7 +208,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="213" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="213" bodyend="229"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="213" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="213" bodyend="229"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_t_string_reader_1adab0f0693fe03b85f9c7741d5d872ff0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>py::object</type>
@@ -227,7 +227,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="237" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="237" bodyend="241"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="237" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="237" bodyend="241"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -259,7 +259,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="145" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="145" bodyend="242"/>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="145" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="145" bodyend="242"/>
     <listofallmembers>
       <member refid="classuproot__custom_1_1_t_string_reader_1adab0f0693fe03b85f9c7741d5d872ff0" prot="public" virt="virtual"><scope>uproot_custom::TStringReader</scope><name>data</name></member>
       <member refid="classuproot__custom_1_1_i_reader_1aa53fc85ff732460f8880033fb54532a5" prot="protected" virt="non-virtual"><scope>uproot_custom::TStringReader</scope><name>debug_printf</name></member>
