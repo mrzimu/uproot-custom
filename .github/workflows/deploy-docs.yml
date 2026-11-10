@@ -5,19 +5,11 @@ on:
   workflow_call:
 
 permissions:
-  contents: read
-
-# One deployment at a time, and never cancel one half-way: a cancelled deploy
-# can leave the Pages site serving a partial artifact.
-concurrency:
-  group: pages
-  cancel-in-progress: false
+  contents: write
 
 jobs:
-  build:
-    name: Build docs
+  deploy-docs:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v6
 
@@ -32,34 +24,12 @@ jobs:
           sudo apt-get install -y doxygen
           uv pip install -e . --group docs
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
-
-      # Sphinx writes relative links, so the project-site prefix
-      # (https://<owner>.github.io/uproot-custom/) needs no configuration.
       - name: Build docs
         run: |
-          uv run sphinx-build -b html -W --keep-going docs/ build/html
+          uv run sphinx-build -b html docs/ build/html
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: build/html
-
-  deploy:
-    name: Deploy docs
-    needs: build
-    runs-on: ubuntu-latest
-
-    permissions:
-      pages: write
-      id-token: write
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/html

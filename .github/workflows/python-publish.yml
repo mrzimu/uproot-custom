@@ -23,13 +23,6 @@ jobs:
     uses: ./.github/workflows/deploy-docs.yml
     needs:
       - pypi-publish
-    # A called workflow can only downgrade the caller's token permissions, and
-    # this workflow grants only `contents: write` above, so the Pages scopes have
-    # to be granted here for the deploy job to be able to publish.
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
 
   pypi-publish:
     runs-on: ubuntu-latest

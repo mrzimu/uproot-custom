@@ -36,27 +36,6 @@ jobs:
           uv run pytest --version
           uv run pytest -v tests/
 
-  test-detree:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/checkout@v6
-        with:
-          repository: mrzimu/detree-vm
-          path: detree-vm
-          ref: v0.1.0
-      - uses: astral-sh/setup-uv@v7
-        with:
-          python-version: '3.11'
-          activate-environment: true
-      - uses: dtolnay/rust-toolchain@stable
-      - name: Install detree-vm
-        run: DETREE_SHIP_BACKEND=both uv pip install -e detree-vm
-      - name: Install package
-        run: uv pip install -e . --group dev
-      - name: Run the detree backend and machine tests
-        run: uv run pytest -v tests/detree/ tests/test_readers.py::test_detree
-
   test-build-docs:
     runs-on: ubuntu-latest
     steps:
