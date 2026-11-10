@@ -5,61 +5,83 @@ Uproot-custom is an extension of [Uproot](https://uproot.readthedocs.io/en/lates
 > [!WARNING]
 > Because of earlier mistakes in version management, the `v2.x.x` series should still be treated as a development version rather than a stable release. Please specify a minor version when using Uproot-custom as a dependency (e.g., `uproot-custom==2.5.*`) to avoid unexpected breaking changes.
 
-## What uproot-custom can do
+## What Uproot-custom can do
 
-Uproot-custom can natively read complicated combinations of nested classes and c-style arrays (e.g. `map<int, map<int, map<int, string>>>`, `vector<TString>[3]`, etc), and memberwisely stored classes. It also exposes a way for users to implement their own readers for custom classes that are not supported by Uproot or uproot-custom built-in readers.
+Uproot-custom can natively read complicated combinations of nested classes and c-style arrays (e.g. `map<int, map<int, map<int, string>>>`, `vector<TString>[3]`, etc), and memberwisely stored classes. It also exposes a way for users to implement their own readers for custom classes that are not supported by Uproot or Uproot-custom built-in readers.
 
-## When to use uproot-custom
+## When to use Uproot-custom
 
 Uproot-custom aims to handle cases that classes are too complex for Uproot to read, such as when their `Streamer` methods are overridden or some specific data members are not supported by Uproot.
 
-## How uproot-custom works
+## Two technical routes
+
+A downstream project adds readers for the classes its collaboration stores. There are two routes to make such a reader run, and **Detree is the recommended one**:
+
+- **One language.** The read path is Python source, compiled to a detree-vm module; there is no second implementation to port and keep in sync.
+- **No ABI.** A C++ reader is built against the Uproot-custom header, a pybind11 minor version and one Python ABI, so it must be pinned and rebuilt. A Detree reader is compiled at run time and has none of those couplings.
+- **No build step.** `pip install` is the whole installation; users need no C++ toolchain.
+- **Fast enough.** The read path runs as bytecode on the Detree machine, far faster than a Python reader.
+
+The other route is **Python + C++**: write the reader as an `IReader` in Python to get the logic right, then port it to C++ for production. The Python half is slow enough that shipping it is rarely an option, so this route almost always means maintaining both implementations, shipping a compiled extension, and pinning versions. Take it when the read path needs plain Python, or when a branch needs the last measure of speed.
+
+## How Uproot-custom works
 
 Uproot-custom uses a Reader / Factory mechanism to read classes:
 
 ```mermaid
 flowchart TD
-  subgraph py["Python field"]
+  subgraph py["Python"]
     direction TB
     AsCustom -- Recursively generate --> fac["Factory (Primitive, STLVector, TString, ...)"]
     fac["Factory (Primitive, STLVector, TString, ...)"] -- Optional --> form(["construct awkward forms"])
-    fac --> build_reader(["build corresponding reader"])
+    fac --> build_reader(["build the selected backend's reader"])
     fac --> build_ak(["construct awkward arrays"])
   end
 
-  subgraph reader_field["Reader (Python, C++, or detree-compiled)"]
+  subgraph reader_field["Reader"]
     direction TB
-    build_reader --> reader["Reader"]
-    reader --> read_bin(["read binary data"])
-    read_bin --> ret_data(["return data"])
+    build_reader --> reader["Detree reader (declared fields + read)"]
+    reader --> compile(["compile_reader: reader -> detree-vm module"])
+    compile --> machine(["Detree machine: runs the module"])
   end
 
-  ret_data --> raw_data[("tuple, list, numpy arrays, ...")]
+  machine --> raw_data[("buffers: numpy arrays, tuples, ...)"]
   raw_data --> build_ak
 ```
 
-- `Reader` is a class that implements the logic to read data from binary streams. It can be written in **Python** (for development and debugging), **C++** (for production performance), or as a declarative reader that the experimental **detree** backend compiles and runs on the Detree virtual machine.
-- `Factory` is a Python class that creates, combines `Reader`s, and post-processes the data read by `Reader`s.
+- `Factory` is a Python class that matches a class from the streamer information, creates its reader, and post-processes the raw data into `awkward`.
+- `Reader` decodes the bytes. With Detree it declares its buffers and sub-readers as fields and writes `read` in Python; the compiler lowers it to a detree-vm module, and the machine executes it for every basket.
 
-This mechanism is implemented as `AsCustom` interpretation. The byte-level reader is selected by the reader backend (`cpp` by default, `python`, `forth`, or `detree`). This makes uproot-custom well compatible with Uproot.
+This mechanism is implemented as the `AsCustom` interpretation, and the byte-level reader is selected by the reader backend: `detree` for the Detree route, `python` while developing on the Python + C++ route and `cpp` in production. This keeps Uproot-custom well compatible with Uproot.
 
 > [!TIP]
-> Users can implement their own Factory and Reader, register them to uproot-custom. Start with a **Python reader** for rapid prototyping, then port the logic to **C++** for production speed. The default reader backend is C++; during development, explicitly set the backend to Python. An example of implementing a custom Factory / Reader can be found in [the example repository](https://github.com/mrzimu/uproot-custom-example).
+> Users can implement their own Factory and Reader and register them with Uproot-custom. Write a **Detree reader** first; take the **Python + C++ route** when the read path needs plain Python, or when a branch needs more speed than Detree gives. An example downstream project can be found in [the example repository](https://github.com/mrzimu/uproot-custom-example).
 
-> [!NOTE]
-> Uproot-custom does not provide a full reimplementation of `ROOT`'s TTree I/O system. Users are expected to implement their own Factory / Reader for their custom classes that built-in factories cannot handle.
+## Quick start
+
+```python
+import uproot
+import uproot_custom as uc
+
+uc.AsCustom.target_branches.add("/my_tree:my_branch")
+uc.set_backend("detree")   # the code default is still cpp
+
+f = uproot.open("file.root")
+arr = f["my_tree/my_branch"].array()
+```
 
 ## System Requirements
 
-- **C++17 compatible compiler**: Required for building C++ readers and the uproot-custom extension module. The CMake configuration sets `CMAKE_CXX_STANDARD 17`.
 - **Python 3.9+**: Uproot-custom supports Python 3.9 through 3.14.
-
-## Detree reader backend
-
-`AsCustom` builds a reader tree for a branch; the reader backend decides who executes it. The experimental `detree` backend compiles the declarative reader tree to detree-vm IR, lets detree-vm optimize and lower it, and runs the resulting module on the Rust Detree machine.
-
-Select the backend globally with `UPROOT_CUSTOM_READER_BACKEND=detree` (or `uproot_custom.set_backend("detree")`), or locally with `with uproot_custom.use_backend("detree"):`. Detree-VM's official release will ship the Rust machine only. See the [Detree backend documentation](https://mrzimu.github.io/uproot-custom/reference/detree-stack.html) for the supported branches, the `build_detree_reader` contract, and the debugging workflow.
+- **C++17 compiler**: only for the C++ stage of the Python + C++ route. Detree readers need no compiler, no CMake and no build step.
 
 ## Documentation
 
-View the [documentation](https://mrzimu.github.io/uproot-custom/) for more details about customizing your own `reader`/`factory`, the architecture of uproot-custom, and build-only dependencies (e.g., `pybind11` is needed only at build time and should not be present in the runtime environment).
+View the [documentation](https://mrzimu.github.io/uproot-custom/) for the reader/factory pipeline, the Detree reader reference, and the trade-offs between the two routes. The pages worth starting with:
+
+- [Get started](https://mrzimu.github.io/uproot-custom/getting-started.html)
+- [Write a Detree reader](https://mrzimu.github.io/uproot-custom/tutorial/index.html)
+- [Choosing a technical route](https://mrzimu.github.io/uproot-custom/concepts/choosing-a-route.html)
+
+> [!NOTE]
+> Uproot-custom does not provide a full reimplementation of `ROOT`'s TTree I/O system. Users are expected to implement their own Factory / Reader for their custom classes that built-in factories cannot handle.

@@ -1,10 +1,14 @@
+---
+tocdepth: 2
+---
+
 # Binary format of common classes
 
 ```{attention}
-This page is a growing checklist. Use it alongside the walkthrough in [](../tutorial/customize-factory-reader/investigate-data.md) when inspecting bytes.
+This page is a growing checklist. Use it alongside the walkthrough in [](../tutorial/investigate-data.md) when inspecting bytes.
 ```
 
-This section describes the binary format of common ROOT classes, organized by the class categories that `uproot-custom` handles. Each category corresponds to a pipeline component that matches a C++ type from streamer information and navigates the binary bytes.
+This section describes the binary format of common ROOT classes, organized by the class categories that `Uproot-custom` handles. Each category corresponds to a pipeline component that matches a C++ type from streamer information and navigates the binary bytes.
 
 Data are stored in **big-endian** format.
 
@@ -175,7 +179,7 @@ If the first byte is `255`, the length is instead a 4-byte `uint32`:
 [255: uint8] [length: uint32] [data: bytes...]
 ```
 
-When wrapped in a C-style or `std::array`, a `fNBytes + fVersion` header may precede the string data — see [C-style array / `std::array`](#c-style-array-stdarray).
+When wrapped in a C-style or `std::array`, a `fNBytes + fVersion` header may precede the string data — see [C-style array / `std::array`](#c-style-array-section).
 
 ```{code-block} cpp
 ---
@@ -426,10 +430,11 @@ caption: Binary format
 fVer | fUniqueID  |   fBits
 ```
 
-By default the data is discarded (`keep_data=False`), producing an `EmptyArray` in the output.
+By default the data is discarded (`keep_data=False`), producing an `EmptyArray` in the output. To keep it for a node, add that node's `item_path` — the branch's object-path plus `.TObject`, for example `/my_tree:entry/m_obj.TObject` — to `uproot_custom.factories.TObjectFactory.keep_data_itempaths` before the branch is read.
 
 ---
 
+(c-style-array-section)=
 ## C-style array / `std::array`
 
 **Matches:** Data members with `fArrayDim > 0` (C-style arrays or `std::array`), or jagged branches (variable-length arrays).
@@ -460,7 +465,7 @@ Elements are concatenated with no separators or length prefixes:
 
 The entry boundaries are determined by the entry offsets array, not by a fixed count. The reader reads elements until it reaches the next entry's start offset.
 
-### Awkward reconstruction
+### Awkward reconstruction of arrays
 
 For fixed-size arrays, the flat elements are wrapped in `RegularArray` layers corresponding to the dimensions in `fMaxIndex`. For jagged arrays, a `ListOffsetArray` wraps the elements.
 
@@ -544,7 +549,7 @@ Then the tag is interpreted:
 | `kNewClassTag` (0xFFFFFFFF) | New class, new object | Read null-terminated classname, register class ref, read object data, register object ref, increment counter |
 | `tag & kClassMask != 0` | Known class, new object | Read object data, register object ref, increment counter |
 
-The reference table (`stream.refs`) maps `ref_begin + kMapOffset` (versioned) or `len(stream.refs) + 1` (unversioned) to a `_Reference`.
+The reference table (`stream.refs`) maps `ref_begin + kMapOffset` (versioned) or `len(stream.refs) + 1` (unversioned) to a `_Reference`. `kMapOffset` is `2` (`uproot_custom.consts.kMapOffset`), the constant ROOT adds to an object's buffer position to form the key, so the key is not the position itself.
 
 ```{code-block} cpp
 ---
@@ -567,7 +572,7 @@ fNBytes=20  |  kNewClassTag   | "MyClass\0"                    |   MyClass objec
 tag=0 (null)
 ```
 
-### Awkward reconstruction
+### Awkward reconstruction of pointers
 
 Pointer (`T*`) produces an `IndexedOptionArray`:
 - `element_idxs[i] == -1` → null pointer (None)

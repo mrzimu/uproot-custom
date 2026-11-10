@@ -266,7 +266,7 @@ Each dictionary maps to one data member of `TSimpleObject`. Key attributes:
 The [ROOT streamer-info reference](https://root.cern/doc/v636/streamerinfo.html) documents these attributes, though some details may be outdated.
 ```
 
-### Streamer information in uproot-custom
+### Streamer information in Uproot-custom
 
 Uproot-custom rearranges the raw Uproot streamer information into a more convenient format: a dictionary mapping class names to the list of their data members' streamer dictionaries. This rearranged dictionary is what gets passed to `Factory.build_factory`.
 
@@ -314,7 +314,11 @@ m_tstr                                   | TString                  | AsStrings(
 m_tarr_int                               | TArrayI                  | AsObjects(Model_TArrayI)
 ```
 
-Uproot handles split branches natively, so this case rarely needs uproot-custom.
+```{note}
+`show()` — like `array()` and `arrays()` — computes and caches an interpretation for every branch it touches. If the branch you are about to register has already been shown or read, the registration has no effect on this file object; see [get started](../getting-started.md#step-2-register-the-branch). Register the paths first, then investigate.
+```
+
+Uproot handles split branches natively, so this case rarely needs Uproot-custom.
 
 However, when the class is stored as a c-style array element — for instance, `TCStyleArray` defined [above](#demo-classes) — ROOT does **not** split the members:
 
@@ -330,7 +334,7 @@ name                 | typename                 | interpretation
 m_simple_obj[3]      | TSimpleObject[][3]       | AsObjects(AsArray(False, False
 ```
 
-This is the typical scenario where uproot-custom is needed.
+This is the typical scenario where Uproot-custom is needed.
 
 (obtain-binary-data)=
 ### Obtaining raw binary data
@@ -338,7 +342,7 @@ This is the typical scenario where uproot-custom is needed.
 Use `AsBinary` to pull the uninterpreted byte stream of a branch:
 
 ```python
-from uproot.interpretations.custom import AsBinary
+from uproot.interpretation.custom import AsBinary
 
 raw_binary = f["my_tree/cstyle_array/m_simple_obj[3]"].array(interpretation=AsBinary())
 
@@ -431,5 +435,5 @@ Follow the streamer information member by member and you can decode the entire b
 ---
 class: hint
 ---
-You now know how to inspect streamer information and decode binary bytes. Move on to [Reader & factory interface](reader-and-factory.md) to learn the Python APIs and study a full worked example.
+You now know how to inspect streamer information and decode binary bytes. Move on to [Write a Detree reader](write-a-reader.md) to implement the reader and its factory.
 ```
