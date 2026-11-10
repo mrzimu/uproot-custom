@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
   <compounddef id="classuproot__custom_1_1_t_string_reader" kind="class" language="C++" prot="public">
     <compoundname>uproot_custom::TStringReader</compoundname>
     <basecompoundref refid="classuproot__custom_1_1_i_reader" prot="public" virt="non-virtual">uproot_custom::IReader</basecompoundref>
     <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classuproot__custom_1_1_t_string_reader_1a221005c1a332cbbf2822b0c6b4728ced" prot="private" static="no" mutable="no">
-        <type><ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">bool</ref></type>
+        <type>const bool</type>
         <definition>const bool uproot_custom::TStringReader::m_with_header</definition>
         <argsstring></argsstring>
         <name>m_with_header</name>
@@ -20,7 +20,7 @@
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="147" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="147" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot__custom_1_1_t_string_reader_1a0d6f35493f3f1f9103f8b9422bf0e01f" prot="private" static="no" mutable="no">
-        <type>SharedVector&lt; <ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">uint8_t</ref> &gt;</type>
+        <type>SharedVector&lt; uint8_t &gt;</type>
         <definition>SharedVector&lt;uint8_t&gt; uproot_custom::TStringReader::m_data</definition>
         <argsstring></argsstring>
         <name>m_data</name>
@@ -35,7 +35,7 @@
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="148" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="148" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot__custom_1_1_t_string_reader_1a1c74b332d5e88e1dd2d2afe849882f4f" prot="private" static="no" mutable="no">
-        <type>SharedVector&lt; <ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">int64_t</ref> &gt;</type>
+        <type>SharedVector&lt; int64_t &gt;</type>
         <definition>SharedVector&lt;int64_t&gt; uproot_custom::TStringReader::m_offsets</definition>
         <argsstring></argsstring>
         <name>m_offsets</name>
@@ -62,7 +62,7 @@
           <declname>name</declname>
         </param>
         <param>
-          <type><ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">bool</ref></type>
+          <type>bool</type>
           <declname>with_header</declname>
         </param>
         <briefdescription>
@@ -123,7 +123,7 @@
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="171" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="171" bodyend="177"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_t_string_reader_1afe344550ba0fb096bc54e794d3043a18" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
-        <type><ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">uint32_t</ref></type>
+        <type>uint32_t</type>
         <definition>uint32_t uproot_custom::TStringReader::read_many</definition>
         <argsstring>(BinaryStream &amp;stream, const int64_t count) override</argsstring>
         <name>read_many</name>
@@ -134,7 +134,7 @@
           <declname>stream</declname>
         </param>
         <param>
-          <type><ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">int64_t</ref></type>
+          <type>const int64_t</type>
           <declname>count</declname>
         </param>
         <briefdescription>
@@ -167,7 +167,7 @@
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="187" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="187" bodyend="202"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_t_string_reader_1a2a3f520ab0fd09829cf00e94e21d543f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
-        <type><ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">uint32_t</ref></type>
+        <type>uint32_t</type>
         <definition>uint32_t uproot_custom::TStringReader::read_until</definition>
         <argsstring>(BinaryStream &amp;stream, const uint8_t *end_pos) override</argsstring>
         <name>read_until</name>
@@ -178,7 +178,7 @@
           <declname>stream</declname>
         </param>
         <param>
-          <type><ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_t_string_reader_1af2bd050ab69c06404dc4bf753ce084b1" kindref="member">uint8_t</ref> *</type>
+          <type>const uint8_t *</type>
           <declname>end_pos</declname>
         </param>
         <briefdescription>
@@ -262,8 +262,11 @@
     <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="145" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="145" bodyend="242"/>
     <listofallmembers>
       <member refid="classuproot__custom_1_1_t_string_reader_1adab0f0693fe03b85f9c7741d5d872ff0" prot="public" virt="virtual"><scope>uproot_custom::TStringReader</scope><name>data</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1aa53fc85ff732460f8880033fb54532a5" prot="protected" virt="non-virtual"><scope>uproot_custom::TStringReader</scope><name>debug_printf</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1abcbae6325e5481658fe8904c399cd134" prot="protected" virt="non-virtual"><scope>uproot_custom::TStringReader</scope><name>debug_printf</name></member>
       <member refid="classuproot__custom_1_1_i_reader_1ad69385766531eebfbd53945817ef88b2" prot="public" virt="non-virtual"><scope>uproot_custom::TStringReader</scope><name>IReader</name></member>
       <member refid="classuproot__custom_1_1_t_string_reader_1a0d6f35493f3f1f9103f8b9422bf0e01f" prot="private" virt="non-virtual"><scope>uproot_custom::TStringReader</scope><name>m_data</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a6f77eaa95d06dd043f83edd41280a446" prot="protected" virt="non-virtual"><scope>uproot_custom::TStringReader</scope><name>m_debug_print</name></member>
       <member refid="classuproot__custom_1_1_i_reader_1ad76b2b787ce86e4e620a9566ba9c9897" prot="protected" virt="non-virtual"><scope>uproot_custom::TStringReader</scope><name>m_name</name></member>
       <member refid="classuproot__custom_1_1_t_string_reader_1a1c74b332d5e88e1dd2d2afe849882f4f" prot="private" virt="non-virtual"><scope>uproot_custom::TStringReader</scope><name>m_offsets</name></member>
       <member refid="classuproot__custom_1_1_t_string_reader_1a221005c1a332cbbf2822b0c6b4728ced" prot="private" virt="non-virtual"><scope>uproot_custom::TStringReader</scope><name>m_with_header</name></member>

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
   <compounddef id="classuproot__custom_1_1_group_reader" kind="class" language="C++" prot="public">
     <compoundname>uproot_custom::GroupReader</compoundname>
     <basecompoundref refid="classuproot__custom_1_1_i_reader" prot="public" virt="non-virtual">uproot_custom::IReader</basecompoundref>
@@ -93,7 +93,7 @@
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="737" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="737" bodyend="745"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_group_reader_1a9260d0bfa20b8652210a185b6129e86e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
-        <type><ref refid="classuproot__custom_1_1_group_reader_1aae25a84aaaef1a64c572fe183850d83e" kindref="member">uint32_t</ref></type>
+        <type>uint32_t</type>
         <definition>uint32_t uproot_custom::GroupReader::read_many_memberwise</definition>
         <argsstring>(BinaryStream &amp;stream, const int64_t count) override</argsstring>
         <name>read_many_memberwise</name>
@@ -104,7 +104,7 @@
           <declname>stream</declname>
         </param>
         <param>
-          <type><ref refid="classuproot__custom_1_1_group_reader_1aae25a84aaaef1a64c572fe183850d83e" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_group_reader_1aae25a84aaaef1a64c572fe183850d83e" kindref="member">int64_t</ref></type>
+          <type>const int64_t</type>
           <declname>count</declname>
         </param>
         <briefdescription>
@@ -128,7 +128,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Number of objects read. Should be equal to <ref refid="classuproot__custom_1_1_group_reader_1aae25a84aaaef1a64c572fe183850d83e" kindref="member">count</ref>. </para>
+<simplesect kind="return"><para>Number of objects read. Should be equal to count. </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -188,8 +188,11 @@
     <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="717" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="717" bodyend="785"/>
     <listofallmembers>
       <member refid="classuproot__custom_1_1_group_reader_1a3ca48aef9866f40895d68079080b8590" prot="public" virt="virtual"><scope>uproot_custom::GroupReader</scope><name>data</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1aa53fc85ff732460f8880033fb54532a5" prot="protected" virt="non-virtual"><scope>uproot_custom::GroupReader</scope><name>debug_printf</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1abcbae6325e5481658fe8904c399cd134" prot="protected" virt="non-virtual"><scope>uproot_custom::GroupReader</scope><name>debug_printf</name></member>
       <member refid="classuproot__custom_1_1_group_reader_1a316f1f3470dab5844d7a0291ac362685" prot="public" virt="non-virtual"><scope>uproot_custom::GroupReader</scope><name>GroupReader</name></member>
       <member refid="classuproot__custom_1_1_i_reader_1ad69385766531eebfbd53945817ef88b2" prot="public" virt="non-virtual"><scope>uproot_custom::GroupReader</scope><name>IReader</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a6f77eaa95d06dd043f83edd41280a446" prot="protected" virt="non-virtual"><scope>uproot_custom::GroupReader</scope><name>m_debug_print</name></member>
       <member refid="classuproot__custom_1_1_group_reader_1a7362ebcf296b9b379fea211c6e6768bd" prot="private" virt="non-virtual"><scope>uproot_custom::GroupReader</scope><name>m_element_readers</name></member>
       <member refid="classuproot__custom_1_1_i_reader_1ad76b2b787ce86e4e620a9566ba9c9897" prot="protected" virt="non-virtual"><scope>uproot_custom::GroupReader</scope><name>m_name</name></member>
       <member refid="classuproot__custom_1_1_i_reader_1a0056e5117c53b20ece09f8d8c44cf7dd" prot="public" virt="virtual"><scope>uproot_custom::GroupReader</scope><name>name</name></member>

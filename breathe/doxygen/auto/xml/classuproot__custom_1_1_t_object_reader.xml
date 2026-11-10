@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
   <compounddef id="classuproot__custom_1_1_t_object_reader" kind="class" language="C++" prot="public">
     <compoundname>uproot_custom::TObjectReader</compoundname>
     <basecompoundref refid="classuproot__custom_1_1_i_reader" prot="public" virt="non-virtual">uproot_custom::IReader</basecompoundref>
     <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classuproot__custom_1_1_t_object_reader_1aad074aa886339fc21de79d5a57709d2e" prot="private" static="no" mutable="no">
-        <type><ref refid="classuproot__custom_1_1_t_object_reader_1ad5da86c41b86791523eeead3e170e5a8" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_t_object_reader_1ad5da86c41b86791523eeead3e170e5a8" kindref="member">bool</ref></type>
+        <type>const bool</type>
         <definition>const bool uproot_custom::TObjectReader::m_keep_data</definition>
         <argsstring></argsstring>
         <name>m_keep_data</name>
@@ -20,7 +20,7 @@
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="70" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="70" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot__custom_1_1_t_object_reader_1a1ae3b029adc608a75fd004dab5da6048" prot="private" static="no" mutable="no">
-        <type>SharedVector&lt; <ref refid="classuproot__custom_1_1_t_object_reader_1ad5da86c41b86791523eeead3e170e5a8" kindref="member">int32_t</ref> &gt;</type>
+        <type>SharedVector&lt; int32_t &gt;</type>
         <definition>SharedVector&lt;int32_t&gt; uproot_custom::TObjectReader::m_unique_id</definition>
         <argsstring></argsstring>
         <name>m_unique_id</name>
@@ -35,7 +35,7 @@
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="71" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="71" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot__custom_1_1_t_object_reader_1a9dbb0cc514188c610f3d07675995699f" prot="private" static="no" mutable="no">
-        <type>SharedVector&lt; <ref refid="classuproot__custom_1_1_t_object_reader_1ad5da86c41b86791523eeead3e170e5a8" kindref="member">uint32_t</ref> &gt;</type>
+        <type>SharedVector&lt; uint32_t &gt;</type>
         <definition>SharedVector&lt;uint32_t&gt; uproot_custom::TObjectReader::m_bits</definition>
         <argsstring></argsstring>
         <name>m_bits</name>
@@ -50,7 +50,7 @@
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="72" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="72" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot__custom_1_1_t_object_reader_1ab9910090e8ee7ca22945ec8b5d8adba0" prot="private" static="no" mutable="no">
-        <type>SharedVector&lt; <ref refid="classuproot__custom_1_1_t_object_reader_1ad5da86c41b86791523eeead3e170e5a8" kindref="member">uint16_t</ref> &gt;</type>
+        <type>SharedVector&lt; uint16_t &gt;</type>
         <definition>SharedVector&lt;uint16_t&gt; uproot_custom::TObjectReader::m_pidf</definition>
         <argsstring></argsstring>
         <name>m_pidf</name>
@@ -65,7 +65,7 @@
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="73" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="73" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot__custom_1_1_t_object_reader_1a5b7a10123689b731da388f71c9263d68" prot="private" static="no" mutable="no">
-        <type>SharedVector&lt; <ref refid="classuproot__custom_1_1_t_object_reader_1ad5da86c41b86791523eeead3e170e5a8" kindref="member">int64_t</ref> &gt;</type>
+        <type>SharedVector&lt; int64_t &gt;</type>
         <definition>SharedVector&lt;int64_t&gt; uproot_custom::TObjectReader::m_pidf_offsets</definition>
         <argsstring></argsstring>
         <name>m_pidf_offsets</name>
@@ -92,7 +92,7 @@
           <declname>name</declname>
         </param>
         <param>
-          <type><ref refid="classuproot__custom_1_1_t_object_reader_1ad5da86c41b86791523eeead3e170e5a8" kindref="member">bool</ref></type>
+          <type>bool</type>
           <declname>keep_data</declname>
         </param>
         <briefdescription>
@@ -204,8 +204,11 @@
     <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="68" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="68" bodyend="134"/>
     <listofallmembers>
       <member refid="classuproot__custom_1_1_t_object_reader_1a299f3062b1b37f5f95f01d0b6a4e3637" prot="public" virt="virtual"><scope>uproot_custom::TObjectReader</scope><name>data</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1aa53fc85ff732460f8880033fb54532a5" prot="protected" virt="non-virtual"><scope>uproot_custom::TObjectReader</scope><name>debug_printf</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1abcbae6325e5481658fe8904c399cd134" prot="protected" virt="non-virtual"><scope>uproot_custom::TObjectReader</scope><name>debug_printf</name></member>
       <member refid="classuproot__custom_1_1_i_reader_1ad69385766531eebfbd53945817ef88b2" prot="public" virt="non-virtual"><scope>uproot_custom::TObjectReader</scope><name>IReader</name></member>
       <member refid="classuproot__custom_1_1_t_object_reader_1a9dbb0cc514188c610f3d07675995699f" prot="private" virt="non-virtual"><scope>uproot_custom::TObjectReader</scope><name>m_bits</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a6f77eaa95d06dd043f83edd41280a446" prot="protected" virt="non-virtual"><scope>uproot_custom::TObjectReader</scope><name>m_debug_print</name></member>
       <member refid="classuproot__custom_1_1_t_object_reader_1aad074aa886339fc21de79d5a57709d2e" prot="private" virt="non-virtual"><scope>uproot_custom::TObjectReader</scope><name>m_keep_data</name></member>
       <member refid="classuproot__custom_1_1_i_reader_1ad76b2b787ce86e4e620a9566ba9c9897" prot="protected" virt="non-virtual"><scope>uproot_custom::TObjectReader</scope><name>m_name</name></member>
       <member refid="classuproot__custom_1_1_t_object_reader_1ab9910090e8ee7ca22945ec8b5d8adba0" prot="private" virt="non-virtual"><scope>uproot_custom::TObjectReader</scope><name>m_pidf</name></member>

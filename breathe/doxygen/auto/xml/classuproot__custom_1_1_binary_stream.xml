@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
   <compounddef id="classuproot__custom_1_1_binary_stream" kind="class" language="C++" prot="public">
     <compoundname>uproot_custom::BinaryStream</compoundname>
     <includes refid="uproot-custom_8hh" local="no">uproot-custom.hh</includes>
@@ -23,7 +23,7 @@
           <name>kMustCleanup</name>
           <initializer>= 1ULL &lt;&lt; 3</initializer>
           <briefdescription>
-<para>if object destructor must call <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">RecursiveRemove()</ref> </para>
+<para>if object destructor must call RecursiveRemove() </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -101,7 +101,7 @@
     </sectiondef>
     <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classuproot__custom_1_1_binary_stream_1a9ae34a9cf34b129444732de2f6d3ec55" prot="private" static="no" mutable="no">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">uint8_t</ref> *</type>
+        <type>uint8_t *</type>
         <definition>uint8_t* uproot_custom::BinaryStream::m_cursor</definition>
         <argsstring></argsstring>
         <name>m_cursor</name>
@@ -113,10 +113,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="322" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="322" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="327" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="327" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot__custom_1_1_binary_stream_1a729c07f5e56b97489d2e7cc87c978f65" prot="private" static="no" mutable="no">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">uint64_t</ref></type>
+        <type>const uint64_t</type>
         <definition>const uint64_t uproot_custom::BinaryStream::m_entries</definition>
         <argsstring></argsstring>
         <name>m_entries</name>
@@ -128,10 +128,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="323" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="323" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="328" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="328" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot__custom_1_1_binary_stream_1a3585ddd9dc5ea8398d090632f49216d1" prot="private" static="no" mutable="no">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">uint8_t</ref> *</type>
+        <type>const uint8_t *</type>
         <definition>const uint8_t* uproot_custom::BinaryStream::m_data</definition>
         <argsstring></argsstring>
         <name>m_data</name>
@@ -143,10 +143,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="324" column="23" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="324" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="329" column="23" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="329" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot__custom_1_1_binary_stream_1a647a78ac220aa6ce8708057d765b087e" prot="private" static="no" mutable="no">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">uint32_t</ref> *</type>
+        <type>const uint32_t *</type>
         <definition>const uint32_t* uproot_custom::BinaryStream::m_offsets</definition>
         <argsstring></argsstring>
         <name>m_offsets</name>
@@ -158,10 +158,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="325" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="325" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="330" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="330" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot__custom_1_1_binary_stream_1aeaa26a0cc0ca5b69601f54cdd3df909a" prot="private" static="no" mutable="no">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">uint32_t</ref></type>
+        <type>const uint32_t</type>
         <definition>const uint32_t uproot_custom::BinaryStream::m_initial_cursor_offset</definition>
         <argsstring></argsstring>
         <name>m_initial_cursor_offset</name>
@@ -173,10 +173,25 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="326" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="326" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="331" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuproot__custom_1_1_binary_stream_1a83d4aaeefb5b1cbd6d1240dcecbffab4" prot="private" static="no" mutable="no">
+        <type>const bool</type>
+        <definition>const bool uproot_custom::BinaryStream::m_debug_print</definition>
+        <argsstring></argsstring>
+        <name>m_debug_print</name>
+        <qualifiedname>uproot_custom::BinaryStream::m_debug_print</qualifiedname>
+        <briefdescription>
+<para>whether to print debug information </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="333" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="333" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot__custom_1_1_binary_stream_1a4453a5c84ab961362daecdebaef4ba4a" prot="private" static="no" mutable="no">
-        <type>std::map&lt; <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">uint32_t</ref>, <ref refid="classuproot__custom_1_1_binary_stream_1a82d455d4d88d74160a59c122c023d480" kindref="member">Reference</ref> &gt;</type>
+        <type>std::map&lt; uint32_t, <ref refid="classuproot__custom_1_1_binary_stream_1a82d455d4d88d74160a59c122c023d480" kindref="member">Reference</ref> &gt;</type>
         <definition>std::map&lt;uint32_t, Reference&gt; uproot_custom::BinaryStream::m_refs</definition>
         <argsstring></argsstring>
         <name>m_refs</name>
@@ -188,7 +203,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="329" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="329" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="335" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="335" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -199,15 +214,15 @@
         <name>BinaryStream</name>
         <qualifiedname>uproot_custom::BinaryStream::BinaryStream</qualifiedname>
         <param>
-          <type>py::array_t&lt; <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">uint8_t</ref> &gt;</type>
+          <type>py::array_t&lt; uint8_t &gt;</type>
           <declname>data</declname>
         </param>
         <param>
-          <type>py::array_t&lt; <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">uint32_t</ref> &gt;</type>
+          <type>py::array_t&lt; uint32_t &gt;</type>
           <declname>offsets</declname>
         </param>
         <param>
-          <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">uint32_t</ref></type>
+          <type>uint32_t</type>
           <declname>initial_cursor_position</declname>
         </param>
         <briefdescription>
@@ -243,12 +258,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="101" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="101" bodyend="107"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="101" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="101" bodyend="108"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <templateparamlist>
           <param>
-            <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">typename</ref> <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">T</ref></type>
+            <type>typename T</type>
           </param>
         </templateparamlist>
         <type>const T</type>
@@ -275,10 +290,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="116" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="116" bodyend="157"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="117" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="117" bodyend="158"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1a25ade4c8b098961db0ac1db68854a110" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">int16_t</ref></type>
+        <type>const int16_t</type>
         <definition>const int16_t uproot_custom::BinaryStream::read_fVersion</definition>
         <argsstring>()</argsstring>
         <name>read_fVersion</name>
@@ -293,10 +308,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="164" column="23" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="164" bodyend="164"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="165" column="23" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="165" bodyend="165"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1aefbde7c97d3ba802eab68d34b2d24396" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">uint32_t</ref></type>
+        <type>const uint32_t</type>
         <definition>const uint32_t uproot_custom::BinaryStream::read_fNBytes</definition>
         <argsstring>()</argsstring>
         <name>read_fNBytes</name>
@@ -320,10 +335,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="172" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="172" bodyend="177"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="173" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="173" bodyend="178"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1ab1b668a635c08573795c40792661336a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">const</ref> std::string</type>
+        <type>const std::string</type>
         <definition>const std::string uproot_custom::BinaryStream::read_null_terminated_string</definition>
         <argsstring>()</argsstring>
         <name>read_null_terminated_string</name>
@@ -338,10 +353,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="184" column="27" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="184" bodyend="189"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="185" column="27" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="185" bodyend="190"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1a29cae86deaeff7f306e92db588abcc1c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">const</ref> std::string</type>
+        <type>const std::string</type>
         <definition>const std::string uproot_custom::BinaryStream::read_obj_header</definition>
         <argsstring>()</argsstring>
         <name>read_obj_header</name>
@@ -356,10 +371,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="198" column="27" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="198" bodyend="203"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="199" column="27" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="199" bodyend="204"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1a11180235ab666fbb48b8a17b155bd943" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">const</ref> std::string</type>
+        <type>const std::string</type>
         <definition>const std::string uproot_custom::BinaryStream::read_TString</definition>
         <argsstring>()</argsstring>
         <name>read_TString</name>
@@ -374,16 +389,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="212" column="27" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="212" bodyend="218"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="213" column="27" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="213" bodyend="219"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1ab0ce7f5f1451e375b77c7e93360e7e50" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">void</ref></type>
+        <type>void</type>
         <definition>void uproot_custom::BinaryStream::skip</definition>
         <argsstring>(const size_t n)</argsstring>
         <name>skip</name>
         <qualifiedname>uproot_custom::BinaryStream::skip</qualifiedname>
         <param>
-          <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">size_t</ref></type>
+          <type>const size_t</type>
           <declname>n</declname>
         </param>
         <briefdescription>
@@ -403,10 +418,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="225" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="225" bodyend="225"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="226" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="226" bodyend="226"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1a6812b3df82e233b70c81ab6d81ae7685" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">void</ref></type>
+        <type>void</type>
         <definition>void uproot_custom::BinaryStream::skip_fNBytes</definition>
         <argsstring>()</argsstring>
         <name>skip_fNBytes</name>
@@ -418,10 +433,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="231" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="231" bodyend="231"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="232" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="232" bodyend="232"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1aba3bf457df7e624a4fe43110e5039af2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">void</ref></type>
+        <type>void</type>
         <definition>void uproot_custom::BinaryStream::skip_fVersion</definition>
         <argsstring>()</argsstring>
         <name>skip_fVersion</name>
@@ -433,10 +448,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="236" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="236" bodyend="236"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="237" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="237" bodyend="237"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1a53eee6fae82eb0d5cd59e30757345766" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">void</ref></type>
+        <type>void</type>
         <definition>void uproot_custom::BinaryStream::skip_null_terminated_string</definition>
         <argsstring>()</argsstring>
         <name>skip_null_terminated_string</name>
@@ -448,10 +463,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="241" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="241" bodyend="244"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="242" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="242" bodyend="245"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1a15455d80fd851e5d8aaeb4cb281a999c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">void</ref></type>
+        <type>void</type>
         <definition>void uproot_custom::BinaryStream::skip_obj_header</definition>
         <argsstring>()</argsstring>
         <name>skip_obj_header</name>
@@ -463,25 +478,25 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="251" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="251" bodyend="255"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="252" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="252" bodyend="256"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1a675aaebe5f7cd72f26d94888022e89cc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">void</ref></type>
+        <type>void</type>
         <definition>void uproot_custom::BinaryStream::skip_TObject</definition>
         <argsstring>()</argsstring>
         <name>skip_TObject</name>
         <qualifiedname>uproot_custom::BinaryStream::skip_TObject</qualifiedname>
         <briefdescription>
-<para>Skip a TObject in the stream. A TObject has <computeroutput>fVersion</computeroutput> (2 bytes), <computeroutput>fUniqueID</computeroutput> (4 bytes), <computeroutput>fBits</computeroutput> (4 bytes). If <computeroutput>fBits &amp; kIsReferenced</computeroutput>, then a <computeroutput>pidf</computeroutput> (2 bytes) follows. </para>
+<para>Skip a TObject in the stream. A TObject has <computeroutput>fVersion</computeroutput> (2 bytes), <computeroutput>fUniqueID</computeroutput> (4 bytes), <computeroutput>fBits</computeroutput> (4 bytes). If <computeroutput>fBits &amp; <ref refid="classuproot__custom_1_1_binary_stream_1a125b71eeed0baa9a7a546c56581f0211a762d834431e93cfb0ee5dc8cd10e588f" kindref="member">kIsReferenced</ref></computeroutput>, then a <computeroutput>pidf</computeroutput> (2 bytes) follows. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="262" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="262" bodyend="267"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="263" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="263" bodyend="268"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1a69acda15fa19d8e4a9f17031a4d32811" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">uint8_t</ref> *</type>
+        <type>const uint8_t *</type>
         <definition>const uint8_t * uproot_custom::BinaryStream::get_data</definition>
         <argsstring>() const</argsstring>
         <name>get_data</name>
@@ -493,10 +508,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="272" column="23" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="272" bodyend="272"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="273" column="23" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="273" bodyend="273"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1a82bbc52c4b48aff4bcaea6da796eb084" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">uint8_t</ref> *</type>
+        <type>const uint8_t *</type>
         <definition>const uint8_t * uproot_custom::BinaryStream::get_cursor</definition>
         <argsstring>() const</argsstring>
         <name>get_cursor</name>
@@ -508,10 +523,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="277" column="23" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="277" bodyend="277"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="278" column="23" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="278" bodyend="278"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1a8e780c590897f9d70f99c6852f38d694" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">uint32_t</ref> *</type>
+        <type>const uint32_t *</type>
         <definition>const uint32_t * uproot_custom::BinaryStream::get_offsets</definition>
         <argsstring>() const</argsstring>
         <name>get_offsets</name>
@@ -523,10 +538,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="282" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="282" bodyend="282"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="283" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="283" bodyend="283"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1aae59fa84c7f32301b09f1c00deb1eaaf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">uint32_t</ref></type>
+        <type>const uint32_t</type>
         <definition>const uint32_t uproot_custom::BinaryStream::get_index</definition>
         <argsstring>() const</argsstring>
         <name>get_index</name>
@@ -541,10 +556,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="289" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="289" bodyend="289"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="290" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="290" bodyend="290"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1ad8f58f995231de4fa5c699e7b41b2e05" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">uint32_t</ref></type>
+        <type>const uint32_t</type>
         <definition>const uint32_t uproot_custom::BinaryStream::get_initial_cursor_offset</definition>
         <argsstring>() const</argsstring>
         <name>get_initial_cursor_offset</name>
@@ -559,10 +574,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="297" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="297" bodyend="297"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="298" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="298" bodyend="298"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1a04741f9602c3b62684a8aa8d5327eca6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type>std::map&lt; <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">uint32_t</ref>, <ref refid="classuproot__custom_1_1_binary_stream_1a82d455d4d88d74160a59c122c023d480" kindref="member">Reference</ref> &gt; &amp;</type>
+        <type>std::map&lt; uint32_t, <ref refid="classuproot__custom_1_1_binary_stream_1a82d455d4d88d74160a59c122c023d480" kindref="member">Reference</ref> &gt; &amp;</type>
         <definition>std::map&lt; uint32_t, Reference &gt; &amp; uproot_custom::BinaryStream::get_refs</definition>
         <argsstring>()</argsstring>
         <name>get_refs</name>
@@ -577,10 +592,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="304" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="304" bodyend="304"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="305" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="305" bodyend="305"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1ad50830406c4375b23550d45e1cf47e8e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">uint64_t</ref></type>
+        <type>const uint64_t</type>
         <definition>const uint64_t uproot_custom::BinaryStream::entries</definition>
         <argsstring>() const</argsstring>
         <name>entries</name>
@@ -592,16 +607,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="309" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="309" bodyend="309"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="310" column="24" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="310" bodyend="310"/>
       </memberdef>
-      <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1af81277db18234ae648b326b5e4ce5bdd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">void</ref></type>
+      <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1ac74377450b76118186413f0498913651" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
         <definition>void uproot_custom::BinaryStream::debug_print</definition>
-        <argsstring>(const size_t n=100) const</argsstring>
+        <argsstring>(size_t n=100) const</argsstring>
         <name>debug_print</name>
         <qualifiedname>uproot_custom::BinaryStream::debug_print</qualifiedname>
         <param>
-          <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">size_t</ref></type>
+          <type>size_t</type>
           <declname>n</declname>
           <defval>100</defval>
         </param>
@@ -622,7 +637,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="316" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="316" bodyend="319"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="317" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="317" bodyend="324"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -631,10 +646,10 @@
     <detaileddescription>
 <para>Provides endianness-aware reading of primitive types and manages references between objects during deserialization. </para>
     </detaileddescription>
-    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="56" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="56" bodyend="331"/>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="56" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="56" bodyend="337"/>
     <listofallmembers>
       <member refid="classuproot__custom_1_1_binary_stream_1ab0ab550a96bdec82b82015d040edef9b" prot="public" virt="non-virtual"><scope>uproot_custom::BinaryStream</scope><name>BinaryStream</name></member>
-      <member refid="classuproot__custom_1_1_binary_stream_1af81277db18234ae648b326b5e4ce5bdd" prot="public" virt="non-virtual"><scope>uproot_custom::BinaryStream</scope><name>debug_print</name></member>
+      <member refid="classuproot__custom_1_1_binary_stream_1ac74377450b76118186413f0498913651" prot="public" virt="non-virtual"><scope>uproot_custom::BinaryStream</scope><name>debug_print</name></member>
       <member refid="classuproot__custom_1_1_binary_stream_1ad50830406c4375b23550d45e1cf47e8e" prot="public" virt="non-virtual"><scope>uproot_custom::BinaryStream</scope><name>entries</name></member>
       <member refid="classuproot__custom_1_1_binary_stream_1a125b71eeed0baa9a7a546c56581f0211" prot="public" virt="non-virtual"><scope>uproot_custom::BinaryStream</scope><name>EStatusBits</name></member>
       <member refid="classuproot__custom_1_1_binary_stream_1a82bbc52c4b48aff4bcaea6da796eb084" prot="public" virt="non-virtual"><scope>uproot_custom::BinaryStream</scope><name>get_cursor</name></member>
@@ -652,6 +667,7 @@
       <member refid="classuproot__custom_1_1_binary_stream_1a125b71eeed0baa9a7a546c56581f0211af0d280a1396ee4ac40849c16dc9dfcd6" prot="public" virt="non-virtual"><scope>uproot_custom::BinaryStream</scope><name>kNoContextMenu</name></member>
       <member refid="classuproot__custom_1_1_binary_stream_1a9ae34a9cf34b129444732de2f6d3ec55" prot="private" virt="non-virtual"><scope>uproot_custom::BinaryStream</scope><name>m_cursor</name></member>
       <member refid="classuproot__custom_1_1_binary_stream_1a3585ddd9dc5ea8398d090632f49216d1" prot="private" virt="non-virtual"><scope>uproot_custom::BinaryStream</scope><name>m_data</name></member>
+      <member refid="classuproot__custom_1_1_binary_stream_1a83d4aaeefb5b1cbd6d1240dcecbffab4" prot="private" virt="non-virtual"><scope>uproot_custom::BinaryStream</scope><name>m_debug_print</name></member>
       <member refid="classuproot__custom_1_1_binary_stream_1a729c07f5e56b97489d2e7cc87c978f65" prot="private" virt="non-virtual"><scope>uproot_custom::BinaryStream</scope><name>m_entries</name></member>
       <member refid="classuproot__custom_1_1_binary_stream_1aeaa26a0cc0ca5b69601f54cdd3df909a" prot="private" virt="non-virtual"><scope>uproot_custom::BinaryStream</scope><name>m_initial_cursor_offset</name></member>
       <member refid="classuproot__custom_1_1_binary_stream_1a647a78ac220aa6ce8708057d765b087e" prot="private" virt="non-virtual"><scope>uproot_custom::BinaryStream</scope><name>m_offsets</name></member>

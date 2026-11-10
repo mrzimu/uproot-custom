@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
   <compounddef id="classuproot__custom_1_1_any_pointer_reader" kind="class" language="C++" prot="public">
     <compoundname>uproot_custom::AnyPointerReader</compoundname>
     <basecompoundref refid="classuproot__custom_1_1_i_reader" prot="public" virt="non-virtual">uproot_custom::IReader</basecompoundref>
@@ -20,7 +20,7 @@
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="898" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="898" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot__custom_1_1_any_pointer_reader_1aa00692abec9814175de9188f6fec1ff9" prot="private" static="no" mutable="no">
-        <type><ref refid="classuproot__custom_1_1_any_pointer_reader_1a53ddf183e278cf5a5c7133b7387de08c" kindref="member">int64_t</ref></type>
+        <type>int64_t</type>
         <definition>int64_t uproot_custom::AnyPointerReader::m_object_counter</definition>
         <argsstring></argsstring>
         <name>m_object_counter</name>
@@ -36,7 +36,7 @@
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="900" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="900" bodyend="900"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot__custom_1_1_any_pointer_reader_1ac8e681b560bae177a39f1ba7e161c55b" prot="private" static="no" mutable="no">
-        <type>SharedVector&lt; <ref refid="classuproot__custom_1_1_any_pointer_reader_1a53ddf183e278cf5a5c7133b7387de08c" kindref="member">int64_t</ref> &gt;</type>
+        <type>SharedVector&lt; int64_t &gt;</type>
         <definition>SharedVector&lt;int64_t&gt; uproot_custom::AnyPointerReader::m_object_indexes</definition>
         <argsstring></argsstring>
         <name>m_object_indexes</name>
@@ -110,7 +110,7 @@
         <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" line="914" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/src/uproot-custom.cc" bodystart="914" bodyend="917"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_any_pointer_reader_1a24ed33763af9a4760331bb4f9497ec1b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type><ref refid="classuproot__custom_1_1_any_pointer_reader_1a53ddf183e278cf5a5c7133b7387de08c" kindref="member">void</ref></type>
+        <type>void</type>
         <definition>void uproot_custom::AnyPointerReader::check_cursor_position</definition>
         <argsstring>(BinaryStream &amp;stream, const uint32_t expected_nbytes, const uint8_t *expected_pos)</argsstring>
         <name>check_cursor_position</name>
@@ -120,11 +120,11 @@
           <declname>stream</declname>
         </param>
         <param>
-          <type><ref refid="classuproot__custom_1_1_any_pointer_reader_1a53ddf183e278cf5a5c7133b7387de08c" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_any_pointer_reader_1a53ddf183e278cf5a5c7133b7387de08c" kindref="member">uint32_t</ref></type>
+          <type>const uint32_t</type>
           <declname>expected_nbytes</declname>
         </param>
         <param>
-          <type><ref refid="classuproot__custom_1_1_any_pointer_reader_1a53ddf183e278cf5a5c7133b7387de08c" kindref="member">const</ref> <ref refid="classuproot__custom_1_1_any_pointer_reader_1a53ddf183e278cf5a5c7133b7387de08c" kindref="member">uint8_t</ref> *</type>
+          <type>const uint8_t *</type>
           <declname>expected_pos</declname>
         </param>
         <briefdescription>
@@ -248,8 +248,11 @@
       <member refid="classuproot__custom_1_1_any_pointer_reader_1a439e552e9ca5ccc7a3434cdbdacc2f40" prot="public" virt="non-virtual"><scope>uproot_custom::AnyPointerReader</scope><name>AnyPointerReader</name></member>
       <member refid="classuproot__custom_1_1_any_pointer_reader_1a24ed33763af9a4760331bb4f9497ec1b" prot="public" virt="non-virtual"><scope>uproot_custom::AnyPointerReader</scope><name>check_cursor_position</name></member>
       <member refid="classuproot__custom_1_1_any_pointer_reader_1a0e9db8142b66aa1a75da768fb1000294" prot="public" virt="virtual"><scope>uproot_custom::AnyPointerReader</scope><name>data</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1aa53fc85ff732460f8880033fb54532a5" prot="protected" virt="non-virtual"><scope>uproot_custom::AnyPointerReader</scope><name>debug_printf</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1abcbae6325e5481658fe8904c399cd134" prot="protected" virt="non-virtual"><scope>uproot_custom::AnyPointerReader</scope><name>debug_printf</name></member>
       <member refid="classuproot__custom_1_1_i_reader_1ad69385766531eebfbd53945817ef88b2" prot="public" virt="non-virtual"><scope>uproot_custom::AnyPointerReader</scope><name>IReader</name></member>
       <member refid="classuproot__custom_1_1_any_pointer_reader_1affb6da7063ba8f97b813eab278305ee0" prot="private" virt="non-virtual"><scope>uproot_custom::AnyPointerReader</scope><name>m_class_name</name></member>
+      <member refid="classuproot__custom_1_1_i_reader_1a6f77eaa95d06dd043f83edd41280a446" prot="protected" virt="non-virtual"><scope>uproot_custom::AnyPointerReader</scope><name>m_debug_print</name></member>
       <member refid="classuproot__custom_1_1_any_pointer_reader_1afdfb49d2c9823751dda971137adca8c7" prot="private" virt="non-virtual"><scope>uproot_custom::AnyPointerReader</scope><name>m_element_reader</name></member>
       <member refid="classuproot__custom_1_1_i_reader_1ad76b2b787ce86e4e620a9566ba9c9897" prot="protected" virt="non-virtual"><scope>uproot_custom::AnyPointerReader</scope><name>m_name</name></member>
       <member refid="classuproot__custom_1_1_any_pointer_reader_1aa00692abec9814175de9188f6fec1ff9" prot="private" virt="non-virtual"><scope>uproot_custom::AnyPointerReader</scope><name>m_object_counter</name></member>

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
   <compounddef id="structuproot__custom_1_1_binary_stream_1_1_ref_cls" kind="struct" language="C++" prot="public">
     <compoundname>uproot_custom::BinaryStream::RefCls</compoundname>
     <includes refid="uproot-custom_8hh" local="no">uproot-custom.hh</includes>
@@ -21,22 +21,10 @@
       </memberdef>
     </sectiondef>
     <briefdescription>
-<para>Reference to a class by name. </para>
+<para><ref refid="classuproot__custom_1_1_binary_stream_1a82d455d4d88d74160a59c122c023d480" kindref="member">Reference</ref> to a class by name. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <collaborationgraph>
-      <node id="2">
-        <label>string</label>
-      </node>
-      <node id="1">
-        <label>uproot_custom::BinaryStream::RefCls</label>
-        <link refid="structuproot__custom_1_1_binary_stream_1_1_ref_cls"/>
-        <childnode refid="2" relation="usage">
-          <edgelabel>name</edgelabel>
-        </childnode>
-      </node>
-    </collaborationgraph>
     <location file="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" line="79" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/cpp/include/uproot-custom/uproot-custom.hh" bodystart="79" bodyend="81"/>
     <listofallmembers>
       <member refid="structuproot__custom_1_1_binary_stream_1_1_ref_cls_1af8fab2e42011c28acb71de3b3636084b" prot="public" virt="non-virtual"><scope>uproot_custom::BinaryStream::RefCls</scope><name>name</name></member>

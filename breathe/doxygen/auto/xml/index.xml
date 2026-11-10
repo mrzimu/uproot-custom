@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.8" xml:lang="en-US">
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.15.0" xml:lang="en-US">
   <compound refid="classuproot__custom_1_1_any_class_reader" kind="class"><name>uproot_custom::AnyClassReader</name>
     <member refid="classuproot__custom_1_1_any_class_reader_1a5a4728f34f2bfc889f69fd0676867de2" kind="variable"><name>m_element_readers</name></member>
     <member refid="classuproot__custom_1_1_any_class_reader_1a4447af5b066e525744f4b94f1b61853f" kind="function"><name>AnyClassReader</name></member>
@@ -32,6 +32,7 @@
     <member refid="classuproot__custom_1_1_binary_stream_1a3585ddd9dc5ea8398d090632f49216d1" kind="variable"><name>m_data</name></member>
     <member refid="classuproot__custom_1_1_binary_stream_1a647a78ac220aa6ce8708057d765b087e" kind="variable"><name>m_offsets</name></member>
     <member refid="classuproot__custom_1_1_binary_stream_1aeaa26a0cc0ca5b69601f54cdd3df909a" kind="variable"><name>m_initial_cursor_offset</name></member>
+    <member refid="classuproot__custom_1_1_binary_stream_1a83d4aaeefb5b1cbd6d1240dcecbffab4" kind="variable"><name>m_debug_print</name></member>
     <member refid="classuproot__custom_1_1_binary_stream_1a4453a5c84ab961362daecdebaef4ba4a" kind="variable"><name>m_refs</name></member>
     <member refid="classuproot__custom_1_1_binary_stream_1ab0ab550a96bdec82b82015d040edef9b" kind="function"><name>BinaryStream</name></member>
     <member refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kind="function"><name>read</name></member>
@@ -53,7 +54,7 @@
     <member refid="classuproot__custom_1_1_binary_stream_1ad8f58f995231de4fa5c699e7b41b2e05" kind="function"><name>get_initial_cursor_offset</name></member>
     <member refid="classuproot__custom_1_1_binary_stream_1a04741f9602c3b62684a8aa8d5327eca6" kind="function"><name>get_refs</name></member>
     <member refid="classuproot__custom_1_1_binary_stream_1ad50830406c4375b23550d45e1cf47e8e" kind="function"><name>entries</name></member>
-    <member refid="classuproot__custom_1_1_binary_stream_1af81277db18234ae648b326b5e4ce5bdd" kind="function"><name>debug_print</name></member>
+    <member refid="classuproot__custom_1_1_binary_stream_1ac74377450b76118186413f0498913651" kind="function"><name>debug_print</name></member>
   </compound>
   <compound refid="classuproot__custom_1_1_c_style_array_reader" kind="class"><name>uproot_custom::CStyleArrayReader</name>
     <member refid="classuproot__custom_1_1_c_style_array_reader_1a1bdde589e07b586e25ebeb887b5b24a1" kind="variable"><name>m_flat_size</name></member>
@@ -79,6 +80,9 @@
   </compound>
   <compound refid="classuproot__custom_1_1_i_reader" kind="class"><name>uproot_custom::IReader</name>
     <member refid="classuproot__custom_1_1_i_reader_1ad76b2b787ce86e4e620a9566ba9c9897" kind="variable"><name>m_name</name></member>
+    <member refid="classuproot__custom_1_1_i_reader_1a6f77eaa95d06dd043f83edd41280a446" kind="variable"><name>m_debug_print</name></member>
+    <member refid="classuproot__custom_1_1_i_reader_1aa53fc85ff732460f8880033fb54532a5" kind="function"><name>debug_printf</name></member>
+    <member refid="classuproot__custom_1_1_i_reader_1abcbae6325e5481658fe8904c399cd134" kind="function"><name>debug_printf</name></member>
     <member refid="classuproot__custom_1_1_i_reader_1ad69385766531eebfbd53945817ef88b2" kind="function"><name>IReader</name></member>
     <member refid="classuproot__custom_1_1_i_reader_1a04ba536e1869fb9dbe0983d88bfcd56f" kind="function"><name>~IReader</name></member>
     <member refid="classuproot__custom_1_1_i_reader_1a0056e5117c53b20ece09f8d8c44cf7dd" kind="function"><name>name</name></member>
@@ -166,10 +170,8 @@
   <compound refid="namespaceuproot" kind="namespace"><name>uproot</name>
   </compound>
   <compound refid="namespaceuproot__custom" kind="namespace"><name>uproot_custom</name>
-    <member refid="uproot-custom_8hh_1a3f27c79f9c302f810e6533bde71c9615" kind="typedef"><name>BinaryBuffer</name></member>
-    <member refid="uproot-custom_8hh_1ac267922ed7d50f9aea550ec0de37519c" kind="typedef"><name>IElementReader</name></member>
-    <member refid="uproot-custom_8hh_1a8e338464b423cadc5b023ab37d7bb343" kind="typedef"><name>SharedReader</name></member>
-    <member refid="uproot-custom_8cc_1aef683b74f8d3a1217eff9c38d4c7f373" kind="typedef"><name>SharedVector</name></member>
+    <member refid="uproot-custom_8hh_1aef93a419cdaaba1992eb70fc342b0157" kind="typedef"><name>SharedReader</name></member>
+    <member refid="uproot-custom_8cc_1a94936e81157db14b4ac82246889e1f15" kind="typedef"><name>SharedVector</name></member>
     <member refid="uproot-custom_8hh_1a2340067e12053415f0a8d1783ccff66a" kind="variable"><name>kNewClassTag</name></member>
     <member refid="uproot-custom_8hh_1a58e727a42e1e12e1565ed8e50287cf0e" kind="variable"><name>kClassMask</name></member>
     <member refid="uproot-custom_8hh_1ad1984130ee0b8ac37feb6e50f978a3fc" kind="variable"><name>kByteCountMask</name></member>
@@ -182,7 +184,7 @@
     <member refid="uproot-custom_8hh_1a7dc55e709aacb505251d2465c508a700" kind="function"><name>declare_reader</name></member>
     <member refid="uproot-custom_8hh_1a7604ce6513ed4be3cc922dc94383b6c6" kind="function"><name>make_array</name></member>
     <member refid="uproot-custom_8hh_1a462fa53f1230e91aa986934ae68dfacd" kind="function"><name>debug_printf</name></member>
-    <member refid="uproot-custom_8hh_1aea384cde4cf84d1f480087af3d2b61e7" kind="function"><name>debug_printf</name></member>
+    <member refid="uproot-custom_8hh_1a22118dcb32c008a9f445cbd666f70133" kind="function"><name>debug_printf</name></member>
     <member refid="uproot-custom_8cc_1a78f2057fecf7042ebd7ec7a8a8e713a7" kind="function"><name>py_read_data</name></member>
     <member refid="uproot-custom_8cc_1aeecea1c20102e153fb11c401511b06ed" kind="function"><name>PYBIND11_MODULE</name></member>
   </compound>

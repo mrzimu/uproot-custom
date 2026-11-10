@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
   <compounddef id="structuproot__custom_1_1_binary_stream_1_1_ref_obj" kind="struct" language="C++" prot="public">
     <compoundname>uproot_custom::BinaryStream::RefObj</compoundname>
     <includes refid="uproot-custom_8hh" local="no">uproot-custom.hh</includes>
     <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="structuproot__custom_1_1_binary_stream_1_1_ref_obj_1a567e5039aaecabfd04dd1925847d6ab3" prot="public" static="no" mutable="no">
-        <type><ref refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kindref="member">int64_t</ref></type>
+        <type>int64_t</type>
         <definition>int64_t uproot_custom::BinaryStream::RefObj::index</definition>
         <argsstring></argsstring>
         <name>index</name>
@@ -21,7 +21,7 @@
       </memberdef>
     </sectiondef>
     <briefdescription>
-<para>Reference to an object by index. </para>
+<para><ref refid="classuproot__custom_1_1_binary_stream_1a82d455d4d88d74160a59c122c023d480" kindref="member">Reference</ref> to an object by index. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
