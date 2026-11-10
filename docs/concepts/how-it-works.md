@@ -1,14 +1,16 @@
-# Pipeline overview
+# How it works
 
-This page explains the end-to-end pipeline that uproot-custom uses to turn ROOT binary data into `awkward` arrays. Understanding this pipeline will help you design your own factories and readers.
+This page explains the end-to-end pipeline that Uproot-custom uses to turn ROOT binary data into `awkward` arrays. Understanding this pipeline will help you design your own factories and readers.
 
 At a high level the pipeline has five stages:
 
-1. **Build factories** — uproot-custom reads streamer information and recursively creates a tree of `Factory` instances that mirror the class hierarchy.
-2. **Build readers** — each factory creates a corresponding `Reader` (Python or C++).
+1. **Build factories** — Uproot-custom reads streamer information and recursively creates a tree of `Factory` instances that mirror the class hierarchy.
+2. **Build readers** — each factory creates a corresponding `Reader` for the selected backend.
 3. **Read binary data** — the composed reader graph walks the byte stream.
 4. **Return raw data** — leaf readers return `numpy` arrays; parent readers assemble them into nested tuples / lists.
 5. **Build awkward arrays** — factories convert the raw arrays into `awkward` contents and form the final `awkward` array.
+
+Only stage 2 depends on the reader backend. Stages 1, 3, 4 and 5 are the same whichever backend runs the bytes, which is why a branch must decode to the same array on every backend.
 
 ---
 
@@ -102,25 +104,30 @@ The resulting factory tree for `TSimpleObject` (using the [streamer information]
 
 ## Stage 2: Build readers
 
-Once the factory tree is ready, `AsCustom` calls the method that matches the selected reader backend: `Factory.build_python_reader`, `build_cpp_reader` (the default), `build_forth_reader`, or `build_detree_reader`. Each factory delegates to its sub-factories to build sub-readers, then combines them into a parent reader.
+Once the factory tree is ready, `AsCustom` calls the method that matches the selected reader backend: `Factory.build_detree_reader`, `build_python_reader`, or `build_cpp_reader`. Each factory delegates to its sub-factories to build sub-readers, then combines them into a parent reader.
 
 ```{important}
-The default reader backend is **C++** (`get_backend()` returns `"cpp"`). During development, you must explicitly switch to the Python backend:
+The backend is selected at run time and defaults to `cpp`. A downstream project that wants **Detree** — the recommended path — selects it once, before it starts reading:
 
-    import uproot_custom as uc uc.set_backend("python")
+    import uproot_custom as uc
+    uc.set_backend("detree")
+
+See [choosing a technical route](choosing-a-route.md).
 ```
 
 ```{code-block} python
 ---
-caption: Source code of `AnyClassFactory.build_python_reader`
+caption: Source code of `AnyClassFactory.build_detree_reader`
 emphasize-lines: 5-6
 ---
 class AnyClassFactory(GroupFactory):
     ...
 
-    def build_python_reader(self):
-        sub_readers = [s.build_python_reader() for s in self.sub_factories]
-        return uproot_custom.python.AnyClassReader(self.name, sub_readers)
+    def build_detree_reader(self):
+        return uproot_custom.detree.builtin.AnyClassReader(
+            self.name,
+            elements=tuple(s.build_detree_reader() for s in self.sub_factories),
+        )
 ```
 
 ---
@@ -226,6 +233,10 @@ class GroupFactory(Factory):
 ## Complete example: putting it all together
 
 The five stages above may feel abstract. Below is a concrete, end-to-end example that walks through every stage. We use a demo class `TOverrideStreamer` that overrides the default ROOT `Streamer` method by inserting an extra mask between its two data members.
+
+```{note}
+The example writes the reader as a **Python** reader, so that every stage stays visible as ordinary Python. The [tutorial](../tutorial/write-a-reader.md) builds the same reader for Detree; the factory and the awkward stages are identical.
+```
 
 ```{code-block} cpp
 ---
@@ -387,11 +398,11 @@ arr.m_double # <Array [0.0, 3.14, 6.28, ...] type='100 * float64'>
 ```
 
 ```{tip}
-In a real project, put the factory, reader, and registration code inside a Python package (see [](project-setup.md)). The registration is typically done in the package's `__init__.py` so that it happens automatically on import.
+In a real project, put the factory, reader, and registration code inside a Python package (see [package your project](../tutorial/package-your-project.md)). The registration is typically done in the package's `__init__.py` so that it happens automatically on import.
 ```
 
 ```{seealso}
-For a full walkthrough — including binary-data inspection and porting to C++ — see [Example 1: Streamer method is overridden](../../example/override-streamer.md).
+For a full walkthrough — including binary-data inspection and writing the reader — see [Example 1: Streamer method is overridden](../example/override-streamer.md).
 ```
 
 ---
@@ -400,5 +411,5 @@ For a full walkthrough — including binary-data inspection and porting to C++ �
 ---
 class: hint
 ---
-Now that you understand the pipeline, move on to [Investigate your data](investigate-data.md) to learn how to inspect streamer information and raw binary bytes for the class you need to read.
+Now that you understand the pipeline, move on to [Investigate your data](../tutorial/investigate-data.md) to learn how to inspect streamer information and raw binary bytes for the class you need to read.
 ```

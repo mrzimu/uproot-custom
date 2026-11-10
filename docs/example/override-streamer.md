@@ -1,12 +1,12 @@
 # Example 1: `Streamer` method is overridden
 
-Goal: handle a class whose `Streamer` overrides the default layout by inserting an extra mask. We will inspect the bytes, write a Python reader, wrap it with a factory, register it, then read with Uproot. Finally, we show how to port the reader to C++ for production speed.
+Goal: handle a class whose `Streamer` overrides the default layout by inserting an extra mask. We inspect the bytes, write a **Detree reader**, wrap it with a factory, register it, and read with Uproot. The [Python + C++ route](#override-streamer-cpp-route) then shows the same reader written as a Python `IReader` and ported to C++.
 
 ```{seealso}
 A full example can be found in the [example repository](https://github.com/mrzimu/uproot-custom-example).
 ```
 
-We define a demo class `TOverrideStreamer` whose `Streamer` method is overridden to show how to read such classes using uproot-custom.
+We define a demo class `TOverrideStreamer` whose `Streamer` method is overridden to show how to read such classes using Uproot-custom.
 
 There are 2 member variables in `TOverrideStreamer`: `m_int` and `m_double`:
 
@@ -82,16 +82,18 @@ Before implementing the Reader and Factory, we should check the binary data of `
 
 ```python
 >>> import uproot
->>> import uproot_custom as uc
+>>> from uproot.interpretation.custom import AsBinary
 >>>
 >>> br = uproot.open("demo_data.root")["my_tree:override_streamer"]
->>> bin_arr = br.array(interpretation=uc.AsBinary())
+>>> bin_arr = br.array(interpretation=AsBinary())
 >>> evt0 = bin_arr[0].to_numpy()
 >>> evt0
 array([  0,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
          0,  18,  52,  86, 120,   0,   0,   0,   0,   0,   0,   0,   0],
       dtype=uint8)
 ```
+
+`demo_data.root` is `tests/demo-data.root` of the [example repository](https://github.com/mrzimu/uproot-custom-example); copy it next to your script, or point the code at your own file.
 
 Referring to the `Streamer` method above, we can see that the binary data contains:
 
@@ -102,26 +104,24 @@ Referring to the `Streamer` method above, we can see that the binary data contai
 
 These bytes are the data your Reader needs to read.
 
-## Step 2: Implement Python Reader to read binary data
+## Step 2: Implement the Detree reader
 
-We implement a Python Reader named `OverrideStreamerReader`:
+We implement a Detree reader named `OverrideStreamerReader`:
 
 ```{code-block} python
 ---
 lineno-start: 1
-emphasize-lines: 13-26
+emphasize-lines: 9-12
 ---
-from array import array
 import numpy as np
 
-from uproot_custom.python import IReader
+from uproot_custom.detree import Buffer, Reader, reader
 
 
-class OverrideStreamerReader(IReader):
-    def __init__(self, name):
-        super().__init__(name)
-        self.m_ints = array("i")       # int32
-        self.m_doubles = array("d")    # float64
+@reader
+class OverrideStreamerReader(Reader):
+    m_ints = Buffer("i")      # int32
+    m_doubles = Buffer("d")   # float64
 
     def read(self, stream):
         # Skip TObject header
@@ -132,28 +132,26 @@ class OverrideStreamerReader(IReader):
 
         # Read a custom added mask value
         mask = stream.read_uint32()
-        if mask != 0x12345678:
-            raise RuntimeError(f"Error: Unexpected mask value: {mask:#x}")
+        assert mask == 0x12345678, "unexpected mask value"
 
         # Read double value
         self.m_doubles.append(stream.read_double())
 
     def data(self):
-        int_array = np.asarray(self.m_ints)
-        double_array = np.asarray(self.m_doubles)
-        return int_array, double_array
+        return np.asarray(self.m_ints), np.asarray(self.m_doubles)
 ```
 
-- In the `read` method, we skip the `TObject` header, then read the member variables and the mask according to the logic in the `Streamer` method.
+- The class declares its two output buffers as fields; `read` is compiled to a detree-vm module and runs inside the machine.
+- `read` skips the `TObject` header, then reads the members and the mask in the order the `Streamer` method writes them. `assert` replaces the `raise` — it is the only failure mode the compiler accepts.
+- `data` is ordinary Python and returns the two arrays in the shape the factory expects.
 
 (override-streamer-2-np)=
-- In the `data` method, we return a tuple containing 2 `numpy` arrays: one for `m_int` and the other for `m_double`.
 
-## Step 3: Implement Python Factory
+## Step 3: Implement the factory
 
 To use our `OverrideStreamerReader` and reconstruct the final `awkward` array, we need to implement a corresponding Factory. We can implement a Factory named `OverrideStreamerFactory` to do this.
 
-A Factory requires at least 3 methods: `build_factory`, `build_python_reader` and `make_awkward_content`. An optional method `make_awkward_form` can be implemented to enable lazy evaluation functionality.
+A Factory requires at least 3 methods: `build_factory`, `build_detree_reader` and `make_awkward_content`. An optional method `make_awkward_form` can be implemented to enable lazy evaluation functionality.
 
 First, import necessary modules:
 
@@ -165,7 +163,9 @@ from uproot_custom import Factory
 
 ### Implement `build_factory`
 
-We can make an assumpion that the `fName` of the `TStreamerInfo` is `TOverrideStreamer` for our class. If the `fName` matches, we return a tree config dictionary containing the Factory and the `name` of the corresponding Reader. Otherwise, we return `None` to let other factories have a chance to handle current class.
+The class name arrives as `top_type_name` (with `std::` stripped), so that is what the match tests. `cur_streamer_info["fName"]` is the *member* name, which equals the class name only when the class is stored as the whole branch — here it is, but a factory that also has to catch the class as a member of a split tree must not rely on that. [Write a Detree reader](../tutorial/write-a-reader.md) has the field-by-field table under `build_factory`.
+
+If the match succeeds, we return an instance carrying the node's name; otherwise `None` lets the next registered factory try.
 
 ```python
 class OverrideStreamerFactory(Factory):
@@ -178,15 +178,14 @@ class OverrideStreamerFactory(Factory):
         item_path: str,
         **kwargs,
     ):
-        fName = cur_streamer_info["fName"]
-        if fName != "TOverrideStreamer":
+        if top_type_name != "TOverrideStreamer":
             return None
 
-        return cls(fName) # Factory takes `name: str` as constructor argument
+        return cls(cur_streamer_info["fName"])  # Factory takes `name: str`
 ```
 
 ````{tip}
-In production, you may want use `item_path` to make a more accurate identification of whether the current class is the one you want to handle:
+In production, you may want to use `item_path` to make a more accurate identification of whether the current class is the one you want to handle:
 
 ```python
 class OverrideStreamerFactory(Factory):
@@ -202,16 +201,18 @@ class OverrideStreamerFactory(Factory):
         if item_path != "/my_tree:override_streamer":
             return None
 
-        return cls(fName)
+        return cls(cur_streamer_info["fName"])
 ```
+
+`item_path` starts as the branch's regularized object-path and grows by `.<member>` for every level below it, so it identifies a node by position rather than by type.
 ````
 
-### Implement `build_python_reader`
+### Implement `build_detree_reader`
 
-Implement `build_python_reader` to create an instance of `OverrideStreamerReader`:
+Implement `build_detree_reader` to create an instance of `OverrideStreamerReader`:
 
 ```python
-def build_python_reader(self):
+def build_detree_reader(self):
     return OverrideStreamerReader(self.name)
 ```
 
@@ -261,7 +262,7 @@ Refer to [awkward forms](https://awkward-array.org/doc/main/reference/generated/
 
 ## Step 4: Register target branch and the Factory
 
-Finally, we need to register the branch we want to read with uproot-custom, and also register the `OverrideStreamerFactory` so that it can be used by uproot-custom.
+Finally, we need to register the branch we want to read with Uproot-custom, and also register the `OverrideStreamerFactory` so that it can be used by Uproot-custom.
 
 We can do this by adding the following code in the `__init__.py` of your package:
 
@@ -275,11 +276,13 @@ AsCustom.target_branches |= {
 registered_factories.add(OverrideStreamerFactory)
 ```
 
-Don't forget to switch to the Python backend during development, since the default backend is C++:
+Here the class is the whole branch, so the path names the branch itself. When the class sits inside a split tree — the more common layout — the path names the member that stores it, `/my_tree:override_streamer/m_obj`, and the factory must match on `top_type_name` because `cur_streamer_info["fName"]` is then `m_obj`. The path must be registered before the branch's interpretation is first computed; see [get started](../getting-started.md#step-2-register-the-branch).
+
+The code default backend is `cpp`, so select Detree next to the registration, when your package is imported:
 
 ```python
 import uproot_custom as uc
-uc.set_backend("python")  # default is "cpp"
+uc.set_backend("detree")  # the default is "cpp"
 ```
 
 ## Step 5: Read data with Uproot
@@ -291,86 +294,105 @@ Now we can read the data using Uproot as usual:
 >>> arr = b.array()
 ```
 
-## Step 6: Port the reader to C++ for production speed
+(override-streamer-cpp-route)=
+## The Python + C++ route for the same class
 
-Once the Python reader is working, you can port the same logic to C++ for significantly better performance. **The C++ reader only needs to keep the same reading logic as the Python version** — the same fields read in the same order, and `data()` returning the same structure.
+The same class can also be read on the Python + C++ route. The factory and the `data` shape stay the same; the reader is written twice, and the factory gains one method per stage.
 
-```{seealso}
-See [](../tutorial/customize-factory-reader/port-to-cpp.md) for the full C++ reader API reference (IReader, BinaryStream, pybind11 bindings).
+`````{tab-set}
+
+````{tab-item} Python reader
+```{code-block} python
+---
+caption: "`OverrideStreamerReader` (Python)"
+---
+from array import array
+import numpy as np
+from uproot_custom.python import IReader
+
+
+class OverrideStreamerReader(IReader):
+    def __init__(self, name):
+        super().__init__(name)
+        self.m_ints = array("i")       # int32
+        self.m_doubles = array("d")    # float64
+
+    def read(self, stream):
+        stream.skip_TObject()
+        self.m_ints.append(stream.read_int32())
+
+        mask = stream.read_uint32()
+        if mask != 0x12345678:
+            raise RuntimeError(f"Error: Unexpected mask value: {mask:#x}")
+
+        self.m_doubles.append(stream.read_double())
+
+    def data(self):
+        return np.asarray(self.m_ints), np.asarray(self.m_doubles)
 ```
 
+The Python reader is ordinary Python, so the mask check can `raise`. See [stage 1 of the route](../advanced/python-reader.md).
+````
+
+````{tab-item} C++ reader
 ```{code-block} cpp
 ---
-caption: "`OverrideStreamerReader` (C++) — same logic as the Python version"
-lineno-start: 1
-emphasize-lines: 16-33
+caption: "`OverrideStreamerReader` (C++)"
 ---
-#include <cstdint>
-#include <memory>
-#include <vector>
-
-#include "uproot-custom/uproot-custom.hh"
-
-using namespace uproot;
-
 class OverrideStreamerReader : public IReader {
   public:
     OverrideStreamerReader( std::string name )
         : IReader( name )
-        , m_data_ints( std::make_shared<std::vector<int>>() )
-        , m_data_doubles( std::make_shared<std::vector<double>>() ) {}
+        , m_ints( std::make_shared<std::vector<int32_t>>() )
+        , m_doubles( std::make_shared<std::vector<double>>() ) {}
 
     void read( BinaryStream& stream ) {
-        // Skip TObject header
         stream.skip_TObject();
+        m_ints->push_back( stream.read<int32_t>() );
 
-        // Read integer value
-        m_data_ints->push_back( stream.read<int>() );
-
-        // Read a custom added mask value
         auto mask = stream.read<uint32_t>();
         if ( mask != 0x12345678 )
-        {
-            throw std::runtime_error( "Error: Unexpected mask value: " +
-                                      std::to_string( mask ) );
-        }
+            throw std::runtime_error( "Unexpected mask: " + std::to_string( mask ) );
 
-        // Read double value
-        m_data_doubles->push_back( stream.read<double>() );
+        m_doubles->push_back( stream.read<double>() );
     }
 
     py::object data() const {
-        auto int_array    = make_array( m_data_ints );
-        auto double_array = make_array( m_data_doubles );
-        return py::make_tuple( int_array, double_array );
+        return py::make_tuple( make_array( m_ints ), make_array( m_doubles ) );
     }
 
   private:
-    const std::string m_name;
-    std::shared_ptr<std::vector<int>> m_data_ints;
-    std::shared_ptr<std::vector<double>> m_data_doubles;
+    std::shared_ptr<std::vector<int32_t>> m_ints;
+    std::shared_ptr<std::vector<double>> m_doubles;
 };
 
-// Declare the reader
 PYBIND11_MODULE( my_reader_cpp, m ) {
     declare_reader<OverrideStreamerReader, std::string>( m, "OverrideStreamerReader" );
 }
 ```
 
-Then add `build_cpp_reader` to the factory:
+The C++ reader runs fastest and costs the most to ship: it is built into a pybind11 extension that must be pinned and rebuilt. See [stage 2 of the route](../advanced/cpp-reader.md).
+````
+`````
+
+Add the matching factory methods to make the backends selectable:
 
 ```python
-from .my_reader_cpp import OverrideStreamerReader as OverrideStreamerCppReader
+class OverrideStreamerFactory(Factory):
+    # ... build_factory, make_awkward_content, make_awkward_form ...
 
-def build_cpp_reader(self):
-    return OverrideStreamerCppReader(self.name)
+    def build_detree_reader(self):
+        return OverrideStreamerReader(self.name)
+
+    def build_python_reader(self):
+        return OverrideStreamerPythonReader(self.name)
+
+    def build_cpp_reader(self):
+        return cpp.OverrideStreamerReader(self.name)
 ```
 
-After adding `build_cpp_reader`, simply remove the `uc.set_backend("python")` line (or change it to `uc.set_backend("cpp")`) to use the default C++ backend for production:
+Only the selected backend's method is called, so the other two readers are simply unused.
 
-```python
-import uproot_custom as uc
-uc.set_backend("cpp")  # this is the default, so you can also just remove the line
+```{note}
+The external [example repository](https://github.com/mrzimu/uproot-custom-example) ships the Python and C++ implementations; the Detree version on this page is the same read path in the same project layout.
 ```
-
-The factory's `make_awkward_content` and `make_awkward_form` remain exactly the same — they work identically regardless of which backend is used, because both readers return data in the same structure.

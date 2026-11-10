@@ -1,12 +1,20 @@
-# Port readers to C++
+# Stage 2: the C++ implementation
 
-Once your Python reader is working correctly, you can port its logic to C++ for significantly better performance. **The C++ reader only needs to keep the same reading logic as the Python version** — the same fields read in the same order, and `data()` returning the same structure — so porting is a straightforward, mechanical process.
+This is what production runs on the Python + C++ route. It is the fastest executor and the most expensive thing to ship: write it after the [Python implementation](python-reader.md) has established the byte layout, and expect to pin the uproot-custom version and rebuild for every Python version you support.
 
-```{tip}
-Start with a Python reader for rapid prototyping and debugging. Once the logic is validated, transferring it to C++ is quick because the two readers share the same structure and only differ in language syntax.
-```
+The two stages must decode the same bytes into the same `data()` shape. The factory shares `make_awkward_content` and `make_awkward_form`, so a mismatch between the implementations shows up as a wrong array, not as a build error.
 
----
+## Version pinning and the ABI
+
+A C++ reader is compiled against the Uproot-custom header, the pybind11 it exposes, and one Python ABI. Each of those can move independently of your project:
+
+| Coupled to | What happens when it moves |
+| ---------- | -------------------------- |
+| the Uproot-custom header | `IReader` is compatible only within one minor version; a newer minor may change the vtable and the module fails to load |
+| the pybind11 minor version | the Python-visible base type stops resolving: `ImportError: generic_type: type "xxx" referenced unknown base type "uproot::IReader"` |
+| the Python ABI | each Python minor version needs a rebuilt wheel |
+
+A downstream project therefore pins the exact Uproot-custom minor version and the matching pybind11 minor version, ships a wheel per Python version, and rebuilds when either moves. This is the cost the [Detree path](../concepts/choosing-a-route.md) removes; [version requirements](../reference/version-requirements.md) lists the pinned versions.
 
 ## C++ `IReader` base class
 
@@ -160,13 +168,13 @@ debug_print( stream, 50 )
 
 ## Adding `build_cpp_reader` to the factory
 
-Once the C++ reader is ready, add a `build_cpp_reader` method to the factory alongside the existing `build_python_reader`. This is the **only** Python-side change needed — `make_awkward_content` and `make_awkward_form` remain exactly the same, because both readers return data in the same structure.
+Once the C++ reader is ready, add a `build_cpp_reader` method to the factory alongside the Detree reader. This is the **only** Python-side change needed — `make_awkward_content` and `make_awkward_form` remain exactly the same, because both readers return data in the same structure.
 
 ---
 
 ## Side-by-side comparison: `OverrideStreamerReader`
 
-The following tabs show the same `OverrideStreamerReader` (from the [pipeline example](pipeline.md#complete-example-putting-it-all-together)) in Python and C++. Notice how the reading logic is identical — only the language syntax differs.
+The following tabs show the same `OverrideStreamerReader` (from the [pipeline example](../concepts/how-it-works.md#complete-example-putting-it-all-together)) in Python and C++. Notice how the reading logic is identical — only the language syntax differs.
 
 `````{tab-set}
 
@@ -273,7 +281,7 @@ class OverrideStreamerFactory(Factory):
 
 ## Worked example: `TArray` in C++
 
-Compare with the [Python version](reader-and-factory.md#worked-example-tarray) — the reading logic is identical; only the language syntax differs:
+Compare with the [Python version](python-reader.md#worked-example-tarray) — the reading logic is identical; only the language syntax differs:
 
 ```{code-block} cpp
 ---
@@ -331,17 +339,17 @@ class TArrayFactory(Factory):
 
 ---
 
-## Switching to the C++ backend
+## Selecting the C++ stage
 
-After implementing `build_cpp_reader`, switch the backend to use C++ readers:
+After implementing `build_cpp_reader`, select the backend:
 
 ```python
 import uproot_custom as uc
 uc.set_backend("cpp")
 ```
 
-Since `"cpp"` is the default value, you can simply remove any explicit `uc.set_backend("python")` that was set during development.
+`"cpp"` is the code default, so a project that ships only C++ readers needs no call — but a project that also selects Detree elsewhere must set it explicitly.
 
 ```{seealso}
-See [](../../reference/reader-backends.md) for a full discussion of backend selection and troubleshooting.
+See [](../concepts/choosing-a-route.md) for the trade-offs and backend selection.
 ```

@@ -1,6 +1,6 @@
 # Example 2: Read `TObjArray` with unique known type
 
-Goal: read a `TObjArray` when you already know every element is of a specific type (`TObjInObjArray`). We will inspect bytes, implement a `TObjArray` reader/factory pair in Python that embeds this rule, register it with uproot-custom, and then show how to port the reader to C++.
+Goal: read a `TObjArray` when you already know every element is of a specific type (`TObjInObjArray`). We inspect the bytes, write a **Detree reader** that embeds the rule, register it with Uproot-custom, and read the branch. The [Python + C++ route](#tobjarray-cpp-route) shows the same reader as a Python `IReader` and ported to C++.
 
 ```{seealso}
 A full example can be found in the [example repository](https://github.com/mrzimu/uproot-custom-example).
@@ -93,10 +93,10 @@ To print the binary data, run:
 
 ```python
 >>> import uproot
->>> import uproot_custom as uc
+>>> from uproot.interpretation.custom import AsBinary
 >>>
 >>> br = uproot.open("demo_data.root")["my_tree:obj_with_obj_array/m_obj_array"]
->>> bin_arr = br.array(interpretation=uc.AsBinary())
+>>> bin_arr = br.array(interpretation=AsBinary())
 >>> evt1 = bin_arr[1].to_numpy()
 >>> evt1
 array([ 64,   0,   1, 155,   0,   3,   0,   1,   0,   0,   0,   0,   0,
@@ -186,7 +186,7 @@ According to the `Streamer` method, the binary data contains:
 
 4. `Line 15`: The next 4 bytes is `fLowerBound` (int32), which is `[0, 0, 0, 0]`, i.e. `0`.
 
-5. `Line 19-25`: Loop over `nobjects` to read each object. Note that the `[255, 255, 255, 255]` indicates that the objects are stored as pointer, whose binary layout follows [this rule](https://root.cern/doc/v636/dobject.html). In uproot-custom, it can be handled by `AnyPointerFactory`.
+5. `Line 19-25`: Loop over `nobjects` to read each object. Note that the `[255, 255, 255, 255]` indicates that the objects are stored as pointer, whose binary layout follows [this rule](https://root.cern/doc/v636/dobject.html). In Uproot-custom, it can be handled by `AnyPointerFactory`.
 
 ```{tip}
 For other `ROOT` built-in classes, it is suggested to check both the streamer information and the source code. If the `Streamer` method is not overridden, the streamer information is usually enough.
@@ -202,59 +202,58 @@ In summary, the binary data contains:
 So we need such factories/readers to read the data:
 
 - `TObjArrayFactory`/`TObjArrayReader` to read `TObjArray` header and loop over `nobjects`.
-- `AnyPointerFactory`/`AnyPointerReader` to read the object stored as pointer, which are already implemented in uproot-custom. When the type name ends with `*`, `build_factory` automatically resolves to `AnyPointerFactory`, which in turn delegates to `AnyClassFactory` to read the pointed object's data members.
+- `AnyPointerFactory`/`AnyPointerReader` to read the object stored as pointer, which are already implemented in Uproot-custom. When the type name ends with `*`, `build_factory` automatically resolves to `AnyPointerFactory`, which in turn delegates to `AnyClassFactory` to read the pointed object's data members.
 
 The `TObjArrayFactory`/`TObjArrayReader` should be implemented by ourselves. Since we know the type of objects in the `TObjArray` is always `TObjInObjArray`, we can pass `TObjInObjArray*` (with pointer suffix) to `build_factory`, and it will automatically create the appropriate `AnyPointerFactory` → `AnyClassFactory` chain to read all objects. This is also a process of embedding user-known rules.
 
-## Step 2: Implement Python Reader to read binary data
+## Step 2: Implement the Detree reader
 
-Our `TObjArrayReader` in Python can be implemented as follows:
+Our `TObjArrayReader` declares an offsets buffer and one child reader, and decodes the `TObjArray` header before handing the elements to the child:
 
 ```{code-block} python
-from array import array
+---
+lineno-start: 1
+emphasize-lines: 8-9
+---
 import numpy as np
 
-from uproot_custom.python import IReader, BinaryStream
+from uproot_custom.detree import Buffer, Child, Reader, reader
 
 
-class TObjArrayReader(IReader):
-    def __init__(self, name, element_reader):
-        super().__init__(name)
-        self.element_reader = element_reader
-        self.offsets = array("q", [0])
+@reader
+class TObjArrayReader(Reader):
+    offsets = Buffer("q", init=(0,), kind="offsets")
+    element = Child()
 
     def read(self, stream):
-        # Read TObjArray header
         stream.skip_fNBytes()
         stream.skip_fVersion()
         stream.skip_TObject()
-        stream.read_TString()  # fName
+
+        size = stream.read_uint8()  # fName is a TString
+        if size == 255:
+            size = stream.read_uint32()
+        stream.skip(size)
+
         fSize = stream.read_uint32()
         stream.skip(4)  # fLowerBound
 
-        # Record the new offset
         self.offsets.append(self.offsets[-1] + fSize)
-
-        # Read the elements using the element reader
-        self.element_reader.read_many(stream, fSize)
+        self.element.read_many(stream, fSize)
 
     def data(self):
-        offsets_array = np.asarray(self.offsets)
-        element_data = self.element_reader.data()
-        return offsets_array, element_data
+        return np.asarray(self.offsets), self.element.data()
 ```
 
-- In the constructor, we take one `IReader` as the `element_reader`, which is expected to read `TObjInObjArray` objects.
-
-- In `read` method, we read the `TObjArray` header, then call `element_reader.read_many` to read multiple `TObjInObjArray` objects in one go. Also, we record the offsets of each event in `offsets`.
-
-- In `data` method, we return a tuple of `(offsets, element_data)`, where `offsets` is a 1D array of int64, `element_data` is the data returned by `element_reader`.
+- `element = Child()` declares the one sub-reader; the factory builds it and passes it in, exactly as the Python version takes an `element_reader`.
+- `read` consumes the `TObjArray` header, records the new offset, then calls `self.element.read_many(stream, fSize)`. A `read_many` call is compiled, so the loop over the elements stays inside the machine.
+- `data` returns `(offsets, element_data)`, the same tuple the Python reader returns.
 
 ```{tip}
-You should use `IReader.read_many` method to read multiple objects in one go, since some classes (e.g. `std::vector`) may have "1 header + multiple objects" structure.
+Read multiple objects in one `read_many` call rather than in a `for` loop in the parent: some classes (e.g. `std::vector`) have a "1 header + many objects" structure, and their reader knows how to consume that header once.
 ```
 
-## Step 3: Implement Python Factory
+## Step 3: Implement the factory
 
 Similar to [Example 1](override-streamer.md), we need to identify the `TObjArray` branch and implement a corresponding Factory to use our `TObjArrayReader`.
 
@@ -277,15 +276,16 @@ In this example, we simply regard any `TObjArray` branch as our target branch. Y
 
 ```{code-block} python
 ---
+caption: "`TObjArrayFactory`"
 lineno-start: 1
-emphasize-lines: 3-10, 28-29, 31-38
+emphasize-lines: 3-10, 27, 30-37
 ---
 class TObjArrayFactory(Factory):
     @classmethod
     def priority(cls):
         """
         Set a higher priority to ensure this factory is chosen first,
-        otherwise the pre-defined factory of `uproot-custom` may be selected.
+        otherwise the pre-defined factory of `Uproot-custom` may be selected.
 
         The default priority is 10 for other factories.
         """
@@ -304,10 +304,8 @@ class TObjArrayFactory(Factory):
         if top_type_name != "TObjArray":
             return None
 
-        # `item_path` is the path of the current item being processed.
-        # Since `TObjArray` is designed to store any object, we can adjust the `item_path`
-        # to point to the actual object type stored in the array.
-        item_path = item_path.replace(".TObjArray*", "")
+        # `item_path` identifies the node by position: the branch's object-path
+        # plus one "." and the member name per level; it holds no type name.
         obj_typename = "TObjInObjArray*"
 
         element_factory = build_factory(
@@ -324,9 +322,9 @@ class TObjArrayFactory(Factory):
 
 - Line 3-10: Override `priority` method to give a higher priority than the factories with default priority 10, so that our factory can be chosen first.
 
-- Line 28-29: Fix the `item_path`, otherwise the `.TObjArray*` suffix will be kept to the final awkward arrays. Set `obj_typename` to `TObjInObjArray*` with the `*` suffix so that `build_factory` automatically resolves to `AnyPointerFactory`.
+- Line 27: The type read from the array is `TObjInObjArray*`. The trailing `*` makes `build_factory` resolve it to `AnyPointerFactory`, which handles the pointer header and delegates to `AnyClassFactory` for the members. There is no need to construct those factories by hand.
 
-- Line 31-38: Call `build_factory` to build the element factory. The `*` suffix in `TObjInObjArray*` triggers `AnyPointerFactory`, which automatically handles the pointer header and delegates to `AnyClassFactory` for reading the actual data members. There is no need to manually construct `AnyPointerFactory` or `AnyClassFactory` — `build_factory` handles the entire chain automatically.
+- Line 30-37: `build_factory` is called once for the element, with `item_path` extended by one component so that two different `TObjArray` members would remain distinguishable.
 
 ### Implement constructor
 
@@ -338,23 +336,23 @@ def __init__(self, name: str, element_factory: Factory):
     self.element_factory = element_factory
 ```
 
-### Implement `build_python_reader`
+### Implement `build_detree_reader`
 
-The `build_python_reader` method is straightforward:
+The `build_detree_reader` method is straightforward:
 
 ```{code-block} python
 ---
 lineno-start: 1
 emphasize-lines: 2
 ---
-def build_python_reader(self):
-    element_reader = self.element_factory.build_python_reader()
-    return TObjArrayReader(self.name, element_reader)
+def build_detree_reader(self):
+    element_reader = self.element_factory.build_detree_reader()
+    return TObjArrayReader(self.name, element=element_reader)
 ```
 
-- In line 2, we use `self.element_factory.build_python_reader` to create the `element_reader`. Here, `AnyPointerFactory.build_python_reader` is called (since `TObjInObjArray*` matched `AnyPointerFactory`), which in turn calls `AnyClassFactory.build_python_reader` to create the reader chain.
+- In line 2, we use `self.element_factory.build_detree_reader` to create the `element_reader`. Here, `AnyPointerFactory.build_detree_reader` is called (since `TObjInObjArray*` matched `AnyPointerFactory`), which in turn calls `AnyClassFactory.build_detree_reader` to create the reader chain.
 
-- In line 3, we just create an instance of `TObjArrayReader`, passing the `element_reader` to it.
+- In line 3, we create an instance of `TObjArrayReader`, passing the `element_reader` as the declared `Child` field.
 
 ### Implement `make_awkward_content`
 
@@ -389,7 +387,7 @@ This will be used when users try to access the array lazily, e.g. using `uproot.
 
 ## Step 4: Register target branch and the Factory
 
-Finally, register the branch we want to read with uproot-custom, and also register the `TObjArrayFactory` so that it can be used by uproot-custom.
+Finally, register the branch we want to read with Uproot-custom, and also register the `TObjArrayFactory` so that it can be used by Uproot-custom.
 
 We can do this by adding the following code in the `__init__.py` of your package:
 
@@ -403,11 +401,11 @@ AsCustom.target_branches |= {
 registered_factories.add(TObjArrayFactory)
 ```
 
-Don't forget to switch to the Python backend during development, since the default backend is C++:
+The code default backend is `cpp`, so select Detree next to the registration, when your package is imported:
 
 ```python
 import uproot_custom as uc
-uc.set_backend("python")  # default is "cpp"
+uc.set_backend("detree")  # the default is "cpp"
 ```
 
 ## Step 5: Read data with Uproot
@@ -418,24 +416,53 @@ Now we can read the data using Uproot as usual:
 >>> b = uproot.open("demo_data.root")["my_tree:obj_with_obj_array/m_obj_array"]
 >>> arr = b.array()
 ```
+(tobjarray-cpp-route)=
+## The Python + C++ route for the same class
 
-## Step 6: Port the reader to C++ for production speed
+The factory and the `data` shape stay the same; the reader is written twice, and the factory gains one method per stage.
 
-Once the Python reader is working, porting to C++ is straightforward. **The C++ reader only needs to keep the same reading logic as the Python version** — the same fields read in the same order, and `data()` returning the same structure.
+`````{tab-set}
 
-```{seealso}
-See [](../tutorial/customize-factory-reader/port-to-cpp.md) for the full C++ reader API reference (IReader, BinaryStream, pybind11 bindings).
+````{tab-item} Python reader
+```{code-block} python
+---
+caption: "`TObjArrayReader` (Python)"
+---
+from array import array
+import numpy as np
+from uproot_custom.python import IReader
+
+
+class TObjArrayReader(IReader):
+    def __init__(self, name, element_reader):
+        super().__init__(name)
+        self.element_reader = element_reader
+        self.offsets = array("q", [0])
+
+    def read(self, stream):
+        stream.skip_fNBytes()
+        stream.skip_fVersion()
+        stream.skip_TObject()
+        stream.read_TString()  # fName
+        fSize = stream.read_uint32()
+        stream.skip(4)  # fLowerBound
+
+        self.offsets.append(self.offsets[-1] + fSize)
+        self.element_reader.read_many(stream, fSize)
+
+    def data(self):
+        return np.asarray(self.offsets), self.element_reader.data()
 ```
 
+The Python reader reads the `TString` name with `read_TString()`; the Detree version skips it by length. See [stage 1 of the route](../advanced/python-reader.md).
+````
+
+````{tab-item} C++ reader
 ```{code-block} cpp
 ---
-caption: "`TObjArrayReader` (C++) — same logic as the Python version"
+caption: "`TObjArrayReader` (C++)"
 ---
 class TObjArrayReader : public IReader {
-  private:
-    SharedReader m_element_reader;
-    std::shared_ptr<std::vector<int64_t>> m_offsets;
-
   public:
     TObjArrayReader( std::string name, SharedReader element_reader )
         : IReader( name )
@@ -455,10 +482,13 @@ class TObjArrayReader : public IReader {
     }
 
     py::object data() const override final {
-        auto offsets_array      = make_array( m_offsets );
-        py::object element_data = m_element_reader->data();
-        return py::make_tuple( offsets_array, element_data );
+        return py::make_tuple( make_array( m_offsets ),
+                               m_element_reader->data() );
     }
+
+  private:
+    SharedReader m_element_reader;
+    std::shared_ptr<std::vector<int64_t>> m_offsets;
 };
 
 PYBIND11_MODULE( my_reader_cpp, m ) {
@@ -466,21 +496,24 @@ PYBIND11_MODULE( my_reader_cpp, m ) {
 }
 ```
 
-Then add `build_cpp_reader` to the factory:
+See [stage 2 of the route](../advanced/cpp-reader.md) for the build and the binding.
+````
+`````
+
+Add the matching factory methods to make the backends selectable:
 
 ```python
-from .my_reader_cpp import TObjArrayReader as TObjArrayCppReader
+class TObjArrayFactory(Factory):
+    # ... build_factory, make_awkward_content, make_awkward_form ...
 
-def build_cpp_reader(self):
-    element_reader = self.element_factory.build_cpp_reader()
-    return TObjArrayCppReader(self.name, element_reader)
+    def build_detree_reader(self):
+        return TObjArrayReader(self.name, element=self.element_factory.build_detree_reader())
+
+    def build_python_reader(self):
+        return TObjArrayReader(self.name, self.element_factory.build_python_reader())
+
+    def build_cpp_reader(self):
+        return cpp.TObjArrayReader(self.name, self.element_factory.build_cpp_reader())
 ```
 
-After adding `build_cpp_reader`, simply remove the `uc.set_backend("python")` line (or change it to `uc.set_backend("cpp")`) to use the default C++ backend for production:
-
-```python
-import uproot_custom as uc
-uc.set_backend("cpp")  # this is the default, so you can also just remove the line
-```
-
-The factory's `make_awkward_content` and `make_awkward_form` remain exactly the same — they work identically regardless of which backend is used, because both readers return data in the same structure.
+Only the selected backend's method is called, so the other two readers are simply unused.

@@ -8,7 +8,7 @@ from pathlib import Path
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "uproot-custom"
+project = "Uproot-custom"
 copyright = "2025, Mingrun Li"
 author = "Mingrun Li"
 
@@ -31,23 +31,50 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "breathe",
+    "sphinxext.rediraffe",
 ]
+
+# Keep the URLs that earlier releases published working after the documentation
+# was restructured. Keys and values are paths relative to this directory.
+rediraffe_redirects = {
+    "get-started.md": "getting-started.md",
+    "tutorial/customize-factory-reader.md": "tutorial/index.md",
+    "tutorial/customize-factory-reader/pipeline.md": "concepts/how-it-works.md",
+    "tutorial/customize-factory-reader/investigate-data.md": "tutorial/investigate-data.md",
+    "tutorial/customize-factory-reader/reader-and-factory.md": "tutorial/write-a-reader.md",
+    "tutorial/customize-factory-reader/project-setup.md": "tutorial/package-your-project.md",
+    "tutorial/customize-factory-reader/port-to-cpp.md": "advanced/cpp-reader.md",
+    "reference/reader-backends.md": "concepts/choosing-a-route.md",
+    "reference/detree-stack.md": "reference/detree-dsl.md",
+}
 
 templates_path = ["_templates"]
 exclude_patterns = []
+
+# Section labels are qualified with the document name, so "How it works" in two
+# pages does not collide.
+autosectionlabel_prefix_document = True
+
+# The API reference inherits docstrings from uproot, which use :doc:/:ref: roles
+# that only resolve inside uproot's own documentation. Nothing in this project's
+# pages uses those roles, so the warnings are noise; MyST links are still checked.
+suppress_warnings = ["ref.doc", "ref.ref"]
 
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "sphinx_book_theme"
+# Furo has no navigation-depth options: the sidebar shows the whole toctree and
+# the right-hand column shows the local table of contents at every level. The
+# only page that needed a shallower TOC sets `tocdepth` in its own front matter.
+html_theme = "furo"
 html_static_path = ["_static"]
 
 html_theme_options = {
-    "show_navbar_depth": 2,
-    "navigation_depth": 2,
-    "show_toc_level": 2,
-    "home_page_in_toc": False,
+    "source_repository": "https://github.com/mrzimu/uproot-custom/",
+    "source_branch": "main",
+    "source_directory": "docs/",
+    "top_of_page_button": "edit",
 }
 
 html_title = "Uproot-custom"
@@ -64,6 +91,10 @@ myst_enable_extensions = [
     "attrs_inline",
     "colon_fence",
 ]
+
+# Generate an id for every heading up to level 3, so cross-page links such as
+# `how-it-works.md#stage-2-build-readers` resolve.
+myst_heading_anchors = 3
 
 # -- Options for internationalization --------------------------------------------
 locale_dirs = ["locales/"]
@@ -147,11 +178,3 @@ def run_doxygen_and_apidoc():
 
 def setup(app):
     app.connect("builder-inited", lambda app: run_doxygen_and_apidoc())
-
-    # Limit in-page TOC depth to show only h2 headings for the binary-format reference page.
-    app.connect("html-page-context", _override_toc_depth)
-
-
-def _override_toc_depth(app, pagename, templatename, context, doctree):
-    if pagename == "reference/binary-format":
-        context["theme_show_toc_level"] = 1
