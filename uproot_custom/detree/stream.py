@@ -2,9 +2,13 @@ from __future__ import annotations
 
 import struct
 from bisect import bisect_right
+from contextlib import contextmanager
 
 from uproot_custom.consts import kByteCountMask, kIsReferenced, kNewClassTag
 from uproot_custom.detree.bufferproxy import BufferProxy
+
+#: The one context manager a read path may use; the frontend knows it by name.
+COUNTED_CONTEXT = "check_nbytes"
 
 
 class Stream:
@@ -20,6 +24,9 @@ class Stream:
 
         #: tag -> ``("object", index)`` or ``("class", name)``
         self.refs = {}
+
+        #: end positions of the open counted regions, innermost last
+        self._nbytes_marks = []
 
     def __repr__(self):
         return f"Stream(cursor={self.cursor}/{len(self.data)})"
@@ -91,6 +98,52 @@ class Stream:
         value = self.read_uint32()
         assert value & kByteCountMask, f"fNBytes={value:#x} lacks kByteCountMask"
         return value & ~kByteCountMask
+
+    # -- counted regions ---------------------------------------------------
+    def check_nbytes_start(self):
+        """
+        Read a masked `fNBytes` and remember where the counted region ends.
+
+        The call opens a frame and `check_nbytes_end` closes it.  Frames nest,
+        so a sub-reader that is framed itself does not disturb its caller.
+        """
+        nbytes = self.read_fNBytes()
+        self._nbytes_marks.append(self.cursor + nbytes)
+
+    def check_nbytes_end(self, expected: int | None = None):
+        """
+        Fail unless the cursor is at the end of the counted region.
+
+        Args:
+            expected: the end position, for a region whose size the caller
+                computed instead of reading; the innermost frame is then left
+                open, so the two forms do not pair with each other.
+        """
+        if expected is None:
+            if not self._nbytes_marks:
+                raise AssertionError("check_nbytes_end() without check_nbytes_start()")
+            expected = self._nbytes_marks.pop()
+        if self.cursor != expected:
+            raise AssertionError(
+                "the read did not end at the byte count "
+                f"(expected {expected}, got {self.cursor})"
+            )
+
+    @contextmanager
+    def check_nbytes(self):
+        """
+        Frame the block with a masked `fNBytes`, checked on exit.
+        """
+        self.check_nbytes_start()
+        yield
+        self.check_nbytes_end()
+
+    @property
+    def open_frames(self):
+        """
+        The number of counted regions still waiting for their end.
+        """
+        return len(self._nbytes_marks)
 
     def read_fVersion(self):
         return self.read_int16()

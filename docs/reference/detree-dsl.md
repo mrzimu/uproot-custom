@@ -77,15 +77,16 @@ Implement `read_many_memberwise` when the reader can appear in a memberwise-stor
 
 | Allowed | What |
 | ------- | ---- |
-| statements | `if`/`else`, `while`, `for _ in range(n)`, `for child in self.<ChildList>`, `assert`, `pass`, assignment to a local, a `State`, or `stream.cursor` |
+| statements | `if`/`else`, `while`, `for _ in range(n)`, `for child in self.<ChildList>`, `with stream.check_nbytes():`, `assert`, `pass`, assignment to a local, a `State`, or `stream.cursor` |
 | integer and boolean expressions | `+ - * // / % << >> & \| ^ ~`, unary `-`, comparisons, `if` expression, `and`/`or`/`not` in conditions, `bool()`, `int()` |
 | buffers | `buf.append(x)`, `len(buf)`, `buf[-1]` |
-| stream | the scalar `read_*` methods, `read_into`, `read_bulk`, `read_fNBytes`, `read_fVersion`, `read_null_terminated_string`, `skip` and the `skip_*` helpers, `next_offset_after`, `cursor`, `entries`, `initial_cursor_position`, `has_ref`, `ref_*`, `set_*_ref`, `check_class_name` |
+| stream | the scalar `read_*` methods, `read_into`, `read_bulk`, `read_fNBytes`, `read_fVersion`, `read_null_terminated_string`, `skip` and the `skip_*` helpers, `next_offset_after`, `check_nbytes_start`, `check_nbytes_end`, `cursor`, `entries`, `initial_cursor_position`, `has_ref`, `ref_*`, `set_*_ref`, `check_class_name` |
 | names | module-level `int` and `bool` constants, e.g. `kByteCountMask` |
 
 | Not allowed | Reason |
 | ----------- | ------ |
-| imports, `try`, `with`, `raise`, `del`, `global`, `lambda`, comprehensions, generators | no bytecode for them; report a bad record with `assert` instead of `raise` |
+| imports, `try`, `raise`, `del`, `global`, `lambda`, comprehensions, generators | no bytecode for them; report a bad record with `assert` instead of `raise` |
+| `with`, except `with stream.check_nbytes():` | a counted region is machine state, so it needs no exception path; every other block would |
 | dict, set, or list literals, starred expressions | ditto |
 | `print`, numpy, `isinstance`, `getattr`, calls into arbitrary functions or stored bound methods | run outside the machine |
 | `self.<attr>` where `attr` is not a declared field | invisible to the compiled code |
@@ -94,6 +95,31 @@ Implement `read_many_memberwise` when the reader can appear in a memberwise-stor
 | buffer typecodes `l` and `L` | platform-dependent; use a fixed-width code |
 
 A construct outside the subset fails with `ReaderContractError` (when the class is defined) or `UnsupportedNode` (when the reader is compiled), naming the method and the offending line. Rewrite the reader, or take the [Python + C++ route](../advanced/index.md); there is no fallback for a reader the compiler rejects.
+
+## Counted regions
+
+A ROOT object framed by its byte count declares how many bytes follow it. Write the frame as a `with` block and the machine checks where it ends:
+
+```python
+@reader
+class TSimpleObjectReader(Reader):
+    elements = ChildList()
+
+    def read(self, stream):
+        with stream.check_nbytes():
+            version = stream.read_fVersion()
+            if version == 0:
+                stream.skip(4)
+            for element in self.elements:
+                element.read(stream)
+```
+
+The block compiles to `FNB_BEGIN` and `FNB_END`: the machine reads the masked `fNBytes`, keeps the end position on a stack of its own, and fails the run when the cursor is somewhere else at the end of the block. The message names your reader, and the machine appends both positions.
+
+Two rules come with it:
+
+- a `return` inside the region is rejected when the reader is compiled, because a compiled reader has no exit path that would close the frame;
+- `check_nbytes_start()` and `check_nbytes_end()` are the explicit form of the same pair, for a reader whose control flow does not fit one block. `check_nbytes_end(end_pos)` takes the position instead of popping the stack, which is what a pointer reader needs when it computes the end from a tag rather than from an `fNBytes`.
 
 ## How compilation works
 
@@ -155,7 +181,7 @@ The reader itself is rebuilt per basket, and a fresh machine is built from the c
 | `ReaderContractError` | a `@reader` class breaks the contract, or is defined outside a `.py` file. The check runs when the class is defined, so it surfaces as an import error |
 | `UnsupportedNode` | a compiled method uses a construct outside the subset, or `build_detree_reader` returned a class without `@reader`; the message names the method and line |
 | `NotImplementedError` | the selected backend's `build_*_reader` method is missing |
-| `detree.spec.errors.AssertionFailed` | an `assert` in a read path failed. The message is yours; the exception also carries `function`, `ip` and `cursor` |
+| `detree.spec.errors.AssertionFailed` | an `assert` in a read path failed, or a counted region did not end where its `fNBytes` said. The machine appends `(expected N, got M)` to a frame message; the rest is yours. The exception also carries `function`, `ip` and `cursor` |
 | `detree.spec.errors.InvalidByteCount` | a byte count was read that lacks `kByteCountMask` — the read is out of step with the bytes, usually one field too early or too late |
 | `detree.spec.errors.StreamUnderflow` | the read asked for more bytes than the entry holds |
 | `detree.spec.errors.ReadLengthMismatch` | the read did not end on the entry's offset (`event N: expected X bytes, read Y`), or an entry offset is missing |

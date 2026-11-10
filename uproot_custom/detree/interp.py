@@ -65,6 +65,10 @@ def read_basket(
     stream = Stream(data, offsets, cursor_offset)
     for event in range(stream.entries):
         reader.read(stream)
+        if stream.open_frames:
+            raise AssertionError(
+                f"event {event}: {stream.open_frames} counted region(s) left open"
+            )
         expected = int(offsets[event + 1])
         if stream.cursor != expected:
             raise AssertionError(

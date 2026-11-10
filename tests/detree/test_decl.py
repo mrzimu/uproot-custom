@@ -279,6 +279,51 @@ def test_reader_rejects_a_banned_ast_node():
                 return None
 
 
+def test_a_counted_region_is_the_only_with_a_read_path_may_use():
+    @reader
+    class _Counted(Reader):
+        values = Buffer("i")
+
+        def read(self, stream):
+            with stream.check_nbytes():
+                self.values.append(stream.read_int32())
+
+        def data(self):
+            return None
+
+    assert _Counted.__reader_checked__ is True
+
+
+def test_reader_rejects_any_other_with():
+    with pytest.raises(ReaderContractError, match="With"):
+
+        @reader
+        class _WithFile(Reader):
+            values = Buffer("i")
+
+            def read(self, stream):
+                with open("nowhere"):
+                    self.values.append(stream.read_int32())
+
+            def data(self):
+                return None
+
+
+def test_reader_rejects_a_counted_with_that_binds_a_name():
+    with pytest.raises(ReaderContractError, match="With"):
+
+        @reader
+        class _WithAs(Reader):
+            values = Buffer("i")
+
+            def read(self, stream):
+                with stream.check_nbytes() as end_pos:  # noqa: F841
+                    self.values.append(stream.read_int32())
+
+            def data(self):
+                return None
+
+
 def test_reader_rejects_a_child_held_as_a_class_attribute():
     with pytest.raises(ReaderContractError, match="sub-reader is a field"):
 

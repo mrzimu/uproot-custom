@@ -48,7 +48,7 @@ classifiers = [
   "Topic :: Software Development",
   "Topic :: Utilities"
 ]
-dependencies = ["uproot>=5.6.7", "numpy", "awkward>=2.8.0", "detree-vm"]
+dependencies = ["uproot>=5.6.7", "numpy", "awkward>=2.8.0", "detree-vm>=0.1.1"]
 description = "Uproot extension for reading custom classes"
 dynamic = ["version"]
 name = "uproot-custom"

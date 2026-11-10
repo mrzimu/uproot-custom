@@ -17,6 +17,13 @@ from uproot_custom.consts import TYPECODE
 from uproot_custom.detree.bufferproxy import BufferProxy
 from uproot_custom.detree.compiler.ir_builder import IRFunctionBuilder
 from uproot_custom.detree.decl import Buffer, Child, ChildList, Const, Reader, State
+from uproot_custom.detree.stream import COUNTED_CONTEXT
+
+if not hasattr(nodes, "FNBegin"):  # pragma: no cover - depends on the installed detree-vm
+    raise ImportError(
+        "uproot-custom needs a detree-vm with byte-count frames "
+        "(FNB_BEGIN/FNB_END); upgrade detree-vm"
+    )
 
 STREAM_READS = {
     "read_uint8": Typecode.UINT8,
@@ -370,6 +377,14 @@ class _MethodEmitter:
         # True while an expression statement's value is being thrown away
         self.discard_result = False
 
+        # Counted regions opened but not closed yet; `FNBEGIN`/`FNEND` pair up
+        # inside the machine, so this is only a compile-time sanity check.
+        self.nb_depth = 0
+
+        # True while an `if`/`while` condition is being built: a counted region
+        # opens with a statement, which cannot live inside a condition.
+        self.in_condition = False
+
     # -- entry ------------------------------------------------------------
     def emit(self):
         function: Callable = getattr(self.cls, self.method)
@@ -456,11 +471,18 @@ class _MethodEmitter:
         elif isinstance(node, ast.While):
             self.while_(node)
         elif isinstance(node, ast.Return):
+            if self.nb_depth:
+                raise _Unsupported(
+                    f"line {node.lineno}: return inside a counted region; "
+                    "close the region before returning"
+                )
             if node.value is None:
                 value = None if self.method == "read" else self.fn.const(0)
             else:
                 value = self.expr(node.value)
             self.fn.ret(value)
+        elif isinstance(node, ast.With):
+            self.with_(node)
         elif isinstance(node, ast.Assert):
             self.assert_stmt(node)
         elif isinstance(node, ast.Pass):
@@ -568,7 +590,7 @@ class _MethodEmitter:
             ) from err
 
     def if_(self, node: ast.If):
-        condition = self.condition(node.test)
+        condition = self.condition_in(node.test)
         with self.fn.block() as then_block:
             for stmt in node.body:
                 self.stmt(stmt)
@@ -635,16 +657,85 @@ class _MethodEmitter:
             self.loop_var = saved
 
     def while_(self, node: ast.While):
-        condition = self.condition(node.test)
+        condition = self.condition_in(node.test)
         with self.fn.block() as block:
             for stmt in node.body:
                 self.stmt(stmt)
         self.fn.while_(condition, block.statements)
 
+    def condition_in(self, node: ast.AST):
+        """
+        Build a condition that is evaluated once per test.
+
+        `check_nbytes_start()` opens a region with a statement, so it cannot
+        appear inside a condition: the emitted statement would run before the
+        branch or outside the loop, not where the source puts it.
+        """
+        saved = self.in_condition
+        self.in_condition = True
+        try:
+            return self.condition(node)
+        finally:
+            self.in_condition = saved
+
     def assert_stmt(self, node: ast.Assert):
         self.fn.emit(
             nodes.Assert(self.expr(node.test), _assert_text(node, self.cls, self.method))
         )
+
+    # -- counted regions ----------------------------------------------------
+    def with_(self, node: ast.With):
+        """
+        Lower `with stream.check_nbytes():` to an `FNBEGIN`/`FNEND` pair.
+
+        A counted region is machine state, so the pair is flat: the body is
+        emitted between the two instructions and no cleanup path is needed.
+        """
+        if len(node.items) != 1:
+            raise _Unsupported(f"line {node.lineno}: with takes one context")
+        item = node.items[0]
+        if item.optional_vars is not None:
+            raise _Unsupported(f"line {node.lineno}: `with ... as` is not supported")
+        if not _is_stream_call(item.context_expr, COUNTED_CONTEXT):
+            raise _Unsupported(
+                f"line {node.lineno}: only `with stream.{COUNTED_CONTEXT}():` is supported"
+            )
+
+        self.nb_start()
+        for stmt in node.body:
+            self.stmt(stmt)
+        self.nb_end()
+
+    def nb_start(self):
+        """
+        Open a counted region; the machine keeps the end position.
+        """
+        self.nb_depth += 1
+        self.fn.emit(nodes.FNBegin())
+
+    def nb_end(self, expected=None):
+        """
+        Close the innermost counted region, or check an explicit end.
+        """
+        if expected is None:
+            if not self.nb_depth:
+                raise _Unsupported(
+                    "check_nbytes_end() with no open counted region; "
+                    "call check_nbytes_start() first or pass the end position"
+                )
+            self.nb_depth -= 1
+            self.fn.emit(nodes.FNEnd(self.nb_message()))
+            return
+        self.fn.assert_cursor_eq(expected, self.nb_message())
+
+    def nb_message(self):
+        """
+        The message a failed frame check carries.
+
+        The machine appends `(expected N, got M)` to it, so the text names the
+        reader and method and nothing else.
+        """
+        return f"{self.cls.__name__}.{self.method}: the read did not end at the byte count"
 
     # -- conditions -------------------------------------------------------
     def _is_string_expr(self, value):
@@ -846,6 +937,27 @@ class _MethodEmitter:
             return self.fn.read_scalar(STREAM_READS[name])
         if name == "read_fNBytes":
             return self.fn.read_fnb()
+        if name == "check_nbytes_start":
+            if node.args or node.keywords:
+                raise _Unsupported(
+                    f"line {node.lineno}: check_nbytes_start takes no arguments"
+                )
+            if self.in_condition:
+                raise _Unsupported(
+                    f"line {node.lineno}: check_nbytes_start() cannot be used in a condition"
+                )
+            self.nb_start()
+            return self.result()
+        if name == "check_nbytes_end":
+            if node.keywords:
+                raise _Unsupported(f"line {node.lineno}: keyword arguments")
+            if len(node.args) > 1:
+                raise _Unsupported(
+                    f"line {node.lineno}: check_nbytes_end takes at most one argument"
+                )
+            expected = self.expr(node.args[0]) if node.args else None
+            self.nb_end(expected)
+            return self.result()
         if name == "read_fVersion":
             return self.fn.read_version()
         if name == "read_null_terminated_string":
@@ -1007,6 +1119,25 @@ def _require_self_buffer(node):
     if attr is None:
         raise _Unsupported("a buffer argument must be self.<buffer>")
     return attr
+
+
+def _is_stream_call(node, name: str) -> bool:
+    """
+    Whether *node* is `stream.<name>()` with no arguments.
+
+    The lint in `decl` accepts the same shape, so a `with` that reaches the
+    compiler is always the counted region; the check here is the second line
+    of defence.
+    """
+    return (
+        isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Attribute)
+        and isinstance(node.func.value, ast.Name)
+        and node.func.value.id == "stream"
+        and node.func.attr == name
+        and not node.args
+        and not node.keywords
+    )
 
 
 def _is_subscript_last(node, owner, attribute=None):
