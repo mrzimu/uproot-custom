@@ -45,7 +45,7 @@ flowchart TD
     compile --> machine(["Detree machine: runs the module"])
   end
 
-  machine --> raw_data[("buffers: numpy arrays, tuples, ...)"]
+  machine --> raw_data[("buffers: numpy arrays, tuples, ...")]
   raw_data --> build_ak
 ```
 
