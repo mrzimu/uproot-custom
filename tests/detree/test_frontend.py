@@ -14,7 +14,7 @@ from uproot_custom.detree.compiler.frontend import (
     compile_reader,
     describe_reader,
 )
-from uproot_custom.detree.decl import Buffer, Reader
+from uproot_custom.detree.decl import Buffer, Reader, reader
 
 
 def _prim(name="p", typecode="i"):
@@ -46,6 +46,15 @@ class _Undecorated(Reader):
 
     def read(self, stream):
         self.values.append(stream.read_int32())
+
+
+def _ops_of(raw, name):
+    """
+    The opcodes of one function of a compiled module.
+    """
+    module = detree.spec.module.Module.from_bytes(raw)
+    function = next(func for func in module.funcs if func.name == name)
+    return [ins.op for ins in module.code[function.code_off : function.end]]
 
 
 @pytest.mark.parametrize("name", sorted(READERS))
@@ -140,3 +149,95 @@ def test_compile_reader_delegates_to_detree_compile(monkeypatch):
 def test_an_undecorated_reader_is_refused():
     with pytest.raises(UnsupportedNode, match="@reader"):
         compile_reader(_Undecorated("x"))
+
+
+# -- counted regions -----------------------------------------------------------
+def test_the_counted_context_compiles_to_a_frame_pair():
+    @reader
+    class _Counted(Reader):
+        values = Buffer("i")
+
+        def read(self, stream):
+            with stream.check_nbytes():
+                self.values.append(stream.read_int32())
+
+        def data(self):
+            return None
+
+    raw, _ = compile_reader(_Counted("c"))
+    operators = _ops_of(raw, "root.read")
+
+    assert detree.spec.isa.Op.FNB_BEGIN in operators
+    assert detree.spec.isa.Op.FNB_END in operators
+
+
+def test_the_explicit_pair_compiles_to_a_frame_and_a_cursor_check():
+    @reader
+    class _Pair(Reader):
+        values = Buffer("i")
+
+        def read(self, stream):
+            end_pos = stream.read_uint32()
+            stream.check_nbytes_start()
+            self.values.append(stream.read_int32())
+            stream.check_nbytes_end()
+            stream.check_nbytes_end(end_pos)
+
+        def data(self):
+            return None
+
+    raw, _ = compile_reader(_Pair("p"))
+    operators = _ops_of(raw, "root.read")
+
+    assert operators.count(detree.spec.isa.Op.FNB_BEGIN) == 1
+    assert operators.count(detree.spec.isa.Op.FNB_END) == 1
+    assert detree.spec.isa.Op.ASSERT_CURSOR_EQ in operators
+
+
+def test_a_return_inside_a_counted_region_is_refused():
+    @reader
+    class _EarlyReturn(Reader):
+        values = Buffer("i")
+
+        def read(self, stream):
+            with stream.check_nbytes():
+                if stream.read_uint32() == 0:
+                    return
+                self.values.append(stream.read_int32())
+
+        def data(self):
+            return None
+
+    with pytest.raises(UnsupportedNode, match="return inside a counted region"):
+        compile_reader(_EarlyReturn("c"))
+
+
+def test_check_nbytes_end_without_a_start_is_refused():
+    @reader
+    class _Orphan(Reader):
+        values = Buffer("i")
+
+        def read(self, stream):
+            stream.check_nbytes_end()
+
+        def data(self):
+            return None
+
+    with pytest.raises(UnsupportedNode, match="no open counted region"):
+        compile_reader(_Orphan("c"))
+
+
+def test_check_nbytes_start_is_refused_in_a_condition():
+    @reader
+    class _Conditional(Reader):
+        values = Buffer("i")
+
+        def read(self, stream):
+            if stream.check_nbytes_start() > 0:
+                self.values.append(stream.read_int32())
+
+        def data(self):
+            return None
+
+    with pytest.raises(UnsupportedNode, match="cannot be used in a condition"):
+        compile_reader(_Conditional("c"))

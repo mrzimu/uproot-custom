@@ -9,7 +9,7 @@ import numpy as np
 
 from uproot_custom.consts import _MISSING, DTYPE_TO_TYPECODE, TYPECODE
 from uproot_custom.detree.bufferproxy import BufferProxy
-from uproot_custom.detree.stream import Stream
+from uproot_custom.detree.stream import COUNTED_CONTEXT, Stream
 
 
 # -- Fields ----------------------------------------------------------------------
@@ -435,11 +435,38 @@ def _parse_source(function):
     return tree.body[0]
 
 
+def _is_counted_with(node) -> bool:
+    """
+    Whether a `with` is the one a read path may use.
+
+    A counted region is the only block a read path may contain: its check is
+    machine state, so it needs no exception path.  Every other `with` would
+    need one, which the bytecode does not have.
+    """
+    if len(node.items) != 1:
+        return False
+    item = node.items[0]
+    if item.optional_vars is not None:
+        return False
+    call = item.context_expr
+    return (
+        isinstance(call, ast.Call)
+        and isinstance(call.func, ast.Attribute)
+        and isinstance(call.func.value, ast.Name)
+        and call.func.value.id == "stream"
+        and call.func.attr == COUNTED_CONTEXT
+        and not call.args
+        and not call.keywords
+    )
+
+
 def _lint(cls, method, function):
     tree = _parse_source(function)
     if tree is None:
         return
     for node in ast.walk(tree):
+        if isinstance(node, ast.With) and _is_counted_with(node):
+            continue
         if isinstance(node, _BANNED_NODES):
             raise ReaderContractError(
                 f"{cls.__name__}.{method}: line {node.lineno}: "

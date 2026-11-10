@@ -320,6 +320,12 @@ class IRFunctionBuilder:
     def set_cursor(self, value):
         return self.emit(nodes.SetCursor(_value(value)))
 
+    def assert_cursor_eq(self, value, msg=""):
+        """
+        Fail the run unless the cursor is at *value*.
+        """
+        return self.emit(nodes.AssertCursorEq(_value(value), msg))
+
     def offset_seek(self, value):
         return nodes.OffsetSeek(_value(value))
 

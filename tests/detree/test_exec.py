@@ -18,6 +18,8 @@ from __future__ import annotations
 import struct
 
 import numpy as np
+import pytest
+from detree.spec.errors import AssertionFailed
 
 import uproot_custom.detree.builtin as native
 from uproot_custom import python
@@ -28,6 +30,7 @@ from uproot_custom.consts import (
     kStreamedMemberwise,
 )
 from uproot_custom.detree import interp
+from uproot_custom.detree.decl import Buffer, Reader, reader
 from uproot_custom.detree.run import read_data
 
 
@@ -325,6 +328,42 @@ def test_any_class():
         payload,
         [0, len(payload)],
     )
+
+
+# -- counted regions -----------------------------------------------------------
+@reader
+class _CountedIntReader(Reader):
+    """
+    One `int32` inside a region framed by its byte count.
+    """
+
+    values = Buffer("i")
+
+    def read(self, stream):
+        with stream.check_nbytes():
+            self.values.append(stream.read_int32())
+
+    def data(self):
+        return np.asarray(self.values)
+
+
+def test_a_counted_reader_agrees_in_both_executors():
+    payload = _u32(4 | kByteCountMask) + struct.pack(">i", 5)
+    reader = _CountedIntReader("c")
+
+    np.testing.assert_array_equal(interp.read_data(reader, payload, [0, len(payload)]), [5])
+    np.testing.assert_array_equal(read_data(reader, payload, [0, len(payload)]), [5])
+
+
+def test_a_counted_reader_reports_a_wrong_byte_count():
+    payload = _u32(8 | kByteCountMask) + struct.pack(">i", 5)
+    reader = _CountedIntReader("c")
+
+    with pytest.raises(AssertionError, match="expected 12, got 8"):
+        interp.read_data(reader, payload, [0, len(payload)])
+
+    with pytest.raises(AssertionFailed, match="expected 12, got 8"):
+        read_data(reader, payload, [0, len(payload)])
 
 
 # -- pointers ------------------------------------------------------------------

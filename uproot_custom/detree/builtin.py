@@ -387,18 +387,13 @@ class AnyClassReader(Reader):
     elements: tuple[Reader, ...] = cast(tuple[Reader, ...], ChildList())
 
     def read(self, stream: Stream):
-        nbytes = stream.read_fNBytes()
-        start_pos = stream.cursor
-        end_pos = start_pos + nbytes
+        with stream.check_nbytes():
+            version = stream.read_fVersion()
+            if version == 0:
+                stream.skip(4)
 
-        version = stream.read_fVersion()
-        if version == 0:
-            stream.skip(4)
-
-        for element in self.elements:
-            element.read(stream)
-
-        assert stream.cursor == end_pos, "the read did not consume the byte count"
+            for element in self.elements:
+                element.read(stream)
 
     def read_many_memberwise(self, stream, count):
         assert count >= 0, "read_many_memberwise with a negative count"
@@ -444,7 +439,7 @@ class AnyPointerReader(Reader):
 
         if (fTag & kClassMask) == 0:
             if fTag == 0:
-                assert stream.cursor == end_pos, "a null pointer reads no bytes"
+                stream.check_nbytes_end(end_pos)
                 self.object_indexes.append(-1)
                 return
             assert fTag != 1, "kAnyP (tag == 1) is not supported"
@@ -452,7 +447,7 @@ class AnyPointerReader(Reader):
                 stream.cursor = end_pos
                 return
             self.object_indexes.append(stream.ref_object_index(fTag))
-            assert stream.cursor == end_pos, "a back reference reads no bytes"
+            stream.check_nbytes_end(end_pos)
             return
 
         if fTag == kNewClassTag:
@@ -478,7 +473,7 @@ class AnyPointerReader(Reader):
             stream.set_object_ref(stream.ref_count() + 1, self.object_counter)
         self.object_counter = self.object_counter + 1
 
-        assert stream.cursor == end_pos, "the read did not consume the byte count"
+        stream.check_nbytes_end(end_pos)
 
     def data(self):
         return self.element.data(), np.asarray(self.object_indexes)
