@@ -45,7 +45,7 @@ Python changes take effect immediately. If you have C++ sources, re-run `pip ins
 
 3. **Implement** — write your `Factory` and `@reader` classes following [](write-a-reader.md).
 
-4. **Register** — obtain the regularized object-path of the target branch and add it to `uproot_custom.AsCustom.target_branches` before that branch's interpretation is first computed (see [get started](../getting-started.md#step-2-register-the-branch)). Registering at import time, in `__init__.py`, is the usual place.
+4. **Register** — obtain the object-path of the target branch and pass it to `uproot_custom.claim()` before that branch's interpretation is first computed (see [get started](../getting-started.md#step-2-register-the-branch)). Registering at import time, in `__init__.py`, is the usual place.
 
 5. **Select the backend** — the code default is `cpp`, so call `uproot_custom.set_backend("detree")` (or set `UPROOT_CUSTOM_READER_BACKEND=detree`), next to the registration.
 

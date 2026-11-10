@@ -63,8 +63,7 @@ This mechanism is implemented as the `AsCustom` interpretation, and the byte-lev
 import uproot
 import uproot_custom as uc
 
-uc.AsCustom.target_branches.add("/my_tree:my_branch")
-uc.set_backend("detree")   # the code default is still cpp
+uc.claim("/my_tree:my_branch")
 
 f = uproot.open("file.root")
 arr = f["my_tree/my_branch"].array()

@@ -267,11 +267,9 @@ Finally, we need to register the branch we want to read with Uproot-custom, and 
 We can do this by adding the following code in the `__init__.py` of your package:
 
 ```python
-from uproot_custom import registered_factories, AsCustom
+from uproot_custom import claim, registered_factories
 
-AsCustom.target_branches |= {
-    "/my_tree:override_streamer",
-}
+claim("/my_tree:override_streamer")
 
 registered_factories.add(OverrideStreamerFactory)
 ```

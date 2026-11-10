@@ -12,7 +12,7 @@ By the end of this page you will have three pieces:
 | ----- | ------------ |
 | a `@reader` class | declares the buffers and decodes one entry of `TOverrideStreamer` |
 | a `Factory` | matches the class, builds the reader, and turns the buffers into an awkward record |
-| a registration block | adds the factory to `registered_factories` and the branch to `AsCustom.target_branches` |
+| a registration block | adds the factory to `registered_factories` and claims the branch with `claim` |
 
 The branch then decodes to a record with two fields, the same on every backend.
 
@@ -339,7 +339,7 @@ class TArrayReader(Reader):
 
 ## Register and read
 
-Registration happens in two places, both before the branch's interpretation is first computed — see [get started](../getting-started.md#step-2-register-the-branch): the factory class goes into `registered_factories`, and the branch path goes into `target_branches`.
+Registration happens in two places, both before the branch's interpretation is first computed — see [get started](../getting-started.md#step-2-register-the-branch): the factory class goes into `registered_factories`, and the branch path goes to `uproot_custom.claim`.
 
 ```python
 import uproot
@@ -348,7 +348,7 @@ import uproot_custom as uc
 from my_module.factories import OverrideStreamerFactory
 
 uc.registered_factories.add(OverrideStreamerFactory)
-uc.AsCustom.target_branches.add("/my_tree:override_streamer/m_obj")
+uc.claim("/my_tree:override_streamer/m_obj")
 
 uc.set_backend("detree")   # the code default is cpp
 
@@ -356,7 +356,7 @@ f = uproot.open("file.root")
 array = f["my_tree/override_streamer/m_obj"].array()
 ```
 
-The branch's interpretation now reads `AsCustom(TOverrideStreamer)`, and the array is a record with an `m_int` and an `m_double` field. The path must be the *regularized object-path*; [investigate your data](investigate-data.md) shows how to obtain it.
+The branch's interpretation now reads `AsCustom(TOverrideStreamer)`, and the array is a record with an `m_int` and an `m_double` field. The path is the branch's *object-path*; `claim` drops the `;N` cycle number, so either form works, and [investigate your data](investigate-data.md) shows how to obtain it.
 
 ## What the compiler accepts
 

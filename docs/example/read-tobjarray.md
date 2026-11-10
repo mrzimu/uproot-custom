@@ -392,11 +392,9 @@ Finally, register the branch we want to read with Uproot-custom, and also regist
 We can do this by adding the following code in the `__init__.py` of your package:
 
 ```python
-from uproot_custom import registered_factories, AsCustom
+from uproot_custom import claim, registered_factories
 
-AsCustom.target_branches |= {
-    "/my_tree:obj_with_obj_array/m_obj_array",
-}
+claim("/my_tree:obj_with_obj_array/m_obj_array")
 
 registered_factories.add(TObjArrayFactory)
 ```

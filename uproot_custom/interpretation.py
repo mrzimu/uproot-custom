@@ -39,15 +39,15 @@ from uproot_custom.utils import get_dims_from_branch, regularize_object_path
 
 class AsCustom(uproot.interpretation.custom.CustomInterpretation):
     """
-    What both interpretations share: the branch, its streamer info, its factory.
+    The branch, its streamer info, and the factory built from them.
 
-    A subclass supplies its own `target_branches` set and its own
-    `basket_array`; everything else is here.
+    A subclass supplies its own `basket_array`; everything else is here.
     """
 
-    #: Branches this interpretation claims, as regularized object paths.  Every
-    #: subclass overrides it with its own set -- a shared one would make the two
-    #: interpretations claim each other's branches.
+    #: Branches this interpretation claims, as regularized object paths.  This
+    #: set is the storage behind `uproot_custom.claim`; claim branches through
+    #: that function rather than by writing here, so the cycle number is
+    #: regularized and the argument type is checked.
     target_branches: ClassVar[set[str]] = set()
 
     def __init__(

@@ -386,9 +386,7 @@ import uproot_custom
 uproot_custom.set_backend("python")
 
 # Register the target branch and the custom factory
-uproot_custom.AsCustom.target_branches |= {
-    "/my_tree:override_streamer",
-}
+uproot_custom.claim("/my_tree:override_streamer")
 uproot_custom.registered_factories.add(OverrideStreamerFactory)
 
 # Read the data — Uproot will automatically invoke our factory/reader

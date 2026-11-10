@@ -12,7 +12,7 @@ That is the whole installation: `uproot`, `awkward`, `numpy` and `detree-vm` com
 
 ## Step 1: Obtain the object-path of a branch
 
-Uproot-custom identifies branches by their *regularized object-path*. To find the path for a branch, open the file with Uproot and call `regularize_object_path`:
+Uproot-custom identifies branches by their *object-path*, with the trailing `;N` cycle number dropped. Take the path off the branch you want to read; `regularize_object_path` shows the form that is stored, and `claim` applies it for you:
 
 ```python
 import uproot
@@ -31,7 +31,7 @@ caption: Output
 /my_tree:my_branch
 ```
 
-An object-path joins the tree and the branch with `:`, separates the levels below with `/`, and carries the cycle number as a trailing `;N`, so a literal `branch.object_path` reads `/my_tree;1:my_branch`. `regularize_object_path` only drops the cycle number, because that is the form `target_branches` compares against.
+An object-path joins the tree and the branch with `:`, separates the levels below with `/`, and carries the cycle number as a trailing `;N`, so a literal `branch.object_path` reads `/my_tree;1:my_branch`. `regularize_object_path` drops the cycle number, which is the form the claim set holds; `claim` regularizes for you, so either form can be passed to it.
 
 ```{note}
 Register the branch that carries the bytes. When ROOT splits a class, the parent branch is a group with no data of its own; registering it and reading it fails inside Uproot with a message about baskets (`entries in normal baskets (0) ... don't add up`), before Uproot-custom is involved. The branch to register is the one whose interpretation names your class, for example `/my_tree:entry/m_obj`.
@@ -45,7 +45,7 @@ Register the regularized path **before the branch's interpretation is first comp
 import uproot
 import uproot_custom as uc
 
-uc.AsCustom.target_branches.add("/my_tree:my_branch")
+uc.claim("/my_tree:my_branch")
 
 f = uproot.open("file.root")
 f["my_tree"].show()
@@ -62,15 +62,15 @@ f = uproot.open("file.root")          # a fresh file object matches again
 Within one file object, the same branch object is returned on every lookup, so the cached choice can also be dropped explicitly — `branch._interpretation = None` — but that attribute is private to Uproot and may change.
 
 ````{tip}
-`uc.AsCustom.target_branches` is a `set`. You can register several branches at once:
+`uc.claim` takes one object-path or an iterable of them, so several branches register in one call:
 
 ```python
-uc.AsCustom.target_branches |= {"/my_tree:branch1", "/my_tree:branch2"}
+uc.claim(["/my_tree:branch1", "/my_tree:branch2"])
 ```
 ````
 
 ```{tip}
-Keep the set of target branches minimal — only register the branches that Uproot-custom should handle.
+Keep the set of claimed branches minimal — only claim the branches that Uproot-custom should handle.
 ```
 
 ## Step 3: Choose a technical route
@@ -145,7 +145,7 @@ for (int i = 0; i < 10; i++) {
 import uproot
 import uproot_custom as uc
 
-uc.AsCustom.target_branches.add("/my_tree:cstyle_array/m_vec_double[3]")
+uc.claim("/my_tree:cstyle_array/m_vec_double[3]")
 
 f = uproot.open("file.root")
 f["my_tree/cstyle_array/m_vec_double[3]"].array()
