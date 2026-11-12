@@ -58,6 +58,9 @@ class BinaryStream:
 
         self.refs: dict[int, _Reference] = {}
 
+        #: end positions of the open counted regions, innermost last
+        self._nbytes_marks: list[int] = []
+
     @property
     def entries(self):
         return len(self.offsets) - 1
@@ -178,6 +181,56 @@ class BinaryStream:
         fBits = self.read_uint32()
         if fBits & kIsReferenced:
             self.skip(2)  # pidf
+
+    # -- counted regions ---------------------------------------------------
+    def check_nbytes_start(self) -> None:
+        """
+        Read a masked `fNBytes` and remember where the counted region ends.
+
+        The call opens a frame and `check_nbytes_end` closes it.  Frames nest,
+        so a sub-reader that is framed itself does not disturb its caller.
+        """
+        nbytes = self.read_fNBytes()
+        self._nbytes_marks.append(self.cursor + nbytes)
+
+    def check_nbytes_end(self, expected: int | None = None) -> None:
+        """
+        Fail unless the cursor is at the end of the counted region.
+
+        Args:
+            expected: the end position, for a region whose size the caller
+                computed instead of reading; the innermost frame is then left
+                open, so the two forms do not pair with each other.
+        """
+        if expected is None:
+            if not self._nbytes_marks:
+                raise AssertionError("check_nbytes_end() without check_nbytes_start()")
+            expected = self._nbytes_marks.pop()
+        if self.cursor != expected:
+            raise AssertionError(
+                "the read did not end at the byte count "
+                f"(expected {expected}, got {self.cursor})"
+            )
+
+    @contextlib.contextmanager
+    def check_nbytes(self):
+        """
+        Frame the block with a masked `fNBytes`, checked on exit.
+        """
+        self.check_nbytes_start()
+        try:
+            yield
+        except BaseException:
+            self._nbytes_marks.pop()
+            raise
+        self.check_nbytes_end()
+
+    @property
+    def open_frames(self) -> int:
+        """
+        The number of counted regions still waiting for their end.
+        """
+        return len(self._nbytes_marks)
 
     def __repr__(self):
         res = ""
@@ -681,24 +734,16 @@ class AnyClassReader(IReader):
         self.element_readers = element_readers
 
     def read(self, stream: BinaryStream):
-        fNBytes = stream.read_fNBytes()
-        start_pos = stream.cursor
-        end_pos = start_pos + fNBytes
+        with stream.check_nbytes():
+            fVersion = stream.read_fVersion()
+            if fVersion == 0:
+                stream.skip(4)
 
-        fVersion = stream.read_fVersion()
-        if fVersion == 0:
-            stream.skip(4)
-
-        for reader in self.element_readers:
-            debug_print()
-            debug_print(f"AnyClassReader({self.name}) reading element {reader.name}:")
-            debug_print(stream)
-            reader.read(stream)
-
-        assert stream.cursor == end_pos, (
-            f"AnyClassReader({self.name}): Invalid read length! Expect {fNBytes} bytes, "
-            f"but read {stream.cursor - start_pos} bytes."
-        )
+            for reader in self.element_readers:
+                debug_print()
+                debug_print(f"AnyClassReader({self.name}) reading element {reader.name}:")
+                debug_print(stream)
+                reader.read(stream)
 
     def read_many_memberwise(self, stream, count):
         assert (
@@ -769,9 +814,7 @@ class AnyPointerReader(IReader):
 
         if fTag & kClassMask == 0:
             if fTag == 0:
-                assert (
-                    stream.cursor == end_pos
-                ), f"AnyPointerReader({self.name}): Invalid read length! Expect to read 0 bytes, but read {stream.cursor - start_pos} bytes."
+                stream.check_nbytes_end(end_pos)
                 self.object_indexes.append(-1)  # Use -1 to indicate null pointer
                 return
 
@@ -786,9 +829,7 @@ class AnyPointerReader(IReader):
                 ref_idx = stream.refs[fTag].object_index
                 self.object_indexes.append(ref_idx)
 
-                assert (
-                    stream.cursor == end_pos
-                ), f"AnyPointerReader({self.name}): Invalid read length! Expect to read 0 bytes, but read {stream.cursor - start_pos} bytes."
+                stream.check_nbytes_end(end_pos)
                 return
 
         elif fTag == kNewClassTag:
@@ -841,9 +882,7 @@ class AnyPointerReader(IReader):
 
             self.object_counter += 1
 
-        assert (
-            stream.cursor == end_pos
-        ), f"AnyPointerReader({self.name}): Invalid read length! Expect to read 0 bytes, but read {stream.cursor - start_pos} bytes."
+        stream.check_nbytes_end(end_pos)
         return
 
     def data(self):

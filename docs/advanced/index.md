@@ -20,6 +20,22 @@ The route has two stages, and they must stay in step:
 
 Both stages share one factory: `build_python_reader` returns the first, `build_cpp_reader` returns the second, and `make_awkward_content` / `make_awkward_form` are written once. Only the stage matching the selected backend runs.
 
+### One stream API in both languages
+
+The two stages read the same bytes through the same `BinaryStream`, method for method, so a reader ports by translating syntax rather than by re-learning the stream. The counted-region API is the clearest example:
+
+```python
+with stream.check_nbytes():
+    ...
+```
+
+```cpp
+auto frame = stream.check_nbytes();
+...
+```
+
+Both read the masked `fNBytes`, both check the end position when the block ends, and both name the two positions in the error. Method names are identical in the two pages: [`python-reader.md`](python-reader.md) and [`cpp-reader.md`](cpp-reader.md).
+
 ```{important}
 The Python stage is not a deployment target. It is several times slower than Detree, so a project on this route is expected to finish the port to C++ before it ships. The Python implementation stays in the repository as the readable statement of the byte layout and as a debugging oracle.
 ```

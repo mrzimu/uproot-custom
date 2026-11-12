@@ -816,9 +816,7 @@ namespace uproot_custom {
          * @param stream The binary stream to read from.
          */
         void read( BinaryStream& stream ) override {
-            auto fNBytes   = stream.read_fNBytes();
-            auto start_pos = stream.get_cursor();
-            auto end_pos   = stream.get_cursor() + fNBytes;
+            auto frame = stream.check_nbytes();
 
             auto fVersion = stream.read_fVersion();
             if ( fVersion == 0 ) stream.skip( 4 ); // skip checksum for fVersion 0
@@ -829,14 +827,6 @@ namespace uproot_custom {
                               reader->name().c_str() );
                 debug_printf( stream );
                 reader->read( stream );
-            }
-
-            if ( stream.get_cursor() != end_pos )
-            {
-                stringstream msg;
-                msg << "AnyClassReader: Invalid read length for " << name() << "! Expect "
-                    << end_pos - start_pos << ", got " << stream.get_cursor() - start_pos;
-                throw std::runtime_error( msg.str() );
             }
         }
 
@@ -916,30 +906,6 @@ namespace uproot_custom {
             , m_element_reader( element_reader )
             , m_object_indexes( std::make_shared<vector<int64_t>>() ) {}
 
-        /**
-         * @brief Check that the cursor is at the expected position after reading.
-         *
-         * Throws a runtime error if the cursor doesn't match the expected position,
-         * indicating a mismatch in the number of bytes read.
-         *
-         * @param stream The binary stream to check.
-         * @param expected_nbytes The expected number of bytes read.
-         * @param expected_pos The expected cursor position after reading.
-         */
-        void check_cursor_position( BinaryStream& stream, const uint32_t expected_nbytes,
-                                    const uint8_t* expected_pos ) {
-            if ( stream.get_cursor() != expected_pos )
-            {
-                stringstream msg;
-                msg << "AnyPointerReader(" << name() << "): Invalid read length! Expect "
-                    << expected_nbytes << " bytes, got "
-                    << static_cast<int64_t>( expected_nbytes ) -
-                           ( expected_pos - stream.get_cursor() )
-                    << " bytes.";
-                throw std::runtime_error( msg.str() );
-            }
-        }
-
         void read( BinaryStream& stream ) override {
             auto start_ptr     = stream.get_cursor();
             uint32_t start_pos = stream.get_index();
@@ -969,7 +935,7 @@ namespace uproot_custom {
             {
                 if ( fTag == 0 )
                 {
-                    check_cursor_position( stream, fNBytes, end_ptr );
+                    stream.check_nbytes_end( end_ptr );
                     m_object_indexes->push_back( -1 ); // use -1 to indicate null pointer
                     return;
                 }
@@ -981,7 +947,7 @@ namespace uproot_custom {
                     // skip unknown reference
                     auto nskip = end_ptr - stream.get_cursor();
                     stream.skip( nskip );
-                    check_cursor_position( stream, fNBytes, end_ptr );
+                    stream.check_nbytes_end( end_ptr );
                     return;
                 }
                 else
@@ -989,7 +955,7 @@ namespace uproot_custom {
                     auto ref     = stream.get_refs().at( fTag );
                     auto ref_idx = std::get<BinaryStream::RefObj>( ref ).index;
                     m_object_indexes->push_back( ref_idx );
-                    check_cursor_position( stream, fNBytes, end_ptr );
+                    stream.check_nbytes_end( end_ptr );
                     return;
                 }
             }
@@ -1046,7 +1012,7 @@ namespace uproot_custom {
                 m_object_counter++;
             }
 
-            check_cursor_position( stream, fNBytes, end_ptr );
+            stream.check_nbytes_end( end_ptr );
         }
 
         py::object data() const override {
@@ -1218,7 +1184,8 @@ namespace uproot_custom {
      *
      * @param data Binary data as a numpy array of uint8_t
      * @param offsets Offsets for each entry as a numpy array of uint32_t
-     * @param cursor_offset Offset of the first byte in data relative to the original stream, used to calculate reference offsets.
+     * @param cursor_offset Offset of the first byte in data relative to the original stream,
+     * used to calculate reference offsets.
      * @param reader Shared pointer to the top-level reader
      * @return (Possibly nested) numpy array containing the read data
      */

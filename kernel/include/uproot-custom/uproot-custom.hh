@@ -8,11 +8,14 @@
 #include <pybind11/stl.h>
 
 #include <cstdint>
+#include <exception>
 #include <iostream>
 #include <map>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <variant>
+#include <vector>
 
 #if defined( _MSC_VER )
 #    include <stdlib.h>
@@ -268,6 +271,116 @@ namespace uproot_custom {
         }
 
         /**
+         * @brief A counted region, checked when the enclosing scope ends.
+         *
+         * The C++ form of Python's `with stream.check_nbytes():`: bind the guard and the
+         * region is checked at the end of the block.
+         *
+         * @code
+         * auto frame = stream.check_nbytes();
+         * // ... members ...
+         * @endcode
+         *
+         * A mismatch throws `std::runtime_error` from the destructor, which is why it is
+         * `noexcept( false )`. A block that raised is dropped without a second exception,
+         * so the original error survives.
+         */
+        class CountedRegion {
+          public:
+            CountedRegion( const CountedRegion& )            = delete;
+            CountedRegion& operator=( const CountedRegion& ) = delete;
+
+            CountedRegion( CountedRegion&& other ) noexcept
+                : m_stream( other.m_stream )
+                , m_active( other.m_active )
+                , m_uncaught( other.m_uncaught ) {
+                other.m_active = false;
+            }
+
+            ~CountedRegion() noexcept( false ) {
+                if ( !m_active ) return;
+                if ( std::uncaught_exceptions() != m_uncaught )
+                {
+                    // The block raised: drop the region without masking the error.
+                    m_stream->abandon_nbytes();
+                    return;
+                }
+                m_stream->check_nbytes_end();
+            }
+
+          private:
+            friend class BinaryStream;
+
+            explicit CountedRegion( BinaryStream& stream )
+                : m_stream( &stream ), m_uncaught( std::uncaught_exceptions() ) {
+                m_stream->check_nbytes_start();
+            }
+
+            BinaryStream* m_stream; ///< the stream the region belongs to
+            bool m_active = true;   ///< false once moved from, or checked
+            int m_uncaught;         ///< uncaught exceptions when the block started
+        };
+
+        /**
+         * @brief Open a counted region for the enclosing scope.
+         *
+         * @return The guard; bind it, e.g. `auto frame = stream.check_nbytes();`.
+         */
+        [[nodiscard]] CountedRegion check_nbytes() { return CountedRegion( *this ); }
+
+        /**
+         * @brief Read a masked `fNBytes` and remember where the counted region ends.
+         *
+         * The call opens a frame and @ref check_nbytes_end() closes it. Frames nest, so a
+         * sub-reader that is framed itself does not disturb its caller.
+         */
+        void check_nbytes_start() {
+            // The count is read first on purpose: `m_cursor + read_fNBytes()` leaves
+            // the order of the two operands unspecified, and reading the cursor first
+            // would miss the four bytes of the count itself.
+            const uint32_t nbytes = read_fNBytes();
+            m_nbytes_marks.push_back( m_cursor + nbytes );
+        }
+
+        /**
+         * @brief Fail unless the cursor is at the end of the innermost counted region.
+         *
+         * @exception std::runtime_error if there is no open region, or the cursor is
+         * elsewhere.
+         */
+        void check_nbytes_end() {
+            if ( m_nbytes_marks.empty() )
+                throw std::runtime_error( "check_nbytes_end() without check_nbytes_start()" );
+            const uint8_t* expected = m_nbytes_marks.back();
+            m_nbytes_marks.pop_back();
+            check_nbytes_end( expected );
+        }
+
+        /**
+         * @brief Fail unless the cursor is at @p expected.
+         *
+         * For a region whose size the caller computed instead of reading; the innermost
+         * frame is then left open, so the two forms do not pair with each other.
+         *
+         * @param expected The expected cursor position, as returned by @ref get_cursor().
+         * @exception std::runtime_error if the cursor is elsewhere.
+         */
+        void check_nbytes_end( const uint8_t* expected ) {
+            if ( m_cursor != expected )
+            {
+                std::stringstream msg;
+                msg << "the read did not end at the byte count (expected " << expected - m_data
+                    << ", got " << get_index() << ")";
+                throw std::runtime_error( msg.str() );
+            }
+        }
+
+        /**
+         * @brief Get the number of counted regions still waiting for their end.
+         */
+        size_t open_frames() const { return m_nbytes_marks.size(); }
+
+        /**
          * @brief Get the raw data pointer.
          */
         const uint8_t* get_data() const { return m_data; }
@@ -324,6 +437,9 @@ namespace uproot_custom {
         }
 
       private:
+        /// Drop the innermost counted region without checking it: the block raised.
+        void abandon_nbytes() { m_nbytes_marks.pop_back(); }
+
         uint8_t* m_cursor;                      ///< current cursor position
         const uint64_t m_entries;               ///< number of entries
         const uint8_t* m_data;                  ///< raw data pointer
@@ -334,6 +450,9 @@ namespace uproot_custom {
 
         std::map<uint32_t, Reference> m_refs; ///< offset -> reference, used for pointer
                                               ///< reading
+
+        /// End positions of the open counted regions, innermost last.
+        std::vector<const uint8_t*> m_nbytes_marks;
     };
 
     // backward compatibility
