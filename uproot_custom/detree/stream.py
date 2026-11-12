@@ -135,7 +135,11 @@ class Stream:
         Frame the block with a masked `fNBytes`, checked on exit.
         """
         self.check_nbytes_start()
-        yield
+        try:
+            yield
+        except BaseException:
+            self._nbytes_marks.pop()
+            raise
         self.check_nbytes_end()
 
     @property
