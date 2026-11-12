@@ -474,11 +474,23 @@ namespace uproot_custom {
         const std::string m_name; ///< name of the reader
         const bool m_debug_print; ///< whether to print debug information
 
+        /**
+         * @brief Print a debug message if debugging is enabled.
+         *
+         * @param msg printf-style format string.
+         * @param args Arguments forwarded to printf.
+         */
         template <typename... Args>
         inline void debug_printf( const char* msg, Args... args ) const {
             if ( m_debug_print ) printf( msg, args... );
         }
 
+        /**
+         * @brief Print the next `n` bytes of the stream if debugging is enabled.
+         *
+         * @param stream The stream whose bytes are dumped.
+         * @param n Number of bytes to print.
+         */
         inline void debug_printf( uproot_custom::BinaryStream& stream, const size_t n = 100 ) {
             if ( m_debug_print ) stream.debug_print( n );
         }

@@ -751,7 +751,7 @@ namespace uproot_custom {
          *
          * @param stream The binary stream to read from.
          * @param count Number of objects to read.
-         * @return Number of objects read. Should be equal to @ref count.
+         * @return Number of objects read. Should be equal to @p count.
          */
         uint32_t read_many_memberwise( BinaryStream& stream, const int64_t count ) override {
             if ( count < 0 )
@@ -836,7 +836,7 @@ namespace uproot_custom {
          *
          * @param stream The binary stream to read from.
          * @param count Number of objects to read.
-         * @return Number of objects read. Should be equal to @ref count.
+         * @return Number of objects read. Should be equal to @p count.
          */
         uint32_t read_many_memberwise( BinaryStream& stream, const int64_t count ) override {
             if ( count < 0 )
