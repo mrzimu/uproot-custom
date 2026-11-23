@@ -128,7 +128,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Number of objects read. Should be equal to count. </para>
+<simplesect kind="return"><para>Number of objects read. Should be equal to <computeroutput>count</computeroutput>. </para>
 </simplesect>
 </para>
         </detaileddescription>

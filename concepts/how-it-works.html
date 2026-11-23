@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -410,26 +410,20 @@ uc.set_backend("detree")
 </section>
 <hr class="docutils" />
 <section id="stage-3-4-read-binary-data-and-return-results">
-<h2>Stage 3 &amp; 4: Read binary data and return results<a class="headerlink" href="#stage-3-4-read-binary-data-and-return-results" title="Link to this heading">¶</a></h2>
+<span id="stage-3--4-read-binary-data-and-return-results"></span><h2>Stage 3 &amp; 4: Read binary data and return results<a class="headerlink" href="#stage-3-4-read-binary-data-and-return-results" title="Link to this heading">¶</a></h2>
 <p>The top-level reader drives sub-readers recursively. For instance, <code class="docutils literal notranslate"><span class="pre">AnyClassReader</span></code> reads its <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> + <code class="docutils literal notranslate"><span class="pre">fVersion</span></code> header, then asks each sub-reader to consume its portion of the stream:</p>
 <div class="literal-block-wrapper docutils container" id="id4">
 <div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">AnyClassReader.read</span></code> method (Python)</span><a class="headerlink" href="#id4" title="Link to this code">¶</a></div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
-    <span class="n">fNBytes</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_fNBytes</span><span class="p">()</span>
-    <span class="n">start_pos</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span>
-    <span class="n">end_pos</span> <span class="o">=</span> <span class="n">start_pos</span> <span class="o">+</span> <span class="n">fNBytes</span>
+<span class="hll">    <span class="k">with</span> <span class="n">stream</span><span class="o">.</span><span class="n">check_nbytes</span><span class="p">():</span>
+</span>        <span class="n">stream</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
 
-    <span class="n">stream</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
-
-<span class="hll">    <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">:</span>
-</span>        <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-
-    <span class="k">assert</span> <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">,</span> <span class="p">(</span>
-        <span class="sa">f</span><span class="s2">"AnyClassReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): Invalid read length!"</span>
-    <span class="p">)</span>
+        <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">:</span>
+            <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<p>The <code class="docutils literal notranslate"><span class="pre">with</span></code> block reads the <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> count and checks the end position when it closes, so the reader cannot under- or over-read the object without an error.</p>
 <p>After all entries are read, the top-level reader’s <code class="docutils literal notranslate"><span class="pre">data()</span></code> method collects results recursively — leaf readers return <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays, and composite readers assemble them into nested tuples or lists:</p>
 <div class="literal-block-wrapper docutils container" id="id5">
 <div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">PrimitiveReader.data</span></code> — leaf</span><a class="headerlink" href="#id5" title="Link to this code">¶</a></div>
@@ -572,7 +566,7 @@ uc.set_backend("detree")
 </div>
 <p>The built-in reader cannot handle the extra mask, so we must implement a custom reader and factory.</p>
 <section id="stage-1-factory">
-<h3>Stage 1 — Factory<a class="headerlink" href="#stage-1-factory" title="Link to this heading">¶</a></h3>
+<span id="stage-1--factory"></span><h3>Stage 1 — Factory<a class="headerlink" href="#stage-1-factory" title="Link to this heading">¶</a></h3>
 <p>The factory must implement four methods. <code class="docutils literal notranslate"><span class="pre">build_factory</span></code> matches on the class name and returns an instance; the remaining methods build readers and convert raw data to <code class="docutils literal notranslate"><span class="pre">awkward</span></code> arrays.</p>
 <div class="literal-block-wrapper docutils container" id="id11">
 <div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">OverrideStreamerFactory</span></code> — complete factory implementation</span><a class="headerlink" href="#id11" title="Link to this code">¶</a></div>
@@ -615,7 +609,7 @@ uc.set_backend("detree")
 </div>
 </section>
 <section id="stage-2-reader">
-<h3>Stage 2 — Reader<a class="headerlink" href="#stage-2-reader" title="Link to this heading">¶</a></h3>
+<span id="stage-2--reader"></span><h3>Stage 2 — Reader<a class="headerlink" href="#stage-2-reader" title="Link to this heading">¶</a></h3>
 <p>The reader implements the binary decoding logic. It reads every entry from the byte stream and accumulates values in Python <code class="docutils literal notranslate"><span class="pre">array</span></code> objects, then returns them as <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays.</p>
 <div class="literal-block-wrapper docutils container" id="id12">
 <div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code> — Python reader</span><a class="headerlink" href="#id12" title="Link to this code">¶</a></div>
@@ -780,7 +774,7 @@ uc.set_backend("detree")
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js?v=b8b12719"></script>
-    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../_static/design-tabs.js?v=fcb327ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     </body>
 </html>

@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.15.0" xml:lang="en-US">
+  <compounddef id="classuproot__custom_1_1_binary_stream_1_1_counted_region" kind="class" language="C++" prot="public">
+    <compoundname>uproot_custom::BinaryStream::CountedRegion</compoundname>
+    <includes refid="uproot-custom_8hh" local="no">uproot-custom.hh</includes>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classuproot__custom_1_1_binary_stream_1_1_counted_region_1adc09a2f693ec9debbb8f048aa96ac260" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class BinaryStream</definition>
+        <argsstring></argsstring>
+        <name>BinaryStream</name>
+        <qualifiedname>uproot_custom::BinaryStream::CountedRegion::BinaryStream</qualifiedname>
+        <param>
+          <type>BinaryStream</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" line="312" column="26" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" bodystart="312" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a2d55e6915fadc8dd4e90d9258e37aec9" prot="private" static="no" mutable="no">
+        <type>BinaryStream *</type>
+        <definition>BinaryStream* uproot_custom::BinaryStream::CountedRegion::m_stream</definition>
+        <argsstring></argsstring>
+        <name>m_stream</name>
+        <qualifiedname>uproot_custom::BinaryStream::CountedRegion::m_stream</qualifiedname>
+        <briefdescription>
+<para>the stream the region belongs to </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" line="319" column="26" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuproot__custom_1_1_binary_stream_1_1_counted_region_1af48b4f61676b47eb4b999c8b85900e02" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool uproot_custom::BinaryStream::CountedRegion::m_active</definition>
+        <argsstring></argsstring>
+        <name>m_active</name>
+        <qualifiedname>uproot_custom::BinaryStream::CountedRegion::m_active</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>false once moved from, or checked </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" line="320" column="18" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a4af9eddd1f60150f1e31074dc2a4d511" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int uproot_custom::BinaryStream::CountedRegion::m_uncaught</definition>
+        <argsstring></argsstring>
+        <name>m_uncaught</name>
+        <qualifiedname>uproot_custom::BinaryStream::CountedRegion::m_uncaught</qualifiedname>
+        <briefdescription>
+<para>uncaught exceptions when the block started </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" line="321" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" bodystart="321" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a094394e4528dde141b8f9e04712ce5d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>uproot_custom::BinaryStream::CountedRegion::CountedRegion</definition>
+        <argsstring>(const CountedRegion &amp;)=delete</argsstring>
+        <name>CountedRegion</name>
+        <qualifiedname>uproot_custom::BinaryStream::CountedRegion::CountedRegion</qualifiedname>
+        <param>
+          <type>const CountedRegion &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" line="290" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a20a7487efd4d3a083ccc52ea120c78f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>CountedRegion &amp;</type>
+        <definition>CountedRegion &amp; uproot_custom::BinaryStream::CountedRegion::operator=</definition>
+        <argsstring>(const CountedRegion &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>uproot_custom::BinaryStream::CountedRegion::operator=</qualifiedname>
+        <param>
+          <type>const CountedRegion &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" line="291" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1_1_counted_region_1adeda6ac7184e7f60298dbfb12afd48a2" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>uproot_custom::BinaryStream::CountedRegion::CountedRegion</definition>
+        <argsstring>(CountedRegion &amp;&amp;other) noexcept</argsstring>
+        <name>CountedRegion</name>
+        <qualifiedname>uproot_custom::BinaryStream::CountedRegion::CountedRegion</qualifiedname>
+        <param>
+          <type>CountedRegion &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" line="293" column="13" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" bodystart="293" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a6d0a0a29de8929286545b86c10d0d445" prot="public" static="no" const="no" explicit="no" inline="yes" noexceptexpression="false" virt="non-virtual">
+        <type></type>
+        <definition>uproot_custom::BinaryStream::CountedRegion::~CountedRegion</definition>
+        <argsstring>()</argsstring>
+        <name>~CountedRegion</name>
+        <qualifiedname>uproot_custom::BinaryStream::CountedRegion::~CountedRegion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" line="300" column="13" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" bodystart="300" bodyend="309"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classuproot__custom_1_1_binary_stream_1_1_counted_region_1aa8affba47ff55d3bc3ba1f7355920e50" prot="private" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>uproot_custom::BinaryStream::CountedRegion::CountedRegion</definition>
+        <argsstring>(BinaryStream &amp;stream)</argsstring>
+        <name>CountedRegion</name>
+        <qualifiedname>uproot_custom::BinaryStream::CountedRegion::CountedRegion</qualifiedname>
+        <param>
+          <type>BinaryStream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" line="314" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" bodystart="314" bodyend="317"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A counted region, checked when the enclosing scope ends. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The C++ form of Python&apos;s <computeroutput>with stream.check_nbytes():</computeroutput>: bind the guard and the region is checked at the end of the block.</para>
+<para><programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>frame<sp/>=<sp/>stream.check_nbytes();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...<sp/>members<sp/>...</highlight></codeline>
+</programlisting></para>
+<para>A mismatch throws <computeroutput>std::runtime_error</computeroutput> from the destructor, which is why it is <computeroutput>noexcept( false )</computeroutput>. A block that raised is dropped without a second exception, so the original error survives. </para>
+    </detaileddescription>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" line="288" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/include/uproot-custom/uproot-custom.hh" bodystart="288" bodyend="322"/>
+    <listofallmembers>
+      <member refid="classuproot__custom_1_1_binary_stream_1_1_counted_region_1adc09a2f693ec9debbb8f048aa96ac260" prot="private" virt="non-virtual"><scope>uproot_custom::BinaryStream::CountedRegion</scope><name>BinaryStream</name></member>
+      <member refid="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a094394e4528dde141b8f9e04712ce5d7" prot="public" virt="non-virtual"><scope>uproot_custom::BinaryStream::CountedRegion</scope><name>CountedRegion</name></member>
+      <member refid="classuproot__custom_1_1_binary_stream_1_1_counted_region_1adeda6ac7184e7f60298dbfb12afd48a2" prot="public" virt="non-virtual"><scope>uproot_custom::BinaryStream::CountedRegion</scope><name>CountedRegion</name></member>
+      <member refid="classuproot__custom_1_1_binary_stream_1_1_counted_region_1aa8affba47ff55d3bc3ba1f7355920e50" prot="private" virt="non-virtual"><scope>uproot_custom::BinaryStream::CountedRegion</scope><name>CountedRegion</name></member>
+      <member refid="classuproot__custom_1_1_binary_stream_1_1_counted_region_1af48b4f61676b47eb4b999c8b85900e02" prot="private" virt="non-virtual"><scope>uproot_custom::BinaryStream::CountedRegion</scope><name>m_active</name></member>
+      <member refid="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a2d55e6915fadc8dd4e90d9258e37aec9" prot="private" virt="non-virtual"><scope>uproot_custom::BinaryStream::CountedRegion</scope><name>m_stream</name></member>
+      <member refid="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a4af9eddd1f60150f1e31074dc2a4d511" prot="private" virt="non-virtual"><scope>uproot_custom::BinaryStream::CountedRegion</scope><name>m_uncaught</name></member>
+      <member refid="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a20a7487efd4d3a083ccc52ea120c78f0" prot="public" virt="non-virtual"><scope>uproot_custom::BinaryStream::CountedRegion</scope><name>operator=</name></member>
+      <member refid="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a6d0a0a29de8929286545b86c10d0d445" prot="public" virt="non-virtual"><scope>uproot_custom::BinaryStream::CountedRegion</scope><name>~CountedRegion</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -343,6 +343,9 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">refs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">_Reference</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
+        <span class="c1">#: end positions of the open counted regions, innermost last</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nbytes_marks</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">entries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
@@ -529,6 +532,65 @@
         <span class="k">if</span> <span class="n">fBits</span> <span class="o">&amp;</span> <span class="n">kIsReferenced</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># pidf</span></div>
 
+
+    <span class="c1"># -- counted regions ---------------------------------------------------</span>
+<div class="viewcode-block" id="BinaryStream.check_nbytes_start">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.python.BinaryStream.check_nbytes_start">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_nbytes_start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Read a masked `fNBytes` and remember where the counted region ends.</span>
+
+<span class="sd">        The call opens a frame and `check_nbytes_end` closes it.  Frames nest,</span>
+<span class="sd">        so a sub-reader that is framed itself does not disturb its caller.</span>
+<span class="sd">        """</span>
+        <span class="n">nbytes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_fNBytes</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nbytes_marks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">+</span> <span class="n">nbytes</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BinaryStream.check_nbytes_end">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.python.BinaryStream.check_nbytes_end">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_nbytes_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expected</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Fail unless the cursor is at the end of the counted region.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            expected: the end position, for a region whose size the caller</span>
+<span class="sd">                computed instead of reading; the innermost frame is then left</span>
+<span class="sd">                open, so the two forms do not pair with each other.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">expected</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nbytes_marks</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">"check_nbytes_end() without check_nbytes_start()"</span><span class="p">)</span>
+            <span class="n">expected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nbytes_marks</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">!=</span> <span class="n">expected</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
+                <span class="s2">"the read did not end at the byte count "</span>
+                <span class="sa">f</span><span class="s2">"(expected </span><span class="si">{</span><span class="n">expected</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="si">}</span><span class="s2">)"</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BinaryStream.check_nbytes">
+<a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.python.BinaryStream.check_nbytes">[docs]</a>
+    <span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_nbytes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Frame the block with a masked `fNBytes`, checked on exit.</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_nbytes_start</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">yield</span>
+        <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_nbytes_marks</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="k">raise</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_nbytes_end</span><span class="p">()</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">open_frames</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        The number of counted regions still waiting for their end.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nbytes_marks</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">res</span> <span class="o">=</span> <span class="s2">""</span>
@@ -1169,24 +1231,16 @@
 <div class="viewcode-block" id="AnyClassReader.read">
 <a class="viewcode-back" href="../../reference/api/uproot_custom.html#uproot_custom.python.AnyClassReader.read">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">:</span> <span class="n">BinaryStream</span><span class="p">):</span>
-        <span class="n">fNBytes</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_fNBytes</span><span class="p">()</span>
-        <span class="n">start_pos</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span>
-        <span class="n">end_pos</span> <span class="o">=</span> <span class="n">start_pos</span> <span class="o">+</span> <span class="n">fNBytes</span>
+        <span class="k">with</span> <span class="n">stream</span><span class="o">.</span><span class="n">check_nbytes</span><span class="p">():</span>
+            <span class="n">fVersion</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">fVersion</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">stream</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 
-        <span class="n">fVersion</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">fVersion</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">stream</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">:</span>
-            <span class="n">debug_print</span><span class="p">()</span>
-            <span class="n">debug_print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"AnyClassReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) reading element </span><span class="si">{</span><span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">:"</span><span class="p">)</span>
-            <span class="n">debug_print</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-            <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-
-        <span class="k">assert</span> <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">,</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"AnyClassReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): Invalid read length! Expect </span><span class="si">{</span><span class="n">fNBytes</span><span class="si">}</span><span class="s2"> bytes, "</span>
-            <span class="sa">f</span><span class="s2">"but read </span><span class="si">{</span><span class="n">stream</span><span class="o">.</span><span class="n">cursor</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_pos</span><span class="si">}</span><span class="s2"> bytes."</span>
-        <span class="p">)</span></div>
+            <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">:</span>
+                <span class="n">debug_print</span><span class="p">()</span>
+                <span class="n">debug_print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"AnyClassReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">) reading element </span><span class="si">{</span><span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">:"</span><span class="p">)</span>
+                <span class="n">debug_print</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+                <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="AnyClassReader.read_many_memberwise">
@@ -1269,9 +1323,7 @@
 
         <span class="k">if</span> <span class="n">fTag</span> <span class="o">&amp;</span> <span class="n">kClassMask</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">fTag</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">assert</span> <span class="p">(</span>
-                    <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span>
-                <span class="p">),</span> <span class="sa">f</span><span class="s2">"AnyPointerReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): Invalid read length! Expect to read 0 bytes, but read </span><span class="si">{</span><span class="n">stream</span><span class="o">.</span><span class="n">cursor</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_pos</span><span class="si">}</span><span class="s2"> bytes."</span>
+                <span class="n">stream</span><span class="o">.</span><span class="n">check_nbytes_end</span><span class="p">(</span><span class="n">end_pos</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">object_indexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Use -1 to indicate null pointer</span>
                 <span class="k">return</span>
 
@@ -1286,9 +1338,7 @@
                 <span class="n">ref_idx</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">refs</span><span class="p">[</span><span class="n">fTag</span><span class="p">]</span><span class="o">.</span><span class="n">object_index</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">object_indexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ref_idx</span><span class="p">)</span>
 
-                <span class="k">assert</span> <span class="p">(</span>
-                    <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span>
-                <span class="p">),</span> <span class="sa">f</span><span class="s2">"AnyPointerReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): Invalid read length! Expect to read 0 bytes, but read </span><span class="si">{</span><span class="n">stream</span><span class="o">.</span><span class="n">cursor</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_pos</span><span class="si">}</span><span class="s2"> bytes."</span>
+                <span class="n">stream</span><span class="o">.</span><span class="n">check_nbytes_end</span><span class="p">(</span><span class="n">end_pos</span><span class="p">)</span>
                 <span class="k">return</span>
 
         <span class="k">elif</span> <span class="n">fTag</span> <span class="o">==</span> <span class="n">kNewClassTag</span><span class="p">:</span>
@@ -1341,9 +1391,7 @@
 
             <span class="bp">self</span><span class="o">.</span><span class="n">object_counter</span> <span class="o">+=</span> <span class="mi">1</span>
 
-        <span class="k">assert</span> <span class="p">(</span>
-            <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span>
-        <span class="p">),</span> <span class="sa">f</span><span class="s2">"AnyPointerReader(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">): Invalid read length! Expect to read 0 bytes, but read </span><span class="si">{</span><span class="n">stream</span><span class="o">.</span><span class="n">cursor</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_pos</span><span class="si">}</span><span class="s2"> bytes."</span>
+        <span class="n">stream</span><span class="o">.</span><span class="n">check_nbytes_end</span><span class="p">(</span><span class="n">end_pos</span><span class="p">)</span>
         <span class="k">return</span></div>
 
 
@@ -1504,7 +1552,7 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../../_static/togglebutton.js?v=b8b12719"></script>
-    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../../_static/design-tabs.js?v=fcb327ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.esm.min.mjs";
 

@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="898" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="898" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="888" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="888" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot__custom_1_1_any_pointer_reader_1aa00692abec9814175de9188f6fec1ff9" prot="private" static="no" mutable="no">
         <type>int64_t</type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="900" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="900" bodyend="900"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="890" column="17" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="890" bodyend="890"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot__custom_1_1_any_pointer_reader_1ac8e681b560bae177a39f1ba7e161c55b" prot="private" static="no" mutable="no">
         <type>SharedVector&lt; int64_t &gt;</type>
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="903" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="903" bodyend="-1"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="893" column="22" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="893" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classuproot__custom_1_1_any_pointer_reader_1affb6da7063ba8f97b813eab278305ee0" prot="private" static="no" mutable="no">
         <type>string</type>
@@ -64,7 +64,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="905" column="16" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="905" bodyend="905"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="895" column="16" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="895" bodyend="895"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -107,61 +107,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="914" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="914" bodyend="917"/>
-      </memberdef>
-      <memberdef kind="function" id="classuproot__custom_1_1_any_pointer_reader_1a24ed33763af9a4760331bb4f9497ec1b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
-        <type>void</type>
-        <definition>void uproot_custom::AnyPointerReader::check_cursor_position</definition>
-        <argsstring>(BinaryStream &amp;stream, const uint32_t expected_nbytes, const uint8_t *expected_pos)</argsstring>
-        <name>check_cursor_position</name>
-        <qualifiedname>uproot_custom::AnyPointerReader::check_cursor_position</qualifiedname>
-        <param>
-          <type><ref refid="classuproot__custom_1_1_binary_stream" kindref="compound">BinaryStream</ref> &amp;</type>
-          <declname>stream</declname>
-        </param>
-        <param>
-          <type>const uint32_t</type>
-          <declname>expected_nbytes</declname>
-        </param>
-        <param>
-          <type>const uint8_t *</type>
-          <declname>expected_pos</declname>
-        </param>
-        <briefdescription>
-<para>Check that the cursor is at the expected position after reading. </para>
-        </briefdescription>
-        <detaileddescription>
-<para>Throws a runtime error if the cursor doesn&apos;t match the expected position, indicating a mismatch in the number of bytes read.</para>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>stream</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The binary stream to check. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>expected_nbytes</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The expected number of bytes read. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>expected_pos</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The expected cursor position after reading. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="929" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="929" bodyend="941"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="904" column="9" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="904" bodyend="907"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_any_pointer_reader_1a53ddf183e278cf5a5c7133b7387de08c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>void</type>
@@ -191,7 +137,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="943" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="943" bodyend="1050"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="909" column="14" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="909" bodyend="1016"/>
       </memberdef>
       <memberdef kind="function" id="classuproot__custom_1_1_any_pointer_reader_1a0e9db8142b66aa1a75da768fb1000294" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>py::object</type>
@@ -210,7 +156,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="1052" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="1052" bodyend="1056"/>
+        <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="1018" column="20" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="1018" bodyend="1022"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -243,10 +189,9 @@
         <link refid="classuproot__custom_1_1_i_reader"/>
       </node>
     </collaborationgraph>
-    <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="896" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="896" bodyend="1057"/>
+    <location file="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" line="886" column="5" bodyfile="/home/runner/work/uproot-custom/uproot-custom/kernel/src/uproot-custom.cc" bodystart="886" bodyend="1023"/>
     <listofallmembers>
       <member refid="classuproot__custom_1_1_any_pointer_reader_1a439e552e9ca5ccc7a3434cdbdacc2f40" prot="public" virt="non-virtual"><scope>uproot_custom::AnyPointerReader</scope><name>AnyPointerReader</name></member>
-      <member refid="classuproot__custom_1_1_any_pointer_reader_1a24ed33763af9a4760331bb4f9497ec1b" prot="public" virt="non-virtual"><scope>uproot_custom::AnyPointerReader</scope><name>check_cursor_position</name></member>
       <member refid="classuproot__custom_1_1_any_pointer_reader_1a0e9db8142b66aa1a75da768fb1000294" prot="public" virt="virtual"><scope>uproot_custom::AnyPointerReader</scope><name>data</name></member>
       <member refid="classuproot__custom_1_1_i_reader_1aa53fc85ff732460f8880033fb54532a5" prot="protected" virt="non-virtual"><scope>uproot_custom::AnyPointerReader</scope><name>debug_printf</name></member>
       <member refid="classuproot__custom_1_1_i_reader_1abcbae6325e5481658fe8904c399cd134" prot="protected" virt="non-virtual"><scope>uproot_custom::AnyPointerReader</scope><name>debug_printf</name></member>

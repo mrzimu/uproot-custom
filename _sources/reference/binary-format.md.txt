@@ -482,7 +482,7 @@ For fixed-size arrays, the flat elements are wrapped in `RegularArray` layers co
 [member 1 data] [member 2 data] ... [member N data]
 ```
 
-The total size of member data must equal `fNBytes` — the reader verifies this with an assertion.
+The total size of member data must equal `fNBytes` — a Detree reader writes this as `with stream.check_nbytes():`, and the machine fails the read when the block does not consume exactly that many bytes.
 
 ```{code-block} cpp
 ---

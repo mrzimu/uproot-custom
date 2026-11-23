@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -297,6 +297,13 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.detree.bufferproxy</span><span class="w"> </span><span class="kn">import</span> <span class="n">BufferProxy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.detree.compiler.ir_builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">IRFunctionBuilder</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.detree.decl</span><span class="w"> </span><span class="kn">import</span> <span class="n">Buffer</span><span class="p">,</span> <span class="n">Child</span><span class="p">,</span> <span class="n">ChildList</span><span class="p">,</span> <span class="n">Const</span><span class="p">,</span> <span class="n">Reader</span><span class="p">,</span> <span class="n">State</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.detree.stream</span><span class="w"> </span><span class="kn">import</span> <span class="n">COUNTED_CONTEXT</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="s2">"FNBegin"</span><span class="p">):</span>  <span class="c1"># pragma: no cover - depends on the installed detree-vm</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+        <span class="s2">"uproot-custom needs a detree-vm with byte-count frames "</span>
+        <span class="s2">"(FNB_BEGIN/FNB_END); upgrade detree-vm"</span>
+    <span class="p">)</span>
 
 <span class="n">STREAM_READS</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"read_uint8"</span><span class="p">:</span> <span class="n">Typecode</span><span class="o">.</span><span class="n">UINT8</span><span class="p">,</span>
@@ -653,6 +660,14 @@
         <span class="c1"># True while an expression statement's value is being thrown away</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">discard_result</span> <span class="o">=</span> <span class="kc">False</span>
 
+        <span class="c1"># Counted regions opened but not closed yet; `FNBEGIN`/`FNEND` pair up</span>
+        <span class="c1"># inside the machine, so this is only a compile-time sanity check.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_depth</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># True while an `if`/`while` condition is being built: a counted region</span>
+        <span class="c1"># opens with a statement, which cannot live inside a condition.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">in_condition</span> <span class="o">=</span> <span class="kc">False</span>
+
     <span class="c1"># -- entry ------------------------------------------------------------</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">emit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">function</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cls</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">)</span>
@@ -739,11 +754,18 @@
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">While</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">while_</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Return</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_depth</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">_Unsupported</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"line </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">lineno</span><span class="si">}</span><span class="s2">: return inside a counted region; "</span>
+                    <span class="s2">"close the region before returning"</span>
+                <span class="p">)</span>
             <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">"read"</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">const</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">ret</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">With</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">with_</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Assert</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">assert_stmt</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Pass</span><span class="p">):</span>
@@ -851,7 +873,7 @@
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">if_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">If</span><span class="p">):</span>
-        <span class="n">condition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">test</span><span class="p">)</span>
+        <span class="n">condition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">condition_in</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">test</span><span class="p">)</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">block</span><span class="p">()</span> <span class="k">as</span> <span class="n">then_block</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">stmt</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">body</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">stmt</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
@@ -918,16 +940,85 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">loop_var</span> <span class="o">=</span> <span class="n">saved</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">while_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">While</span><span class="p">):</span>
-        <span class="n">condition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">test</span><span class="p">)</span>
+        <span class="n">condition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">condition_in</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">test</span><span class="p">)</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">block</span><span class="p">()</span> <span class="k">as</span> <span class="n">block</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">stmt</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">body</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">stmt</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">while_</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="n">block</span><span class="o">.</span><span class="n">statements</span><span class="p">)</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">condition_in</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">AST</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Build a condition that is evaluated once per test.</span>
+
+<span class="sd">        `check_nbytes_start()` opens a region with a statement, so it cannot</span>
+<span class="sd">        appear inside a condition: the emitted statement would run before the</span>
+<span class="sd">        branch or outside the loop, not where the source puts it.</span>
+<span class="sd">        """</span>
+        <span class="n">saved</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_condition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">in_condition</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">in_condition</span> <span class="o">=</span> <span class="n">saved</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">assert_stmt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Assert</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span>
             <span class="n">nodes</span><span class="o">.</span><span class="n">Assert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">test</span><span class="p">),</span> <span class="n">_assert_text</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cls</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">))</span>
         <span class="p">)</span>
+
+    <span class="c1"># -- counted regions ----------------------------------------------------</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">with_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">With</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Lower `with stream.check_nbytes():` to an `FNBEGIN`/`FNEND` pair.</span>
+
+<span class="sd">        A counted region is machine state, so the pair is flat: the body is</span>
+<span class="sd">        emitted between the two instructions and no cleanup path is needed.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">items</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">_Unsupported</span><span class="p">(</span><span class="sa">f</span><span class="s2">"line </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">lineno</span><span class="si">}</span><span class="s2">: with takes one context"</span><span class="p">)</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">optional_vars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">_Unsupported</span><span class="p">(</span><span class="sa">f</span><span class="s2">"line </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">lineno</span><span class="si">}</span><span class="s2">: `with ... as` is not supported"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_is_stream_call</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">context_expr</span><span class="p">,</span> <span class="n">COUNTED_CONTEXT</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">_Unsupported</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"line </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">lineno</span><span class="si">}</span><span class="s2">: only `with stream.</span><span class="si">{</span><span class="n">COUNTED_CONTEXT</span><span class="si">}</span><span class="s2">():` is supported"</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_start</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">stmt</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">body</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stmt</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_end</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">nb_start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Open a counted region; the machine keeps the end position.</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nb_depth</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">FNBegin</span><span class="p">())</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">nb_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expected</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Close the innermost counted region, or check an explicit end.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">expected</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_depth</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">_Unsupported</span><span class="p">(</span>
+                    <span class="s2">"check_nbytes_end() with no open counted region; "</span>
+                    <span class="s2">"call check_nbytes_start() first or pass the end position"</span>
+                <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nb_depth</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">FNEnd</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nb_message</span><span class="p">()))</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">assert_cursor_eq</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nb_message</span><span class="p">())</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">nb_message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        The message a failed frame check carries.</span>
+
+<span class="sd">        The machine appends `(expected N, got M)` to it, so the text names the</span>
+<span class="sd">        reader and method and nothing else.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="si">}</span><span class="s2">: the read did not end at the byte count"</span>
 
     <span class="c1"># -- conditions -------------------------------------------------------</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_is_string_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
@@ -1129,6 +1220,27 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">read_scalar</span><span class="p">(</span><span class="n">STREAM_READS</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">"read_fNBytes"</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">read_fnb</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">"check_nbytes_start"</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span> <span class="ow">or</span> <span class="n">node</span><span class="o">.</span><span class="n">keywords</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">_Unsupported</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"line </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">lineno</span><span class="si">}</span><span class="s2">: check_nbytes_start takes no arguments"</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_condition</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">_Unsupported</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"line </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">lineno</span><span class="si">}</span><span class="s2">: check_nbytes_start() cannot be used in a condition"</span>
+                <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nb_start</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">"check_nbytes_end"</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">keywords</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">_Unsupported</span><span class="p">(</span><span class="sa">f</span><span class="s2">"line </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">lineno</span><span class="si">}</span><span class="s2">: keyword arguments"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">_Unsupported</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"line </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">lineno</span><span class="si">}</span><span class="s2">: check_nbytes_end takes at most one argument"</span>
+                <span class="p">)</span>
+            <span class="n">expected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nb_end</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">"read_fVersion"</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">read_version</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">"read_null_terminated_string"</span><span class="p">:</span>
@@ -1290,6 +1402,25 @@
     <span class="k">if</span> <span class="n">attr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">_Unsupported</span><span class="p">(</span><span class="s2">"a buffer argument must be self.&lt;buffer&gt;"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">attr</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_stream_call</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Whether *node* is `stream.&lt;name&gt;()` with no arguments.</span>
+
+<span class="sd">    The lint in `decl` accepts the same shape, so a `with` that reaches the</span>
+<span class="sd">    compiler is always the counted region; the check here is the second line</span>
+<span class="sd">    of defence.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Call</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Attribute</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="n">node</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="s2">"stream"</span>
+        <span class="ow">and</span> <span class="n">node</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">attr</span> <span class="o">==</span> <span class="n">name</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">keywords</span>
+    <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_is_subscript_last</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">attribute</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1465,7 +1596,7 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../../../../_static/togglebutton.js?v=b8b12719"></script>
-    <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../../../../_static/design-tabs.js?v=fcb327ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.esm.min.mjs";
 

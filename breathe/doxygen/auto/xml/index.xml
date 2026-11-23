@@ -13,7 +13,6 @@
     <member refid="classuproot__custom_1_1_any_pointer_reader_1ac8e681b560bae177a39f1ba7e161c55b" kind="variable"><name>m_object_indexes</name></member>
     <member refid="classuproot__custom_1_1_any_pointer_reader_1affb6da7063ba8f97b813eab278305ee0" kind="variable"><name>m_class_name</name></member>
     <member refid="classuproot__custom_1_1_any_pointer_reader_1a439e552e9ca5ccc7a3434cdbdacc2f40" kind="function"><name>AnyPointerReader</name></member>
-    <member refid="classuproot__custom_1_1_any_pointer_reader_1a24ed33763af9a4760331bb4f9497ec1b" kind="function"><name>check_cursor_position</name></member>
     <member refid="classuproot__custom_1_1_any_pointer_reader_1a53ddf183e278cf5a5c7133b7387de08c" kind="function"><name>read</name></member>
     <member refid="classuproot__custom_1_1_any_pointer_reader_1a0e9db8142b66aa1a75da768fb1000294" kind="function"><name>data</name></member>
   </compound>
@@ -34,6 +33,7 @@
     <member refid="classuproot__custom_1_1_binary_stream_1aeaa26a0cc0ca5b69601f54cdd3df909a" kind="variable"><name>m_initial_cursor_offset</name></member>
     <member refid="classuproot__custom_1_1_binary_stream_1a83d4aaeefb5b1cbd6d1240dcecbffab4" kind="variable"><name>m_debug_print</name></member>
     <member refid="classuproot__custom_1_1_binary_stream_1a4453a5c84ab961362daecdebaef4ba4a" kind="variable"><name>m_refs</name></member>
+    <member refid="classuproot__custom_1_1_binary_stream_1a67c248e31cdb93cfb8824af956bb7778" kind="variable"><name>m_nbytes_marks</name></member>
     <member refid="classuproot__custom_1_1_binary_stream_1ab0ab550a96bdec82b82015d040edef9b" kind="function"><name>BinaryStream</name></member>
     <member refid="classuproot__custom_1_1_binary_stream_1a82541c0cbeed59a48d5a4211c7716840" kind="function"><name>read</name></member>
     <member refid="classuproot__custom_1_1_binary_stream_1a25ade4c8b098961db0ac1db68854a110" kind="function"><name>read_fVersion</name></member>
@@ -47,6 +47,11 @@
     <member refid="classuproot__custom_1_1_binary_stream_1a53eee6fae82eb0d5cd59e30757345766" kind="function"><name>skip_null_terminated_string</name></member>
     <member refid="classuproot__custom_1_1_binary_stream_1a15455d80fd851e5d8aaeb4cb281a999c" kind="function"><name>skip_obj_header</name></member>
     <member refid="classuproot__custom_1_1_binary_stream_1a675aaebe5f7cd72f26d94888022e89cc" kind="function"><name>skip_TObject</name></member>
+    <member refid="classuproot__custom_1_1_binary_stream_1a905fed551c545e14483e494671970ef5" kind="function"><name>check_nbytes</name></member>
+    <member refid="classuproot__custom_1_1_binary_stream_1a583e25764bac837442e1f6a39153ef39" kind="function"><name>check_nbytes_start</name></member>
+    <member refid="classuproot__custom_1_1_binary_stream_1afaaf82e3260ecfba251210c3a3fcc90c" kind="function"><name>check_nbytes_end</name></member>
+    <member refid="classuproot__custom_1_1_binary_stream_1a0cf23e8fea23c0693754120ef77cfed9" kind="function"><name>check_nbytes_end</name></member>
+    <member refid="classuproot__custom_1_1_binary_stream_1ab6d5199c7fdde4e1115765c307b56ab3" kind="function"><name>open_frames</name></member>
     <member refid="classuproot__custom_1_1_binary_stream_1a69acda15fa19d8e4a9f17031a4d32811" kind="function"><name>get_data</name></member>
     <member refid="classuproot__custom_1_1_binary_stream_1a82bbc52c4b48aff4bcaea6da796eb084" kind="function"><name>get_cursor</name></member>
     <member refid="classuproot__custom_1_1_binary_stream_1a8e780c590897f9d70f99c6852f38d694" kind="function"><name>get_offsets</name></member>
@@ -55,6 +60,18 @@
     <member refid="classuproot__custom_1_1_binary_stream_1a04741f9602c3b62684a8aa8d5327eca6" kind="function"><name>get_refs</name></member>
     <member refid="classuproot__custom_1_1_binary_stream_1ad50830406c4375b23550d45e1cf47e8e" kind="function"><name>entries</name></member>
     <member refid="classuproot__custom_1_1_binary_stream_1ac74377450b76118186413f0498913651" kind="function"><name>debug_print</name></member>
+    <member refid="classuproot__custom_1_1_binary_stream_1aa116fc7e9103c1951b2ac598793fa321" kind="function"><name>abandon_nbytes</name></member>
+  </compound>
+  <compound refid="classuproot__custom_1_1_binary_stream_1_1_counted_region" kind="class"><name>uproot_custom::BinaryStream::CountedRegion</name>
+    <member refid="classuproot__custom_1_1_binary_stream_1_1_counted_region_1adc09a2f693ec9debbb8f048aa96ac260" kind="friend"><name>BinaryStream</name></member>
+    <member refid="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a2d55e6915fadc8dd4e90d9258e37aec9" kind="variable"><name>m_stream</name></member>
+    <member refid="classuproot__custom_1_1_binary_stream_1_1_counted_region_1af48b4f61676b47eb4b999c8b85900e02" kind="variable"><name>m_active</name></member>
+    <member refid="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a4af9eddd1f60150f1e31074dc2a4d511" kind="variable"><name>m_uncaught</name></member>
+    <member refid="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a094394e4528dde141b8f9e04712ce5d7" kind="function"><name>CountedRegion</name></member>
+    <member refid="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a20a7487efd4d3a083ccc52ea120c78f0" kind="function"><name>operator=</name></member>
+    <member refid="classuproot__custom_1_1_binary_stream_1_1_counted_region_1adeda6ac7184e7f60298dbfb12afd48a2" kind="function"><name>CountedRegion</name></member>
+    <member refid="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a6d0a0a29de8929286545b86c10d0d445" kind="function"><name>~CountedRegion</name></member>
+    <member refid="classuproot__custom_1_1_binary_stream_1_1_counted_region_1aa8affba47ff55d3bc3ba1f7355920e50" kind="function"><name>CountedRegion</name></member>
   </compound>
   <compound refid="classuproot__custom_1_1_c_style_array_reader" kind="class"><name>uproot_custom::CStyleArrayReader</name>
     <member refid="classuproot__custom_1_1_c_style_array_reader_1a1bdde589e07b586e25ebeb887b5b24a1" kind="variable"><name>m_flat_size</name></member>

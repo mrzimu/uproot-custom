@@ -139,22 +139,17 @@ The top-level reader drives sub-readers recursively. For instance, `AnyClassRead
 ```{code-block} python
 ---
 caption: "`AnyClassReader.read` method (Python)"
-emphasize-lines: 8
+emphasize-lines: 2
 ---
 def read(self, stream):
-    fNBytes = stream.read_fNBytes()
-    start_pos = stream.cursor
-    end_pos = start_pos + fNBytes
+    with stream.check_nbytes():
+        stream.skip_fVersion()
 
-    stream.skip_fVersion()
-
-    for reader in self.element_readers:
-        reader.read(stream)
-
-    assert stream.cursor == end_pos, (
-        f"AnyClassReader({self.name}): Invalid read length!"
-    )
+        for reader in self.element_readers:
+            reader.read(stream)
 ```
+
+The `with` block reads the `fNBytes` count and checks the end position when it closes, so the reader cannot under- or over-read the object without an error.
 
 After all entries are read, the top-level reader's `data()` method collects results recursively — leaf readers return `numpy` arrays, and composite readers assemble them into nested tuples or lists:
 

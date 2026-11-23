@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -650,6 +650,56 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream12check_nbytesEv">
+<span id="_CPPv3N13uproot_custom12BinaryStream12check_nbytesEv"></span><span id="_CPPv2N13uproot_custom12BinaryStream12check_nbytesEv"></span><span id="uproot_custom::BinaryStream::check_nbytes"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1a905fed551c545e14483e494671970ef5"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegionE" title="uproot_custom::BinaryStream::CountedRegion"><span class="n"><span class="pre">CountedRegion</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">check_nbytes</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream12check_nbytesEv" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Open a counted region for the enclosing scope. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The guard; bind it, e.g. <code class="docutils literal notranslate"><span class="pre">auto</span> <span class="pre">frame</span> <span class="pre">=</span> <span class="pre">stream.check_nbytes();</span></code>. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream18check_nbytes_startEv">
+<span id="_CPPv3N13uproot_custom12BinaryStream18check_nbytes_startEv"></span><span id="_CPPv2N13uproot_custom12BinaryStream18check_nbytes_startEv"></span><span id="uproot_custom::BinaryStream::check_nbytes_start"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1a583e25764bac837442e1f6a39153ef39"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">check_nbytes_start</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream18check_nbytes_startEv" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Read a masked <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> and remember where the counted region ends. </p>
+<p>The call opens a frame and check_nbytes_end() closes it. Frames nest, so a sub-reader that is framed itself does not disturb its caller. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream16check_nbytes_endEv">
+<span id="_CPPv3N13uproot_custom12BinaryStream16check_nbytes_endEv"></span><span id="_CPPv2N13uproot_custom12BinaryStream16check_nbytes_endEv"></span><span id="uproot_custom::BinaryStream::check_nbytes_end"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1afaaf82e3260ecfba251210c3a3fcc90c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">check_nbytes_end</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream16check_nbytes_endEv" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Fail unless the cursor is at the end of the innermost counted region. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – if there is no open region, or the cursor is elsewhere. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream16check_nbytes_endEPK7uint8_t">
+<span id="_CPPv3N13uproot_custom12BinaryStream16check_nbytes_endEPK7uint8_t"></span><span id="_CPPv2N13uproot_custom12BinaryStream16check_nbytes_endEPK7uint8_t"></span><span id="uproot_custom::BinaryStream::check_nbytes_end__uint8_tCP"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1a0cf23e8fea23c0693754120ef77cfed9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">check_nbytes_end</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">expected</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream16check_nbytes_endEPK7uint8_t" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Fail unless the cursor is at <code class="docutils literal notranslate"><span class="pre">expected</span></code>. </p>
+<p>For a region whose size the caller computed instead of reading; the innermost frame is then left open, so the two forms do not pair with each other.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>expected</strong> – The expected cursor position, as returned by get_cursor(). </p>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – if the cursor is elsewhere. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK13uproot_custom12BinaryStream11open_framesEv">
+<span id="_CPPv3NK13uproot_custom12BinaryStream11open_framesEv"></span><span id="_CPPv2NK13uproot_custom12BinaryStream11open_framesEv"></span><span id="uproot_custom::BinaryStream::open_framesC"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1ab6d5199c7fdde4e1115765c307b56ab3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">open_frames</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK13uproot_custom12BinaryStream11open_framesEv" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Get the number of counted regions still waiting for their end. </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK13uproot_custom12BinaryStream8get_dataEv">
 <span id="_CPPv3NK13uproot_custom12BinaryStream8get_dataEv"></span><span id="_CPPv2NK13uproot_custom12BinaryStream8get_dataEv"></span><span id="uproot_custom::BinaryStream::get_dataC"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1a69acda15fa19d8e4a9f17031a4d32811"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_data</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK13uproot_custom12BinaryStream8get_dataEv" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Get the raw data pointer. </p>
@@ -719,6 +769,15 @@
 
 </div>
 <div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream14abandon_nbytesEv">
+<span id="_CPPv3N13uproot_custom12BinaryStream14abandon_nbytesEv"></span><span id="_CPPv2N13uproot_custom12BinaryStream14abandon_nbytesEv"></span><span id="uproot_custom::BinaryStream::abandon_nbytes"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1aa116fc7e9103c1951b2ac598793fa321"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">abandon_nbytes</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream14abandon_nbytesEv" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Drop the innermost counted region without checking it: the block raised. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream8m_cursorE">
@@ -762,6 +821,12 @@
 <dd><p>offset -&gt; reference, used for pointer reading </p>
 </dd></dl>
 
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream14m_nbytes_marksE">
+<span id="_CPPv3N13uproot_custom12BinaryStream14m_nbytes_marksE"></span><span id="_CPPv2N13uproot_custom12BinaryStream14m_nbytes_marksE"></span><span id="uproot_custom::BinaryStream::m_nbytes_marks__std::vector:uint8_tCP:"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1a67c248e31cdb93cfb8824af956bb7778"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint8_t</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_nbytes_marks</span></span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream14m_nbytes_marksE" title="Link to this definition">¶</a><br /></dt>
+<dd><p>End positions of the open counted regions, innermost last. </p>
+</dd></dl>
+
 </div>
 <dl class="cpp struct">
 <dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream6RefClsE">
@@ -793,6 +858,80 @@
 <span id="_CPPv3N13uproot_custom12BinaryStream6RefObj5indexE"></span><span id="_CPPv2N13uproot_custom12BinaryStream6RefObj5indexE"></span><span id="uproot_custom::BinaryStream::RefObj::index__int64_t"></span><span class="target" id="structuproot__custom_1_1_binary_stream_1_1_ref_obj_1a567e5039aaecabfd04dd1925847d6ab3"></span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">index</span></span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream6RefObj5indexE" title="Link to this definition">¶</a><br /></dt>
 <dd><p>The index of the referenced object. </p>
 </dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream13CountedRegionE">
+<span id="_CPPv3N13uproot_custom12BinaryStream13CountedRegionE"></span><span id="_CPPv2N13uproot_custom12BinaryStream13CountedRegionE"></span><span id="uproot_custom::BinaryStream::CountedRegion"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1_1_counted_region"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CountedRegion</span></span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegionE" title="Link to this definition">¶</a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;uproot-custom.hh&gt;</em></div>
+<p>A counted region, checked when the enclosing scope ends. </p>
+<p>The C++ form of Python’s <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">stream.check_nbytes():</span></code>: bind the guard and the region is checked at the end of the block.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">auto</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">check_nbytes</span><span class="p">();</span>
+<span class="o">//</span> <span class="o">...</span> <span class="n">members</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>A mismatch throws <code class="docutils literal notranslate"><span class="pre">std::runtime_error</span></code> from the destructor, which is why it is <code class="docutils literal notranslate"><span class="pre">noexcept(</span> <span class="pre">false</span> <span class="pre">)</span></code>. A block that raised is dropped without a second exception, so the original error survives. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream13CountedRegion13CountedRegionERK13CountedRegion">
+<span id="_CPPv3N13uproot_custom12BinaryStream13CountedRegion13CountedRegionERK13CountedRegion"></span><span id="_CPPv2N13uproot_custom12BinaryStream13CountedRegion13CountedRegionERK13CountedRegion"></span><span id="uproot_custom::BinaryStream::CountedRegion::CountedRegion__CountedRegionCR"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a094394e4528dde141b8f9e04712ce5d7"></span><span class="sig-name descname"><span class="n"><span class="pre">CountedRegion</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegion13CountedRegionERK13CountedRegion" title="uproot_custom::BinaryStream::CountedRegion::CountedRegion"><span class="n"><span class="pre">CountedRegion</span></span></a><span class="p"><span class="pre">&amp;</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">delete</span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegion13CountedRegionERK13CountedRegion" title="Link to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream13CountedRegionaSERK13CountedRegion">
+<span id="_CPPv3N13uproot_custom12BinaryStream13CountedRegionaSERK13CountedRegion"></span><span id="_CPPv2N13uproot_custom12BinaryStream13CountedRegionaSERK13CountedRegion"></span><span id="uproot_custom::BinaryStream::CountedRegion::assign-operator__CountedRegionCR"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a20a7487efd4d3a083ccc52ea120c78f0"></span><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegionE" title="uproot_custom::BinaryStream::CountedRegion"><span class="n"><span class="pre">CountedRegion</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegionE" title="uproot_custom::BinaryStream::CountedRegion"><span class="n"><span class="pre">CountedRegion</span></span></a><span class="p"><span class="pre">&amp;</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">delete</span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegionaSERK13CountedRegion" title="Link to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream13CountedRegion13CountedRegionERR13CountedRegion">
+<span id="_CPPv3N13uproot_custom12BinaryStream13CountedRegion13CountedRegionERR13CountedRegion"></span><span id="_CPPv2N13uproot_custom12BinaryStream13CountedRegion13CountedRegionERR13CountedRegion"></span><span id="uproot_custom::BinaryStream::CountedRegion::CountedRegion__CountedRegionRR"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1_1_counted_region_1adeda6ac7184e7f60298dbfb12afd48a2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CountedRegion</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegion13CountedRegionERR13CountedRegion" title="uproot_custom::BinaryStream::CountedRegion::CountedRegion"><span class="n"><span class="pre">CountedRegion</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">other</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegion13CountedRegionERR13CountedRegion" title="Link to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream13CountedRegionD0Ev">
+<span id="_CPPv3N13uproot_custom12BinaryStream13CountedRegionD0Ev"></span><span id="_CPPv2N13uproot_custom12BinaryStream13CountedRegionD0Ev"></span><span id="uproot_custom::BinaryStream::CountedRegion::~CountedRegion"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a6d0a0a29de8929286545b86c10d0d445"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">~CountedRegion</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegionD0Ev" title="Link to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream13CountedRegion13CountedRegionER12BinaryStream">
+<span id="_CPPv3N13uproot_custom12BinaryStream13CountedRegion13CountedRegionER12BinaryStream"></span><span id="_CPPv2N13uproot_custom12BinaryStream13CountedRegion13CountedRegionER12BinaryStream"></span><span id="uproot_custom::BinaryStream::CountedRegion::CountedRegion__BinaryStreamR"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1_1_counted_region_1aa8affba47ff55d3bc3ba1f7355920e50"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CountedRegion</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStreamE" title="uproot_custom::BinaryStream"><span class="n"><span class="pre">BinaryStream</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stream</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegion13CountedRegionER12BinaryStream" title="Link to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream13CountedRegion8m_streamE">
+<span id="_CPPv3N13uproot_custom12BinaryStream13CountedRegion8m_streamE"></span><span id="_CPPv2N13uproot_custom12BinaryStream13CountedRegion8m_streamE"></span><span id="uproot_custom::BinaryStream::CountedRegion::m_stream__BinaryStreamP"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a2d55e6915fadc8dd4e90d9258e37aec9"></span><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStreamE" title="uproot_custom::BinaryStream"><span class="n"><span class="pre">BinaryStream</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">m_stream</span></span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegion8m_streamE" title="Link to this definition">¶</a><br /></dt>
+<dd><p>the stream the region belongs to </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream13CountedRegion8m_activeE">
+<span id="_CPPv3N13uproot_custom12BinaryStream13CountedRegion8m_activeE"></span><span id="_CPPv2N13uproot_custom12BinaryStream13CountedRegion8m_activeE"></span><span id="uproot_custom::BinaryStream::CountedRegion::m_active__b"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1_1_counted_region_1af48b4f61676b47eb4b999c8b85900e02"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_active</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegion8m_activeE" title="Link to this definition">¶</a><br /></dt>
+<dd><p>false once moved from, or checked </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom12BinaryStream13CountedRegion10m_uncaughtE">
+<span id="_CPPv3N13uproot_custom12BinaryStream13CountedRegion10m_uncaughtE"></span><span id="_CPPv2N13uproot_custom12BinaryStream13CountedRegion10m_uncaughtE"></span><span id="uproot_custom::BinaryStream::CountedRegion::m_uncaught__i"></span><span class="target" id="classuproot__custom_1_1_binary_stream_1_1_counted_region_1a4af9eddd1f60150f1e31074dc2a4d511"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">m_uncaught</span></span></span><a class="headerlink" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegion10m_uncaughtE" title="Link to this definition">¶</a><br /></dt>
+<dd><p>uncaught exceptions when the block started </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-friends">Friends</p>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="property"><span class="pre">friend</span> <span class="pre">class</span></span> <span class="pre">BinaryStream</span></dt>
+</dl>
 
 </div>
 </dd></dl>
@@ -926,12 +1065,30 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4IDpENK13uproot_custom7IReader12debug_printfEvPKcDp4Args">
 <span id="_CPPv3IDpENK13uproot_custom7IReader12debug_printfEPKcDp4Args"></span><span id="_CPPv2IDpENK13uproot_custom7IReader12debug_printfEPKcDp4Args"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="sig-name descname"><span class="n"><span class="pre">Args</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classuproot__custom_1_1_i_reader_1aa53fc85ff732460f8880033fb54532a5"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">debug_printf</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">msg</span></span>, <a class="reference internal" href="#_CPPv4IDpENK13uproot_custom7IReader12debug_printfEvPKcDp4Args" title="uproot_custom::IReader::debug_printf::Args"><span class="n"><span class="pre">Args</span></span></a><span class="p"><span class="pre">...</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">args</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4IDpENK13uproot_custom7IReader12debug_printfEvPKcDp4Args" title="Link to this definition">¶</a><br /></dt>
-<dd></dd></dl>
+<dd><p>Print a debug message if debugging is enabled. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>msg</strong> – printf-style format string. </p></li>
+<li><p><strong>args</strong> – Arguments forwarded to printf. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N13uproot_custom7IReader12debug_printfERN13uproot_custom12BinaryStreamEK6size_t">
 <span id="_CPPv3N13uproot_custom7IReader12debug_printfERN13uproot_custom12BinaryStreamEK6size_t"></span><span id="_CPPv2N13uproot_custom7IReader12debug_printfERN13uproot_custom12BinaryStreamEK6size_t"></span><span id="uproot_custom::IReader::debug_printf__uproot_custom::BinaryStreamR.sC"></span><span class="target" id="classuproot__custom_1_1_i_reader_1abcbae6325e5481658fe8904c399cd134"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">debug_printf</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413uproot_custom" title="uproot_custom"><span class="n"><span class="pre">uproot_custom</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStreamE" title="uproot_custom::BinaryStream"><span class="n"><span class="pre">BinaryStream</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stream</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">n</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">100</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13uproot_custom7IReader12debug_printfERN13uproot_custom12BinaryStreamEK6size_t" title="Link to this definition">¶</a><br /></dt>
-<dd></dd></dl>
+<dd><p>Print the next <code class="docutils literal notranslate"><span class="pre">n</span></code> bytes of the stream if debugging is enabled. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stream</strong> – The stream whose bytes are dumped. </p></li>
+<li><p><strong>n</strong> – Number of bytes to print. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 <div class="breathe-sectiondef docutils container">
@@ -1057,6 +1214,11 @@
 <li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream27skip_null_terminated_stringEv"><code class="docutils literal notranslate"><span class="pre">skip_null_terminated_string()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream15skip_obj_headerEv"><code class="docutils literal notranslate"><span class="pre">skip_obj_header()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream12skip_TObjectEv"><code class="docutils literal notranslate"><span class="pre">skip_TObject()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream12check_nbytesEv"><code class="docutils literal notranslate"><span class="pre">check_nbytes()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream18check_nbytes_startEv"><code class="docutils literal notranslate"><span class="pre">check_nbytes_start()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream16check_nbytes_endEv"><code class="docutils literal notranslate"><span class="pre">check_nbytes_end()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream16check_nbytes_endEPK7uint8_t"><code class="docutils literal notranslate"><span class="pre">check_nbytes_end()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK13uproot_custom12BinaryStream11open_framesEv"><code class="docutils literal notranslate"><span class="pre">open_frames()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4NK13uproot_custom12BinaryStream8get_dataEv"><code class="docutils literal notranslate"><span class="pre">get_data()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4NK13uproot_custom12BinaryStream10get_cursorEv"><code class="docutils literal notranslate"><span class="pre">get_cursor()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4NK13uproot_custom12BinaryStream11get_offsetsEv"><code class="docutils literal notranslate"><span class="pre">get_offsets()</span></code></a></li>
@@ -1065,6 +1227,7 @@
 <li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream8get_refsEv"><code class="docutils literal notranslate"><span class="pre">get_refs()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4NK13uproot_custom12BinaryStream7entriesEv"><code class="docutils literal notranslate"><span class="pre">entries()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4NK13uproot_custom12BinaryStream11debug_printE6size_t"><code class="docutils literal notranslate"><span class="pre">debug_print()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream14abandon_nbytesEv"><code class="docutils literal notranslate"><span class="pre">abandon_nbytes()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream8m_cursorE"><code class="docutils literal notranslate"><span class="pre">m_cursor</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream9m_entriesE"><code class="docutils literal notranslate"><span class="pre">m_entries</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream6m_dataE"><code class="docutils literal notranslate"><span class="pre">m_data</span></code></a></li>
@@ -1072,12 +1235,24 @@
 <li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream23m_initial_cursor_offsetE"><code class="docutils literal notranslate"><span class="pre">m_initial_cursor_offset</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream13m_debug_printE"><code class="docutils literal notranslate"><span class="pre">m_debug_print</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream6m_refsE"><code class="docutils literal notranslate"><span class="pre">m_refs</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream14m_nbytes_marksE"><code class="docutils literal notranslate"><span class="pre">m_nbytes_marks</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream6RefClsE"><code class="docutils literal notranslate"><span class="pre">uproot_custom::BinaryStream::RefCls</span></code></a><ul>
 <li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream6RefCls4nameE"><code class="docutils literal notranslate"><span class="pre">name</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream6RefObjE"><code class="docutils literal notranslate"><span class="pre">uproot_custom::BinaryStream::RefObj</span></code></a><ul>
 <li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream6RefObj5indexE"><code class="docutils literal notranslate"><span class="pre">index</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegionE"><code class="docutils literal notranslate"><span class="pre">uproot_custom::BinaryStream::CountedRegion</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegion13CountedRegionERK13CountedRegion"><code class="docutils literal notranslate"><span class="pre">CountedRegion()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegionaSERK13CountedRegion"><code class="docutils literal notranslate"><span class="pre">operator=()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegion13CountedRegionERR13CountedRegion"><code class="docutils literal notranslate"><span class="pre">CountedRegion()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegionD0Ev"><code class="docutils literal notranslate"><span class="pre">~CountedRegion()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegion13CountedRegionER12BinaryStream"><code class="docutils literal notranslate"><span class="pre">CountedRegion()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegion8m_streamE"><code class="docutils literal notranslate"><span class="pre">m_stream</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegion8m_activeE"><code class="docutils literal notranslate"><span class="pre">m_active</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N13uproot_custom12BinaryStream13CountedRegion10m_uncaughtE"><code class="docutils literal notranslate"><span class="pre">m_uncaught</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1121,7 +1296,7 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../../_static/togglebutton.js?v=b8b12719"></script>
-    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../../_static/design-tabs.js?v=fcb327ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     </body>
 </html>

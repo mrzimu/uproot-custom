@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -342,6 +342,7 @@
 </li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.compiler.html#module-uproot_custom.detree.compiler.ir_builder">uproot_custom.detree.compiler.ir_builder module</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.assert_cursor_eq"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.assert_cursor_eq()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.assert_str_eq"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.assert_str_eq()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.block"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.block()</span></code></a></li>
 <li class="toctree-l6"><a class="reference internal" href="uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.buf_append"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.buf_append()</span></code></a></li>
@@ -560,11 +561,16 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="uproot_custom.detree.html#module-uproot_custom.detree.stream">uproot_custom.detree.stream module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.stream.COUNTED_CONTEXT"><code class="docutils literal notranslate"><span class="pre">COUNTED_CONTEXT</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.stream.Stream"><code class="docutils literal notranslate"><span class="pre">Stream</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.stream.Stream.check_class_name"><code class="docutils literal notranslate"><span class="pre">Stream.check_class_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.stream.Stream.check_nbytes"><code class="docutils literal notranslate"><span class="pre">Stream.check_nbytes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.stream.Stream.check_nbytes_end"><code class="docutils literal notranslate"><span class="pre">Stream.check_nbytes_end()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.stream.Stream.check_nbytes_start"><code class="docutils literal notranslate"><span class="pre">Stream.check_nbytes_start()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.stream.Stream.entries"><code class="docutils literal notranslate"><span class="pre">Stream.entries</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.stream.Stream.has_ref"><code class="docutils literal notranslate"><span class="pre">Stream.has_ref()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.stream.Stream.next_offset_after"><code class="docutils literal notranslate"><span class="pre">Stream.next_offset_after()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.stream.Stream.open_frames"><code class="docutils literal notranslate"><span class="pre">Stream.open_frames</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.stream.Stream.read_bool"><code class="docutils literal notranslate"><span class="pre">Stream.read_bool()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.stream.Stream.read_bulk"><code class="docutils literal notranslate"><span class="pre">Stream.read_bulk()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.stream.Stream.read_double"><code class="docutils literal notranslate"><span class="pre">Stream.read_double()</span></code></a></li>
@@ -636,9 +642,13 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.Stream"><code class="docutils literal notranslate"><span class="pre">Stream</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.Stream.check_class_name"><code class="docutils literal notranslate"><span class="pre">Stream.check_class_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.Stream.check_nbytes"><code class="docutils literal notranslate"><span class="pre">Stream.check_nbytes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.Stream.check_nbytes_end"><code class="docutils literal notranslate"><span class="pre">Stream.check_nbytes_end()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.Stream.check_nbytes_start"><code class="docutils literal notranslate"><span class="pre">Stream.check_nbytes_start()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.Stream.entries"><code class="docutils literal notranslate"><span class="pre">Stream.entries</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.Stream.has_ref"><code class="docutils literal notranslate"><span class="pre">Stream.has_ref()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.Stream.next_offset_after"><code class="docutils literal notranslate"><span class="pre">Stream.next_offset_after()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.Stream.open_frames"><code class="docutils literal notranslate"><span class="pre">Stream.open_frames</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.Stream.read_bool"><code class="docutils literal notranslate"><span class="pre">Stream.read_bool()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.Stream.read_bulk"><code class="docutils literal notranslate"><span class="pre">Stream.read_bulk()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.html#uproot_custom.detree.Stream.read_double"><code class="docutils literal notranslate"><span class="pre">Stream.read_double()</span></code></a></li>
@@ -2357,10 +2367,43 @@ regularized and the argument type is checked.</p>
 <dt class="sig sig-object py" id="uproot_custom.python.BinaryStream">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">uproot_custom.python.</span></span><span class="sig-name descname"><span class="pre">BinaryStream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">uint8</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offsets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">uint32</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_cursor_position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repr_nbytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/python.html#BinaryStream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.python.BinaryStream" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.python.BinaryStream.check_nbytes">
+<span class="sig-name descname"><span class="pre">check_nbytes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/python.html#BinaryStream.check_nbytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.python.BinaryStream.check_nbytes" title="Link to this definition">¶</a></dt>
+<dd><p>Frame the block with a masked <cite>fNBytes</cite>, checked on exit.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.python.BinaryStream.check_nbytes_end">
+<span class="sig-name descname"><span class="pre">check_nbytes_end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/python.html#BinaryStream.check_nbytes_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.python.BinaryStream.check_nbytes_end" title="Link to this definition">¶</a></dt>
+<dd><p>Fail unless the cursor is at the end of the counted region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>expected</strong> – the end position, for a region whose size the caller
+computed instead of reading; the innermost frame is then left
+open, so the two forms do not pair with each other.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.python.BinaryStream.check_nbytes_start">
+<span class="sig-name descname"><span class="pre">check_nbytes_start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/uproot_custom/python.html#BinaryStream.check_nbytes_start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.python.BinaryStream.check_nbytes_start" title="Link to this definition">¶</a></dt>
+<dd><p>Read a masked <cite>fNBytes</cite> and remember where the counted region ends.</p>
+<p>The call opens a frame and <cite>check_nbytes_end</cite> closes it.  Frames nest,
+so a sub-reader that is framed itself does not disturb its caller.</p>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="uproot_custom.python.BinaryStream.entries">
 <span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">entries</span></span><a class="headerlink" href="#uproot_custom.python.BinaryStream.entries" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="uproot_custom.python.BinaryStream.open_frames">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">open_frames</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#uproot_custom.python.BinaryStream.open_frames" title="Link to this definition">¶</a></dt>
+<dd><p>The number of counted regions still waiting for their end.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="uproot_custom.python.BinaryStream.read_TString">
@@ -4654,7 +4697,11 @@ Must be one of <cite>“cpp”</cite>, <cite>“python”</cite>, <cite>“forth
 </li>
 <li><a class="reference internal" href="#uproot_custom.python.BinaryBuffer"><code class="docutils literal notranslate"><span class="pre">BinaryBuffer</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.python.BinaryStream"><code class="docutils literal notranslate"><span class="pre">BinaryStream</span></code></a><ul>
+<li><a class="reference internal" href="#uproot_custom.python.BinaryStream.check_nbytes"><code class="docutils literal notranslate"><span class="pre">BinaryStream.check_nbytes()</span></code></a></li>
+<li><a class="reference internal" href="#uproot_custom.python.BinaryStream.check_nbytes_end"><code class="docutils literal notranslate"><span class="pre">BinaryStream.check_nbytes_end()</span></code></a></li>
+<li><a class="reference internal" href="#uproot_custom.python.BinaryStream.check_nbytes_start"><code class="docutils literal notranslate"><span class="pre">BinaryStream.check_nbytes_start()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.python.BinaryStream.entries"><code class="docutils literal notranslate"><span class="pre">BinaryStream.entries</span></code></a></li>
+<li><a class="reference internal" href="#uproot_custom.python.BinaryStream.open_frames"><code class="docutils literal notranslate"><span class="pre">BinaryStream.open_frames</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.python.BinaryStream.read_TString"><code class="docutils literal notranslate"><span class="pre">BinaryStream.read_TString()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.python.BinaryStream.read_bool"><code class="docutils literal notranslate"><span class="pre">BinaryStream.read_bool()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.python.BinaryStream.read_double"><code class="docutils literal notranslate"><span class="pre">BinaryStream.read_double()</span></code></a></li>
@@ -4957,7 +5004,7 @@ Must be one of <cite>“cpp”</cite>, <cite>“python”</cite>, <cite>“forth
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../../_static/togglebutton.js?v=b8b12719"></script>
-    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../../_static/design-tabs.js?v=fcb327ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     </body>
 </html>

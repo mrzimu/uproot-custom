@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -407,12 +407,33 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">skip_obj_header()</span></code>: Skip the object header.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">skip_TObject()</span></code>: Skip a <code class="docutils literal notranslate"><span class="pre">TObject</span></code>.</p></li>
 </ul>
+<section id="counted-regions">
+<h3>Counted regions<a class="headerlink" href="#counted-regions" title="Link to this heading">¶</a></h3>
+<p>An object framed by its byte count declares how many bytes follow it. Both forms below check that the block consumed exactly that many, and fail with <code class="docutils literal notranslate"><span class="pre">expected</span> <span class="pre">N,</span> <span class="pre">got</span> <span class="pre">M</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">stream</span><span class="o">.</span><span class="n">check_nbytes</span><span class="p">():</span>
+        <span class="n">fVersion</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">fVersion</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">stream</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">reader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_readers</span><span class="p">:</span>
+            <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">check_nbytes_start()</span></code>: read the masked <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> and remember where the region ends. Regions nest, so a framed sub-reader does not disturb its caller.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">check_nbytes_end()</span></code>: fail unless the cursor is at the end of the innermost region.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">check_nbytes_end(expected)</span></code>: fail unless the cursor is at <code class="docutils literal notranslate"><span class="pre">expected</span></code>, for a region whose size was computed rather than read.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">check_nbytes()</span></code>: a context manager over the pair, for a <code class="docutils literal notranslate"><span class="pre">with</span></code> block.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">open_frames</span></code>: the number of regions still waiting for their end.</p></li>
+</ul>
+<p>A block that raises drops the region without a second error, so the original exception survives. The C++ form of this API is in <a class="reference internal" href="cpp-reader.html#counted-regions"><span class="std std-ref">the C++ reader page</span></a>.</p>
 <p><strong>Miscellaneous</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">cursor</span></code>: Current cursor position (byte index into the stream).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">entries</span></code>: Number of entries in the data stream.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">offsets</span></code>: Entry offsets of the data stream.</p></li>
 </ul>
+</section>
 </section>
 <section id="sub-readers">
 <h2>Sub-readers<a class="headerlink" href="#sub-readers" title="Link to this heading">¶</a></h2>
@@ -563,7 +584,10 @@
 <li><a class="reference internal" href="#">Stage 1: the Python implementation</a><ul>
 <li><a class="reference internal" href="#what-this-stage-is-for">What this stage is for</a></li>
 <li><a class="reference internal" href="#the-ireader-interface">The IReader interface</a></li>
-<li><a class="reference internal" href="#binarystream">BinaryStream</a></li>
+<li><a class="reference internal" href="#binarystream">BinaryStream</a><ul>
+<li><a class="reference internal" href="#counted-regions">Counted regions</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#sub-readers">Sub-readers</a></li>
 <li><a class="reference internal" href="#debug-output">Debug output</a></li>
 <li><a class="reference internal" href="#the-factory-method">The factory method</a></li>
@@ -593,7 +617,7 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js?v=b8b12719"></script>
-    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../_static/design-tabs.js?v=fcb327ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     </body>
 </html>

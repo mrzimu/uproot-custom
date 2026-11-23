@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -388,7 +388,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>statements</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">if</span></code>/<code class="docutils literal notranslate"><span class="pre">else</span></code>, <code class="docutils literal notranslate"><span class="pre">while</span></code>, <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">_</span> <span class="pre">in</span> <span class="pre">range(n)</span></code>, <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">child</span> <span class="pre">in</span> <span class="pre">self.&lt;ChildList&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">assert</span></code>, <code class="docutils literal notranslate"><span class="pre">pass</span></code>, assignment to a local, a <code class="docutils literal notranslate"><span class="pre">State</span></code>, or <code class="docutils literal notranslate"><span class="pre">stream.cursor</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">if</span></code>/<code class="docutils literal notranslate"><span class="pre">else</span></code>, <code class="docutils literal notranslate"><span class="pre">while</span></code>, <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">_</span> <span class="pre">in</span> <span class="pre">range(n)</span></code>, <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">child</span> <span class="pre">in</span> <span class="pre">self.&lt;ChildList&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">stream.check_nbytes():</span></code>, <code class="docutils literal notranslate"><span class="pre">assert</span></code>, <code class="docutils literal notranslate"><span class="pre">pass</span></code>, assignment to a local, a <code class="docutils literal notranslate"><span class="pre">State</span></code>, or <code class="docutils literal notranslate"><span class="pre">stream.cursor</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>integer and boolean expressions</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">+</span> <span class="pre">-</span> <span class="pre">*</span> <span class="pre">//</span> <span class="pre">/</span> <span class="pre">%</span> <span class="pre">&lt;&lt;</span> <span class="pre">&gt;&gt;</span> <span class="pre">&amp;</span> <span class="pre">|</span> <span class="pre">^</span> <span class="pre">~</span></code>, unary <code class="docutils literal notranslate"><span class="pre">-</span></code>, comparisons, <code class="docutils literal notranslate"><span class="pre">if</span></code> expression, <code class="docutils literal notranslate"><span class="pre">and</span></code>/<code class="docutils literal notranslate"><span class="pre">or</span></code>/<code class="docutils literal notranslate"><span class="pre">not</span></code> in conditions, <code class="docutils literal notranslate"><span class="pre">bool()</span></code>, <code class="docutils literal notranslate"><span class="pre">int()</span></code></p></td>
@@ -397,7 +397,7 @@
 <td><p><code class="docutils literal notranslate"><span class="pre">buf.append(x)</span></code>, <code class="docutils literal notranslate"><span class="pre">len(buf)</span></code>, <code class="docutils literal notranslate"><span class="pre">buf[-1]</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>stream</p></td>
-<td><p>the scalar <code class="docutils literal notranslate"><span class="pre">read_*</span></code> methods, <code class="docutils literal notranslate"><span class="pre">read_into</span></code>, <code class="docutils literal notranslate"><span class="pre">read_bulk</span></code>, <code class="docutils literal notranslate"><span class="pre">read_fNBytes</span></code>, <code class="docutils literal notranslate"><span class="pre">read_fVersion</span></code>, <code class="docutils literal notranslate"><span class="pre">read_null_terminated_string</span></code>, <code class="docutils literal notranslate"><span class="pre">skip</span></code> and the <code class="docutils literal notranslate"><span class="pre">skip_*</span></code> helpers, <code class="docutils literal notranslate"><span class="pre">next_offset_after</span></code>, <code class="docutils literal notranslate"><span class="pre">cursor</span></code>, <code class="docutils literal notranslate"><span class="pre">entries</span></code>, <code class="docutils literal notranslate"><span class="pre">initial_cursor_position</span></code>, <code class="docutils literal notranslate"><span class="pre">has_ref</span></code>, <code class="docutils literal notranslate"><span class="pre">ref_*</span></code>, <code class="docutils literal notranslate"><span class="pre">set_*_ref</span></code>, <code class="docutils literal notranslate"><span class="pre">check_class_name</span></code></p></td>
+<td><p>the scalar <code class="docutils literal notranslate"><span class="pre">read_*</span></code> methods, <code class="docutils literal notranslate"><span class="pre">read_into</span></code>, <code class="docutils literal notranslate"><span class="pre">read_bulk</span></code>, <code class="docutils literal notranslate"><span class="pre">read_fNBytes</span></code>, <code class="docutils literal notranslate"><span class="pre">read_fVersion</span></code>, <code class="docutils literal notranslate"><span class="pre">read_null_terminated_string</span></code>, <code class="docutils literal notranslate"><span class="pre">skip</span></code> and the <code class="docutils literal notranslate"><span class="pre">skip_*</span></code> helpers, <code class="docutils literal notranslate"><span class="pre">next_offset_after</span></code>, <code class="docutils literal notranslate"><span class="pre">check_nbytes_start</span></code>, <code class="docutils literal notranslate"><span class="pre">check_nbytes_end</span></code>, <code class="docutils literal notranslate"><span class="pre">cursor</span></code>, <code class="docutils literal notranslate"><span class="pre">entries</span></code>, <code class="docutils literal notranslate"><span class="pre">initial_cursor_position</span></code>, <code class="docutils literal notranslate"><span class="pre">has_ref</span></code>, <code class="docutils literal notranslate"><span class="pre">ref_*</span></code>, <code class="docutils literal notranslate"><span class="pre">set_*_ref</span></code>, <code class="docutils literal notranslate"><span class="pre">check_class_name</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>names</p></td>
 <td><p>module-level <code class="docutils literal notranslate"><span class="pre">int</span></code> and <code class="docutils literal notranslate"><span class="pre">bool</span></code> constants, e.g. <code class="docutils literal notranslate"><span class="pre">kByteCountMask</span></code></p></td>
@@ -413,31 +413,57 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>imports, <code class="docutils literal notranslate"><span class="pre">try</span></code>, <code class="docutils literal notranslate"><span class="pre">with</span></code>, <code class="docutils literal notranslate"><span class="pre">raise</span></code>, <code class="docutils literal notranslate"><span class="pre">del</span></code>, <code class="docutils literal notranslate"><span class="pre">global</span></code>, <code class="docutils literal notranslate"><span class="pre">lambda</span></code>, comprehensions, generators</p></td>
+<tr class="row-even"><td><p>imports, <code class="docutils literal notranslate"><span class="pre">try</span></code>, <code class="docutils literal notranslate"><span class="pre">raise</span></code>, <code class="docutils literal notranslate"><span class="pre">del</span></code>, <code class="docutils literal notranslate"><span class="pre">global</span></code>, <code class="docutils literal notranslate"><span class="pre">lambda</span></code>, comprehensions, generators</p></td>
 <td><p>no bytecode for them; report a bad record with <code class="docutils literal notranslate"><span class="pre">assert</span></code> instead of <code class="docutils literal notranslate"><span class="pre">raise</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>dict, set, or list literals, starred expressions</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">with</span></code>, except <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">stream.check_nbytes():</span></code></p></td>
+<td><p>a counted region is machine state, so it needs no exception path; every other block would</p></td>
+</tr>
+<tr class="row-even"><td><p>dict, set, or list literals, starred expressions</p></td>
 <td><p>ditto</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">print</span></code>, numpy, <code class="docutils literal notranslate"><span class="pre">isinstance</span></code>, <code class="docutils literal notranslate"><span class="pre">getattr</span></code>, calls into arbitrary functions or stored bound methods</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">print</span></code>, numpy, <code class="docutils literal notranslate"><span class="pre">isinstance</span></code>, <code class="docutils literal notranslate"><span class="pre">getattr</span></code>, calls into arbitrary functions or stored bound methods</p></td>
 <td><p>run outside the machine</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">self.&lt;attr&gt;</span></code> where <code class="docutils literal notranslate"><span class="pre">attr</span></code> is not a declared field</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">self.&lt;attr&gt;</span></code> where <code class="docutils literal notranslate"><span class="pre">attr</span></code> is not a declared field</p></td>
 <td><p>invisible to the compiled code</p></td>
 </tr>
-<tr class="row-even"><td><p>chained assignment; <code class="docutils literal notranslate"><span class="pre">for</span></code> over anything but <code class="docutils literal notranslate"><span class="pre">range()</span></code> or a declared <code class="docutils literal notranslate"><span class="pre">ChildList</span></code></p></td>
+<tr class="row-odd"><td><p>chained assignment; <code class="docutils literal notranslate"><span class="pre">for</span></code> over anything but <code class="docutils literal notranslate"><span class="pre">range()</span></code> or a declared <code class="docutils literal notranslate"><span class="pre">ChildList</span></code></p></td>
 <td><p>not compiled</p></td>
 </tr>
-<tr class="row-odd"><td><p>string ordering (<code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>)</p></td>
+<tr class="row-even"><td><p>string ordering (<code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>)</p></td>
 <td><p>only <code class="docutils literal notranslate"><span class="pre">==</span></code> and <code class="docutils literal notranslate"><span class="pre">!=</span></code> on names</p></td>
 </tr>
-<tr class="row-even"><td><p>buffer typecodes <code class="docutils literal notranslate"><span class="pre">l</span></code> and <code class="docutils literal notranslate"><span class="pre">L</span></code></p></td>
+<tr class="row-odd"><td><p>buffer typecodes <code class="docutils literal notranslate"><span class="pre">l</span></code> and <code class="docutils literal notranslate"><span class="pre">L</span></code></p></td>
 <td><p>platform-dependent; use a fixed-width code</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <p>A construct outside the subset fails with <code class="docutils literal notranslate"><span class="pre">ReaderContractError</span></code> (when the class is defined) or <code class="docutils literal notranslate"><span class="pre">UnsupportedNode</span></code> (when the reader is compiled), naming the method and the offending line. Rewrite the reader, or take the <a class="reference internal" href="../advanced/index.html"><span class="std std-doc">Python + C++ route</span></a>; there is no fallback for a reader the compiler rejects.</p>
+</section>
+<section id="counted-regions">
+<h2>Counted regions<a class="headerlink" href="#counted-regions" title="Link to this heading">¶</a></h2>
+<p>A ROOT object framed by its byte count declares how many bytes follow it. Write the frame as a <code class="docutils literal notranslate"><span class="pre">with</span></code> block and the machine checks where it ends:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@reader</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TSimpleObjectReader</span><span class="p">(</span><span class="n">Reader</span><span class="p">):</span>
+    <span class="n">elements</span> <span class="o">=</span> <span class="n">ChildList</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">stream</span><span class="o">.</span><span class="n">check_nbytes</span><span class="p">():</span>
+            <span class="n">version</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">version</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">stream</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
+                <span class="n">element</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The block compiles to <code class="docutils literal notranslate"><span class="pre">FNB_BEGIN</span></code> and <code class="docutils literal notranslate"><span class="pre">FNB_END</span></code>: the machine reads the masked <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code>, keeps the end position on a stack of its own, and fails the run when the cursor is somewhere else at the end of the block. The message names your reader, and the machine appends both positions.</p>
+<p>Two rules come with it:</p>
+<ul class="simple">
+<li><p>a <code class="docutils literal notranslate"><span class="pre">return</span></code> inside the region is rejected when the reader is compiled, because a compiled reader has no exit path that would close the frame;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">check_nbytes_start()</span></code> and <code class="docutils literal notranslate"><span class="pre">check_nbytes_end()</span></code> are the explicit form of the same pair, for a reader whose control flow does not fit one block. <code class="docutils literal notranslate"><span class="pre">check_nbytes_end(end_pos)</span></code> takes the position instead of popping the stack, which is what a pointer reader needs when it computes the end from a tag rather than from an <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code>.</p></li>
+</ul>
 </section>
 <section id="how-compilation-works">
 <h2>How compilation works<a class="headerlink" href="#how-compilation-works" title="Link to this heading">¶</a></h2>
@@ -504,7 +530,7 @@
 <td><p>the selected backend’s <code class="docutils literal notranslate"><span class="pre">build_*_reader</span></code> method is missing</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">detree.spec.errors.AssertionFailed</span></code></p></td>
-<td><p>an <code class="docutils literal notranslate"><span class="pre">assert</span></code> in a read path failed. The message is yours; the exception also carries <code class="docutils literal notranslate"><span class="pre">function</span></code>, <code class="docutils literal notranslate"><span class="pre">ip</span></code> and <code class="docutils literal notranslate"><span class="pre">cursor</span></code></p></td>
+<td><p>an <code class="docutils literal notranslate"><span class="pre">assert</span></code> in a read path failed, or a counted region did not end where its <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> said. The machine appends <code class="docutils literal notranslate"><span class="pre">(expected</span> <span class="pre">N,</span> <span class="pre">got</span> <span class="pre">M)</span></code> to a frame message; the rest is yours. The exception also carries <code class="docutils literal notranslate"><span class="pre">function</span></code>, <code class="docutils literal notranslate"><span class="pre">ip</span></code> and <code class="docutils literal notranslate"><span class="pre">cursor</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">detree.spec.errors.InvalidByteCount</span></code></p></td>
 <td><p>a byte count was read that lacks <code class="docutils literal notranslate"><span class="pre">kByteCountMask</span></code> — the read is out of step with the bytes, usually one field too early or too late</p></td>
@@ -593,6 +619,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#the-compilable-subset">The compilable subset</a></li>
+<li><a class="reference internal" href="#counted-regions">Counted regions</a></li>
 <li><a class="reference internal" href="#how-compilation-works">How compilation works</a></li>
 <li><a class="reference internal" href="#limitations">Limitations</a><ul>
 <li><a class="reference internal" href="#a-branch-is-compiled-or-it-is-not">A branch is compiled or it is not</a></li>
@@ -623,7 +650,7 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js?v=b8b12719"></script>
-    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../_static/design-tabs.js?v=fcb327ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.esm.min.mjs";
 

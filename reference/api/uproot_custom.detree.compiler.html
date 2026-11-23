@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -336,6 +336,12 @@ optimizer and lowering after the frontend has produced the IR.</p>
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">uproot_custom.detree.compiler.ir_builder.</span></span><span class="sig-name descname"><span class="pre">IRFunctionBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">program</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Program</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/detree/compiler/ir_builder.html#IRFunctionBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Build one detree-vm IR function with an emitter-friendly API.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.assert_cursor_eq">
+<span class="sig-name descname"><span class="pre">assert_cursor_eq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/detree/compiler/ir_builder.html#IRFunctionBuilder.assert_cursor_eq"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.assert_cursor_eq" title="Link to this definition">¶</a></dt>
+<dd><p>Fail the run unless the cursor is at <em>value</em>.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.assert_str_eq">
 <span class="sig-name descname"><span class="pre">assert_str_eq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">left</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/detree/compiler/ir_builder.html#IRFunctionBuilder.assert_str_eq"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.assert_str_eq" title="Link to this definition">¶</a></dt>
@@ -691,6 +697,7 @@ optimizer and lowering after the frontend has produced the IR.</p>
 </li>
 <li><a class="reference internal" href="#module-uproot_custom.detree.compiler.ir_builder">uproot_custom.detree.compiler.ir_builder module</a><ul>
 <li><a class="reference internal" href="#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder</span></code></a><ul>
+<li><a class="reference internal" href="#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.assert_cursor_eq"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.assert_cursor_eq()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.assert_str_eq"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.assert_str_eq()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.block"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.block()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.buf_append"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.buf_append()</span></code></a></li>
@@ -773,7 +780,7 @@ optimizer and lowering after the frontend has produced the IR.</p>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../../_static/togglebutton.js?v=b8b12719"></script>
-    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../../_static/design-tabs.js?v=fcb327ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     </body>
 </html>

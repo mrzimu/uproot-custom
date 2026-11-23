@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -622,8 +622,8 @@
 </div>
 <p>This is the typical scenario where Uproot-custom is needed.</p>
 </section>
-<section id="obtaining-raw-binary-data">
-<span id="obtain-binary-data"></span><h3>Obtaining raw binary data<a class="headerlink" href="#obtaining-raw-binary-data" title="Link to this heading">¶</a></h3>
+<section id="obtain-binary-data">
+<span id="obtaining-raw-binary-data"></span><h3>Obtaining raw binary data<a class="headerlink" href="#obtain-binary-data" title="Link to this heading">¶</a></h3>
 <p>Use <code class="docutils literal notranslate"><span class="pre">AsBinary</span></code> to pull the uninterpreted byte stream of a branch:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">uproot.interpretation.custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsBinary</span>
 
@@ -650,8 +650,8 @@
 <p class="admonition-title">Note</p>
 <p>The streaming rules below are summarized empirically. If you find inaccuracies, please open an issue or pull request.</p>
 </div>
-<section id="fnbytes-fversion-header">
-<span id="nbytes-version-header"></span><h4><code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> + <code class="docutils literal notranslate"><span class="pre">fVersion</span></code> header<a class="headerlink" href="#fnbytes-fversion-header" title="Link to this heading">¶</a></h4>
+<section id="nbytes-version-header">
+<span id="fnbytes-fversion-header"></span><h4><code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> + <code class="docutils literal notranslate"><span class="pre">fVersion</span></code> header<a class="headerlink" href="#nbytes-version-header" title="Link to this heading">¶</a></h4>
 <p>Many ROOT objects begin with a <strong>6-byte header</strong>:</p>
 <div class="table-wrapper colwidths-auto docutils container">
 <table class="docutils align-default">
@@ -798,9 +798,9 @@
 </li>
 <li><a class="reference internal" href="#binary-data">Binary data</a><ul>
 <li><a class="reference internal" href="#object-splitting">Object splitting</a></li>
-<li><a class="reference internal" href="#obtaining-raw-binary-data">Obtaining raw binary data</a></li>
+<li><a class="reference internal" href="#obtain-binary-data">Obtaining raw binary data</a></li>
 <li><a class="reference internal" href="#understanding-the-byte-layout">Understanding the byte layout</a><ul>
-<li><a class="reference internal" href="#fnbytes-fversion-header"><code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> + <code class="docutils literal notranslate"><span class="pre">fVersion</span></code> header</a></li>
+<li><a class="reference internal" href="#nbytes-version-header"><code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> + <code class="docutils literal notranslate"><span class="pre">fVersion</span></code> header</a></li>
 <li><a class="reference internal" href="#base-class-tobject">Base class (<code class="docutils literal notranslate"><span class="pre">TObject</span></code>)</a></li>
 <li><a class="reference internal" href="#subsequent-data-members">Subsequent data members</a></li>
 </ul>
@@ -828,7 +828,7 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js?v=b8b12719"></script>
-    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../_static/design-tabs.js?v=fcb327ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     </body>
 </html>

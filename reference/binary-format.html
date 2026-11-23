@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -376,7 +376,7 @@
 </div>
 </section>
 <section id="fnbytes-fversion-header-object-header">
-<h3><code class="docutils literal notranslate"><span class="pre">fNBytes</span> <span class="pre">+</span> <span class="pre">fVersion</span></code> header (object header)<a class="headerlink" href="#fnbytes-fversion-header-object-header" title="Link to this heading">¶</a></h3>
+<span id="fnbytes--fversion-header-object-header"></span><h3><code class="docutils literal notranslate"><span class="pre">fNBytes</span> <span class="pre">+</span> <span class="pre">fVersion</span></code> header (object header)<a class="headerlink" href="#fnbytes-fversion-header-object-header" title="Link to this heading">¶</a></h3>
 <p>Almost every non-trivial class object is prefixed with:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[fNBytes: uint32] [fVersion: int16] [checksum?: uint32 if fVersion==0]
 </pre></div>
@@ -436,8 +436,8 @@
 </div>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
-<label class="sd-tab-label" for="sd-tab-item-0">
-single element</label><div class="sd-tab-content docutils">
+<label aria-controls="sd-tab-item-0-content" class="sd-tab-label" for="sd-tab-item-0">
+single element</label><div class="sd-tab-content docutils" id="sd-tab-item-0-content">
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id2" title="Link to this code">¶</a></div>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">m_int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span>
@@ -461,8 +461,8 @@ single element</label><div class="sd-tab-content docutils">
 </div>
 </div>
 <input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
-<label class="sd-tab-label" for="sd-tab-item-1">
-C-style array and std::array</label><div class="sd-tab-content docutils">
+<label aria-controls="sd-tab-item-1-content" class="sd-tab-label" for="sd-tab-item-1">
+C-style array and std::array</label><div class="sd-tab-content docutils" id="sd-tab-item-1-content">
 <div class="literal-block-wrapper docutils container" id="id4">
 <div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id4" title="Link to this code">¶</a></div>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">m_int</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">};</span>
@@ -489,7 +489,7 @@ C-style array and std::array</label><div class="sd-tab-content docutils">
 </section>
 <hr class="docutils" />
 <section id="std-string">
-<h2><code class="docutils literal notranslate"><span class="pre">std::string</span></code><a class="headerlink" href="#std-string" title="Link to this heading">¶</a></h2>
+<span id="stdstring"></span><h2><code class="docutils literal notranslate"><span class="pre">std::string</span></code><a class="headerlink" href="#std-string" title="Link to this heading">¶</a></h2>
 <p><strong>Matches:</strong> <code class="docutils literal notranslate"><span class="pre">std::string</span></code> (<code class="docutils literal notranslate"><span class="pre">fTypeName</span></code> starts with <code class="docutils literal notranslate"><span class="pre">string</span></code>).</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">length</span><span class="p">:</span> <span class="n">uint8</span><span class="p">]</span> <span class="p">[</span><span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="o">...</span><span class="p">]</span>
 </pre></div>
@@ -606,7 +606,7 @@ C-style array and std::array</label><div class="sd-tab-content docutils">
 </section>
 <hr class="docutils" />
 <section id="std-vector-and-other-stl-sequences">
-<h2><code class="docutils literal notranslate"><span class="pre">std::vector</span></code> (and other STL sequences)<a class="headerlink" href="#std-vector-and-other-stl-sequences" title="Link to this heading">¶</a></h2>
+<span id="stdvector-and-other-stl-sequences"></span><h2><code class="docutils literal notranslate"><span class="pre">std::vector</span></code> (and other STL sequences)<a class="headerlink" href="#std-vector-and-other-stl-sequences" title="Link to this heading">¶</a></h2>
 <p><strong>Matches:</strong> <code class="docutils literal notranslate"><span class="pre">std::vector</span></code>, <code class="docutils literal notranslate"><span class="pre">std::list</span></code>, <code class="docutils literal notranslate"><span class="pre">std::set</span></code>, <code class="docutils literal notranslate"><span class="pre">std::multiset</span></code>, <code class="docutils literal notranslate"><span class="pre">std::unordered_set</span></code>, <code class="docutils literal notranslate"><span class="pre">std::unordered_multiset</span></code>.</p>
 <p><strong>Identification:</strong> <code class="docutils literal notranslate"><span class="pre">fTypeName</span></code> starts with one of the <code class="docutils literal notranslate"><span class="pre">target_types</span></code> names.</p>
 <section id="single-element">
@@ -621,12 +621,12 @@ C-style array and std::array</label><div class="sd-tab-content docutils">
 <p>When storing as a C-style array (e.g. <code class="docutils literal notranslate"><span class="pre">std::vector&lt;int&gt;</span> <span class="pre">m_vec[2]</span></code>), the outer <code class="docutils literal notranslate"><span class="pre">fNBytes</span> <span class="pre">+</span> <span class="pre">fVersion</span></code> header is kept, and each element is stored as a separate sequence with its own length prefix.</p>
 </section>
 <section id="std-array-of-stl-containers">
-<h3>std::array of STL containers<a class="headerlink" href="#std-array-of-stl-containers" title="Link to this heading">¶</a></h3>
+<span id="stdarray-of-stl-containers"></span><h3>std::array of STL containers<a class="headerlink" href="#std-array-of-stl-containers" title="Link to this heading">¶</a></h3>
 <p>When storing as <code class="docutils literal notranslate"><span class="pre">std::array</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">std::array&lt;std::vector&lt;int&gt;,</span> <span class="pre">2&gt;</span></code>), there is <strong>no</strong> outer <code class="docutils literal notranslate"><span class="pre">fNBytes</span> <span class="pre">+</span> <span class="pre">fVersion</span></code> header. Each element is stored as a sequence with its own length prefix.</p>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
-<label class="sd-tab-label" for="sd-tab-item-2">
-single element</label><div class="sd-tab-content docutils">
+<label aria-controls="sd-tab-item-2-content" class="sd-tab-label" for="sd-tab-item-2">
+single element</label><div class="sd-tab-content docutils" id="sd-tab-item-2-content">
 <div class="literal-block-wrapper docutils container" id="id13">
 <div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id13" title="Link to this code">¶</a></div>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_vec_int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">};</span>
@@ -648,8 +648,8 @@ single element</label><div class="sd-tab-content docutils">
 </div>
 </div>
 <input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
-<label class="sd-tab-label" for="sd-tab-item-3">
-C-style array</label><div class="sd-tab-content docutils">
+<label aria-controls="sd-tab-item-3-content" class="sd-tab-label" for="sd-tab-item-3">
+C-style array</label><div class="sd-tab-content docutils" id="sd-tab-item-3-content">
 <div class="literal-block-wrapper docutils container" id="id15">
 <div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id15" title="Link to this code">¶</a></div>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint16_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_vec_uint16</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">};</span>
@@ -666,8 +666,8 @@ C-style array</label><div class="sd-tab-content docutils">
 </div>
 </div>
 <input id="sd-tab-item-4" name="sd-tab-set-1" type="radio">
-<label class="sd-tab-label" for="sd-tab-item-4">
-std::array</label><div class="sd-tab-content docutils">
+<label aria-controls="sd-tab-item-4-content" class="sd-tab-label" for="sd-tab-item-4">
+std::array</label><div class="sd-tab-content docutils" id="sd-tab-item-4-content">
 <div class="literal-block-wrapper docutils container" id="id17">
 <div class="code-block-caption"><span class="caption-text">Data member definition</span><a class="headerlink" href="#id17" title="Link to this code">¶</a></div>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint16_t</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_arr_vec_uint16</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">};</span>
@@ -692,7 +692,7 @@ std::array</label><div class="sd-tab-content docutils">
 </section>
 <hr class="docutils" />
 <section id="std-map-and-other-stl-maps">
-<h2><code class="docutils literal notranslate"><span class="pre">std::map</span></code> (and other STL maps)<a class="headerlink" href="#std-map-and-other-stl-maps" title="Link to this heading">¶</a></h2>
+<span id="stdmap-and-other-stl-maps"></span><h2><code class="docutils literal notranslate"><span class="pre">std::map</span></code> (and other STL maps)<a class="headerlink" href="#std-map-and-other-stl-maps" title="Link to this heading">¶</a></h2>
 <p><strong>Matches:</strong> <code class="docutils literal notranslate"><span class="pre">std::map</span></code>, <code class="docutils literal notranslate"><span class="pre">std::unordered_map</span></code>, <code class="docutils literal notranslate"><span class="pre">std::multimap</span></code>, <code class="docutils literal notranslate"><span class="pre">std::unordered_multimap</span></code>.</p>
 <p><strong>Identification:</strong> <code class="docutils literal notranslate"><span class="pre">fTypeName</span></code> starts with one of the <code class="docutils literal notranslate"><span class="pre">target_types</span></code> names.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[fNBytes: uint32] [fVersion: int16] [checksum?: uint32]
@@ -735,15 +735,15 @@ std::array</label><div class="sd-tab-content docutils">
 </div>
 </div>
 <p>By default the data is discarded (<code class="docutils literal notranslate"><span class="pre">keep_data=False</span></code>), producing an <code class="docutils literal notranslate"><span class="pre">EmptyArray</span></code> in the output. To keep it for a node, add that node’s <code class="docutils literal notranslate"><span class="pre">item_path</span></code> — the branch’s object-path plus <code class="docutils literal notranslate"><span class="pre">.TObject</span></code>, for example <code class="docutils literal notranslate"><span class="pre">/my_tree:entry/m_obj.TObject</span></code> — to <code class="docutils literal notranslate"><span class="pre">uproot_custom.factories.TObjectFactory.keep_data_itempaths</span></code> before the branch is read.</p>
-<hr class="docutils" />
 </section>
-<section id="c-style-array-std-array">
-<span id="c-style-array-section"></span><h2>C-style array / <code class="docutils literal notranslate"><span class="pre">std::array</span></code><a class="headerlink" href="#c-style-array-std-array" title="Link to this heading">¶</a></h2>
+<hr class="docutils" />
+<section id="c-style-array-section">
+<span id="c-style-array-std-array"></span><span id="c-style-array--stdarray"></span><h2>C-style array / <code class="docutils literal notranslate"><span class="pre">std::array</span></code><a class="headerlink" href="#c-style-array-section" title="Link to this heading">¶</a></h2>
 <p><strong>Matches:</strong> Data members with <code class="docutils literal notranslate"><span class="pre">fArrayDim</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> (C-style arrays or <code class="docutils literal notranslate"><span class="pre">std::array</span></code>), or jagged branches (variable-length arrays).</p>
 <p><strong>Identification:</strong> <code class="docutils literal notranslate"><span class="pre">fArrayDim</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> in the streamer info, or <code class="docutils literal notranslate"><span class="pre">is_jagged=True</span></code> from <code class="docutils literal notranslate"><span class="pre">get_dims_from_branch</span></code>. The dimensions are stored in <code class="docutils literal notranslate"><span class="pre">fMaxIndex[0..fArrayDim-1]</span></code>.</p>
 <p><strong>Priority:</strong> 20 (evaluated before other categories, so it wraps the element correctly).</p>
 <section id="how-c-style-array-std-array-modifies-contained-types">
-<h3>How C-style array / <code class="docutils literal notranslate"><span class="pre">std::array</span></code> modifies contained types<a class="headerlink" href="#how-c-style-array-std-array-modifies-contained-types" title="Link to this heading">¶</a></h3>
+<span id="how-c-style-array--stdarray-modifies-contained-types"></span><h3>How C-style array / <code class="docutils literal notranslate"><span class="pre">std::array</span></code> modifies contained types<a class="headerlink" href="#how-c-style-array-std-array-modifies-contained-types" title="Link to this heading">¶</a></h3>
 <p>The element is wrapped by an <em>element handler</em> for the contained type. When the array is <code class="docutils literal notranslate"><span class="pre">std::array</span></code> (identified by <code class="docutils literal notranslate"><span class="pre">fType=82</span></code>), the element is called with <code class="docutils literal notranslate"><span class="pre">in_std_array=True</span></code>, which suppresses the <code class="docutils literal notranslate"><span class="pre">fNBytes</span> <span class="pre">+</span> <span class="pre">fVersion</span></code> header for <code class="docutils literal notranslate"><span class="pre">std::vector</span></code> (and other STL sequences), <code class="docutils literal notranslate"><span class="pre">std::map</span></code> (and other STL maps), and <code class="docutils literal notranslate"><span class="pre">std::string</span></code>.</p>
 <p>When <code class="docutils literal notranslate"><span class="pre">TString</span></code> is inside a C-style or <code class="docutils literal notranslate"><span class="pre">std::array</span></code>, its <code class="docutils literal notranslate"><span class="pre">with_header</span></code> flag is set to <code class="docutils literal notranslate"><span class="pre">True</span></code> (unlike standalone <code class="docutils literal notranslate"><span class="pre">TString</span></code>).</p>
 </section>
@@ -755,7 +755,7 @@ std::array</label><div class="sd-tab-content docutils">
 </div>
 </section>
 <section id="jagged-variable-length">
-<h3>Jagged / variable-length<a class="headerlink" href="#jagged-variable-length" title="Link to this heading">¶</a></h3>
+<span id="jagged--variable-length"></span><h3>Jagged / variable-length<a class="headerlink" href="#jagged-variable-length" title="Link to this heading">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">element</span> <span class="mi">1</span><span class="p">]</span> <span class="p">[</span><span class="n">element</span> <span class="mi">2</span><span class="p">]</span> <span class="o">...</span> <span class="p">[</span><span class="n">element</span> <span class="n">N</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -775,7 +775,7 @@ std::array</label><div class="sd-tab-content docutils">
 [member 1 data] [member 2 data] ... [member N data]
 </pre></div>
 </div>
-<p>The total size of member data must equal <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> — the reader verifies this with an assertion.</p>
+<p>The total size of member data must equal <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> — a Detree reader writes this as <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">stream.check_nbytes():</span></code>, and the machine fails the read when the block does not consume exactly that many bytes.</p>
 <div class="literal-block-wrapper docutils container" id="id22">
 <div class="code-block-caption"><span class="caption-text">Example class definition</span><a class="headerlink" href="#id22" title="Link to this code">¶</a></div>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="w"> </span><span class="p">{</span>
@@ -813,7 +813,7 @@ std::array</label><div class="sd-tab-content docutils">
 <p><strong>Matches:</strong> Pointer-to-object members: <code class="docutils literal notranslate"><span class="pre">fType</span></code> in {63 (<code class="docutils literal notranslate"><span class="pre">kObjectp</span></code>), 64 (<code class="docutils literal notranslate"><span class="pre">kObjectP</span></code>), 68 (<code class="docutils literal notranslate"><span class="pre">kAnyp</span></code>), 69 (<code class="docutils literal notranslate"><span class="pre">kAnyP</span></code>)} or <code class="docutils literal notranslate"><span class="pre">fTypeName</span></code> ends with <code class="docutils literal notranslate"><span class="pre">*</span></code>.</p>
 <p><strong>Priority:</strong> 15 (evaluated after C-style array / <code class="docutils literal notranslate"><span class="pre">std::array</span></code> but before most others).</p>
 <section id="read-object-any">
-<h3>read_object_any<a class="headerlink" href="#read-object-any" title="Link to this heading">¶</a></h3>
+<span id="read_object_any"></span><h3>read_object_any<a class="headerlink" href="#read-object-any" title="Link to this heading">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[bcnt: uint32] [tag: uint32?] [classname?: null-terminated string] [object data?]
 </pre></div>
 </div>
@@ -1071,7 +1071,7 @@ std::array</label><div class="sd-tab-content docutils">
 <li><a class="reference internal" href="#std-vector-and-other-stl-sequences"><code class="docutils literal notranslate"><span class="pre">std::vector</span></code> (and other STL sequences)</a></li>
 <li><a class="reference internal" href="#std-map-and-other-stl-maps"><code class="docutils literal notranslate"><span class="pre">std::map</span></code> (and other STL maps)</a></li>
 <li><a class="reference internal" href="#tobject">TObject</a></li>
-<li><a class="reference internal" href="#c-style-array-std-array">C-style array / <code class="docutils literal notranslate"><span class="pre">std::array</span></code></a></li>
+<li><a class="reference internal" href="#c-style-array-section">C-style array / <code class="docutils literal notranslate"><span class="pre">std::array</span></code></a></li>
 <li><a class="reference internal" href="#any-class">Any class</a></li>
 <li><a class="reference internal" href="#base-class">Base class</a></li>
 <li><a class="reference internal" href="#pointer-t">Pointer (<code class="docutils literal notranslate"><span class="pre">T*</span></code>)</a></li>
@@ -1097,7 +1097,7 @@ std::array</label><div class="sd-tab-content docutils">
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js?v=b8b12719"></script>
-    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../_static/design-tabs.js?v=fcb327ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     </body>
 </html>

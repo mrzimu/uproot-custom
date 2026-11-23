@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -707,6 +707,15 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">SetCursor</span><span class="p">(</span><span class="n">_value</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span></div>
 
 
+<div class="viewcode-block" id="IRFunctionBuilder.assert_cursor_eq">
+<a class="viewcode-back" href="../../../../reference/api/uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.assert_cursor_eq">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">assert_cursor_eq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="s2">""</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Fail the run unless the cursor is at *value*.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">AssertCursorEq</span><span class="p">(</span><span class="n">_value</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">msg</span><span class="p">))</span></div>
+
+
 <div class="viewcode-block" id="IRFunctionBuilder.offset_seek">
 <a class="viewcode-back" href="../../../../reference/api/uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.offset_seek">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">offset_seek</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
@@ -917,7 +926,7 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../../../../_static/togglebutton.js?v=b8b12719"></script>
-    <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../../../../_static/design-tabs.js?v=fcb327ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.esm.min.mjs";
 

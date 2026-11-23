@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -770,18 +770,13 @@
 <div class="viewcode-block" id="AnyClassReader.read">
 <a class="viewcode-back" href="../../../reference/api/uproot_custom.detree.html#uproot_custom.detree.builtin.AnyClassReader.read">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">:</span> <span class="n">Stream</span><span class="p">):</span>
-        <span class="n">nbytes</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_fNBytes</span><span class="p">()</span>
-        <span class="n">start_pos</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span>
-        <span class="n">end_pos</span> <span class="o">=</span> <span class="n">start_pos</span> <span class="o">+</span> <span class="n">nbytes</span>
+        <span class="k">with</span> <span class="n">stream</span><span class="o">.</span><span class="n">check_nbytes</span><span class="p">():</span>
+            <span class="n">version</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">version</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">stream</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 
-        <span class="n">version</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_fVersion</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">version</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">stream</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
-            <span class="n">element</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-
-        <span class="k">assert</span> <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">,</span> <span class="s2">"the read did not consume the byte count"</span></div>
+            <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
+                <span class="n">element</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="AnyClassReader.read_many_memberwise">
@@ -839,7 +834,7 @@
 
         <span class="k">if</span> <span class="p">(</span><span class="n">fTag</span> <span class="o">&amp;</span> <span class="n">kClassMask</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">fTag</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">assert</span> <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">,</span> <span class="s2">"a null pointer reads no bytes"</span>
+                <span class="n">stream</span><span class="o">.</span><span class="n">check_nbytes_end</span><span class="p">(</span><span class="n">end_pos</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">object_indexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
                 <span class="k">return</span>
             <span class="k">assert</span> <span class="n">fTag</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"kAnyP (tag == 1) is not supported"</span>
@@ -847,7 +842,7 @@
                 <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span> <span class="o">=</span> <span class="n">end_pos</span>
                 <span class="k">return</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">object_indexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stream</span><span class="o">.</span><span class="n">ref_object_index</span><span class="p">(</span><span class="n">fTag</span><span class="p">))</span>
-            <span class="k">assert</span> <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">,</span> <span class="s2">"a back reference reads no bytes"</span>
+            <span class="n">stream</span><span class="o">.</span><span class="n">check_nbytes_end</span><span class="p">(</span><span class="n">end_pos</span><span class="p">)</span>
             <span class="k">return</span>
 
         <span class="k">if</span> <span class="n">fTag</span> <span class="o">==</span> <span class="n">kNewClassTag</span><span class="p">:</span>
@@ -873,7 +868,7 @@
             <span class="n">stream</span><span class="o">.</span><span class="n">set_object_ref</span><span class="p">(</span><span class="n">stream</span><span class="o">.</span><span class="n">ref_count</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_counter</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">object_counter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_counter</span> <span class="o">+</span> <span class="mi">1</span>
 
-        <span class="k">assert</span> <span class="n">stream</span><span class="o">.</span><span class="n">cursor</span> <span class="o">==</span> <span class="n">end_pos</span><span class="p">,</span> <span class="s2">"the read did not consume the byte count"</span></div>
+        <span class="n">stream</span><span class="o">.</span><span class="n">check_nbytes_end</span><span class="p">(</span><span class="n">end_pos</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="AnyPointerReader.data">
@@ -1011,7 +1006,7 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../../../_static/togglebutton.js?v=b8b12719"></script>
-    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../../../_static/design-tabs.js?v=fcb327ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.esm.min.mjs";
 

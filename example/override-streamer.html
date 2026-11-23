@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -420,8 +420,8 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> is ordinary Python and returns the two arrays in the shape the factory expects.</p></li>
 </ul>
 </section>
-<section id="step-3-implement-the-factory">
-<span id="override-streamer-2-np"></span><h2>Step 3: Implement the factory<a class="headerlink" href="#step-3-implement-the-factory" title="Link to this heading">¶</a></h2>
+<section id="override-streamer-2-np">
+<span id="step-3-implement-the-factory"></span><h2>Step 3: Implement the factory<a class="headerlink" href="#override-streamer-2-np" title="Link to this heading">¶</a></h2>
 <p>To use our <code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code> and reconstruct the final <code class="docutils literal notranslate"><span class="pre">awkward</span></code> array, we need to implement a corresponding Factory. We can implement a Factory named <code class="docutils literal notranslate"><span class="pre">OverrideStreamerFactory</span></code> to do this.</p>
 <p>A Factory requires at least 3 methods: <code class="docutils literal notranslate"><span class="pre">build_factory</span></code>, <code class="docutils literal notranslate"><span class="pre">build_detree_reader</span></code> and <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code>. An optional method <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code> can be implemented to enable lazy evaluation functionality.</p>
 <p>First, import necessary modules:</p>
@@ -431,7 +431,7 @@
 </pre></div>
 </div>
 <section id="implement-build-factory">
-<h3>Implement <code class="docutils literal notranslate"><span class="pre">build_factory</span></code><a class="headerlink" href="#implement-build-factory" title="Link to this heading">¶</a></h3>
+<span id="implement-build_factory"></span><h3>Implement <code class="docutils literal notranslate"><span class="pre">build_factory</span></code><a class="headerlink" href="#implement-build-factory" title="Link to this heading">¶</a></h3>
 <p>The class name arrives as <code class="docutils literal notranslate"><span class="pre">top_type_name</span></code> (with <code class="docutils literal notranslate"><span class="pre">std::</span></code> stripped), so that is what the match tests. <code class="docutils literal notranslate"><span class="pre">cur_streamer_info[&quot;fName&quot;]</span></code> is the <em>member</em> name, which equals the class name only when the class is stored as the whole branch — here it is, but a factory that also has to catch the class as a member of a split tree must not rely on that. <a class="reference internal" href="../tutorial/write-a-reader.html"><span class="std std-doc">Write a Detree reader</span></a> has the field-by-field table under <code class="docutils literal notranslate"><span class="pre">build_factory</span></code>.</p>
 <p>If the match succeeds, we return an instance carrying the node’s name; otherwise <code class="docutils literal notranslate"><span class="pre">None</span></code> lets the next registered factory try.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">OverrideStreamerFactory</span><span class="p">(</span><span class="n">Factory</span><span class="p">):</span>
@@ -473,7 +473,7 @@
 </div>
 </section>
 <section id="implement-build-detree-reader">
-<h3>Implement <code class="docutils literal notranslate"><span class="pre">build_detree_reader</span></code><a class="headerlink" href="#implement-build-detree-reader" title="Link to this heading">¶</a></h3>
+<span id="implement-build_detree_reader"></span><h3>Implement <code class="docutils literal notranslate"><span class="pre">build_detree_reader</span></code><a class="headerlink" href="#implement-build-detree-reader" title="Link to this heading">¶</a></h3>
 <p>Implement <code class="docutils literal notranslate"><span class="pre">build_detree_reader</span></code> to create an instance of <code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">build_detree_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">OverrideStreamerReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
@@ -481,7 +481,7 @@
 </div>
 </section>
 <section id="implement-make-awkward-content">
-<h3>Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code><a class="headerlink" href="#implement-make-awkward-content" title="Link to this heading">¶</a></h3>
+<span id="implement-make_awkward_content"></span><h3>Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code><a class="headerlink" href="#implement-make-awkward-content" title="Link to this heading">¶</a></h3>
 <p>Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code> to construct <code class="docutils literal notranslate"><span class="pre">awkward</span></code> contents from the raw data returned by the Reader:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">):</span>
     <span class="n">int_array</span><span class="p">,</span> <span class="n">double_array</span> <span class="o">=</span> <span class="n">raw_data</span>
@@ -502,7 +502,7 @@
 </div>
 </section>
 <section id="optional-implement-make-awkward-form">
-<h3>(Optional) Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code><a class="headerlink" href="#optional-implement-make-awkward-form" title="Link to this heading">¶</a></h3>
+<span id="optional-implement-make_awkward_form"></span><h3>(Optional) Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code><a class="headerlink" href="#optional-implement-make-awkward-form" title="Link to this heading">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code> method is optional, but it is easy to implement, since the <code class="docutils literal notranslate"><span class="pre">awkward.forms</span></code> is similar to <code class="docutils literal notranslate"><span class="pre">awkward.contents</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_awkward_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">awkward</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">RecordForm</span><span class="p">(</span>
@@ -547,13 +547,13 @@
 </pre></div>
 </div>
 </section>
-<section id="the-python-c-route-for-the-same-class">
-<span id="override-streamer-cpp-route"></span><h2>The Python + C++ route for the same class<a class="headerlink" href="#the-python-c-route-for-the-same-class" title="Link to this heading">¶</a></h2>
+<section id="override-streamer-cpp-route">
+<span id="the-python-c-route-for-the-same-class"></span><span id="the-python--c-route-for-the-same-class"></span><h2>The Python + C++ route for the same class<a class="headerlink" href="#override-streamer-cpp-route" title="Link to this heading">¶</a></h2>
 <p>The same class can also be read on the Python + C++ route. The factory and the <code class="docutils literal notranslate"><span class="pre">data</span></code> shape stay the same; the reader is written twice, and the factory gains one method per stage.</p>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
-<label class="sd-tab-label" for="sd-tab-item-0">
-Python reader</label><div class="sd-tab-content docutils">
+<label aria-controls="sd-tab-item-0-content" class="sd-tab-label" for="sd-tab-item-0">
+Python reader</label><div class="sd-tab-content docutils" id="sd-tab-item-0-content">
 <div class="literal-block-wrapper docutils container" id="id3">
 <div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code> (Python)</span><a class="headerlink" href="#id3" title="Link to this code">¶</a></div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">array</span><span class="w"> </span><span class="kn">import</span> <span class="n">array</span>
@@ -585,8 +585,8 @@ Python reader</label><div class="sd-tab-content docutils">
 <p>The Python reader is ordinary Python, so the mask check can <code class="docutils literal notranslate"><span class="pre">raise</span></code>. See <a class="reference internal" href="../advanced/python-reader.html"><span class="std std-doc">stage 1 of the route</span></a>.</p>
 </div>
 <input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
-<label class="sd-tab-label" for="sd-tab-item-1">
-C++ reader</label><div class="sd-tab-content docutils">
+<label aria-controls="sd-tab-item-1-content" class="sd-tab-label" for="sd-tab-item-1">
+C++ reader</label><div class="sd-tab-content docutils" id="sd-tab-item-1-content">
 <div class="literal-block-wrapper docutils container" id="id4">
 <div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code> (C++)</span><a class="headerlink" href="#id4" title="Link to this code">¶</a></div>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">OverrideStreamerReader</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">IReader</span><span class="w"> </span><span class="p">{</span>
@@ -705,7 +705,7 @@ C++ reader</label><div class="sd-tab-content docutils">
 <li><a class="reference internal" href="#">Example 1: <code class="docutils literal notranslate"><span class="pre">Streamer</span></code> method is overridden</a><ul>
 <li><a class="reference internal" href="#step-1-check-the-binary-data">Step 1: Check the binary data</a></li>
 <li><a class="reference internal" href="#step-2-implement-the-detree-reader">Step 2: Implement the Detree reader</a></li>
-<li><a class="reference internal" href="#step-3-implement-the-factory">Step 3: Implement the factory</a><ul>
+<li><a class="reference internal" href="#override-streamer-2-np">Step 3: Implement the factory</a><ul>
 <li><a class="reference internal" href="#implement-build-factory">Implement <code class="docutils literal notranslate"><span class="pre">build_factory</span></code></a></li>
 <li><a class="reference internal" href="#implement-build-detree-reader">Implement <code class="docutils literal notranslate"><span class="pre">build_detree_reader</span></code></a></li>
 <li><a class="reference internal" href="#implement-make-awkward-content">Implement <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code></a></li>
@@ -714,7 +714,7 @@ C++ reader</label><div class="sd-tab-content docutils">
 </li>
 <li><a class="reference internal" href="#step-4-register-target-branch-and-the-factory">Step 4: Register target branch and the Factory</a></li>
 <li><a class="reference internal" href="#step-5-read-data-with-uproot">Step 5: Read data with Uproot</a></li>
-<li><a class="reference internal" href="#the-python-c-route-for-the-same-class">The Python + C++ route for the same class</a></li>
+<li><a class="reference internal" href="#override-streamer-cpp-route">The Python + C++ route for the same class</a></li>
 </ul>
 </li>
 </ul>
@@ -736,7 +736,7 @@ C++ reader</label><div class="sd-tab-content docutils">
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js?v=b8b12719"></script>
-    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../_static/design-tabs.js?v=fcb327ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     </body>
 </html>

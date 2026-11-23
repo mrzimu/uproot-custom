@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -289,7 +289,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.consts</span><span class="w"> </span><span class="kn">import</span> <span class="n">_MISSING</span><span class="p">,</span> <span class="n">DTYPE_TO_TYPECODE</span><span class="p">,</span> <span class="n">TYPECODE</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.detree.bufferproxy</span><span class="w"> </span><span class="kn">import</span> <span class="n">BufferProxy</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.detree.stream</span><span class="w"> </span><span class="kn">import</span> <span class="n">Stream</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.detree.stream</span><span class="w"> </span><span class="kn">import</span> <span class="n">COUNTED_CONTEXT</span><span class="p">,</span> <span class="n">Stream</span>
 
 
 <span class="c1"># -- Fields ----------------------------------------------------------------------</span>
@@ -763,11 +763,38 @@
     <span class="k">return</span> <span class="n">tree</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_counted_with</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Whether a `with` is the one a read path may use.</span>
+
+<span class="sd">    A counted region is the only block a read path may contain: its check is</span>
+<span class="sd">    machine state, so it needs no exception path.  Every other `with` would</span>
+<span class="sd">    need one, which the bytecode does not have.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">items</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">optional_vars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">call</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">context_expr</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">call</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Call</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">call</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Attribute</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">call</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="n">call</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="s2">"stream"</span>
+        <span class="ow">and</span> <span class="n">call</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">attr</span> <span class="o">==</span> <span class="n">COUNTED_CONTEXT</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="n">call</span><span class="o">.</span><span class="n">args</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="n">call</span><span class="o">.</span><span class="n">keywords</span>
+    <span class="p">)</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_lint</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">function</span><span class="p">):</span>
     <span class="n">tree</span> <span class="o">=</span> <span class="n">_parse_source</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">tree</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span>
     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">ast</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">With</span><span class="p">)</span> <span class="ow">and</span> <span class="n">_is_counted_with</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+            <span class="k">continue</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">_BANNED_NODES</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">ReaderContractError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">: line </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">lineno</span><span class="si">}</span><span class="s2">: "</span>
@@ -904,7 +931,7 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../../../_static/togglebutton.js?v=b8b12719"></script>
-    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../../../_static/design-tabs.js?v=fcb327ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.esm.min.mjs";
 

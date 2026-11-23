@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -346,7 +346,7 @@
 <p>The dump is the compiler’s output, not a specification: <code class="docutils literal notranslate"><span class="pre">imm2=7</span></code> and <code class="docutils literal notranslate"><span class="pre">imm2=10</span></code> are buffer slots, <code class="docutils literal notranslate"><span class="pre">imm1=305419896</span></code> is the mask <code class="docutils literal notranslate"><span class="pre">0x12345678</span></code> folded into a constant, and the <code class="docutils literal notranslate"><span class="pre">MOV</span></code>/<code class="docutils literal notranslate"><span class="pre">CMP_EQ</span></code>/<code class="docutils literal notranslate"><span class="pre">ASSERT</span></code> trio is the <code class="docutils literal notranslate"><span class="pre">assert</span> <span class="pre">mask</span> <span class="pre">==</span> <span class="pre">0x12345678</span></code>. Read it to confirm that the reader compiled to what you meant — a missing read or a reordered field shows up here first.</p>
 </section>
 <section id="when-to-take-the-python-c-route">
-<h2>When to take the Python + C++ route<a class="headerlink" href="#when-to-take-the-python-c-route" title="Link to this heading">¶</a></h2>
+<span id="when-to-take-the-python--c-route"></span><h2>When to take the Python + C++ route<a class="headerlink" href="#when-to-take-the-python-c-route" title="Link to this heading">¶</a></h2>
 <p>A construct the compiler rejects is a reader that cannot run on Detree, and there is no fallback. When the read path needs plain Python — a <code class="docutils literal notranslate"><span class="pre">try</span></code> around an optional header, a dictionary lookup, a call into another package — the branch belongs on the <strong>Python + C++ route</strong>: write the same reader as an <code class="docutils literal notranslate"><span class="pre">IReader</span></code> (<a class="reference internal" href="../advanced/python-reader.html"><span class="std std-doc">stage 1</span></a>) and port it to C++ (<a class="reference internal" href="../advanced/cpp-reader.html"><span class="std std-doc">stage 2</span></a>), because the Python half is too slow to ship.</p>
 <p>Keeping the Detree reader alongside them is still useful: all the implementations share the byte layout and one factory, so a disagreement localizes the bug to the read path rather than to your understanding of the format. Do not confuse the two Python appearances, though — <code class="docutils literal notranslate"><span class="pre">uproot_custom.detree.interp</span></code> runs the <em>Detree reader’s own methods</em> as Python for debugging, while the <code class="docutils literal notranslate"><span class="pre">python</span></code> backend runs a separate <code class="docutils literal notranslate"><span class="pre">IReader</span></code> implementation; see <a class="reference internal" href="../concepts/choosing-a-route.html#three-things-called-python"><span class="std std-ref">choosing a technical route</span></a>.</p>
 </section>
@@ -486,7 +486,7 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js?v=b8b12719"></script>
-    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../_static/design-tabs.js?v=fcb327ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     </body>
 </html>

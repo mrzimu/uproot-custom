@@ -222,7 +222,8 @@ See [the Detree reference](../reference/detree-dsl.md) for the full contract.
 
 - every `stream.*` call consumes bytes and advances the cursor — the methods mirror the Python `BinaryStream` one for one;
 - `self.<buffer>.append(value)` appends to a declared buffer; a local variable lives for one call, while a declared `State` survives to the next entry;
-- `assert` is the only way to fail. `raise` is rejected when the class is defined, so report a bad record as `assert condition, "message"`.
+- an object framed by its byte count goes in a `with stream.check_nbytes():` block: the machine reads the count and checks the end position when the block closes;
+- `assert` is the only other way to fail. `raise` is rejected when the class is defined, so report a bad record as `assert condition, "message"`.
 
 ### `data()`
 
@@ -364,14 +365,15 @@ The read path must stay inside a small subset of Python:
 
 | Allowed | Examples |
 | ------- | -------- |
-| statements | `if`/`else`, `while`, `for _ in range(n)`, `for child in self.<ChildList>`, `assert`, assignment to a local, a `State`, or `stream.cursor` |
+| statements | `if`/`else`, `while`, `for _ in range(n)`, `for child in self.<ChildList>`, `with stream.check_nbytes():`, `assert`, assignment to a local, a `State`, or `stream.cursor` |
 | expressions | integer and boolean arithmetic and comparisons, `and`/`or`/`not`, `if` expressions, `bool()`, `int()` |
 | buffers | `buf.append(x)`, `len(buf)`, `buf[-1]` |
 | stream | the scalar `read_*` methods, `read_into`, `read_bulk`, `skip` and the `skip_*` helpers, `next_offset_after`, the reference helpers |
 
 | Not allowed | Use instead |
 | ----------- | ----------- |
-| imports, `try`, `with`, `raise`, `lambda`, comprehensions | none — rewrite the reader, or take the Python + C++ route |
+| imports, `try`, `raise`, `lambda`, comprehensions | none — rewrite the reader, or take the Python + C++ route |
+| `with`, except `with stream.check_nbytes():` | the counted region is the only block a read path needs |
 | dict, set, or list literals | none |
 | `print`, numpy, `isinstance`, arbitrary function calls | `data()`, which runs in Python |
 | writing a plain `self.<attr>` | declare it as `State(...)` |
@@ -390,7 +392,7 @@ This can be a per-branch decision. The backend is a runtime choice and the reade
 | `ReaderContractError: ... source is not available; readers must live in a .py file` | the reader was defined in a notebook or a REPL | move it into a module |
 | `UnsupportedNode: <Class> must be decorated with @reader at root` | `build_detree_reader` returned a class without `@reader` | decorate it |
 | `UnsupportedNode: ... line N: ...` | a construct the per-method check did not catch, found while compiling | rewrite it, or take the Python + C++ route |
-| `detree.spec.errors.AssertionFailed: <your message> function=... ip=... cursor=...` | an `assert` in a read path failed | the message is yours; `cursor` says how far the read got |
+| `detree.spec.errors.AssertionFailed: <your message> function=... ip=... cursor=...` | an `assert` in a read path failed, or a `with stream.check_nbytes():` block did not consume its byte count | the message is yours; a frame message ends with `(expected N, got M)`, and `cursor` says how far the read got |
 | `detree.spec.errors.InvalidByteCount: fNBytes=... lacks kByteCountMask` | the read is out of step with the bytes, usually a header consumed in the wrong place | compare against the raw bytes and check the field before it |
 
 A failed `assert` looks different under the two executors: the machine raises `AssertionFailed` with the position attached, while `uproot_custom.detree.interp` raises a plain `AssertionError` carrying only your message. That difference is the quickest way to tell which executor produced an error.

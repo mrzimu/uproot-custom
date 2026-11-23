@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -424,6 +424,25 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">skip_obj_header()</span></code>: Skip the object header.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">skip_TObject()</span></code>: Skip a <code class="docutils literal notranslate"><span class="pre">TObject</span></code>.</p></li>
 </ul>
+<section id="counted-regions">
+<h3>Counted regions<a class="headerlink" href="#counted-regions" title="Link to this heading">¶</a></h3>
+<p>An object framed by its byte count declares how many bytes follow it. Both forms below check that the block consumed exactly that many, and throw <code class="docutils literal notranslate"><span class="pre">std::runtime_error</span></code> with <code class="docutils literal notranslate"><span class="pre">expected</span> <span class="pre">N,</span> <span class="pre">got</span> <span class="pre">M</span></code>:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="w"> </span><span class="n">BinaryStream</span><span class="o">&amp;</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">frame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stream</span><span class="p">.</span><span class="n">check_nbytes</span><span class="p">();</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">fVersion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stream</span><span class="p">.</span><span class="n">read_fVersion</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">fVersion</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">stream</span><span class="p">.</span><span class="n">skip</span><span class="p">(</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">m_element_readers</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">reader</span><span class="o">-&gt;</span><span class="n">read</span><span class="p">(</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">check_nbytes_start()</span></code>: read the masked <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code> and remember where the region ends. Regions nest, so a framed sub-reader does not disturb its caller.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">check_nbytes_end()</span></code>: fail unless the cursor is at the end of the innermost region.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">check_nbytes_end(</span> <span class="pre">const</span> <span class="pre">uint8_t*</span> <span class="pre">expected</span> <span class="pre">)</span></code>: fail unless the cursor is at <code class="docutils literal notranslate"><span class="pre">expected</span></code>, for a region whose size was computed rather than read.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CountedRegion</span> <span class="pre">check_nbytes()</span></code>: open the region and check it when the bound guard leaves scope — the C++ form of Python’s <code class="docutils literal notranslate"><span class="pre">with</span></code>. Bind it (<code class="docutils literal notranslate"><span class="pre">auto</span> <span class="pre">frame</span> <span class="pre">=</span> <span class="pre">...</span></code>); the return type is <code class="docutils literal notranslate"><span class="pre">[[nodiscard]]</span></code> because a bare statement would close the region immediately.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">size_t</span> <span class="pre">open_frames()</span> <span class="pre">const</span></code>: the number of regions still waiting for their end.</p></li>
+</ul>
+<p>A block that throws drops the region without a second exception, so the original error survives. The Python form of this API is in <a class="reference internal" href="python-reader.html#binarystream"><span class="std std-ref">the Python reader page</span></a>.</p>
 <p><strong>Miscellaneous</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">uint8_t*</span> <span class="pre">get_data()</span> <span class="pre">const</span></code>: Get the start of the data stream.</p></li>
@@ -432,6 +451,7 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">uint64_t*</span> <span class="pre">entries()</span> <span class="pre">const</span></code>: Get the number of entries of the data stream.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">debug_print(</span> <span class="pre">const</span> <span class="pre">size_t</span> <span class="pre">n</span> <span class="pre">=</span> <span class="pre">100</span> <span class="pre">)</span> <span class="pre">const</span></code>: Print the next <code class="docutils literal notranslate"><span class="pre">n</span></code> bytes from the current cursor for debugging.</p></li>
 </ul>
+</section>
 </section>
 <hr class="docutils" />
 <section id="accepting-sub-readers">
@@ -483,7 +503,7 @@
 </section>
 <hr class="docutils" />
 <section id="adding-build-cpp-reader-to-the-factory">
-<h2>Adding <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code> to the factory<a class="headerlink" href="#adding-build-cpp-reader-to-the-factory" title="Link to this heading">¶</a></h2>
+<span id="adding-build_cpp_reader-to-the-factory"></span><h2>Adding <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code> to the factory<a class="headerlink" href="#adding-build-cpp-reader-to-the-factory" title="Link to this heading">¶</a></h2>
 <p>Once the C++ reader is ready, add a <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code> method to the factory alongside the Detree reader. This is the <strong>only</strong> Python-side change needed — <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code> and <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code> remain exactly the same, because both readers return data in the same structure.</p>
 </section>
 <hr class="docutils" />
@@ -492,8 +512,8 @@
 <p>The following tabs show the same <code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code> (from the <a class="reference internal" href="../concepts/how-it-works.html#complete-example-putting-it-all-together"><span class="std std-ref">pipeline example</span></a>) in Python and C++. Notice how the reading logic is identical — only the language syntax differs.</p>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
-<label class="sd-tab-label" for="sd-tab-item-0">
-Python</label><div class="sd-tab-content docutils">
+<label aria-controls="sd-tab-item-0-content" class="sd-tab-label" for="sd-tab-item-0">
+Python</label><div class="sd-tab-content docutils" id="sd-tab-item-0-content">
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code> (Python)</span><a class="headerlink" href="#id2" title="Link to this code">¶</a></div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span><span class="w"> </span><span class="nn">array</span><span class="w"> </span><span class="kn">import</span> <span class="n">array</span>
@@ -524,8 +544,8 @@ Python</label><div class="sd-tab-content docutils">
 </div>
 </div>
 <input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
-<label class="sd-tab-label" for="sd-tab-item-1">
-C++</label><div class="sd-tab-content docutils">
+<label aria-controls="sd-tab-item-1-content" class="sd-tab-label" for="sd-tab-item-1">
+C++</label><div class="sd-tab-content docutils" id="sd-tab-item-1-content">
 <div class="literal-block-wrapper docutils container" id="id3">
 <div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">OverrideStreamerReader</span></code> (C++)</span><a class="headerlink" href="#id3" title="Link to this code">¶</a></div>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdint&gt;</span>
@@ -717,7 +737,10 @@ C++</label><div class="sd-tab-content docutils">
 <li><a class="reference internal" href="#">Stage 2: the C++ implementation</a><ul>
 <li><a class="reference internal" href="#version-pinning-and-the-abi">Version pinning and the ABI</a></li>
 <li><a class="reference internal" href="#c-ireader-base-class">C++ <code class="docutils literal notranslate"><span class="pre">IReader</span></code> base class</a></li>
-<li><a class="reference internal" href="#c-binarystream">C++ <code class="docutils literal notranslate"><span class="pre">BinaryStream</span></code></a></li>
+<li><a class="reference internal" href="#c-binarystream">C++ <code class="docutils literal notranslate"><span class="pre">BinaryStream</span></code></a><ul>
+<li><a class="reference internal" href="#counted-regions">Counted regions</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#accepting-sub-readers">Accepting sub-readers</a></li>
 <li><a class="reference internal" href="#zero-copy-numpy-conversion">Zero-copy <code class="docutils literal notranslate"><span class="pre">numpy</span></code> conversion</a></li>
 <li><a class="reference internal" href="#exposing-a-reader-to-python">Exposing a reader to Python</a></li>
@@ -747,7 +770,7 @@ C++</label><div class="sd-tab-content docutils">
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js?v=b8b12719"></script>
-    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../_static/design-tabs.js?v=fcb327ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     </body>
 </html>

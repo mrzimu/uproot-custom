@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -289,7 +289,7 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="the-python-c-route">
-<h1>The Python + C++ route<a class="headerlink" href="#the-python-c-route" title="Link to this heading">¶</a></h1>
+<span id="the-python--c-route"></span><h1>The Python + C++ route<a class="headerlink" href="#the-python-c-route" title="Link to this heading">¶</a></h1>
 <p>Detree is the recommended route: one reader, written in Python source, compiled at run time, with no build step and no version pinning. This section documents the other one, in which a branch is decoded by an <code class="docutils literal notranslate"><span class="pre">IReader</span></code> written twice — once in Python, then again in C++.</p>
 <p>Read <a class="reference internal" href="../concepts/choosing-a-route.html"><span class="std std-doc">choosing a technical route</span></a> first; the trade-offs below are the short version.</p>
 <section id="why-take-this-route">
@@ -308,10 +308,23 @@
 <li><p><strong><a class="reference internal" href="cpp-reader.html"><span class="std std-doc">The C++ implementation</span></a></strong> — the same fields in the same order, written in C++, compiled into a pybind11 extension. This is what runs in production.</p></li>
 </ol>
 <p>Both stages share one factory: <code class="docutils literal notranslate"><span class="pre">build_python_reader</span></code> returns the first, <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code> returns the second, and <code class="docutils literal notranslate"><span class="pre">make_awkward_content</span></code> / <code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code> are written once. Only the stage matching the selected backend runs.</p>
+<section id="one-stream-api-in-both-languages">
+<h3>One stream API in both languages<a class="headerlink" href="#one-stream-api-in-both-languages" title="Link to this heading">¶</a></h3>
+<p>The two stages read the same bytes through the same <code class="docutils literal notranslate"><span class="pre">BinaryStream</span></code>, method for method, so a reader ports by translating syntax rather than by re-learning the stream. The counted-region API is the clearest example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">stream</span><span class="o">.</span><span class="n">check_nbytes</span><span class="p">():</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">frame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stream</span><span class="p">.</span><span class="n">check_nbytes</span><span class="p">();</span>
+<span class="p">...</span>
+</pre></div>
+</div>
+<p>Both read the masked <code class="docutils literal notranslate"><span class="pre">fNBytes</span></code>, both check the end position when the block ends, and both name the two positions in the error. Method names are identical in the two pages: <a class="reference internal" href="python-reader.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">python-reader.md</span></code></span></a> and <a class="reference internal" href="cpp-reader.html"><span class="std std-doc"><code class="docutils literal notranslate"><span class="pre">cpp-reader.md</span></code></span></a>.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>The Python stage is not a deployment target. It is several times slower than Detree, so a project on this route is expected to finish the port to C++ before it ships. The Python implementation stays in the repository as the readable statement of the byte layout and as a debugging oracle.</p>
 </div>
+</section>
 </section>
 <section id="what-it-costs">
 <h2>What it costs<a class="headerlink" href="#what-it-costs" title="Link to this heading">¶</a></h2>
@@ -385,7 +398,10 @@
             <ul>
 <li><a class="reference internal" href="#">The Python + C++ route</a><ul>
 <li><a class="reference internal" href="#why-take-this-route">Why take this route</a></li>
-<li><a class="reference internal" href="#how-the-route-works">How the route works</a></li>
+<li><a class="reference internal" href="#how-the-route-works">How the route works</a><ul>
+<li><a class="reference internal" href="#one-stream-api-in-both-languages">One stream API in both languages</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#what-it-costs">What it costs</a></li>
 <li><a class="reference internal" href="#the-two-stages">The two stages</a></li>
 </ul>
@@ -409,7 +425,7 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js?v=b8b12719"></script>
-    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../_static/design-tabs.js?v=fcb327ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     </body>
 </html>

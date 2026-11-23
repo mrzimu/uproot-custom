@@ -101,6 +101,27 @@ The C++ `BinaryStream` wraps a `uint8_t*` stream with the same convenience metho
 - `void skip_obj_header()`: Skip the object header.
 - `void skip_TObject()`: Skip a `TObject`.
 
+### Counted regions
+
+An object framed by its byte count declares how many bytes follow it. Both forms below check that the block consumed exactly that many, and throw `std::runtime_error` with `expected N, got M`:
+
+```cpp
+void read( BinaryStream& stream ) override {
+    auto frame = stream.check_nbytes();
+    auto fVersion = stream.read_fVersion();
+    if ( fVersion == 0 ) stream.skip( 4 );
+    for ( auto& reader : m_element_readers ) { reader->read( stream ); }
+}
+```
+
+- `void check_nbytes_start()`: read the masked `fNBytes` and remember where the region ends. Regions nest, so a framed sub-reader does not disturb its caller.
+- `void check_nbytes_end()`: fail unless the cursor is at the end of the innermost region.
+- `void check_nbytes_end( const uint8_t* expected )`: fail unless the cursor is at `expected`, for a region whose size was computed rather than read.
+- `CountedRegion check_nbytes()`: open the region and check it when the bound guard leaves scope — the C++ form of Python's `with`. Bind it (`auto frame = ...`); the return type is `[[nodiscard]]` because a bare statement would close the region immediately.
+- `size_t open_frames() const`: the number of regions still waiting for their end.
+
+A block that throws drops the region without a second exception, so the original error survives. The Python form of this API is in [the Python reader page](python-reader.md#binarystream).
+
 **Miscellaneous**
 - `const uint8_t* get_data() const`: Get the start of the data stream.
 - `const uint8_t* get_cursor() const`: Get the current cursor position.

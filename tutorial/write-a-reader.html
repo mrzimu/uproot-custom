@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -369,8 +369,8 @@
 <h3>Constructor<a class="headerlink" href="#constructor" title="Link to this heading">¶</a></h3>
 <p>The constructor receives all parameters needed by the reader-building and awkward-building methods. At minimum it must accept a <code class="docutils literal notranslate"><span class="pre">name</span></code> (usually <code class="docutils literal notranslate"><span class="pre">fName</span></code> from the streamer info).</p>
 </section>
-<section id="build-factory-classmethod">
-<span id="method-build-factory"></span><h3><code class="docutils literal notranslate"><span class="pre">build_factory</span></code> (classmethod)<a class="headerlink" href="#build-factory-classmethod" title="Link to this heading">¶</a></h3>
+<section id="method-build-factory">
+<span id="build-factory-classmethod"></span><span id="build_factory-classmethod"></span><h3><code class="docutils literal notranslate"><span class="pre">build_factory</span></code> (classmethod)<a class="headerlink" href="#method-build-factory" title="Link to this heading">¶</a></h3>
 <p>Called during factory-tree construction. Parameters:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">top_type_name:</span> <span class="pre">str</span></code> — the top-level type name, with <code class="docutils literal notranslate"><span class="pre">std::</span></code> prefixes stripped (e.g. <code class="docutils literal notranslate"><span class="pre">vector</span></code> for <code class="docutils literal notranslate"><span class="pre">std::vector&lt;std::map&lt;int,</span> <span class="pre">float&gt;&gt;</span></code>).</p></li>
@@ -464,7 +464,7 @@
 <p><strong>Return</strong> an instance of the factory if the node matches, or <code class="docutils literal notranslate"><span class="pre">None</span></code> to pass to the next registered factory.</p>
 </section>
 <section id="build-detree-reader">
-<h3><code class="docutils literal notranslate"><span class="pre">build_detree_reader</span></code><a class="headerlink" href="#build-detree-reader" title="Link to this heading">¶</a></h3>
+<span id="build_detree_reader"></span><h3><code class="docutils literal notranslate"><span class="pre">build_detree_reader</span></code><a class="headerlink" href="#build-detree-reader" title="Link to this heading">¶</a></h3>
 <p>Return the reader for this node:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">build_detree_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">OverrideStreamerReader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
@@ -482,7 +482,7 @@
 <p>Each backend has its own method (<code class="docutils literal notranslate"><span class="pre">build_detree_reader</span></code>, <code class="docutils literal notranslate"><span class="pre">build_python_reader</span></code>, <code class="docutils literal notranslate"><span class="pre">build_cpp_reader</span></code>), and only the selected backend’s method is called. A factory may implement all three; the others are simply unused. See <a class="reference internal" href="../concepts/choosing-a-route.html"><span class="std std-doc">choosing a technical route</span></a>.</p>
 </section>
 <section id="make-awkward-content-raw-data">
-<h3><code class="docutils literal notranslate"><span class="pre">make_awkward_content(raw_data)</span></code><a class="headerlink" href="#make-awkward-content-raw-data" title="Link to this heading">¶</a></h3>
+<span id="make_awkward_contentraw_data"></span><h3><code class="docutils literal notranslate"><span class="pre">make_awkward_content(raw_data)</span></code><a class="headerlink" href="#make-awkward-content-raw-data" title="Link to this heading">¶</a></h3>
 <p>Convert <code class="docutils literal notranslate"><span class="pre">raw_data</span></code> (the value returned by the reader’s <code class="docutils literal notranslate"><span class="pre">data()</span></code> method) into an <code class="docutils literal notranslate"><span class="pre">awkward.contents.Content</span></code>.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -490,7 +490,7 @@
 </div>
 </section>
 <section id="make-awkward-form">
-<h3><code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code><a class="headerlink" href="#make-awkward-form" title="Link to this heading">¶</a></h3>
+<span id="make_awkward_form"></span><h3><code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code><a class="headerlink" href="#make-awkward-form" title="Link to this heading">¶</a></h3>
 <p>Return an <code class="docutils literal notranslate"><span class="pre">awkward.forms.Form</span></code> that describes the data layout. This is used for lazy evaluation.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -559,7 +559,8 @@
 <ul class="simple">
 <li><p>every <code class="docutils literal notranslate"><span class="pre">stream.*</span></code> call consumes bytes and advances the cursor — the methods mirror the Python <code class="docutils literal notranslate"><span class="pre">BinaryStream</span></code> one for one;</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">self.&lt;buffer&gt;.append(value)</span></code> appends to a declared buffer; a local variable lives for one call, while a declared <code class="docutils literal notranslate"><span class="pre">State</span></code> survives to the next entry;</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">assert</span></code> is the only way to fail. <code class="docutils literal notranslate"><span class="pre">raise</span></code> is rejected when the class is defined, so report a bad record as <code class="docutils literal notranslate"><span class="pre">assert</span> <span class="pre">condition,</span> <span class="pre">&quot;message&quot;</span></code>.</p></li>
+<li><p>an object framed by its byte count goes in a <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">stream.check_nbytes():</span></code> block: the machine reads the count and checks the end position when the block closes;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">assert</span></code> is the only other way to fail. <code class="docutils literal notranslate"><span class="pre">raise</span></code> is rejected when the class is defined, so report a bad record as <code class="docutils literal notranslate"><span class="pre">assert</span> <span class="pre">condition,</span> <span class="pre">&quot;message&quot;</span></code>.</p></li>
 </ul>
 </section>
 <section id="data">
@@ -704,7 +705,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>statements</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">if</span></code>/<code class="docutils literal notranslate"><span class="pre">else</span></code>, <code class="docutils literal notranslate"><span class="pre">while</span></code>, <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">_</span> <span class="pre">in</span> <span class="pre">range(n)</span></code>, <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">child</span> <span class="pre">in</span> <span class="pre">self.&lt;ChildList&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">assert</span></code>, assignment to a local, a <code class="docutils literal notranslate"><span class="pre">State</span></code>, or <code class="docutils literal notranslate"><span class="pre">stream.cursor</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">if</span></code>/<code class="docutils literal notranslate"><span class="pre">else</span></code>, <code class="docutils literal notranslate"><span class="pre">while</span></code>, <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">_</span> <span class="pre">in</span> <span class="pre">range(n)</span></code>, <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">child</span> <span class="pre">in</span> <span class="pre">self.&lt;ChildList&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">stream.check_nbytes():</span></code>, <code class="docutils literal notranslate"><span class="pre">assert</span></code>, assignment to a local, a <code class="docutils literal notranslate"><span class="pre">State</span></code>, or <code class="docutils literal notranslate"><span class="pre">stream.cursor</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>expressions</p></td>
 <td><p>integer and boolean arithmetic and comparisons, <code class="docutils literal notranslate"><span class="pre">and</span></code>/<code class="docutils literal notranslate"><span class="pre">or</span></code>/<code class="docutils literal notranslate"><span class="pre">not</span></code>, <code class="docutils literal notranslate"><span class="pre">if</span></code> expressions, <code class="docutils literal notranslate"><span class="pre">bool()</span></code>, <code class="docutils literal notranslate"><span class="pre">int()</span></code></p></td>
@@ -726,16 +727,19 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>imports, <code class="docutils literal notranslate"><span class="pre">try</span></code>, <code class="docutils literal notranslate"><span class="pre">with</span></code>, <code class="docutils literal notranslate"><span class="pre">raise</span></code>, <code class="docutils literal notranslate"><span class="pre">lambda</span></code>, comprehensions</p></td>
+<tr class="row-even"><td><p>imports, <code class="docutils literal notranslate"><span class="pre">try</span></code>, <code class="docutils literal notranslate"><span class="pre">raise</span></code>, <code class="docutils literal notranslate"><span class="pre">lambda</span></code>, comprehensions</p></td>
 <td><p>none — rewrite the reader, or take the Python + C++ route</p></td>
 </tr>
-<tr class="row-odd"><td><p>dict, set, or list literals</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">with</span></code>, except <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">stream.check_nbytes():</span></code></p></td>
+<td><p>the counted region is the only block a read path needs</p></td>
+</tr>
+<tr class="row-even"><td><p>dict, set, or list literals</p></td>
 <td><p>none</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">print</span></code>, numpy, <code class="docutils literal notranslate"><span class="pre">isinstance</span></code>, arbitrary function calls</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">print</span></code>, numpy, <code class="docutils literal notranslate"><span class="pre">isinstance</span></code>, arbitrary function calls</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">data()</span></code>, which runs in Python</p></td>
 </tr>
-<tr class="row-odd"><td><p>writing a plain <code class="docutils literal notranslate"><span class="pre">self.&lt;attr&gt;</span></code></p></td>
+<tr class="row-even"><td><p>writing a plain <code class="docutils literal notranslate"><span class="pre">self.&lt;attr&gt;</span></code></p></td>
 <td><p>declare it as <code class="docutils literal notranslate"><span class="pre">State(...)</span></code></p></td>
 </tr>
 </tbody>
@@ -773,8 +777,8 @@
 <td><p>rewrite it, or take the Python + C++ route</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">detree.spec.errors.AssertionFailed:</span> <span class="pre">&lt;your</span> <span class="pre">message&gt;</span> <span class="pre">function=...</span> <span class="pre">ip=...</span> <span class="pre">cursor=...</span></code></p></td>
-<td><p>an <code class="docutils literal notranslate"><span class="pre">assert</span></code> in a read path failed</p></td>
-<td><p>the message is yours; <code class="docutils literal notranslate"><span class="pre">cursor</span></code> says how far the read got</p></td>
+<td><p>an <code class="docutils literal notranslate"><span class="pre">assert</span></code> in a read path failed, or a <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">stream.check_nbytes():</span></code> block did not consume its byte count</p></td>
+<td><p>the message is yours; a frame message ends with <code class="docutils literal notranslate"><span class="pre">(expected</span> <span class="pre">N,</span> <span class="pre">got</span> <span class="pre">M)</span></code>, and <code class="docutils literal notranslate"><span class="pre">cursor</span></code> says how far the read got</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">detree.spec.errors.InvalidByteCount:</span> <span class="pre">fNBytes=...</span> <span class="pre">lacks</span> <span class="pre">kByteCountMask</span></code></p></td>
 <td><p>the read is out of step with the bytes, usually a header consumed in the wrong place</p></td>
@@ -855,7 +859,7 @@
 <li><a class="reference internal" href="#the-factory-api">The Factory API</a><ul>
 <li><a class="reference internal" href="#priority-classmethod"><code class="docutils literal notranslate"><span class="pre">priority</span></code> (classmethod)</a></li>
 <li><a class="reference internal" href="#constructor">Constructor</a></li>
-<li><a class="reference internal" href="#build-factory-classmethod"><code class="docutils literal notranslate"><span class="pre">build_factory</span></code> (classmethod)</a></li>
+<li><a class="reference internal" href="#method-build-factory"><code class="docutils literal notranslate"><span class="pre">build_factory</span></code> (classmethod)</a></li>
 <li><a class="reference internal" href="#build-detree-reader"><code class="docutils literal notranslate"><span class="pre">build_detree_reader</span></code></a></li>
 <li><a class="reference internal" href="#make-awkward-content-raw-data"><code class="docutils literal notranslate"><span class="pre">make_awkward_content(raw_data)</span></code></a></li>
 <li><a class="reference internal" href="#make-awkward-form"><code class="docutils literal notranslate"><span class="pre">make_awkward_form</span></code></a></li>
@@ -898,7 +902,7 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js?v=b8b12719"></script>
-    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../_static/design-tabs.js?v=fcb327ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     </body>
 </html>

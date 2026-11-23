@@ -94,6 +94,28 @@ Every reader requires a `name: str` for debug output.
 - `skip_obj_header()`: Skip the object header.
 - `skip_TObject()`: Skip a `TObject`.
 
+### Counted regions
+
+An object framed by its byte count declares how many bytes follow it. Both forms below check that the block consumed exactly that many, and fail with `expected N, got M`:
+
+```python
+def read(self, stream):
+    with stream.check_nbytes():
+        fVersion = stream.read_fVersion()
+        if fVersion == 0:
+            stream.skip(4)
+        for reader in self.element_readers:
+            reader.read(stream)
+```
+
+- `check_nbytes_start()`: read the masked `fNBytes` and remember where the region ends. Regions nest, so a framed sub-reader does not disturb its caller.
+- `check_nbytes_end()`: fail unless the cursor is at the end of the innermost region.
+- `check_nbytes_end(expected)`: fail unless the cursor is at `expected`, for a region whose size was computed rather than read.
+- `check_nbytes()`: a context manager over the pair, for a `with` block.
+- `open_frames`: the number of regions still waiting for their end.
+
+A block that raises drops the region without a second error, so the original exception survives. The C++ form of this API is in [the C++ reader page](cpp-reader.md#counted-regions).
+
 **Miscellaneous**
 - `cursor`: Current cursor position (byte index into the stream).
 - `entries`: Number of entries in the data stream.
