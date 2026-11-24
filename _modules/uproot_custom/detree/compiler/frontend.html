@@ -291,7 +291,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">detree</span><span class="w"> </span><span class="kn">import</span> <span class="nb">compile</span> <span class="k">as</span> <span class="n">detree_compile</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">detree.ir</span><span class="w"> </span><span class="kn">import</span> <span class="n">nodes</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">detree.spec.isa</span><span class="w"> </span><span class="kn">import</span> <span class="n">BufferKind</span><span class="p">,</span> <span class="n">Op</span><span class="p">,</span> <span class="n">Typecode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">detree.spec.isa</span><span class="w"> </span><span class="kn">import</span> <span class="n">BufferKind</span><span class="p">,</span> <span class="n">Op</span><span class="p">,</span> <span class="n">Typecode</span><span class="p">,</span> <span class="n">typecode_size</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.consts</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPECODE</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">uproot_custom.detree.bufferproxy</span><span class="w"> </span><span class="kn">import</span> <span class="n">BufferProxy</span>
@@ -355,6 +355,35 @@
     <span class="s2">"skip_obj_header"</span><span class="p">:</span> <span class="n">Op</span><span class="o">.</span><span class="n">SKIP_OBJHDR</span><span class="p">,</span>
     <span class="s2">"skip_null_terminated_string"</span><span class="p">:</span> <span class="n">Op</span><span class="o">.</span><span class="n">SKIP_CSTR</span><span class="p">,</span>
 <span class="p">}</span>
+
+<span class="c1">#: Expression nodes that may be evaluated and thrown away: they read machine</span>
+<span class="c1">#: state but change none. A `StreamRead*` and a `Call` are absent on purpose;</span>
+<span class="c1">#: `_MethodEmitter.discard` gives those their statement form.</span>
+<span class="n">EFFECT_FREE_EXPRESSIONS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">Const</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">ConstFloat</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">Local</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">Binary</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">Compare</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">Unary</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">Cast</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">Cursor</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">Entries</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">InitOffset</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">DataSize</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">OffsetAt</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">OffsetSeek</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">EventEnd</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">BufferLast</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">BufferLen</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">StateGet</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">StrConst</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">StrEq</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">RefHas</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">RefGetObj</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">RefGetClass</span><span class="p">,</span>
+    <span class="n">nodes</span><span class="o">.</span><span class="n">RefCount</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="c1">#: struct char -&gt; numpy dtype name used by a detree-vm buffer declaration.</span>
 <span class="n">BUFFER_DTYPES</span> <span class="o">=</span> <span class="p">{</span>
@@ -746,12 +775,11 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">stmt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">AST</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Expr</span><span class="p">):</span>
-            <span class="c1"># The value is discarded; a non-void call still has to happen.</span>
+            <span class="c1"># The value is discarded, but the operation may still have an</span>
+            <span class="c1"># effect; `discard` gives it its statement form.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">discard_result</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">nodes</span><span class="o">.</span><span class="n">Call</span><span class="p">):</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">CallStmt</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">arg</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
             <span class="k">finally</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">discard_result</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">return</span>
@@ -784,6 +812,33 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">Nop</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">_Unsupported</span><span class="p">(</span><span class="sa">f</span><span class="s2">"line </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">lineno</span><span class="si">}</span><span class="s2">: statement </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">node</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">discard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Emit the statement form of an expression whose value nobody uses.</span>
+
+<span class="sd">        A non-void call still has to happen, and a read still consumes bytes,</span>
+<span class="sd">        so it becomes the matching skip. Assigning a read to an unused</span>
+<span class="sd">        register is not enough: the optimizer drops assignments whose local is</span>
+<span class="sd">        never read, and the bytes would stay unconsumed.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">nodes</span><span class="o">.</span><span class="n">Call</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">CallStmt</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">arg</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">nodes</span><span class="o">.</span><span class="n">StreamRead</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="n">typecode_size</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">typecode</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">nodes</span><span class="o">.</span><span class="n">StreamReadFNB</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">skip_fnb</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">nodes</span><span class="o">.</span><span class="n">StreamReadVersion</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">skip_version</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">nodes</span><span class="o">.</span><span class="n">StreamReadCString</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">skip_cstr</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">nodes</span><span class="o">.</span><span class="n">StreamReadTString</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">skip_tstring</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">EFFECT_FREE_EXPRESSIONS</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">_Unsupported</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"line </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">lineno</span><span class="si">}</span><span class="s2">: the value of </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> "</span>
+                <span class="s2">"cannot be discarded"</span>
+            <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">assign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Assign</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">targets</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>

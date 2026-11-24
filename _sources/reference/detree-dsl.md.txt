@@ -100,7 +100,7 @@ A construct outside the subset fails with `ReaderContractError` (when the class 
 
 `stream.read_null_terminated_string()` and `stream.read_TString()` return an interned name: a `str` in Python, and an id into the machine's string arena in the compiled module. Store it in a `State(str, ...)`, compare it with `==`/`!=` against a string, or pass it to `stream.check_class_name()`. `len()` applies to buffers only, so a reader that needs the character count reads the bytes into a `Buffer("B")` with `read_bulk` instead. `data()` runs after the run and sees the decoded `str` for a string state.
 
-`read_TString` compiles to `SREAD_TSTR`, which reads ROOT's `1`-byte length (or `0xFF` followed by a `uint32`) and interns the characters; a length past the end of the event fails the run. `stream.skip_TString()` consumes the same layout without interning anything, for a name the reader does not need.
+`read_TString` compiles to `SREAD_TSTR`, which reads ROOT's `1`-byte length (or `0xFF` followed by a `uint32`) and interns the characters; a length past the end of the event fails the run. `stream.skip_TString()` consumes the same layout without interning anything, for a name the reader does not need. A read whose value is discarded still consumes its bytes, so `stream.read_TString()` on its own is also a valid way to skip a name; `skip_TString()` says so more clearly.
 
 ## Counted regions
 
