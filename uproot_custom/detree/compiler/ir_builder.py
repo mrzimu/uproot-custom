@@ -264,6 +264,9 @@ class IRFunctionBuilder:
     def read_cstr(self, dst=None):
         return nodes.StreamReadCString()
 
+    def read_tstring(self, dst=None):
+        return nodes.StreamReadTString()
+
     def buf_last(self, buf):
         return nodes.BufferLast(int(buf))
 
@@ -316,6 +319,9 @@ class IRFunctionBuilder:
 
     def skip_cstr(self):
         return self.emit(nodes.SkipCStr())
+
+    def skip_tstring(self):
+        return self.emit(nodes.SkipTString())
 
     def set_cursor(self, value):
         return self.emit(nodes.SetCursor(_value(value)))

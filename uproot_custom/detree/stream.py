@@ -164,6 +164,26 @@ class Stream:
         self.cursor += 1
         return value
 
+    def read_TString(self):
+        """
+        Read a length-prefixed string: one byte, or `0xFF` and a `uint32`.
+        """
+        size = self.read_uint8()
+        if size == 255:
+            size = self.read_uint32()
+        self.skip(size)
+        start = self.cursor - size
+        return self.data[start : self.cursor].decode()
+
+    def skip_TString(self):
+        """
+        Skip a length-prefixed string: one byte, or `0xFF` and a `uint32`.
+        """
+        size = self.read_uint8()
+        if size == 255:
+            size = self.read_uint32()
+        self.skip(size)
+
     def skip(self, nbytes):
         if self.cursor + nbytes > len(self.data):
             raise IndexError(f"skip of {nbytes} bytes past the end of the basket")

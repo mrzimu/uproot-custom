@@ -30,7 +30,7 @@ from uproot_custom.consts import (
     kStreamedMemberwise,
 )
 from uproot_custom.detree import interp
-from uproot_custom.detree.decl import Buffer, Reader, reader
+from uproot_custom.detree.decl import Buffer, Reader, State, reader
 from uproot_custom.detree.run import read_data
 
 
@@ -364,6 +364,131 @@ def test_a_counted_reader_reports_a_wrong_byte_count():
 
     with pytest.raises(AssertionFailed, match="expected 12, got 8"):
         read_data(reader, payload, [0, len(payload)])
+
+
+# -- length-prefixed strings ---------------------------------------------------
+class _TStringValueReader(python.IReader):
+    """
+    The python-backend form of `_TStringSlotReader`.
+    """
+
+    def __init__(self, name):
+        super().__init__(name)
+        self.value = ""
+
+    def read(self, stream):
+        self.value = stream.read_TString()
+
+    def data(self):
+        return self.value
+
+
+@reader
+class _TStringSlotReader(Reader):
+    """
+    One `TString`, kept in a name slot so `data` can return it.
+    """
+
+    value = State(str, "")
+
+    def read(self, stream):
+        self.value = stream.read_TString()
+
+    def data(self):
+        return self.value
+
+
+def test_read_tstring_short_form():
+    payload = struct.pack(">B", 3) + b"abc"
+    assert (
+        _check(
+            _TStringValueReader("s"),
+            _TStringSlotReader("s"),
+            payload,
+            [0, len(payload)],
+        )
+        == "abc"
+    )
+
+
+def test_read_tstring_long_form():
+    payload = struct.pack(">B", 255) + struct.pack(">I", 5) + b"hello"
+    assert (
+        _check(
+            _TStringValueReader("s"),
+            _TStringSlotReader("s"),
+            payload,
+            [0, len(payload)],
+        )
+        == "hello"
+    )
+
+
+class _SkipTStringValueReader(python.IReader):
+    """
+    The python-backend form of `_SkipTStringReader`; the backend has no
+    `skip_TString`, so the length prefix is read by hand.
+    """
+
+    def __init__(self, name):
+        super().__init__(name)
+        self.values = []
+
+    def read(self, stream):
+        self.values.append(stream.read_int32())
+        size = stream.read_uint8()
+        if size == 255:
+            size = stream.read_uint32()
+        stream.skip(size)
+        self.values.append(stream.read_int32())
+
+    def data(self):
+        return np.asarray(self.values)
+
+
+@reader
+class _SkipTStringReader(Reader):
+    """
+    A `TString` between two values, skipped instead of decoded.
+    """
+
+    values = Buffer("i")
+
+    def read(self, stream):
+        self.values.append(stream.read_int32())
+        stream.skip_TString()
+        self.values.append(stream.read_int32())
+
+    def data(self):
+        return np.asarray(self.values)
+
+
+def test_skip_tstring_short_form():
+    payload = struct.pack(">i", 1) + struct.pack(">B", 3) + b"abc" + struct.pack(">i", 2)
+    expected = _check(
+        _SkipTStringValueReader("s"),
+        _SkipTStringReader("s"),
+        payload,
+        [0, len(payload)],
+    )
+    np.testing.assert_array_equal(expected, [1, 2])
+
+
+def test_skip_tstring_long_form():
+    payload = (
+        struct.pack(">i", 1)
+        + struct.pack(">B", 255)
+        + struct.pack(">I", 5)
+        + b"hello"
+        + struct.pack(">i", 2)
+    )
+    expected = _check(
+        _SkipTStringValueReader("s"),
+        _SkipTStringReader("s"),
+        payload,
+        [0, len(payload)],
+    )
+    np.testing.assert_array_equal(expected, [1, 2])
 
 
 # -- pointers ------------------------------------------------------------------

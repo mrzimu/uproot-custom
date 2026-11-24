@@ -14,7 +14,7 @@ from uproot_custom.detree.compiler.frontend import (
     compile_reader,
     describe_reader,
 )
-from uproot_custom.detree.decl import Buffer, Reader, reader
+from uproot_custom.detree.decl import Buffer, Reader, State, reader
 
 
 def _prim(name="p", typecode="i"):
@@ -241,3 +241,59 @@ def test_check_nbytes_start_is_refused_in_a_condition():
 
     with pytest.raises(UnsupportedNode, match="cannot be used in a condition"):
         compile_reader(_Conditional("c"))
+
+
+# -- strings -------------------------------------------------------------------
+def test_read_tstring_compiles_to_one_opcode():
+    @reader
+    class _TString(Reader):
+        value = State(str, "")
+
+        def read(self, stream):
+            self.value = stream.read_TString()
+
+        def data(self):
+            return self.value
+
+    raw, _ = compile_reader(_TString("s"))
+    operators = _ops_of(raw, "root.read")
+
+    assert operators.count(detree.spec.isa.Op.SREAD_TSTR) == 1
+
+
+def test_a_tstring_can_be_compared_with_a_name():
+    @reader
+    class _Named(Reader):
+        value = State(str, "")
+        values = Buffer("i")
+
+        def read(self, stream):
+            self.value = stream.read_TString()
+            self.values.append(int(self.value == "x"))
+
+        def data(self):
+            return None
+
+    raw, _ = compile_reader(_Named("n"))
+    operators = _ops_of(raw, "root.read")
+
+    assert detree.spec.isa.Op.SREAD_TSTR in operators
+    assert detree.spec.isa.Op.STR_EQ in operators
+
+
+def test_skip_tstring_compiles_to_one_opcode():
+    @reader
+    class _Skipped(Reader):
+        values = Buffer("i")
+
+        def read(self, stream):
+            stream.skip_TString()
+            self.values.append(stream.read_int32())
+
+        def data(self):
+            return self.values
+
+    raw, _ = compile_reader(_Skipped("s"))
+    operators = _ops_of(raw, "root.read")
+
+    assert operators.count(detree.spec.isa.Op.SKIP_TSTR) == 1
