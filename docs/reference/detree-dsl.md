@@ -80,7 +80,7 @@ Implement `read_many_memberwise` when the reader can appear in a memberwise-stor
 | statements | `if`/`else`, `while`, `for _ in range(n)`, `for child in self.<ChildList>`, `with stream.check_nbytes():`, `assert`, `pass`, assignment to a local, a `State`, or `stream.cursor` |
 | integer and boolean expressions | `+ - * // / % << >> & \| ^ ~`, unary `-`, comparisons, `if` expression, `and`/`or`/`not` in conditions, `bool()`, `int()` |
 | buffers | `buf.append(x)`, `len(buf)`, `buf[-1]` |
-| stream | the scalar `read_*` methods, `read_into`, `read_bulk`, `read_fNBytes`, `read_fVersion`, `read_null_terminated_string`, `skip` and the `skip_*` helpers, `next_offset_after`, `check_nbytes_start`, `check_nbytes_end`, `cursor`, `entries`, `initial_cursor_position`, `has_ref`, `ref_*`, `set_*_ref`, `check_class_name` |
+| stream | the scalar `read_*` methods, `read_into`, `read_bulk`, `read_fNBytes`, `read_fVersion`, `read_null_terminated_string`, `read_TString`, `skip_TString`, `skip` and the `skip_*` helpers, `next_offset_after`, `check_nbytes_start`, `check_nbytes_end`, `cursor`, `entries`, `initial_cursor_position`, `has_ref`, `ref_*`, `set_*_ref`, `check_class_name` |
 | names | module-level `int` and `bool` constants, e.g. `kByteCountMask` |
 
 | Not allowed | Reason |
@@ -95,6 +95,12 @@ Implement `read_many_memberwise` when the reader can appear in a memberwise-stor
 | buffer typecodes `l` and `L` | platform-dependent; use a fixed-width code |
 
 A construct outside the subset fails with `ReaderContractError` (when the class is defined) or `UnsupportedNode` (when the reader is compiled), naming the method and the offending line. Rewrite the reader, or take the [Python + C++ route](../advanced/index.md); there is no fallback for a reader the compiler rejects.
+
+### Strings and names
+
+`stream.read_null_terminated_string()` and `stream.read_TString()` return an interned name: a `str` in Python, and an id into the machine's string arena in the compiled module. Store it in a `State(str, ...)`, compare it with `==`/`!=` against a string, or pass it to `stream.check_class_name()`. `len()` applies to buffers only, so a reader that needs the character count reads the bytes into a `Buffer("B")` with `read_bulk` instead. `data()` runs after the run and sees the decoded `str` for a string state.
+
+`read_TString` compiles to `SREAD_TSTR`, which reads ROOT's `1`-byte length (or `0xFF` followed by a `uint32`) and interns the characters; a length past the end of the event fails the run. `stream.skip_TString()` consumes the same layout without interning anything, for a name the reader does not need.
 
 ## Counted regions
 

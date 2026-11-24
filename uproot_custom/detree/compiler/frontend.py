@@ -25,6 +25,18 @@ if not hasattr(nodes, "FNBegin"):  # pragma: no cover - depends on the installed
         "(FNB_BEGIN/FNB_END); upgrade detree-vm"
     )
 
+if not hasattr(nodes, "StreamReadTString"):  # pragma: no cover - detree-vm dependent
+    raise ImportError(
+        "uproot-custom needs a detree-vm with length-prefixed strings "
+        "(SREAD_TSTR); upgrade detree-vm"
+    )
+
+if not hasattr(nodes, "SkipTString"):  # pragma: no cover - detree-vm dependent
+    raise ImportError(
+        "uproot-custom needs a detree-vm with length-prefixed strings "
+        "(SKIP_TSTR); upgrade detree-vm"
+    )
+
 STREAM_READS = {
     "read_uint8": Typecode.UINT8,
     "read_uint16": Typecode.UINT16,
@@ -743,7 +755,9 @@ class _MethodEmitter:
             return True
         if isinstance(value, nodes.StateGet):
             return self.compiler.program.states[value.slot].type == "name"
-        return isinstance(value, (nodes.StreamReadCString, nodes.RefGetClass))
+        return isinstance(
+            value, (nodes.StreamReadCString, nodes.StreamReadTString, nodes.RefGetClass)
+        )
 
     def compare(self, node: ast.Compare):
         operator = type(node.ops[0])
@@ -962,6 +976,13 @@ class _MethodEmitter:
             return self.fn.read_version()
         if name == "read_null_terminated_string":
             return self.fn.read_cstr()
+        if name == "read_TString":
+            return self.fn.read_tstring()
+        if name == "skip_TString":
+            if node.args:
+                raise _Unsupported(f"line {node.lineno}: skip_TString takes no arguments")
+            self.fn.skip_tstring()
+            return self.result()
         if name in STREAM_SKIPS:
             self.fn.emit(STREAM_SKIPS[name])
             return self.result()
