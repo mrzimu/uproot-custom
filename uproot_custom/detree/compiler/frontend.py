@@ -11,7 +11,7 @@ from typing import Callable, Literal
 
 from detree import compile as detree_compile
 from detree.ir import nodes
-from detree.spec.isa import BufferKind, Op, Typecode
+from detree.spec.isa import BufferKind, Op, Typecode, typecode_size
 
 from uproot_custom.consts import TYPECODE
 from uproot_custom.detree.bufferproxy import BufferProxy
@@ -75,6 +75,35 @@ STREAM_SKIPS = {
     "skip_obj_header": Op.SKIP_OBJHDR,
     "skip_null_terminated_string": Op.SKIP_CSTR,
 }
+
+#: Expression nodes that may be evaluated and thrown away: they read machine
+#: state but change none. A `StreamRead*` and a `Call` are absent on purpose;
+#: `_MethodEmitter.discard` gives those their statement form.
+EFFECT_FREE_EXPRESSIONS = (
+    nodes.Const,
+    nodes.ConstFloat,
+    nodes.Local,
+    nodes.Binary,
+    nodes.Compare,
+    nodes.Unary,
+    nodes.Cast,
+    nodes.Cursor,
+    nodes.Entries,
+    nodes.InitOffset,
+    nodes.DataSize,
+    nodes.OffsetAt,
+    nodes.OffsetSeek,
+    nodes.EventEnd,
+    nodes.BufferLast,
+    nodes.BufferLen,
+    nodes.StateGet,
+    nodes.StrConst,
+    nodes.StrEq,
+    nodes.RefHas,
+    nodes.RefGetObj,
+    nodes.RefGetClass,
+    nodes.RefCount,
+)
 
 #: struct char -> numpy dtype name used by a detree-vm buffer declaration.
 BUFFER_DTYPES = {
@@ -463,12 +492,11 @@ class _MethodEmitter:
 
     def stmt(self, node: ast.AST):
         if isinstance(node, ast.Expr):
-            # The value is discarded; a non-void call still has to happen.
+            # The value is discarded, but the operation may still have an
+            # effect; `discard` gives it its statement form.
             self.discard_result = True
             try:
-                value = self.expr(node.value)
-                if isinstance(value, nodes.Call):
-                    self.fn.emit(nodes.CallStmt(None, value.func, value.arg))
+                self.discard(node, self.expr(node.value))
             finally:
                 self.discard_result = False
             return
@@ -501,6 +529,33 @@ class _MethodEmitter:
             self.fn.emit(nodes.Nop())
         else:
             raise _Unsupported(f"line {node.lineno}: statement {type(node).__name__}")
+
+    def discard(self, node: ast.Expr, value):
+        """
+        Emit the statement form of an expression whose value nobody uses.
+
+        A non-void call still has to happen, and a read still consumes bytes,
+        so it becomes the matching skip. Assigning a read to an unused
+        register is not enough: the optimizer drops assignments whose local is
+        never read, and the bytes would stay unconsumed.
+        """
+        if isinstance(value, nodes.Call):
+            self.fn.emit(nodes.CallStmt(None, value.func, value.arg))
+        elif isinstance(value, nodes.StreamRead):
+            self.fn.skip(typecode_size(value.typecode))
+        elif isinstance(value, nodes.StreamReadFNB):
+            self.fn.skip_fnb()
+        elif isinstance(value, nodes.StreamReadVersion):
+            self.fn.skip_version()
+        elif isinstance(value, nodes.StreamReadCString):
+            self.fn.skip_cstr()
+        elif isinstance(value, nodes.StreamReadTString):
+            self.fn.skip_tstring()
+        elif not isinstance(value, EFFECT_FREE_EXPRESSIONS):
+            raise _Unsupported(
+                f"line {node.lineno}: the value of {type(value).__name__} "
+                "cannot be discarded"
+            )
 
     def assign(self, node: ast.Assign):
         if len(node.targets) != 1:

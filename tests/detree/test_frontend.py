@@ -297,3 +297,28 @@ def test_skip_tstring_compiles_to_one_opcode():
     operators = _ops_of(raw, "root.read")
 
     assert operators.count(detree.spec.isa.Op.SKIP_TSTR) == 1
+
+
+def test_a_discarded_read_compiles_to_its_skip(monkeypatch):
+    # A read whose value nobody uses still consumes bytes; dropping the
+    # expression left the cursor one field behind and broke the frame check.
+    # Asserted unoptimized: the optimizer fuses a skip into the read after it.
+    monkeypatch.setenv("DETREE_OPT", "0")
+
+    @reader
+    class _Discarded(Reader):
+        values = Buffer("i")
+
+        def read(self, stream):
+            stream.read_TString()
+            stream.read_uint32()
+            self.values.append(stream.read_int32())
+
+        def data(self):
+            return self.values
+
+    raw, _ = compile_reader(_Discarded("d"))
+    operators = _ops_of(raw, "root.read")
+
+    assert operators.count(detree.spec.isa.Op.SKIP_TSTR) == 1
+    assert operators.count(detree.spec.isa.Op.SKIP) == 1
