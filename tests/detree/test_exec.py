@@ -138,6 +138,33 @@ def test_stlstring():
     )
 
 
+def test_a_discarded_read_still_consumes_its_bytes():
+    # `stream.read_TString()` on a bare statement is how a reader skips a name
+    # it does not keep. The compiled path once dropped such a read, so the
+    # counted region ended one byte short of its `fNBytes`.
+    @reader
+    class _Discarding(Reader):
+        value: Buffer = Buffer("i")
+
+        def read(self, stream):
+            with stream.check_nbytes():
+                stream.read_TString()  # the name is not wanted
+                self.value.append(stream.read_uint32())
+
+        def data(self):
+            return np.asarray(self.value)
+
+    body = struct.pack(">B", 0) + _u32(7)
+    payload = _u32(len(body) | kByteCountMask) + body
+    discarding = _Discarding("d")
+
+    via_python = interp.read_data(discarding, payload, [0, len(payload)], 0)
+    via_machine = read_data(discarding, payload, [0, len(payload)], 0)
+
+    np.testing.assert_array_equal(via_python, [7])
+    np.testing.assert_array_equal(via_machine, [7])
+
+
 def test_tarray():
     body = struct.pack(">I", 3) + struct.pack(">ddd", 1.0, 2.0, 3.0)
     _check(
