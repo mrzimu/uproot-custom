@@ -305,6 +305,18 @@
         <span class="s2">"(FNB_BEGIN/FNB_END); upgrade detree-vm"</span>
     <span class="p">)</span>
 
+<span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="s2">"StreamReadTString"</span><span class="p">):</span>  <span class="c1"># pragma: no cover - detree-vm dependent</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+        <span class="s2">"uproot-custom needs a detree-vm with length-prefixed strings "</span>
+        <span class="s2">"(SREAD_TSTR); upgrade detree-vm"</span>
+    <span class="p">)</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="s2">"SkipTString"</span><span class="p">):</span>  <span class="c1"># pragma: no cover - detree-vm dependent</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+        <span class="s2">"uproot-custom needs a detree-vm with length-prefixed strings "</span>
+        <span class="s2">"(SKIP_TSTR); upgrade detree-vm"</span>
+    <span class="p">)</span>
+
 <span class="n">STREAM_READS</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"read_uint8"</span><span class="p">:</span> <span class="n">Typecode</span><span class="o">.</span><span class="n">UINT8</span><span class="p">,</span>
     <span class="s2">"read_uint16"</span><span class="p">:</span> <span class="n">Typecode</span><span class="o">.</span><span class="n">UINT16</span><span class="p">,</span>
@@ -1026,7 +1038,9 @@
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">nodes</span><span class="o">.</span><span class="n">StateGet</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compiler</span><span class="o">.</span><span class="n">program</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="n">value</span><span class="o">.</span><span class="n">slot</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"name"</span>
-        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">StreamReadCString</span><span class="p">,</span> <span class="n">nodes</span><span class="o">.</span><span class="n">RefGetClass</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">StreamReadCString</span><span class="p">,</span> <span class="n">nodes</span><span class="o">.</span><span class="n">StreamReadTString</span><span class="p">,</span> <span class="n">nodes</span><span class="o">.</span><span class="n">RefGetClass</span><span class="p">)</span>
+        <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">compare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Compare</span><span class="p">):</span>
         <span class="n">operator</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">ops</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -1245,6 +1259,13 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">read_version</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">"read_null_terminated_string"</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">read_cstr</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">"read_TString"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">read_tstring</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">"skip_TString"</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">_Unsupported</span><span class="p">(</span><span class="sa">f</span><span class="s2">"line </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">lineno</span><span class="si">}</span><span class="s2">: skip_TString takes no arguments"</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">skip_tstring</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">STREAM_SKIPS</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">STREAM_SKIPS</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>

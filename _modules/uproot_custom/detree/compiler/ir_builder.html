@@ -597,6 +597,12 @@
         <span class="k">return</span> <span class="n">nodes</span><span class="o">.</span><span class="n">StreamReadCString</span><span class="p">()</span></div>
 
 
+<div class="viewcode-block" id="IRFunctionBuilder.read_tstring">
+<a class="viewcode-back" href="../../../../reference/api/uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.read_tstring">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_tstring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">nodes</span><span class="o">.</span><span class="n">StreamReadTString</span><span class="p">()</span></div>
+
+
 <div class="viewcode-block" id="IRFunctionBuilder.buf_last">
 <a class="viewcode-back" href="../../../../reference/api/uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.buf_last">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">buf_last</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buf</span><span class="p">):</span>
@@ -699,6 +705,12 @@
 <a class="viewcode-back" href="../../../../reference/api/uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.skip_cstr">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">skip_cstr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">SkipCStr</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="IRFunctionBuilder.skip_tstring">
+<a class="viewcode-back" href="../../../../reference/api/uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.skip_tstring">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">skip_tstring</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">SkipTString</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="IRFunctionBuilder.set_cursor">

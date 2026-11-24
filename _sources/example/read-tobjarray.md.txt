@@ -230,10 +230,7 @@ class TObjArrayReader(Reader):
         stream.skip_fVersion()
         stream.skip_TObject()
 
-        size = stream.read_uint8()  # fName is a TString
-        if size == 255:
-            size = stream.read_uint32()
-        stream.skip(size)
+        stream.skip_TString()  # fName
 
         fSize = stream.read_uint32()
         stream.skip(4)  # fLowerBound
@@ -452,7 +449,7 @@ class TObjArrayReader(IReader):
         return np.asarray(self.offsets), self.element_reader.data()
 ```
 
-The Python reader reads the `TString` name with `read_TString()`; the Detree version skips it by length. See [stage 1 of the route](../advanced/python-reader.md).
+The Python reader reads the `TString` name with `read_TString()`; the Detree reader skips it with `skip_TString()`, since the value is not used. See [stage 1 of the route](../advanced/python-reader.md).
 ````
 
 ````{tab-item} C++ reader

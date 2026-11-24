@@ -368,7 +368,7 @@ The read path must stay inside a small subset of Python:
 | statements | `if`/`else`, `while`, `for _ in range(n)`, `for child in self.<ChildList>`, `with stream.check_nbytes():`, `assert`, assignment to a local, a `State`, or `stream.cursor` |
 | expressions | integer and boolean arithmetic and comparisons, `and`/`or`/`not`, `if` expressions, `bool()`, `int()` |
 | buffers | `buf.append(x)`, `len(buf)`, `buf[-1]` |
-| stream | the scalar `read_*` methods, `read_into`, `read_bulk`, `skip` and the `skip_*` helpers, `next_offset_after`, the reference helpers |
+| stream | the scalar `read_*` methods, `read_into`, `read_bulk`, `read_TString`, `skip_TString`, `skip` and the `skip_*` helpers, `next_offset_after`, the reference helpers |
 
 | Not allowed | Use instead |
 | ----------- | ----------- |

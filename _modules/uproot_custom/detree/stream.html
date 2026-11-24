@@ -503,6 +503,32 @@
         <span class="k">return</span> <span class="n">value</span></div>
 
 
+<div class="viewcode-block" id="Stream.read_TString">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.detree.html#uproot_custom.detree.stream.Stream.read_TString">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_TString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Read a length-prefixed string: one byte, or `0xFF` and a `uint32`.</span>
+<span class="sd">        """</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_uint8</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">255</span><span class="p">:</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span> <span class="o">-</span> <span class="n">size</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">start</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Stream.skip_TString">
+<a class="viewcode-back" href="../../../reference/api/uproot_custom.detree.html#uproot_custom.detree.stream.Stream.skip_TString">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">skip_TString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Skip a length-prefixed string: one byte, or `0xFF` and a `uint32`.</span>
+<span class="sd">        """</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_uint8</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">255</span><span class="p">:</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="n">size</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="Stream.skip">
 <a class="viewcode-back" href="../../../reference/api/uproot_custom.detree.html#uproot_custom.detree.stream.Stream.skip">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">skip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbytes</span><span class="p">):</span>

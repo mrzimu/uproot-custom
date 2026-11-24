@@ -500,19 +500,16 @@
 <span class="linenos">13</span>        <span class="n">stream</span><span class="o">.</span><span class="n">skip_fVersion</span><span class="p">()</span>
 <span class="linenos">14</span>        <span class="n">stream</span><span class="o">.</span><span class="n">skip_TObject</span><span class="p">()</span>
 <span class="linenos">15</span>
-<span class="linenos">16</span>        <span class="n">size</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_uint8</span><span class="p">()</span>  <span class="c1"># fName is a TString</span>
-<span class="linenos">17</span>        <span class="k">if</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">255</span><span class="p">:</span>
-<span class="linenos">18</span>            <span class="n">size</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
-<span class="linenos">19</span>        <span class="n">stream</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+<span class="linenos">16</span>        <span class="n">stream</span><span class="o">.</span><span class="n">skip_TString</span><span class="p">()</span>  <span class="c1"># fName</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span>        <span class="n">fSize</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
+<span class="linenos">19</span>        <span class="n">stream</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># fLowerBound</span>
 <span class="linenos">20</span>
-<span class="linenos">21</span>        <span class="n">fSize</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">read_uint32</span><span class="p">()</span>
-<span class="linenos">22</span>        <span class="n">stream</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># fLowerBound</span>
+<span class="linenos">21</span>        <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">fSize</span><span class="p">)</span>
+<span class="linenos">22</span>        <span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="o">.</span><span class="n">read_many</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">fSize</span><span class="p">)</span>
 <span class="linenos">23</span>
-<span class="linenos">24</span>        <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">fSize</span><span class="p">)</span>
-<span class="linenos">25</span>        <span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="o">.</span><span class="n">read_many</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">fSize</span><span class="p">)</span>
-<span class="linenos">26</span>
-<span class="linenos">27</span>    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="linenos">28</span>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
+<span class="linenos">24</span>    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos">25</span>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -702,7 +699,7 @@ Python reader</label><div class="sd-tab-content docutils" id="sd-tab-item-0-cont
 </pre></div>
 </div>
 </div>
-<p>The Python reader reads the <code class="docutils literal notranslate"><span class="pre">TString</span></code> name with <code class="docutils literal notranslate"><span class="pre">read_TString()</span></code>; the Detree version skips it by length. See <a class="reference internal" href="../advanced/python-reader.html"><span class="std std-doc">stage 1 of the route</span></a>.</p>
+<p>The Python reader reads the <code class="docutils literal notranslate"><span class="pre">TString</span></code> name with <code class="docutils literal notranslate"><span class="pre">read_TString()</span></code>; the Detree reader skips it with <code class="docutils literal notranslate"><span class="pre">skip_TString()</span></code>, since the value is not used. See <a class="reference internal" href="../advanced/python-reader.html"><span class="std std-doc">stage 1 of the route</span></a>.</p>
 </div>
 <input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
 <label aria-controls="sd-tab-item-1-content" class="sd-tab-label" for="sd-tab-item-1">

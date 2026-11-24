@@ -334,6 +334,7 @@
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.read_fnb"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.read_fnb()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.read_scalar"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.read_scalar()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.read_strided"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.read_strided()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.read_tstring"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.read_tstring()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.read_version"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.read_version()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.ref_count"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.ref_count()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.ref_get_class"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.ref_get_class()</span></code></a></li>
@@ -350,6 +351,7 @@
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.skip_objhdr"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.skip_objhdr()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.skip_reg"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.skip_reg()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.skip_tobject"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.skip_tobject()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.skip_tstring"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.skip_tstring()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.skip_version"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.skip_version()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.state_get"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.state_get()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="uproot_custom.detree.compiler.html#uproot_custom.detree.compiler.ir_builder.IRFunctionBuilder.state_iadd"><code class="docutils literal notranslate"><span class="pre">IRFunctionBuilder.state_iadd()</span></code></a></li>
@@ -1141,6 +1143,12 @@ so a sub-reader that is framed itself does not disturb its caller.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.detree.stream.Stream.read_TString">
+<span class="sig-name descname"><span class="pre">read_TString</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/detree/stream.html#Stream.read_TString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.detree.stream.Stream.read_TString" title="Link to this definition">¶</a></dt>
+<dd><p>Read a length-prefixed string: one byte, or <cite>0xFF</cite> and a <cite>uint32</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="uproot_custom.detree.stream.Stream.read_bool">
 <span class="sig-name descname"><span class="pre">read_bool</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/detree/stream.html#Stream.read_bool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.detree.stream.Stream.read_bool" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1264,6 +1272,12 @@ so a sub-reader that is framed itself does not disturb its caller.</p>
 <dt class="sig sig-object py" id="uproot_custom.detree.stream.Stream.skip_TObject">
 <span class="sig-name descname"><span class="pre">skip_TObject</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/detree/stream.html#Stream.skip_TObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.detree.stream.Stream.skip_TObject" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.detree.stream.Stream.skip_TString">
+<span class="sig-name descname"><span class="pre">skip_TString</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/detree/stream.html#Stream.skip_TString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.detree.stream.Stream.skip_TString" title="Link to this definition">¶</a></dt>
+<dd><p>Skip a length-prefixed string: one byte, or <cite>0xFF</cite> and a <cite>uint32</cite>.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="uproot_custom.detree.stream.Stream.skip_fNBytes">
@@ -1518,6 +1532,12 @@ so a sub-reader that is framed itself does not disturb its caller.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.detree.Stream.read_TString">
+<span class="sig-name descname"><span class="pre">read_TString</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/detree/stream.html#Stream.read_TString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.detree.Stream.read_TString" title="Link to this definition">¶</a></dt>
+<dd><p>Read a length-prefixed string: one byte, or <cite>0xFF</cite> and a <cite>uint32</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="uproot_custom.detree.Stream.read_bool">
 <span class="sig-name descname"><span class="pre">read_bool</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/detree/stream.html#Stream.read_bool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.detree.Stream.read_bool" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1641,6 +1661,12 @@ so a sub-reader that is framed itself does not disturb its caller.</p>
 <dt class="sig sig-object py" id="uproot_custom.detree.Stream.skip_TObject">
 <span class="sig-name descname"><span class="pre">skip_TObject</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/detree/stream.html#Stream.skip_TObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.detree.Stream.skip_TObject" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="uproot_custom.detree.Stream.skip_TString">
+<span class="sig-name descname"><span class="pre">skip_TString</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/uproot_custom/detree/stream.html#Stream.skip_TString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uproot_custom.detree.Stream.skip_TString" title="Link to this definition">¶</a></dt>
+<dd><p>Skip a length-prefixed string: one byte, or <cite>0xFF</cite> and a <cite>uint32</cite>.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="uproot_custom.detree.Stream.skip_fNBytes">
@@ -1893,6 +1919,7 @@ so a sub-reader that is framed itself does not disturb its caller.</p>
 <li><a class="reference internal" href="#uproot_custom.detree.stream.Stream.has_ref"><code class="docutils literal notranslate"><span class="pre">Stream.has_ref()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.stream.Stream.next_offset_after"><code class="docutils literal notranslate"><span class="pre">Stream.next_offset_after()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.stream.Stream.open_frames"><code class="docutils literal notranslate"><span class="pre">Stream.open_frames</span></code></a></li>
+<li><a class="reference internal" href="#uproot_custom.detree.stream.Stream.read_TString"><code class="docutils literal notranslate"><span class="pre">Stream.read_TString()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.stream.Stream.read_bool"><code class="docutils literal notranslate"><span class="pre">Stream.read_bool()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.stream.Stream.read_bulk"><code class="docutils literal notranslate"><span class="pre">Stream.read_bulk()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.stream.Stream.read_double"><code class="docutils literal notranslate"><span class="pre">Stream.read_double()</span></code></a></li>
@@ -1917,6 +1944,7 @@ so a sub-reader that is framed itself does not disturb its caller.</p>
 <li><a class="reference internal" href="#uproot_custom.detree.stream.Stream.set_object_ref"><code class="docutils literal notranslate"><span class="pre">Stream.set_object_ref()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.stream.Stream.skip"><code class="docutils literal notranslate"><span class="pre">Stream.skip()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.stream.Stream.skip_TObject"><code class="docutils literal notranslate"><span class="pre">Stream.skip_TObject()</span></code></a></li>
+<li><a class="reference internal" href="#uproot_custom.detree.stream.Stream.skip_TString"><code class="docutils literal notranslate"><span class="pre">Stream.skip_TString()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.stream.Stream.skip_fNBytes"><code class="docutils literal notranslate"><span class="pre">Stream.skip_fNBytes()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.stream.Stream.skip_fVersion"><code class="docutils literal notranslate"><span class="pre">Stream.skip_fVersion()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.stream.Stream.skip_null_terminated_string"><code class="docutils literal notranslate"><span class="pre">Stream.skip_null_terminated_string()</span></code></a></li>
@@ -1971,6 +1999,7 @@ so a sub-reader that is framed itself does not disturb its caller.</p>
 <li><a class="reference internal" href="#uproot_custom.detree.Stream.has_ref"><code class="docutils literal notranslate"><span class="pre">Stream.has_ref()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.Stream.next_offset_after"><code class="docutils literal notranslate"><span class="pre">Stream.next_offset_after()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.Stream.open_frames"><code class="docutils literal notranslate"><span class="pre">Stream.open_frames</span></code></a></li>
+<li><a class="reference internal" href="#uproot_custom.detree.Stream.read_TString"><code class="docutils literal notranslate"><span class="pre">Stream.read_TString()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.Stream.read_bool"><code class="docutils literal notranslate"><span class="pre">Stream.read_bool()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.Stream.read_bulk"><code class="docutils literal notranslate"><span class="pre">Stream.read_bulk()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.Stream.read_double"><code class="docutils literal notranslate"><span class="pre">Stream.read_double()</span></code></a></li>
@@ -1995,6 +2024,7 @@ so a sub-reader that is framed itself does not disturb its caller.</p>
 <li><a class="reference internal" href="#uproot_custom.detree.Stream.set_object_ref"><code class="docutils literal notranslate"><span class="pre">Stream.set_object_ref()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.Stream.skip"><code class="docutils literal notranslate"><span class="pre">Stream.skip()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.Stream.skip_TObject"><code class="docutils literal notranslate"><span class="pre">Stream.skip_TObject()</span></code></a></li>
+<li><a class="reference internal" href="#uproot_custom.detree.Stream.skip_TString"><code class="docutils literal notranslate"><span class="pre">Stream.skip_TString()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.Stream.skip_fNBytes"><code class="docutils literal notranslate"><span class="pre">Stream.skip_fNBytes()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.Stream.skip_fVersion"><code class="docutils literal notranslate"><span class="pre">Stream.skip_fVersion()</span></code></a></li>
 <li><a class="reference internal" href="#uproot_custom.detree.Stream.skip_null_terminated_string"><code class="docutils literal notranslate"><span class="pre">Stream.skip_null_terminated_string()</span></code></a></li>
