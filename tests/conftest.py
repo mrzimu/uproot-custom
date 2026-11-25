@@ -409,3 +409,20 @@ def test_contexts(prepare_test_contexts):
     for ctx in prepare_test_contexts.values():
         ctx["file"].file._array_cache = None
     return prepare_test_contexts
+
+
+@pytest.fixture(autouse=True)
+def detree_module_cache(tmp_path, monkeypatch):
+    """
+    Give every test a private Detree module cache.
+
+    The disk level would otherwise write into the repository's ``__pycache__``,
+    and a later run would read entries recorded by an earlier one, so a failure
+    could depend on history rather than on the code.
+    """
+    from uproot_custom.detree import cache
+
+    monkeypatch.setattr(cache, "DISK_ROOT", tmp_path / "detree-cache")
+    cache.reset()
+    yield
+    cache.reset()

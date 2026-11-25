@@ -169,14 +169,22 @@ AssertionError: Only awkward arrays are supported
 
 Keep the default (`library="ak"`), or convert the awkward array afterwards.
 
-### The first read pays the compilation
+### Compiling once, then reusing the module
 
-Compiling costs far more than reading one basket. The compiled module bytes are kept in two places, so the cost is paid once:
+Compiling costs far more than reading one basket: on the fixtures here a two-class reader tree takes about 6 ms to compile and about 0.1 ms to load back. The module bytes are therefore kept in three places, so the cost is paid at most once per reader structure and cache generation:
 
 - on the interpretation, which compiles once per branch;
-- in `uproot_custom.detree.cache`, keyed by the reader's structural signature (`uproot_custom.detree.compiler.frontend.describe_reader`), which is shared by every branch in the process with the same reader structure.
+- in `uproot_custom.detree.cache`, keyed by the reader's structural signature (`uproot_custom.detree.compiler.frontend.describe_reader`), which is shared by every branch in the process with the same reader structure;
+- in one file per module under `__pycache__/detree/`, beside the package, so a later process reads the bytes instead of compiling them. The default location is resolved through `importlib.util.cache_from_source`, so `PYTHONPYCACHEPREFIX` applies to it the way it does to `.pyc` files.
 
-The cache lives for the life of the process and is never evicted.
+An entry file is named `<generation>-<key>.mod`. The key hashes the structural signature together with the source files of the reader classes and of their bases, because a signature names a class but not a method body and a method may be inherited. The generation hashes everything else that decides what a module looks like: the compiler's own source, both package versions, the ISA version, `DETREE_OPT` and the interpreter's cache tag — plus Detree's source files when Detree is installed as an editable checkout, which keeps one version string while its code changes. An entry built by other code is therefore never read, and `store` deletes every file of another generation the first time it writes in a process, so the directory holds the current generation instead of growing with each upgrade.
+
+| Variable | Effect |
+| -------- | ------ |
+| `UPROOT_CUSTOM_DETREE_CACHE=0` | keep the modules in memory only |
+| `UPROOT_CUSTOM_DETREE_CACHE_DIR=<path>` | write the entries elsewhere, for example a directory that several environments running the same versions share. Environments of different versions take turns pruning each other's files; each still compiles a tree once per process. |
+
+A read-only install loses only the disk level: the write failure is counted, never raised. `uproot_custom.detree.cache.STATS` reports `hits`, `misses`, `disk_hits`, `writes`, `read_errors` and `write_errors`, and `cache.clear_disk()` empties the directory — `find . -name __pycache__ -delete` clears it with the rest of the bytecode caches.
 
 The reader itself is rebuilt per basket, and a fresh machine is built from the cached module bytes for every run, so arrays returned by an earlier basket are never overwritten by a later one.
 

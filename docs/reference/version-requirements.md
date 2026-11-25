@@ -11,7 +11,7 @@ Uproot-custom requires **Python 3.9 – 3.14**. `awkward`, `numpy`, `uproot` and
 Nothing beyond the package itself. A Detree reader is Python source that the installed Detree machine compiles at run time, so:
 
 - there is no compiler, CMake or build step;
-- the reader does not depend on the Uproot-custom version it was written against — the module is compiled from the reader's structure at import time and cached per process;
+- the reader does not depend on the Uproot-custom version it was written against — the module is compiled from the reader's structure at the first read and cached in the process and on disk;
 - the reader does not depend on the Python version in any way that needs a rebuild, because the read path is compiled to detree-vm module bytes and executed by the machine.
 
 The `detree-vm` release that Uproot-custom depends on ships the Rust machine. The Python and C++ machines exist for development and testing and are not selectable through the public API.
