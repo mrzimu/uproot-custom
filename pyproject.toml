@@ -70,6 +70,17 @@ build = ["cp*-manylinux_x86_64", "cp*-macosx_arm64", "cp*-win_amd64"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
+[tool.ruff]
+line-length = 95
+target-version = "py39"
+
+[tool.ruff.lint]
+ignore = ["E402"]
+# Pin the enabled rules: ruff 0.16 widened its default set, so leaving `select`
+# unset makes the checked rules depend on the ruff version in use (the local
+# virtual environment and the pre-commit hook pin different versions).
+select = ["E4", "E7", "E9", "F"]
+
 [tool.scikit-build]
 build-dir = "build/{wheel_tag}"
 cmake.build-type = "Release"

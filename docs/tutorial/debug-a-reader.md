@@ -18,6 +18,18 @@ raw, signature = compile_reader(reader)
 
 Any factory works here; `TArrayFactory` is a built-in that needs no project. `describe_reader` returns the structural signature that keys the compilation cache, and `compile_reader` returns the module bytes and that signature, raising `UnsupportedNode` when the reader cannot be compiled.
 
+## Where the compiled module is kept
+
+`compiled_for_reader` consults the in-process dict, then the file the disk level keeps, then the compiler:
+
+```python
+from uproot_custom.detree import cache
+
+print(cache.directory(), cache.STATS)
+```
+
+`disk_hits` says the bytes came from a file, `writes` that they were stored. An entry that looks stale is almost always a key question: the key hashes the reader source files and the file name carries a generation that covers the compiler, both package versions, the ISA version and `DETREE_OPT`. `cache.clear_disk()` deletes the files, and the next read compiles again.
+
 ## Compare the two executors
 
 Run one basket under each executor and compare the buffers:

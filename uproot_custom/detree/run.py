@@ -3,8 +3,9 @@ What compiling produces, and the one seam that runs it.
 
 The frontend compiles a reader tree to detree-vm IR and `detree.compile`
 turns it into canonical module bytes.  Those bytes are the artefact this
-module caches; a `detree.Machine` is built for every run, because a machine
-holds the mutable per-basket state and is not thread-safe.
+module caches, in the process and on disk (`uproot_custom.detree.cache`); a
+`detree.Machine` is built for every run, because a machine holds the mutable
+per-basket state and is not thread-safe.
 
 `detree.Machine.run` resets the machine it is called on, so a caller that
 keeps a machine can serve basket after basket; the read path here builds a
@@ -18,8 +19,12 @@ import functools
 
 import numpy as np
 
+from uproot_custom.detree.cache import directory as _cache_directory
 from uproot_custom.detree.cache import get as _cache_get
+from uproot_custom.detree.cache import key_for as _cache_key
+from uproot_custom.detree.cache import load as _cache_load
 from uproot_custom.detree.cache import put as _cache_put
+from uproot_custom.detree.cache import store as _cache_store
 from uproot_custom.detree.compiler.frontend import (
     _buffer_items,
     _reader_children,
@@ -121,14 +126,37 @@ def run(
 
 def compiled_for_reader(reader: Reader) -> bytes:
     """
-    Return the cached compiled bytes of a reader tree, compiling it on first use.
+    Return the compiled bytes of a reader tree, compiling it only when needed.
+
+    The in-process dict is consulted first, then the entry the disk level keeps
+    under `uproot_custom.detree.cache.directory()`, and the compiler last.  A
+    disk hit is remembered in the dict and a compile is written to both, so a
+    process reads the disk at most once per distinct reader tree and compiles
+    at most once per tree and cache generation.  The disk key hashes source
+    files, so it is computed only while the disk level is on.
+
+    Args:
+        reader: the root of the reader tree.
+
+    Returns:
+        The canonical module bytes.
     """
     signature = "ast:" + describe_reader(reader)
     codes = _cache_get(signature)
-    if codes is None:
-        codes, _ = compile_reader(reader)
-        _cache_put(signature, codes)
-    return codes
+    if codes is not None:
+        return codes
+
+    key = None
+    if _cache_directory() is not None:
+        key = _cache_key(signature, reader)
+        codes = _cache_load(key)
+        if codes is not None:
+            return _cache_put(signature, codes)
+
+    codes, _ = compile_reader(reader)
+    if key is not None:
+        _cache_store(key, codes)
+    return _cache_put(signature, codes)
 
 
 @functools.lru_cache(maxsize=64)

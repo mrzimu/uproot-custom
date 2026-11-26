@@ -11,7 +11,7 @@ The backend values `detree`, `python` and `cpp` are how a route is selected at r
 
 ## The Detree route
 
-Write the read path once, in Python source that declares its buffers and sub-readers. The compiler lowers it to a detree-vm module, the module is cached per reader structure, and the machine executes it for every basket. Nothing in the read path runs as Python during a read.
+Write the read path once, in Python source that declares its buffers and sub-readers. The compiler lowers it to a detree-vm module, the module is cached per reader structure in the process and on disk, and the machine executes it for every basket. Nothing in the read path runs as Python during a read.
 
 - **One implementation.** There is no second language to port to and no two versions to keep in step.
 - **No build step.** `pip install` is the whole installation for downstream users.
