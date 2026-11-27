@@ -71,12 +71,13 @@ namespace uproot_custom {
      */
     class TObjectReader : public IReader {
       private:
-        const bool m_keep_data;               ///< Whether to keep the read data
-        const bool m_with_header; ///< Whether one shared `fNBytes+fVersion` header
-                                  ///< precedes a run of TObjects (the 86 array form).
-        SharedVector<int32_t> m_unique_id;    ///< Store fUniqueID values
-        SharedVector<uint32_t> m_bits;        ///< Store fBits values
-        SharedVector<uint16_t> m_pidf;        ///< Store pidf values
+        const bool m_keep_data;            ///< Whether to keep the read data
+        const bool m_with_header;          ///< Whether one shared `fNBytes+fVersion`
+                                           ///< header precedes a run of TObjects
+                                           ///< (the 86 array form).
+        SharedVector<int32_t> m_unique_id; ///< Store fUniqueID values
+        SharedVector<uint32_t> m_bits;     ///< Store fBits values
+        SharedVector<uint16_t> m_pidf;     ///< Store pidf values
         SharedVector<int64_t> m_pidf_offsets; ///< Store offsets for pidf
 
         /** @brief Skip the shared header of an 86 array. */
@@ -391,7 +392,7 @@ namespace uproot_custom {
             if ( !m_with_header ) return false;
 
             stream.skip_fNBytes();
-            auto fVersion = stream.read_fVersion();
+            auto fVersion      = stream.read_fVersion();
             bool is_memberwise = fVersion & kStreamedMemberWise;
 
             if ( is_memberwise &&
@@ -554,7 +555,7 @@ namespace uproot_custom {
             if ( !m_with_header ) return false;
 
             stream.skip_fNBytes();
-            auto fVersion = stream.read_fVersion();
+            auto fVersion      = stream.read_fVersion();
             bool is_memberwise = fVersion & kStreamedMemberWise;
 
             if ( is_memberwise &&

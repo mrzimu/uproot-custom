@@ -30,7 +30,7 @@ from uproot_custom.consts import (
     kStreamedMemberwise,
 )
 from uproot_custom.detree import interp
-from uproot_custom.detree.decl import Buffer, Reader, State, reader
+from uproot_custom.detree.decl import Buffer, Child, Reader, State, reader
 from uproot_custom.detree.run import read_data
 
 
@@ -718,3 +718,73 @@ def test_any_pointer_back_reference():
         payload,
         offsets,
     )
+
+
+@reader
+class _TwoByte(Reader):
+    """
+    `read`, `read_bare` and `read_many` all consume different widths.
+
+    One byte per `read`, two per `read_bare`, and one marker plus one byte per
+    element in `read_many`. A default that picks the wrong one therefore
+    changes the length of the entry instead of going unnoticed.
+    """
+
+    seen = Buffer("B")
+
+    def read(self, stream):
+        self.seen.append(stream.read_uint8())
+
+    def read_bare(self, stream):
+        self.seen.append(stream.read_uint8())
+        self.seen.append(stream.read_uint8())
+
+    def read_many(self, stream, count):
+        marker = stream.read_uint8()
+        for _ in range(count):
+            self.seen.append(marker)
+        return count
+
+    def data(self):
+        return np.asarray(self.seen)
+
+
+@reader
+class _Run(Reader):
+    """
+    A count and then a bare run of `_TwoByte`.
+    """
+
+    element = Child()
+
+    def read(self, stream):
+        count = stream.read_uint32()
+        self.element.read_many_bare(stream, count)
+
+    def data(self):
+        return self.element.data()
+
+
+def test_read_many_bare_is_one_read_bare_per_element():
+    """
+    `read_many_bare` defaults to a `read_bare` per element, in both executors.
+
+    A reader that overrides `read_many` or `read_bare` but not `read_many_bare`
+    used to be read differently by the interpreter (`read_many`) and by the
+    machine (a loop of `read`). The payload holds exactly as many bytes as two
+    `read_bare` calls need, so either wrong default leaves the entry short.
+    """
+    payload = _u32(2) + b"\x01\x02\x03\x04"
+
+    from_interpreter = interp.read_data(
+        _Run("r", element=_TwoByte("e")), payload, [0, len(payload)], 0
+    )
+    from_machine = read_data(
+        _Run("r", element=_TwoByte("e")),
+        np.frombuffer(payload, dtype=np.uint8),
+        np.asarray([0, len(payload)], dtype=np.int64),
+        0,
+    )
+
+    np.testing.assert_array_equal(from_interpreter, [1, 2, 3, 4])
+    np.testing.assert_array_equal(from_machine, [1, 2, 3, 4])

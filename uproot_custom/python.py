@@ -291,8 +291,13 @@ class IReader:
     def read_many_bare(self, stream: BinaryStream, count: int) -> int:
         """
         Read a run of nested elements; see `read_bare`.
+
+        One `read_bare` per element, so a reader that overrides `read_bare` to
+        skip a shared header is not read as if every element had one.
         """
-        return self.read_many(stream, count)
+        for _ in range(count):
+            self.read_bare(stream)
+        return count
 
     def read_until(self, stream: BinaryStream, end_pos: int) -> int:
         count = 0

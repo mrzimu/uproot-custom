@@ -559,12 +559,16 @@ namespace uproot_custom {
         /**
          * @brief Read a run of nested elements. See @ref read_bare().
          *
+         * One @ref read_bare() per element, so a reader that overrides it to skip a shared
+         * header is not read as if every element had one.
+         *
          * @param stream The binary stream to read from.
          * @param count Number of elements to read.
          * @return Number of elements read.
          */
         virtual uint32_t read_many_bare( BinaryStream& stream, const int64_t count ) {
-            return read_many( stream, count );
+            for ( int32_t i = 0; i < count; i++ ) { read_bare( stream ); }
+            return count;
         }
 
         /**

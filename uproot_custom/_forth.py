@@ -441,7 +441,7 @@ class IReader:
         Take <num-items> from stack, read that many nested items; see `read_bare`.
         """
 
-        return self.read_many()
+        return f"dup 0 do {self.read_bare_token} loop"
 
     def read_until(self) -> str:
         """
@@ -568,7 +568,7 @@ class TObjectReader(IReader):
             save_data_codes = f"""
             \\ stack: [fUniqueID, fBits]
             {self.bits_token} <- stack
-            {self.pidf_token} <- stack
+            {self.unique_id_token} <- stack
         """
         else:
             read_pidf_codes = skip(2)
@@ -633,8 +633,9 @@ class TObjectReader(IReader):
         bits = self.get_buffer(self.bits_token)
         pidf = self.get_buffer(self.pidf_token)
 
-        # No multiple pidf values for now, we create a dummy offsets here
-        pidf_offsets = np.arange(len(pidf) + 1, dtype=np.int64)
+        # One empty pidf slice per object: this backend stores no pidf values, so
+        # the offsets are all zero and there is one more of them than objects.
+        pidf_offsets = np.zeros(len(unique_id) + 1, dtype=np.int64)
 
         return unique_id, bits, pidf, pidf_offsets
 

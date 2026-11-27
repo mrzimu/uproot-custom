@@ -65,6 +65,7 @@ The `@reader` decorator checks the following at class definition time:
 - the class is defined in a `.py` file — the compiler re-reads its source, so a class typed into a notebook or a REPL is refused;
 - no `__init__`; declare fields instead and pass values as keyword arguments, e.g. `TArrayReader(name, typecode="d")` for a reader whose `typecode` is a `Const` field;
 - `read(self, stream)` and `data(self)` are required; `read_many`, `read_until`, and `read_many_memberwise` take `(self, stream, argument)` and default to loops over `read`, except `read_many_memberwise` (see below);
+- `read_bare(self, stream)` and `read_many_bare(self, stream, count)` are the nested forms: an element that sits inside another element has no header of its own, so override them when a reader can carry one. Their defaults are loops over `read_bare`, and the compiler emits the same default;
 - the second parameter is named `stream`;
 - field names do not start with `_`, are not inherited and overridden, and do not collide with the method names;
 - a read path assigns only to declared `State` fields (or `stream.cursor`); a plain attribute is invisible to the compiled code, and a `Const` cannot be written.
@@ -73,7 +74,7 @@ Implement `read_many_memberwise` when the reader can appear in a memberwise-stor
 
 ## The compilable subset
 
-`read`, `read_many`, `read_until`, and `read_many_memberwise` are compiled from source, so they must stay within a small subset of Python:
+`read`, `read_bare`, `read_many`, `read_many_bare`, `read_until`, and `read_many_memberwise` are compiled from source, so they must stay within a small subset of Python:
 
 | Allowed | What |
 | ------- | ---- |

@@ -1289,12 +1289,19 @@ def _emit_defaults(compiler: _Compiler, reader: Reader, path: str):
 
         if method in ("read_many", "read_many_bare"):
             count = fn.local("count")
+            # `read_many_bare` is the bare form of `read_many`: one `read_bare`
+            # per element, so a reader that overrides `read_bare` to skip a
+            # shared header is not read as if every element had one. This is
+            # the same default as `decl.Reader.read_many_bare`.
+            per_item = read_id
+            if method == "read_many_bare":
+                per_item = compiler.func_id(path, "read_bare")
             fn.for_range(
                 "__i",
                 fn.const(0),
                 count,
                 1,
-                [nodes.CallStmt(None, read_id, None)],
+                [nodes.CallStmt(None, per_item, None)],
             )
             fn.ret(count)
             continue

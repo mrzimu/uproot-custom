@@ -340,8 +340,14 @@ class Reader:
     def read_many_bare(self, stream: Stream, count: int):
         """
         Read a run of nested elements; see `read_bare`.
+
+        The default is one `read_bare` per element, which is exactly the
+        bare form of `read_many`'s one `read` per element. The compiler emits
+        the same default, so the Python interpreter and the machine agree.
         """
-        return self.read_many(stream, count)
+        for _ in range(count):
+            self.read_bare(stream)
+        return count
 
     def read_until(self, stream: Stream, end_pos: int):
         count = 0

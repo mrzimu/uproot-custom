@@ -16,7 +16,8 @@
  * bytes on disk (`Collections.md` §11): `std::array` is mapped to a C array by
  * `TStreamerInfo::Build`, and the framing of the run is decided by the element
  * class alone (`ElementTypes.md` §7.2).  Each member below therefore appears
- * twice, once in each spelling, and both must read back identically.
+ * twice, once in each spelling: the two hold different values and must read back
+ * with the same layout, so a reader that mixes up the two columns is caught.
  */
 class TArrayForms : public TObject {
 
@@ -66,6 +67,16 @@ class TArrayForms : public TObject {
 
             m_arr_mapvec[j].clear();
             m_arr_mapvec[j][j] = m_arr_vec[j];
+
+            // A `TObject` has no payload beyond these two fields, and a
+            // `TNamed` only its name and title, so without these the two
+            // spellings would hold identical values and a mixed-up column
+            // could not be detected.
+            m_carr_tobj[j].SetUniqueID( 1000 * i + j + 1 );
+            m_arr_tobj[j].SetUniqueID( 1000 * i + 100 + j + 1 );
+
+            m_carr_tnamed[j].SetName( Form( "cn%d_%d", j, i ) );
+            m_arr_tnamed[j].SetName( Form( "an%d_%d", j, i ) );
         }
     }
 
@@ -85,11 +96,13 @@ class TArrayForms : public TObject {
     std::map<int, std::vector<int>> m_carr_mapvec[2]{};
     std::array<std::map<int, std::vector<int>>, 2> m_arr_mapvec{};
 
-    /// 86: one shared header, then bare `TObject`s.
+    /// 86: one shared header, then bare `TObject`s. `fUniqueID` distinguishes
+    /// the two spellings.
     TObject m_carr_tobj[2];
     std::array<TObject, 2> m_arr_tobj;
 
-    /// 87: one shared header, then objects that frame themselves.
+    /// 87: one shared header, then objects that frame themselves. `fName`
+    /// distinguishes the two spellings.
     TNamed m_carr_tnamed[2]{};
     std::array<TNamed, 2> m_arr_tnamed{};
 

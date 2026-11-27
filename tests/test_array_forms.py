@@ -7,9 +7,10 @@ What the bytes do say is how the run of elements is framed, and that is decided
 by the element class alone (`ElementTypes.md` §7.2).
 
 The expectations here are the values `TArrayForms::fill` writes, checked against
-a hand decode of the basket bytes. `uproot` cannot read most of these forms --
-its `AsStridedObjects` does not know the shared header -- so it is not the
-oracle for this file.
+a hand decode of the basket bytes and confirmed by reading the file back with
+ROOT (`TArrayForms` through `SetBranchAddress`). `uproot` cannot read most of
+these forms -- its `AsStridedObjects` does not know the shared header -- so it is
+not the oracle for this file.
 """
 
 from __future__ import annotations
@@ -71,22 +72,17 @@ def _expected(i):
             [{"key": 0, "val": [base + 100]}],
             [{"key": 1, "val": [base + 101]}],
         ],
+        # A `TObject` and a `TNamed` hold nothing but these fields, so the two
+        # spellings are given different values on purpose: the layout is the
+        # same, and only the contents can catch a mixed-up column.
         "m_carr_tobj[2]": [
-            {"fUniqueID": 0, "fBits": 0, "pidf": []},
-            {"fUniqueID": 0, "fBits": 0, "pidf": []},
+            {"fUniqueID": 1000 * i + j + 1, "fBits": 0, "pidf": []} for j in (0, 1)
         ],
         "m_arr_tobj[2]": [
-            {"fUniqueID": 0, "fBits": 0, "pidf": []},
-            {"fUniqueID": 0, "fBits": 0, "pidf": []},
+            {"fUniqueID": 1000 * i + 100 + j + 1, "fBits": 0, "pidf": []} for j in (0, 1)
         ],
-        "m_carr_tnamed[2]": [
-            {"fName": "", "fTitle": ""},
-            {"fName": "", "fTitle": ""},
-        ],
-        "m_arr_tnamed[2]": [
-            {"fName": "", "fTitle": ""},
-            {"fName": "", "fTitle": ""},
-        ],
+        "m_carr_tnamed[2]": [{"fName": f"cn{j}_{i}", "fTitle": ""} for j in (0, 1)],
+        "m_arr_tnamed[2]": [{"fName": f"an{j}_{i}", "fTitle": ""} for j in (0, 1)],
     }
 
 

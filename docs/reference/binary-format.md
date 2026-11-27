@@ -77,7 +77,9 @@ When `fVersion & (1 << 14) != 0` (i.e. `fVersion` has `0x4000` set, so the high 
 
 **Matches:** `bool`, `char`, `short`, `int`, `long`, `long long`, `float`, `double`, and their `signed`/`unsigned` variants, `int*_t`/`uint*_t`, ROOT typedefs (`Bool_t`, `Int_t`, …).
 
-**Identification:** `fType` in {1,2,3,4,5,8,11,12,13,14,16,17,18} or `fTypeName` matches a known primitive type name.
+**Identification:** `fType` in {1,2,3,4,5,6,8,11,12,13,14,15,16,17,18} or `fTypeName` matches a known primitive type name.
+
+The two extra codes are ROOT's `kCounter` (6, a four-byte scalar) and `kBits` (15, the `fBits` word), which behave as `int32` and `uint32` and appear on the members `TStreamerInfo` synthesises itself (`ElementTypes.md` §2.1 and §2.3).
 
 Primitive types are stored as **raw big-endian bytes** with no length prefix or header.
 
@@ -439,7 +441,7 @@ By default the data is discarded (`keep_data=False`), producing an `EmptyArray` 
 
 **Matches:** data members with `fArrayLength > 1` (a C-style array or a `std::array`, which are the same bytes), or jagged branches (variable-length arrays).
 
-**Identification:** `fArrayLength > 1` in the streamer info. `std::array` is not identifiable and does not need to be: ROOT rewrites it to a C array before it writes the streamer info, so nothing on disk distinguishes the two (`Collections.md` §11).
+**Identification:** `fArrayDim > 0` or `fArrayLength > 1` in the streamer info, or `is_jagged=True` from the branch. `std::array` is not identifiable and does not need to be: ROOT rewrites it to a C array before it writes the streamer info, so nothing on disk distinguishes the two (`Collections.md` §11).
 
 **Priority:** 20 (evaluated before other categories, so it wraps the element correctly).
 

@@ -100,6 +100,9 @@ def test_a_base_element_is_not_an_array():
     )
     assert not info.is_array
     assert info.element_count is None
+    # Nothing may read `fMaxIndex` as an extent: the checksum sits there, so the
+    # extents are empty rather than `(-1877229523,)`.
+    assert info.dims == ()
 
 
 def test_a_synthetic_element_carries_only_a_name_and_a_type_name():

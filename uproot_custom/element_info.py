@@ -87,20 +87,27 @@ class ElementInfo:
     """
     The streamer-info fields one factory decision needs.
 
-    Attributes:
-        name: ``fName``, the member name; for a top-level class it is the class.
-        type_name: ``fTypeName``, or ``None`` for a synthetic element.
-        ftype: ``fType`` as `uproot` hands it over, after both rewrites.
-        array_length: ``fArrayLength``, the element count of an array form.
-        array_dim: ``fArrayDim``; 0 means either a scalar or a pre-6.24/02 array.
-        max_index: ``fMaxIndex``, the per-dimension extents.
+    The fields are documented as ``#:`` comments rather than in an
+    ``Attributes:`` block: the API pages document the attributes themselves, and
+    a Google ``Attributes:`` section would register every one of them twice.
     """
 
+    #: ``fName``, the member name; for a top-level class it is the class.
     name: str
+
+    #: ``fTypeName``, or ``None`` for a synthetic element.
     type_name: str | None
+
+    #: ``fType`` as `uproot` hands it over, after both rewrites.
     ftype: int | None
+
+    #: ``fArrayLength``, the element count of an array form.
     array_length: int
+
+    #: ``fArrayDim``; 0 means either a scalar or a pre-6.24/02 array.
     array_dim: int
+
+    #: ``fMaxIndex``, the per-dimension extents.
     max_index: tuple[int, ...]
 
     @classmethod
@@ -132,8 +139,14 @@ class ElementInfo:
 
         ``fArrayDim`` and ``fArrayLength`` are both untouched by the two
         rewrites, so either one decides. ``fArrayLength`` alone is what the
-        specification requires a reader to use (`ElementTypes.md` §7.2); it is
-        non-zero for an array and zero for a scalar.
+        specification requires a reader to use (`ElementTypes.md` §7.2); a
+        scalar records 0 there, and the pointer codes record the count without
+        adding ``kOffsetL``.
+
+        The test is ``> 1`` rather than ``> 0`` because a scalar pointer member
+        is not documented to record 0: ``ElementTypes.md`` §7.2 only says that an
+        array of them has ``fArrayLength > 1``. A single-element array still
+        matches through ``fArrayDim``.
         """
         return self.array_dim > 0 or self.array_length > 1
 
