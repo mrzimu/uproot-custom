@@ -15,6 +15,7 @@ import uproot_custom.cpp
 import uproot_custom.detree.builtin
 import uproot_custom.python
 from uproot_custom.consts import DTYPE_TO_TYPECODE
+from uproot_custom.element_info import ElementFrame, ElementInfo
 from uproot_custom.utils import (
     get_dims_from_branch,
     get_map_key_val_typenames,
@@ -63,8 +64,11 @@ def build_factory(
     if not kwargs.get("called_from_top", False):
         item_path = f"{item_path}.{fName}"
 
+    # Two factories of equal priority must match in the same order in every
+    # process: a set iterates by hash, so the tie is broken on the class name.
     for factory_class in sorted(
-        registered_factories, key=lambda x: x.priority(), reverse=True
+        registered_factories,
+        key=lambda cls: (-cls.priority(), cls.__module__, cls.__qualname__),
     ):
         factory_instance = factory_class.build_factory(
             top_type_name,
@@ -76,7 +80,11 @@ def build_factory(
         if factory_instance is not None:
             return factory_instance
 
-    raise ValueError(f"Unknown type: {cur_streamer_info['fTypeName']} for {item_path}")
+    type_name = cur_streamer_info.get("fTypeName")
+    raise ValueError(
+        f"Unknown type {type_name!r} for {item_path}: "
+        "no factory matches this streamer-info element"
+    )
 
 
 def read_branch(
@@ -362,11 +370,13 @@ class PrimitiveFactory(Factory):
         3: "int32",
         4: "int64",
         5: "float32",
+        6: "int32",  # kCounter, a four-byte scalar (ElementTypes.md §2.1)
         8: "float64",
         11: "uint8",
         12: "uint16",
         13: "uint32",
         14: "uint64",
+        15: "uint32",  # kBits, the fBits word (ElementTypes.md §2.3)
         16: "int64",  # long long
         17: "uint64",  # unsigned long long
         18: "bool",
@@ -477,11 +487,17 @@ class STLSeqFactory(Factory):
         cur_streamer_info,
         all_streamer_info,
         item_path,
-        in_std_array=False,
+        with_header=None,
         **kwargs,
     ):
         """
         Return when `top_type_name` is in `cls.target_types`.
+
+        Args:
+            with_header: whether this collection carries its own
+                `fNBytes+fVersion` header. `None` means "the default for a
+                member": a member, and a column of members, has one. An element
+                nested in another collection or in a fixed array does not.
         """
         if top_type_name not in cls.target_types:
             return None
@@ -494,19 +510,18 @@ class STLSeqFactory(Factory):
             "fTypeName": element_type,
         }
 
+        # An element of a collection is always object-wise and bare
+        # (Collections.md §11): it has no header of its own.
         element_factory = build_factory(
             element_info,
             all_streamer_info,
             item_path,
-            in_std_array=in_std_array,
+            with_header=False,
         )
-
-        if isinstance(element_factory, (STLSeqFactory, STLMapFactory, STLStringFactory)):
-            element_factory.with_header = False
 
         return cls(
             name=fName,
-            with_header=not in_std_array,
+            with_header=True if with_header is None else with_header,
             objwise_or_memberwise=-1,
             element_factory=element_factory,
         )
@@ -593,11 +608,14 @@ class STLMapFactory(Factory):
         cur_streamer_info,
         all_streamer_info,
         item_path,
-        in_std_array=False,
+        with_header=None,
         **kwargs,
     ):
         """
         Return when `top_type_name` is in `cls.target_types`.
+
+        Args:
+            with_header: as for `STLSeqFactory`.
         """
         if top_type_name not in cls.target_types:
             return None
@@ -616,16 +634,16 @@ class STLMapFactory(Factory):
             "fTypeName": val_type_name,
         }
 
-        key_factory = build_factory(
-            key_info, all_streamer_info, item_path, in_std_array=in_std_array
-        )
-        val_factory = build_factory(
-            val_info, all_streamer_info, item_path, in_std_array=in_std_array
-        )
+        # A key or a value is read as a member-wise column when the map is
+        # member-wise, and that column carries its own shared header
+        # (`Collections.md` §4.1); the object-wise form reads the same elements
+        # bare, which the map reader asks for at the call site.
+        key_factory = build_factory(key_info, all_streamer_info, item_path)
+        val_factory = build_factory(val_info, all_streamer_info, item_path)
 
         return cls(
             name=fName,
-            with_header=not in_std_array,
+            with_header=True if with_header is None else with_header,
             objwise_or_memberwise=-1,
             key_factory=key_factory,
             val_factory=val_factory,
@@ -679,12 +697,6 @@ class STLMapFactory(Factory):
         self,
         buffer_holder: uproot_custom._forth.BufferHolder,
     ):
-        is_obj_wise = self.objwise_or_memberwise == 0
-
-        if is_obj_wise:
-            self.key_factory.with_header = False
-            self.val_factory.with_header = False
-
         objwise_or_memberwise = _objwise_or_memberwise_to_text(self.objwise_or_memberwise)
         key_forth_reader = self.key_factory.build_forth_reader(buffer_holder)
         val_forth_reader = self.val_factory.build_forth_reader(buffer_holder)
@@ -735,15 +747,21 @@ class STLStringFactory(Factory):
         cur_streamer_info,
         all_streamer_info,
         item_path,
-        in_std_array=False,
+        with_header=None,
         **kwargs,
     ):
+        """
+        Return when `top_type_name` is `string`.
+
+        Args:
+            with_header: as for `STLSeqFactory`.
+        """
         if top_type_name != "string":
             return None
 
         return cls(
             name=cur_streamer_info["fName"],
-            with_header=not in_std_array,
+            with_header=True if with_header is None else with_header,
         )
 
     def __init__(self, name: str, with_header: bool):
@@ -880,14 +898,24 @@ class TStringFactory(Factory):
         cur_streamer_info,
         all_streamer_info,
         item_path,
+        with_header=None,
         **kwargs,
     ):
+        """
+        Return when `top_type_name` is `TString`.
+
+        Args:
+            with_header: whether a `fNBytes+fVersion` header precedes the
+                strings. `None` means "the default for a member": a lone
+                `TString` has none, and a fixed array of them has one shared
+                header (`ElementTypes.md` §7.2).
+        """
         if top_type_name != "TString":
             return None
 
         return cls(
             name=cur_streamer_info["fName"],
-            with_header=False,
+            with_header=False if with_header is None else with_header,
         )
 
     def __init__(self, name: str, with_header: bool):
@@ -945,47 +973,63 @@ class TObjectFactory(Factory):
         cur_streamer_info,
         all_streamer_info,
         item_path,
+        with_header=None,
         **kwargs,
     ):
         """
-        Match the `TObject` base record.
+        Match a `TObject`, either as a base record or as a member.
 
         The configuration contains:
 
         - `factory`: `cls`
         - `name`: `fName`
         - `keep_data`: whether to keep data from `TObject`.
+        - `with_header`: whether a shared `fNBytes+fVersion` header precedes a
+          run of `TObject`s, as in the 86 array form (`ElementTypes.md` §7.2).
         """
-        if top_type_name != "BASE":
-            return None
+        fType = cur_streamer_info.get("fType", -1)
 
-        fType = cur_streamer_info["fType"]
-        if fType != 66:
+        # `BASE` is the type name of a base record; `TObject` is that of a
+        # member declared as one, whose array form keeps code 66 and adds
+        # `kOffsetL` (`ElementTypes.md` §7.2).
+        if top_type_name == "BASE":
+            if fType != 66:
+                return None
+        elif top_type_name != "TObject" or fType not in (66, 86):
             return None
 
         return cls(
             name=cur_streamer_info["fName"],
-            keep_data=item_path in cls.keep_data_itempaths,
+            # A base record is scaffolding and is dropped unless asked for; a
+            # `TObject` stored as a member or as an array element is the whole
+            # value, so its bytes are the only thing there is to show.
+            keep_data=top_type_name != "BASE" or item_path in cls.keep_data_itempaths,
+            with_header=False if with_header is None else with_header,
         )
 
-    def __init__(self, name: str, keep_data: bool):
+    def __init__(self, name: str, keep_data: bool, with_header: bool = False):
         super().__init__(name)
         self.keep_data = keep_data
+        self.with_header = with_header
 
     def build_cpp_reader(self):
         return uproot_custom.cpp.TObjectReader(
             self.name,
             self.keep_data,
+            self.with_header,
         )
 
     def build_python_reader(self):
         return uproot_custom.python.TObjectReader(
             self.name,
             self.keep_data,
+            self.with_header,
         )
 
     def build_detree_reader(self):
-        return uproot_custom.detree.builtin.TObjectReader(self.name, keep_data=self.keep_data)
+        return uproot_custom.detree.builtin.TObjectReader(
+            self.name, keep_data=self.keep_data, with_header=self.with_header
+        )
 
     def build_forth_reader(
         self,
@@ -994,6 +1038,7 @@ class TObjectFactory(Factory):
         return uproot_custom._forth.TObjectReader(
             self.name,
             self.keep_data,
+            self.with_header,
             buffer_holder,
         )
 
@@ -1034,6 +1079,10 @@ class TObjectFactory(Factory):
 class CStyleArrayFactory(Factory):
     """
     This class reads a C-style fixed/flexible array and std::array from a binary parser.
+
+    The element count always comes from `fArrayLength`; `fMaxIndex` only says how
+    to reshape the flat elements. Where the elements' framing lives is a
+    property of the element's class, not of the array: see `ElementFrame`.
     """
 
     @classmethod
@@ -1054,43 +1103,38 @@ class CStyleArrayFactory(Factory):
             branch = kwargs["branch"]
             _, is_jagged = get_dims_from_branch(branch)
 
-        if not is_jagged and cur_streamer_info.get("fArrayDim", 0) == 0:
+        info = ElementInfo.from_streamer_info(cur_streamer_info)
+        if not is_jagged and not info.is_array:
             return None
-
-        fName = cur_streamer_info["fName"]
-        fArrayDim = cur_streamer_info.get("fArrayDim", None)
-        fMaxIndex = cur_streamer_info.get("fMaxIndex", None)
 
         if is_jagged:
             flat_size = -1
         else:
-            flat_size = np.prod(fMaxIndex[:fArrayDim])
+            flat_size = info.element_count
+            assert (
+                flat_size is not None and flat_size > 0
+            ), f"{item_path}: {info.name} declares an array form with no element count"
 
         element_streamer_info = cur_streamer_info.copy()
         element_streamer_info["fArrayDim"] = 0
+        element_streamer_info["fArrayLength"] = 0
 
-        # When stored in std::array, there is no header for vector and map and their elements.
-        # So we used `in_std_array` to tell the element factory to skip header.
-        # By so far, we use fType==82 to identify std::array.
+        # An element of a fixed array never owns its header: either the whole
+        # run shares one (85/86/87 and, per Collections.md §11.1, a fixed array
+        # of collections) or the elements are bare or self-framed (81/82, basic
+        # types, the pointer codes). ElementTypes.md §7.2.
         element_factory = build_factory(
             element_streamer_info,
             all_streamer_info,
             item_path=item_path,
-            in_std_array=cur_streamer_info.get("fType", -1) == 82,
+            with_header=info.frame is ElementFrame.SHARED,
         )
 
-        # When TString is stored in C-style or std array, it has a "fNByte+fVersion" header.
-        if isinstance(element_factory, TStringFactory) and fArrayDim != 0:
-            element_factory.with_header = True
-
-        assert flat_size != 0, "flatten_size cannot be 0."
-
         return cls(
-            name=fName,
+            name=info.name,
             element_factory=element_factory,
             flat_size=flat_size,
-            fMaxIndex=fMaxIndex,
-            fArrayDim=fArrayDim,
+            dims=info.dims,
         )
 
     def __init__(
@@ -1098,14 +1142,12 @@ class CStyleArrayFactory(Factory):
         name: str,
         element_factory: Factory,
         flat_size: int,
-        fMaxIndex: int,
-        fArrayDim: np.ndarray,
+        dims: tuple[int, ...],
     ):
         super().__init__(name)
         self.element_factory = element_factory
         self.flat_size = flat_size
-        self.fMaxIndex = fMaxIndex
-        self.fArrayDim = fArrayDim
+        self.dims = tuple(int(d) for d in dims)
 
     def build_cpp_reader(self):
         element_reader = self.element_factory.build_cpp_reader()
@@ -1150,17 +1192,13 @@ class CStyleArrayFactory(Factory):
 
         element_content = self.element_factory.make_awkward_content(element_raw_data)
 
-        if self.fArrayDim is not None and self.fMaxIndex is not None:
-            shape = [self.fMaxIndex[i] for i in range(self.fArrayDim)]
-            for s in shape[::-1]:
-                element_content = awkward.contents.RegularArray(element_content, int(s))
-        else:
-            shape = ()
+        for extent in reversed(self.dims):
+            element_content = awkward.contents.RegularArray(element_content, extent)
 
         if self.flat_size < 0:
             offsets = raw_data[0]
-            for s in shape:
-                offsets = offsets / s
+            for extent in self.dims:
+                offsets = offsets / extent
 
             return ak.contents.ListOffsetArray(
                 ak.index.Index64(offsets),
@@ -1171,10 +1209,9 @@ class CStyleArrayFactory(Factory):
 
     def make_awkward_form(self):
         element_form = self.element_factory.make_awkward_form()
-        if self.fArrayDim is not None and self.fMaxIndex is not None:
-            shape = [self.fMaxIndex[i] for i in range(self.fArrayDim)]
-            for s in shape[::-1]:
-                element_form = ak.forms.RegularForm(element_form, int(s))
+
+        for extent in reversed(self.dims):
+            element_form = ak.forms.RegularForm(element_form, extent)
 
         if self.flat_size < 0:
             return ak.forms.ListOffsetForm(
@@ -1206,9 +1243,10 @@ class GroupFactory(Factory):
         """
         return
 
-    def __init__(self, name: str, sub_factories: list[Factory]):
+    def __init__(self, name: str, sub_factories: list[Factory], with_header: bool = False):
         super().__init__(name)
         self.sub_factories = sub_factories
+        self.with_header = with_header
 
     def build_cpp_reader(self):
         sub_readers = [s.build_cpp_reader() for s in self.sub_factories]
@@ -1336,28 +1374,47 @@ class AnyClassFactory(GroupFactory):
         cur_streamer_info,
         all_streamer_info,
         item_path,
+        with_header=None,
         **kwargs,
     ):
-        # Pointer types should be handled by AnyPointerFactory.
-        if top_type_name.endswith("*"):
+        """
+        Match any class whose streamer info describes it.
+
+        Args:
+            with_header: whether a shared `fNBytes+fVersion` header precedes a
+                run of these objects, as in the 87 array form
+                (`ElementTypes.md` §7.2). A lone object frames itself, so the
+                default is `False`.
+        """
+        # Pointer types should be handled by AnyPointerFactory, and an element
+        # without a type name (a plain TBranch's synthetic element) has none.
+        if top_type_name is None or top_type_name.endswith("*"):
             return None
 
-        sub_streamers: list = all_streamer_info[top_type_name]
+        sub_streamers = all_streamer_info.get(top_type_name)
+        if sub_streamers is None:
+            return None
+
         sub_factories = [build_factory(s, all_streamer_info, item_path) for s in sub_streamers]
-        return cls(name=top_type_name, sub_factories=sub_factories)
+        return cls(
+            name=top_type_name,
+            sub_factories=sub_factories,
+            with_header=False if with_header is None else with_header,
+        )
 
     def build_cpp_reader(self):
         sub_readers = [s.build_cpp_reader() for s in self.sub_factories]
-        return uproot_custom.cpp.AnyClassReader(self.name, sub_readers)
+        return uproot_custom.cpp.AnyClassReader(self.name, sub_readers, self.with_header)
 
     def build_python_reader(self):
         sub_readers = [s.build_python_reader() for s in self.sub_factories]
-        return uproot_custom.python.AnyClassReader(self.name, sub_readers)
+        return uproot_custom.python.AnyClassReader(self.name, sub_readers, self.with_header)
 
     def build_detree_reader(self):
         return uproot_custom.detree.builtin.AnyClassReader(
             self.name,
             elements=tuple(s.build_detree_reader() for s in self.sub_factories),
+            with_header=self.with_header,
         )
 
     def build_forth_reader(
@@ -1365,7 +1422,12 @@ class AnyClassFactory(GroupFactory):
         buffer_holder: uproot_custom._forth.BufferHolder,
     ):
         sub_readers = [s.build_forth_reader(buffer_holder) for s in self.sub_factories]
-        return uproot_custom._forth.AnyClassReader(self.name, sub_readers, buffer_holder)
+        return uproot_custom._forth.AnyClassReader(
+            self.name,
+            sub_readers,
+            buffer_holder,
+            self.with_header,
+        )
 
 
 class AnyPointerFactory(Factory):

@@ -244,12 +244,15 @@ def test_stl_sequence_of_strings():
 def test_stl_sequence_memberwise():
     """
     A memberwise container is read field by field across all elements.
+
+    From frame version 8 on the value class's version follows the frame
+    (`Collections.md` §6).
     """
     element_version = _i16(0) + b"\x00\x00\x00\x00"
     body = struct.pack(">I", 2) + struct.pack(">ii", 5, 6) + struct.pack(">dd", 1.5, 2.5)
     payload = (
         _u32(len(body) | kByteCountMask)
-        + _i16(kStreamedMemberwise | 1)
+        + _i16(kStreamedMemberwise | 10)
         + element_version
         + body
     )
@@ -278,14 +281,43 @@ def test_stl_sequence_memberwise():
     )
 
 
+def test_stl_sequence_memberwise_before_version_8():
+    """
+    Below frame version 8 there is no value-class version at all.
+
+    Reading one because the memberwise bit is set would consume two bytes of
+    the first element (`Collections.md` §6).
+    """
+    body = struct.pack(">I", 2) + struct.pack(">ii", 5, 6) + struct.pack(">dd", 1.5, 2.5)
+    payload = _u32(len(body) | kByteCountMask) + _i16(kStreamedMemberwise | 7) + body
+    _check(
+        python.STLSeqReader(
+            "v",
+            True,
+            python.GroupReader(
+                "e",
+                [python.PrimitiveReader("a", "int32"), python.PrimitiveReader("b", "float64")],
+            ),
+        ),
+        native.STLSeqReader(
+            "v",
+            with_header=True,
+            element=native.GroupReader(
+                "e",
+                elements=[
+                    native.PrimitiveReader("a", typecode="i"),
+                    native.PrimitiveReader("b", typecode="d"),
+                ],
+            ),
+        ),
+        payload,
+        [0, len(payload)],
+    )
+
+
 def test_stl_map():
     body = struct.pack(">I", 2) + struct.pack(">idid", 1, 1.5, 2, 2.5)
-    payload = (
-        _u32(len(body) | kByteCountMask)
-        + _i16(1)  # container version
-        + _i16(1)  # element version
-        + body
-    )
+    payload = _u32(len(body) | kByteCountMask) + _i16(10) + body
     _check(
         python.STLMapReader(
             "m",
@@ -298,6 +330,125 @@ def test_stl_map():
             with_header=True,
             key=native.PrimitiveReader("k", typecode="i"),
             value=native.PrimitiveReader("v", typecode="d"),
+        ),
+        payload,
+        [0, len(payload)],
+    )
+
+
+def test_stl_map_memberwise_has_one_header_per_column():
+    """
+    Member-wise, keys and values are two columns and each has its own header
+    (`Collections.md` §4.1).
+    """
+    keys = b"\x01A\x01B"
+    values = b"\x03abc\x03def"
+    body = (
+        struct.pack(">I", 2)
+        + _u32((len(keys) + 2) | kByteCountMask)
+        + _i16(10)
+        + keys
+        + _u32((len(values) + 2) | kByteCountMask)
+        + _i16(10)
+        + values
+    )
+    payload = (
+        _u32(len(body) | kByteCountMask)
+        + _i16(kStreamedMemberwise | 10)
+        + _i16(0)
+        + b"\x00\x00\x00\x00"
+        + body
+    )
+    _check(
+        python.STLMapReader(
+            "m",
+            True,
+            python.STLStringReader("k", with_header=True),
+            python.STLStringReader("v", with_header=True),
+        ),
+        native.STLMapReader(
+            "m",
+            with_header=True,
+            key=native.STLStringReader("k", with_header=True),
+            value=native.STLStringReader("v", with_header=True),
+        ),
+        payload,
+        [0, len(payload)],
+    )
+
+
+def test_an_object_wise_map_reads_its_values_bare():
+    """
+    A value inside an object-wise map has no header, even when it is a type
+    that carries one as a member (`Collections.md` §11).
+
+    The value reader is built as a member (`with_header=True`) on purpose: the
+    frame belongs to the call site, not to the reader.
+    """
+    body = struct.pack(">I", 1) + struct.pack(">i", 1) + struct.pack(">B", 3) + b"abc"
+    payload = _u32(len(body) | kByteCountMask) + _i16(10) + body
+    _check(
+        python.STLMapReader(
+            "m",
+            True,
+            python.PrimitiveReader("k", "int32"),
+            python.STLStringReader("v", with_header=True),
+        ),
+        native.STLMapReader(
+            "m",
+            with_header=True,
+            key=native.PrimitiveReader("k", typecode="i"),
+            value=native.STLStringReader("v", with_header=True),
+        ),
+        payload,
+        [0, len(payload)],
+    )
+
+
+def test_a_tobject_array_shares_one_header():
+    """
+    The 86 array form: one `fNBytes+fVersion` header, then bare `TObject`s
+    (`ElementTypes.md` §7.2).
+    """
+    body = struct.pack(">hII", 1, 42, 0) + struct.pack(">hII", 1, 43, 0)
+    payload = _u32(len(body) | kByteCountMask) + _i16(10) + body
+    _check(
+        python.CStyleArrayReader(
+            "a", 2, python.TObjectReader("o", keep_data=True, with_header=True)
+        ),
+        native.CStyleArrayReader(
+            "a",
+            flat_size=2,
+            element=native.TObjectReader("o", keep_data=True, with_header=True),
+        ),
+        payload,
+        [0, len(payload)],
+    )
+
+
+def test_an_object_array_shares_one_header():
+    """
+    The 87 array form: one header, then objects that each frame themselves.
+    """
+    one = struct.pack(">Ih", 6 | kByteCountMask, 1) + struct.pack(">i", 7)
+    body = one + one
+    payload = _u32(len(body) | kByteCountMask) + _i16(10) + body
+    _check(
+        python.CStyleArrayReader(
+            "a",
+            2,
+            python.AnyClassReader(
+                "o", [python.PrimitiveReader("x", "int32")], with_header=True
+            ),
+        ),
+        native.CStyleArrayReader(
+            "a",
+            flat_size=2,
+            element=native.AnyClassReader(
+                "o",
+                elements=[native.PrimitiveReader("x", typecode="i")],
+                with_header=True,
+            ),
         ),
         payload,
         [0, len(payload)],

@@ -339,10 +339,40 @@ br_pointers = [
     "/tree:branch/m_vec_ptr",
 ]
 
+#: A class with a fixed array of each framing family, stored inside a
+#: collection. ROOT writes one header per column per entry, covering every
+#: object of the entry (`Collections.md` §11.1).
+br_array_in_object = [
+    "/tree:branch/m_objs/m_objs.m_int[2]",
+    "/tree:branch/m_objs/m_objs.m_tstr[2]",
+    "/tree:branch/m_objs/m_objs.m_vec[2]",
+    "/tree:branch/m_objs/m_objs.m_mapvec[2]",
+    "/tree:branch/m_objs/m_objs.m_tnamed[2]",
+]
+
+#: The array forms of one element type, each spelled as a C array and as a
+#: `std::array`.  Both spellings are the same bytes, and the framing of the run
+#: is decided by the element class alone (`ElementTypes.md` §7.2).
+br_array_forms = [
+    "/tree:branch/m_carr_int[2]",
+    "/tree:branch/m_arr_int[2]",
+    "/tree:branch/m_carr_tstr[2]",
+    "/tree:branch/m_arr_tstr[2]",
+    "/tree:branch/m_carr_str[2]",
+    "/tree:branch/m_arr_str[2]",
+    "/tree:branch/m_carr_vec[2]",
+    "/tree:branch/m_arr_vec[2]",
+    "/tree:branch/m_carr_mapvec[2]",
+    "/tree:branch/m_arr_mapvec[2]",
+    "/tree:branch/m_carr_tobj[2]",
+    "/tree:branch/m_arr_tobj[2]",
+    "/tree:branch/m_carr_tnamed[2]",
+    "/tree:branch/m_arr_tnamed[2]",
+]
+
 br_pure_struct = [
     "/tree:branch/m_vec_child_ptr",
 ]
-
 br_simple_obj = [
     "/tree:branch/m_int",
     "/tree:branch/m_str",
@@ -375,6 +405,8 @@ TEST_BRANCHES = {
     "pointers": br_pointers,
     "pure_struct": br_pure_struct,
     "simple_obj": br_simple_obj,
+    "array_forms": br_array_forms,
+    "array_in_object": br_array_in_object,
 }
 
 for brs in TEST_BRANCHES.values():

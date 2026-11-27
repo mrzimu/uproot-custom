@@ -24,6 +24,7 @@ from typing import cast
 import numpy as np
 
 from uproot_custom.consts import (
+    STL_VERSION_WITH_VALUE_VERSION,
     TYPECODE,
     kByteCountMask,
     kClassMask,
@@ -78,12 +79,17 @@ class TObjectReader(Reader):
     """
 
     keep_data = cast(bool, Const(False, type=bool))
+    with_header = cast(bool, Const(False, type=bool))
     unique_id = cast(BufferProxy, Buffer("i"))
     bits = cast(BufferProxy, Buffer("I"))
     pidf = cast(BufferProxy, Buffer("H"))
     pidf_offsets = cast(BufferProxy, Buffer("q", init=(0,), kind="offsets"))
 
-    def read(self, stream: Stream):
+    def _skip_header(self, stream: Stream):
+        stream.skip_fNBytes()
+        stream.skip_fVersion()
+
+    def _body(self, stream: Stream):
         stream.skip_fVersion()
         unique_id = stream.read_int32()
         bits = stream.read_uint32()
@@ -98,6 +104,34 @@ class TObjectReader(Reader):
             self.unique_id.append(unique_id)
             self.bits.append(bits)
             self.pidf_offsets.append(len(self.pidf))
+
+    def read(self, stream: Stream):
+        if self.with_header:
+            self._skip_header(stream)
+        self._body(stream)
+
+    def read_bare(self, stream: Stream):
+        self._body(stream)
+
+    def read_many(self, stream: Stream, count: int):
+        if count == 0:
+            return 0
+        if self.with_header:
+            self._skip_header(stream)
+        for _ in range(count):
+            self._body(stream)
+        return count
+
+    def read_until(self, stream: Stream, end_pos: int):
+        if stream.cursor == end_pos:
+            return 0
+        if self.with_header:
+            self._skip_header(stream)
+        count = 0
+        while stream.cursor < end_pos:
+            self._body(stream)
+            count += 1
+        return count
 
     def data(self):
         if not self.keep_data:
@@ -127,15 +161,30 @@ class TStringReader(Reader):
         stream.read_bulk(self.chars, size)
         self.offsets.append(len(self.chars))
 
+    def _skip_header(self, stream: Stream):
+        stream.skip_fNBytes()
+        stream.skip_fVersion()
+
     def read(self, stream: Stream):
+        if self.with_header:
+            self._skip_header(stream)
+        self._body(stream)
+
+    def read_bare(self, stream: Stream):
         self._body(stream)
 
     def read_many(self, stream, count):
         if count == 0:
             return 0
         if self.with_header:
-            stream.skip_fNBytes()
-            stream.skip_fVersion()
+            self._skip_header(stream)
+        for _ in range(count):
+            self._body(stream)
+        return count
+
+    def read_many_bare(self, stream, count):
+        if count == 0:
+            return 0
         for _ in range(count):
             self._body(stream)
         return count
@@ -144,8 +193,7 @@ class TStringReader(Reader):
         if stream.cursor == end_pos:
             return 0
         if self.with_header:
-            stream.skip_fNBytes()
-            stream.skip_fVersion()
+            self._skip_header(stream)
         count = 0
         while stream.cursor < end_pos:
             self._body(stream)
@@ -173,18 +221,30 @@ class STLStringReader(Reader):
         self.offsets.append(self.offsets[-1] + size)
         stream.read_bulk(self.chars, size)
 
+    def _skip_header(self, stream: Stream):
+        stream.skip_fNBytes()
+        stream.skip_fVersion()
+
     def read(self, stream: Stream):
         if self.with_header:
-            stream.skip_fNBytes()
-            stream.skip_fVersion()
+            self._skip_header(stream)
+        self._body(stream)
+
+    def read_bare(self, stream: Stream):
         self._body(stream)
 
     def read_many(self, stream, count):
         if count == 0:
             return 0
         if self.with_header:
-            stream.skip_fNBytes()
-            stream.skip_fVersion()
+            self._skip_header(stream)
+        for _ in range(count):
+            self._body(stream)
+        return count
+
+    def read_many_bare(self, stream, count):
+        if count == 0:
+            return 0
         for _ in range(count):
             self._body(stream)
         return count
@@ -193,8 +253,7 @@ class STLStringReader(Reader):
         if stream.cursor == end_pos:
             return 0
         if self.with_header:
-            stream.skip_fNBytes()
-            stream.skip_fVersion()
+            self._skip_header(stream)
         count = 0
         while stream.cursor < end_pos:
             self._body(stream)
@@ -239,46 +298,51 @@ class STLSeqReader(Reader):
         if version == 0:
             stream.skip(4)
 
+    def _read_header(self, stream: Stream):
+        is_memberwise = False
+        if self.with_header:
+            stream.skip_fNBytes()
+            version = stream.read_fVersion()
+            is_memberwise = bool(version & kStreamedMemberwise)
+            if is_memberwise:
+                if (version & ~kStreamedMemberwise) >= STL_VERSION_WITH_VALUE_VERSION:
+                    self._element_version(stream)
+        return is_memberwise
+
     def _body(self, stream, is_memberwise):
         size = stream.read_uint32()
         self.offsets.append(self.offsets[-1] + size)
         if is_memberwise:
             self.element.read_many_memberwise(stream, size)
         else:
-            self.element.read_many(stream, size)
+            self.element.read_many_bare(stream, size)
 
     def read(self, stream: Stream):
-        stream.skip_fNBytes()
-        version = stream.read_fVersion()
-        is_memberwise = bool(version & kStreamedMemberwise)
-        if is_memberwise:
-            self._element_version(stream)
+        is_memberwise = self._read_header(stream)
         self._body(stream, is_memberwise)
+
+    def read_bare(self, stream: Stream):
+        self._body(stream, False)
 
     def read_many(self, stream, count):
         if count == 0:
             return 0
-        is_memberwise = False
-        if self.with_header:
-            stream.skip_fNBytes()
-            version = stream.read_fVersion()
-            is_memberwise = bool(version & kStreamedMemberwise)
-        if is_memberwise:
-            self._element_version(stream)
+        is_memberwise = self._read_header(stream)
         for _ in range(count):
             self._body(stream, is_memberwise)
+        return count
+
+    def read_many_bare(self, stream, count):
+        if count == 0:
+            return 0
+        for _ in range(count):
+            self._body(stream, False)
         return count
 
     def read_until(self, stream, end_pos):
         if stream.cursor == end_pos:
             return 0
-        is_memberwise = False
-        if self.with_header:
-            stream.skip_fNBytes()
-            version = stream.read_fVersion()
-            is_memberwise = bool(version & kStreamedMemberwise)
-        if is_memberwise:
-            self._element_version(stream)
+        is_memberwise = self._read_header(stream)
         count = 0
         while stream.cursor < end_pos:
             self._body(stream, is_memberwise)
@@ -301,11 +365,20 @@ class STLMapReader(Reader):
     value: Reader = cast(Reader, Child())
 
     def _element_version(self, stream: Stream):
-        # Deliberately unconditional: the python backend has always read it,
-        # and a reader must see the same bytes either way.
         version = stream.read_fVersion()
         if version == 0:
             stream.skip(4)
+
+    def _read_header(self, stream: Stream):
+        is_memberwise = False
+        if self.with_header:
+            stream.skip_fNBytes()
+            version = stream.read_fVersion()
+            is_memberwise = bool(version & kStreamedMemberwise)
+            if is_memberwise:
+                if (version & ~kStreamedMemberwise) >= STL_VERSION_WITH_VALUE_VERSION:
+                    self._element_version(stream)
+        return is_memberwise
 
     def _body(self, stream, is_memberwise):
         size = stream.read_uint32()
@@ -315,37 +388,35 @@ class STLMapReader(Reader):
             self.value.read_many(stream, size)
         else:
             for _ in range(size):
-                self.key.read(stream)
-                self.value.read(stream)
+                self.key.read_bare(stream)
+                self.value.read_bare(stream)
 
     def read(self, stream: Stream):
-        stream.skip_fNBytes()
-        version = stream.read_fVersion()
-        self._element_version(stream)
-        self._body(stream, bool(version & kStreamedMemberwise))
+        is_memberwise = self._read_header(stream)
+        self._body(stream, is_memberwise)
+
+    def read_bare(self, stream: Stream):
+        self._body(stream, False)
 
     def read_many(self, stream, count):
         if count == 0:
             return 0
-        is_memberwise = False
-        if self.with_header:
-            stream.skip_fNBytes()
-            version = stream.read_fVersion()
-            is_memberwise = bool(version & kStreamedMemberwise)
-            self._element_version(stream)
+        is_memberwise = self._read_header(stream)
         for _ in range(count):
             self._body(stream, is_memberwise)
+        return count
+
+    def read_many_bare(self, stream, count):
+        if count == 0:
+            return 0
+        for _ in range(count):
+            self._body(stream, False)
         return count
 
     def read_until(self, stream, end_pos):
         if stream.cursor == end_pos:
             return 0
-        is_memberwise = False
-        if self.with_header:
-            stream.skip_fNBytes()
-            version = stream.read_fVersion()
-            is_memberwise = bool(version & kStreamedMemberwise)
-            self._element_version(stream)
+        is_memberwise = self._read_header(stream)
         count = 0
         while stream.cursor < end_pos:
             self._body(stream, is_memberwise)
@@ -385,8 +456,13 @@ class AnyClassReader(Reader):
     """
 
     elements: tuple[Reader, ...] = cast(tuple[Reader, ...], ChildList())
+    with_header = cast(bool, Const(False, type=bool))
 
-    def read(self, stream: Stream):
+    def _skip_header(self, stream: Stream):
+        stream.skip_fNBytes()
+        stream.skip_fVersion()
+
+    def _body(self, stream: Stream):
         with stream.check_nbytes():
             version = stream.read_fVersion()
             if version == 0:
@@ -394,6 +470,34 @@ class AnyClassReader(Reader):
 
             for element in self.elements:
                 element.read(stream)
+
+    def read(self, stream: Stream):
+        if self.with_header:
+            self._skip_header(stream)
+        self._body(stream)
+
+    def read_bare(self, stream: Stream):
+        self._body(stream)
+
+    def read_many(self, stream: Stream, count: int):
+        if count == 0:
+            return 0
+        if self.with_header:
+            self._skip_header(stream)
+        for _ in range(count):
+            self._body(stream)
+        return count
+
+    def read_until(self, stream: Stream, end_pos: int):
+        if stream.cursor == end_pos:
+            return 0
+        if self.with_header:
+            self._skip_header(stream)
+        count = 0
+        while stream.cursor < end_pos:
+            self._body(stream)
+            count += 1
+        return count
 
     def read_many_memberwise(self, stream, count):
         assert count >= 0, "read_many_memberwise with a negative count"
@@ -500,8 +604,9 @@ class CStyleArrayReader(Reader):
     def read_many(self, stream, count):
         assert self.flat_size >= 0, "a jagged CStyleArray cannot be read in bulk"
         assert count >= 0, "read_many with a negative count"
-        for _ in range(count):
-            self.element.read_many(stream, self.flat_size)
+        # One shared header covers the whole member-wise column
+        # (Collections.md §11.1), so the header is read once here.
+        self.element.read_many(stream, count * self.flat_size)
         return count
 
     def read_until(self, stream, end_pos):

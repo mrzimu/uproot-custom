@@ -3,6 +3,8 @@
 #include <iostream>
 
 #include "TBasicTypes.hh"
+#include "TArrayForms.hh"
+#include "TArrayInObject.hh"
 #include "TCStyleArray.hh"
 #include "TComplicatedSTL.hh"
 #include "TNestedSTL.hh"
@@ -260,10 +262,46 @@ void gen_TPureStruct() {
     f.Close();
 }
 
+void gen_ArrayForms() {
+    TFile f( "test_array_forms.root", "RECREATE" );
+    TTree t( TREE_NAME, "tree" );
+
+    TArrayForms array_forms;
+    t.Branch( "branch", &array_forms );
+
+    for ( int i = 0; i < NUM_ENTRIES; i++ )
+    {
+        array_forms = TArrayForms();
+        array_forms.fill( i );
+        t.Fill();
+    }
+
+    t.Write();
+    f.Close();
+}
+
+void gen_ArrayInObject() {
+    TFile f( "test_array_in_object.root", "RECREATE" );
+    TTree t( TREE_NAME, "tree" );
+
+    TArrayInObjectHolder holder;
+    t.Branch( "branch", &holder );
+
+    // The three entries hold a different number of objects, so a header that
+    // covered only the first one would show up as a wrong second entry.
+    for ( int i = 0; i < NUM_ENTRIES; i++ )
+    {
+        holder.fill( i, 1 + i % 3 );
+        t.Fill();
+    }
+
+    t.Write();
+    f.Close();
+}
+
 int main() {
     cout << "Generating primitive data..." << endl;
     gen_primitive();
-
     cout << "Generating STL string data..." << endl;
     gen_STLString();
 
@@ -302,6 +340,12 @@ int main() {
 
     cout << "Generating pure struct data..." << endl;
     gen_TPureStruct();
+
+    cout << "Generating array forms data..." << endl;
+    gen_ArrayForms();
+
+    cout << "Generating arrays inside a collection..." << endl;
+    gen_ArrayInObject();
 
     return 0;
 }

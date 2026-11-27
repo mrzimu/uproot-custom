@@ -521,6 +521,17 @@ namespace uproot_custom {
         virtual void read( BinaryStream& stream ) = 0;
 
         /**
+         * @brief Read one element as it appears inside another element.
+         *
+         * A nested element is object-wise and bare: a count and its elements,
+         * with no header of its own (root-io-spec `Collections.md` §11). Readers
+         * that can carry a header override this; for the rest it is @ref read().
+         *
+         * @param stream The binary stream to read from.
+         */
+        virtual void read_bare( BinaryStream& stream ) { read( stream ); }
+
+        /**
          * @brief Get the data read by the reader. This should be called after the whole
          * reading process.
          *
@@ -543,6 +554,17 @@ namespace uproot_custom {
         virtual uint32_t read_many( BinaryStream& stream, const int64_t count ) {
             for ( int32_t i = 0; i < count; i++ ) { read( stream ); }
             return count;
+        }
+
+        /**
+         * @brief Read a run of nested elements. See @ref read_bare().
+         *
+         * @param stream The binary stream to read from.
+         * @param count Number of elements to read.
+         * @return Number of elements read.
+         */
+        virtual uint32_t read_many_bare( BinaryStream& stream, const int64_t count ) {
+            return read_many( stream, count );
         }
 
         /**

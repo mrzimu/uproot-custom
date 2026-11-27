@@ -115,7 +115,7 @@ Called during factory-tree construction. Parameters:
 
 - `item_path: str` — the regularized object-path of the branch, plus one `.` and the member name for every level below it: `/my_tree:entry/m_obj`, then `/my_tree:entry/m_obj.m_sub`. An STL element reuses its member's name, so the element of a `vector<int> m_vec` member sees `/my_tree:entry/m_vec.m_vec`. The path never contains a type name. Use it for path-specific logic, such as claiming a class in one branch only.
 
-- `**kwargs` — reserved for future use.
+- `**kwargs` — extra context from the caller. `CStyleArrayFactory` passes `with_header=<bool>` to the element it wraps: `True` when the whole run of elements shares one `fNBytes + fVersion` header (`TString`, `TObject`, `TNamed` and collection arrays), `False` when the elements are bare or frame themselves. A factory that can carry a header should accept `with_header=None` and treat `None` as "the default for a member". The `in_std_array` keyword is gone: it described the array's spelling, which the file does not record, instead of the framing, which it does.
 
 ````{important}
 `cur_streamer_info` does not describe the same thing at every node:
