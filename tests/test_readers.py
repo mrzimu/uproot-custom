@@ -69,6 +69,8 @@ def test_forth(test_contexts, subtests):
         "stl_map_with_obj",
         "stl_nested",
         "stl_complicated",
+        "array_forms",
+        "array_in_object",
     ]
 
     forth_contexts = {

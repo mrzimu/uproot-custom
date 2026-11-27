@@ -149,8 +149,17 @@ COMPARE_CMPS = {
     ast.IsNot: Op.CMP_NE,
 }
 
-ENTRY_METHODS = ("read", "read_many", "read_until", "read_many_memberwise")
-TYPE_ENTRY_METHODS = Literal["read", "read_many", "read_until", "read_many_memberwise"]
+ENTRY_METHODS = (
+    "read",
+    "read_bare",
+    "read_many",
+    "read_many_bare",
+    "read_until",
+    "read_many_memberwise",
+)
+TYPE_ENTRY_METHODS = Literal[
+    "read", "read_bare", "read_many", "read_many_bare", "read_until", "read_many_memberwise"
+]
 
 
 class _Unsupported(Exception):
@@ -320,7 +329,7 @@ class _Compiler:
         slot = self.slot_by_key.get(key)
         if slot is None:
             if arity is None:
-                arity = 0 if method == "read" else 1
+                arity = 0 if method in ("read", "read_bare") else 1
             param = None
             if arity == 1:
                 param = "end_pos" if method == "read_until" else "count"
@@ -336,7 +345,7 @@ class _Compiler:
                 arity=arity,
                 params=() if arity == 0 else (param,),
                 body=[],
-                result=nodes.VOID if method == "read" else nodes.I64,
+                result=nodes.VOID if method in ("read", "read_bare") else nodes.I64,
             )
             self.slot_by_key[key] = slot
             self.slots.append(slot)
@@ -478,7 +487,7 @@ class _MethodEmitter:
                 f"{self.cls.__name__}.{self.method}: {err}", self.path
             ) from None
 
-        self.fn.ret(None if self.method == "read" else self.fn.const(0))
+        self.fn.ret(None if self.method in ("read", "read_bare") else self.fn.const(0))
         self.fn.finish()
 
         return True
@@ -517,7 +526,7 @@ class _MethodEmitter:
                     "close the region before returning"
                 )
             if node.value is None:
-                value = None if self.method == "read" else self.fn.const(0)
+                value = None if self.method in ("read", "read_bare") else self.fn.const(0)
             else:
                 value = self.expr(node.value)
             self.fn.ret(value)
@@ -1254,27 +1263,45 @@ def _emit_defaults(compiler: _Compiler, reader: Reader, path: str):
     """
     Fill in the entry points the class does not override.
     """
-    for method in ("read_many", "read_until", "read_many_memberwise"):
+    for method in (
+        "read_bare",
+        "read_many",
+        "read_many_bare",
+        "read_until",
+        "read_many_memberwise",
+    ):
         slot = compiler.slot_by_key[(path, method)]
         if slot.function.body:
             continue
 
-        fn = compiler.new_function(path, method, 1)
+        fn = compiler.new_function(path, method, 0 if method == "read_bare" else 1)
         read_id = compiler.func_id(path, "read")
+
+        if method == "read_bare":
+            fn.emit(nodes.CallStmt(None, read_id, None))
+            fn.ret()
+            continue
 
         if method == "read_many_memberwise":
             fn.throw(f"{path}: read_many_memberwise is not implemented")
             fn.ret(fn.const(0))
             continue
 
-        if method == "read_many":
+        if method in ("read_many", "read_many_bare"):
             count = fn.local("count")
+            # `read_many_bare` is the bare form of `read_many`: one `read_bare`
+            # per element, so a reader that overrides `read_bare` to skip a
+            # shared header is not read as if every element had one. This is
+            # the same default as `decl.Reader.read_many_bare`.
+            per_item = read_id
+            if method == "read_many_bare":
+                per_item = compiler.func_id(path, "read_bare")
             fn.for_range(
                 "__i",
                 fn.const(0),
                 count,
                 1,
-                [nodes.CallStmt(None, read_id, None)],
+                [nodes.CallStmt(None, per_item, None)],
             )
             fn.ret(count)
             continue
@@ -1317,7 +1344,13 @@ def compile_reader(reader):
     compiler = _Compiler(reader)
     for path, node in _walk(reader):
         compile_method(compiler, node, path, "read")
-        for method in ("read_many", "read_until", "read_many_memberwise"):
+        for method in (
+            "read_bare",
+            "read_many",
+            "read_many_bare",
+            "read_until",
+            "read_many_memberwise",
+        ):
             if getattr(type(node), method) is not getattr(Reader, method):
                 compile_method(compiler, node, path, method)
         _emit_defaults(compiler, node, path)

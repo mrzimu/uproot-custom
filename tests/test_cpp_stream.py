@@ -36,7 +36,7 @@ def _read(payload: bytes, reader):
 
 
 def test_a_counted_object_checks_its_byte_count():
-    reader = cpp.AnyClassReader("c", [cpp.Int32Reader("v")])
+    reader = cpp.AnyClassReader("c", [cpp.Int32Reader("v")], False)
 
     array = _read(_payload(_body(7)), reader)
 
@@ -44,7 +44,7 @@ def test_a_counted_object_checks_its_byte_count():
 
 
 def test_a_wrong_byte_count_names_both_positions():
-    reader = cpp.AnyClassReader("c", [cpp.Int32Reader("v")])
+    reader = cpp.AnyClassReader("c", [cpp.Int32Reader("v")], False)
 
     with pytest.raises(RuntimeError, match=r"expected 14, got 10"):
         _read(_payload(_body(7), claimed=10), reader)

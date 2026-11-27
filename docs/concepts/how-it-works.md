@@ -40,7 +40,10 @@ def build_factory(
     if not kwargs.get("called_from_top", False):
         item_path = f"{item_path}.{fName}"
 
-    for factory_class in sorted(registered_factories, key=lambda x: x.priority(), reverse=True):
+    for factory_class in sorted(
+        registered_factories,
+        key=lambda cls: (-cls.priority(), cls.__module__, cls.__qualname__),
+    ):
         factory_instance = factory_class.build_factory(
             top_type_name,
             cur_streamer_info,

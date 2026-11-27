@@ -11,6 +11,10 @@ kIsReferenced = 1 << 4
 kStreamedMemberwise = 1 << 14
 kMapOffset = 2
 
+#: An STL frame carries the value class's version only from this frame version
+#: on, and only in member-wise form; `kSTLp` uses 9 (`Collections.md` §6).
+STL_VERSION_WITH_VALUE_VERSION = 8
+
 
 _MISSING = object()
 

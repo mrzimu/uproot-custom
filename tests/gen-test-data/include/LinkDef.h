@@ -16,4 +16,7 @@
 #    pragma link C++ class TestPointerStruct + ;
 #    pragma link C++ class TPureStructChild + ;
 #    pragma link C++ class TPureStruct + ;
+#    pragma link C++ class TArrayForms + ;
+#    pragma link C++ class TArrayInObject + ;
+#    pragma link C++ class TArrayInObjectHolder + ;
 #endif

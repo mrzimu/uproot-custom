@@ -22,6 +22,10 @@ namespace uproot_custom {
     template <typename T>
     using SharedVector = shared_ptr<vector<T>>;
 
+    /// An STL frame carries the value class's version only from this frame version
+    /// on, and only in member-wise form (root-io-spec `Collections.md` §6).
+    constexpr int kSTLVersionWithValueVersion = 8;
+
     /**
      * @brief Reader for primitive types
      *
@@ -67,36 +71,29 @@ namespace uproot_custom {
      */
     class TObjectReader : public IReader {
       private:
-        const bool m_keep_data;               ///< Whether to keep the read data
-        SharedVector<int32_t> m_unique_id;    ///< Store fUniqueID values
-        SharedVector<uint32_t> m_bits;        ///< Store fBits values
-        SharedVector<uint16_t> m_pidf;        ///< Store pidf values
+        const bool m_keep_data;            ///< Whether to keep the read data
+        const bool m_with_header;          ///< Whether one shared `fNBytes+fVersion`
+                                           ///< header precedes a run of TObjects
+                                           ///< (the 86 array form).
+        SharedVector<int32_t> m_unique_id; ///< Store fUniqueID values
+        SharedVector<uint32_t> m_bits;     ///< Store fBits values
+        SharedVector<uint16_t> m_pidf;     ///< Store pidf values
         SharedVector<int64_t> m_pidf_offsets; ///< Store offsets for pidf
 
-      public:
-        /**
-         * @brief Construct a new TObjectReader object
-         *
-         * @param name Name of the reader
-         * @param keep_data Whether to keep the read data
-         */
-        TObjectReader( string name, bool keep_data )
-            : IReader( name )
-            , m_keep_data( keep_data )
-            , m_unique_id( std::make_shared<vector<int32_t>>() )
-            , m_bits( std::make_shared<vector<uint32_t>>() )
-            , m_pidf( std::make_shared<vector<uint16_t>>() )
-            , m_pidf_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) ) {}
+        /** @brief Skip the shared header of an 86 array. */
+        void skip_header( BinaryStream& stream ) {
+            stream.skip_fNBytes();
+            stream.skip_fVersion();
+        }
 
         /**
-         * @brief Read a TObject from the stream. A TObject contains `fVersion` (int16_t),
-         * `fUniqueID` (int32_t), `fBits` (uint32_t). If `fBits & kIsReferenced`, then a `pidf`
-         * (uint16_t) follows. If m_keep_data is true, the read data
-         * will be stored.
+         * @brief Read one TObject, bare. A TObject contains `fVersion` (int16_t),
+         * `fUniqueID` (int32_t), `fBits` (uint32_t). If `fBits & kIsReferenced`, then a
+         * `pidf` (uint16_t) follows.
          *
          * @param stream The binary stream to read from
          */
-        void read( BinaryStream& stream ) override {
+        void read_body( BinaryStream& stream ) {
             stream.skip_fVersion();
             auto fUniqueID = stream.read<int32_t>();
             auto fBits     = stream.read<uint32_t>();
@@ -113,6 +110,73 @@ namespace uproot_custom {
                 m_bits->push_back( fBits );
                 m_pidf_offsets->push_back( m_pidf->size() );
             }
+        }
+
+      public:
+        /**
+         * @brief Construct a new TObjectReader object
+         *
+         * @param name Name of the reader
+         * @param keep_data Whether to keep the read data
+         * @param with_header Whether one shared header precedes a run of TObjects
+         */
+        TObjectReader( string name, bool keep_data, bool with_header )
+            : IReader( name )
+            , m_keep_data( keep_data )
+            , m_with_header( with_header )
+            , m_unique_id( std::make_shared<vector<int32_t>>() )
+            , m_bits( std::make_shared<vector<uint32_t>>() )
+            , m_pidf( std::make_shared<vector<uint16_t>>() )
+            , m_pidf_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) ) {}
+
+        /**
+         * @brief Read a TObject from the stream.
+         *
+         * @param stream The binary stream to read from
+         */
+        void read( BinaryStream& stream ) override {
+            if ( m_with_header ) skip_header( stream );
+            read_body( stream );
+        }
+
+        /**
+         * @brief Read a TObject that sits inside another element: no header.
+         *
+         * @param stream The binary stream to read from
+         */
+        void read_bare( BinaryStream& stream ) override { read_body( stream ); }
+
+        /**
+         * @brief Read a run of TObjects under one shared header, if there is one.
+         *
+         * @param stream The binary stream to read from
+         * @param count Number of TObjects to read
+         * @return Number of TObjects read
+         */
+        uint32_t read_many( BinaryStream& stream, const int64_t count ) override {
+            if ( count == 0 ) return 0;
+            if ( m_with_header ) skip_header( stream );
+            for ( auto i = 0; i < count; i++ ) { read_body( stream ); }
+            return count;
+        }
+
+        /**
+         * @brief Read TObjects until the end position, after the shared header.
+         *
+         * @param stream The binary stream to read from
+         * @param end_pos The end position to stop reading
+         * @return Number of TObjects read
+         */
+        uint32_t read_until( BinaryStream& stream, const uint8_t* end_pos ) override {
+            if ( stream.get_cursor() == end_pos ) return 0;
+            if ( m_with_header ) skip_header( stream );
+            uint32_t cur_count = 0;
+            while ( stream.get_cursor() < end_pos )
+            {
+                read_body( stream );
+                cur_count++;
+            }
+            return cur_count;
         }
 
         /**
@@ -162,19 +226,46 @@ namespace uproot_custom {
             , m_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) ) {}
 
         /**
-         * @brief Read a TString from the stream. A TString starts with a uint8_t size. If the
-         * size is 255, then a uint32_t size follows. Then the string data follows. If
-         * m_with_header is true, read a `fNBytes+fVersion` header before reading the TString.
+         * @brief Skip the `fNBytes+fVersion` header a fixed array of TStrings shares.
          *
          * @param stream The binary stream to read from.
          */
-        void read( BinaryStream& stream ) override {
+        void skip_header( BinaryStream& stream ) {
+            stream.skip_fNBytes();
+            stream.skip_fVersion();
+        }
+
+        /**
+         * @brief Read one TString, bare. A TString starts with a uint8_t size. If the
+         * size is 255, then a uint32_t size follows. Then the string data follows.
+         *
+         * @param stream The binary stream to read from.
+         */
+        void read_body( BinaryStream& stream ) {
             uint32_t fSize = stream.read<uint8_t>();
             if ( fSize == 255 ) fSize = stream.read<uint32_t>();
 
             for ( int i = 0; i < fSize; i++ ) { m_data->push_back( stream.read<uint8_t>() ); }
             m_offsets->push_back( m_data->size() );
         }
+
+        /**
+         * @brief Read a TString from the stream. If m_with_header is true, read a
+         * `fNBytes+fVersion` header before reading the TString.
+         *
+         * @param stream The binary stream to read from.
+         */
+        void read( BinaryStream& stream ) override {
+            if ( m_with_header ) skip_header( stream );
+            read_body( stream );
+        }
+
+        /**
+         * @brief Read a TString that sits inside another element: no header.
+         *
+         * @param stream The binary stream to read from.
+         */
+        void read_bare( BinaryStream& stream ) override { read_body( stream ); }
 
         /**
          * @brief Read multiple TStrings from the stream. If m_with_header is true, only
@@ -191,13 +282,25 @@ namespace uproot_custom {
 
             if ( count == 0 ) return 0;
 
-            if ( m_with_header )
-            {
-                auto fNBytes  = stream.read_fNBytes();
-                auto fVersion = stream.read_fVersion();
-            }
+            if ( m_with_header ) skip_header( stream );
 
-            for ( auto i = 0; i < count; i++ ) { read( stream ); }
+            for ( auto i = 0; i < count; i++ ) { read_body( stream ); }
+            return count;
+        }
+
+        /**
+         * @brief Read a run of nested TStrings: one header for all, if any.
+         *
+         * @param stream The binary stream to read from.
+         * @param count Number of TStrings to read.
+         * @return Number of TStrings read.
+         */
+        uint32_t read_many_bare( BinaryStream& stream, const int64_t count ) override {
+            if ( count < 0 )
+                throw std::runtime_error(
+                    "TStringReader::read_many_bare with negative count not supported!" );
+
+            for ( auto i = 0; i < count; i++ ) { read_body( stream ); }
             return count;
         }
 
@@ -213,16 +316,12 @@ namespace uproot_custom {
         uint32_t read_until( BinaryStream& stream, const uint8_t* end_pos ) override {
             if ( stream.get_cursor() == end_pos ) return 0;
 
-            if ( m_with_header )
-            {
-                auto fNBytes  = stream.read_fNBytes();
-                auto fVersion = stream.read_fVersion();
-            }
+            if ( m_with_header ) skip_header( stream );
 
             uint32_t cur_count = 0;
             while ( stream.get_cursor() < end_pos )
             {
-                read( stream );
+                read_body( stream );
                 cur_count++;
             }
             return cur_count;
@@ -284,6 +383,26 @@ namespace uproot_custom {
         }
 
         /**
+         * @brief Read the collection's own `fNBytes+fVersion` header, if it has one.
+         *
+         * @param stream The binary stream to read from.
+         * @return Whether the body is member-wise, which only the header can say.
+         */
+        bool read_header( BinaryStream& stream ) {
+            if ( !m_with_header ) return false;
+
+            stream.skip_fNBytes();
+            auto fVersion      = stream.read_fVersion();
+            bool is_memberwise = fVersion & kStreamedMemberWise;
+
+            if ( is_memberwise &&
+                 ( fVersion & ~kStreamedMemberWise ) >= kSTLVersionWithValueVersion )
+            { read_element_version( stream ); }
+
+            return is_memberwise;
+        }
+
+        /**
          * @brief Read the body of the sequence from the stream. First reads the size
          * (uint32_t) of the sequence, then calls m_element_reader to read the elements.
          *
@@ -299,7 +418,7 @@ namespace uproot_custom {
             debug_printf( stream );
 
             if ( is_memberwise ) m_element_reader->read_many_memberwise( stream, fSize );
-            else m_element_reader->read_many( stream, fSize );
+            else m_element_reader->read_many_bare( stream, fSize );
         }
 
         /**
@@ -309,35 +428,44 @@ namespace uproot_custom {
          * @param stream The binary stream to read from.
          */
         void read( BinaryStream& stream ) override {
-            stream.read_fNBytes();
-            auto fVersion      = stream.read_fVersion();
-            bool is_memberwise = fVersion & kStreamedMemberWise;
-            if ( is_memberwise ) read_element_version( stream );
-            read_body( stream, is_memberwise );
+            read_body( stream, read_header( stream ) );
         }
+
+        /**
+         * @brief Read a sequence that sits inside another element: no header.
+         *
+         * @param stream The binary stream to read from.
+         */
+        void read_bare( BinaryStream& stream ) override { read_body( stream, false ); }
 
         /**
          * @brief Read multiple sequences from the stream. If m_with_header is true,
          * reads a `fNBytes+fVersion` header once before reading multiple sequences.
          *
          * @param stream The binary stream to read from.
-         * @param count Number of sequences to read. If negative, reads according to the
-         * `fNBytes` header.
+         * @param count Number of sequences to read.
          * @return Number of sequences read.
          */
         uint32_t read_many( BinaryStream& stream, const int64_t count ) override {
             if ( count == 0 ) return 0;
 
-            bool is_memberwise = false;
-            if ( m_with_header )
-            {
-                stream.skip_fNBytes();
-                auto fVersion = stream.read_fVersion();
-                is_memberwise = fVersion & kStreamedMemberWise;
-            }
-            if ( is_memberwise ) read_element_version( stream );
+            bool is_memberwise = read_header( stream );
 
             for ( auto i = 0; i < count; i++ ) { read_body( stream, is_memberwise ); }
+            return count;
+        }
+
+        /**
+         * @brief Read a run of nested sequences: bare, and never member-wise.
+         *
+         * @param stream The binary stream to read from.
+         * @param count Number of sequences to read.
+         * @return Number of sequences read.
+         */
+        uint32_t read_many_bare( BinaryStream& stream, const int64_t count ) override {
+            if ( count == 0 ) return 0;
+
+            for ( auto i = 0; i < count; i++ ) { read_body( stream, false ); }
             return count;
         }
 
@@ -352,14 +480,8 @@ namespace uproot_custom {
          */
         uint32_t read_until( BinaryStream& stream, const uint8_t* end_pos ) override {
             if ( stream.get_cursor() == end_pos ) return 0;
-            bool is_memberwise = false;
-            if ( m_with_header )
-            {
-                stream.skip_fNBytes();
-                auto fVersion = stream.read_fVersion();
-                is_memberwise = fVersion & kStreamedMemberWise;
-            }
-            if ( is_memberwise ) read_element_version( stream );
+
+            bool is_memberwise = read_header( stream );
 
             uint32_t cur_count = 0;
             while ( stream.get_cursor() < end_pos )
@@ -424,10 +546,30 @@ namespace uproot_custom {
         }
 
         /**
+         * @brief Read the map's own `fNBytes+fVersion` header, if it has one.
+         *
+         * @param stream The binary stream to read from.
+         * @return Whether the body is member-wise, which only the header can say.
+         */
+        bool read_header( BinaryStream& stream ) {
+            if ( !m_with_header ) return false;
+
+            stream.skip_fNBytes();
+            auto fVersion      = stream.read_fVersion();
+            bool is_memberwise = fVersion & kStreamedMemberWise;
+
+            if ( is_memberwise &&
+                 ( fVersion & ~kStreamedMemberWise ) >= kSTLVersionWithValueVersion )
+            { read_element_version( stream ); }
+
+            return is_memberwise;
+        }
+
+        /**
          * @brief Read the body of the map from the stream. First reads the size
          * (uint32_t) of the map, then calls m_key_reader and m_value_reader
          * to read the keys and values. If member-wise, reads all keys first, then all values.
-         * Otherwise, reads key-value pairs one by one.
+         * Otherwise, reads key-value pairs one by one, each bare.
          *
          * @param stream The binary stream to read from.
          * @param is_memberwise Whether the current reading mode is member-wise.
@@ -445,27 +587,28 @@ namespace uproot_custom {
             {
                 for ( auto i = 0; i < fSize; i++ )
                 {
-                    m_key_reader->read( stream );
-                    m_value_reader->read( stream );
+                    m_key_reader->read_bare( stream );
+                    m_value_reader->read_bare( stream );
                 }
             }
         }
 
         /**
-         * @brief Read a map from the stream. Reads a `fNBytes+fVersion` header,
-         * then reads element version/checksum via @ref read_element_version(), and
-         * finally calls @ref read_body() to read the map body.
+         * @brief Read a map from the stream. If m_with_header is true, reads a
+         * `fNBytes+fVersion` header, then calls @ref read_body().
          *
          * @param stream The binary stream to read from.
          */
         void read( BinaryStream& stream ) override {
-            stream.read_fNBytes();
-            auto fVersion = stream.read_fVersion();
-            read_element_version( stream );
-
-            bool is_memberwise = fVersion & kStreamedMemberWise;
-            read_body( stream, is_memberwise );
+            read_body( stream, read_header( stream ) );
         }
+
+        /**
+         * @brief Read a map that sits inside another element: no header.
+         *
+         * @param stream The binary stream to read from.
+         */
+        void read_bare( BinaryStream& stream ) override { read_body( stream, false ); }
 
         /**
          * @brief Read multiple maps from the stream. If m_with_header is true,
@@ -473,24 +616,29 @@ namespace uproot_custom {
          * reading multiple maps.
          *
          * @param stream The binary stream to read from.
-         * @param count Number of maps to read. If negative, reads according to the
-         * `fNBytes` header.
+         * @param count Number of maps to read.
          * @return Number of maps read.
          */
         uint32_t read_many( BinaryStream& stream, const int64_t count ) override {
             if ( count == 0 ) return 0;
 
-            bool is_memberwise = false;
-            if ( m_with_header )
-            {
-                auto fNBytes  = stream.read_fNBytes();
-                auto fVersion = stream.read_fVersion();
-                read_element_version( stream );
-
-                is_memberwise = fVersion & kStreamedMemberWise;
-            }
+            bool is_memberwise = read_header( stream );
 
             for ( auto i = 0; i < count; i++ ) { read_body( stream, is_memberwise ); }
+            return count;
+        }
+
+        /**
+         * @brief Read a run of nested maps: bare, and never member-wise.
+         *
+         * @param stream The binary stream to read from.
+         * @param count Number of maps to read.
+         * @return Number of maps read.
+         */
+        uint32_t read_many_bare( BinaryStream& stream, const int64_t count ) override {
+            if ( count == 0 ) return 0;
+
+            for ( auto i = 0; i < count; i++ ) { read_body( stream, false ); }
             return count;
         }
 
@@ -506,15 +654,7 @@ namespace uproot_custom {
         uint32_t read_until( BinaryStream& stream, const uint8_t* end_pos ) override {
             if ( stream.get_cursor() == end_pos ) return 0;
 
-            bool is_memberwise = false;
-            if ( m_with_header )
-            {
-                stream.read_fNBytes();
-                auto fVersion = stream.read_fVersion();
-                read_element_version( stream );
-
-                is_memberwise = fVersion & kStreamedMemberWise;
-            }
+            bool is_memberwise = read_header( stream );
 
             uint32_t cur_count = 0;
             while ( stream.get_cursor() < end_pos )
@@ -589,6 +729,25 @@ namespace uproot_custom {
                 stream.read_fVersion();
             }
             read_body( stream );
+        }
+
+        /**
+         * @brief Read a string that sits inside another element: no header.
+         *
+         * @param stream The binary stream to read from.
+         */
+        void read_bare( BinaryStream& stream ) override { read_body( stream ); }
+
+        /**
+         * @brief Read a run of nested strings; no header at all.
+         *
+         * @param stream The binary stream to read from.
+         * @param count Number of strings to read.
+         * @return Number of strings read.
+         */
+        uint32_t read_many_bare( BinaryStream& stream, const int64_t count ) override {
+            for ( auto i = 0; i < count; i++ ) { read_body( stream ); }
+            return count;
         }
 
         /**
@@ -797,25 +956,21 @@ namespace uproot_custom {
     class AnyClassReader : public IReader {
       private:
         vector<SharedReader> m_element_readers; ///< The element readers for the Any class.
+        const bool m_with_header; ///< Whether one shared `fNBytes+fVersion` header
+                                  ///< precedes a run of these objects (the 87 array form).
 
-      public:
-        /**
-         * @brief Construct a new Any Class Reader object
-         *
-         * @param name Name of the reader.
-         * @param element_readers The element readers for the Any class. In Python, this should
-         * be a list of readers.
-         */
-        AnyClassReader( string name, vector<SharedReader> element_readers )
-            : IReader( name ), m_element_readers( element_readers ) {}
+        /** @brief Skip the shared header of an 87 array. */
+        void skip_header( BinaryStream& stream ) {
+            stream.skip_fNBytes();
+            stream.skip_fVersion();
+        }
 
         /**
-         * @brief Read the object from the stream. First reads the `fNBytes+fVersion`
-         * header, then reads all elements sequentially.
+         * @brief Read one object, bare apart from its own counted region.
          *
          * @param stream The binary stream to read from.
          */
-        void read( BinaryStream& stream ) override {
+        void read_body( BinaryStream& stream ) {
             auto frame = stream.check_nbytes();
 
             auto fVersion = stream.read_fVersion();
@@ -828,6 +983,70 @@ namespace uproot_custom {
                 debug_printf( stream );
                 reader->read( stream );
             }
+        }
+
+      public:
+        /**
+         * @brief Construct a new Any Class Reader object
+         *
+         * @param name Name of the reader.
+         * @param element_readers The element readers for the Any class. In Python, this should
+         * be a list of readers.
+         * @param with_header Whether one shared header precedes a run of these objects.
+         */
+        AnyClassReader( string name, vector<SharedReader> element_readers, bool with_header )
+            : IReader( name )
+            , m_element_readers( element_readers )
+            , m_with_header( with_header ) {}
+
+        /**
+         * @brief Read the object from the stream.
+         *
+         * @param stream The binary stream to read from.
+         */
+        void read( BinaryStream& stream ) override {
+            if ( m_with_header ) skip_header( stream );
+            read_body( stream );
+        }
+
+        /**
+         * @brief Read an object that sits inside another element: no outer header.
+         *
+         * @param stream The binary stream to read from.
+         */
+        void read_bare( BinaryStream& stream ) override { read_body( stream ); }
+
+        /**
+         * @brief Read a run of objects under one shared header, if there is one.
+         *
+         * @param stream The binary stream to read from.
+         * @param count Number of objects to read.
+         * @return Number of objects read.
+         */
+        uint32_t read_many( BinaryStream& stream, const int64_t count ) override {
+            if ( count == 0 ) return 0;
+            if ( m_with_header ) skip_header( stream );
+            for ( auto i = 0; i < count; i++ ) { read_body( stream ); }
+            return count;
+        }
+
+        /**
+         * @brief Read objects until the end position, after the shared header.
+         *
+         * @param stream The binary stream to read from.
+         * @param end_pos The end position to stop reading.
+         * @return Number of objects read.
+         */
+        uint32_t read_until( BinaryStream& stream, const uint8_t* end_pos ) override {
+            if ( stream.get_cursor() == end_pos ) return 0;
+            if ( m_with_header ) skip_header( stream );
+            uint32_t cur_count = 0;
+            while ( stream.get_cursor() < end_pos )
+            {
+                read_body( stream );
+                cur_count++;
+            }
+            return cur_count;
         }
 
         /**
@@ -1107,8 +1326,9 @@ namespace uproot_custom {
                 throw std::runtime_error( msg.str() );
             }
 
-            for ( auto i = 0; i < count; i++ )
-                m_element_reader->read_many( stream, m_flat_size );
+            // One shared header covers the whole member-wise column
+            // (root-io-spec `Collections.md` §11.1), so it is read once here.
+            m_element_reader->read_many( stream, count * m_flat_size );
 
             return count;
         }
@@ -1249,9 +1469,10 @@ namespace uproot_custom {
 
         // Other readers
         declare_reader<TStringReader, string, bool>( m, "TStringReader" );
-        declare_reader<TObjectReader, string, bool>( m, "TObjectReader" );
+        declare_reader<TObjectReader, string, bool, bool>( m, "TObjectReader" );
         declare_reader<GroupReader, string, vector<SharedReader>>( m, "GroupReader" );
-        declare_reader<AnyClassReader, string, vector<SharedReader>>( m, "AnyClassReader" );
+        declare_reader<AnyClassReader, string, vector<SharedReader>, bool>(
+            m, "AnyClassReader" );
         declare_reader<AnyPointerReader, string, SharedReader>( m, "AnyPointerReader" );
         declare_reader<CStyleArrayReader, string, int64_t, SharedReader>(
             m, "CStyleArrayReader" );

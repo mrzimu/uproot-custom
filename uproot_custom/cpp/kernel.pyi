@@ -45,7 +45,6 @@ class STLSeqReader(IReader):
         self,
         name: str,
         with_header: bool,
-        objwise_or_memberwise: int,
         element_reader: IReader,
     ) -> None: ...
 
@@ -54,7 +53,6 @@ class STLMapReader(IReader):
         self,
         name: str,
         with_header: bool,
-        objwise_or_memberwise: int,
         key_reader: IReader,
         value_reader: IReader,
     ) -> None: ...
@@ -85,10 +83,10 @@ class TArrayDReader(IReader):
     def __init__(self, name: str) -> None: ...
 
 class TStringReader(IReader):
-    def __init__(self, name: str) -> None: ...
+    def __init__(self, name: str, with_header: bool) -> None: ...
 
 class TObjectReader(IReader):
-    def __init__(self, name: str) -> None: ...
+    def __init__(self, name: str, keep_data: bool, with_header: bool) -> None: ...
 
 class GroupReader(IReader):
     def __init__(
@@ -102,6 +100,7 @@ class AnyClassReader(IReader):
         self,
         name: str,
         sub_readers: list[IReader],
+        with_header: bool,
     ) -> None: ...
 
 class AnyPointerReader(IReader):
@@ -115,7 +114,6 @@ class CStyleArrayReader(IReader):
     def __init__(
         self,
         name: str,
-        is_obj: bool,
         flat_size: int,
         element_reader: IReader,
     ) -> None: ...

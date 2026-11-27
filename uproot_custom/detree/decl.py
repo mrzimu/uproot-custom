@@ -261,7 +261,15 @@ class Reader:
         names = {f.name for f in declared} | inherited_names
         fields = inherited + tuple(declared)
 
-        for bad in ("read", "data", "read_many", "read_until", "read_many_memberwise"):
+        for bad in (
+            "read",
+            "data",
+            "read_bare",
+            "read_many",
+            "read_many_bare",
+            "read_until",
+            "read_many_memberwise",
+        ):
             if bad in names:
                 raise ReaderContractError(
                     f"{cls.__name__}.{bad}: a field cannot share the name of a method"
@@ -315,9 +323,30 @@ class Reader:
     def read(self, stream: Stream):
         raise NotImplementedError("read method must be implemented by subclasses")
 
+    def read_bare(self, stream: Stream):
+        """
+        Read one element as it appears inside another element.
+
+        A nested element is object-wise and bare (`Collections.md` §11), so a
+        reader that can carry a header overrides this to skip it.
+        """
+        self.read(stream)
+
     def read_many(self, stream: Stream, count: int):
         for _ in range(count):
             self.read(stream)
+        return count
+
+    def read_many_bare(self, stream: Stream, count: int):
+        """
+        Read a run of nested elements; see `read_bare`.
+
+        The default is one `read_bare` per element, which is exactly the
+        bare form of `read_many`'s one `read` per element. The compiler emits
+        the same default, so the Python interpreter and the machine agree.
+        """
+        for _ in range(count):
+            self.read_bare(stream)
         return count
 
     def read_until(self, stream: Stream, end_pos: int):
@@ -364,7 +393,14 @@ class Reader:
 
 
 # -- the decorator --------------------------------------------------------
-_ALLOWED_ARITY = {"read": 2, "read_many": 3, "read_until": 3, "read_many_memberwise": 3}
+_ALLOWED_ARITY = {
+    "read": 2,
+    "read_bare": 2,
+    "read_many": 3,
+    "read_many_bare": 3,
+    "read_until": 3,
+    "read_many_memberwise": 3,
+}
 
 # statement and expression nodes a read path may contain
 _BANNED_NODES = (

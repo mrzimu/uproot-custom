@@ -27,7 +27,7 @@ These formats are summarized by me, and may not be complete or accurate. If you 
 | `std::vector` (and other STL sequences) | `std::vector`, `std::list`, `std::set`, `std::multiset`, `std::unordered_set`, `std::unordered_multiset` |
 | `std::map` (and other STL maps) | `std::map`, `std::unordered_map`, `std::multimap`, `std::unordered_multimap` |
 | `TObject` | `TObject` as base class (fType=66) |
-| C-style array / `std::array` | C-style arrays (`T m_data[N]`) and `std::array` (`fArrayDim > 0` or jagged) |
+| C-style array / `std::array` | C-style arrays (`T m_data[N]`) and `std::array` (same bytes; `fArrayLength > 1` or jagged) |
 | Any class | Arbitrary class objects (fType=0 or no special fType) |
 | Base class | Base class embedding (fType=0 with `BASE` typename) |
 | Pointer (`T*`) | Pointer-to-object (`fType` in {63, 64, 68, 69} or `fTypeName` ends with `*`) |
@@ -77,7 +77,9 @@ When `fVersion & (1 << 14) != 0` (i.e. `fVersion` has `0x4000` set, so the high 
 
 **Matches:** `bool`, `char`, `short`, `int`, `long`, `long long`, `float`, `double`, and their `signed`/`unsigned` variants, `int*_t`/`uint*_t`, ROOT typedefs (`Bool_t`, `Int_t`, …).
 
-**Identification:** `fType` in {1,2,3,4,5,8,11,12,13,14,16,17,18} or `fTypeName` matches a known primitive type name.
+**Identification:** `fType` in {1,2,3,4,5,6,8,11,12,13,14,15,16,17,18} or `fTypeName` matches a known primitive type name.
+
+The two extra codes are ROOT's `kCounter` (6, a four-byte scalar) and `kBits` (15, the `fBits` word), which behave as `int32` and `uint32` and appear on the members `TStreamerInfo` synthesises itself (`ElementTypes.md` §2.1 and §2.3).
 
 Primitive types are stored as **raw big-endian bytes** with no length prefix or header.
 
@@ -179,7 +181,7 @@ If the first byte is `255`, the length is instead a 4-byte `uint32`:
 [255: uint8] [length: uint32] [data: bytes...]
 ```
 
-When wrapped in a C-style or `std::array`, a `fNBytes + fVersion` header may precede the string data — see [C-style array / `std::array`](#c-style-array-section).
+When wrapped in a C-style or `std::array`, one `fNBytes + fVersion` header precedes the whole run of strings — see [C-style array / `std::array`](#c-style-array-section).
 
 ```{code-block} cpp
 ---
@@ -203,7 +205,7 @@ caption: Binary format
 
 **Matches:** `TString` (ROOT's string class).
 
-Unlike `std::string`, `TString` does **not** have a `fNBytes + fVersion` header by default. However, when stored inside a C-style or `std::array`, the header is present.
+Unlike `std::string`, `TString` does **not** have a `fNBytes + fVersion` header as a member. A fixed array of them has one shared header — see [the frame table](#c-style-array-section).
 
 ```
 [length: uint8] [data: bytes...]
@@ -303,11 +305,11 @@ caption: Binary format
 
 ### C-style array of STL containers
 
-When storing as a C-style array (e.g. `std::vector<int> m_vec[2]`), the outer `fNBytes + fVersion` header is kept, and each element is stored as a separate sequence with its own length prefix.
+When storing as a C-style array (e.g. `std::vector<int> m_vec[2]`), the whole run shares **one** `fNBytes + fVersion` header, and each element is stored as a separate sequence with its own length prefix. `fArrayLength` is the only field that records this (`Collections.md` §11.1).
 
 ### std::array of STL containers
 
-When storing as `std::array` (e.g. `std::array<std::vector<int>, 2>`), there is **no** outer `fNBytes + fVersion` header. Each element is stored as a sequence with its own length prefix.
+A `std::array<T,N>` is written as `T m[N]`: the framing is the same, and which framing that is depends on `T`, not on the spelling (see [the frame table](#c-style-array-section)). `std::array<std::vector<int>, 2>` has no outer header because its element is written as an object; `std::array<std::string, 2>` does have one, because its element is a collection.
 
 `````{tab-set}
 
@@ -437,21 +439,37 @@ By default the data is discarded (`keep_data=False`), producing an `EmptyArray` 
 (c-style-array-section)=
 ## C-style array / `std::array`
 
-**Matches:** Data members with `fArrayDim > 0` (C-style arrays or `std::array`), or jagged branches (variable-length arrays).
+**Matches:** data members with `fArrayLength > 1` (a C-style array or a `std::array`, which are the same bytes), or jagged branches (variable-length arrays).
 
-**Identification:** `fArrayDim > 0` in the streamer info, or `is_jagged=True` from `get_dims_from_branch`. The dimensions are stored in `fMaxIndex[0..fArrayDim-1]`.
+**Identification:** `fArrayDim > 0` or `fArrayLength > 1` in the streamer info, or `is_jagged=True` from the branch. `std::array` is not identifiable and does not need to be: ROOT rewrites it to a C array before it writes the streamer info, so nothing on disk distinguishes the two (`Collections.md` §11).
 
 **Priority:** 20 (evaluated before other categories, so it wraps the element correctly).
 
-### How C-style array / `std::array` modifies contained types
+### The element count is `fArrayLength`
 
-The element is wrapped by an *element handler* for the contained type. When the array is `std::array` (identified by `fType=82`), the element is called with `in_std_array=True`, which suppresses the `fNBytes + fVersion` header for `std::vector` (and other STL sequences), `std::map` (and other STL maps), and `std::string`.
+`fArrayLength` is the number of elements, whatever the stored code says. `fArrayDim` and `fMaxIndex` only say how to reshape them, and a file written before ROOT 6.24/02 may leave `fArrayDim` at 0 while `fArrayLength` is positive (`StreamerInfo.md` §10); the rank is then recovered from the non-zero `fMaxIndex` entries.
 
-When `TString` is inside a C-style or `std::array`, its `with_header` flag is set to `True` (unlike standalone `TString`).
+### Framing belongs to the element class
+
+An element of a fixed array never owns a header of its own. Either the whole run shares one, or the elements are bare or frame themselves (`ElementTypes.md` §7.2):
+
+| Element | Stored code | Framing of the run |
+|---|---|---|
+| basic type | 21–39 | no header, bare values |
+| `TString` | 85 | one `fNBytes + fVersion`, then `n` counted strings |
+| `TObject` | 86 | one header, then `n` bare `TObject`s |
+| `TNamed` | 87 | one header, then `n` objects that frame themselves |
+| any other class | 81 / 82 | no header; each element frames itself |
+| `std::vector<T>` / `std::map<K,V>` / `std::string` | 500 | one header, then `n` complete collections |
+| pointer codes 63/64/68/69 | unchanged | `fArrayLength > 1` instead of `kOffsetL`; each element is an object slot |
+
+The element factory is built with `with_header=True` for the shared-frame rows and `with_header=False` for the rest; it never reads a header of its own, because the array owns it.
+
+In a member-wise collection the shared header is per *column*, not per object: entry 1 of `tests/data/test_array_in_object.root` holds two objects with a `TString[2]` member, and its column is one header plus four counted strings, not two headers (`Collections.md` §11.1, confirmed by reading that file back with ROOT).
 
 ### Fixed-size
 
-Elements are concatenated with no separators or length prefixes:
+Elements are concatenated with no separators or length prefixes beyond the shared header described above:
 
 ```
 [element 1] [element 2] ... [element N]
@@ -467,7 +485,7 @@ The entry boundaries are determined by the entry offsets array, not by a fixed c
 
 ### Awkward reconstruction of arrays
 
-For fixed-size arrays, the flat elements are wrapped in `RegularArray` layers corresponding to the dimensions in `fMaxIndex`. For jagged arrays, a `ListOffsetArray` wraps the elements.
+For fixed-size arrays, the flat elements are wrapped in `RegularArray` layers corresponding to the dimensions (`fMaxIndex[0..fArrayDim-1]`, or the rank recovered from it). For jagged arrays, a `ListOffsetArray` wraps the elements.
 
 ---
 

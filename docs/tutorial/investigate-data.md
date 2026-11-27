@@ -257,10 +257,11 @@ Each dictionary maps to one data member of `TSimpleObject`. Key attributes:
 | Attribute   | Description |
 | ----------- | ----------- |
 | `fName`     | Data member name |
-| `fType`     | Numeric type code |
+| `fType`     | Numeric type code, after `uproot` subtracts `kOffsetL` from the basic codes |
 | `fTypeName` | Human-readable type name |
-| `fArrayDim` | Number of array dimensions (0 = scalar) |
-| `fMaxIndex` | Maximum index per dimension |
+| `fArrayLength` | Element count of a C array; 0 for a scalar. This is the number a reader has to use |
+| `fArrayDim` | Number of array dimensions (0 = scalar, or an array written before ROOT 6.24/02) |
+| `fMaxIndex` | Maximum index per dimension; only says how to reshape the flat elements |
 
 ```{note}
 The [ROOT streamer-info reference](https://root.cern/doc/v636/streamerinfo.html) documents these attributes, though some details may be outdated.

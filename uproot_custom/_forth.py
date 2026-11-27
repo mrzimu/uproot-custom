@@ -318,7 +318,9 @@ class IReader:
         self._id = f"{cls_name}_{self.name}_{obj_hash}"
 
         self.read_token = f"{self._id}_read"
+        self.read_bare_token = f"{self._id}_read_bare"
         self.read_many_token = f"{self._id}_read_many"
+        self.read_many_bare_token = f"{self._id}_read_many_bare"
         self.read_until_token = f"{self._id}_read_until"
         self.read_many_memberwise_token = f"{self._id}_read_many_memberwise"
 
@@ -353,9 +355,17 @@ class IReader:
             self.read(),
             self.read_token,
         )
+        read_bare_codes = _format_method_code(
+            self.read_bare(),
+            self.read_bare_token,
+        )
         read_many_codes = _format_method_code(
             self.read_many(),
             self.read_many_token,
+        )
+        read_many_bare_codes = _format_method_code(
+            self.read_many_bare(),
+            self.read_many_bare_token,
         )
         read_until_codes = _format_method_code(
             self.read_until(),
@@ -371,8 +381,16 @@ class IReader:
         {read_codes}
         ;
 
+        : {read_bare_token} ( -- )
+        {read_bare_codes}
+        ;
+
         : {read_many_token} ( count -- )
         {read_many_codes}
+        ;
+
+        : {read_many_bare_token} ( count -- )
+        {read_many_bare_codes}
         ;
 
         : {read_until_token} ( end_pos -- )
@@ -387,8 +405,12 @@ class IReader:
         res = res_template.format(
             read_token=self.read_token,
             read_codes=read_codes,
+            read_bare_token=self.read_bare_token,
+            read_bare_codes=read_bare_codes,
             read_many_token=self.read_many_token,
             read_many_codes=read_many_codes,
+            read_many_bare_token=self.read_many_bare_token,
+            read_many_bare_codes=read_many_bare_codes,
             read_until_token=self.read_until_token,
             read_until_codes=read_until_codes,
             read_many_memberwise_token=self.read_many_memberwise_token,
@@ -400,12 +422,26 @@ class IReader:
     def read(self) -> str:
         raise NotImplementedError
 
+    def read_bare(self) -> str:
+        """
+        Read one element as it appears inside another element: no header.
+        """
+
+        return self.read()
+
     def read_many(self) -> str:
         """
         Take <num-items> from stack, read that many items.
         """
 
         return f"dup 0 do {self.read_token} loop"
+
+    def read_many_bare(self) -> str:
+        """
+        Take <num-items> from stack, read that many nested items; see `read_bare`.
+        """
+
+        return f"dup 0 do {self.read_bare_token} loop"
 
     def read_until(self) -> str:
         """
@@ -504,23 +540,35 @@ class PrimitiveReader(IReader):
 
 
 class TObjectReader(IReader):
-    def __init__(self, name: str, keep_data: bool, buffer_holder: BufferHolder):
+    def __init__(
+        self,
+        name: str,
+        keep_data: bool,
+        with_header: bool,
+        buffer_holder: BufferHolder,
+    ):
         super().__init__(name, buffer_holder)
 
         self.keep_data = keep_data
+        self.with_header = with_header
 
         if self.keep_data:
             self.unique_id_token = self.register_buffer("unique_id", "i")
             self.bits_token = self.register_buffer("bits", "I")
             self.pidf_token = self.register_buffer("pidf", "H")
 
-    def read(self) -> str:
+    def _header_block(self) -> str:
+        if not self.with_header:
+            return ""
+        return f"{skip_fNBytes()}\n{skip_fVersion()}"
+
+    def read_body(self) -> str:
         if self.keep_data:
             read_pidf_codes = f"{stream_data_token} !H-> {self.pidf_token}"
             save_data_codes = f"""
             \\ stack: [fUniqueID, fBits]
             {self.bits_token} <- stack
-            {self.pidf_token} <- stack
+            {self.unique_id_token} <- stack
         """
         else:
             read_pidf_codes = skip(2)
@@ -542,6 +590,41 @@ class TObjectReader(IReader):
         {save_data_codes}
         """
 
+    def read(self) -> str:
+        return self._header_block() + self.read_body()
+
+    def read_bare(self) -> str:
+        return self.read_body()
+
+    def read_many(self):
+        return f"""
+        dup 0=
+        if
+            exit
+        then
+        {self._header_block()}
+        dup 0 do {self.read_body()} loop
+        """
+
+    def read_until(self):
+        return f"""
+        dup {stream_data_token} pos =
+        if
+            drop
+            0
+            exit
+        then
+        {self._header_block()}
+        0 swap \\ stack: [0, end_pos]
+        begin
+            dup {stream_data_token} pos = invert
+        while
+            {self.read_body()}
+            swap 1+ swap \\ increment counter
+        repeat
+        drop
+        """
+
     def data(self):
         if not self.keep_data:
             return None
@@ -550,8 +633,9 @@ class TObjectReader(IReader):
         bits = self.get_buffer(self.bits_token)
         pidf = self.get_buffer(self.pidf_token)
 
-        # No multiple pidf values for now, we create a dummy offsets here
-        pidf_offsets = np.arange(len(pidf) + 1, dtype=np.int64)
+        # One empty pidf slice per object: this backend stores no pidf values, so
+        # the offsets are all zero and there is one more of them than objects.
+        pidf_offsets = np.zeros(len(unique_id) + 1, dtype=np.int64)
 
         return unique_id, bits, pidf, pidf_offsets
 
@@ -568,7 +652,7 @@ class TStringReader(IReader):
         # Add an 0 offset at the beginning
         return super().compile() + f"0 {self.offsets_token} <- stack"
 
-    def read(self):
+    def read_body(self):
         return f"""
         {read_uint8()} \\ stack: [fSize]
 
@@ -582,6 +666,26 @@ class TStringReader(IReader):
 
         \\ Update offsets
         {self.offsets_token} +<- stack
+        """
+
+    def read(self):
+        if not self.with_header:
+            return self.read_body()
+        return f"""
+        {skip_fNBytes()}
+        {skip_fVersion()}
+        {self.read_body()}
+        """
+
+    def read_bare(self):
+        return self.read_body()
+
+    def read_many_bare(self):
+        return f"""
+        \\ stack: [num_items]
+        dup 0 do
+            {self.read_body()}
+        loop
         """
 
     def read_many(self):
@@ -614,7 +718,7 @@ class TStringReader(IReader):
 
         res += f"""
         \\ stack: [num_items]
-        dup 0 do {self.read_token} loop
+        dup 0 do {self.read_body()} loop
 
         \\ final stack: [num_items]
         """
@@ -644,7 +748,7 @@ class TStringReader(IReader):
         begin
             dup {stream_data_token} pos = invert
         while
-            {self.read_token}
+            {self.read_body()}
             swap 1+ swap \\ increment counter
         repeat
         \\ clear the end position from stack
@@ -701,7 +805,7 @@ class STLSeqReader(IReader):
         if \\ stack: [fSize]
             {self.element_reader.read_many_memberwise_token}
         else
-            {self.element_reader.read_many_token}
+            {self.element_reader.read_many_bare_token}
         then
         drop
 
@@ -715,28 +819,39 @@ class STLSeqReader(IReader):
             f"{self.name}.read_body",
         )
 
-    def read(self):
+    def _header_block(self) -> str:
+        """
+        Leave ``is_memberwise`` on the stack, after consuming the header.
+
+        An empty stack item ``0`` is left when the collection has no header.
+        """
+        if not self.with_header:
+            return "0 \\ stack: [is_memberwise(False)]"
+
         return f"""
         {skip_fNBytes()}
-
-        {read_fVersion()} {kStreamedMemberwise} and \\ stack: [is_memberwise]
-
-        dup
+        {read_fVersion()}                       \\ stack: [fVersion]
+        dup {kStreamedMemberwise} and           \\ stack: [fVersion, is_memberwise]
+        swap {kStreamedMemberwise} -            \\ stack: [is_memberwise, version]
+        8 >=                                    \\ stack: [is_memberwise, has_value_version]
         if
-            {skip(2)}
+            {read_fVersion()} 0= if {skip(4)} then
         then
+        """
 
+    def read(self):
+        return f"""
+        {self._header_block()}
+        {self.read_body()}
+        """
+
+    def read_bare(self):
+        return f"""
+        0 \\ stack: [is_memberwise(False)]
         {self.read_body()}
         """
 
     def read_many(self):
-        with_header_block = ""
-        if self.with_header:
-            with_header_block = f"""\\ stack: [default is_memberwise(False)]
-                {skip_fNBytes()}
-                drop {read_fVersion()} {kStreamedMemberwise} and \\ stack: [new is_memberwise]
-            """
-
         return f"""\\ stack: [count]
         {debug_print(f'." In STLSeqReader({self.name}) read_many:" cr ." - data: " cr')}
         {debug_print_input(stream_data_token)}
@@ -747,19 +862,11 @@ class STLSeqReader(IReader):
             exit
         then
 
-        0 \\ stack: [count, is_memberwise(False)]
-
-        {debug_print(f'." STLSeqReader({self.name}) read_many[1]:" cr ." - data:"')}
-        {debug_print_input(stream_data_token)}
-        {debug_print('." - stack: " .s cr')}
-
-        {with_header_block} \\ stack: [count, is_memberwise]
+        {self._header_block()} \\ stack: [count, is_memberwise]
 
         {debug_print(f'." STLSeqReader({self.name}) read_many[2]:" cr ." - data:"')}
         {debug_print_input(stream_data_token)}
         {debug_print('." - stack: " .s cr')}
-
-        dup if {skip(2)} then \\ stack: [count, is_memberwise]
 
         over \\ stack: [count, is_memberwise, count]
         0 do \\ stack: [count, is_memberwise]
@@ -772,14 +879,14 @@ class STLSeqReader(IReader):
         drop \\ stack: [count]
         """
 
-    def read_until(self):
-        with_header_block = ""
-        if self.with_header:
-            with_header_block = f"""
-            {skip_fNBytes()} \\ stack: [default is_memberwise(False)]
-            drop {read_fVersion()} {kStreamedMemberwise} and \\ stack: [new is_memberwise]
-            """
+    def read_many_bare(self):
+        return f"""\\ stack: [count]
+        dup 0 do
+            0 {self.read_body()}
+        loop
+        """
 
+    def read_until(self):
         return f"""\\ stack: [end_pos]
         dup {stream_data_token} pos =
         if
@@ -788,11 +895,7 @@ class STLSeqReader(IReader):
             exit
         then
 
-        0 \\ stack: [end_pos, is_memberwise(False)]
-
-        {with_header_block} \\ stack: [end_pos, is_memberwise]
-
-        dup if {skip(2)} then \\ stack: [end_pos, is_memberwise]
+        {self._header_block()} \\ stack: [end_pos, is_memberwise]
 
         0 rot \\ stack: [is_memberwise, count, end_pos]
         begin
@@ -839,13 +942,6 @@ class STLMapReader(IReader):
         self.key_reader = key_reader
         self.value_reader = value_reader
 
-        self.objwise_or_memberwise_flag = {
-            "obj-wise": 0,
-            "member-wise": 1,
-            "auto": 2,
-        }[self.objwise_or_memberwise]
-        self.with_header_flag = 1 if self.with_header else 0
-
         self.offsets_token = self.register_buffer("offsets", "q")
 
     def compile(self):
@@ -878,8 +974,8 @@ class STLMapReader(IReader):
             drop
         else    \\ stack: [fSize]
             0 do
-                {self.key_reader.read_token}
-                {self.value_reader.read_token}
+                {self.key_reader.read_bare_token}
+                {self.value_reader.read_bare_token}
             loop
         then
         """
@@ -889,27 +985,37 @@ class STLMapReader(IReader):
             f"{self.name}.read_body",
         )
 
-    def read(self):
+    def _header_block(self) -> str:
+        """
+        Leave ``is_memberwise`` on the stack, after consuming the header.
+        """
+        if not self.with_header:
+            return "0 \\ stack: [is_memberwise(False)]"
+
         return f"""
         {skip_fNBytes()}
-        {read_fVersion()} \\ stack: [fVersion]
-        {skip(6)}
+        {read_fVersion()}                       \\ stack: [fVersion]
+        dup {kStreamedMemberwise} and           \\ stack: [fVersion, is_memberwise]
+        swap {kStreamedMemberwise} -            \\ stack: [is_memberwise, version]
+        8 >=                                    \\ stack: [is_memberwise, has_value_version]
+        if
+            {read_fVersion()} 0= if {skip(4)} then
+        then
+        """
 
-        {kStreamedMemberwise} and \\ stack: [is_memberwise]
+    def read(self):
+        return f"""
+        {self._header_block()}
+        {self.read_body()}
+        """
+
+    def read_bare(self):
+        return f"""
+        0 \\ stack: [is_memberwise(False)]
         {self.read_body()}
         """
 
     def read_many(self):
-        with_header_block = ""
-        if self.with_header:
-            with_header_block = f"""
-            {skip_fNBytes()}
-            drop {read_fVersion()}
-            {skip(6)}
-
-            {kStreamedMemberwise} and
-            """
-
         return f"""\\ stack: [count]
         {debug_print(f'." In STLMapReader({self.name}) read_many:" cr ." - data: "')}
         {debug_print_input(stream_data_token)}
@@ -922,9 +1028,7 @@ class STLMapReader(IReader):
             exit
         then
 
-        0 \\ stack: [count, is_memberwise(False)]
-
-        {with_header_block} \\ stack: [count, is_memberwise]
+        {self._header_block()} \\ stack: [count, is_memberwise]
 
         over 0 do
             {debug_print(f'." STLMapReader({self.name}) read_many begin statement, stack: " .s cr')}
@@ -934,19 +1038,14 @@ class STLMapReader(IReader):
         drop
         """
 
+    def read_many_bare(self):
+        return f"""\\ stack: [count]
+        dup 0 do
+            0 {self.read_body()}
+        loop
+        """
+
     def read_until(self):
-        with_header_block = f"{self.with_header_flag}"
-        if self.with_header:
-            with_header_block = f"""
-            \\ stack: [end_pos, default is_memberwise(False)]
-            drop
-
-            {skip_fNBytes()}
-            {read_fVersion()}
-            {skip(6)}
-            {kStreamedMemberwise} and \\ stack: [end_pos, new is_memberwise]
-            """
-
         return f"""\\ stack: [end_pos]
         dup {stream_data_token} pos =
         if
@@ -955,9 +1054,7 @@ class STLMapReader(IReader):
             exit
         then
 
-        0 \\ stack: [end_pos, is_memberwise(False)]
-
-        {with_header_block}
+        {self._header_block()} \\ stack: [end_pos, is_memberwise]
 
         swap 0 swap \\ stack: [is_memberwise, count, end_pos]
         begin
@@ -1031,6 +1128,18 @@ class STLStringReader(IReader):
         return f"""
         {with_header_block}
         {self.read_body()}
+        """
+
+    def read_bare(self):
+        return f"""
+        {self.read_body()}
+        """
+
+    def read_many_bare(self):
+        return f"""\\ stack: [count]
+        dup 0 do
+            {self.read_body()}
+        loop
         """
 
     def read_many(self):
@@ -1194,14 +1303,29 @@ class GroupReader(IReader):
 
 
 class AnyClassReader(IReader):
-    def __init__(self, name: str, element_readers: list[IReader], buffer_holder: BufferHolder):
+    def __init__(
+        self,
+        name: str,
+        element_readers: list[IReader],
+        buffer_holder: BufferHolder,
+        with_header: bool = False,
+    ):
         super().__init__(name, buffer_holder)
         self.element_readers = element_readers
+        self.with_header = with_header
 
     def compile(self):
         return "".join(reader.compile() for reader in self.element_readers) + super().compile()
 
-    def read(self):
+    def _header_block(self) -> str:
+        if not self.with_header:
+            return ""
+        return f"""
+        {skip_fNBytes()}
+        {skip_fVersion()}
+        """
+
+    def read_body(self):
         chunks = [f"""
             {read_fNBytes()}
             {stream_data_token} pos + \\ stack: [end_pos]
@@ -1229,6 +1353,46 @@ class AnyClassReader(IReader):
             drop
             """)
         return "\n".join(chunks)
+
+    def read(self):
+        return f"""
+        {self._header_block()}
+        {self.read_body()}
+        """
+
+    def read_bare(self):
+        return f"""
+        {self.read_body()}
+        """
+
+    def read_many(self):
+        return f"""\\ stack: [count]
+        dup 0=
+        if
+            exit
+        then
+        {self._header_block()}
+        dup 0 do {self.read_body()} loop
+        """
+
+    def read_until(self):
+        return f"""\\ stack: [end_pos]
+        dup {stream_data_token} pos =
+        if
+            drop
+            0
+            exit
+        then
+        {self._header_block()}
+        0 swap \\ stack: [0, end_pos]
+        begin
+            dup {stream_data_token} pos = invert
+        while
+            {self.read_body()}
+            swap 1+ swap \\ increment counter
+        repeat
+        drop
+        """
 
     def read_many_memberwise(self):
         chunks = [f"""\\ stack: [count]
@@ -1331,11 +1495,11 @@ class CStyleArrayReader(IReader):
             halt
         then
 
-        dup 0 do
-            {self.flat_size}
-            {self.element_reader.read_many_token}
-            drop
-        loop
+        \\ One shared header covers the whole member-wise column
+        \\ (root-io-spec Collections.md §11.1).
+        dup {self.flat_size} *
+        {self.element_reader.read_many_token}
+        drop
         """
 
     def read_until(self):

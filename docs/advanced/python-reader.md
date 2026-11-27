@@ -32,8 +32,12 @@ Three additional methods handle special reading patterns (override only when nee
 | Method | When it is called |
 | ------ | ----------------- |
 | `read_many(stream, count)` | Reading a fixed number of elements (e.g. c-style arrays). Override when multiple elements share a single header. |
+| `read_bare(stream)` | Reading one element that sits inside another element. A nested element is bare: it has no header of its own (`Collections.md` §11). Override when your reader can carry a header. |
+| `read_many_bare(stream, count)` | A run of nested elements; see `read_bare`. |
 | `read_until(stream, end_pos)` | Reading elements until a byte position is reached. |
 | `read_many_memberwise(stream, count)` | Member-wise reading: all first members, then all second members, etc. Used by some STL containers. |
+
+The frame belongs to the call site, not to the reader: the same `STLSeqReader` reads a member with its own `fNBytes + fVersion` header, and a value inside an object-wise map without one. `with_header` decides what `read`/`read_many` do; the two `_bare` entry points bypass it.
 
 ```{code-block} python
 ---

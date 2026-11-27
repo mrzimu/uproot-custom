@@ -30,6 +30,8 @@ The same optional methods are available as in Python:
 | Method | When it is called |
 | ------ | ----------------- |
 | `read_many(stream, count)` | Reading a fixed number of elements. |
+| `read_bare(stream)` | Reading one element that sits inside another element: no header of its own (`Collections.md` §11). |
+| `read_many_bare(stream, count)` | A run of nested elements; see `read_bare`. |
 | `read_until(stream, end_pos)` | Reading elements until a byte position. |
 | `read_many_memberwise(stream, count)` | Member-wise reading for STL containers. |
 

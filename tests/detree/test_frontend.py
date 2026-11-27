@@ -89,8 +89,8 @@ def test_the_root_read_function_is_the_entry():
     assert module.funcs[module.entry].name == "root.read"
 
 
-def test_the_four_entry_points_are_generated(monkeypatch):
-    # The frontend emits all four entry points; the optimizer then drops the
+def test_every_entry_point_is_generated(monkeypatch):
+    # The frontend emits every entry point; the optimizer then drops the
     # ones a branch cannot reach, so this asserts on the unoptimized module.
     monkeypatch.setenv("DETREE_OPT", "0")
     raw, _ = compile_reader(_prim())
@@ -98,7 +98,9 @@ def test_the_four_entry_points_are_generated(monkeypatch):
 
     assert {func.name for func in module.funcs} >= {
         "root.read",
+        "root.read_bare",
         "root.read_many",
+        "root.read_many_bare",
         "root.read_until",
         "root.read_many_memberwise",
     }

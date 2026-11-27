@@ -85,3 +85,27 @@ def test_a_raising_block_leaves_no_open_frame():
         raise RuntimeError("boom")
 
     assert stream.open_frames == 0
+
+
+def test_a_memberwise_column_of_arrays_shares_one_header():
+    """
+    A member-wise column writes one header for every object's array.
+
+    Entry 1 of `tests/data/test_array_in_object.root` holds two objects of two
+    strings each, and its column is one `fNBytes + fVersion` plus four counted
+    strings — not one header per object (`Collections.md` §11.1, confirmed by
+    reading that file with ROOT itself).
+    """
+    from uproot_custom.python import CStyleArrayReader, TStringReader
+
+    body = b"".join(bytes([len(text)]) + text for text in (b"a0", b"a1", b"b0", b"b1"))
+    payload = struct.pack(">I", len(body) | kByteCountMask) + struct.pack(">h", 10) + body
+    stream = _stream(payload)
+
+    reader = CStyleArrayReader("a", 2, TStringReader("e", with_header=True))
+    assert reader.read_many(stream, 2) == 2
+
+    offsets, chars = reader.data()
+    assert offsets.tolist() == [0, 2, 4, 6, 8]
+    assert bytes(chars).decode() == "a0a1b0b1"
+    assert stream.cursor == len(payload)

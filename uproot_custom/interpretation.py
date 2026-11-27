@@ -103,7 +103,12 @@ class AsCustom(uproot.interpretation.custom.CustomInterpretation):
         # simplify streamer information
         self.all_streamer_info: dict[str, list[dict]] = {}
         for k, v in branch.file.streamers.items():
-            cur_infos = [i.all_members for i in next(iter(v.values())).member("fElements")]
+            # `uproot` hands `branch.streamer` the newest info of a class
+            # (`matches[max(matches)]`), so take the same one here. Choosing
+            # between versions per object needs the object's own version word
+            # and is not implemented (`SchemaEvolution.md` §4).
+            newest = v[max(v)]
+            cur_infos = [i.all_members for i in newest.member("fElements")]
             self.all_streamer_info[k] = cur_infos
 
         self.cls_streamer_info: dict = {}
