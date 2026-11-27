@@ -413,6 +413,24 @@ When `kStreamedMemberwise` is set, keys and values are stored separately:
 [length: uint32] [key 1] [key 2] ... [key N] [val 1] [val 2] ... [val N]
 ```
 
+The element version follows only from frame version 8 on. A pointer to the same container (`fType=501`, `kSTLp`) starts at 9 (`TStreamerInfoReadBuffer.cxx`, the `kSTL` and `kSTLp` cases).
+
+ROOT's element of a map is a `pair`, and a file that holds a map also holds a `TStreamerInfo` for `pair<K,V>` whose two elements `first` and `second` are the key and the value (`TGenCollectionProxy::GetValueClass`). The member-wise form above is exactly those two elements read as two columns. `uproot-custom` reads that pair's streamer info in preference to the map's type name whenever the file has one, and a bare `std::pair` outside a map is read from the same place.
+
+---
+
+## `std::pair`
+
+**Matches:** `fTypeName` starting with `pair<`, when the file records a streamer info for that full name.
+
+**Identification:** exactly two elements, `first` and `second`, which are the key and the value of the map the pair belongs to.
+
+```
+[fNBytes: uint32] [fVersion: int16] [checksum?: uint32] [first] [second]
+```
+
+A pair is a class, so it frames itself per element and the members inside that frame are bare. It is the element a map is stored as, and as the element of a collection — `std::vector<std::vector<std::pair<int, double>>>`, say — it is read one at a time from this same streamer info.
+
 ---
 
 ## TObject

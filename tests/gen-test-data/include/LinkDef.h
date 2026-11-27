@@ -19,4 +19,5 @@
 #    pragma link C++ class TArrayForms + ;
 #    pragma link C++ class TArrayInObject + ;
 #    pragma link C++ class TArrayInObjectHolder + ;
+#    pragma link C++ class TPairMap + ;
 #endif

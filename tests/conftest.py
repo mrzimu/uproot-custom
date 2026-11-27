@@ -386,6 +386,19 @@ br_simple_obj = [
     "/tree:branch/m_tarr_int",
 ]
 
+#: A map whose value is a collection, a map whose value is a class, and a pair
+#: that is not part of a map.  ROOT stores a map as a run of `pair<K,V>` values
+#: and reads the pair from its own streamer info (`TGenCollectionProxy.cxx`,
+#: `GetValueClass`), so a pair standing on its own and a pair inside a map are
+#: the same bytes.
+br_pair_map = [
+    "/tree:branch/m_mapvstr[2]",
+    "/tree:branch/m_mapnamed[2]",
+    "/tree:branch/m_vecmapvstr",
+    "/tree:branch/m_vecmapnamed",
+    "/tree:branch/m_vecvecpair",
+]
+
 #: Every fixture file under ``tests/data`` and the branches the tests claim on
 #: it.  ``simple_obj`` stores one object in a single top-level branch, so its
 #: member leaves are claimed individually; claiming the parent would hand
@@ -407,6 +420,7 @@ TEST_BRANCHES = {
     "simple_obj": br_simple_obj,
     "array_forms": br_array_forms,
     "array_in_object": br_array_in_object,
+    "pair_map": br_pair_map,
 }
 
 for brs in TEST_BRANCHES.values():

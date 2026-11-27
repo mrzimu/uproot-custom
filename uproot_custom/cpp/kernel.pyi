@@ -46,6 +46,7 @@ class STLSeqReader(IReader):
         name: str,
         with_header: bool,
         element_reader: IReader,
+        value_version_min: int = 8,
     ) -> None: ...
 
 class STLMapReader(IReader):
@@ -55,6 +56,7 @@ class STLMapReader(IReader):
         with_header: bool,
         key_reader: IReader,
         value_reader: IReader,
+        value_version_min: int = 8,
     ) -> None: ...
 
 class STLStringReader(IReader):

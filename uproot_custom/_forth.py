@@ -10,6 +10,7 @@ import numpy as np
 
 from uproot_custom.consts import (
     DTYPE_TO_TYPECODE,
+    STL_VERSION_WITH_VALUE_VERSION,
     TYPECODE,
     kByteCountMask,
     kIsReferenced,
@@ -770,11 +771,13 @@ class STLSeqReader(IReader):
         with_header: bool,
         element_reader: IReader,
         buffer_holder: BufferHolder,
+        value_version_min: int = STL_VERSION_WITH_VALUE_VERSION,
     ):
         super().__init__(name, buffer_holder)
 
         self.with_header = with_header
         self.element_reader = element_reader
+        self.value_version_min = value_version_min
         self.offsets_token = self.register_buffer("offsets", "q")
 
     def compile(self):
@@ -833,7 +836,7 @@ class STLSeqReader(IReader):
         {read_fVersion()}                       \\ stack: [fVersion]
         dup {kStreamedMemberwise} and           \\ stack: [fVersion, is_memberwise]
         swap {kStreamedMemberwise} -            \\ stack: [is_memberwise, version]
-        8 >=                                    \\ stack: [is_memberwise, has_value_version]
+        {self.value_version_min} >=              \\ stack: [is_memberwise, has_value_version]
         if
             {read_fVersion()} 0= if {skip(4)} then
         then
@@ -934,6 +937,7 @@ class STLMapReader(IReader):
         key_reader: IReader,
         value_reader: IReader,
         buffer_holder: BufferHolder,
+        value_version_min: int = STL_VERSION_WITH_VALUE_VERSION,
     ):
         super().__init__(name, buffer_holder)
 
@@ -941,6 +945,7 @@ class STLMapReader(IReader):
         self.objwise_or_memberwise = objwise_or_memberwise
         self.key_reader = key_reader
         self.value_reader = value_reader
+        self.value_version_min = value_version_min
 
         self.offsets_token = self.register_buffer("offsets", "q")
 
@@ -997,7 +1002,7 @@ class STLMapReader(IReader):
         {read_fVersion()}                       \\ stack: [fVersion]
         dup {kStreamedMemberwise} and           \\ stack: [fVersion, is_memberwise]
         swap {kStreamedMemberwise} -            \\ stack: [is_memberwise, version]
-        8 >=                                    \\ stack: [is_memberwise, has_value_version]
+        {self.value_version_min} >=              \\ stack: [is_memberwise, has_value_version]
         if
             {read_fVersion()} 0= if {skip(4)} then
         then

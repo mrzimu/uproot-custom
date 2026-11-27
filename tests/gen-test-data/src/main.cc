@@ -8,6 +8,7 @@
 #include "TCStyleArray.hh"
 #include "TComplicatedSTL.hh"
 #include "TNestedSTL.hh"
+#include "TPairMap.hh"
 #include "TPointers.hh"
 #include "TPureStruct.hh"
 #include "TRootObjects.hh"
@@ -299,6 +300,24 @@ void gen_ArrayInObject() {
     f.Close();
 }
 
+void gen_PairMap() {
+    TFile f( "test_pair_map.root", "RECREATE" );
+    TTree t( TREE_NAME, "tree" );
+
+    TPairMap pair_map;
+    t.Branch( "branch", &pair_map );
+
+    for ( int i = 0; i < NUM_ENTRIES; i++ )
+    {
+        pair_map = TPairMap();
+        pair_map.fill( i );
+        t.Fill();
+    }
+
+    t.Write();
+    f.Close();
+}
+
 int main() {
     cout << "Generating primitive data..." << endl;
     gen_primitive();
@@ -346,6 +365,9 @@ int main() {
 
     cout << "Generating arrays inside a collection..." << endl;
     gen_ArrayInObject();
+
+    cout << "Generating pair and map containers..." << endl;
+    gen_PairMap();
 
     return 0;
 }

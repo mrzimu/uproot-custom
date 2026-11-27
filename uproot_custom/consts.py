@@ -14,6 +14,14 @@ kMapOffset = 2
 #: An STL frame carries the value class's version only from this frame version
 #: on, and only in member-wise form; `kSTLp` uses 9 (`Collections.md` §6).
 STL_VERSION_WITH_VALUE_VERSION = 8
+STL_VERSION_WITH_VALUE_VERSION_POINTER = 9
+
+#: Streamer-element kinds of a collection: `kSTL` is an inline container and
+#: `kSTLp` a pointer to one.  Both put the same bytes on disk, except for the
+#: frame version at which the value class's version follows
+#: (`TStreamerInfoReadBuffer.cxx`, the `kSTL` and `kSTLp` cases).
+kSTL = 500
+kSTLp = 501
 
 
 _MISSING = object()
