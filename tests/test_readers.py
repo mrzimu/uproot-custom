@@ -46,13 +46,16 @@ def test_detree(test_contexts, subtests):
 
 
 #: Branches the experimental Forth reader cannot decode yet: a c-style array of
-#: maps inside an object comes back empty.  Forth is development-only, so the
+#: maps inside an object comes back empty, and a member-wise collection of class
+#: values stops after the second entry.  Forth is development-only, so the
 #: comparison excludes them instead of failing the whole backend.
 FORTH_UNSUPPORTED = {
     "/tree:branch/m_vec_stl_array/m_vec_stl_array.m_arr_map_int_double[3]",
     "/tree:branch/m_vec_stl_array/m_vec_stl_array.m_arr_map_str_str[3]",
     "/tree:branch/m_map_stl_array/m_map_stl_array.second.m_arr_map_int_double[3]",
     "/tree:branch/m_map_stl_array/m_map_stl_array.second.m_arr_map_str_str[3]",
+    "/tree:branch/m_pvecnamed",
+    "/tree:branch/m_pmap",
 }
 
 
@@ -72,6 +75,7 @@ def test_forth(test_contexts, subtests):
         "array_forms",
         "array_in_object",
         "pair_map",
+        "stl_pointer",
     ]
 
     forth_contexts = {

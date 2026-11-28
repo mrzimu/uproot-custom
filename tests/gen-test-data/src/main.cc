@@ -15,6 +15,7 @@
 #include "TSTLArray.hh"
 #include "TSTLMap.hh"
 #include "TSTLMapWithObj.hh"
+#include "TSTLPointer.hh"
 #include "TSTLSeqWithObj.hh"
 #include "TSTLSequence.hh"
 #include "TSTLString.hh"
@@ -318,6 +319,23 @@ void gen_PairMap() {
     f.Close();
 }
 
+void gen_STLPointer() {
+    TFile f( "test_stl_pointer.root", "RECREATE" );
+    TTree t( TREE_NAME, "tree" );
+
+    TSTLPointer stl_pointer;
+    t.Branch( "branch", &stl_pointer );
+
+    for ( int i = 0; i < NUM_ENTRIES; i++ )
+    {
+        stl_pointer.fill( i );
+        t.Fill();
+    }
+
+    t.Write();
+    f.Close();
+}
+
 int main() {
     cout << "Generating primitive data..." << endl;
     gen_primitive();
@@ -368,6 +386,9 @@ int main() {
 
     cout << "Generating pair and map containers..." << endl;
     gen_PairMap();
+
+    cout << "Generating pointers to containers..." << endl;
+    gen_STLPointer();
 
     return 0;
 }

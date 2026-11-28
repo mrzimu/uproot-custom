@@ -31,7 +31,7 @@ These formats are summarized by me, and may not be complete or accurate. If you 
 | C-style array / `std::array` | C-style arrays (`T m_data[N]`) and `std::array` (same bytes; `fArrayLength > 1` or jagged) |
 | Any class | Arbitrary class objects (fType=0 or no special fType) |
 | Base class | Base class embedding (fType=0 with `BASE` typename) |
-| Pointer (`T*`) | Pointer-to-object (`fType` in {63, 64, 68, 69} or `fTypeName` ends with `*`) |
+| Pointer (`T*`) | Pointer-to-object (`fType` in {63, 64, 68, 69} or `fTypeName` ends with `*`); a pointer to a collection is read as the collection instead |
 | Group | Explicit grouping of sub-readers (never auto-matched) |
 | Empty | Placeholder (never auto-matched) |
 
@@ -561,6 +561,8 @@ The binary format is the same as the base class's members concatenated — **no 
 ## Pointer (`T*`)
 
 **Matches:** Pointer-to-object members: `fType` in {63 (`kObjectp`), 64 (`kObjectP`), 68 (`kAnyp`), 69 (`kAnyP`)} or `fTypeName` ends with `*`.
+
+A pointer to an STL container is not one of these. It has `fSTLtype` and a type name ending in `*` (`kSTLp`), and ROOT writes it as the container itself: no pointer tag, no null marker, and a null pointer is a count of 0 (`Collections.md` §11.3). It is therefore read by that container's own category — `std::vector`, `std::map`, `std::string`. Only the frame version differs: from version 9, not 8, the frame of a member-wise container carries its value class's version. `std::string` has no value class, so its frame carries none at either version.
 
 **Priority:** 15 (evaluated after C-style array / `std::array` but before most others).
 

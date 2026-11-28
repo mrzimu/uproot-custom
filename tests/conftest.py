@@ -399,6 +399,20 @@ br_pair_map = [
     "/tree:branch/m_vecvecpair",
 ]
 
+#: Members declared as pointers to STL containers.  ROOT writes such a member
+#: as the container itself -- no pointer tag, no null marker, a null pointer
+#: being a count of 0 -- and only its frame's value-class boundary differs
+#: (`Collections.md` §11.3).  Entry 0 leaves every pointer null.  The last one
+#: is a fixed array of pointers, whose two collections share one frame and one
+#: value-class version (`Collections.md` §11.1).
+br_stl_pointer = [
+    "/tree:branch/m_pvec",
+    "/tree:branch/m_pvecnamed",
+    "/tree:branch/m_pmap",
+    "/tree:branch/m_pstr",
+    "/tree:branch/m_pvecarr[2]",
+]
+
 #: Every fixture file under ``tests/data`` and the branches the tests claim on
 #: it.  ``simple_obj`` stores one object in a single top-level branch, so its
 #: member leaves are claimed individually; claiming the parent would hand
@@ -421,6 +435,7 @@ TEST_BRANCHES = {
     "array_forms": br_array_forms,
     "array_in_object": br_array_in_object,
     "pair_map": br_pair_map,
+    "stl_pointer": br_stl_pointer,
 }
 
 for brs in TEST_BRANCHES.values():

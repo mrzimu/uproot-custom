@@ -24,6 +24,7 @@ from uproot_custom.utils import (
     get_sequence_element_typename,
     get_stl_value_version_min,
     get_top_type_name,
+    is_pointer_to_collection,
 )
 
 registered_factories: set[type[Factory]] = set()
@@ -783,12 +784,16 @@ class STLStringFactory(Factory):
         **kwargs,
     ):
         """
-        Return when `top_type_name` is `string`.
+        Return when `top_type_name` is `string` or `string*`.
+
+        `std::string*` is the same collection with a pointer spelling: ROOT
+        writes it as the string itself (`Collections.md` §11.3).  Only that one
+        `*` matches; a `string**` is no collection at all.
 
         Args:
             with_header: as for `STLSeqFactory`.
         """
-        if top_type_name != "string":
+        if top_type_name.rstrip().removesuffix("*").strip() != "string":
             return None
 
         return cls(
@@ -1521,7 +1526,7 @@ class AnyPointerFactory(Factory):
 
     Matches:
     - fType in {63, 64, 68, 69}
-    - fTypeName ending with "*"
+    - fTypeName ending with "*", unless the pointee is an STL container
     """
 
     # kObjectp=63, kObjectP=64, kAnyp=68, kAnyP=69
@@ -1542,6 +1547,12 @@ class AnyPointerFactory(Factory):
     ):
         fTypeName = cur_streamer_info.get("fTypeName", "")
         fType = cur_streamer_info.get("fType", -1)
+
+        # A pointer to an STL container is written as the container itself, so
+        # it carries no pointer tag and no null marker: the STL factories read
+        # it, and this one must stay out of the way (`Collections.md` §11.3).
+        if is_pointer_to_collection(cur_streamer_info):
+            return None
 
         if not fTypeName.endswith("*") and fType not in cls._POINTER_FTYPES:
             return None
