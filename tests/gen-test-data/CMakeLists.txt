@@ -38,6 +38,7 @@ ROOT_GENERATE_DICTIONARY(MyRootDict
         ${CMAKE_CURRENT_LIST_DIR}/include/TPureStruct.hh
         ${CMAKE_CURRENT_LIST_DIR}/include/TArrayForms.hh
         ${CMAKE_CURRENT_LIST_DIR}/include/TArrayInObject.hh
+        ${CMAKE_CURRENT_LIST_DIR}/include/TPairMap.hh
     LINKDEF ${CMAKE_CURRENT_LIST_DIR}/include/LinkDef.h
     MODULE gen-test-data
 )

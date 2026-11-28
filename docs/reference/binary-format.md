@@ -26,6 +26,7 @@ These formats are summarized by me, and may not be complete or accurate. If you 
 | `TArray` | `TArrayC`, `TArrayS`, `TArrayI`, `TArrayL`, `TArrayL64`, `TArrayF`, `TArrayD` |
 | `std::vector` (and other STL sequences) | `std::vector`, `std::list`, `std::set`, `std::multiset`, `std::unordered_set`, `std::unordered_multiset` |
 | `std::map` (and other STL maps) | `std::map`, `std::unordered_map`, `std::multimap`, `std::unordered_multimap` |
+| `std::pair` | `std::pair<K,V>` when the file records a streamer info for it (its two elements are `first` and `second`) |
 | `TObject` | `TObject` as base class (fType=66) |
 | C-style array / `std::array` | C-style arrays (`T m_data[N]`) and `std::array` (same bytes; `fArrayLength > 1` or jagged) |
 | Any class | Arbitrary class objects (fType=0 or no special fType) |
@@ -412,6 +413,24 @@ When `kStreamedMemberwise` is set, keys and values are stored separately:
 [fNBytes: uint32] [fVersion: int16] [elem_version: int16] [elem_checksum?: uint32]
 [length: uint32] [key 1] [key 2] ... [key N] [val 1] [val 2] ... [val N]
 ```
+
+The element version follows only from frame version 8 on. A pointer to the same container (`kSTLp`) starts at 9 (`TStreamerInfoReadBuffer.cxx`, the `kSTL` and `kSTLp` cases). The pointer is not visible in `fType`: every `TStreamerSTL` element is written with `fType` 500 (`kStreamer`), and the pointer shows up as a type name ending in `*`, which is what makes ROOT treat it as `kSTLp` (`Collections.md` §11.3).
+
+ROOT's element of a map is a `pair`, and a file that holds a map also holds a `TStreamerInfo` for `pair<K,V>` whose two elements `first` and `second` are the key and the value (`TGenCollectionProxy::GetValueClass`). The member-wise form above is exactly those two elements read as two columns. `uproot-custom` reads that pair's streamer info in preference to the map's type name whenever the file has one, and a bare `std::pair` outside a map is read from the same place.
+
+---
+
+## `std::pair`
+
+**Matches:** `fTypeName` starting with `pair<`, when the file records a streamer info for that full name.
+
+**Identification:** exactly two elements, `first` and `second`, which are the key and the value of the map the pair belongs to.
+
+```
+[fNBytes: uint32] [fVersion: int16] [checksum?: uint32] [first] [second]
+```
+
+A pair is a class, so it frames itself per element and the members inside that frame are bare. It is the element a map is stored as, and as the element of a collection — `std::vector<std::vector<std::pair<int, double>>>`, say — it is read one at a time from this same streamer info.
 
 ---
 

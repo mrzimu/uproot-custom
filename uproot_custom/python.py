@@ -512,11 +512,18 @@ class TStringReader(IReader):
 
 
 class STLSeqReader(IReader):
-    def __init__(self, name: str, with_header: bool, element_reader: IReader):
+    def __init__(
+        self,
+        name: str,
+        with_header: bool,
+        element_reader: IReader,
+        value_version_min: int = STL_VERSION_WITH_VALUE_VERSION,
+    ):
         super().__init__(name)
 
         self.with_header = with_header
         self.element_reader = element_reader
+        self.value_version_min = value_version_min
         self.offsets = array("q", [0])
 
     def read_element_version(self, stream: BinaryStream):
@@ -540,9 +547,7 @@ class STLSeqReader(IReader):
         fVersion = stream.read_fVersion()
         is_memberwise = bool(fVersion & kStreamedMemberwise)
 
-        if is_memberwise and (fVersion & ~kStreamedMemberwise) >= (
-            STL_VERSION_WITH_VALUE_VERSION
-        ):
+        if is_memberwise and (fVersion & ~kStreamedMemberwise) >= self.value_version_min:
             self.read_element_version(stream)
 
         return is_memberwise
@@ -610,12 +615,14 @@ class STLMapReader(IReader):
         with_header: bool,
         key_reader: IReader,
         value_reader: IReader,
+        value_version_min: int = STL_VERSION_WITH_VALUE_VERSION,
     ):
         super().__init__(name)
 
         self.with_header = with_header
         self.key_reader = key_reader
         self.value_reader = value_reader
+        self.value_version_min = value_version_min
         self.offsets = array("q", [0])
 
     def read_element_version(self, stream: BinaryStream):
@@ -639,9 +646,7 @@ class STLMapReader(IReader):
         fVersion = stream.read_fVersion()
         is_memberwise = bool(fVersion & kStreamedMemberwise)
 
-        if is_memberwise and (fVersion & ~kStreamedMemberwise) >= (
-            STL_VERSION_WITH_VALUE_VERSION
-        ):
+        if is_memberwise and (fVersion & ~kStreamedMemberwise) >= self.value_version_min:
             self.read_element_version(stream)
 
         return is_memberwise

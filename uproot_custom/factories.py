@@ -14,12 +14,15 @@ import uproot_custom._forth
 import uproot_custom.cpp
 import uproot_custom.detree.builtin
 import uproot_custom.python
-from uproot_custom.consts import DTYPE_TO_TYPECODE
+from uproot_custom.consts import DTYPE_TO_TYPECODE, STL_VERSION_WITH_VALUE_VERSION
 from uproot_custom.element_info import ElementFrame, ElementInfo
 from uproot_custom.utils import (
+    find_class_streamer_info,
     get_dims_from_branch,
     get_map_key_val_typenames,
+    get_pair_type_name,
     get_sequence_element_typename,
+    get_stl_value_version_min,
     get_top_type_name,
 )
 
@@ -524,6 +527,7 @@ class STLSeqFactory(Factory):
             with_header=True if with_header is None else with_header,
             objwise_or_memberwise=-1,
             element_factory=element_factory,
+            value_version_min=get_stl_value_version_min(cur_streamer_info),
         )
 
     def __init__(
@@ -532,11 +536,13 @@ class STLSeqFactory(Factory):
         with_header: bool,
         objwise_or_memberwise: Literal[-1, 0, 1],
         element_factory: Factory,
+        value_version_min: int = STL_VERSION_WITH_VALUE_VERSION,
     ):
         self.name = name
         self.with_header = with_header
         self.objwise_or_memberwise = objwise_or_memberwise
         self.element_factory = element_factory
+        self.value_version_min = value_version_min
 
     def build_cpp_reader(self):
         element_reader = self.element_factory.build_cpp_reader()
@@ -544,6 +550,7 @@ class STLSeqFactory(Factory):
             self.name,
             self.with_header,
             element_reader,
+            self.value_version_min,
         )
 
     def build_python_reader(self):
@@ -552,12 +559,14 @@ class STLSeqFactory(Factory):
             self.name,
             self.with_header,
             element_reader,
+            self.value_version_min,
         )
 
     def build_detree_reader(self):
         return uproot_custom.detree.builtin.STLSeqReader(
             self.name,
             with_header=self.with_header,
+            value_version_min=self.value_version_min,
             element=self.element_factory.build_detree_reader(),
         )
 
@@ -571,6 +580,7 @@ class STLSeqFactory(Factory):
             self.with_header,
             element_reader,
             buffer_holder,
+            self.value_version_min,
         )
 
     def make_awkward_content(self, raw_data):
@@ -621,18 +631,33 @@ class STLMapFactory(Factory):
             return None
 
         fTypeName = cur_streamer_info["fTypeName"]
-        key_type_name, val_type_name = get_map_key_val_typenames(fTypeName)
-
         fName = cur_streamer_info["fName"]
-        key_info = {
-            "fName": "key",
-            "fTypeName": key_type_name,
-        }
 
-        val_info = {
-            "fName": "val",
-            "fTypeName": val_type_name,
-        }
+        # ROOT stores a map as a run of `pair<K,V>` values and records a
+        # streamer info for that pair: its two elements `first` and `second`
+        # are the key and the value (`TGenCollectionProxy::GetValueClass`).
+        # Reading the pair is what ROOT itself does, so prefer it and fall back
+        # to the map's own type name only when the file has no pair info.
+        #
+        # The pair's element names are renamed to `key`/`val` on the way out.
+        # ROOT calls them `first`/`second`, and `PairFactory` keeps those names,
+        # so a map and a bare pair of the same type reach the caller under
+        # different field names. Renaming the map's fields to match would change
+        # the shape every existing caller receives, so it is deferred.
+        pair_info = find_class_streamer_info(get_pair_type_name(fTypeName), all_streamer_info)
+        if pair_info is not None and len(pair_info[1]) == 2:
+            key_info = {**pair_info[1][0], "fName": "key"}
+            val_info = {**pair_info[1][1], "fName": "val"}
+        else:
+            key_type_name, val_type_name = get_map_key_val_typenames(fTypeName)
+            key_info = {
+                "fName": "key",
+                "fTypeName": key_type_name,
+            }
+            val_info = {
+                "fName": "val",
+                "fTypeName": val_type_name,
+            }
 
         # A key or a value is read as a member-wise column when the map is
         # member-wise, and that column carries its own shared header
@@ -647,6 +672,7 @@ class STLMapFactory(Factory):
             objwise_or_memberwise=-1,
             key_factory=key_factory,
             val_factory=val_factory,
+            value_version_min=get_stl_value_version_min(cur_streamer_info),
         )
 
     def __init__(
@@ -656,12 +682,14 @@ class STLMapFactory(Factory):
         objwise_or_memberwise: Literal[-1, 0, 1],
         key_factory: Factory,
         val_factory: Factory,
+        value_version_min: int = STL_VERSION_WITH_VALUE_VERSION,
     ):
         self.name = name
         self.with_header = with_header
         self.objwise_or_memberwise = objwise_or_memberwise
         self.key_factory = key_factory
         self.val_factory = val_factory
+        self.value_version_min = value_version_min
 
     def build_cpp_reader(self):
         key_cpp_reader = self.key_factory.build_cpp_reader()
@@ -672,6 +700,7 @@ class STLMapFactory(Factory):
             self.with_header,
             key_cpp_reader,
             val_cpp_reader,
+            self.value_version_min,
         )
 
     def build_python_reader(self):
@@ -683,12 +712,14 @@ class STLMapFactory(Factory):
             self.with_header,
             key_python_reader,
             val_python_reader,
+            self.value_version_min,
         )
 
     def build_detree_reader(self):
         return uproot_custom.detree.builtin.STLMapReader(
             self.name,
             with_header=self.with_header,
+            value_version_min=self.value_version_min,
             key=self.key_factory.build_detree_reader(),
             value=self.val_factory.build_detree_reader(),
         )
@@ -708,6 +739,7 @@ class STLMapFactory(Factory):
             key_forth_reader,
             val_forth_reader,
             buffer_holder,
+            self.value_version_min,
         )
 
     def make_awkward_content(self, raw_data):
@@ -1430,6 +1462,59 @@ class AnyClassFactory(GroupFactory):
         )
 
 
+class PairFactory(AnyClassFactory):
+    """
+    This class reads `std::pair<K,V>` as the class ROOT treats it as.
+
+    A map's element is a pair, so a file that holds a map also holds a
+    `TStreamerInfo` for `pair<K,V>` whose two elements `first` and `second` are
+    the key and the value
+    (`TGenCollectionProxy.cxx`, `GetValueClass`). Reading the pair from that
+    streamer info, rather than from the map's type name, is what ROOT does, so
+    this factory also serves a pair that stands on its own, such as the element
+    of a `vector<pair<K,V>>`.
+    """
+
+    @classmethod
+    def priority(cls):
+        # Above `AnyClassFactory`, which matches a templated name only when the
+        # name without its parameters is the key in the file.
+        return 1
+
+    @classmethod
+    def build_factory(
+        cls,
+        top_type_name,
+        cur_streamer_info,
+        all_streamer_info,
+        item_path,
+        with_header=None,
+        **kwargs,
+    ):
+        if top_type_name != "pair" or "fTypeName" not in cur_streamer_info:
+            return None
+
+        found = find_class_streamer_info(cur_streamer_info["fTypeName"], all_streamer_info)
+        if found is None:
+            return None
+
+        _, sub_streamers = found
+        # ROOT checks the same thing before it treats a container's element as
+        # a pair (`TStreamerInfo::FixCollectionV5`): two elements, no more.
+        if len(sub_streamers) != 2:
+            return None
+
+        sub_factories = [build_factory(s, all_streamer_info, item_path) for s in sub_streamers]
+
+        # A bare pair is a class object, so it frames itself per element. The
+        # members inside that frame are bare relatives of it.
+        return cls(
+            name=cur_streamer_info["fName"],
+            sub_factories=sub_factories,
+            with_header=False if with_header is None else with_header,
+        )
+
+
 class AnyPointerFactory(Factory):
     """
     Handles pointer-to-object members serialized via ROOT's read_object_any protocol.
@@ -1557,6 +1642,7 @@ registered_factories |= {
     CStyleArrayFactory,
     GroupFactory,
     BaseObjectFactory,
+    PairFactory,
     AnyClassFactory,
     AnyPointerFactory,
     EmptyFactory,

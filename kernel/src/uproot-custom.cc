@@ -24,6 +24,8 @@ namespace uproot_custom {
 
     /// An STL frame carries the value class's version only from this frame version
     /// on, and only in member-wise form (root-io-spec `Collections.md` §6).
+    /// `kSTLp`, a pointer to the same container, starts at 9; the factory passes
+    /// that boundary in, so this is only the default.
     constexpr int kSTLVersionWithValueVersion = 8;
 
     /**
@@ -71,13 +73,13 @@ namespace uproot_custom {
      */
     class TObjectReader : public IReader {
       private:
-        const bool m_keep_data;            ///< Whether to keep the read data
-        const bool m_with_header;          ///< Whether one shared `fNBytes+fVersion`
-                                           ///< header precedes a run of TObjects
-                                           ///< (the 86 array form).
-        SharedVector<int32_t> m_unique_id; ///< Store fUniqueID values
-        SharedVector<uint32_t> m_bits;     ///< Store fBits values
-        SharedVector<uint16_t> m_pidf;     ///< Store pidf values
+        const bool m_keep_data;               ///< Whether to keep the read data
+        const bool m_with_header;             ///< Whether one shared `fNBytes+fVersion`
+                                              ///< header precedes a run of TObjects
+                                              ///< (the 86 array form).
+        SharedVector<int32_t> m_unique_id;    ///< Store fUniqueID values
+        SharedVector<uint32_t> m_bits;        ///< Store fBits values
+        SharedVector<uint16_t> m_pidf;        ///< Store pidf values
         SharedVector<int64_t> m_pidf_offsets; ///< Store offsets for pidf
 
         /** @brief Skip the shared header of an 86 array. */
@@ -352,7 +354,8 @@ namespace uproot_custom {
     class STLSeqReader : public IReader {
       private:
         const bool m_with_header; ///< Whether the sequence has a `fNBytes+fVersion` header.
-        SharedReader m_element_reader;   ///< Reader for the elements of the sequence.
+        const int m_value_version_min; ///< Frame version from which the value version follows.
+        SharedReader m_element_reader; ///< Reader for the elements of the sequence.
         SharedVector<int64_t> m_offsets; ///< Store the offsets for each sequence.
 
       public:
@@ -362,10 +365,14 @@ namespace uproot_custom {
          * @param name Name of the reader.
          * @param with_header Whether the sequence has a `fNBytes+fVersion` header.
          * @param element_reader Reader for the elements of the sequence.
+         * @param value_version_min Frame version from which the value class's
+         * version follows: 8 for `kSTL`, 9 for `kSTLp`.
          */
-        STLSeqReader( string name, bool with_header, SharedReader element_reader )
+        STLSeqReader( string name, bool with_header, SharedReader element_reader,
+                      int value_version_min = kSTLVersionWithValueVersion )
             : IReader( name )
             , m_with_header( with_header )
+            , m_value_version_min( value_version_min )
             , m_element_reader( element_reader )
             , m_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) ) {}
 
@@ -395,8 +402,7 @@ namespace uproot_custom {
             auto fVersion      = stream.read_fVersion();
             bool is_memberwise = fVersion & kStreamedMemberWise;
 
-            if ( is_memberwise &&
-                 ( fVersion & ~kStreamedMemberWise ) >= kSTLVersionWithValueVersion )
+            if ( is_memberwise && ( fVersion & ~kStreamedMemberWise ) >= m_value_version_min )
             { read_element_version( stream ); }
 
             return is_memberwise;
@@ -510,7 +516,8 @@ namespace uproot_custom {
      */
     class STLMapReader : public IReader {
       private:
-        const bool m_with_header;        ///< Whether the map has a `fNBytes+fVersion` header.
+        const bool m_with_header;      ///< Whether the map has a `fNBytes+fVersion` header.
+        const int m_value_version_min; ///< Frame version from which the value version follows.
         SharedVector<int64_t> m_offsets; ///< Store the offsets for each map.
         SharedReader m_key_reader;       ///< Reader for the keys of the map.
         SharedReader m_value_reader;     ///< Reader for the values of the map.
@@ -523,11 +530,15 @@ namespace uproot_custom {
          * @param with_header Whether the map has a `fNBytes+fVersion` header.
          * @param key_reader Reader for the keys of the map.
          * @param value_reader Reader for the values of the map.
+         * @param value_version_min Frame version from which the value class's
+         * version follows: 8 for `kSTL`, 9 for `kSTLp`.
          */
         STLMapReader( string name, bool with_header, SharedReader key_reader,
-                      SharedReader value_reader )
+                      SharedReader value_reader,
+                      int value_version_min = kSTLVersionWithValueVersion )
             : IReader( name )
             , m_with_header( with_header )
+            , m_value_version_min( value_version_min )
             , m_offsets( std::make_shared<vector<int64_t>>( 1, 0 ) )
             , m_key_reader( key_reader )
             , m_value_reader( value_reader ) {}
@@ -558,8 +569,7 @@ namespace uproot_custom {
             auto fVersion      = stream.read_fVersion();
             bool is_memberwise = fVersion & kStreamedMemberWise;
 
-            if ( is_memberwise &&
-                 ( fVersion & ~kStreamedMemberWise ) >= kSTLVersionWithValueVersion )
+            if ( is_memberwise && ( fVersion & ~kStreamedMemberWise ) >= m_value_version_min )
             { read_element_version( stream ); }
 
             return is_memberwise;
@@ -1454,9 +1464,16 @@ namespace uproot_custom {
         declare_reader<PrimitiveReader<double>, string>( m, "DoubleReader" );
 
         // STL readers
-        declare_reader<STLSeqReader, string, bool, SharedReader>( m, "STLSeqReader" );
-        declare_reader<STLMapReader, string, bool, SharedReader, SharedReader>(
-            m, "STLMapReader" );
+        py::class_<STLSeqReader, shared_ptr<STLSeqReader>, IReader>( m, "STLSeqReader" )
+            .def( py::init( &CreateReader<STLSeqReader, string, bool, SharedReader, int> ),
+                  py::arg( "name" ), py::arg( "with_header" ), py::arg( "element_reader" ),
+                  py::arg( "value_version_min" ) = kSTLVersionWithValueVersion );
+        py::class_<STLMapReader, shared_ptr<STLMapReader>, IReader>( m, "STLMapReader" )
+            .def( py::init( &CreateReader<STLMapReader, string, bool, SharedReader,
+                                          SharedReader, int> ),
+                  py::arg( "name" ), py::arg( "with_header" ), py::arg( "key_reader" ),
+                  py::arg( "value_reader" ),
+                  py::arg( "value_version_min" ) = kSTLVersionWithValueVersion );
         declare_reader<STLStringReader, string, bool>( m, "STLStringReader" );
 
         // TArrayReader
@@ -1471,8 +1488,8 @@ namespace uproot_custom {
         declare_reader<TStringReader, string, bool>( m, "TStringReader" );
         declare_reader<TObjectReader, string, bool, bool>( m, "TObjectReader" );
         declare_reader<GroupReader, string, vector<SharedReader>>( m, "GroupReader" );
-        declare_reader<AnyClassReader, string, vector<SharedReader>, bool>(
-            m, "AnyClassReader" );
+        declare_reader<AnyClassReader, string, vector<SharedReader>, bool>( m,
+                                                                            "AnyClassReader" );
         declare_reader<AnyPointerReader, string, SharedReader>( m, "AnyPointerReader" );
         declare_reader<CStyleArrayReader, string, int64_t, SharedReader>(
             m, "CStyleArrayReader" );

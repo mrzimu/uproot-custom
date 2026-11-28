@@ -315,6 +315,74 @@ def test_stl_sequence_memberwise_before_version_8():
     )
 
 
+def test_stl_sequence_pointer_collection_reads_the_value_version_from_9():
+    """
+    `kSTLp` reads the value-class version only from frame version 9.
+
+    The two tests either side of this one pin the `kSTL` boundary at 8; a
+    pointer to the same container moves it (`TStreamerInfoReadBuffer.cxx`, the
+    `kSTLp` case).
+    """
+    body = struct.pack(">I", 2) + struct.pack(">ii", 5, 6) + struct.pack(">dd", 1.5, 2.5)
+
+    # Version 9 carries the value version, so the element version is there too.
+    with_version = _u32(len(body) | kByteCountMask) + _i16(kStreamedMemberwise | 9)
+    with_version += _i16(1) + body
+    _check(
+        python.STLSeqReader(
+            "v",
+            True,
+            python.GroupReader(
+                "e",
+                [python.PrimitiveReader("a", "int32"), python.PrimitiveReader("b", "float64")],
+            ),
+            value_version_min=9,
+        ),
+        native.STLSeqReader(
+            "v",
+            with_header=True,
+            value_version_min=9,
+            element=native.GroupReader(
+                "e",
+                elements=[
+                    native.PrimitiveReader("a", typecode="i"),
+                    native.PrimitiveReader("b", typecode="d"),
+                ],
+            ),
+        ),
+        with_version,
+        [0, len(with_version)],
+    )
+
+    # Version 8 is below the pointer's boundary, so there is no value version.
+    without_version = _u32(len(body) | kByteCountMask) + _i16(kStreamedMemberwise | 8) + body
+    _check(
+        python.STLSeqReader(
+            "v",
+            True,
+            python.GroupReader(
+                "e",
+                [python.PrimitiveReader("a", "int32"), python.PrimitiveReader("b", "float64")],
+            ),
+            value_version_min=9,
+        ),
+        native.STLSeqReader(
+            "v",
+            with_header=True,
+            value_version_min=9,
+            element=native.GroupReader(
+                "e",
+                elements=[
+                    native.PrimitiveReader("a", typecode="i"),
+                    native.PrimitiveReader("b", typecode="d"),
+                ],
+            ),
+        ),
+        without_version,
+        [0, len(without_version)],
+    )
+
+
 def test_stl_map():
     body = struct.pack(">I", 2) + struct.pack(">idid", 1, 1.5, 2, 2.5)
     payload = _u32(len(body) | kByteCountMask) + _i16(10) + body

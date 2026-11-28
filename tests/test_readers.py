@@ -71,6 +71,7 @@ def test_forth(test_contexts, subtests):
         "stl_complicated",
         "array_forms",
         "array_in_object",
+        "pair_map",
     ]
 
     forth_contexts = {

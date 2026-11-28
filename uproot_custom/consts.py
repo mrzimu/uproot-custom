@@ -12,8 +12,12 @@ kStreamedMemberwise = 1 << 14
 kMapOffset = 2
 
 #: An STL frame carries the value class's version only from this frame version
-#: on, and only in member-wise form; `kSTLp` uses 9 (`Collections.md` §6).
+#: on, and only in member-wise form; `kSTLp`, a pointer to the same container,
+#: uses 9 (`Collections.md` §6, §11.3).  Neither code survives in the file:
+#: every `TStreamerSTL` element is written with `fType` 500 (`StreamerInfo.md`
+#: §10), so the pointer is recognised from the type name ending in `*`.
 STL_VERSION_WITH_VALUE_VERSION = 8
+STL_VERSION_WITH_VALUE_VERSION_POINTER = 9
 
 
 _MISSING = object()

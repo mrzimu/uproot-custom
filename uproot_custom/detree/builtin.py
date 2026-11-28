@@ -290,6 +290,7 @@ class STLSeqReader(Reader):
     """
 
     with_header: bool = cast(bool, Const(True, type=bool))
+    value_version_min: int = cast(int, Const(STL_VERSION_WITH_VALUE_VERSION, type=int))
     offsets = cast(BufferProxy, Buffer("q", init=(0,), kind="offsets"))
     element: Reader = cast(Reader, Child())
 
@@ -305,7 +306,7 @@ class STLSeqReader(Reader):
             version = stream.read_fVersion()
             is_memberwise = bool(version & kStreamedMemberwise)
             if is_memberwise:
-                if (version & ~kStreamedMemberwise) >= STL_VERSION_WITH_VALUE_VERSION:
+                if (version & ~kStreamedMemberwise) >= self.value_version_min:
                     self._element_version(stream)
         return is_memberwise
 
@@ -360,6 +361,7 @@ class STLMapReader(Reader):
     """
 
     with_header: bool = cast(bool, Const(True, type=bool))
+    value_version_min: int = cast(int, Const(STL_VERSION_WITH_VALUE_VERSION, type=int))
     offsets = cast(BufferProxy, Buffer("q", init=(0,), kind="offsets"))
     key: Reader = cast(Reader, Child())
     value: Reader = cast(Reader, Child())
@@ -376,7 +378,7 @@ class STLMapReader(Reader):
             version = stream.read_fVersion()
             is_memberwise = bool(version & kStreamedMemberwise)
             if is_memberwise:
-                if (version & ~kStreamedMemberwise) >= STL_VERSION_WITH_VALUE_VERSION:
+                if (version & ~kStreamedMemberwise) >= self.value_version_min:
                     self._element_version(stream)
         return is_memberwise
 
