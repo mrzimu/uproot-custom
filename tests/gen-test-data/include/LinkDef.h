@@ -20,4 +20,5 @@
 #    pragma link C++ class TArrayInObject + ;
 #    pragma link C++ class TArrayInObjectHolder + ;
 #    pragma link C++ class TPairMap + ;
+#    pragma link C++ class TSTLPointer + ;
 #endif

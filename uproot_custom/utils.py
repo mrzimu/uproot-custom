@@ -119,6 +119,23 @@ def find_class_streamer_info(
     return None
 
 
+def _has_pointer_spelling(type_name: str | None) -> bool:
+    """
+    Tell whether a type name ends with the pointer marker.
+
+    ROOT marks a pointer member with a trailing `*` in `fTypeName`
+    (`TStreamerSTL::IsaPointer`), whatever the element class.  Both helpers
+    below read that marker, so it is spelled once here.
+
+    Args:
+        type_name: a type name as the streamer info spells it, or `None`.
+
+    Returns:
+        `True` when a `*` ends the name, trailing spaces ignored.
+    """
+    return (type_name or "").rstrip().endswith("*")
+
+
 def get_stl_value_version_min(cur_streamer_info: dict) -> int:
     """
     Get the frame version from which an STL element carries the value version.
@@ -138,10 +155,30 @@ def get_stl_value_version_min(cur_streamer_info: dict) -> int:
     Returns:
         The lowest frame version that carries the value class's version.
     """
-    type_name = (cur_streamer_info.get("fTypeName") or "").rstrip()
-    if type_name.endswith("*"):
+    if _has_pointer_spelling(cur_streamer_info.get("fTypeName")):
         return STL_VERSION_WITH_VALUE_VERSION_POINTER
     return STL_VERSION_WITH_VALUE_VERSION
+
+
+def is_pointer_to_collection(cur_streamer_info: dict) -> bool:
+    """
+    Tell whether an element is a pointer to an STL container (`kSTLp`).
+
+    Only a `TStreamerSTL`-family element carries `fSTLtype`, and it records the
+    pointer as a trailing `*` in its type name
+    (`TStreamerSTL::IsaPointer`, `Collections.md` §11.3). Such a member is
+    written as the container itself -- no pointer tag and no null marker -- so
+    it must not be read as an object pointer; a null pointer is a count of 0.
+
+    Args:
+        cur_streamer_info: the streamer-info mapping of the element.
+
+    Returns:
+        `True` when the element is a pointer to a collection.
+    """
+    if "fSTLtype" not in cur_streamer_info:
+        return False
+    return _has_pointer_spelling(cur_streamer_info.get("fTypeName"))
 
 
 def _drop_pointer_marker(type_name: str) -> str:
