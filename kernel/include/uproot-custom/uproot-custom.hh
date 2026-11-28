@@ -560,13 +560,17 @@ namespace uproot_custom {
          * @brief Read a run of nested elements. See @ref read_bare().
          *
          * One @ref read_bare() per element, so a reader that overrides it to skip a shared
-         * header is not read as if every element had one.
+         * header is not read as if every element had one. The count comes from a `uint32` in
+         * the file, so a negative one is a caller bug and is rejected here, once, rather than
+         * by every reader that could be asked to read a run.
          *
          * @param stream The binary stream to read from.
          * @param count Number of elements to read.
          * @return Number of elements read.
          */
         virtual uint32_t read_many_bare( BinaryStream& stream, const int64_t count ) {
+            if ( count < 0 )
+                throw std::runtime_error( name() + "::read_many_bare with a negative count." );
             for ( int32_t i = 0; i < count; i++ ) { read_bare( stream ); }
             return count;
         }

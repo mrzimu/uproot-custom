@@ -3,8 +3,71 @@ import numpy as np
 import pytest
 from numpy.testing import assert_array_equal
 
+import uproot_custom.python as python_impl
 from uproot_custom import _forth
 from uproot_custom.backend import use_backend as use_reader_backend
+from uproot_custom.detree import builtin as detree_impl
+from uproot_custom.detree.decl import Reader
+
+#: The reader implementations written in Python, with their base class.
+IMPLEMENTATIONS = (
+    (python_impl, python_impl.IReader),
+    (_forth, _forth.IReader),
+    (detree_impl, Reader),
+)
+
+
+def _builtin_readers(module, base):
+    """
+    The reader classes a module defines itself, keyed by name.
+    """
+    return {
+        name: value
+        for name, value in vars(module).items()
+        if isinstance(value, type)
+        and issubclass(value, base)
+        and value is not base
+        and value.__module__ == module.__name__
+    }
+
+
+def test_no_builtin_reader_overrides_read_many_bare():
+    """
+    A run of nested elements is one `read_bare` per element in every implementation.
+
+    Four readers in each implementation used to restate `read_many_bare`, always as
+    the base class's own loop, so a reader that disagreed stayed invisible until a
+    basket happened to be read. The base default is now the only implementation.
+    """
+    for module, base in IMPLEMENTATIONS:
+        for name, cls in _builtin_readers(module, base).items():
+            assert "read_many_bare" not in vars(cls), (
+                f"{module.__name__}.{name} overrides read_many_bare; "
+                "its default is one read_bare per element"
+            )
+
+
+def test_builtin_readers_skip_the_shared_header_in_the_same_place():
+    """
+    `read_bare` is overridden by the same readers in all three implementations.
+
+    `read_bare` is where a nested element loses or keeps its own `fNBytes+fVersion`
+    header, so a class that overrides it in one implementation and not another reads
+    different bytes for the same branch. Forth's `PrimitiveReader` also overrides
+    `read_many` and `read_until` to bulk-read numbers; that only changes speed, so it
+    is not compared here.
+    """
+    readers = {
+        module.__name__: _builtin_readers(module, base) for module, base in IMPLEMENTATIONS
+    }
+    shared = set.intersection(*(set(found) for found in readers.values()))
+
+    for name in sorted(shared):
+        overrides = {
+            module_name: "read_bare" in vars(found[name])
+            for module_name, found in readers.items()
+        }
+        assert len(set(overrides.values())) == 1, f"{name}: {overrides}"
 
 
 def _read_with_backend(test_file, branch, backend):

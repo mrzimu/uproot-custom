@@ -563,7 +563,7 @@ class TObjectReader(IReader):
             return ""
         return f"{skip_fNBytes()}\n{skip_fVersion()}"
 
-    def read_body(self) -> str:
+    def read_bare(self) -> str:
         if self.keep_data:
             read_pidf_codes = f"{stream_data_token} !H-> {self.pidf_token}"
             save_data_codes = f"""
@@ -592,10 +592,7 @@ class TObjectReader(IReader):
         """
 
     def read(self) -> str:
-        return self._header_block() + self.read_body()
-
-    def read_bare(self) -> str:
-        return self.read_body()
+        return self._header_block() + self.read_bare()
 
     def read_many(self):
         return f"""
@@ -604,7 +601,7 @@ class TObjectReader(IReader):
             exit
         then
         {self._header_block()}
-        dup 0 do {self.read_body()} loop
+        dup 0 do {self.read_bare()} loop
         """
 
     def read_until(self):
@@ -620,7 +617,7 @@ class TObjectReader(IReader):
         begin
             dup {stream_data_token} pos = invert
         while
-            {self.read_body()}
+            {self.read_bare()}
             swap 1+ swap \\ increment counter
         repeat
         drop
@@ -653,7 +650,7 @@ class TStringReader(IReader):
         # Add an 0 offset at the beginning
         return super().compile() + f"0 {self.offsets_token} <- stack"
 
-    def read_body(self):
+    def read_bare(self):
         return f"""
         {read_uint8()} \\ stack: [fSize]
 
@@ -671,22 +668,11 @@ class TStringReader(IReader):
 
     def read(self):
         if not self.with_header:
-            return self.read_body()
+            return self.read_bare()
         return f"""
         {skip_fNBytes()}
         {skip_fVersion()}
-        {self.read_body()}
-        """
-
-    def read_bare(self):
-        return self.read_body()
-
-    def read_many_bare(self):
-        return f"""
-        \\ stack: [num_items]
-        dup 0 do
-            {self.read_body()}
-        loop
+        {self.read_bare()}
         """
 
     def read_many(self):
@@ -719,7 +705,7 @@ class TStringReader(IReader):
 
         res += f"""
         \\ stack: [num_items]
-        dup 0 do {self.read_body()} loop
+        dup 0 do {self.read_bare()} loop
 
         \\ final stack: [num_items]
         """
@@ -749,7 +735,7 @@ class TStringReader(IReader):
         begin
             dup {stream_data_token} pos = invert
         while
-            {self.read_body()}
+            {self.read_bare()}
             swap 1+ swap \\ increment counter
         repeat
         \\ clear the end position from stack
@@ -786,7 +772,7 @@ class STLSeqReader(IReader):
         0 {self.offsets_token} <- stack
         """ + super().compile()
 
-    def read_body(self):
+    def _read_body(self):
         """
         stack: [is_memberwise] -> []
         """
@@ -819,7 +805,7 @@ class STLSeqReader(IReader):
 
         return _format_method_code(
             textwrap.dedent(res),
-            f"{self.name}.read_body",
+            f"{self.name}._read_body",
         )
 
     def _header_block(self) -> str:
@@ -845,13 +831,13 @@ class STLSeqReader(IReader):
     def read(self):
         return f"""
         {self._header_block()}
-        {self.read_body()}
+        {self._read_body()}
         """
 
     def read_bare(self):
         return f"""
         0 \\ stack: [is_memberwise(False)]
-        {self.read_body()}
+        {self._read_body()}
         """
 
     def read_many(self):
@@ -873,20 +859,13 @@ class STLSeqReader(IReader):
 
         over \\ stack: [count, is_memberwise, count]
         0 do \\ stack: [count, is_memberwise]
-            {debug_print(f'." STLSeqReader({self.name}) before read_body:" cr ." - data:"')}
+            {debug_print(f'." STLSeqReader({self.name}) before _read_body:" cr ." - data:"')}
             {debug_print_input(stream_data_token)}
             {debug_print('." - stack: " .s cr')}
-            dup {self.read_body()}
+            dup {self._read_body()}
         loop \\ stack: [count, is_memberwise]
 
         drop \\ stack: [count]
-        """
-
-    def read_many_bare(self):
-        return f"""\\ stack: [count]
-        dup 0 do
-            0 {self.read_body()}
-        loop
         """
 
     def read_until(self):
@@ -906,7 +885,7 @@ class STLSeqReader(IReader):
         while   \\ stack: [is_memberwise, count, end_pos]
             rot \\ stack: [count, end_pos, is_memberwise]
             dup \\ stack: [count, end_pos, is_memberwise, is_memberwise]
-            {self.read_body()} \\ stack: [count, end_pos, is_memberwise]
+            {self._read_body()} \\ stack: [count, end_pos, is_memberwise]
             rot \\ stack: [end_pos, is_memberwise, count]
             1+
             rot \\ stack: [is_memberwise, count+1, end_pos]
@@ -954,7 +933,7 @@ class STLMapReader(IReader):
         0 {self.offsets_token} <- stack
         """ + super().compile()
 
-    def read_body(self):
+    def _read_body(self):
         """
         stack: [is_memberwise] -> []
         """
@@ -987,7 +966,7 @@ class STLMapReader(IReader):
 
         return _format_method_code(
             textwrap.dedent(res),
-            f"{self.name}.read_body",
+            f"{self.name}._read_body",
         )
 
     def _header_block(self) -> str:
@@ -1011,13 +990,13 @@ class STLMapReader(IReader):
     def read(self):
         return f"""
         {self._header_block()}
-        {self.read_body()}
+        {self._read_body()}
         """
 
     def read_bare(self):
         return f"""
         0 \\ stack: [is_memberwise(False)]
-        {self.read_body()}
+        {self._read_body()}
         """
 
     def read_many(self):
@@ -1037,17 +1016,10 @@ class STLMapReader(IReader):
 
         over 0 do
             {debug_print(f'." STLMapReader({self.name}) read_many begin statement, stack: " .s cr')}
-            dup {self.read_body()}
+            dup {self._read_body()}
         loop
 
         drop
-        """
-
-    def read_many_bare(self):
-        return f"""\\ stack: [count]
-        dup 0 do
-            0 {self.read_body()}
-        loop
         """
 
     def read_until(self):
@@ -1068,8 +1040,8 @@ class STLMapReader(IReader):
         while   \\ stack: [is_memberwise, count, end_pos]
             rot \\ stack: [count, end_pos, is_memberwise]
             dup \\ stack: [count, end_pos, is_memberwise, is_memberwise]
-            {debug_print('." before read_body: " .s cr')}
-            {self.read_body()} \\ stack: [count, end_pos, is_memberwise]
+            {debug_print('." before _read_body: " .s cr')}
+            {self._read_body()} \\ stack: [count, end_pos, is_memberwise]
             rot 1+ \\ stack: [end_pos, is_memberwise, count+1]
             rot \\ stack: [is_memberwise, count+1, end_pos]
         repeat
@@ -1098,7 +1070,7 @@ class STLStringReader(IReader):
     def compile(self):
         return super().compile() + f"0 {self.offsets_token} <- stack"
 
-    def read_body(self):
+    def read_bare(self):
         """
         stack: [] -> []
         """
@@ -1118,7 +1090,7 @@ class STLStringReader(IReader):
 
         res = _format_method_code(
             textwrap.dedent(res),
-            f"{self.name}.read_body",
+            f"{self.name}.read_bare",
         )
         return res
 
@@ -1132,19 +1104,7 @@ class STLStringReader(IReader):
 
         return f"""
         {with_header_block}
-        {self.read_body()}
-        """
-
-    def read_bare(self):
-        return f"""
-        {self.read_body()}
-        """
-
-    def read_many_bare(self):
-        return f"""\\ stack: [count]
-        dup 0 do
-            {self.read_body()}
-        loop
+        {self.read_bare()}
         """
 
     def read_many(self):
@@ -1169,7 +1129,7 @@ class STLStringReader(IReader):
             begin
                 dup {stream_data_token} pos > \\ stack: [count(-1), counter, end_pos, not_at_end]
             while                   \\ stack: [count(-1), counter, end_pos]
-                {self.read_body()}  \\ stack: [count(-1), counter, end_pos]
+                {self.read_bare()}  \\ stack: [count(-1), counter, end_pos]
                 swap 1+ swap
             repeat
 
@@ -1196,7 +1156,7 @@ class STLStringReader(IReader):
             {with_header_block}
 
             dup 0 do
-                {self.read_body()}
+                {self.read_bare()}
             loop
         then
         """
@@ -1229,7 +1189,7 @@ class STLStringReader(IReader):
         while \\ stack: [count, end_pos]
             {debug_print(f'." - element " over . ." pos: " {stream_data_token} pos . dup .')}
             {debug_print_input(stream_data_token)}
-            {self.read_body()}
+            {self.read_bare()}
             swap 1+ swap
         repeat
 
@@ -1330,7 +1290,7 @@ class AnyClassReader(IReader):
         {skip_fVersion()}
         """
 
-    def read_body(self):
+    def read_bare(self):
         chunks = [f"""
             {read_fNBytes()}
             {stream_data_token} pos + \\ stack: [end_pos]
@@ -1362,12 +1322,7 @@ class AnyClassReader(IReader):
     def read(self):
         return f"""
         {self._header_block()}
-        {self.read_body()}
-        """
-
-    def read_bare(self):
-        return f"""
-        {self.read_body()}
+        {self.read_bare()}
         """
 
     def read_many(self):
@@ -1377,7 +1332,7 @@ class AnyClassReader(IReader):
             exit
         then
         {self._header_block()}
-        dup 0 do {self.read_body()} loop
+        dup 0 do {self.read_bare()} loop
         """
 
     def read_until(self):
@@ -1393,7 +1348,7 @@ class AnyClassReader(IReader):
         begin
             dup {stream_data_token} pos = invert
         while
-            {self.read_body()}
+            {self.read_bare()}
             swap 1+ swap \\ increment counter
         repeat
         drop
