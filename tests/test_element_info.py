@@ -4,7 +4,6 @@ import numpy as np
 import pytest
 
 from uproot_custom.element_info import ElementFrame, ElementInfo
-from uproot_custom.utils import get_stl_value_version_min
 
 
 def _info(**kwargs):
@@ -111,14 +110,3 @@ def test_a_synthetic_element_carries_only_a_name_and_a_type_name():
     assert info.ftype is None
     assert not info.is_array
     assert info.frame is ElementFrame.NONE
-
-
-@pytest.mark.parametrize(
-    ("f_type", "expected"),
-    [(500, 8), (501, 9), (None, 8)],
-)
-def test_the_frame_version_that_carries_the_value_version(f_type, expected):
-    # `kSTL` reads the value class's version from frame version 8 and `kSTLp`,
-    # a pointer to the same container, only from 9
-    # (`TStreamerInfoReadBuffer.cxx`, the `kSTL` and `kSTLp` cases).
-    assert get_stl_value_version_min(f_type) == expected

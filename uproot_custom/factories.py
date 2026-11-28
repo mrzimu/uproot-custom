@@ -527,7 +527,7 @@ class STLSeqFactory(Factory):
             with_header=True if with_header is None else with_header,
             objwise_or_memberwise=-1,
             element_factory=element_factory,
-            value_version_min=get_stl_value_version_min(cur_streamer_info.get("fType")),
+            value_version_min=get_stl_value_version_min(cur_streamer_info),
         )
 
     def __init__(
@@ -672,7 +672,7 @@ class STLMapFactory(Factory):
             objwise_or_memberwise=-1,
             key_factory=key_factory,
             val_factory=val_factory,
-            value_version_min=get_stl_value_version_min(cur_streamer_info.get("fType")),
+            value_version_min=get_stl_value_version_min(cur_streamer_info),
         )
 
     def __init__(

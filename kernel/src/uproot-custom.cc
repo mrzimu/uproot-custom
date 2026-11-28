@@ -73,13 +73,13 @@ namespace uproot_custom {
      */
     class TObjectReader : public IReader {
       private:
-        const bool m_keep_data;            ///< Whether to keep the read data
-        const bool m_with_header;          ///< Whether one shared `fNBytes+fVersion`
-                                           ///< header precedes a run of TObjects
-                                           ///< (the 86 array form).
-        SharedVector<int32_t> m_unique_id; ///< Store fUniqueID values
-        SharedVector<uint32_t> m_bits;     ///< Store fBits values
-        SharedVector<uint16_t> m_pidf;     ///< Store pidf values
+        const bool m_keep_data;               ///< Whether to keep the read data
+        const bool m_with_header;             ///< Whether one shared `fNBytes+fVersion`
+                                              ///< header precedes a run of TObjects
+                                              ///< (the 86 array form).
+        SharedVector<int32_t> m_unique_id;    ///< Store fUniqueID values
+        SharedVector<uint32_t> m_bits;        ///< Store fBits values
+        SharedVector<uint16_t> m_pidf;        ///< Store pidf values
         SharedVector<int64_t> m_pidf_offsets; ///< Store offsets for pidf
 
         /** @brief Skip the shared header of an 86 array. */
@@ -355,7 +355,7 @@ namespace uproot_custom {
       private:
         const bool m_with_header; ///< Whether the sequence has a `fNBytes+fVersion` header.
         const int m_value_version_min; ///< Frame version from which the value version follows.
-        SharedReader m_element_reader;   ///< Reader for the elements of the sequence.
+        SharedReader m_element_reader; ///< Reader for the elements of the sequence.
         SharedVector<int64_t> m_offsets; ///< Store the offsets for each sequence.
 
       public:
@@ -402,8 +402,7 @@ namespace uproot_custom {
             auto fVersion      = stream.read_fVersion();
             bool is_memberwise = fVersion & kStreamedMemberWise;
 
-            if ( is_memberwise &&
-                 ( fVersion & ~kStreamedMemberWise ) >= m_value_version_min )
+            if ( is_memberwise && ( fVersion & ~kStreamedMemberWise ) >= m_value_version_min )
             { read_element_version( stream ); }
 
             return is_memberwise;
@@ -517,8 +516,8 @@ namespace uproot_custom {
      */
     class STLMapReader : public IReader {
       private:
-        const bool m_with_header;        ///< Whether the map has a `fNBytes+fVersion` header.
-        const int m_value_version_min;   ///< Frame version from which the value version follows.
+        const bool m_with_header;      ///< Whether the map has a `fNBytes+fVersion` header.
+        const int m_value_version_min; ///< Frame version from which the value version follows.
         SharedVector<int64_t> m_offsets; ///< Store the offsets for each map.
         SharedReader m_key_reader;       ///< Reader for the keys of the map.
         SharedReader m_value_reader;     ///< Reader for the values of the map.
@@ -570,8 +569,7 @@ namespace uproot_custom {
             auto fVersion      = stream.read_fVersion();
             bool is_memberwise = fVersion & kStreamedMemberWise;
 
-            if ( is_memberwise &&
-                 ( fVersion & ~kStreamedMemberWise ) >= m_value_version_min )
+            if ( is_memberwise && ( fVersion & ~kStreamedMemberWise ) >= m_value_version_min )
             { read_element_version( stream ); }
 
             return is_memberwise;
@@ -1468,12 +1466,11 @@ namespace uproot_custom {
         // STL readers
         py::class_<STLSeqReader, shared_ptr<STLSeqReader>, IReader>( m, "STLSeqReader" )
             .def( py::init( &CreateReader<STLSeqReader, string, bool, SharedReader, int> ),
-                  py::arg( "name" ), py::arg( "with_header" ),
-                  py::arg( "element_reader" ),
+                  py::arg( "name" ), py::arg( "with_header" ), py::arg( "element_reader" ),
                   py::arg( "value_version_min" ) = kSTLVersionWithValueVersion );
         py::class_<STLMapReader, shared_ptr<STLMapReader>, IReader>( m, "STLMapReader" )
             .def( py::init( &CreateReader<STLMapReader, string, bool, SharedReader,
-                                                 SharedReader, int> ),
+                                          SharedReader, int> ),
                   py::arg( "name" ), py::arg( "with_header" ), py::arg( "key_reader" ),
                   py::arg( "value_reader" ),
                   py::arg( "value_version_min" ) = kSTLVersionWithValueVersion );
@@ -1491,8 +1488,8 @@ namespace uproot_custom {
         declare_reader<TStringReader, string, bool>( m, "TStringReader" );
         declare_reader<TObjectReader, string, bool, bool>( m, "TObjectReader" );
         declare_reader<GroupReader, string, vector<SharedReader>>( m, "GroupReader" );
-        declare_reader<AnyClassReader, string, vector<SharedReader>, bool>(
-            m, "AnyClassReader" );
+        declare_reader<AnyClassReader, string, vector<SharedReader>, bool>( m,
+                                                                            "AnyClassReader" );
         declare_reader<AnyPointerReader, string, SharedReader>( m, "AnyPointerReader" );
         declare_reader<CStyleArrayReader, string, int64_t, SharedReader>(
             m, "CStyleArrayReader" );

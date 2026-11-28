@@ -8,7 +8,6 @@ import uproot.behaviors.TBranch
 from uproot_custom.consts import (
     STL_VERSION_WITH_VALUE_VERSION,
     STL_VERSION_WITH_VALUE_VERSION_POINTER,
-    kSTLp,
 )
 
 
@@ -120,31 +119,57 @@ def find_class_streamer_info(
     return None
 
 
-def get_stl_value_version_min(fType: int | None) -> int:
+def get_stl_value_version_min(cur_streamer_info: dict) -> int:
     """
     Get the frame version from which an STL element carries the value version.
 
-    `kSTL` reads it from version 8 and `kSTLp`, a pointer to the same container,
-    only from 9 (`TStreamerInfoReadBuffer.cxx`, the `kSTL` and `kSTLp` cases).
+    A collection (`kSTL`) reads it from version 8 and a pointer to one
+    (`kSTLp`) only from 9 (`TStreamerInfoReadBuffer.cxx`, the `kSTL` and `kSTLp`
+    cases).  The element does not record that distinction in `fType`, which is
+    500 for every `TStreamerSTL` whatever the member (`StreamerInfo.md` §10);
+    it marks the pointer with a trailing `*` in `fTypeName`
+    (`TStreamerSTL::IsaPointer`) and with `kOffsetP` added to `fSTLtype`
+    (`Collections.md` §11.3).  A pointer to a collection puts the same bytes on
+    disk as the collection itself, so the boundary is all that differs.
 
     Args:
-        fType: the streamer element's `fType`, or `None` when it has none.
+        cur_streamer_info: the streamer-info mapping of the STL element.
 
     Returns:
         The lowest frame version that carries the value class's version.
     """
-    if fType == kSTLp:
+    type_name = (cur_streamer_info.get("fTypeName") or "").rstrip()
+    if type_name.endswith("*"):
         return STL_VERSION_WITH_VALUE_VERSION_POINTER
     return STL_VERSION_WITH_VALUE_VERSION
+
+
+def _drop_pointer_marker(type_name: str) -> str:
+    """
+    Strip the spelling noise from a type name and drop a trailing pointer.
+
+    Args:
+        type_name: a type name as the streamer info spells it.
+
+    Returns:
+        The name without `std::`, without the spacing ROOT varies on, and
+        without a trailing `*`, which marks a pointer to the type.
+    """
+    type_name = type_name.replace("std::", "").replace("< ", "<").replace(" >", ">").strip()
+    return re.sub(r"\s*\*+$", "", type_name)
 
 
 def get_sequence_element_typename(type_name: str) -> str:
     """
     Get the element type name of a vector type.
 
-    e.g. vector<vector<int>> -> vector<int>
+    A pointer to a collection is stored as the collection itself, with no
+    pointer tag and no null marker (`Collections.md` §11.3), so a trailing `*`
+    is dropped.
+
+    e.g. vector<vector<int>> -> vector<int>, vector<int>* -> int
     """
-    type_name = type_name.replace("std::", "").replace("< ", "<").replace(" >", ">").strip()
+    type_name = _drop_pointer_marker(type_name)
 
     lt_idx = -1
     gt_idx = -1
@@ -175,9 +200,12 @@ def get_map_key_val_typenames(type_name: str) -> tuple[str, str]:
     """
     Get the key and value type names of a map type.
 
+    A trailing `*`, the mark of a pointer to the map, is dropped for the same
+    reason as in `get_sequence_element_typename`.
+
     e.g. map<int, vector<int>> -> (int, vector<int>)
     """
-    type_name = type_name.replace("std::", "").replace("< ", "<").replace(" >", ">").strip()
+    type_name = _drop_pointer_marker(type_name)
 
     lt_idx = -1
     gt_idx = -1

@@ -42,6 +42,7 @@ For reference, the built-in factories use the following priorities:
 | 20 | `CStyleArrayFactory` | Must match C-style arrays before other factories see the same type name. |
 | 15 | `AnyPointerFactory` | Must see an object pointer (`MyClass*`) before the factories that would treat it as an inline class and skip its pointer header. |
 | 10 | All other built-in factories | Default. |
+| 1 | `PairFactory` | Above `AnyClassFactory`, which would otherwise match a `pair<K,V>` only through a streamer info keyed by the bare name `pair`. |
 | 0 | `AnyClassFactory` | Catch-all fallback — should run last. |
 
 ```{tip}

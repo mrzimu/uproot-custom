@@ -23,7 +23,6 @@ from uproot_custom.utils import find_class_streamer_info
 
 def _array(test_contexts, branch):
     test_file = test_contexts["pair_map"]["file"]
-    test_file.file._array_cache = None
     return test_file["tree"][branch].array(library="ak")
 
 

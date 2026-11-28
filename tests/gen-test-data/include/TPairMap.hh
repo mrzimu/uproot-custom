@@ -26,12 +26,12 @@ class TPairMap {
 
   public:
     /// Fill one entry: @p i is the entry number.
-    void fill( int i )
-    {
+    void fill( int i ) {
         for ( int k = 0; k < 2; k++ )
         {
             m_mapvstr[k].clear();
-            m_mapvstr[k]["k" + std::to_string( k )].push_back( "v" + std::to_string( 100 * i + k ) );
+            m_mapvstr[k]["k" + std::to_string( k )].push_back( "v" +
+                                                               std::to_string( 100 * i + k ) );
 
             m_mapnamed[k].clear();
             m_mapnamed[k][k] = TNamed( Form( "n%d_%d", i, k ), "" );
@@ -57,18 +57,15 @@ class TPairMap {
         }
     }
 
-    const std::map<std::string, std::vector<std::string>> &mapvstr_at( int k ) const
-    {
+    const std::map<std::string, std::vector<std::string>>& mapvstr_at( int k ) const {
         return m_mapvstr[k];
     }
-    const std::map<int, TNamed> &mapnamed_at( int k ) const { return m_mapnamed[k]; }
-    const std::vector<std::map<std::string, std::vector<std::string>>> &vecmapvstr() const
-    {
+    const std::map<int, TNamed>& mapnamed_at( int k ) const { return m_mapnamed[k]; }
+    const std::vector<std::map<std::string, std::vector<std::string>>>& vecmapvstr() const {
         return m_vecmapvstr;
     }
-    const std::vector<std::map<int, TNamed>> &vecmapnamed() const { return m_vecmapnamed; }
-    const std::vector<std::vector<std::pair<int, double>>> &vecvecpair() const
-    {
+    const std::vector<std::map<int, TNamed>>& vecmapnamed() const { return m_vecmapnamed; }
+    const std::vector<std::vector<std::pair<int, double>>>& vecvecpair() const {
         return m_vecvecpair;
     }
 
