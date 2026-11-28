@@ -394,10 +394,10 @@ If `fBits & (1 << 4)` is set (rare), an extra `uint16_t pidf` follows.
 ---
 class: tip, dropdown
 ---
-The built-in `TObjectReader::read` method:
+The built-in `TObjectReader::read_bare` method, which `read` calls after skipping a shared header when the array has one:
 
 ```cpp
-void read( BinaryStream& stream ) override {
+void read_bare( BinaryStream& stream ) override {
     stream.skip_fVersion();
     auto fUniqueID = stream.read<int32_t>();
     auto fBits     = stream.read<uint32_t>();
